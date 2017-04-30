@@ -1,0 +1,5 @@
+package model;
+
+public enum DiceColor{
+ORANGE, BLACK, WHITE;
+}
