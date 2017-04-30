@@ -1,0 +1,9 @@
+package exception;
+
+public class InvalidResourceTypeException extends Exception {
+
+	
+public InvalidResourceTypeException() {
+	super("resource type is unkown");
+}
+}
