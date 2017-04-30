@@ -1,0 +1,11 @@
+package exception;
+
+public class DiceValueException extends Exception {
+
+	String message;
+	
+	public DiceValueException() {
+		super("dice value exception");
+	}
+	
+}
