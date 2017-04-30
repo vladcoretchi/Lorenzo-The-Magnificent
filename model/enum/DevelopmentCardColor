@@ -1,0 +1,5 @@
+package model.enumeration;
+
+public enum DevelopmentCardColor {
+PURPLE, BLUE, YELLOW, GREEN
+}
