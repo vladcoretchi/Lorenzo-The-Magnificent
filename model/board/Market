@@ -2,7 +2,7 @@ package model.board;
 
 import java.util.ArrayList;
 
-//evaluate to apply Singleton design pattern
+//TODO: apply Singleton design pattern
 public class Market {
 private ArrayList<ActionSlot> marketSlots;
 private final Integer diceValue; //minimum value to place FamilyMembers in the market space
