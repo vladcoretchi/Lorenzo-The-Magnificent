@@ -1,6 +1,6 @@
 package model;
-import model.exception.InvalidResourceTypeException;
-import model.enum.ResourceType;
+import exception.InvalidResourceTypeException;
+import model.enumeration.ResourceType;
 
 
 public class Resources {

@@ -1,7 +1,7 @@
 package model;
 
-import model.enum.DiceColor;
-import model.enum.PawnColor;
+import model.enumeration.DiceColor;
+import model.enumeration.PawnColor;
 
 public class FamilyMember {
 private final PawnColor pawnColor;
