@@ -1,5 +1,0 @@
-package model.enumeration;
-
-public enum PawnColor {
-RED, BLUE, YELLOW, GREEN
-}
