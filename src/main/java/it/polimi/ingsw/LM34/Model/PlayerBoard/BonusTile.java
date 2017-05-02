@@ -1,4 +1,4 @@
-package model.board;
+package model.playerboard;
 
 public class BonusTile {
 private Bonus productionBonus;

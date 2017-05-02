@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Market {
 private ArrayList<ActionSlot> marketSlots;
 private final Integer diceValue; //minimum value to place FamilyMembers in the market space
-private HashMap //TODO: think of a possible use of HashMap here...
+/*private HashMap*/  //TODO: think of a possible use of HashMap here...
 
 
 public ArrayList<ActionSlot> getActionSlots() {

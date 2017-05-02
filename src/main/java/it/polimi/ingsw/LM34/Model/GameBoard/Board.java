@@ -1,4 +1,4 @@
-package model.board;
+package model.gameboard;
 
 /*this class has the aim to aggregate the spaces of the gameboard in a organized way*/
 public class PersonalBoard {

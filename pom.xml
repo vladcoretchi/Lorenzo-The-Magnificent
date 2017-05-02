@@ -12,7 +12,10 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<sonar.language>java</sonar.language>
+	<sonar.host.url> http://localhost:9000/ </sonar.host.url>
+</properties>
 
   <dependencies>
     <dependency>
@@ -22,4 +25,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  
+
 </project>
