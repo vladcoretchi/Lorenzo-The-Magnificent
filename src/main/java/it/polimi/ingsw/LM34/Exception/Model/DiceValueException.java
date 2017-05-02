@@ -6,8 +6,7 @@ package it.polimi.ingsw.LM34.Exception.Model;
 
 public class DiceValueException extends Exception {
 
-    String message;
-
+   
     public DiceValueException() {
         super("dice value exception");
     }
