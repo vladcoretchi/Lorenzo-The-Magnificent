@@ -16,7 +16,7 @@ public ArrayList<ActionSlot> getActionSlots() {
 //this is a space where configuration are loaded from file, so there must not be variables with hardcoded values...
 public CouncilPalace(Integer diceValue) {
     this.diceValue= diceValue;
-    occypyingPawns= new ArrayList<FamilyMember>();
+    occupyingPawns= new ArrayList<FamilyMember>();
 }
 
 public void insertFamilyMember(FamilyMember fm) {
