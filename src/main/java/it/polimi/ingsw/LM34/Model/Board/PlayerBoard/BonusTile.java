@@ -1,4 +1,4 @@
-package model.playerboard;
+package it.polimi.ingsw.LM34.Model.Board.PlayerBoard;
 
 public class BonusTile {
 private Bonus productionBonus;

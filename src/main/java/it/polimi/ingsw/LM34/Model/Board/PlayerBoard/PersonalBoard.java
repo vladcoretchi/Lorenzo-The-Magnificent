@@ -1,4 +1,4 @@
-package model.board;
+package it.polimi.ingsw.LM34.Model.Board.PlayerBoard;
 
 /*this class has the aim to aggregate what resources and cards the player have collected*/
 public class PersonalBoard {
