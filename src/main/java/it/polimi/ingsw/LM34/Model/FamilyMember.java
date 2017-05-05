@@ -4,7 +4,7 @@ import it.polimi.ingsw.LM34.Model.Enum.DiceColor;
 import it.polimi.ingsw.LM34.Model.Enum.PawnColor;
 
 /**
- * Created by Giulio Comi on 5/2/2017.
+ * Created by Giulio Comi on 02/04/2017.
  */
 public class FamilyMember {
     private final PawnColor pawnColor;
@@ -15,12 +15,17 @@ public class FamilyMember {
 
 
     //constructor used only at the beginning of the game during setup up
-    FamilyMember(PawnColor pawnColor, DiceColor diceColor, boolean neutral) {
+    FamilyMember(PawnColor pawnColor, DiceColor diceColor) {
         this.pawnColor = pawnColor;
         this.diceColor = diceColor;
         this.neutral = neutral;
         this.isUsed = false;
+    }
 
+    //set the pawn as the neutral one
+    public FamilyMember (PawnColor pawnColor, boolean neutral) {
+        this(pawnColor, null);
+        this.neutral= neutral;
     }
     //check if this pawn is the neutral one
     public boolean isNeutral() {
@@ -38,17 +43,21 @@ public class FamilyMember {
     }
 
     //mark the FamilyMember as used after it has been placed in a action slot
-    public void placePawn () {
+    public void placePawn() {
         this.isUsed = true;
     }
 
     //the controller calls this at the end of each turn to "return" to players their pawns
-    public void freePawn () {
+    public void freePawn() {
         this.isUsed = false;
     }
 
     //check availability of this family member
     public boolean isUsed() {
         return this.isUsed;
+    }
+
+    public PawnColor getFamilyMemberColor() {
+        return this.pawnColor;
     }
 }

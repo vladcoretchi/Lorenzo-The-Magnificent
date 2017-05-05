@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Exception.Model;
 
 /**
- * Created by Giulio Comi on 5/2/2017.
+ * Created by Giulio Comi on 02/05/2017.
  */
 
 public class DiceValueException extends Exception {

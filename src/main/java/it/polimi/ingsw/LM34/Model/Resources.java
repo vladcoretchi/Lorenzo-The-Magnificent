@@ -4,7 +4,7 @@ import it.polimi.ingsw.LM34.Exception.Model.InvalidResourceTypeException;
 import it.polimi.ingsw.LM34.Model.Enum.ResourceType;
 
 /**
- * Created by Giulio Comi on 5/2/2017.
+ * Created by Giulio Comi on 03/04/2017.
  */
 public class Resources {
     private Integer coins;
@@ -22,15 +22,25 @@ public class Resources {
 
     //COSTRUTTORE CHIAMATO SIA NELL'INIZIALIZZAZIONE DEL GIOCO PER CIASCUN GIOCATORE, SIA PER RESTITUIRE COSTO RISORSE
     //IN MODO COMPATTO ;D
+
+    //constructor for initializing all values to 0 (this comes handy in some situation)
+    public Resources() {};
+
+    //TODO: generate more overloading constructor
     public Resources(Integer coins, Integer woods, Integer stones, Integer servants, Integer militaryPoints, Integer faithPoints, Integer victoryPoints) {
-        this.coins = coins;
-        this.woods = woods;
-        this.stones = stones;
-        this.servants = servants;
+
+        this(coins, woods, stones, servants);
 
         this.militaryPoints = militaryPoints;
         this.faithPoints = faithPoints;
         this.victoryPoints = victoryPoints;
+    }
+    //overloading
+    public Resources(Integer coinsRequired, Integer stonesRequired, Integer woodsRequired, Integer servantsRequired) {
+        this.coins= coins;
+        this.stones= stones;
+        this.woods= woods;
+        this.servants= servants;
     }
 
     //modifyCoins allows both addition and subtraction of quantity
