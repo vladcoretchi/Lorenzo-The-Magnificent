@@ -18,6 +18,7 @@ local.properties
 
 
 .idea
+*.iml
 
 # External tool builders
 .externalToolBuilders/

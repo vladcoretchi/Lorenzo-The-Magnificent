@@ -49,6 +49,6 @@ public class ActionSlot {
     }
 
     public void setDiceValueRequirement(Integer diceValue) {
-        this.diceValue= diceValue;
+        //this.diceValue= diceValue;
     }
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Board.GameBoard;
 
 import it.polimi.ingsw.LM34.Model.Bonus;
+import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardInterface;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 
 /**
@@ -9,22 +10,21 @@ import it.polimi.ingsw.LM34.Model.FamilyMember;
 
 //general slot of the tower
 public class TowerSlot extends ActionSlot {
-    private final Bonus occupyingReward;
     private Integer diceValueRequired;
     private FamilyMember familyMember;
-    private DevelopmentCard cardStored;
+    private DevelopmentCardInterface cardStored;
 
 
-    public TowerSlot( Bonus occupyingReward, Integer diceValueRequired) {
+    public TowerSlot(Bonus occupyingReward, Integer diceValueRequired) {
         super(occupyingReward, diceValueRequired); //store in the actionslot the bonus it provides
-        this.diceValueRequired= diceValueRequired;
+        this.diceValueRequired = diceValueRequired;
     }
 
-    public void setCardStored (DevelopmentCard card) {
-        this.cardStored= card;
+    public void setCardStored (DevelopmentCardInterface card) {
+        this.cardStored = card;
     }
 
-    public DevelopmentCard getCardStored () {
+    public DevelopmentCardInterface getCardStored () {
         return this.cardStored;
     }
 

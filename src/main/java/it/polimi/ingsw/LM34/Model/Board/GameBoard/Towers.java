@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.Model.Board.GameBoard;
 
 import it.polimi.ingsw.LM34.Exception.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Bonus;
+import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardInterface;
 
 
 //LET US USE A MATRIX FOR THE TOWER (ROWS (LEVELS)=4, COLOUMNS (TYPE OF CARD STORED)= 4)
@@ -17,8 +18,9 @@ public class Towers implements GameSpace {
 
     //TODO: add a CardColorEnum in towers?
     public Towers (Integer MAX_COLOUMNS, Integer MAX_LEVELS) {
+        this.MAX_LEVELS = MAX_LEVELS;
+        this.MAX_COLOUMNS = MAX_COLOUMNS;
         slots= new TowerSlot [MAX_LEVELS][MAX_COLOUMNS];
-
     }
 
     public boolean hasNextLevel() {
@@ -29,7 +31,7 @@ public class Towers implements GameSpace {
         return level<=MAX_COLOUMNS;
     }
 
-    public void addCard (TowerSlot slot, DevelopmentCard card) throws InvalidCardType {
+    public void addCard (TowerSlot slot, DevelopmentCardInterface card) throws InvalidCardType {
         boolean inserted= false;
         //found the right tower based on the card type
         switch (card.toString()) {
@@ -50,7 +52,7 @@ public class Towers implements GameSpace {
         }
         //ora aggiungi nello slot giusto al livello libero la carta...
         while(this.hasNextLevel() && inserted==false) {
-            DevelopmentCard temp;
+            DevelopmentCardInterface temp;
             if (!this.slots[level][coloumn].isEmpty())
                 level++;
             else {
@@ -62,8 +64,8 @@ public class Towers implements GameSpace {
     }
 
 
-    public DevelopmentCard retrieveCard (TowerSlot slot, Integer level, Integer coloumn) throws Exception {
-        DevelopmentCard temp;
+    public DevelopmentCardInterface retrieveCard (TowerSlot slot, Integer level, Integer coloumn) throws Exception {
+        DevelopmentCardInterface temp;
         if (!this.slots[level][coloumn].isEmpty()) {
             //temporary store the card
             temp= this.slots[level][coloumn].getCardStored();
