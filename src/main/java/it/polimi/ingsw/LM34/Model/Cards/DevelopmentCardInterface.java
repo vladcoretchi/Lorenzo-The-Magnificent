@@ -14,5 +14,4 @@ public interface DevelopmentCardInterface {
     String getName();
     Bonus getInstantBonus();
     Bonus getPermanentBonus();
-    Integer getDiceValueToActivateBonus();
 }

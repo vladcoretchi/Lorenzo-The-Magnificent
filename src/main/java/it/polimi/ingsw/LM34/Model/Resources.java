@@ -29,8 +29,11 @@ public class Resources {
     //TODO: generate more overloading constructor
     public Resources(Integer coins, Integer woods, Integer stones, Integer servants, Integer militaryPoints, Integer faithPoints, Integer victoryPoints) {
 
-        this(coins, woods, stones, servants);
 
+        this.coins= coins;
+        this.stones= stones;
+        this.woods= woods;
+        this.servants= servants;
         this.militaryPoints = militaryPoints;
         this.faithPoints = faithPoints;
         this.victoryPoints = victoryPoints;

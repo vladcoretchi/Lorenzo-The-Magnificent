@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.Model.Cards;
 import it.polimi.ingsw.LM34.Model.Bonus;
 import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Model.TerritoryCardBonus;
 
 /**
  * Created by GiulioComi on 05/05/2017.
@@ -14,12 +15,14 @@ public class TerritoryCard implements DevelopmentCardInterface {
     private Integer period;
     private Bonus instantBonus;
     private Bonus permanentBonus;
-    private Integer diceValue;
+    private Integer diceValueToHarvest;
+
 
     //territories does not cost anytype of resources or points as said in the game rules
-    public TerritoryCard(String territoryName,Integer period,Bonus instantBonus, Bonus permanentBonus) {
+    public TerritoryCard(String territoryName, Integer diceValueToHarvest, Integer period, TerritoryCardBonus instantBonus, TerritoryCardBonus permanentBonus) {
         this.territoryName= territoryName;
         this.period= period;
+        this.diceValueToHarvest= diceValueToHarvest;
     }
 
 
@@ -43,11 +46,6 @@ public class TerritoryCard implements DevelopmentCardInterface {
     @Override
     public Bonus getPermanentBonus() {
         return permanentBonus;
-    }
-
-    @Override
-    public Integer getDiceValueToActivateBonus() {
-        return diceValue;
     }
 
     public String toString() {

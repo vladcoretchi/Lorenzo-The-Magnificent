@@ -4,14 +4,15 @@ package it.polimi.ingsw.LM34.Model.Board.GameBoard;
 import it.polimi.ingsw.LM34.Exception.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Bonus;
 import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardInterface;
+import it.polimi.ingsw.LM34.Model.Resources;
 
 
 //LET US USE A MATRIX FOR THE TOWER (ROWS (LEVELS)=4, COLOUMNS (TYPE OF CARD STORED)= 4)
 //TODO: HASHMAP?
 //the tower has been designed as a kind of matrix in which are stored card in the slots based on the card type and slot level
-public class Towers implements GameSpace {
-    private final Integer MAX_LEVELS;
-    private final Integer MAX_COLOUMNS;
+public class Towers  {
+    private Integer MAX_LEVELS;
+    private Integer MAX_COLOUMNS;
     private Integer level;
     private Integer coloumn;
     public TowerSlot [][]  slots;
@@ -64,7 +65,7 @@ public class Towers implements GameSpace {
     }
 
 
-    public DevelopmentCardInterface retrieveCard (TowerSlot slot, Integer level, Integer coloumn) throws Exception {
+    public DevelopmentCardInterface retrieveCard (TowerSlot slot) throws Exception {
         DevelopmentCardInterface temp;
         if (!this.slots[level][coloumn].isEmpty()) {
             //temporary store the card
@@ -87,9 +88,7 @@ public class Towers implements GameSpace {
         return true;
     }
 
-    public GameSpace getSpace() {
-        return this;
-    }
+
 
     //called at the end of each turn
     public void SweepTower() {
@@ -100,7 +99,7 @@ public class Towers implements GameSpace {
     }
 
 
-    public Bonus getTowerSlotBonus() {
-        return slots[level][coloumn].getBonusReward();
+    public Resources getTowerSlotResources() {
+        return slots[level][coloumn].getResourcesReward();
     }
 }

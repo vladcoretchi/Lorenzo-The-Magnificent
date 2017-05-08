@@ -1,8 +1,8 @@
 package it.polimi.ingsw.LM34.Model.Board.GameBoard;
 
 import it.polimi.ingsw.LM34.Exception.Model.OccupiedSlotException;
-import it.polimi.ingsw.LM34.Model.Bonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
+import it.polimi.ingsw.LM34.Model.Resources;
 
 
 /**
@@ -11,9 +11,10 @@ import it.polimi.ingsw.LM34.Model.FamilyMember;
 //TODO: evaluate to apply a factory pattern
 public class ActionSlot {
     private FamilyMember familyMember; //the pawn inside the action slot
-    private final Bonus bonus; //the bonus the slot provides
+    private final Resources resources; //the bonus the slot provides
     //TODO: evaluate if diceValue should be considered at this level or in market, towers, etc.
-    private final Integer diceValue;
+    private Integer diceValue;
+    private Integer councilPrivilege;
 
 
 
@@ -22,9 +23,9 @@ public class ActionSlot {
 
     //set methods are not meant to be provided because the action slot bonus does not change during the game
     //TODO: evaluate to let a player retrieve in which slot another player's pawn is
-    public ActionSlot(Bonus bonus, Integer diceValue) {
-        this.bonus= bonus;
-        this.diceValue= diceValue;
+    public ActionSlot(Resources resources, Integer councilPrivilege) {
+        this.resources= resources;
+        this.councilPrivilege= councilPrivilege;
     }
 
     public void insertFamilyMember(FamilyMember fm) throws OccupiedSlotException {
@@ -39,8 +40,12 @@ public class ActionSlot {
     }
 
     //inform the player about the bonus that the slot provides to him
-    public Bonus getBonusReward() {
-        return this.bonus;
+    public Resources getResourcesReward() {
+        return this.resources;
+    }
+
+    public Integer getCouncilPrivilege() {
+        return this.councilPrivilege;
     }
 
     //free the slot from the pawn at the end of a turn
@@ -48,6 +53,7 @@ public class ActionSlot {
         this.familyMember= null;
     }
 
+    //TODO: for now it is only used by the Market constructor
     public void setDiceValueRequirement(Integer diceValue) {
         //this.diceValue= diceValue;
     }

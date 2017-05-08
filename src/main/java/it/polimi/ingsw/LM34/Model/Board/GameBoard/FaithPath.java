@@ -9,7 +9,7 @@ import java.util.Iterator;
  * Created by Giulio Comi on 03/05/2017.
  */
 //TODO: apply Singleton design pattern
-public class FaithPath implements GameSpace {
+public class FaithPath  {
 
     private ArrayList<Integer> positionValues;
     private Iterator iterator = positionValues.iterator();
@@ -32,8 +32,6 @@ public class FaithPath implements GameSpace {
             return positionValues.get(index).intValue();
     }
 
-    public GameSpace getSpace() {
-        return this;
-    }
+
 }
 

@@ -16,7 +16,6 @@ public class CharacterCard implements DevelopmentCardInterface {
     private Integer period;
     private Bonus instantBonus;
     private Bonus permanentBonus;
-    private Integer diceValue;
 
     public CharacterCard(String characterName,Integer period, Integer coinsRequired, Bonus instantBonus, Bonus permanentBonus)  {
         this.coinsRequired= coinsRequired;
@@ -51,10 +50,6 @@ public class CharacterCard implements DevelopmentCardInterface {
         return this.permanentBonus;
     }
 
-    @Override
-    public Integer getDiceValueToActivateBonus() {
-        return this.diceValue;
-    }
 
     //TODO: evaluate if this is useful
     public String toString() {

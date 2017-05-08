@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by Giulio Comi on 03/05/2017.
  */
 //TODO: apply Singleton design pattern
-public class ProductionArea implements GameSpace {
+public class ProductionArea {
     private ActionSlot singleSlot;
     private ArrayList<ActionSlot> advancedSlots= new ArrayList<ActionSlot>();
     private Integer normalAreaDiceValue;
@@ -59,7 +59,4 @@ public class ProductionArea implements GameSpace {
         return advancedAreaDiceValue;
     }
 
-    public GameSpace getSpace() {
-        return this;
-    }
 }

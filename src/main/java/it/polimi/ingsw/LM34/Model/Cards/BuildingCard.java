@@ -15,18 +15,19 @@ public class BuildingCard implements DevelopmentCardInterface {
     private Bonus instantBonus;
     private Bonus permanentBonus;
     private String buildingName;
+    private Integer diceValueToProduct;
 
     private Resources resourcesRequired; //we do not store single type of resources as Integer but we wrap them in a Resources class
     private Integer period;
-    private Integer diceValue;
 
 
-    public BuildingCard(String characterName,Integer period, Resources resourcesRequired, Bonus instantBonus, Bonus permanentBonus) {
+    public BuildingCard(String characterName,Integer diceValueToProduct, Integer period, Resources resourcesRequired, Bonus instantBonus, Bonus permanentBonus) {
         this.resourcesRequired= resourcesRequired;
         this.buildingName= buildingName;
         this.period= period;
         this.instantBonus= instantBonus;
         this.permanentBonus= permanentBonus;
+        this.diceValueToProduct= diceValueToProduct;
     }
 
     public Resources getResourcesRequired() {
@@ -53,9 +54,9 @@ public class BuildingCard implements DevelopmentCardInterface {
         return permanentBonus;
     }
 
-    @Override
-    public Integer getDiceValueToActivateBonus() {
-        return diceValue;
+
+    public Integer getDiceValueToProduct() {
+        return diceValueToProduct;
     }
 
     public String toString() {

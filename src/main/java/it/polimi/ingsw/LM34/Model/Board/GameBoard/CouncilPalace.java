@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 
 //TODO: apply Singleton design pattern
-public class CouncilPalace implements GameSpace {
+public class CouncilPalace{
     private ArrayList<FamilyMember> occupyingPawns; //FamilyMembers in the palace
     private final Integer diceValue; //minimum value to place FamilyMembers in the market space
 
@@ -35,17 +35,14 @@ public class CouncilPalace implements GameSpace {
 
     //return the order of the players in the next turn
     public ArrayList<FamilyMember> getNextTurnOrder() {
-        ArrayList<FamilyMember> tempOrder= new ArrayList<FamilyMember>();
+        ArrayList<FamilyMember> tempOrder = new ArrayList<FamilyMember>();
         for (FamilyMember fm : occupyingPawns)
             if(!occupyingPawns.contains(fm))
                 tempOrder.add(fm);
         return tempOrder;
     }
 
-    @Override
-    public GameSpace getSpace() {
-        return this;
-    }
+
 }
 
 			

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.LM34.Model;
 
-import it.polimi.ingsw.LM34.Model.Board.GameBoard.GameSpace;
 import it.polimi.ingsw.LM34.Model.Enum.DiceColor;
 import java.util.Random;
 

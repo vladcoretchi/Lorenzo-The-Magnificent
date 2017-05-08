@@ -18,6 +18,10 @@ public class Player {
     private PersonalBoard personalBoard;
     private ArrayList <LeaderCard> leadercards;
 
+    //VARIABLE FOR COMMUNICATION TO CLIENT
+    //TODO: evalueate if this network connection is correct
+
+
 
     public Player(PawnColor pawnColor, PersonalBoard personalBoard) {
         this.pawnColor= pawnColor;
@@ -35,4 +39,9 @@ public class Player {
         return this.personalBoard;
     }
 
+
+
+    public PawnColor getPawnColor() {
+        return pawnColor;
+    }
 }

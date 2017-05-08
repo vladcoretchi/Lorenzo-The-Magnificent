@@ -12,5 +12,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: junit:junit:3.8.1" level="project" />
+    <orderEntry type="library" name="org.json:json:20160810" level="application" />
+    <orderEntry type="library" name="org.apache.clerezza.ext:org.json.simple:0.4" level="application" />
+    <orderEntry type="library" name="commons-io-2.5" level="application" />
   </component>
 </module>

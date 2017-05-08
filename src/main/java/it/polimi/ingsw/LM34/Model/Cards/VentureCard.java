@@ -10,7 +10,6 @@ import it.polimi.ingsw.LM34.Model.Resources;
 public class VentureCard implements DevelopmentCardInterface {
     private DevelopmentCardColor color= DevelopmentCardColor.PURPLE;
     private String ventureName;
-    private Integer diceValue;
     private Integer period;
     private Bonus permanentBonus;
     private Bonus instantBonus;
@@ -54,10 +53,6 @@ public class VentureCard implements DevelopmentCardInterface {
         return permanentBonus;
     }
 
-    @Override
-    public Integer getDiceValueToActivateBonus() {
-        return diceValue;
-    }
 
     public String toString() {
         return "ventureCard";
