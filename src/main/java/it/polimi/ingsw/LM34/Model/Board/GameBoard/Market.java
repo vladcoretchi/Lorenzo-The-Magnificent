@@ -2,7 +2,6 @@ package it.polimi.ingsw.LM34.Model.Board.GameBoard;
 
 import it.polimi.ingsw.LM34.Exception.Model.NoSuchAvailableSlotException;
 import it.polimi.ingsw.LM34.Exception.Model.OccupiedSlotException;
-import it.polimi.ingsw.LM34.Model.Bonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Resources;
 
@@ -42,6 +41,10 @@ public class Market {
             else throw new NoSuchAvailableSlotException();
     }
 
+
+    public Market() {
+        marketSlots = new ArrayList<ActionSlot>();
+    }
     //perhaps this method will not be useful
     public ArrayList<ActionSlot> getAvailableSlots() {
         ArrayList<ActionSlot> availableSlots= new ArrayList<ActionSlot>();
@@ -62,6 +65,12 @@ public class Market {
         return rewardFromSlot;
     }
 
+    public void addSlot(ActionSlot as) {
+        marketSlots.add(as);
+    }
 
+    public Integer getSize() {
+        return marketSlots.size();
+    }
 }
 			

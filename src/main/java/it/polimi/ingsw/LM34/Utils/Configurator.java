@@ -3,6 +3,8 @@ package it.polimi.ingsw.LM34.Utils;
 import it.polimi.ingsw.LM34.Model.Board.GameBoard.ActionSlot;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+
+import it.polimi.ingsw.LM34.Model.Board.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Enum.ResourceType;
 import it.polimi.ingsw.LM34.Model.Resources;
 
@@ -15,9 +17,9 @@ import org.apache.commons.io.IOUtils;
  */
 public final class Configurator {
 
-    private static ArrayList<ActionSlot> marketSlots;
+    private static Market market;
 
-    public static ArrayList<ActionSlot> getMarketSlots() {return marketSlots;}
+
 
 
     public static void loadConfigs() {
@@ -32,12 +34,16 @@ public final class Configurator {
     }
 
     private static void setupMarket(JSONObject jsonObject) {
-        marketSlots = new ArrayList<>();
-        JSONArray market = jsonObject.getJSONObject("actionSlots").getJSONArray("market");
-        for (int i = 0; i < market.length(); i++) {
-            marketSlots.add(getActionSlotFromJson(market.getJSONObject(i).getJSONObject("resources")));
-
+        market = new Market();
+        JSONArray market_array = jsonObject.getJSONObject("actionSlots").getJSONArray("market");
+        for (int i = 0; i < market_array.length(); i++) {
+            market.addSlot(getActionSlotFromJson(market_array.getJSONObject(i).getJSONObject("resources")));
         }
+
+    }
+
+    public static Market getMarket() {
+        return market;
     }
 
     private static ActionSlot getActionSlotFromJson(JSONObject jsonObject) {
@@ -56,8 +62,8 @@ public final class Configurator {
     }
     private static void printMarket() {
         Resources res = null;
-        for (Integer i = 0; i < marketSlots.size(); i++) {
-            res = marketSlots.get(i).getResourcesReward();
+        for (Integer i = 0; i < market.getSize(); i++) {
+            res = market.getActionSlots().get(i).getResourcesReward();
             try {
 
                 System.out.println((res.getResourceByType(ResourceType.STONES)));
@@ -67,7 +73,7 @@ public final class Configurator {
                 System.out.println((res.getResourceByType(ResourceType.FAITH_POINTS)));
                 System.out.println((res.getResourceByType(ResourceType.MILITARY_POINTS)));
                 System.out.println((res.getResourceByType(ResourceType.VICTORY_POINTS)));
-                System.out.println(marketSlots.get(i).getCouncilPrivilege());
+                System.out.println(market.getActionSlots().get(i).getCouncilPrivilege());
                 System.out.println("-----------------------------------------");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -75,7 +81,7 @@ public final class Configurator {
         }
     }
 
-
+    //MAIN WITH THE PURPOSE TO VERIFY THE CORRECT LOADING OF MODEL OBJECTS FROM FILE
     public static void main(String[] args) {
         Configurator.loadConfigs();
         Configurator.printMarket();

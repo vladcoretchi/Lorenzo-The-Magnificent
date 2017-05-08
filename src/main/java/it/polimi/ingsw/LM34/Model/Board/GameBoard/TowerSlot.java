@@ -1,6 +1,5 @@
 package it.polimi.ingsw.LM34.Model.Board.GameBoard;
 
-import it.polimi.ingsw.LM34.Model.Bonus;
 import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardInterface;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Resources;

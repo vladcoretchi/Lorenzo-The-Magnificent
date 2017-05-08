@@ -6,7 +6,7 @@ import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Enum.PawnColor;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.SetupDecks;
-
+import it.polimi.ingsw.LM34.Utils.Configurator;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -44,6 +44,11 @@ public class GameManager {
     public void startGame() {
         //, check all the clients are connected, load configurations from file, setup all the game components with the configuration
 
+        //Load all the configurations from json
+        Configurator.loadConfigs();
+        market = Configurator.getMarket();
+
+        //TODO: load development cards, leaders, excommunication tiles and others GameBoards&PersonalBoard spaces
         Collections.shuffle(players); //randomly set the initial play order
         shuffleDecksByPeriod();
 
@@ -89,9 +94,6 @@ public class GameManager {
 
     }
 
-    public void setupMarket() {
-        market = new Market(Configurator.getMarketSlots());
-    }
 
     public void nextRound() { //round = mezzo periodo
         round++;

@@ -1,11 +1,9 @@
 package it.polimi.ingsw.LM34.Model;
 
-import it.polimi.ingsw.LM34.Exception.Model.InvalidResourceTypeException;
 import it.polimi.ingsw.LM34.Model.Board.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Enum.DiceColor;
 import it.polimi.ingsw.LM34.Model.Enum.PawnColor;
-import it.polimi.ingsw.LM34.Model.Enum.ResourceType;
 
 import java.util.ArrayList;
 
@@ -17,6 +15,7 @@ public class Player {
     private ArrayList<FamilyMember>  familyMembers;
     private PersonalBoard personalBoard;
     private ArrayList <LeaderCard> leadercards;
+    private Bonus.PermanentBonus permanentBonus;
 
     //VARIABLE FOR COMMUNICATION TO CLIENT
     //TODO: evalueate if this network connection is correct

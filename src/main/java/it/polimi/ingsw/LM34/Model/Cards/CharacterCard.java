@@ -1,9 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
-import it.polimi.ingsw.LM34.Exception.Model.InvalidResourceTypeException;
-import it.polimi.ingsw.LM34.Model.Bonus;
 import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Model.Enum.ResourceType;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 /**
