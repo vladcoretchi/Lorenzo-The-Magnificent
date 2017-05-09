@@ -34,7 +34,7 @@ public class GameManager {
     //GAMEBOARD COMPONENTS
     private Market market;
     private CouncilPalace councilPalace;
-    private ArrayList<Towers> towers;
+    private ArrayList<Tower> towers;
     private HarvestArea harvestArea;
     private ProductionArea productionArea;
 

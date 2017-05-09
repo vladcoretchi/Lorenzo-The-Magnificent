@@ -10,7 +10,7 @@ import it.polimi.ingsw.LM34.Model.Resources;
 //LET US USE A MATRIX FOR THE TOWER (ROWS (LEVELS)=4, COLOUMNS (TYPE OF CARD STORED)= 4)
 //TODO: HASHMAP?
 //the tower has been designed as a kind of matrix in which are stored card in the slots based on the card type and slot level
-public class Towers  {
+public class Tower  {
 
     //TODO: adjust this in order to know what kind of card are stored in this tower
     //TODO: add a CardColorEnum in towers?
@@ -21,7 +21,7 @@ public class Towers  {
     public TowerSlot []  slots;
 
 
-    public Towers (DevelopmentCardColor cardColor, Integer MAX_LEVELS) {
+    public Tower (DevelopmentCardColor cardColor, Integer MAX_LEVELS) {
         this.MAX_LEVELS = MAX_LEVELS;
         this.cardColor = cardColor;
         slots= new TowerSlot [MAX_LEVELS];
