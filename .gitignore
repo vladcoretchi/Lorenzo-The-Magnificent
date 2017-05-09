@@ -16,7 +16,7 @@ local.properties
 .settings/
 .loadpath
 
-
+.class
 .idea
 *.iml
 
