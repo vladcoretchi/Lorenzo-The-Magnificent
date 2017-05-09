@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
+import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
 import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 
@@ -9,22 +10,25 @@ import it.polimi.ingsw.LM34.Model.Resources;
 public class BuildingCard implements DevelopmentCardInterface {
     private DevelopmentCardColor color= DevelopmentCardColor.YELLOW;
 
-    private Bonus instantBonus;
-    private Bonus permanentBonus;
+
+    private PermanentBonus permanentBonus;
     private String buildingName;
     private Integer diceValueToProduct;
-
     private Resources resourcesRequired; //we do not store single type of resources as Integer but we wrap them in a Resources class
     private Integer period;
+    //this two variables together represents the instant Bonus
+    private Integer councilPrivilege;
+    private Resources resourcesBonus;
 
 
-    public BuildingCard(String characterName,Integer diceValueToProduct, Integer period, Resources resourcesRequired, Bonus instantBonus, Bonus permanentBonus) {
+    public BuildingCard(String characterName,Integer diceValueToProduct, Integer period, Resources resourcesRequired, Resources resourcesBonus, Integer councilPrivilege, PermanentBonus permanentBonus) {
         this.resourcesRequired= resourcesRequired;
         this.buildingName= buildingName;
         this.period= period;
-        this.instantBonus= instantBonus;
         this.permanentBonus= permanentBonus;
         this.diceValueToProduct= diceValueToProduct;
+        this.resourcesBonus = resourcesBonus;
+        this.councilPrivilege = councilPrivilege;
     }
 
     public Resources getResourcesRequired() {
@@ -42,12 +46,7 @@ public class BuildingCard implements DevelopmentCardInterface {
     }
 
     @Override
-    public Bonus getInstantBonus() {
-        return instantBonus;
-    }
-
-    @Override
-    public Bonus getPermanentBonus() {
+    public PermanentBonus getPermanentBonus() {
         return permanentBonus;
     }
 

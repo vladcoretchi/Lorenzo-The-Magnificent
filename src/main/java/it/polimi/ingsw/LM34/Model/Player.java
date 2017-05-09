@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Model.Board.PlayerBoard.PersonalBoard;
+import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Enum.DiceColor;
 import it.polimi.ingsw.LM34.Model.Enum.PawnColor;
@@ -15,7 +16,7 @@ public class Player {
     private ArrayList<FamilyMember>  familyMembers;
     private PersonalBoard personalBoard;
     private ArrayList <LeaderCard> leadercards;
-    private Bonus.PermanentBonus permanentBonus;
+    private PermanentBonus permanentBonus;
 
     //VARIABLE FOR COMMUNICATION TO CLIENT
     //TODO: evalueate if this network connection is correct

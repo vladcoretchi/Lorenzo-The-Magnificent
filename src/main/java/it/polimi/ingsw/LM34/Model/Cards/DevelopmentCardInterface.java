@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
+import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 /**
@@ -11,6 +12,5 @@ public interface DevelopmentCardInterface {
     Resources getResourcesRequired();
     Integer getPeriod();
     String getName();
-    Bonus getInstantBonus();
-    Bonus getPermanentBonus();
+    PermanentBonus getPermanentBonus();
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Board.PlayerBoard;
 
 import it.polimi.ingsw.LM34.Exception.Model.InvalidCardType;
+import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
 import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardInterface;
 
 import java.util.ArrayList;
@@ -10,8 +11,8 @@ import java.util.ArrayList;
  */
 /*this class has the aim to aggregate what resources and cards the player have collected*/
 public class PersonalBoard {
-    private ArrayList<Bonus> harvestBonuses;
-    private ArrayList<Bonus> productionBonuses;
+    private ArrayList<PermanentBonus> harvestBonuses;
+    private ArrayList<PermanentBonus> productionBonuses;
 
     //cards
     private ArrayList<DevelopmentCardInterface> territories= new ArrayList<DevelopmentCardInterface>();

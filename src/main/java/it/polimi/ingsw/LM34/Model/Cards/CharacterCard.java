@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
+import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
 import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 
@@ -11,14 +12,12 @@ public class CharacterCard implements DevelopmentCardInterface {
     private DevelopmentCardColor color= DevelopmentCardColor.BLUE;
     private Integer coinsRequired;
     private Integer period;
-    private Bonus instantBonus;
-    private Bonus permanentBonus;
+    private PermanentBonus permanentBonus;
 
-    public CharacterCard(String characterName,Integer period, Integer coinsRequired, Bonus instantBonus, Bonus permanentBonus)  {
+    public CharacterCard(String characterName,Integer period, Integer coinsRequired, PermanentBonus instantBonus, PermanentBonus permanentBonus)  {
         this.coinsRequired= coinsRequired;
         this.characterName= characterName;
         this.period= period;
-        this.instantBonus= instantBonus;
         this.permanentBonus= permanentBonus;
     }
 
@@ -37,13 +36,9 @@ public class CharacterCard implements DevelopmentCardInterface {
         return this.characterName;
     }
 
-    @Override
-    public Bonus getInstantBonus() {
-        return instantBonus;
-    }
 
     @Override
-    public Bonus getPermanentBonus() {
+    public PermanentBonus getPermanentBonus() {
         return this.permanentBonus;
     }
 

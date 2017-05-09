@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
+import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
 import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 
@@ -10,19 +11,17 @@ public class VentureCard implements DevelopmentCardInterface {
     private DevelopmentCardColor color= DevelopmentCardColor.PURPLE;
     private String ventureName;
     private Integer period;
-    private Bonus permanentBonus;
-    private Bonus instantBonus;
+    private PermanentBonus permanentBonus;
 
     //TODO: evaluate to wrap resources and points in a single Bonus object
     Resources resourcesRequired;
     private Integer militaryPointsRequired;
 
 
-    public VentureCard( String ventureName, Integer period, Resources resourcesRequired, Bonus instantBonus, Bonus permanentBonus) {
+    public VentureCard( String ventureName, Integer period, Resources resourcesRequire, PermanentBonus permanentBonus) {
         this.ventureName= ventureName;
         this.resourcesRequired= resourcesRequired;
         this.period= period;
-        this.instantBonus= instantBonus;
         this.permanentBonus= permanentBonus;
     }
 
@@ -41,14 +40,10 @@ public class VentureCard implements DevelopmentCardInterface {
         return ventureName;
     }
 
-    @Override
-    public Bonus getInstantBonus() {
-        return instantBonus;
-    }
 
 
     @Override
-    public Bonus getPermanentBonus() {
+    public PermanentBonus getPermanentBonus() {
         return permanentBonus;
     }
 

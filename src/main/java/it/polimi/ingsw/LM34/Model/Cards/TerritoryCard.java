@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
+import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
 import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Model.Bonus.TerritoryCardPermanentBonus;
@@ -12,8 +13,7 @@ public class TerritoryCard implements DevelopmentCardInterface {
     private DevelopmentCardColor color= DevelopmentCardColor.GREEN;
     private String territoryName;
     private Integer period;
-    private Bonus instantBonus;
-    private Bonus permanentBonus;
+    private PermanentBonus permanentBonus;
     private Integer diceValueToHarvest;
 
 
@@ -38,13 +38,9 @@ public class TerritoryCard implements DevelopmentCardInterface {
         return territoryName;
     }
 
-    @Override
-    public Bonus getInstantBonus() {
-        return instantBonus;
-    }
 
     @Override
-    public Bonus getPermanentBonus() {
+    public PermanentBonus getPermanentBonus() {
         return permanentBonus;
     }
 

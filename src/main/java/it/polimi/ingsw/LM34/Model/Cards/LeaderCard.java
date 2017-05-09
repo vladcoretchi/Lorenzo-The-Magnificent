@@ -1,21 +1,23 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
+import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
+
 /**
  * Created by Julius on 03/05/2017.
  */
     public class LeaderCard {
     private String leaderName;
-    private Bonus requirements;
-    private Bonus benefits;
+    private PermanentBonus requirements;
+    private PermanentBonus benefits;
 
-    public LeaderCard(String leaderName, Bonus requirements, Bonus benefits) {
+    public LeaderCard(String leaderName, PermanentBonus requirements, PermanentBonus benefits) {
         this.leaderName= leaderName;
         this.requirements= requirements;
         this.benefits= benefits;
     }
 
 
-    public Bonus getRequirements() {
+    public PermanentBonus getRequirements() {
         return this.requirements;
     }
 
@@ -25,7 +27,7 @@ package it.polimi.ingsw.LM34.Model.Cards;
     }
 
     //called once a turn in case of a Activable leader benefit
-    public Bonus getActivableBenefitBonus() {
+    public PermanentBonus getActivableBenefitBonus() {
         return this.benefits;
     }
 }

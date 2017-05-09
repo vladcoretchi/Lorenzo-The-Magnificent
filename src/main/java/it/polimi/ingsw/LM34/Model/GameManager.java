@@ -25,7 +25,7 @@ public class GameManager {
     //DECKS cointaining all the 96 development cards of the game, that at the beginning of each period will be partially loaded in the towers
     private ArrayList<DevelopmentCardInterface> territoryCardDeck;
     private ArrayList<DevelopmentCardInterface> characterCardDeck;
-    private ArrayList<VentureCard> ventureCardDeck;
+    private ArrayList<DevelopmentCardInterface> ventureCardDeck;
     private ArrayList<DevelopmentCardInterface> buildingCardDeck;
 
     private ArrayList<LeaderCard> leaderCardsDeck;
