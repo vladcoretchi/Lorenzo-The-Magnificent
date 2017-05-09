@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.Model.Board.GameBoard;
 
 import it.polimi.ingsw.LM34.Exception.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardInterface;
+import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 
@@ -10,53 +11,43 @@ import it.polimi.ingsw.LM34.Model.Resources;
 //TODO: HASHMAP?
 //the tower has been designed as a kind of matrix in which are stored card in the slots based on the card type and slot level
 public class Towers  {
+
+    //TODO: adjust this in order to know what kind of card are stored in this tower
+    //TODO: add a CardColorEnum in towers?
+    DevelopmentCardColor cardColor;
     private Integer MAX_LEVELS;
-    private Integer MAX_COLOUMNS;
     private Integer level;
     private Integer coloumn;
-    public TowerSlot [][]  slots;
+    public TowerSlot []  slots;
 
-    //TODO: add a CardColorEnum in towers?
-    public Towers (Integer MAX_COLOUMNS, Integer MAX_LEVELS) {
+
+    public Towers (DevelopmentCardColor cardColor, Integer MAX_LEVELS) {
         this.MAX_LEVELS = MAX_LEVELS;
-        this.MAX_COLOUMNS = MAX_COLOUMNS;
-        slots= new TowerSlot [MAX_LEVELS][MAX_COLOUMNS];
+        this.cardColor = cardColor;
+        slots= new TowerSlot [MAX_LEVELS];
     }
 
     public boolean hasNextLevel() {
         return level<=MAX_LEVELS;
     }
 
-    public boolean hasNextColoumn() {
-        return level<=MAX_COLOUMNS;
-    }
+    /**
+     * @return the type of development cards that are stored in this tower
+     */
+    public DevelopmentCardColor getCardColor() {return cardColor;}
+
 
     public void addCard (TowerSlot slot, DevelopmentCardInterface card) throws InvalidCardType {
         boolean inserted= false;
         //found the right tower based on the card type
-        switch (card.toString()) {
-            case "territoryCard":
-                coloumn= 1;
-                break;
-            case "characterCard":
-                coloumn= 2;
-                break;
-            case "buildingCard":
-                coloumn= 3;
-                break;
-            case "ventureCard":
-                coloumn= 4;
-                break;
-            default:
-                throw new InvalidCardType("This card is not a DevelopmentCard");
-        }
+
         //ora aggiungi nello slot giusto al livello libero la carta...
         while(this.hasNextLevel() && inserted==false) {
             DevelopmentCardInterface temp;
-            if (!this.slots[level][coloumn].isEmpty())
+            if (!this.slots[level].isEmpty())
                 level++;
             else {
-                slots[level][coloumn].setCardStored(card);
+                slots[level].setCardStored(card);
                 inserted=true;
             }
 
@@ -66,11 +57,11 @@ public class Towers  {
 
     public DevelopmentCardInterface retrieveCard (TowerSlot slot) throws Exception {
         DevelopmentCardInterface temp;
-        if (!this.slots[level][coloumn].isEmpty()) {
+        if (!this.slots[level].isEmpty()) {
             //temporary store the card
-            temp= this.slots[level][coloumn].getCardStored();
+            temp= this.slots[level].getCardStored();
             //free the slot, il setCardStored(null) è brutto a vedersi
-            this.slots[level][coloumn].sweepTowerSlot();
+            this.slots[level].sweepTowerSlot();
             return temp;
 
         } else throw new Exception("space empty");
@@ -79,9 +70,9 @@ public class Towers  {
 
 
     //call to check is a coloumn has already a familyMember inside so that a 3 coins penalty is activated
-    public boolean isColoumnEmpty(Integer coloumn) {
+    public boolean isTowerEmpty() {
         while(this.hasNextLevel()) {
-            if (!this.slots[level][coloumn].isEmpty())
+            if (!this.slots[level].isEmpty())
                 return false;
         }
         return true;
@@ -91,14 +82,13 @@ public class Towers  {
 
     //called at the end of each turn
     public void SweepTower() {
-        for (Integer col=1; col<MAX_COLOUMNS; col++)
             while(this.hasNextLevel())
-                slots[level][col].sweepTowerSlot();
+                slots[level].sweepTowerSlot();
 
     }
 
 
     public Resources getTowerSlotResources() {
-        return slots[level][coloumn].getResourcesReward();
+        return slots[level].getResourcesReward();
     }
 }

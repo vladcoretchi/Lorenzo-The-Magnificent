@@ -14,7 +14,7 @@ public class CharacterCard implements DevelopmentCardInterface {
     private Integer period;
     private PermanentBonus permanentBonus;
 
-    public CharacterCard(String characterName,Integer period, Integer coinsRequired, PermanentBonus instantBonus, PermanentBonus permanentBonus)  {
+    public CharacterCard(String characterName,Integer period, Integer coinsRequired, PermanentBonus permanentBonus)  {
         this.coinsRequired= coinsRequired;
         this.characterName= characterName;
         this.period= period;
