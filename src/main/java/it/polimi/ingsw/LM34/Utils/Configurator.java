@@ -2,6 +2,8 @@ package it.polimi.ingsw.LM34.Utils;
 
 import it.polimi.ingsw.LM34.Model.Board.GameBoard.ActionSlot;
 import java.io.FileInputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import it.polimi.ingsw.LM34.Model.Board.GameBoard.Market;
@@ -25,7 +27,7 @@ public final class Configurator {
     public static void loadConfigs() {
         JSONObject jsonObject=null;
         try {
-            String jsonString = IOUtils.toString(new FileInputStream("C:\\Users\\Julius\\Desktop\\ProvaFinale\\configurations.json"));
+            String jsonString = IOUtils.toString(new FileInputStream("C:\\Users\\Julius\\Desktop\\ProvaFinale\\configurations.json"), StandardCharsets.UTF_8);
             jsonObject = new JSONObject(jsonString).getJSONObject("configuration");
         } catch (Exception e) {e.printStackTrace();}
 

@@ -1,0 +1,982 @@
+{
+"url": "http://www.jsoneditoronline.org/?id=c9dd5d7e34c49414db2023da2f0731f8",
+"configuration": {
+	"server": {
+		"timeout": 120
+	},
+	
+	"game": {
+		"maxPlayers": 5,
+		"periods": 3,
+		"roundsPerPeriod": 2,
+		
+		"towerLevels": 4,
+		
+		"councilPrivilege": [
+			{
+				"coins": 0,
+				"woods": 1,
+				"stones": 1,
+				"servants": 0,
+				"militaryPoints": 0,
+				"faithPoints": 0,
+				"victoryPoints": 0
+			},
+			{
+				"coins": 0,
+				"woods": 0,
+				"stones": 0,
+				"servants": 2,
+				"militaryPoints": 0,
+				"faithPoints": 0,
+				"victoryPoints": 0
+			},
+			{
+				"coins": 2,
+				"woods": 0,
+				"stones": 0,
+				"servants": 0,
+				"militaryPoints": 0,
+				"faithPoints": 0,
+				"victoryPoints": 0
+			},
+			{
+				"coins": 0,
+				"woods": 0,
+				"stones": 0,
+				"servants": 0,
+				"militaryPoints": 2,
+				"faithPoints": 0,
+				"victoryPoints": 0
+			},
+			{
+				"coins": 0,
+				"woods": 0,
+				"stones": 0,
+				"servants": 0,
+				"militaryPoints": 0,
+				"faithPoints": 1,
+				"victoryPoints": 0
+			}
+		],
+	
+		"finalVictoryPoints": {
+			"territories": {
+				"0": 0,
+				"1": 0,
+				"2": 0,
+				"3": 1,
+				"4": 4,
+				"5": 10,
+				"6": 20
+			},
+			
+			"buildings": {
+				"0": 0,
+				"1": 1,
+				"2": 3,
+				"3": 6,
+				"4": 10,
+				"5": 15,
+				"6": 25
+			},
+			
+			"resourcesForVictoryPoint": 5
+		}
+	},
+	
+	"actionSlots": {
+		"towers": [
+			[
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 1,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 3,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 5,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 7,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				}
+			],
+			[
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 1,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 3,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 5,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 7,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				}
+			],
+			[
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 1,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 3,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 5,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 7,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				}
+			],
+			[
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 1,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 3,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 5,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 7,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				}
+			],
+			[
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 1,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 3,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 5,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				{
+					"maxFamilyMembers": 1,
+					"diceValue": 7,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"councilPrivilege": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				}
+			]
+		],
+		
+		"councilPalace": {
+			"maxFamilyMembers": -1,
+			"diceValue": 1,
+			"resources": {
+				"coins": 1,
+				"woods": 0,
+				"stones": 0,
+				"servants": 0,
+				"councilPrivilege": 1,
+				"militaryPoints": 0,
+				"faithPoints": 0,
+				"victoryPoints": 0
+			}
+		},
+		
+		"market": [
+			{
+				"maxFamilyMembers": 1,
+				"diceValue": 1,
+				"resources": {
+					"coins": 0,
+					"woods": 0,
+					"stones": 0,
+					"servants": 0,
+					"councilPrivilege": 0,
+					"militaryPoints": 0,
+					"faithPoints": 0,
+					"victoryPoints": 0
+				}
+			},
+			{
+				"maxFamilyMembers": 1,
+				"diceValue": 1,
+				"resources": {
+					"coins": 0,
+					"woods": 0,
+					"stones": 0,
+					"servants": 0,
+					"councilPrivilege": 0,
+					"militaryPoints": 0,
+					"faithPoints": 0,
+					"victoryPoints": 0
+				}
+			},
+			{
+				"maxFamilyMembers": 1,
+				"diceValue": 1,
+				"resources": {
+					"coins": 0,
+					"woods": 0,
+					"stones": 0,
+					"servants": 0,
+					"councilPrivilege": 0,
+					"militaryPoints": 0,
+					"faithPoints": 0,
+					"victoryPoints": 0
+				}
+			},
+			{
+				"maxFamilyMembers": 1,
+				"diceValue": 1,
+				"resources": {
+					"coins": 0,
+					"woods": 0,
+					"stones": 0,
+					"servants": 0,
+					"councilPrivilege": 0,
+					"militaryPoints": 0,
+					"faithPoints": 0,
+					"victoryPoints": 0
+				}
+			}
+		],
+		
+		"productionArea": [
+			{
+				"maxFamilyMembers": 1,
+				"diceValue": 1,
+				"resources": {
+					"coins": 0,
+					"woods": 0,
+					"stones": 0,
+					"servants": 0,
+					"councilPrivilege": 0,
+					"militaryPoints": 0,
+					"faithPoints": 0,
+					"victoryPoints": 0
+				}
+			},
+			{
+				"maxFamilyMembers": -1,
+				"diceValue": 4,
+				"resources": {
+					"coins": 0,
+					"woods": 0,
+					"stones": 0,
+					"servants": 0,
+					"councilPrivilege": 0,
+					"militaryPoints": 0,
+					"faithPoints": 0,
+					"victoryPoints": 0
+				}
+			}
+		],
+		
+		"harvestArea": [
+			{
+				"maxFamilyMembers": 1,
+				"diceValue": 1,
+				"resources": {
+					"coins": 0,
+					"woods": 0,
+					"stones": 0,
+					"servants": 0,
+					"councilPrivilege": 0,
+					"militaryPoints": 0,
+					"faithPoints": 0,
+					"victoryPoints": 0
+				}
+			},
+			{
+				"maxFamilyMembers": -1,
+				"diceValue": 4,
+				"resources": {
+					"coins": 0,
+					"woods": 0,
+					"stones": 0,
+					"servants": 0,
+					"councilPrivilege": 0,
+					"militaryPoints": 0,
+					"faithPoints": 0,
+					"victoryPoints": 0
+				}
+			}
+		]
+	},
+	
+	"personalTiles": [
+		{
+			"standard": {
+				"production": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 2,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"militaryPoints": 1,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				"harvest": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 0,
+						"woods": 1,
+						"stones": 1,
+						"servants": 1,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				}
+			},
+			"advanced": {
+				"production": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 1,
+						"woods": 0,
+						"stones": 0,
+						"servants": 2,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				"harvest": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 0,
+						"woods": 1,
+						"stones": 1,
+						"servants": 0,
+						"militaryPoints": 1,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				}
+			}
+		},
+		{
+			"standard": {
+				"production": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 2,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"militaryPoints": 1,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				"harvest": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 0,
+						"woods": 1,
+						"stones": 1,
+						"servants": 1,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				}
+			},
+			"advanced": {
+				"production": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 1,
+						"militaryPoints": 2,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				"harvest": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 1,
+						"woods": 1,
+						"stones": 1,
+						"servants": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				}
+			}
+		},
+		{
+			"standard": {
+				"production": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 2,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"militaryPoints": 1,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				"harvest": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 0,
+						"woods": 1,
+						"stones": 1,
+						"servants": 1,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				}
+			},
+			"advanced": {
+				"production": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 2,
+						"woods": 0,
+						"stones": 0,
+						"servants": 1,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				"harvest": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 0,
+						"woods": 1,
+						"stones": 1,
+						"servants": 0,
+						"militaryPoints": 1,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				}
+			}
+		},
+		{
+			"standard": {
+				"production": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 2,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"militaryPoints": 1,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				"harvest": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 0,
+						"woods": 1,
+						"stones": 1,
+						"servants": 1,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				}
+			},
+			"advanced": {
+				"production": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 1,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"militaryPoints": 2,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				"harvest": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 0,
+						"woods": 1,
+						"stones": 1,
+						"servants": 1,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				}
+			}
+		},
+		{
+			"standard": {
+				"production": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 2,
+						"woods": 0,
+						"stones": 0,
+						"servants": 0,
+						"militaryPoints": 1,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				"harvest": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 0,
+						"woods": 1,
+						"stones": 1,
+						"servants": 1,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				}
+			},
+			"advanced": {
+				"production": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 0,
+						"woods": 0,
+						"stones": 0,
+						"servants": 2,
+						"militaryPoints": 1,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				},
+				"harvest": {
+					"diceValue": 1,
+					"resources": {
+						"coins": 1,
+						"woods": 1,
+						"stones": 1,
+						"servants": 0,
+						"militaryPoints": 0,
+						"faithPoints": 0,
+						"victoryPoints": 0
+					}
+				}
+			}
+		}
+	],
+	
+	"developmentCards": {
+		"cardTemplate": {
+			"__comment": "only for defining the structure; once all cards are added this can be removed; permanentBonus not requiered yet",
+			
+			"requirements": {
+				"coins": 0,
+				"woods": 0,
+				"stones": 0,
+				"servants": 0,
+				"militaryPoints": 0,
+				"faithPoints": 0,
+				"victoryPoints": 0
+			},
+			"instantBonus": {
+				resources: {
+					"coins": 0,
+					"woods": 0,
+					"stones": 0,
+					"servants": 0,
+					"militaryPoints": 0,
+					"faithPoints": 0,
+					"victoryPoints": 0
+				},
+				"councilPrivilege": 0,
+				"productionValue": 0,
+				"harvestValue": 0,
+				"developmentCardValue": 0,
+				"resourcePerDevelopmentCard": 0,
+				"resourceDiscountPerDevelopmentCard": 0,
+				"developmentCardType": ""
+			},
+			"permanentBonus": {}
+		},
+	
+		"territories": [
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{}
+		],
+		
+		"buildings": [
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{}
+		],
+		
+		"characters": [
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{}
+		],
+		
+		"ventures": [
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{},
+			{}
+		]
+	},
+	
+	"leaderCards": [
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{}
+	],
+	
+	"excomunicationTiles": [
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{},
+		{}
+	]
+}
+}

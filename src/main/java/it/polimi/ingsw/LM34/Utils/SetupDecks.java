@@ -12,7 +12,7 @@ public final class SetupDecks {
     private static final Integer TOTAL_PERIODS=3;
 
     public static ArrayList<DevelopmentCardInterface> orderCardByPeriod(ArrayList<DevelopmentCardInterface> dci) {
-        ArrayList<DevelopmentCardInterface> temp = new ArrayList<>();
+        ArrayList<DevelopmentCardInterface> temp = new ArrayList();
 
         for (Integer period = 1; period <= TOTAL_PERIODS; period++)
             for (DevelopmentCardInterface d : dci)
