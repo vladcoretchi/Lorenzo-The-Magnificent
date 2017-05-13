@@ -30,8 +30,6 @@ public class Resources implements Serializable {
 
     //TODO: generate more overloading constructor
     public Resources(Integer coins, Integer woods, Integer stones, Integer servants, Integer militaryPoints, Integer faithPoints, Integer victoryPoints) {
-
-
         this.coins= coins;
         this.stones= stones;
         this.woods= woods;
@@ -40,19 +38,20 @@ public class Resources implements Serializable {
         this.faithPoints = faithPoints;
         this.victoryPoints = victoryPoints;
     }
+
     //overloading
     public Resources(Integer coinsRequired, Integer stonesRequired, Integer woodsRequired, Integer servantsRequired) {
         this.coins= coins;
         this.stones= stones;
         this.woods= woods;
         this.servants= servants;
+        this.militaryPoints = 0;
+        this.faithPoints = 0;
+        this.victoryPoints = 0;
     }
 
     //modifyCoins allows both addition and subtraction of quantity
     public void modifyResourceByType(ResourceType resourceType, Integer quantity) throws InvalidResourceTypeException {
-        if (!(resourceType instanceof ResourceType))
-            throw new InvalidResourceTypeException();
-
         switch (resourceType) {
             case WOODS:
                 this.woods += quantity; break;
@@ -78,35 +77,34 @@ public class Resources implements Serializable {
     public Integer getResourceByType(ResourceType resourceType) throws InvalidResourceTypeException {
         switch (resourceType) {
             case WOODS:
-                return this.woods; //break;
+                return this.woods;
             case COINS:
-                return this.coins; //break;
+                return this.coins;
             case STONES:
-                return this.stones; //break;
+                return this.stones;
             case SERVANTS:
-                return this.servants; //break;
+                return this.servants;
 
             case MILITARY_POINTS:
-                return this.militaryPoints; //break;
+                return this.militaryPoints;
             case FAITH_POINTS:
-                return this.faithPoints; //break;
+                return this.faithPoints;
             case VICTORY_POINTS:
-                return this.victoryPoints; //break;
+                return this.victoryPoints;
             default:
                 throw new InvalidResourceTypeException();
         }
     }
 
-        public Resources sumResources (Resources resources) throws InvalidResourceTypeException {
-                this.woods += resources.getResourceByType(ResourceType.WOODS);
-                this.coins += resources.getResourceByType(ResourceType.COINS);
-                this.stones += resources.getResourceByType(ResourceType.STONES);
-                this.servants += resources.getResourceByType(ResourceType.SERVANTS);
-                this.militaryPoints += resources.getResourceByType(ResourceType.MILITARY_POINTS);
-                this.faithPoints += resources.getResourceByType(ResourceType.FAITH_POINTS);
-                this.victoryPoints += resources.getResourceByType(ResourceType.VICTORY_POINTS);
+    public Resources sumResources (Resources resources) throws InvalidResourceTypeException {
+        this.woods += resources.getResourceByType(ResourceType.WOODS);
+        this.coins += resources.getResourceByType(ResourceType.COINS);
+        this.stones += resources.getResourceByType(ResourceType.STONES);
+        this.servants += resources.getResourceByType(ResourceType.SERVANTS);
+        this.militaryPoints += resources.getResourceByType(ResourceType.MILITARY_POINTS);
+        this.faithPoints += resources.getResourceByType(ResourceType.FAITH_POINTS);
+        this.victoryPoints += resources.getResourceByType(ResourceType.VICTORY_POINTS);
 
-
-            return resources;
+        return resources;
     }
 }

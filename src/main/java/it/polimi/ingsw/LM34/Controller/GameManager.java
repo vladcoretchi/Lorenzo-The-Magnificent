@@ -149,9 +149,9 @@ public class GameManager {
                     victoryPointsToPlayers(p, 0);*/
                // else
                     tempPlayerVentureCards = p.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.PURPLE);
+                    totalVictoryPointsByVentureCardReward = 0;
                     for (DevelopmentCardInterface dci : tempPlayerVentureCards) {
                         VentureCard dciVenture = (VentureCard) dci;
-                        totalVictoryPointsByVentureCardReward = 0;
                         totalVictoryPointsByVentureCardReward += dciVenture.getEndingVictoryPointsReward();
                }
                 victoryPointsToPlayers.put(p, totalVictoryPointsByVentureCardReward);

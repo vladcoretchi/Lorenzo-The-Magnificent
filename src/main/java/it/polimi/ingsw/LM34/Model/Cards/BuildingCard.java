@@ -16,16 +16,16 @@ public class BuildingCard extends DevelopmentCardInterface {
     private String buildingName;
     private Integer diceValueToProduct;
     private Resources resourcesRequired; //we do not store single type of resources as Integer but we wrap them in a Resources class
-    private Integer phase;
+    private Integer period;
     //this two variables together represents the instant Bonus
     private InstantBonus instantBonus;
     private Resources resourcesBonus;
 
 
-    public BuildingCard(String buildingName,Integer diceValueToProduct, Integer period, Resources resourcesRequired, InstantBonus instantBonus, PermanentBonus permanentBonus) {
+    public BuildingCard(String buildingName, Integer diceValueToProduct, Integer period, Resources resourcesRequired, InstantBonus instantBonus, PermanentBonus permanentBonus) {
         this.resourcesRequired= resourcesRequired;
         this.buildingName= buildingName;
-        this.phase = phase;
+        this.period = period;
         this.permanentBonus= permanentBonus;
         this.diceValueToProduct= diceValueToProduct;
         this.instantBonus = instantBonus;

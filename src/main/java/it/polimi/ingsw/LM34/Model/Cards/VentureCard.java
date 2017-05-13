@@ -11,7 +11,7 @@ import it.polimi.ingsw.LM34.Model.Resources;
 public class VentureCard extends DevelopmentCardInterface {
     private DevelopmentCardColor color= DevelopmentCardColor.PURPLE;
     private String ventureName;
-    private Integer phase;
+    private Integer period;
     private PermanentBonus permanentBonus;
     private InstantBonus instantBonus;
 
@@ -20,15 +20,13 @@ public class VentureCard extends DevelopmentCardInterface {
     //Only a peculiarity of VentureCards
     private Integer endingVictoryPointsReward;
 
-    //TODO: evaluate to wrap resources and points in a single Bonus object
     Resources resourcesRequired;
     private Integer militaryPointsRequired;
 
-
-    public VentureCard( String ventureName, Integer phase, Resources resourcesRequire,Integer endingVictoryPointsReward, PermanentBonus permanentBonus) {
+    public VentureCard( String ventureName, Integer period, Resources resourcesRequire, Integer endingVictoryPointsReward, PermanentBonus permanentBonus) {
         this.ventureName= ventureName;
         this.resourcesRequired= resourcesRequired;
-        this.phase = phase;
+        this.period = period;
         this.permanentBonus= permanentBonus;
         this.endingVictoryPointsReward = endingVictoryPointsReward;
     }

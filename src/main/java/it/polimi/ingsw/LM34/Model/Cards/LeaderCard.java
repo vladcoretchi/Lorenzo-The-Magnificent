@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
+import it.polimi.ingsw.LM34.Model.Bonus.LeaderBonus;
 import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
 import it.polimi.ingsw.LM34.Model.LeaderRequirements;
 
@@ -9,11 +10,14 @@ import it.polimi.ingsw.LM34.Model.LeaderRequirements;
     public class LeaderCard {
     private String leaderName;
     private LeaderRequirements requirements;
+    private LeaderBonus bonus;
+    private boolean oncePerTurn;
     //private PermanentBonus benefits;
 
-    public LeaderCard(String leaderName,LeaderRequirements requirements) {
+    public LeaderCard(String leaderName, LeaderRequirements requirements, LeaderBonus bonus) {
         this.leaderName= leaderName;
         this.requirements= requirements;
+        this.bonus = bonus;
     }
 
 

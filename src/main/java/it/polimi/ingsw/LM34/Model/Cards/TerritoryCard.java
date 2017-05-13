@@ -21,14 +21,12 @@ public class TerritoryCard extends DevelopmentCardInterface {
 
 
     //territories does not cost anytype of resources or points as said in the game rules
-    public TerritoryCard(String territoryName, Integer diceValueToHarvest, Integer period, TerritoryCardPermanentBonus permaBonus) {
+    public TerritoryCard(String territoryName, Integer diceValueToHarvest, Integer period, TerritoryCardPermanentBonus permanentBonus) {
         this.territoryName = territoryName;
         this.period = period;
         this.diceValueToHarvest = diceValueToHarvest;
-        this.permanentBonus = permaBonus;
+        this.permanentBonus = permanentBonus;
     }
-
-
 
 
     @Override
@@ -40,7 +38,6 @@ public class TerritoryCard extends DevelopmentCardInterface {
     public String getName() {
         return territoryName;
     }
-
 
     @Override
     public PermanentBonus getPermanentBonus() {

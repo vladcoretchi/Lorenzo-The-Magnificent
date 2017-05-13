@@ -21,7 +21,7 @@ public class InstantBonus {
 
     private Integer militaryToVictoryPoints = 2; //generale
     private Integer vitoryPointsPerDevelopmentCard = 2;  //TODO: remove this hardcoded value
-    //governatore, cortigiana, araldo, nobile, generale
+    //governatore, cortigiana, araldo, nobile
 
 
 
@@ -31,7 +31,6 @@ public class InstantBonus {
     }
     /*overloading*/
     public InstantBonus(Resources res, Integer councilPrivilege, Integer harvestActionValue, Integer productionActionValue, DevelopmentCardColor additionalDevCardAcquisition, Resources discount) {
-
         this(res, councilPrivilege);
         this.harvestActionValue = harvestActionValue;
         this.productionActionValue = productionActionValue;
@@ -43,7 +42,7 @@ public class InstantBonus {
     public InstantBonus(Resources res, Integer councilPrivilege, Integer harvestActionValue, Integer productionActionValue) {
         this(res,councilPrivilege);
         this.harvestActionValue = harvestActionValue;
-        this. productionActionValue = productionActionValue;
+        this.productionActionValue = productionActionValue;
     }
 
     public InstantBonus(Integer vitoryPointsPerDevelopmentCard, Integer militaryToVictoryPoints) {
@@ -51,7 +50,15 @@ public class InstantBonus {
         this.vitoryPointsPerDevelopmentCard = vitoryPointsPerDevelopmentCard;
         this.militaryToVictoryPoints = militaryToVictoryPoints;
     }
-    public InstantBonus() {}
+
+    public InstantBonus() {
+        this.resourcesReward = null;
+        this.councilPrivilege = 0;
+        this.harvestActionValue = 0;
+        this.productionActionValue = 0;
+        this.additionalDevCardAcquisition = null;
+        this.discountOnAdditionalDevCardAcquisition = null;
+    }
 
 
     public Integer getCouncilPrivilege() {return councilPrivilege;}

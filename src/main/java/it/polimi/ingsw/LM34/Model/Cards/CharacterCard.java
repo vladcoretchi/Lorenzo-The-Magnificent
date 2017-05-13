@@ -11,16 +11,16 @@ public class CharacterCard extends DevelopmentCardInterface {
     private String characterName;
     private DevelopmentCardColor color= DevelopmentCardColor.BLUE;
     private Integer coinsRequired;
-    private Integer phase;
+    private Integer period;
     private PermanentBonus permanentBonus;
 
     //cortigiana, araldo, nobile, governatore
     private DevelopmentCardColor victoryPointsRewardCardColor;
 
-    public CharacterCard(String characterName,Integer phase, Integer coinsRequired, PermanentBonus permanentBonus)  {
+    public CharacterCard(String characterName, Integer period, Integer coinsRequired, PermanentBonus permanentBonus)  {
         this.coinsRequired= coinsRequired;
         this.characterName= characterName;
-        this.phase= phase;
+        this.period= period;
         this.permanentBonus= permanentBonus;
     }
 
