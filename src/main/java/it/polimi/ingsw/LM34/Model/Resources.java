@@ -3,10 +3,12 @@ package it.polimi.ingsw.LM34.Model;
 import it.polimi.ingsw.LM34.Exception.Model.InvalidResourceTypeException;
 import it.polimi.ingsw.LM34.Model.Enum.ResourceType;
 
+import java.io.Serializable;
+
 /**
  * Created by Giulio Comi on 03/04/2017.
  */
-public class Resources {
+public class Resources implements Serializable {
     private Integer coins;
     private Integer woods;
     private Integer stones;
@@ -93,5 +95,18 @@ public class Resources {
             default:
                 throw new InvalidResourceTypeException();
         }
+    }
+
+        public Resources sumResources (Resources resources) throws InvalidResourceTypeException {
+                this.woods += resources.getResourceByType(ResourceType.WOODS);
+                this.coins += resources.getResourceByType(ResourceType.COINS);
+                this.stones += resources.getResourceByType(ResourceType.STONES);
+                this.servants += resources.getResourceByType(ResourceType.SERVANTS);
+                this.militaryPoints += resources.getResourceByType(ResourceType.MILITARY_POINTS);
+                this.faithPoints += resources.getResourceByType(ResourceType.FAITH_POINTS);
+                this.victoryPoints += resources.getResourceByType(ResourceType.VICTORY_POINTS);
+
+
+            return resources;
     }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
+import it.polimi.ingsw.LM34.Model.Bonus.InstantBonus;
 import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
 import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
@@ -7,22 +8,29 @@ import it.polimi.ingsw.LM34.Model.Resources;
 /**
  * Created by GiulioComi on 04/05/2017.
  */
-public class VentureCard implements DevelopmentCardInterface {
+public class VentureCard extends DevelopmentCardInterface {
     private DevelopmentCardColor color= DevelopmentCardColor.PURPLE;
     private String ventureName;
-    private Integer period;
+    private Integer phase;
     private PermanentBonus permanentBonus;
+    private InstantBonus instantBonus;
+
+    private boolean isThereAlternativeToMilitaryPointsPayment; //carte "sostegno al cardinale e sostegno al papa"
+
+    //Only a peculiarity of VentureCards
+    private Integer endingVictoryPointsReward;
 
     //TODO: evaluate to wrap resources and points in a single Bonus object
     Resources resourcesRequired;
     private Integer militaryPointsRequired;
 
 
-    public VentureCard( String ventureName, Integer period, Resources resourcesRequire, PermanentBonus permanentBonus) {
+    public VentureCard( String ventureName, Integer phase, Resources resourcesRequire,Integer endingVictoryPointsReward, PermanentBonus permanentBonus) {
         this.ventureName= ventureName;
         this.resourcesRequired= resourcesRequired;
-        this.period= period;
+        this.phase = phase;
         this.permanentBonus= permanentBonus;
+        this.endingVictoryPointsReward = endingVictoryPointsReward;
     }
 
 
@@ -31,8 +39,8 @@ public class VentureCard implements DevelopmentCardInterface {
     }
 
     @Override
-    public Integer getPeriod() {
-        return period;
+    public Integer getPhase() {
+        return phase;
     }
 
     @Override
@@ -40,7 +48,10 @@ public class VentureCard implements DevelopmentCardInterface {
         return ventureName;
     }
 
-
+    @Override
+    public InstantBonus getInstantBonus() {
+        return instantBonus;
+    }
 
     @Override
     public PermanentBonus getPermanentBonus() {
@@ -52,8 +63,18 @@ public class VentureCard implements DevelopmentCardInterface {
         return "ventureCard";
     }
 
+
+    //TODO: handle in the controller the payment alternative
+    public boolean isThereAlternativeToMilitaryPointsPayment() {
+        return isThereAlternativeToMilitaryPointsPayment;
+    }
+
     public Integer getMilitaryPointsRequired(Integer militaryPointsRequired) {
         return this.militaryPointsRequired;
     }
 
+
+    public Integer getEndingVictoryPointsReward() {
+        return this.endingVictoryPointsReward;
+    }
 }

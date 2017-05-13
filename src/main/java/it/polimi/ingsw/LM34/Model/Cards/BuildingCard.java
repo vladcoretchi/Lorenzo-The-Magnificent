@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
+import it.polimi.ingsw.LM34.Model.Bonus.InstantBonus;
 import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
 import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
@@ -7,7 +8,7 @@ import it.polimi.ingsw.LM34.Model.Resources;
 /**
  * Created by GiulioComi on 04/05/2017.
  */
-public class BuildingCard implements DevelopmentCardInterface {
+public class BuildingCard extends DevelopmentCardInterface {
     private DevelopmentCardColor color= DevelopmentCardColor.YELLOW;
 
 
@@ -15,20 +16,19 @@ public class BuildingCard implements DevelopmentCardInterface {
     private String buildingName;
     private Integer diceValueToProduct;
     private Resources resourcesRequired; //we do not store single type of resources as Integer but we wrap them in a Resources class
-    private Integer period;
+    private Integer phase;
     //this two variables together represents the instant Bonus
-    private Integer councilPrivilege;
+    private InstantBonus instantBonus;
     private Resources resourcesBonus;
 
 
-    public BuildingCard(String characterName,Integer diceValueToProduct, Integer period, Resources resourcesRequired, Resources resourcesBonus, Integer councilPrivilege, PermanentBonus permanentBonus) {
+    public BuildingCard(String buildingName,Integer diceValueToProduct, Integer period, Resources resourcesRequired, InstantBonus instantBonus, PermanentBonus permanentBonus) {
         this.resourcesRequired= resourcesRequired;
         this.buildingName= buildingName;
-        this.period= period;
+        this.phase = phase;
         this.permanentBonus= permanentBonus;
         this.diceValueToProduct= diceValueToProduct;
-        this.resourcesBonus = resourcesBonus;
-        this.councilPrivilege = councilPrivilege;
+        this.instantBonus = instantBonus;
     }
 
     public Resources getResourcesRequired() {
@@ -36,8 +36,8 @@ public class BuildingCard implements DevelopmentCardInterface {
     }
 
     @Override
-    public Integer getPeriod() {
-        return period;
+    public Integer getPhase() {
+        return phase;
     }
 
     @Override
@@ -50,6 +50,10 @@ public class BuildingCard implements DevelopmentCardInterface {
         return permanentBonus;
     }
 
+    @Override
+    public InstantBonus getInstantBonus() {
+        return instantBonus;
+    }
 
     public Integer getDiceValueToProduct() {
         return diceValueToProduct;

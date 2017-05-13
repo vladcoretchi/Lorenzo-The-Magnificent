@@ -3,10 +3,12 @@ package it.polimi.ingsw.LM34.Model;
 import it.polimi.ingsw.LM34.Model.Enum.DiceColor;
 import it.polimi.ingsw.LM34.Model.Enum.PawnColor;
 
+import java.io.Serializable;
+
 /**
  * Created by Giulio Comi on 02/04/2017.
  */
-public class FamilyMember {
+public class FamilyMember implements Serializable {
     private final PawnColor pawnColor;
     private DiceColor diceColor;
     private boolean neutral; //used to set the Pawn as a neutral one

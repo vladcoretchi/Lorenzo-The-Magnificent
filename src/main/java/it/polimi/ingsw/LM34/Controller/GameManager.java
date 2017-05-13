@@ -1,14 +1,21 @@
-package it.polimi.ingsw.LM34.Model;
+package it.polimi.ingsw.LM34.Controller;
 
 import it.polimi.ingsw.LM34.Exception.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Board.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Cards.*;
+import it.polimi.ingsw.LM34.Model.Dice;
+import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Enum.PawnColor;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
+import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.SetupDecks;
-import it.polimi.ingsw.LM34.Utils.Configurator;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+
+import static junit.framework.Assert.assertEquals;
 
 /**
  * Created by GiulioComi on 05/05/2017.
@@ -121,24 +128,87 @@ public class GameManager {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void rollDices() {
         for (Dice dice : dices) dice.rollDice();
     }
 
+
+    /**
+     *
+     * @return the hashmap with a correlation between players and their points earned by venture cards
+     */
+    public HashMap<Player, Integer> onEndCalculateVictoryPointsPerPlayer() {
+        HashMap<Player, Integer> victoryPointsToPlayers = new HashMap<Player, Integer>();
+        Integer totalVictoryPointsByVentureCardReward = 0;
+        ArrayList<DevelopmentCardInterface> tempPlayerVentureCards = new ArrayList<>();
+        //for each player we calculate the sum of the victory points rewards provided by his venture cards stored in the personal board
+        try {
+            for (Player p : players) {
+                //TODO: check if the player has the excommunication card that disable this step
+                /*if(p.getMalus== noCalculateEndPoints)
+                    victoryPointsToPlayers(p, 0);*/
+               // else
+                    tempPlayerVentureCards = p.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.PURPLE);
+                    for (DevelopmentCardInterface dci : tempPlayerVentureCards) {
+                        VentureCard dciVenture = (VentureCard) dci;
+                        totalVictoryPointsByVentureCardReward = 0;
+                        totalVictoryPointsByVentureCardReward += dciVenture.getEndingVictoryPointsReward();
+               }
+                victoryPointsToPlayers.put(p, totalVictoryPointsByVentureCardReward);
+            }
+        }
+        catch (InvalidCardType ict) { ict.printStackTrace();} //TODO:  adjust this exception handle
+
+        return victoryPointsToPlayers;
+    }
+//a testing main
+public static void main (String []args) {
+    Configurator.loadConfigs();
+    GameManager gm = new GameManager();
+   /* try {
+        gm.testSerialization();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    try {
+        gm.testDeserialization();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }*/
+
+
+
 }
+}
+    /*public void testDeserialization() throws Exception {
+
+        try {
+            FileInputStream fin = new FileInputStream("C:\\Users\\Julius\\Desktop\\ProvaFinale\\test.dat");
+            System.out.println("file opened");
+
+
+
+            ObjectInputStream ins = new ObjectInputStream(fin);
+            Market copy = (Market) ins.readObject();
+            System.out.println(copy.getSize());
+            ins.close();
+            fin.close();
+
+        } catch (Exception e) {//System.out.println(e);
+            }
+    }*/
+
+//TODO: test deeply if each object of the game is really Serializable and compressable in a DTO
+    /*public void testSerialization() throws Exception {
+
+        try {
+            FileOutputStream fout = new FileOutputStream("C:\\Users\\Julius\\Desktop\\ProvaFinale\\test.dat");
+            ObjectOutputStream oos = new ObjectOutputStream(fout);
+            oos.writeObject(market);
+            oos.flush();
+            oos.close();
+            fout.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/

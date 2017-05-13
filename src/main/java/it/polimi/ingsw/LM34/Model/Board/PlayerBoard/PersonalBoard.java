@@ -3,6 +3,8 @@ package it.polimi.ingsw.LM34.Model.Board.PlayerBoard;
 import it.polimi.ingsw.LM34.Exception.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
 import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardInterface;
+import it.polimi.ingsw.LM34.Model.Cards.VentureCard;
+import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 
 import java.util.ArrayList;
 
@@ -15,13 +17,12 @@ public class PersonalBoard {
     private ArrayList<PermanentBonus> productionBonuses;
 
     //cards
-    private ArrayList<DevelopmentCardInterface> territories= new ArrayList<DevelopmentCardInterface>();
-    private ArrayList<DevelopmentCardInterface> characters= new ArrayList<DevelopmentCardInterface>();
-    private ArrayList<DevelopmentCardInterface> ventures= new ArrayList<DevelopmentCardInterface>();
-    private ArrayList<DevelopmentCardInterface> buildings= new ArrayList<DevelopmentCardInterface>();
+    private ArrayList<DevelopmentCardInterface> territories = new ArrayList<DevelopmentCardInterface>();
+    private ArrayList<DevelopmentCardInterface> characters = new ArrayList<DevelopmentCardInterface>();
+    private ArrayList<DevelopmentCardInterface> ventures = new ArrayList<DevelopmentCardInterface>();
+    private ArrayList<DevelopmentCardInterface> buildings = new ArrayList<DevelopmentCardInterface>();
     //bonus tile
     BonusTile personalBonusTile;
-
 
 
     public void addCard(DevelopmentCardInterface card) throws InvalidCardType {
@@ -30,13 +31,33 @@ public class PersonalBoard {
                 territories.add(card);
                 break;
             case "characterCard":
+                characters.add(card);
                 break;
             case "buildingCard":
+                buildings.add(card);
                 break;
             case "ventureCard":
+                ventures.add(card);
                 break;
             default:
                 throw new InvalidCardType("This card is not a DevelopmentCard");
+        }
+    }
+
+
+    public ArrayList<DevelopmentCardInterface> getDevelopmentCardsByType(DevelopmentCardColor color) throws InvalidCardType {
+        switch (color) {
+            case PURPLE:
+                return ventures;
+            case BLUE:
+                return characters;
+            case GREEN:
+                return territories;
+            case YELLOW:
+                return buildings;
+            default:
+                throw new InvalidCardType("This card is not a DevelopmentCard");
+
         }
     }
 }

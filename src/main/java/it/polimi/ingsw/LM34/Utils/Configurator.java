@@ -62,7 +62,8 @@ public final class Configurator {
         Resources resources= new Resources(resourcesArray[0], resourcesArray[1], resourcesArray[2], resourcesArray[3], resourcesArray[4], resourcesArray[5], resourcesArray[6]);
         return new ActionSlot(resources, numberCouncilPrivilege);
     }
-    private static void printMarket() {
+    //TODO: make this private for production! ;D
+    public static void printMarket() {
         Resources res = null;
         for (Integer i = 0; i < market.getSize(); i++) {
             res = market.getActionSlots().get(i).getResourcesReward();

@@ -1,10 +1,8 @@
 package it.polimi.ingsw.LM34.Network;
 
-import it.polimi.ingsw.LM34.Model.GameManager;
-import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Controller.GameManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by GiulioComi on 07/05/2017.

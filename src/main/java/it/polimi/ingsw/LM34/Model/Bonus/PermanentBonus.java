@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Bonus;
 
+import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 /**
@@ -10,7 +11,7 @@ public class PermanentBonus {
     private Resources resources;
     private Integer councilPrivilege;
 
-    private Integer perdevelopmentCardRewardCoins;
+    private Integer perDevelopmentCardRewardCoins;
     private Integer perTerritoryCardRewardVictoryPoints;
     private Integer perBuildingCardRewardVictoryPoints;
     private Integer perCharacterCardReward;
@@ -19,6 +20,9 @@ public class PermanentBonus {
     private Integer toProductionPermanentBonus;
 
     private Integer resourcesPerDevelopmentCard;
-    private Resources resourcesInChange;
-    private boolean mutualExclusion;
+
+
+
+
+
 }
