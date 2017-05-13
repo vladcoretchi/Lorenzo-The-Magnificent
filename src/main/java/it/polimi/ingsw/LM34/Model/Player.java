@@ -5,7 +5,6 @@ import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Enum.DiceColor;
 import it.polimi.ingsw.LM34.Model.Enum.PawnColor;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -18,11 +17,10 @@ public class Player implements Serializable {
     private PersonalBoard personalBoard;
     private ArrayList <LeaderCard> leadercards;
     private PermanentBonus permanentBonus;
+    private Resources resources;
 
     //VARIABLE FOR COMMUNICATION TO CLIENT
     //TODO: evalueate if this network connection is correct
-
-
 
     public Player(PawnColor pawnColor, PersonalBoard personalBoard) {
         this.pawnColor= pawnColor;
@@ -39,8 +37,6 @@ public class Player implements Serializable {
     public PersonalBoard getPersonalBoard() {
         return this.personalBoard;
     }
-
-
 
     public PawnColor getPawnColor() {
         return pawnColor;

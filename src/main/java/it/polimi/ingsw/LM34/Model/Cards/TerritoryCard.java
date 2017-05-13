@@ -30,7 +30,7 @@ public class TerritoryCard extends DevelopmentCardInterface {
 
 
     @Override
-    public Integer getPhase() {
+    public Integer getPeriod() {
         return period;
     }
 
@@ -58,4 +58,5 @@ public class TerritoryCard extends DevelopmentCardInterface {
         return null;
     }
 
+    public DevelopmentCardColor getColor() {return this.color;}
 }

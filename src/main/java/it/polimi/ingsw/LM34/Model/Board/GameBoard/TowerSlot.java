@@ -16,9 +16,8 @@ public class TowerSlot extends ActionSlot {
     private Integer level;
     private Integer coloumn;
 
-
     public TowerSlot(Resources occupyingReward, Integer diceValueRequired, Integer level, Integer coloumn) {
-        super(occupyingReward, diceValueRequired); //store in the actionslot the bonus it provides
+        super(true,diceValueRequired, occupyingReward, 0 ); //store in the actionslot the bonus it provides
         this.diceValueRequired = diceValueRequired;
     }
 
@@ -34,12 +33,8 @@ public class TowerSlot extends ActionSlot {
         return (this.cardStored==null); //card already taken by a player
     }
 
-    public void sweepTowerSlot() {
-        sweep(); //remove the familyMember
-    }
+    public void sweepTowerSlot() { this.cardStored = null; }
 
-
-    //TODO: insertFamilyMember is not coded because TowerSlot inherits it from ActionSlot
 }
 
 

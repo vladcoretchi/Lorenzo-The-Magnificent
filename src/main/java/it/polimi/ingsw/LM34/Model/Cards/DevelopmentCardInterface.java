@@ -17,9 +17,10 @@ public abstract class DevelopmentCardInterface {
     private Resources resourcesRequired;
 
     //remember that all cards only resources except VentureCard type
-    Resources getResourcesRequired() {return this.resourcesRequired;}
-    Integer getPeriod() {return this.period;}
-    String getName() {return this.name;}
-    PermanentBonus getPermanentBonus() {return this.permanentBonus;}
-    InstantBonus getInstantBonus() {return this.instantBonus;}
+    public Resources getResourcesRequired() {return this.resourcesRequired;}
+    public Integer getPeriod() {return this.period;}
+    public String getName() {return this.name;}
+    public PermanentBonus getPermanentBonus() {return this.permanentBonus;}
+    public InstantBonus getInstantBonus() {return this.instantBonus;}
+    public DevelopmentCardColor getColor() {return this.color;}
 }

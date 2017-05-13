@@ -14,8 +14,6 @@ public class CharacterCard extends DevelopmentCardInterface {
     private Integer period;
     private PermanentBonus permanentBonus;
 
-    //cortigiana, araldo, nobile, governatore
-    private DevelopmentCardColor victoryPointsRewardCardColor;
 
     public CharacterCard(String characterName, Integer period, Integer coinsRequired, PermanentBonus permanentBonus)  {
         this.coinsRequired= coinsRequired;
@@ -24,18 +22,14 @@ public class CharacterCard extends DevelopmentCardInterface {
         this.permanentBonus= permanentBonus;
     }
 
-    public CharacterCard(String characterName,Integer phase, Integer coinsRequired, PermanentBonus permanentBonus, DevelopmentCardColor developmentCardColor) {
-        this(characterName, phase, coinsRequired, permanentBonus);
-        this.victoryPointsRewardCardColor = developmentCardColor;
-    }
     @Override
     public Resources getResourcesRequired () {
         return new Resources(this.coinsRequired, 0, 0, 0);
     }
 
     @Override
-    public Integer getPhase() {
-        return this.phase;
+    public Integer getPeriod() {
+        return this.period;
     }
 
     @Override
@@ -43,15 +37,14 @@ public class CharacterCard extends DevelopmentCardInterface {
         return this.characterName;
     }
 
-
     @Override
     public PermanentBonus getPermanentBonus() {
         return this.permanentBonus;
     }
 
-
-    //TODO: evaluate if this is useful
     public String toString() {
         return "characterCard";
     }
+
+    public DevelopmentCardColor getColor() { return this.color; }
 }

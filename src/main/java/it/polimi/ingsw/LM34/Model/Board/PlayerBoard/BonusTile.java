@@ -13,8 +13,8 @@ private PermanentBonus harvestBonus;
 
 //to be initialized before the starting of the game with the bonus values reported in the bonus tiles
     public BonusTile(PermanentBonus pb, PermanentBonus hb) {
-	this.productionBonus= pb;
-	this.harvestBonus= hb;
+	this.productionBonus = pb;
+	this.harvestBonus = hb;
     }
 
     public void setProductionBonus(PermanentBonus b) {

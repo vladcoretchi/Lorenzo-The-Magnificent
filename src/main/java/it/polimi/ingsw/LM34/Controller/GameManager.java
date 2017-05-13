@@ -10,23 +10,20 @@ import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.SetupDecks;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-
-import static junit.framework.Assert.assertEquals;
+import java.util.Map;
 
 /**
  * Created by GiulioComi on 05/05/2017.
  */
 public class GameManager {
     private Integer phase;
-    private Integer round;
+    private Integer period;
     private ArrayList<Dice> dices;
-
-
     private ArrayList<Player> players;
+    private Map<Integer,Integer> faithPath = new HashMap<Integer, Integer>();
 
     //TODO: apply factory patterns to DECKS
     //DECKS cointaining all the 96 development cards of the game, that at the beginning of each period will be partially loaded in the towers
@@ -34,28 +31,24 @@ public class GameManager {
     private ArrayList<DevelopmentCardInterface> characterCardDeck;
     private ArrayList<DevelopmentCardInterface> ventureCardDeck;
     private ArrayList<DevelopmentCardInterface> buildingCardDeck;
-
     private ArrayList<LeaderCard> leaderCardsDeck;
     private ArrayList<ExcommunicationCard> excommunicationCards;
 
-    //GAMEBOARD COMPONENTS
+    /*GAMEBOARD COMPONENTS*/
     private Market market;
     private CouncilPalace councilPalace;
     private ArrayList<Tower> towers;
-    private HarvestArea harvestArea;
-    private ProductionArea productionArea;
-
-
-    //TODO: add and implements all the methods of this game controller
+    private WorkingArea harvestArea;
+    private WorkingArea productionArea;
 
     public void startGame() {
-        //, check all the clients are connected, load configurations from file, setup all the game components with the configuration
+        //check all the clients are connected, load configurations from file, setup all the game components with the configuration
 
         //Load all the configurations from json
         Configurator.loadConfigs();
         market = Configurator.getMarket();
 
-        //TODO: load development cards, leaders, excommunication tiles and others GameBoards&PersonalBoard spaces
+        //TODO: load development cards, leaders, excommunication tiles and others GameBoards & PersonalBoard spaces
         Collections.shuffle(players); //randomly set the initial play order
         shuffleDecksByPeriod();
 
@@ -65,19 +58,17 @@ public class GameManager {
         players.add(player);
     }
 
-
     public void endGame() {
+        //TODO
     }
 
-
+    //method called only at the start of the game
     public void shuffleDecksByPeriod() {
-
         Collections.shuffle(territoryCardDeck);
         Collections.shuffle(characterCardDeck);
         Collections.shuffle(ventureCardDeck);
         Collections.shuffle(buildingCardDeck);
         Collections.shuffle(excommunicationCards);
-
         Collections.shuffle(leaderCardsDeck);
         SetupDecks.orderCardByPeriod(characterCardDeck);
         SetupDecks.orderCardByPeriod(territoryCardDeck);
@@ -101,32 +92,48 @@ public class GameManager {
 
     }
 
+    public void nextPeriod() { //round = mezzo periodo
+        phase++;
+        if (phase % 2 == 0)
+            doCurchReport();
 
-    public void nextRound() { //round = mezzo periodo
-        round++;
-      //  if (turn % 2 == 0) rapportoChiesa();
-       // replaceCards();
+        sweepActionSlots();
+        replaceCards();
         setNewTurnOrder();
         rollDices();
-       // sweepActionSlots(); //ridai pedine indietro
+
         }
 
-
-    public void nextPhase() { //phase= place a family member
+    public void nextPhase() {
         //resetMillisTImer //unico per giocatori
-        if(phase==players.size()) {
-            nextRound();
+        if(phase == players.size()) {
+            nextPhase();
             phase=0;
         }
         else phase++;
     }
 
         public void buyCard(Player player, TowerSlot slot) throws InvalidCardType {
-       // checkEnoughResources();
         player.getPersonalBoard().addCard(slot.getCardStored());
         }
 
+    public void doCurchReport() {
+        //TODO
+    }
 
+    public void replaceCards() {
+        //TODO
+    }
+
+    public void sweepActionSlots() {
+        for (Tower tower : towers)
+            tower.sweep();
+
+        market.sweep();
+        councilPalace.sweep();
+        productionArea.sweep();
+        harvestArea.sweep();
+    }
 
     public void rollDices() {
         for (Dice dice : dices) dice.rollDice();
@@ -140,7 +147,7 @@ public class GameManager {
     public HashMap<Player, Integer> onEndCalculateVictoryPointsPerPlayer() {
         HashMap<Player, Integer> victoryPointsToPlayers = new HashMap<Player, Integer>();
         Integer totalVictoryPointsByVentureCardReward = 0;
-        ArrayList<DevelopmentCardInterface> tempPlayerVentureCards = new ArrayList<>();
+        ArrayList<DevelopmentCardInterface> tempPlayerVentureCards = new ArrayList<DevelopmentCardInterface>();
         //for each player we calculate the sum of the victory points rewards provided by his venture cards stored in the personal board
         try {
             for (Player p : players) {

@@ -24,10 +24,10 @@ public class VentureCard extends DevelopmentCardInterface {
     private Integer militaryPointsRequired;
 
     public VentureCard( String ventureName, Integer period, Resources resourcesRequire, Integer endingVictoryPointsReward, PermanentBonus permanentBonus) {
-        this.ventureName= ventureName;
-        this.resourcesRequired= resourcesRequired;
+        this.ventureName = ventureName;
+        this.resourcesRequired = resourcesRequired;
         this.period = period;
-        this.permanentBonus= permanentBonus;
+        this.permanentBonus = permanentBonus;
         this.endingVictoryPointsReward = endingVictoryPointsReward;
     }
 
@@ -37,8 +37,8 @@ public class VentureCard extends DevelopmentCardInterface {
     }
 
     @Override
-    public Integer getPhase() {
-        return phase;
+    public Integer getPeriod() {
+        return period;
     }
 
     @Override
@@ -75,4 +75,6 @@ public class VentureCard extends DevelopmentCardInterface {
     public Integer getEndingVictoryPointsReward() {
         return this.endingVictoryPointsReward;
     }
+
+    public DevelopmentCardColor getColor() {return this.color;}
 }

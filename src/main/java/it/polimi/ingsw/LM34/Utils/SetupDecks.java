@@ -16,7 +16,7 @@ public final class SetupDecks {
 
         for (Integer period = 1; period <= TOTAL_PERIODS; period++)
             for (DevelopmentCardInterface d : dci)
-                if (d.getPhase() == period)
+                if (d.getPeriod() == period)
                     temp.add(d);
         return temp;
 

@@ -5,12 +5,13 @@ import it.polimi.ingsw.LM34.Exception.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardInterface;
 import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Model.Board.GameBoard.GameSpace;
 
 
 //LET US USE A MATRIX FOR THE TOWER (ROWS (LEVELS)=4, COLOUMNS (TYPE OF CARD STORED)= 4)
 //TODO: HASHMAP?
 //the tower has been designed as a kind of matrix in which are stored card in the slots based on the card type and slot level
-public class Tower  {
+public class Tower extends GameSpace {
 
     //TODO: adjust this in order to know what kind of card are stored in this tower
     //TODO: add a CardColorEnum in towers?
@@ -19,7 +20,6 @@ public class Tower  {
     private Integer level;
     private Integer coloumn;
     public TowerSlot []  slots;
-
 
     public Tower (DevelopmentCardColor cardColor, Integer MAX_LEVELS) {
         this.MAX_LEVELS = MAX_LEVELS;
@@ -54,7 +54,6 @@ public class Tower  {
         }
     }
 
-
     public DevelopmentCardInterface retrieveCard (TowerSlot slot) throws Exception {
         DevelopmentCardInterface temp;
         if (!this.slots[level].isEmpty()) {
@@ -81,7 +80,8 @@ public class Tower  {
 
 
     //called at the end of each turn
-    public void SweepTower() {
+   
+    public void sweep() {
             while(this.hasNextLevel())
                 slots[level].sweepTowerSlot();
 

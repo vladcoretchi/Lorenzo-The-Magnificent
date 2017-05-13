@@ -2,7 +2,6 @@ package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Model.Enum.DiceColor;
 import it.polimi.ingsw.LM34.Model.Enum.PawnColor;
-
 import java.io.Serializable;
 
 /**
@@ -27,7 +26,7 @@ public class FamilyMember implements Serializable {
     //set the pawn as the neutral one
     public FamilyMember (PawnColor pawnColor, boolean neutral) {
         this(pawnColor, null);
-        this.neutral= neutral;
+        this.neutral = neutral;
     }
     //check if this pawn is the neutral one
     public boolean isNeutral() {

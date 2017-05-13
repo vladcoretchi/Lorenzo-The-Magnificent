@@ -5,7 +5,6 @@ import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
 import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardInterface;
 import it.polimi.ingsw.LM34.Model.Cards.VentureCard;
 import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
-
 import java.util.ArrayList;
 
 /**
@@ -13,9 +12,6 @@ import java.util.ArrayList;
  */
 /*this class has the aim to aggregate what resources and cards the player have collected*/
 public class PersonalBoard {
-    private ArrayList<PermanentBonus> harvestBonuses;
-    private ArrayList<PermanentBonus> productionBonuses;
-
     //cards
     private ArrayList<DevelopmentCardInterface> territories = new ArrayList<DevelopmentCardInterface>();
     private ArrayList<DevelopmentCardInterface> characters = new ArrayList<DevelopmentCardInterface>();
@@ -26,17 +22,17 @@ public class PersonalBoard {
 
 
     public void addCard(DevelopmentCardInterface card) throws InvalidCardType {
-        switch (card.getClass().toString()) {
-            case "TerritoryCard":
+        switch (card.getColor()) {
+            case GREEN:
                 territories.add(card);
                 break;
-            case "characterCard":
+            case BLUE:
                 characters.add(card);
                 break;
-            case "buildingCard":
+            case YELLOW:
                 buildings.add(card);
                 break;
-            case "ventureCard":
+            case PURPLE:
                 ventures.add(card);
                 break;
             default:

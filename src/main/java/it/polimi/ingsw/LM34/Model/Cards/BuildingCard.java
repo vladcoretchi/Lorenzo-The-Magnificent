@@ -36,8 +36,8 @@ public class BuildingCard extends DevelopmentCardInterface {
     }
 
     @Override
-    public Integer getPhase() {
-        return phase;
+    public Integer getPeriod() {
+        return period;
     }
 
     @Override
