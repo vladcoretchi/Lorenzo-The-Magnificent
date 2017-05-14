@@ -5,9 +5,9 @@ import it.polimi.ingsw.LM34.Model.Enum.DiceColor;
 /**
  * Created by vladc on 5/13/2017.
  */
-public class FamilyMemberValueBonus implements BonusInterface {
+public class FamilyMemberValueBonus implements EffectInterface {
     /**
-     * if === null then the value is related to the neutral family member
+     * if null then the value is related to the neutral family member
      */
     private DiceColor color;
 

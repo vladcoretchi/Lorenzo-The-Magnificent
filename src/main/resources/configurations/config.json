@@ -89,56 +89,56 @@
 		"towers": [
 			[
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 1,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
 					}
 				},
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 3,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
 					}
 				},
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 5,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
 					}
 				},
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 7,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
@@ -147,56 +147,56 @@
 			],
 			[
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 1,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
 					}
 				},
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 3,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
 					}
 				},
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 5,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
 					}
 				},
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 7,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
@@ -205,56 +205,56 @@
 			],
 			[
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 1,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
 					}
 				},
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 3,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
 					}
 				},
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 5,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
 					}
 				},
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 7,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
@@ -263,56 +263,56 @@
 			],
 			[
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 1,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
 					}
 				},
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 3,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
 					}
 				},
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 5,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
 					}
 				},
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 7,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
@@ -321,56 +321,56 @@
 			],
 			[
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 1,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
 					}
 				},
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 3,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
 					}
 				},
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 5,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
 					}
 				},
 				{
-					"maxFamilyMembers": 1,
+					"singlePawnSlot": true,
 					"diceValue": 7,
+					"councilPrivilege": 0,
 					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
 						"servants": 0,
-						"councilPrivilege": 0,
 						"militaryPoints": 0,
 						"faithPoints": 0,
 						"victoryPoints": 0
@@ -380,14 +380,14 @@
 		],
 		
 		"councilPalace": {
-			"maxFamilyMembers": -1,
+			"singlePawnSlot": false,
 			"diceValue": 1,
+			"councilPrivilege": 0,
 			"resources": {
 				"coins": 1,
 				"woods": 0,
 				"stones": 0,
 				"servants": 0,
-				"councilPrivilege": 1,
 				"militaryPoints": 0,
 				"faithPoints": 0,
 				"victoryPoints": 0
@@ -396,56 +396,56 @@
 		
 		"market": [
 			{
-				"maxFamilyMembers": 1,
+				"singlePawnSlot": true,
 				"diceValue": 1,
+				"councilPrivilege": 0,
 				"resources": {
 					"coins": 0,
 					"woods": 0,
 					"stones": 0,
 					"servants": 0,
-					"councilPrivilege": 0,
 					"militaryPoints": 0,
 					"faithPoints": 0,
 					"victoryPoints": 0
 				}
 			},
 			{
-				"maxFamilyMembers": 1,
+				"singlePawnSlot": true,
 				"diceValue": 1,
+				"councilPrivilege": 0,
 				"resources": {
 					"coins": 0,
 					"woods": 0,
 					"stones": 0,
 					"servants": 0,
-					"councilPrivilege": 0,
 					"militaryPoints": 0,
 					"faithPoints": 0,
 					"victoryPoints": 0
 				}
 			},
 			{
-				"maxFamilyMembers": 1,
+				"singlePawnSlot": true,
 				"diceValue": 1,
+				"councilPrivilege": 0,
 				"resources": {
 					"coins": 0,
 					"woods": 0,
 					"stones": 0,
 					"servants": 0,
-					"councilPrivilege": 0,
 					"militaryPoints": 0,
 					"faithPoints": 0,
 					"victoryPoints": 0
 				}
 			},
 			{
-				"maxFamilyMembers": 1,
+				"singlePawnSlot": true,
 				"diceValue": 1,
+				"councilPrivilege": 0,
 				"resources": {
 					"coins": 0,
 					"woods": 0,
 					"stones": 0,
 					"servants": 0,
-					"councilPrivilege": 0,
 					"militaryPoints": 0,
 					"faithPoints": 0,
 					"victoryPoints": 0
@@ -455,28 +455,28 @@
 		
 		"productionArea": [
 			{
-				"maxFamilyMembers": 1,
+				"singlePawnSlot": true,
 				"diceValue": 1,
+				"councilPrivilege": 0,
 				"resources": {
 					"coins": 0,
 					"woods": 0,
 					"stones": 0,
 					"servants": 0,
-					"councilPrivilege": 0,
 					"militaryPoints": 0,
 					"faithPoints": 0,
 					"victoryPoints": 0
 				}
 			},
 			{
-				"maxFamilyMembers": -1,
+				"singlePawnSlot": false,
 				"diceValue": 4,
+				"councilPrivilege": 0,
 				"resources": {
 					"coins": 0,
 					"woods": 0,
 					"stones": 0,
 					"servants": 0,
-					"councilPrivilege": 0,
 					"militaryPoints": 0,
 					"faithPoints": 0,
 					"victoryPoints": 0
@@ -486,28 +486,28 @@
 		
 		"harvestArea": [
 			{
-				"maxFamilyMembers": 1,
+				"singlePawnSlot": true,
 				"diceValue": 1,
+				"councilPrivilege": 0,
 				"resources": {
 					"coins": 0,
 					"woods": 0,
 					"stones": 0,
 					"servants": 0,
-					"councilPrivilege": 0,
 					"militaryPoints": 0,
 					"faithPoints": 0,
 					"victoryPoints": 0
 				}
 			},
 			{
-				"maxFamilyMembers": -1,
+				"singlePawnSlot": false,
 				"diceValue": 4,
+				"councilPrivilege": 0,
 				"resources": {
 					"coins": 0,
 					"woods": 0,
 					"stones": 0,
 					"servants": 0,
-					"councilPrivilege": 0,
 					"militaryPoints": 0,
 					"faithPoints": 0,
 					"victoryPoints": 0
