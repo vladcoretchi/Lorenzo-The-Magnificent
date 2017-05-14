@@ -8,7 +8,7 @@ import it.polimi.ingsw.LM34.Model.Resources;
 /**
  * Created by GiulioComi on 04/05/2017.
  */
-public class BuildingCard extends DevelopmentCardInterface {
+public class BuildingCard extends AbstractDevelopmentCard {
     private DevelopmentCardColor color= DevelopmentCardColor.YELLOW;
 
 

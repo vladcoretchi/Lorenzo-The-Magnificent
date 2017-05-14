@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Model;
 
+import it.polimi.ingsw.LM34.Exception.Model.InvalidResourceTypeException;
 import it.polimi.ingsw.LM34.Model.Board.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
@@ -40,5 +41,9 @@ public class Player implements Serializable {
 
     public PawnColor getPawnColor() {
         return pawnColor;
+    }
+
+    public void addResources(Resources res) {
+        this.resources.sumResources(res);
     }
 }

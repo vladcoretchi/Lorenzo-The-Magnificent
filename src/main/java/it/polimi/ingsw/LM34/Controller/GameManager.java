@@ -8,6 +8,8 @@ import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Enum.PawnColor;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Network.RemotePlayer;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.SetupDecks;
 import java.util.ArrayList;
@@ -19,18 +21,22 @@ import java.util.Map;
  * Created by GiulioComi on 05/05/2017.
  */
 public class GameManager {
-    private Integer phase;
-    private Integer period;
+
+    private Integer period; //3 in a game
+    private Integer turn; //3*2 in a game
+    private Integer phase; //equal to #players
+
     private ArrayList<Dice> dices;
     private ArrayList<Player> players;
-    private Map<Integer,Integer> faithPath = new HashMap<Integer, Integer>();
+    private Map<Integer, Integer> faithPath = new HashMap<Integer, Integer>();
+    HashMap<Player, Integer> victoryPointsByPlayer = new HashMap<Player, Integer>();
 
     //TODO: apply factory patterns to DECKS
     //DECKS cointaining all the 96 development cards of the game, that at the beginning of each period will be partially loaded in the towers
-    private ArrayList<DevelopmentCardInterface> territoryCardDeck;
-    private ArrayList<DevelopmentCardInterface> characterCardDeck;
-    private ArrayList<DevelopmentCardInterface> ventureCardDeck;
-    private ArrayList<DevelopmentCardInterface> buildingCardDeck;
+    private ArrayList<AbstractDevelopmentCard> territoryCardDeck;
+    private ArrayList<AbstractDevelopmentCard> characterCardDeck;
+    private ArrayList<AbstractDevelopmentCard> ventureCardDeck;
+    private ArrayList<AbstractDevelopmentCard> buildingCardDeck;
     private ArrayList<LeaderCard> leaderCardsDeck;
     private ArrayList<ExcommunicationCard> excommunicationCards;
 
@@ -54,12 +60,15 @@ public class GameManager {
 
     }
 
-    public void addPlayer(Player player) {
+    //TODO: chain together remotePlayer (client) and the player
+    public void addPlayer(RemotePlayer remotePlayer, Player player) {
         players.add(player);
     }
 
     public void endGame() {
         //TODO
+        onEndCalculateVictoryPointsPerPlayer();
+        onEndGameCalculatePointsByDevelopmentCardsOwned(victoryPointsByPlayer);
     }
 
     //method called only at the start of the game
@@ -93,29 +102,26 @@ public class GameManager {
     }
 
     public void nextPeriod() { //round = mezzo periodo
-        phase++;
-        if (phase % 2 == 0)
+        turn++;
+        if (turn % 2 == 0)
             doCurchReport();
+    }
 
+    public void nextTurn() {
+        //resetMillisTImer //unico per giocatori
         sweepActionSlots();
         replaceCards();
         setNewTurnOrder();
         rollDices();
-
-        }
-
-    public void nextPhase() {
-        //resetMillisTImer //unico per giocatori
-        if(phase == players.size()) {
-            nextPhase();
-            phase=0;
-        }
-        else phase++;
+        if (phase == players.size()) {
+            nextPeriod();
+            turn = 0;
+        } else phase++;
     }
 
-        public void buyCard(Player player, TowerSlot slot) throws InvalidCardType {
+    public void buyCard(Player player, TowerSlot slot) throws InvalidCardType {
         player.getPersonalBoard().addCard(slot.getCardStored());
-        }
+    }
 
     public void doCurchReport() {
         //TODO
@@ -139,39 +145,64 @@ public class GameManager {
         for (Dice dice : dices) dice.rollDice();
     }
 
+    /**
+     * provide the players the initial amount of resources
+     */
+    public void setupPlayersResources() {
+        Integer incrementalCoins = 5;
+        for (Player player : players) {
+            player.addResources(new Resources(incrementalCoins, 2, 2, 3));
+            incrementalCoins++;
+        }
+    }
+
+    public HashMap<Player, Integer> onEndGameCalculatePointsByDevelopmentCardsOwned(HashMap<Player, Integer> victoryPointsByPlayer) {
+
+        return victoryPointsByPlayer;
+    }
 
     /**
-     *
      * @return the hashmap with a correlation between players and their points earned by venture cards
      */
     public HashMap<Player, Integer> onEndCalculateVictoryPointsPerPlayer() {
         HashMap<Player, Integer> victoryPointsToPlayers = new HashMap<Player, Integer>();
         Integer totalVictoryPointsByVentureCardReward = 0;
-        ArrayList<DevelopmentCardInterface> tempPlayerVentureCards = new ArrayList<DevelopmentCardInterface>();
+        ArrayList<AbstractDevelopmentCard> tempPlayerVentureCards = new ArrayList<AbstractDevelopmentCard>();
         //for each player we calculate the sum of the victory points rewards provided by his venture cards stored in the personal board
         try {
             for (Player p : players) {
                 //TODO: check if the player has the excommunication card that disable this step
                 /*if(p.getMalus== noCalculateEndPoints)
                     victoryPointsToPlayers(p, 0);*/
-               // else
-                    tempPlayerVentureCards = p.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.PURPLE);
-                    totalVictoryPointsByVentureCardReward = 0;
-                    for (DevelopmentCardInterface dci : tempPlayerVentureCards) {
-                        VentureCard dciVenture = (VentureCard) dci;
-                        totalVictoryPointsByVentureCardReward += dciVenture.getEndingVictoryPointsReward();
-               }
+                // else
+                tempPlayerVentureCards = p.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.PURPLE);
+                totalVictoryPointsByVentureCardReward = 0;
+                for (AbstractDevelopmentCard dci : tempPlayerVentureCards) {
+                    VentureCard dciVenture = (VentureCard) dci;
+                    totalVictoryPointsByVentureCardReward += dciVenture.getEndingVictoryPointsReward();
+                }
                 victoryPointsToPlayers.put(p, totalVictoryPointsByVentureCardReward);
             }
-        }
-        catch (InvalidCardType ict) { ict.printStackTrace();} //TODO:  adjust this exception handle
+        } catch (InvalidCardType ict) {
+            ict.printStackTrace();
+        } //TODO:  adjust this exception handle
 
         return victoryPointsToPlayers;
     }
-//a testing main
-public static void main (String []args) {
-    Configurator.loadConfigs();
-    GameManager gm = new GameManager();
+
+    //a testing porpuse main
+    public static void main(String[] args) {
+        Configurator.loadConfigs();
+        GameManager gm = new GameManager();
+    }
+
+
+
+
+}
+
+
+
    /* try {
         gm.testSerialization();
     } catch (Exception e) {
@@ -185,8 +216,6 @@ public static void main (String []args) {
 
 
 
-}
-}
     /*public void testDeserialization() throws Exception {
 
         try {

@@ -11,6 +11,7 @@ import java.util.Map;
 public class ResourcesExchangeBonus implements BonusInterface {
     private Map<Resources, Resources> resourceExchange;
 
+    //this class has the aim to handle the case of multiple reward for different input resources in BuildingCards
     public ResourcesExchangeBonus(Map<Resources, Resources> resourceExchange) {
         this.resourceExchange = resourceExchange;
     }

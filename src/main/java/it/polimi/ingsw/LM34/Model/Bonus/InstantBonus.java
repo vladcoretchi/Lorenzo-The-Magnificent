@@ -1,6 +1,5 @@
 package it.polimi.ingsw.LM34.Model.Bonus;
 
-import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardInterface;
 import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 

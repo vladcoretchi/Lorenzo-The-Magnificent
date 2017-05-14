@@ -8,7 +8,7 @@ import it.polimi.ingsw.LM34.Model.Resources;
 /**
  * Created by GiulioComi on 04/05/2017.
  */
-public abstract class DevelopmentCardInterface {
+public abstract class AbstractDevelopmentCard {
     private DevelopmentCardColor color;
     private String name;
     private Integer period;

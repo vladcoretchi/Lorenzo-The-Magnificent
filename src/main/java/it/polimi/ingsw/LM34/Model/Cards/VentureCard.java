@@ -8,13 +8,14 @@ import it.polimi.ingsw.LM34.Model.Resources;
 /**
  * Created by GiulioComi on 04/05/2017.
  */
-public class VentureCard extends DevelopmentCardInterface {
+public class VentureCard extends AbstractDevelopmentCard {
     private DevelopmentCardColor color= DevelopmentCardColor.PURPLE;
     private String ventureName;
     private Integer period;
     private PermanentBonus permanentBonus;
     private InstantBonus instantBonus;
 
+    //verified by the controller if this variable is set to true and then two type of payments are allowed
     private boolean isThereAlternativeToMilitaryPointsPayment; //carte "sostegno al cardinale e sostegno al papa"
 
     //Only a peculiarity of VentureCards

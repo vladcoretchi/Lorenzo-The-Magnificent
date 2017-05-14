@@ -10,7 +10,7 @@ import it.polimi.ingsw.LM34.Model.Bonus.TerritoryCardPermanentBonus;
  * Created by GiulioComi on 05/05/2017.
  */
 
-public class TerritoryCard extends DevelopmentCardInterface {
+public class TerritoryCard extends AbstractDevelopmentCard {
     private DevelopmentCardColor color= DevelopmentCardColor.GREEN;
     private String territoryName;
     private Integer period;

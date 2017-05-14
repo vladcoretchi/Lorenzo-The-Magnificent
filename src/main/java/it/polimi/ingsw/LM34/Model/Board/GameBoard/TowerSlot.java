@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Board.GameBoard;
 
-import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardInterface;
+import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Resources;
 
@@ -12,7 +12,7 @@ import it.polimi.ingsw.LM34.Model.Resources;
 public class TowerSlot extends ActionSlot {
     private Integer diceValueRequired;
     private FamilyMember familyMember;
-    private DevelopmentCardInterface cardStored;
+    private AbstractDevelopmentCard cardStored;
     private Integer level;
     private Integer coloumn;
 
@@ -21,11 +21,11 @@ public class TowerSlot extends ActionSlot {
         this.diceValueRequired = diceValueRequired;
     }
 
-    public void setCardStored (DevelopmentCardInterface card) {
+    public void setCardStored (AbstractDevelopmentCard card) {
         this.cardStored = card;
     }
 
-    public DevelopmentCardInterface getCardStored () {
+    public AbstractDevelopmentCard getCardStored () {
         return this.cardStored;
     }
 

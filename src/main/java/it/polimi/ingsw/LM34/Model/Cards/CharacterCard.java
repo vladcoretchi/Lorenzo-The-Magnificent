@@ -7,7 +7,7 @@ import it.polimi.ingsw.LM34.Model.Resources;
 /**
  * Created by GiulioComi on 04/05/2017.
  */
-public class CharacterCard extends DevelopmentCardInterface {
+public class CharacterCard extends AbstractDevelopmentCard {
     private String characterName;
     private DevelopmentCardColor color= DevelopmentCardColor.BLUE;
     private Integer coinsRequired;

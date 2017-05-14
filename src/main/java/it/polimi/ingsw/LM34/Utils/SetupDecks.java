@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Utils;
 
-import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardInterface;
+import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 
 import java.util.ArrayList;
 
@@ -11,11 +11,11 @@ import java.util.ArrayList;
 public final class SetupDecks {
     private static final Integer TOTAL_PERIODS=3;
 
-    public static ArrayList<DevelopmentCardInterface> orderCardByPeriod(ArrayList<DevelopmentCardInterface> dci) {
-        ArrayList<DevelopmentCardInterface> temp = new ArrayList();
+    public static ArrayList<AbstractDevelopmentCard> orderCardByPeriod(ArrayList<AbstractDevelopmentCard> dci) {
+        ArrayList<AbstractDevelopmentCard> temp = new ArrayList();
 
         for (Integer period = 1; period <= TOTAL_PERIODS; period++)
-            for (DevelopmentCardInterface d : dci)
+            for (AbstractDevelopmentCard d : dci)
                 if (d.getPeriod() == period)
                     temp.add(d);
         return temp;

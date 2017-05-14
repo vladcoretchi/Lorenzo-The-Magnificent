@@ -74,7 +74,7 @@ public class Resources implements Serializable {
     }
 
     //this method allows the controller to retrieve just the information about the type of resource it needs in that moment
-    public Integer getResourceByType(ResourceType resourceType) throws InvalidResourceTypeException {
+    public Integer getResourceByType(ResourceType resourceType) {
         switch (resourceType) {
             case WOODS:
                 return this.woods;
@@ -92,11 +92,12 @@ public class Resources implements Serializable {
             case VICTORY_POINTS:
                 return this.victoryPoints;
             default:
-                throw new InvalidResourceTypeException();
+                return 0; //TODO: throw an exception
         }
     }
 
-    public Resources sumResources (Resources resources) throws InvalidResourceTypeException {
+    //this method also handles subtraction as negative number of resources
+    public Resources sumResources (Resources resources) {
         this.woods += resources.getResourceByType(ResourceType.WOODS);
         this.coins += resources.getResourceByType(ResourceType.COINS);
         this.stones += resources.getResourceByType(ResourceType.STONES);

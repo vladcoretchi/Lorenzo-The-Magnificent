@@ -7,7 +7,7 @@ import it.polimi.ingsw.LM34.Model.Enum.DiceColor;
  */
 public class FamilyMemberValueBonus implements BonusInterface {
     /**
-     * if === null then the value is thor the neutral family member
+     * if === null then the value is related to the neutral family member
      */
     private DiceColor color;
 
@@ -26,7 +26,7 @@ public class FamilyMemberValueBonus implements BonusInterface {
         this.relative = relative;
     }
 
-    public DiceColor getPawnColo() {
+    public DiceColor getPawnColor() {
         return this.color;
     }
 
