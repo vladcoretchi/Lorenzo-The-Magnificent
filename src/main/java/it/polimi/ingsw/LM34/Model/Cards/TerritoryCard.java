@@ -1,10 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
-import it.polimi.ingsw.LM34.Model.Bonus.InstantBonus;
-import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
 import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
-import it.polimi.ingsw.LM34.Model.Bonus.TerritoryCardPermanentBonus;
 
 /**
  * Created by GiulioComi on 05/05/2017.

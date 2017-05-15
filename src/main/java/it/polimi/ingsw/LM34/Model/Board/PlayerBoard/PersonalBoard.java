@@ -1,9 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Board.PlayerBoard;
 
 import it.polimi.ingsw.LM34.Exception.Model.InvalidCardType;
-import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
-import it.polimi.ingsw.LM34.Model.Cards.VentureCard;
 import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import java.util.ArrayList;
 

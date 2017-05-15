@@ -25,7 +25,7 @@ public class DevelopmentCardBonus implements EffectInterface {
         this.relative = relative;
     }
 
-    public DevelopmentCardColor(DevelopmentCardColor color, Resources requirementsDiscount) {
+    public DevelopmentCardBonus(DevelopmentCardColor color, Resources requirementsDiscount) {
         this.color = color;
         this.value = null;
         this.requirementsDiscount = requirementsDiscount;

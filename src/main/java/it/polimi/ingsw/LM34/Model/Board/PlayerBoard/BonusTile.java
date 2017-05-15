@@ -1,7 +1,5 @@
 package it.polimi.ingsw.LM34.Model.Board.PlayerBoard;
 
-import it.polimi.ingsw.LM34.Model.Bonus.PermanentBonus;
-
 /**
  * Created by Giulio Comi on 03/05/2017.
  */
