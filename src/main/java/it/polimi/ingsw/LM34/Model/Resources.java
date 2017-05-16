@@ -2,120 +2,71 @@ package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Exception.Model.InvalidResourceTypeException;
 import it.polimi.ingsw.LM34.Model.Enum.ResourceType;
+import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * Created by Giulio Comi on 03/04/2017.
  */
 public class Resources implements Serializable {
-    private Integer coins;
-    private Integer woods;
-    private Integer stones;
-    private Integer servants;
-
-    private Integer militaryPoints;
-    private Integer faithPoints;
-    private Integer victoryPoints;
-
-    //this variable is used to manage a particular case...
-    //better to remove it and think of another way to handle that special case
-    private Integer mutualExclusion;
-
+    private Integer resources[];
 
     //constructor for initializing all values to 0 (this comes handy in some situation)
     public Resources() {
-        this.coins= 0;
-        this.stones= 0;
-        this.woods= 0;
-        this.servants= 0;
-        this.militaryPoints = 0;
-        this.faithPoints = 0;
-        this.victoryPoints = 0;
+        resources = new Integer[ResourceType.values().length];
+        Arrays.fill(resources, 0);
     }
 
-    //TODO: generate more overloading constructor
     public Resources(Integer coins, Integer woods, Integer stones, Integer servants, Integer militaryPoints, Integer faithPoints, Integer victoryPoints) {
-        this.coins= coins;
-        this.stones= stones;
-        this.woods= woods;
-        this.servants= servants;
-        this.militaryPoints = militaryPoints;
-        this.faithPoints = faithPoints;
-        this.victoryPoints = victoryPoints;
+        // array initialization
+        this();
+
+        this.resources[ResourceType.COINS.ordinal()] = coins;
+        this.resources[ResourceType.WOODS.ordinal()] = woods;
+        this.resources[ResourceType.STONES.ordinal()] = stones;
+        this.resources[ResourceType.SERVANTS.ordinal()] = servants;
+        this.resources[ResourceType.MILITARY_POINTS.ordinal()] = militaryPoints;
+        this.resources[ResourceType.FAITH_POINTS.ordinal()] = faithPoints;
+        this.resources[ResourceType.VICTORY_POINTS.ordinal()] = victoryPoints;
     }
 
-    //overloading
-    public Resources(Integer coinsRequired, Integer stonesRequired, Integer woodsRequired, Integer servantsRequired) {
-        this.coins= coinsRequired;
-        this.stones= stonesRequired;
-        this.woods= woodsRequired;
-        this.servants= servantsRequired;
-        this.militaryPoints = 0;
-        this.faithPoints = 0;
-        this.victoryPoints = 0;
+    public Resources(Integer coins, Integer woods, Integer stones, Integer servants) {
+        // array initialization
+        this();
+
+        this.resources[ResourceType.COINS.ordinal()] = coins;
+        this.resources[ResourceType.WOODS.ordinal()] = woods;
+        this.resources[ResourceType.STONES.ordinal()] = stones;
+        this.resources[ResourceType.SERVANTS.ordinal()] = servants;
     }
 
-    //modifyCoins allows both addition and subtraction of quantity
-    public void modifyResourceByType(ResourceType resourceType, Integer quantity) throws InvalidResourceTypeException {
-        switch (resourceType) {
-            case WOODS:
-                this.woods += quantity; break;
-            case COINS:
-                this.coins += quantity; break;
-            case STONES:
-                this.stones += quantity; break;
-            case SERVANTS:
-                this.servants += quantity; break;
+    public Resources(Integer militaryPoints, Integer faithPoints, Integer victoryPoints) {
+        // array initialization
+        this();
 
-            case MILITARY_POINTS:
-                this.militaryPoints += quantity; break;
-            case FAITH_POINTS:
-                this.faithPoints += quantity; break;
-            case VICTORY_POINTS:
-                this.victoryPoints += quantity; break;
-            default:
-                throw new InvalidResourceTypeException();
-        }
+        this.resources[ResourceType.MILITARY_POINTS.ordinal()] = militaryPoints;
+        this.resources[ResourceType.FAITH_POINTS.ordinal()] = faithPoints;
+        this.resources[ResourceType.VICTORY_POINTS.ordinal()] = victoryPoints;
+    }
+
+    public Integer[] getResources() {
+        return this.resources;
     }
 
     //this method allows the controller to retrieve just the information about the type of resource it needs in that moment
     public Integer getResourceByType(ResourceType resourceType) {
-        switch (resourceType) {
-            case WOODS:
-                return this.woods;
-            case COINS:
-                return this.coins;
-            case STONES:
-                return this.stones;
-            case SERVANTS:
-                return this.servants;
-
-            case MILITARY_POINTS:
-                return this.militaryPoints;
-            case FAITH_POINTS:
-                return this.faithPoints;
-            case VICTORY_POINTS:
-                return this.victoryPoints;
-            default:
-                return 0; //TODO: throw an exception
-        }
+        return this.resources[resourceType.ordinal()];
     }
 
-    /**
-     this method also handles subtraction as negative number of resources
-     *@param resources to add/sub
-     *@return resources obtained by sum/sub of input resources
-     */
-    public Resources sumResources (Resources resources) {
-        this.woods += resources.getResourceByType(ResourceType.WOODS);
-        this.coins += resources.getResourceByType(ResourceType.COINS);
-        this.stones += resources.getResourceByType(ResourceType.STONES);
-        this.servants += resources.getResourceByType(ResourceType.SERVANTS);
-        this.militaryPoints += resources.getResourceByType(ResourceType.MILITARY_POINTS);
-        this.faithPoints += resources.getResourceByType(ResourceType.FAITH_POINTS);
-        this.victoryPoints += resources.getResourceByType(ResourceType.VICTORY_POINTS);
+    //allows both addition and subtraction of quantity
+    public void modifyResourceByType(ResourceType resourceType, Integer quantity) {
+        this.resources[resourceType.ordinal()] = quantity;
+    }
 
-        return this;
+    //this method also handles subtraction as negative number of resources
+    public void sumResources (Resources res) {
+        this.resources = Utilities.sumElementByElement(this.resources, res.getResources());
     }
 }

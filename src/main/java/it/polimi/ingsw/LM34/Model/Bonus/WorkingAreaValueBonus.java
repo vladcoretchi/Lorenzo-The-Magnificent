@@ -26,7 +26,7 @@ public class WorkingAreaValueBonus implements EffectInterface {
     }
 
     public Integer getValue() {
-        return this.diceValue
+        return this.diceValue;
     }
 
     public Boolean isRelative() {

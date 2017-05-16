@@ -6,6 +6,7 @@ import it.polimi.ingsw.LM34.Model.Resources;
 /**
  * Created by vladc on 5/13/2017.
  */
+// handles third period excomunication tiles
 public class VictoryPointsPenalty implements EffectInterface {
     private Integer victoryPoints;
     private Resources resources;
