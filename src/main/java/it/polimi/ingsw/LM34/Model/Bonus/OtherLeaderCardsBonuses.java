@@ -14,7 +14,7 @@ public class OtherLeaderCardsBonuses implements EffectInterface {
     private Resources resourcesForChurchSupport;
     private Boolean copyOtherLeaderCardBonus;
 
-    public OtherExcomunicationTilesPenalties(Boolean noMilitaryPointsRequirementForTerritoryCards, Boolean actionSpaceInvasion, Boolean noOccupiedTowerTax) {
+    public OtherLeaderCardsBonuses(Boolean noMilitaryPointsRequirementForTerritoryCards, Boolean actionSpaceInvasion, Boolean noOccupiedTowerTax) {
         this.noMilitaryPointsRequirementForTerritoryCards = noMilitaryPointsRequirementForTerritoryCards;
         this.actionSpaceInvasion = actionSpaceInvasion;
         this.noOccupiedTowerTax = noOccupiedTowerTax;
@@ -22,7 +22,7 @@ public class OtherLeaderCardsBonuses implements EffectInterface {
         this.copyOtherLeaderCardBonus = false;
     }
 
-    public OtherExcomunicationTilesPenalties(Resources resourcesForChurchSupport) {
+    public OtherLeaderCardsBonuses(Resources resourcesForChurchSupport) {
         this.noMilitaryPointsRequirementForTerritoryCards = false;
         this.actionSpaceInvasion = false;
         this.noOccupiedTowerTax = false;
@@ -30,7 +30,7 @@ public class OtherLeaderCardsBonuses implements EffectInterface {
         this.copyOtherLeaderCardBonus = false;
     }
 
-    public OtherExcomunicationTilesPenalties(Boolean copyOtherLeaderCardBonus) {
+    public OtherLeaderCardsBonuses(Boolean copyOtherLeaderCardBonus) {
         this.noMilitaryPointsRequirementForTerritoryCards = false;
         this.actionSpaceInvasion = false;
         this.noOccupiedTowerTax = false;
