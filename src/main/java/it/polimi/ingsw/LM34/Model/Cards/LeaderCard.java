@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
-import it.polimi.ingsw.LM34.Model.Bonus.EffectInterface;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.LeaderRequirements;
 
 /**
@@ -9,11 +9,11 @@ import it.polimi.ingsw.LM34.Model.LeaderRequirements;
     public class LeaderCard {
     private String leaderName;
     private LeaderRequirements requirements;
-    private EffectInterface bonus;
+    private AbstractEffect bonus;
     private boolean oncePerTurn;
     //private PermanentBonus benefits;
 
-    public LeaderCard(String leaderName, LeaderRequirements requirements, EffectInterface bonus) {
+    public LeaderCard(String leaderName, LeaderRequirements requirements, AbstractEffect bonus) {
         this.leaderName= leaderName;
         this.requirements= requirements;
         this.bonus = bonus;

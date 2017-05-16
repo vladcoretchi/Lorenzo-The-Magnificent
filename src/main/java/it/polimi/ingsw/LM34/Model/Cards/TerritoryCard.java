@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
-import it.polimi.ingsw.LM34.Model.Bonus.ResourcesBonus;
-import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.Enums.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 /**

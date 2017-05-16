@@ -1,8 +1,7 @@
 package it.polimi.ingsw.LM34.Model;
 
-import it.polimi.ingsw.LM34.Exception.Model.InvalidResourceTypeException;
-import it.polimi.ingsw.LM34.Model.Enum.ResourceType;
-import it.polimi.ingsw.LM34.Utils.Utilities;
+import it.polimi.ingsw.LM34.Model.Enums.ResourceType;
+import it.polimi.ingsw.LM34.Utils.ArraySum;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -67,6 +66,6 @@ public class Resources implements Serializable {
 
     //this method also handles subtraction as negative number of resources
     public void sumResources (Resources res) {
-        this.resources = Utilities.sumElementByElement(this.resources, res.getResources());
+        this.resources = ArraySum.sumElementByElement(this.resources, res.getResources());
     }
 }

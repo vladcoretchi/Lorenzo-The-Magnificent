@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Model;
 
-import it.polimi.ingsw.LM34.Model.Enum.DiceColor;
-import it.polimi.ingsw.LM34.Model.Enum.PawnColor;
+import it.polimi.ingsw.LM34.Model.Enums.DiceColor;
+import it.polimi.ingsw.LM34.Model.Enums.PawnColor;
 import java.io.Serializable;
 
 /**

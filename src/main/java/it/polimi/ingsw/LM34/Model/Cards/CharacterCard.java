@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
-import it.polimi.ingsw.LM34.Model.Bonus.EffectInterface;
-import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+import it.polimi.ingsw.LM34.Model.Enums.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.List;
@@ -15,11 +15,11 @@ public class CharacterCard extends AbstractDevelopmentCard {
     private String name;
     private Integer coinsRequired;
     private Integer period;
-    public List<EffectInterface> instantBonus;
-    private EffectInterface permanentBonus;
+    public List<AbstractEffect> instantBonus;
+    private AbstractEffect permanentBonus;
 
 
-    public CharacterCard(String name, Integer period, Integer coinsRequired, List<EffectInterface> instantBonus, EffectInterface permanentBonus)  {
+    public CharacterCard(String name, Integer period, Integer coinsRequired, List<AbstractEffect> instantBonus, AbstractEffect permanentBonus)  {
         this.coinsRequired = coinsRequired;
         this.name = name;
         this.period = period;

@@ -1,20 +1,19 @@
 package it.polimi.ingsw.LM34.Controller;
 
-import it.polimi.ingsw.LM34.Controller.GameContext.EndGameContext;
-import it.polimi.ingsw.LM34.Controller.ObserverBonus.ObserverEndGame;
-import it.polimi.ingsw.LM34.Exception.Model.InvalidCardType;
-import it.polimi.ingsw.LM34.Model.Board.GameBoard.*;
-import it.polimi.ingsw.LM34.Model.Bonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Controller.GameContexts.EndGameContext;
+import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Dice;
-import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Model.Enum.PawnColor;
-import it.polimi.ingsw.LM34.Model.Enum.ResourceType;
+import it.polimi.ingsw.LM34.Model.Enums.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Model.Enums.PawnColor;
+import it.polimi.ingsw.LM34.Model.Enums.ResourceType;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.RemotePlayer;
-import it.polimi.ingsw.LM34.Utils.Configurator;
+import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 import it.polimi.ingsw.LM34.Utils.SetupDecks;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -225,12 +224,6 @@ public class GameManager {
 
     }
 
-   public void setupObservers() {
-       endGameContext = new EndGameContext();
-       ObserverEndGame observerEndGame = new ObserverEndGame();
-       endGameContext.addObserver(observerEndGame);
-   }
-
 
     //a testing porpuse main
     public static void main(String[] args) {
@@ -238,8 +231,9 @@ public class GameManager {
 
         GameManager game = new GameManager();
         game.tryCardPolymorphism();
-        /*game.setupObservers();
-        game.tryObserverPattern();*/
+
+       //game.setupObservers();
+        game.tryObserverPattern();
     }
 
 
@@ -250,48 +244,3 @@ public class GameManager {
 
 
 
-   /* try {
-        gm.testSerialization();
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    try {
-        gm.testDeserialization();
-    } catch (Exception e) {
-        e.printStackTrace();
-    }*/
-
-
-
-    /*public void testDeserialization() throws Exception {
-
-        try {
-            FileInputStream fin = new FileInputStream("C:\\Users\\Julius\\Desktop\\ProvaFinale\\test.dat");
-            System.out.println("file opened");
-
-
-
-            ObjectInputStream ins = new ObjectInputStream(fin);
-            Market copy = (Market) ins.readObject();
-            System.out.println(copy.getSize());
-            ins.close();
-            fin.close();
-
-        } catch (Exception e) {//System.out.println(e);
-            }
-    }*/
-
-//TODO: test deeply if each object of the game is really Serializable and compressable in a DTO
-    /*public void testSerialization() throws Exception {
-
-        try {
-            FileOutputStream fout = new FileOutputStream("C:\\Users\\Julius\\Desktop\\ProvaFinale\\test.dat");
-            ObjectOutputStream oos = new ObjectOutputStream(fout);
-            oos.writeObject(market);
-            oos.flush();
-            oos.close();
-            fout.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/

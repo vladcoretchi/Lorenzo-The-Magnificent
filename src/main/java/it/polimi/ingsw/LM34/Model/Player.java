@@ -1,10 +1,10 @@
 package it.polimi.ingsw.LM34.Model;
 
-import it.polimi.ingsw.LM34.Model.Board.PlayerBoard.PersonalBoard;
-import it.polimi.ingsw.LM34.Model.Bonus.EffectInterface;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
-import it.polimi.ingsw.LM34.Model.Enum.DiceColor;
-import it.polimi.ingsw.LM34.Model.Enum.PawnColor;
+import it.polimi.ingsw.LM34.Model.Enums.DiceColor;
+import it.polimi.ingsw.LM34.Model.Enums.PawnColor;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -16,7 +16,7 @@ public class Player implements Serializable {
     private ArrayList<FamilyMember>  familyMembers;
     private PersonalBoard personalBoard;
     private ArrayList <LeaderCard> leadercards;
-    private EffectInterface permanentBonus;
+    private AbstractEffect permanentBonus;
     //TODO: initialize the resources elsewhere
     private Resources resources= new Resources();
 

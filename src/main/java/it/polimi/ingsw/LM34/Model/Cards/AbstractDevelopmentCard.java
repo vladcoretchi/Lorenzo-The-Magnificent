@@ -1,8 +1,8 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
-import it.polimi.ingsw.LM34.Model.Bonus.EffectInterface;
-import it.polimi.ingsw.LM34.Model.Bonus.ResourcesBonus;
-import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.Enums.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 /**
@@ -13,7 +13,7 @@ public abstract class AbstractDevelopmentCard {
     private String name;
     private Integer period;
     private DevelopmentCardColor color;
-    private EffectInterface permanentBonus;
+    private AbstractEffect permanentBonus;
     private ResourcesBonus instantBonus;
     private Resources resourceRequired;
 
@@ -32,7 +32,7 @@ public abstract class AbstractDevelopmentCard {
 
     public DevelopmentCardColor getColor () { return this.color; }
 
-    public EffectInterface getPermanentBonus() { return this.permanentBonus; }
+    public AbstractEffect getPermanentBonus() { return this.permanentBonus; }
 
 }
 

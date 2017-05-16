@@ -1,8 +1,8 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
-import it.polimi.ingsw.LM34.Model.Bonus.EffectInterface;
-import it.polimi.ingsw.LM34.Model.Bonus.ResourcesBonus;
-import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.Enums.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 /**
@@ -12,7 +12,7 @@ public class VentureCard extends AbstractDevelopmentCard {
     private DevelopmentCardColor color= DevelopmentCardColor.PURPLE;
     private String name;
     private Integer period;
-    private EffectInterface permanentBonus;
+    private AbstractEffect permanentBonus;
     private ResourcesBonus instantBonus;
 
     //verified by the controller if this variable is set to true and then two type of payments are allowed
@@ -24,7 +24,7 @@ public class VentureCard extends AbstractDevelopmentCard {
     Resources resourcesRequired;
     private Integer militaryPointsRequired;
 
-    public VentureCard( String ventureName, Integer period, Resources resourcesRequired, ResourcesBonus instantBonus, Integer endingVictoryPointsReward, EffectInterface permanentBonus) {
+    public VentureCard( String ventureName, Integer period, Resources resourcesRequired, ResourcesBonus instantBonus, Integer endingVictoryPointsReward, AbstractEffect permanentBonus) {
         this.name = ventureName;
         this.resourcesRequired = resourcesRequired;
         this.period = period;
@@ -42,7 +42,7 @@ public class VentureCard extends AbstractDevelopmentCard {
     }
 
 
-    public EffectInterface getPermanentBonus() {
+    public AbstractEffect getPermanentBonus() {
         return permanentBonus;
     }
 
