@@ -1,11 +1,15 @@
 package it.polimi.ingsw.LM34.Controller;
 
+import it.polimi.ingsw.LM34.Controller.GameContext.EndGameContext;
+import it.polimi.ingsw.LM34.Controller.ObserverBonus.ObserverEndGame;
 import it.polimi.ingsw.LM34.Exception.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Board.GameBoard.*;
+import it.polimi.ingsw.LM34.Model.Bonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Dice;
 import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Enum.PawnColor;
+import it.polimi.ingsw.LM34.Model.Enum.ResourceType;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
@@ -27,18 +31,20 @@ public class GameManager {
     private Integer phase; //equal to #players
 
     private ArrayList<Dice> dices;
-    private ArrayList<Player> players;
+    private ArrayList<Player> players = new ArrayList<>();
     private Map<Integer, Integer> faithPath = new HashMap<Integer, Integer>();
     HashMap<Player, Integer> victoryPointsByPlayer = new HashMap<Player, Integer>();
 
     //TODO: apply factory patterns to DECKS
     //DECKS cointaining all the 96 development cards of the game, that at the beginning of each period will be partially loaded in the towers
-    private ArrayList<AbstractDevelopmentCard> territoryCardDeck;
-    private ArrayList<AbstractDevelopmentCard> characterCardDeck;
-    private ArrayList<AbstractDevelopmentCard> ventureCardDeck;
-    private ArrayList<AbstractDevelopmentCard> buildingCardDeck;
+    private ArrayList<AbstractDevelopmentCard> territoryCardDeck = new ArrayList<AbstractDevelopmentCard>();
+    private ArrayList<AbstractDevelopmentCard> characterCardDeck = new ArrayList<AbstractDevelopmentCard>();
+    private ArrayList<AbstractDevelopmentCard> ventureCardDeck = new ArrayList<AbstractDevelopmentCard>();
+    private ArrayList<AbstractDevelopmentCard> buildingCardDeck = new ArrayList<AbstractDevelopmentCard>();
     private ArrayList<LeaderCard> leaderCardsDeck;
     private ArrayList<ExcommunicationCard> excommunicationCards;
+
+    private EndGameContext endGameContext;
 
     /*GAMEBOARD COMPONENTS*/
     private Market market;
@@ -73,17 +79,15 @@ public class GameManager {
 
     //method called only at the start of the game
     public void shuffleDecksByPeriod() {
-        Collections.shuffle(territoryCardDeck);
-        Collections.shuffle(characterCardDeck);
-        Collections.shuffle(ventureCardDeck);
-        Collections.shuffle(buildingCardDeck);
-        Collections.shuffle(excommunicationCards);
-        Collections.shuffle(leaderCardsDeck);
-        SetupDecks.orderCardByPeriod(characterCardDeck);
-        SetupDecks.orderCardByPeriod(territoryCardDeck);
-        SetupDecks.orderCardByPeriod(buildingCardDeck);
-        SetupDecks.orderCardByPeriod(territoryCardDeck);
-        SetupDecks.orderCardByPeriod(territoryCardDeck);
+
+        ArrayList<ArrayList<AbstractDevelopmentCard>> developmentDecks = new ArrayList<ArrayList<AbstractDevelopmentCard>>();
+        developmentDecks.add(territoryCardDeck);
+        developmentDecks.add(buildingCardDeck);
+        developmentDecks.add(ventureCardDeck);
+        developmentDecks.add(characterCardDeck);
+
+        SetupDecks.prepareDecks(developmentDecks, leaderCardsDeck, excommunicationCards);
+
     }
 
     public void setNewTurnOrder() {
@@ -151,8 +155,7 @@ public class GameManager {
     public void setupPlayersResources() {
         Integer incrementalCoins = 5;
         for (Player player : players) {
-            player.addResources(new Resources(incrementalCoins, 2, 2, 3));
-            incrementalCoins++;
+            player.addResources(new Resources(incrementalCoins++, 2, 2, 3));
         }
     }
 
@@ -190,16 +193,60 @@ public class GameManager {
         return victoryPointsToPlayers;
     }
 
+    public void tryCardPolymorphism() {
+
+        territoryCardDeck.add(new TerritoryCard("falegnameria", 3, 1, new ResourcesBonus(new Resources(1, 2, 3, 4), 1), new ResourcesBonus(new Resources(2, 3, 4, 5), 2)));
+        AbstractDevelopmentCard t = territoryCardDeck.get(0);
+        System.out.println(t.getColor());
+        System.out.println(t.getPeriod());
+        System.out.println(t.getName());
+        System.out.println(t.getResourcesRequired());
+
+        buildingCardDeck.add(new BuildingCard("giardino",2, 1, (new Resources(1, 2, 3, 4)),new ResourcesBonus(new Resources(2, 3, 4, 5), 3), new ResourcesBonus(new Resources(2, 3, 4, 5), 2)));
+        AbstractDevelopmentCard b = buildingCardDeck.get(0);
+        BuildingCard bb = (BuildingCard) b;
+        System.out.println((bb.getDiceValueToProduct()));
+        System.out.println(b.getColor());
+        System.out.println(b.getPeriod());
+        System.out.println(b.getName());
+        System.out.println(b.getResourcesRequired());
+        System.out.println(b.getInstantBonus());
+
+    }
+
+    public void tryObserverPattern() {
+        Player player = new Player(PawnColor.BLUE, null);
+        players.add(player);
+        setupPlayersResources();
+        Integer preVictoryPoints = player.getResources().getResourceByType(ResourceType.VICTORY_POINTS);
+        System.out.println("victory points " + preVictoryPoints);
+        endGameContext.initContext(player);
+        System.out.println(player.getResources().getResourceByType(ResourceType.VICTORY_POINTS));
+
+    }
+
+   public void setupObservers() {
+       endGameContext = new EndGameContext();
+       ObserverEndGame observerEndGame = new ObserverEndGame();
+       endGameContext.addObserver(observerEndGame);
+   }
+
+
     //a testing porpuse main
     public static void main(String[] args) {
-        Configurator.loadConfigs();
-        GameManager gm = new GameManager();
+     //   Configurator.loadConfigs();
+
+        GameManager game = new GameManager();
+        game.tryCardPolymorphism();
+        /*game.setupObservers();
+        game.tryObserverPattern();*/
     }
 
 
-
-
 }
+
+
+
 
 
 

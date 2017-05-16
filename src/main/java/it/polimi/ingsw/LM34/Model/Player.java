@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Model.Board.PlayerBoard.PersonalBoard;
+import it.polimi.ingsw.LM34.Model.Bonus.EffectInterface;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Enum.DiceColor;
 import it.polimi.ingsw.LM34.Model.Enum.PawnColor;
@@ -15,8 +16,9 @@ public class Player implements Serializable {
     private ArrayList<FamilyMember>  familyMembers;
     private PersonalBoard personalBoard;
     private ArrayList <LeaderCard> leadercards;
-    private PermanentBonus permanentBonus;
-    private Resources resources;
+    private EffectInterface permanentBonus;
+    //TODO: initialize the resources elsewhere
+    private Resources resources= new Resources();
 
     //VARIABLE FOR COMMUNICATION TO CLIENT
     //TODO: evalueate if this network connection is correct
@@ -26,9 +28,11 @@ public class Player implements Serializable {
         this.personalBoard= personalBoard;
 
         familyMembers= new ArrayList<FamilyMember>();
+
         for ( DiceColor diceColor : DiceColor.values())
             familyMembers.add(new FamilyMember(pawnColor, diceColor));
-            familyMembers.add(new FamilyMember(pawnColor, true));
+
+        familyMembers.add(new FamilyMember(pawnColor, true));
     }
 
 
@@ -44,4 +48,7 @@ public class Player implements Serializable {
     public void addResources(Resources res) {
         this.resources.sumResources(res);
     }
+
+    public Resources getResources() { return this.resources; }
+
 }

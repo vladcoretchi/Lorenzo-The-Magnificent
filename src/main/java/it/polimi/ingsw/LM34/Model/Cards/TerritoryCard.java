@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
+import it.polimi.ingsw.LM34.Model.Bonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 
@@ -9,51 +10,52 @@ import it.polimi.ingsw.LM34.Model.Resources;
 
 public class TerritoryCard extends AbstractDevelopmentCard {
     private DevelopmentCardColor color= DevelopmentCardColor.GREEN;
-    private String territoryName;
+    private String name;
     private Integer period;
-    private PermanentBonus permanentBonus;
-    private InstantBonus instantBonus;
+    private ResourcesBonus permanentBonus;
+    private ResourcesBonus  instantBonus;
     private Integer diceValueToHarvest;
     private Resources resourceRequired;
 
 
     //territories does not cost anytype of resources or points as said in the game rules
-    public TerritoryCard(String territoryName, Integer diceValueToHarvest, Integer period, TerritoryCardPermanentBonus permanentBonus) {
-        this.territoryName = territoryName;
+    public TerritoryCard(String territoryName, Integer diceValueToHarvest, Integer period, ResourcesBonus instantBonus, ResourcesBonus  permanentBonus) {
+        this.name = territoryName;
         this.period = period;
         this.diceValueToHarvest = diceValueToHarvest;
         this.permanentBonus = permanentBonus;
+        this.instantBonus = instantBonus;
     }
 
-
-    @Override
-    public Integer getPeriod() {
-        return period;
-    }
 
     @Override
     public String getName() {
-        return territoryName;
+        return name;
     }
 
     @Override
-    public PermanentBonus getPermanentBonus() {
+    public Integer getPeriod() {
+        return this.period;
+    }
+
+    public ResourcesBonus getPermanentBonus() {
         return permanentBonus;
     }
 
     @Override
-    public InstantBonus getInstantBonus() {
+    public ResourcesBonus getInstantBonus() {
         return instantBonus;
     }
 
-    public String toString() {
-        return "territoryCard";
+    /**
+     *
+     * @return a resources with all type of goods set to 0 because territory cards do not have requirements
+     */
+    public Resources getResourcesRequired() {
+        return new Resources();
     }
 
     @Override
-    public Resources getResourcesRequired() {
-        return null;
-    }
+    public DevelopmentCardColor getColor() { return this.color; }
 
-    public DevelopmentCardColor getColor() {return this.color;}
 }

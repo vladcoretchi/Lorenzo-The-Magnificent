@@ -1,5 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
+import it.polimi.ingsw.LM34.Model.Bonus.EffectInterface;
+import it.polimi.ingsw.LM34.Model.Bonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 
@@ -8,10 +10,10 @@ import it.polimi.ingsw.LM34.Model.Resources;
  */
 public class VentureCard extends AbstractDevelopmentCard {
     private DevelopmentCardColor color= DevelopmentCardColor.PURPLE;
-    private String ventureName;
+    private String name;
     private Integer period;
-    private PermanentBonus permanentBonus;
-    private InstantBonus instantBonus;
+    private EffectInterface permanentBonus;
+    private ResourcesBonus instantBonus;
 
     //verified by the controller if this variable is set to true and then two type of payments are allowed
     private boolean isThereAlternativeToMilitaryPointsPayment; //carte "sostegno al cardinale e sostegno al papa"
@@ -22,46 +24,34 @@ public class VentureCard extends AbstractDevelopmentCard {
     Resources resourcesRequired;
     private Integer militaryPointsRequired;
 
-    public VentureCard( String ventureName, Integer period, Resources resourcesRequire, Integer endingVictoryPointsReward, PermanentBonus permanentBonus) {
-        this.ventureName = ventureName;
+    public VentureCard( String ventureName, Integer period, Resources resourcesRequired, ResourcesBonus instantBonus, Integer endingVictoryPointsReward, EffectInterface permanentBonus) {
+        this.name = ventureName;
         this.resourcesRequired = resourcesRequired;
         this.period = period;
         this.permanentBonus = permanentBonus;
+        this.instantBonus = instantBonus;
         this.endingVictoryPointsReward = endingVictoryPointsReward;
     }
 
+    public String getName() {
+        return name;
+    }
 
-    public Resources getResourcesRequired() {
-        return resourcesRequired;
+    public ResourcesBonus getInstantBonus() {
+        return instantBonus;
+    }
+
+
+    public EffectInterface getPermanentBonus() {
+        return permanentBonus;
     }
 
     @Override
     public Integer getPeriod() {
-        return period;
+        return this.period;
     }
 
-    @Override
-    public String getName() {
-        return ventureName;
-    }
-
-    @Override
-    public InstantBonus getInstantBonus() {
-        return instantBonus;
-    }
-
-    @Override
-    public PermanentBonus getPermanentBonus() {
-        return permanentBonus;
-    }
-
-
-    public String toString() {
-        return "ventureCard";
-    }
-
-
-    //TODO: handle in the controller the payment alternative
+    //TODO: handle in the controller the payment alternative?
     public boolean isThereAlternativeToMilitaryPointsPayment() {
         return isThereAlternativeToMilitaryPointsPayment;
     }
@@ -70,10 +60,10 @@ public class VentureCard extends AbstractDevelopmentCard {
         return this.militaryPointsRequired;
     }
 
-
     public Integer getEndingVictoryPointsReward() {
         return this.endingVictoryPointsReward;
     }
 
+    @Override
     public DevelopmentCardColor getColor() {return this.color;}
 }

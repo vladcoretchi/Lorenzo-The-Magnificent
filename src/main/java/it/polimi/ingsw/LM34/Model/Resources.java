@@ -22,11 +22,17 @@ public class Resources implements Serializable {
     //better to remove it and think of another way to handle that special case
     private Integer mutualExclusion;
 
-    //COSTRUTTORE CHIAMATO SIA NELL'INIZIALIZZAZIONE DEL GIOCO PER CIASCUN GIOCATORE, SIA PER RESTITUIRE COSTO RISORSE
-    //IN MODO COMPATTO ;D
 
     //constructor for initializing all values to 0 (this comes handy in some situation)
-    public Resources() {};
+    public Resources() {
+        this.coins= 0;
+        this.stones= 0;
+        this.woods= 0;
+        this.servants= 0;
+        this.militaryPoints = 0;
+        this.faithPoints = 0;
+        this.victoryPoints = 0;
+    }
 
     //TODO: generate more overloading constructor
     public Resources(Integer coins, Integer woods, Integer stones, Integer servants, Integer militaryPoints, Integer faithPoints, Integer victoryPoints) {
@@ -41,10 +47,10 @@ public class Resources implements Serializable {
 
     //overloading
     public Resources(Integer coinsRequired, Integer stonesRequired, Integer woodsRequired, Integer servantsRequired) {
-        this.coins= coins;
-        this.stones= stones;
-        this.woods= woods;
-        this.servants= servants;
+        this.coins= coinsRequired;
+        this.stones= stonesRequired;
+        this.woods= woodsRequired;
+        this.servants= servantsRequired;
         this.militaryPoints = 0;
         this.faithPoints = 0;
         this.victoryPoints = 0;
@@ -96,7 +102,11 @@ public class Resources implements Serializable {
         }
     }
 
-    //this method also handles subtraction as negative number of resources
+    /**
+     this method also handles subtraction as negative number of resources
+     *@param resources to add/sub
+     *@return resources obtained by sum/sub of input resources
+     */
     public Resources sumResources (Resources resources) {
         this.woods += resources.getResourceByType(ResourceType.WOODS);
         this.coins += resources.getResourceByType(ResourceType.COINS);
@@ -106,6 +116,6 @@ public class Resources implements Serializable {
         this.faithPoints += resources.getResourceByType(ResourceType.FAITH_POINTS);
         this.victoryPoints += resources.getResourceByType(ResourceType.VICTORY_POINTS);
 
-        return resources;
+        return this;
     }
 }

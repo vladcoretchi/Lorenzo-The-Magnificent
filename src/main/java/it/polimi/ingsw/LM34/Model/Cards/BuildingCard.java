@@ -1,5 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
+import it.polimi.ingsw.LM34.Model.Bonus.EffectInterface;
+import it.polimi.ingsw.LM34.Model.Bonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Enum.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 
@@ -10,19 +12,19 @@ public class BuildingCard extends AbstractDevelopmentCard {
     private DevelopmentCardColor color= DevelopmentCardColor.YELLOW;
 
 
-    private PermanentBonus permanentBonus;
-    private String buildingName;
+    private EffectInterface permanentBonus;
+    private String name;
     private Integer diceValueToProduct;
     private Resources resourcesRequired; //we do not store single type of resources as Integer but we wrap them in a Resources class
     private Integer period;
     //this two variables together represents the instant Bonus
-    private InstantBonus instantBonus;
+    private ResourcesBonus instantBonus;
     private Resources resourcesBonus;
 
 
-    public BuildingCard(String buildingName, Integer diceValueToProduct, Integer period, Resources resourcesRequired, InstantBonus instantBonus, PermanentBonus permanentBonus) {
+    public BuildingCard(String buildingName, Integer diceValueToProduct, Integer period, Resources resourcesRequired, ResourcesBonus instantBonus, EffectInterface permanentBonus) {
         this.resourcesRequired= resourcesRequired;
-        this.buildingName= buildingName;
+        this.name= buildingName;
         this.period = period;
         this.permanentBonus= permanentBonus;
         this.diceValueToProduct= diceValueToProduct;
@@ -33,23 +35,11 @@ public class BuildingCard extends AbstractDevelopmentCard {
         return resourcesRequired;
     }
 
-    @Override
-    public Integer getPeriod() {
-        return period;
+    public EffectInterface getPermanentBonus() {
+        return this.permanentBonus;
     }
 
-    @Override
-    public String getName() {
-        return buildingName;
-    }
-
-    @Override
-    public PermanentBonus getPermanentBonus() {
-        return permanentBonus;
-    }
-
-    @Override
-    public InstantBonus getInstantBonus() {
+    public ResourcesBonus getInstantBonus() {
         return instantBonus;
     }
 
@@ -57,7 +47,14 @@ public class BuildingCard extends AbstractDevelopmentCard {
         return diceValueToProduct;
     }
 
-    public String toString() {
-        return "buildingCard";
+    @Override
+    public DevelopmentCardColor getColor() { return this.color; }
+
+    public Integer getPeriod() {
+        return this.period;
+    }
+
+    public String getName() {
+        return name;
     }
 }
