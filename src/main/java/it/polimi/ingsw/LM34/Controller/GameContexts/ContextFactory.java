@@ -9,7 +9,7 @@ public final class ContextFactory {
 
 
     //TODO: evaluate if this is really static or cannot be in factory pattern
-    public  static ContextInterface getContext(ContextEnum contextType) {
+    public  static AbstractGameContext getContext(ContextEnum contextType) {
         switch (contextType) {
             case ACTION_SLOT_CONTEXT:
                 return  new ActionSlotContext();

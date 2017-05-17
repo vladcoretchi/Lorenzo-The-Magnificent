@@ -8,7 +8,7 @@ import java.util.Observable;
 /**
  * Created by GiulioComi on 16/05/2017.
  */
-public class CurchReportContext  extends Observable implements ContextInterface {
+public class CurchReportContext  extends AbstractGameContext implements ContextInterface {
 
     public void initContext(Player player) {
         setChanged();

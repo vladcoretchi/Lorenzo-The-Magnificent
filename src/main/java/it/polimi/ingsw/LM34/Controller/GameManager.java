@@ -41,7 +41,7 @@ public class GameManager {
     private ArrayList<LeaderCard> leaderCardsDeck;
     private ArrayList<ExcommunicationCard> excommunicationCards;
 
-    private ArrayList<ContextInterface> contexts;
+    private ArrayList<AbstractGameContext> contexts;
     private ArrayList<Observer> observersBonuses = new ArrayList<Observer>();
     /*GAMEBOARD COMPONENTS*/
     private Market market;
@@ -215,7 +215,9 @@ public class GameManager {
         setupPlayersResources();
         Integer preVictoryPoints = player.getResources().getResourceByType(ResourceType.VICTORY_POINTS);
         System.out.println("victory points " + preVictoryPoints);
-        //endGameContext.initContext(player);
+
+        activateObserverOnTurnChange(player);
+        contexts.get(0).initContext(player);
         System.out.println(player.getResources().getResourceByType(ResourceType.VICTORY_POINTS));
 
     }
@@ -227,26 +229,33 @@ public class GameManager {
     public void activateObserverOnTurnChange(Player player) {
         ArrayList<Observable> o;
 
-        /*for (ContextInterface context : contexts)
+        for (AbstractGameContext context : contexts)
             for(Observer observerOfThisContext : observersBonuses)
-                context.addObserver(observerOfThisContext);*/
-        contexts.get(ContextEnum.ACTION_SLOT_CONTEXT.ordinal());
+                context.addObserver(observerOfThisContext);
+        //contexts.get(ContextEnum.ACTION_SLOT_CONTEXT.ordinal());
 
     }
 
 
     public void setupGameContexts() {
-        for (ContextEnum context : ContextEnum.values())
-            contexts.add(ContextFactory.getContext(context));
+        /*for (ContextEnum context : ContextEnum.values())
+            contexts.add(ContextFactory.getContext(context));*/
+        contexts = new ArrayList<>();
+        contexts.add(ContextFactory.getContext(ContextEnum.END_GAME_CONTEXT));
+
+        ResourcesBonus bonus = new ResourcesBonus(new Resources(0, 0, 5), 0);
+        observersBonuses.add(bonus);
     }
+
+
     //a testing porpuse main
     public static void main(String[] args) {
      //   Configurator.loadConfigs();
 
         GameManager game = new GameManager();
-        game.tryCardPolymorphism();
+        //game.tryCardPolymorphism();
 
-      // game.setupObservers();
+        game.setupGameContexts();
         game.tryObserverPattern();
     }
 

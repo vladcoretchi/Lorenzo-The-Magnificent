@@ -7,7 +7,7 @@ import java.util.Observable;
 /**
  * Created by GiulioComi on 16/05/2017.
  */
-public class ResourceIncomeContext extends Observable  implements ContextInterface {
+public class ResourceIncomeContext extends AbstractGameContext implements ContextInterface {
 
     public void initContext(Player player) {
 
