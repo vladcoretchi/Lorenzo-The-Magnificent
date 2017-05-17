@@ -1,12 +1,16 @@
 package it.polimi.ingsw.LM34.Utils;
 
+import java.util.function.BiFunction;
+
 /**
  * Utilities class
  * Contains generic methods that can be used everywhere
  *
  * @author vladc
  */
-public class ArraySum {
+public final class Utilities {
+
+    private Utilities() {}
 
     /**
      * Sums element by element 2 Integer arrays
@@ -25,4 +29,6 @@ public class ArraySum {
 
         return sum;
     }
+
+    public static BiFunction<Integer, Integer, Integer> sumInteger = (val1, val2) -> val1 + val2;
 }

@@ -10,21 +10,29 @@ import it.polimi.ingsw.LM34.Model.LeaderRequirements;
     private String leaderName;
     private LeaderRequirements requirements;
     private AbstractEffect bonus;
-    private boolean oncePerTurn;
+    private Boolean oncePerTurn;
     //private PermanentBonus benefits;
 
-    public LeaderCard(String leaderName, LeaderRequirements requirements, AbstractEffect bonus) {
+    public LeaderCard(String leaderName, LeaderRequirements requirements, AbstractEffect bonus, Boolean oncePerTurn) {
         this.leaderName= leaderName;
         this.requirements= requirements;
         this.bonus = bonus;
+        this.oncePerTurn = oncePerTurn;
     }
 
+    public String getName() {
+        return this.leaderName;
+    }
 
     public LeaderRequirements getRequirements() {
         return this.requirements;
     }
 
-    public String getName() {
-        return this.leaderName;
+    public AbstractEffect getBonus() {
+        return this.bonus;
+    }
+
+    public Boolean isUsableOncePerTurn() {
+        return this.oncePerTurn;
     }
 }

@@ -1,71 +1,75 @@
 package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Model.Enums.ResourceType;
-import it.polimi.ingsw.LM34.Utils.ArraySum;
-
+import it.polimi.ingsw.LM34.Utils.Utilities;
 import java.io.Serializable;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Giulio Comi on 03/04/2017.
  */
 public class Resources implements Serializable {
-    private Integer resources[];
+    private Map<ResourceType, Integer> resources;
 
     //constructor for initializing all values to 0 (this comes handy in some situation)
     public Resources() {
-        resources = new Integer[ResourceType.values().length];
-        Arrays.fill(resources, 0);
+        resources = new HashMap<>();
     }
 
     public Resources(Integer coins, Integer woods, Integer stones, Integer servants, Integer militaryPoints, Integer faithPoints, Integer victoryPoints) {
-        // array initialization
-        this();
+        resources = new HashMap<>();
 
-        this.resources[ResourceType.COINS.ordinal()] = coins;
-        this.resources[ResourceType.WOODS.ordinal()] = woods;
-        this.resources[ResourceType.STONES.ordinal()] = stones;
-        this.resources[ResourceType.SERVANTS.ordinal()] = servants;
-        this.resources[ResourceType.MILITARY_POINTS.ordinal()] = militaryPoints;
-        this.resources[ResourceType.FAITH_POINTS.ordinal()] = faithPoints;
-        this.resources[ResourceType.VICTORY_POINTS.ordinal()] = victoryPoints;
+        this.resources.put(ResourceType.COINS, coins);
+        this.resources.put(ResourceType.WOODS, woods);
+        this.resources.put(ResourceType.STONES, stones);
+        this.resources.put(ResourceType.SERVANTS, servants);
+        this.resources.put(ResourceType.MILITARY_POINTS, militaryPoints);
+        this.resources.put(ResourceType.FAITH_POINTS, faithPoints);
+        this.resources.put(ResourceType.VICTORY_POINTS, victoryPoints);
     }
 
     public Resources(Integer coins, Integer woods, Integer stones, Integer servants) {
-        // array initialization
-        this();
+        resources = new HashMap<>();
 
-        this.resources[ResourceType.COINS.ordinal()] = coins;
-        this.resources[ResourceType.WOODS.ordinal()] = woods;
-        this.resources[ResourceType.STONES.ordinal()] = stones;
-        this.resources[ResourceType.SERVANTS.ordinal()] = servants;
+        this.resources.put(ResourceType.COINS, coins);
+        this.resources.put(ResourceType.WOODS, woods);
+        this.resources.put(ResourceType.STONES, stones);
+        this.resources.put(ResourceType.SERVANTS, servants);
     }
 
     public Resources(Integer militaryPoints, Integer faithPoints, Integer victoryPoints) {
-        // array initialization
-        this();
+        resources = new HashMap<>();
 
-        this.resources[ResourceType.MILITARY_POINTS.ordinal()] = militaryPoints;
-        this.resources[ResourceType.FAITH_POINTS.ordinal()] = faithPoints;
-        this.resources[ResourceType.VICTORY_POINTS.ordinal()] = victoryPoints;
+        this.resources.put(ResourceType.MILITARY_POINTS, militaryPoints);
+        this.resources.put(ResourceType.FAITH_POINTS, faithPoints);
+        this.resources.put(ResourceType.VICTORY_POINTS, victoryPoints);
     }
 
-    public Integer[] getResources() {
+    public Map<ResourceType, Integer> getResources() {
         return this.resources;
     }
 
     //this method allows the controller to retrieve just the information about the type of resource it needs in that moment
     public Integer getResourceByType(ResourceType resourceType) {
-        return this.resources[resourceType.ordinal()];
+        if (resourceType == null) throw new NullPointerException();
+
+        return this.resources.getOrDefault(resourceType, 0);
     }
 
     //allows both addition and subtraction of quantity
     public void modifyResourceByType(ResourceType resourceType, Integer quantity) {
-        this.resources[resourceType.ordinal()] = quantity;
+        if (resourceType == null || quantity == null) throw new NullPointerException();
+
+        this.resources.merge(resourceType, quantity, Utilities.sumInteger);
+        if (this.resources.get(resourceType) == 0) this.resources.remove(resourceType);
     }
 
     //this method also handles subtraction as negative number of resources
     public void sumResources (Resources res) {
-        this.resources = ArraySum.sumElementByElement(this.resources, res.getResources());
+        if (res == null) throw new NullPointerException();
+
+        for (Map.Entry<ResourceType, Integer> resEntry : res.getResources().entrySet())
+            this.modifyResourceByType(resEntry.getKey(), resEntry.getValue());
     }
 }
