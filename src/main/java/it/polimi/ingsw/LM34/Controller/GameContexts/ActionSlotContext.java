@@ -8,13 +8,15 @@ import java.util.Observable;
  * Created by GiulioComi on 16/05/2017.
  */
 public class ActionSlotContext extends Observable implements ContextInterface {
-    @Override
+
     public void initContext(Player player) {
 
     }
 
-    @Override
     public void endContext() {
 
     }
-}
+
+
+    }
+

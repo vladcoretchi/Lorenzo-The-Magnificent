@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
-import it.polimi.ingsw.LM34.Model.Enums.WorkingAreaType;
+import it.polimi.ingsw.LM34.Enums.WorkingAreaType;
 
 import java.util.Observable;
 import java.util.Observer;

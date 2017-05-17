@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Model;
 
-import it.polimi.ingsw.LM34.Model.Enums.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.DevelopmentCardColor;
 
 import java.util.Map;
 import java.util.Optional;

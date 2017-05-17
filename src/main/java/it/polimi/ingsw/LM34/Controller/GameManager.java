@@ -1,24 +1,23 @@
 package it.polimi.ingsw.LM34.Controller;
 
-import it.polimi.ingsw.LM34.Controller.GameContexts.EndGameContext;
+import it.polimi.ingsw.LM34.Controller.GameContexts.*;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Dice;
-import it.polimi.ingsw.LM34.Model.Enums.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Model.Enums.PawnColor;
-import it.polimi.ingsw.LM34.Model.Enums.ResourceType;
+import it.polimi.ingsw.LM34.Enums.ContextEnum;
+import it.polimi.ingsw.LM34.Enums.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.PawnColor;
+import it.polimi.ingsw.LM34.Enums.ResourceType;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.RemotePlayer;
 import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 import it.polimi.ingsw.LM34.Utils.SetupDecks;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.*;
 
 /**
  * Created by GiulioComi on 05/05/2017.
@@ -28,7 +27,6 @@ public class GameManager {
     private Integer period; //3 in a game
     private Integer turn; //3*2 in a game
     private Integer phase; //equal to #players
-
     private ArrayList<Dice> dices;
     private ArrayList<Player> players = new ArrayList<>();
     private Map<Integer, Integer> faithPath = new HashMap<Integer, Integer>();
@@ -36,15 +34,15 @@ public class GameManager {
 
     //TODO: apply factory patterns to DECKS
     //DECKS cointaining all the 96 development cards of the game, that at the beginning of each period will be partially loaded in the towers
-    private ArrayList<AbstractDevelopmentCard> territoryCardDeck = new ArrayList<AbstractDevelopmentCard>();
-    private ArrayList<AbstractDevelopmentCard> characterCardDeck = new ArrayList<AbstractDevelopmentCard>();
-    private ArrayList<AbstractDevelopmentCard> ventureCardDeck = new ArrayList<AbstractDevelopmentCard>();
-    private ArrayList<AbstractDevelopmentCard> buildingCardDeck = new ArrayList<AbstractDevelopmentCard>();
+    private ArrayList<AbstractDevelopmentCard> territoryCardDeck = new ArrayList<>();
+    private ArrayList<AbstractDevelopmentCard> characterCardDeck = new ArrayList<>();
+    private ArrayList<AbstractDevelopmentCard> ventureCardDeck = new ArrayList<>();
+    private ArrayList<AbstractDevelopmentCard> buildingCardDeck = new ArrayList<>();
     private ArrayList<LeaderCard> leaderCardsDeck;
     private ArrayList<ExcommunicationCard> excommunicationCards;
 
-    private EndGameContext endGameContext;
-
+    private ArrayList<ContextInterface> contexts;
+    private ArrayList<Observer> observersBonuses = new ArrayList<Observer>();
     /*GAMEBOARD COMPONENTS*/
     private Market market;
     private CouncilPalace councilPalace;
@@ -79,14 +77,12 @@ public class GameManager {
     //method called only at the start of the game
     public void shuffleDecksByPeriod() {
 
-        ArrayList<ArrayList<AbstractDevelopmentCard>> developmentDecks = new ArrayList<ArrayList<AbstractDevelopmentCard>>();
-        developmentDecks.add(territoryCardDeck);
-        developmentDecks.add(buildingCardDeck);
-        developmentDecks.add(ventureCardDeck);
-        developmentDecks.add(characterCardDeck);
+            SetupDecks.prepareDevelopmentCard(territoryCardDeck);
+            SetupDecks.prepareDevelopmentCard(buildingCardDeck);
+            SetupDecks.prepareDevelopmentCard(characterCardDeck);
+            SetupDecks.prepareDevelopmentCard(ventureCardDeck);
 
-        SetupDecks.prepareDecks(developmentDecks, leaderCardsDeck, excommunicationCards);
-
+            SetupDecks.prepareOtherDecks(leaderCardsDeck, excommunicationCards);
     }
 
     public void setNewTurnOrder() {
@@ -219,12 +215,30 @@ public class GameManager {
         setupPlayersResources();
         Integer preVictoryPoints = player.getResources().getResourceByType(ResourceType.VICTORY_POINTS);
         System.out.println("victory points " + preVictoryPoints);
-        endGameContext.initContext(player);
+        //endGameContext.initContext(player);
         System.out.println(player.getResources().getResourceByType(ResourceType.VICTORY_POINTS));
 
     }
 
+    /**
+     *
+     * @param player of the new turn
+     */
+    public void activateObserverOnTurnChange(Player player) {
+        ArrayList<Observable> o;
 
+        /*for (ContextInterface context : contexts)
+            for(Observer observerOfThisContext : observersBonuses)
+                context.addObserver(observerOfThisContext);*/
+        contexts.get(ContextEnum.ACTION_SLOT_CONTEXT.ordinal());
+
+    }
+
+
+    public void setupGameContexts() {
+        for (ContextEnum context : ContextEnum.values())
+            contexts.add(ContextFactory.getContext(context));
+    }
     //a testing porpuse main
     public static void main(String[] args) {
      //   Configurator.loadConfigs();
@@ -232,7 +246,7 @@ public class GameManager {
         GameManager game = new GameManager();
         game.tryCardPolymorphism();
 
-       //game.setupObservers();
+      // game.setupObservers();
         game.tryObserverPattern();
     }
 

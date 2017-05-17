@@ -1,4 +1,4 @@
-package it.polimi.ingsw.LM34.Model.Enums;
+package it.polimi.ingsw.LM34.Enums;
 
 /**
  * Created by vladc on 5/13/2017.

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Effects;
 
-import it.polimi.ingsw.LM34.Model.Enums.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.Observable;

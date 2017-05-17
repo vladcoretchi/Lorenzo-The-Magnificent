@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Model;
 
-import it.polimi.ingsw.LM34.Model.Enums.ResourceType;
+import it.polimi.ingsw.LM34.Enums.ResourceType;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 import java.io.Serializable;
 import java.util.HashMap;

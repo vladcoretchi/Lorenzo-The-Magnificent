@@ -2,7 +2,7 @@ package it.polimi.ingsw.LM34.Model.Boards.PlayerBoard;
 
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
-import it.polimi.ingsw.LM34.Model.Enums.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.DevelopmentCardColor;
 import java.util.ArrayList;
 
 /**

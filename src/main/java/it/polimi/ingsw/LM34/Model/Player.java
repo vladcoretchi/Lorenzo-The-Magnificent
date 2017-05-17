@@ -3,8 +3,8 @@ package it.polimi.ingsw.LM34.Model;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
-import it.polimi.ingsw.LM34.Model.Enums.DiceColor;
-import it.polimi.ingsw.LM34.Model.Enums.PawnColor;
+import it.polimi.ingsw.LM34.Enums.DiceColor;
+import it.polimi.ingsw.LM34.Enums.PawnColor;
 import java.io.Serializable;
 import java.util.ArrayList;
 

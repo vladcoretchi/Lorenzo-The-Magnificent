@@ -5,5 +5,6 @@ import java.util.Observable;
 /**
  * Created by GiulioComi on 17/05/2017.
  */
-public interface ContextInterface {
+public class AbstractGameContext extends Observable  {
+
 }

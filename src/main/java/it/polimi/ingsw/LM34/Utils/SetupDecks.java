@@ -16,20 +16,22 @@ public final class SetupDecks {
 
 
 
-    public static void prepareDecks(ArrayList<ArrayList<AbstractDevelopmentCard>> decks, ArrayList<LeaderCard> leaderCards, ArrayList<ExcommunicationCard> excommunicationCards) {
+    public static void prepareOtherDecks(ArrayList<LeaderCard> leaderCards, ArrayList<ExcommunicationCard> excommunicationCards) {
 
-        for (ArrayList<AbstractDevelopmentCard> devCardDeck : decks) {
-            Collections.shuffle(devCardDeck);
-            orderDevelopmentCardByPeriod(devCardDeck);
-        }
-
-       Collections.shuffle(leaderCards);
-       Collections.shuffle(excommunicationCards);
-       orderCardByPeriod(excommunicationCards);
-
-
-
+        Collections.shuffle(leaderCards);
+        Collections.shuffle(excommunicationCards);
+        orderCardByPeriod(excommunicationCards);
     }
+
+
+
+    public static void prepareDevelopmentCard(ArrayList<AbstractDevelopmentCard> deck) {
+        Collections.shuffle(deck);
+        orderDevelopmentCardByPeriod(deck);
+    }
+
+
+
 
     public static void orderDevelopmentCardByPeriod(ArrayList<AbstractDevelopmentCard> dci) {
         ArrayList<AbstractDevelopmentCard> temp = new ArrayList();
