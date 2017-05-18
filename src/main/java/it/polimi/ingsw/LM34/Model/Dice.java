@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Model;
 
-import it.polimi.ingsw.LM34.Enums.DiceColor;
+import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 
 import java.io.Serializable;
 import java.util.Random;

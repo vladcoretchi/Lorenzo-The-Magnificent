@@ -2,12 +2,12 @@ package it.polimi.ingsw.LM34.Controller.GameContexts;
 
 import it.polimi.ingsw.LM34.Model.Player;
 
-import java.util.Observable;
-
 /**
  * Created by GiulioComi on 16/05/2017.
  */
-public class ResourceIncomeContext extends AbstractGameContext implements ContextInterface {
+
+//TODO: this is also the context when a player decides to receive resources for the council privileges
+public class ResourceIncomeContext extends AbstractGameContext {
 
     public void initContext(Player player) {
 

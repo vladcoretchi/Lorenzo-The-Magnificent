@@ -1,8 +1,11 @@
 package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
-import it.polimi.ingsw.LM34.Enums.DiceColor;
+import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
+import it.polimi.ingsw.LM34.Model.Player;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -19,7 +22,7 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
      * if null then the value is related to the neutral family member
      * if MULTICOLOR, the value is applied to all the dices
      */
-    private DiceColor color; //keep track on what dice the effect is applied to
+    private DiceColor diceColor; //keep track on what dice the effect is applied to
 
     private Integer value;
 
@@ -31,13 +34,13 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
     private Boolean relative;
 
     public FamilyMemberValueEffect(DiceColor color, Integer value, Boolean relative) {
-        this.color = color;
+        this.diceColor = color;
         this.value = value;
         this.relative = relative;
     }
 
     public DiceColor getDiceColor() {
-        return this.color;
+        return this.diceColor;
     }
 
     public Integer getValue() {
@@ -50,6 +53,11 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
 
     @Override
     public void update(Observable o, Object arg) {
-
+        Player player = (Player) arg;
+        //increase the values of the family members in this context
+        ArrayList<FamilyMember> familyMembers = player.getFamilyMembers();
+        for(FamilyMember member : familyMembers)
+            if(member.getDiceColorAssociated() == this.diceColor)
+                member.setValue(member.getValue()+this.value);
     }
 }

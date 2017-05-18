@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Model;
 
-import it.polimi.ingsw.LM34.Enums.DiceColor;
-import it.polimi.ingsw.LM34.Enums.PawnColor;
+import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import java.io.Serializable;
 
 /**
@@ -10,7 +10,6 @@ import java.io.Serializable;
 public class FamilyMember implements Serializable {
     private final PawnColor pawnColor;
     private DiceColor diceColor;
-    private boolean neutral; //used to set the Pawn as a neutral one
     private Integer value;
     private boolean isUsed;
 
@@ -19,19 +18,10 @@ public class FamilyMember implements Serializable {
     FamilyMember(PawnColor pawnColor, DiceColor diceColor) {
         this.pawnColor = pawnColor;
         this.diceColor = diceColor;
-        this.neutral = neutral;
         this.isUsed = false;
     }
 
-    //set the pawn as the neutral one
-    public FamilyMember (PawnColor pawnColor, boolean neutral) {
-        this(pawnColor, null);
-        this.neutral = neutral;
-    }
-    //check if this pawn is the neutral one
-    public boolean isNeutral() {
-        return this.neutral;
-    }
+
 
     //used to verify if a action is allowed based on the corresponding dice value
     public Integer getValue() {
@@ -61,4 +51,7 @@ public class FamilyMember implements Serializable {
     public PawnColor getFamilyMemberColor() {
         return this.pawnColor;
     }
+
+
+    public DiceColor getDiceColorAssociated() { return this.diceColor; }
 }

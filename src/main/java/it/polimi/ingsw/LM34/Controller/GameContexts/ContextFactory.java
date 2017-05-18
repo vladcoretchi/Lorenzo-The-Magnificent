@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Controller.GameContexts;
 
-import it.polimi.ingsw.LM34.Enums.ContextEnum;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextEnum;
 
 /**
  * Created by GiulioComi on 17/05/2017.

@@ -1,9 +1,11 @@
 package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
-import it.polimi.ingsw.LM34.Enums.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -55,6 +57,9 @@ public class DevelopmentCardAcquireEffect extends AbstractEffect implements Obse
 
     @Override
     public void update(Observable o, Object arg) {
+        Player player = (Player) arg;
 
     }
+
+    //TODO: reset to the value before this context started
 }

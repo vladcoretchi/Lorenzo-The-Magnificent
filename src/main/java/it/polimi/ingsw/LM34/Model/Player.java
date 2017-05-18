@@ -3,8 +3,8 @@ package it.polimi.ingsw.LM34.Model;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
-import it.polimi.ingsw.LM34.Enums.DiceColor;
-import it.polimi.ingsw.LM34.Enums.PawnColor;
+import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -31,8 +31,6 @@ public class Player implements Serializable {
 
         for ( DiceColor diceColor : DiceColor.values())
             familyMembers.add(new FamilyMember(pawnColor, diceColor));
-
-        familyMembers.add(new FamilyMember(pawnColor, true));
     }
 
 
@@ -50,5 +48,9 @@ public class Player implements Serializable {
     }
 
     public Resources getResources() { return this.resources; }
+
+    public ArrayList<FamilyMember> getFamilyMembers() {
+        return this.familyMembers;
+    }
 
 }

@@ -9,8 +9,13 @@ import java.util.Observer;
  * Created by vladc on 5/14/2017.
  */
 public class ActionSlotPenalty extends AbstractEffect implements Observer {
-    private Integer noResourcesFromTowerLevels[];
+    private Integer noResourcesFromTowerLevels[]; //handles card "predicatore"
 
+
+    /**
+     *
+     * @param noResourcesFromTowerActionSpaces the levels of towers from where the player does not gain a reward
+     */
     public ActionSlotPenalty(Integer noResourcesFromTowerActionSpaces[]) {
         this.noResourcesFromTowerLevels = noResourcesFromTowerActionSpaces;
 
@@ -20,15 +25,11 @@ public class ActionSlotPenalty extends AbstractEffect implements Observer {
         this.noResourcesFromTowerLevels = null;
     }
 
-    public Integer[] getNoResourcesFromTowerLevels() {
+    public Integer[] getBannedRewardTowerLevels() {
         return this.noResourcesFromTowerLevels;
     }
 
 
-
-
-//TODO: implement this
-public void applyEffect() {}
 
     @Override
     public void update(Observable o, Object arg) {

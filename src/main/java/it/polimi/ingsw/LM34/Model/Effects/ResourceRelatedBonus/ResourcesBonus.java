@@ -12,6 +12,9 @@ import java.util.Observer;
 /**
  * Created by vladc on 5/13/2017.
  */
+
+
+//This represents also the excomunication malus on resources
 public class ResourcesBonus extends AbstractEffect implements Observer {
     private Resources resources;
     private Integer councilPrivilege;

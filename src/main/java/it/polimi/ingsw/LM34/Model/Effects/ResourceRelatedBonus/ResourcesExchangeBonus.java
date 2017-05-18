@@ -12,8 +12,11 @@ import java.util.Observer;
  *
  * This class handles the multiple choice that some BuildingCards' permanent bonus offers
  */
-public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
-    private Pair<Resources, Resources> resourceExchange;
+
+//TODO: think of a way to have two alternatives for the special building cards
+public class ResourcesExchangeBonus  {
+    private Pair<Resources, Resources> resourceExchangeFirstOption;
+    private Pair<Resources, Resources> resourceExchangeSecondOption;
 
     public ResourcesExchangeBonus(Pair<Resources, Resources> resourceExchange) {
         this.resourceExchange = resourceExchange;
@@ -23,8 +26,8 @@ public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
         return this.resourceExchange;
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-
+    //TODO:restyle this
+    public boolean hasMoreOptions() {
+        return resourceExchangeSecondOption!=null;
     }
 }

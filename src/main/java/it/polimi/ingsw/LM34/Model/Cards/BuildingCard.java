@@ -2,7 +2,7 @@ package it.polimi.ingsw.LM34.Model.Cards;
 
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
-import it.polimi.ingsw.LM34.Enums.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 /**
@@ -19,10 +19,10 @@ public class BuildingCard extends AbstractDevelopmentCard {
     private Integer period;
     //this two variables together represents the instant Effects
     private ResourcesBonus instantBonus;
-    private Resources resourcesBonus;
 
 
-    public BuildingCard(String buildingName, Integer diceValueToProduct, Integer period, Resources resourcesRequired, ResourcesBonus instantBonus, AbstractEffect permanentBonus) {
+
+    public BuildingCard(String buildingName, Integer diceValueToProduct, Integer period, Resources resourcesRequired, ResourcesBonus instantBonus, AbstractEffect  permanentBonus) {
         this.resourcesRequired= resourcesRequired;
         this.name= buildingName;
         this.period = period;
