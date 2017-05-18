@@ -48,6 +48,5 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
     public void update(Observable o, Object arg) {
         Player player = (Player) arg;
         player.addResources(this.resources);
-        System.out.println("gli observer dell'endgame han finito");
     }
 }

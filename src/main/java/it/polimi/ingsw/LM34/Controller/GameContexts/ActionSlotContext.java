@@ -8,6 +8,8 @@ import it.polimi.ingsw.LM34.Model.Player;
 public class ActionSlotContext extends AbstractGameContext {
 
     //TODO: double the needs of servants to increase family members values
+
+    //TODO: Ludovico Ariosto changes a boolean here so that the player can add his pawn despite of action slot limits
     //handle a particular excommunication card
     public void initContext(Player player) {
 

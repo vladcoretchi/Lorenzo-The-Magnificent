@@ -19,5 +19,6 @@
     <orderEntry type="library" name="Maven: org.json:json:20160212" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.5" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.5" level="project" />
+    <orderEntry type="library" name="org.kie.modules:org-apache-commons-lang3:6.5.0.Final" level="project" />
   </component>
 </module>

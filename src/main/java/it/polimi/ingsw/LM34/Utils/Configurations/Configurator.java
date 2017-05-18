@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
-import it.polimi.ingsw.LM34.Enums.ResourceType;
+import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 import org.json.*;

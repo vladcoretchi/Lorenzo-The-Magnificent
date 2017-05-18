@@ -13,7 +13,7 @@ public class LeaderRequirements {
 
     /**
      * Defines the number of card per type that the user must have to activate the leader card.
-     * If cardRequirements contains a DEFAULT card color,
+     * If cardRequirements contains a MULTICOLOR card color,
      * the user must have n cards of a single type regardless of what type it is
      */
     Optional<Map<DevelopmentCardColor, Integer>> cardRequirements;

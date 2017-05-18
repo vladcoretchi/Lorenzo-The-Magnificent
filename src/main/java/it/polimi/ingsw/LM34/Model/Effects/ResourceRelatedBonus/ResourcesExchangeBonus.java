@@ -14,7 +14,7 @@ import java.util.Observer;
  */
 
 //TODO: think of a way to have two alternatives for the special building cards
-public class ResourcesExchangeBonus  {
+public class ResourcesExchangeBonus extends AbstractEffect  {
     private Pair<Resources, Resources> resourceExchangeFirstOption;
     private Pair<Resources, Resources> resourceExchangeSecondOption;
 

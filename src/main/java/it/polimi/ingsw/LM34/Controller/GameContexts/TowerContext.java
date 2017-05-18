@@ -11,6 +11,7 @@ public class TowerContext  extends AbstractGameContext {
 
     public void initContext(Player player) {
 
+        //TODO: handle Filippo Brunelleschi, Cesare Borgia
     }
 
 

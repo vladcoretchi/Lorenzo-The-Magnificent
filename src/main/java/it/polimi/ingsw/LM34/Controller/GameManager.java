@@ -6,10 +6,10 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Dice;
-import it.polimi.ingsw.LM34.Enums.ContextEnum;
-import it.polimi.ingsw.LM34.Enums.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Enums.PawnColor;
-import it.polimi.ingsw.LM34.Enums.ResourceType;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextEnum;
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
@@ -232,16 +232,15 @@ public class GameManager {
         for (AbstractGameContext context : contexts)
             for(Observer observerOfThisContext : observersBonuses)
                 context.addObserver(observerOfThisContext);
-        //contexts.get(ContextEnum.ACTION_SLOT_CONTEXT.ordinal());
 
     }
 
 
     public void setupGameContexts() {
-        /*for (ContextEnum context : ContextEnum.values())
-            contexts.add(ContextFactory.getContext(context));*/
+
         contexts = new ArrayList<>();
-        contexts.add(ContextFactory.getContext(ContextEnum.END_GAME_CONTEXT));
+        for (ContextEnum context : ContextEnum.values())
+            contexts.add(ContextFactory.getContext(context));
 
         ResourcesBonus bonus = new ResourcesBonus(new Resources(0, 0, 5), 0);
         observersBonuses.add(bonus);

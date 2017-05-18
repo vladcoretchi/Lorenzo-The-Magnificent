@@ -1,4 +1,4 @@
-package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus;
+package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus;
 
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;

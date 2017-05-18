@@ -24,6 +24,8 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
      */
     private DiceColor diceColor; //keep track on what dice the effect is applied to
 
+    //TODO: handle federico da montefeltro
+    
     private Integer value;
 
     /**

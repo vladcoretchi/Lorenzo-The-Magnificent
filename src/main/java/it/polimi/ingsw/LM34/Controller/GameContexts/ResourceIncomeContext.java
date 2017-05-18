@@ -9,6 +9,8 @@ import it.polimi.ingsw.LM34.Model.Player;
 //TODO: this is also the context when a player decides to receive resources for the council privileges
 public class ResourceIncomeContext extends AbstractGameContext {
 
+
+    //TODO: handle Santa Rita here
     public void initContext(Player player) {
 
     }
