@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.ui;
 
-import it.polimi.ingsw.LM34.ui.AbstractUserInterface;
+import it.polimi.ingsw.LM34.UI.GeneralUI;
+import it.polimi.ingsw.LM34.UI.AbstractUserInterface;
 import org.json.*;
 import java.util.Scanner;
 import org.json.simple.JSONObject;

@@ -1,4 +1,4 @@
-package Exceptions;
+package it.polimi.ingsw.LM34.Exceptions.CLI;
 
 public class PlayerException extends Exception {
 

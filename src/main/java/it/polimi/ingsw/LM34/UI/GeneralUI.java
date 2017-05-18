@@ -1,4 +1,4 @@
-package it.polimi.ingsw.LM34.ui;
+package it.polimi.ingsw.LM34.UI;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,8 +1,8 @@
-//package ...;
+package it.polimi.ingsw.LM34.UI;//package ...;
 
 import java.util.HashMap;
 
-public abstract class GenericUi { //scrivere anche una classe che si occuperà di verificare se effettivamente l'input dell'utente è giusto
+public abstract class GenericUI { //scrivere anche una classe che si occuperà di verificare se effettivamente l'input dell'utente è giusto
     protected String menuChoice;
     protected String networkChoiced;
     protected HashMap Player;

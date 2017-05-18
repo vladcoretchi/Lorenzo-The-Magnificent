@@ -1,10 +1,8 @@
-package it.polimi.ingsw.LM34.ui;
+package it.polimi.ingsw.LM34.UI;
 
-public interface UIController {
+import java.util.HashMap;
+import it.polimi.ingsw.LM34.UI.TestCli;
 
-    void login(String nickname);
-    void setNetworkSettings(String networkType, String address, int port);
-    String getCurrentPlayerNickname();
-    Boolean isCurrentPlayer(Turn CurrentTurn);
-    void endTurn();
+public class UIController extends TestCli {
+    HashMap PlayerInfo = login();
 }

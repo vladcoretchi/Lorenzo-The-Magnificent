@@ -1,11 +1,13 @@
+package it.polimi.ingsw.LM34.UI;
+
 import interfacce.CliSplashScreen;
-import interfacce.IOInterface;
 import interfacce.PlayerLoginInfo;
 import interfacce.CliDivider;
+import it.polimi.ingsw.LM34.UI.CLI.IOInterface;
 
 import java.util.HashMap;
 
-public class TestCli extends GenericUi implements CliSplashScreen, IOInterface, PlayerLoginInfo, CliDivider {
+public class TestCli extends GenericUI implements CliSplashScreen, IOInterface, PlayerLoginInfo, CliDivider {
 
     @Override
     public void printSplashScreen() {

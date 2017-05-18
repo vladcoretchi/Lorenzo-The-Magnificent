@@ -1,4 +1,4 @@
-package interfacce;
+package it.polimi.ingsw.LM34.UI.CLI;
 
 import java.io.PrintWriter;
 import java.util.Scanner;

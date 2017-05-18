@@ -1,7 +1,10 @@
-import Exceptions.PlayerException;
-import enumers.TypeOfNetwork;
+package it.polimi.ingsw.LM34.UI;
 
-public class HandleUiError extends TestCli {
+import it.polimi.ingsw.LM34.Enums.CLI.NetworkType;
+import it.polimi.ingsw.LM34.Exceptions.CLI.PlayerException;
+import it.polimi.ingsw.LM34.UI.TestCli;
+
+public class UIErrorHandler extends TestCli {
 
     PlayerException wrongUsernameException = new PlayerException("Errore: ");
     PlayerException wrongNetworkTecnologyException = new PlayerException("Errore: ");
@@ -25,7 +28,7 @@ public class HandleUiError extends TestCli {
         Boolean choicedValidNetworkTechnology;
         String networkChoiced = choiceConnectionType();
 
-        for(TypeOfNetwork tn : TypeOfNetwork.values()) {
+        for(NetworkType tn : NetworkType.values()) {
             System.out.println("tn: " + tn + "\n" + "scelta: " + networkChoiced + "\n");
             if(tn.toString().equalsIgnoreCase(networkChoiced)) {
                 System.out.println("network corretto");
@@ -38,11 +41,11 @@ public class HandleUiError extends TestCli {
 
     public static void main(String[] args) {
 
-        HandleUiError testHandleUiError = new HandleUiError();
+        UIErrorHandler testUIErrorHandler = new UIErrorHandler();
 
         try {
 
-            testHandleUiError.testLogin();
+            testUIErrorHandler.testLogin();
 
         }
         catch(PlayerException wrongUsernameException) {
@@ -50,7 +53,7 @@ public class HandleUiError extends TestCli {
         }
 
         try {
-            testHandleUiError.testChoicedNetworkType();
+            testUIErrorHandler.testChoicedNetworkType();
         }
         catch(PlayerException wrongNetworkTechnologyException) {
             System.out.println(wrongNetworkTechnologyException.getErrorMessage() + "tecnologia per connettersi al network errata, si prega di riprovare ");
