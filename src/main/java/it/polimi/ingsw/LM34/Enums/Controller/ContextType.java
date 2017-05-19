@@ -3,12 +3,14 @@ package it.polimi.ingsw.LM34.Enums.Controller;
 /**
  * Created by GiulioComi on 17/05/2017.
  */
-public enum ContextEnum {
+public enum ContextType {
     ACTION_SLOT_CONTEXT,
     CURCH_REPORT_CONTEXT,
     END_GAME_CONTEXT,
     HARVEST_AREA_CONTEXT,
     PRODUCTION_AREA_CONTEXT,
     RESOURCE_INCOME_CONTEXT,
-    TOWER_CONTEXT
+    TOWER_CONTEXT,
+    DEVELOPMENT_CARD_ACQUIRE_CONTEXT,
+    INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT
 }

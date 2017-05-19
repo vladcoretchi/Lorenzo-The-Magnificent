@@ -7,6 +7,7 @@ import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Observer;
 
 /**
  * Created by Giulio Comi on 03/05/2017.
@@ -19,6 +20,8 @@ public class Player implements Serializable {
     private AbstractEffect permanentBonus;
     //TODO: initialize the resources elsewhere
     private Resources resources= new Resources();
+
+    private ArrayList<Observer> observerBonuses;
 
     //VARIABLE FOR COMMUNICATION TO CLIENT
     //TODO: evalueate if this network connection is correct
@@ -51,6 +54,10 @@ public class Player implements Serializable {
 
     public ArrayList<FamilyMember> getFamilyMembers() {
         return this.familyMembers;
+    }
+
+    public ArrayList<Observer> getObservers() {
+        return this.observerBonuses;
     }
 
 }

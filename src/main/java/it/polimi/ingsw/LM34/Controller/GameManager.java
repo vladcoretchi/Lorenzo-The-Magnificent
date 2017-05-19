@@ -6,7 +6,7 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Dice;
-import it.polimi.ingsw.LM34.Enums.Controller.ContextEnum;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
@@ -28,7 +28,7 @@ public class GameManager {
     private Integer turn; //3*2 in a game
     private Integer phase; //equal to #players
     private ArrayList<Dice> dices;
-    private ArrayList<Player> players = new ArrayList<>();
+    protected ArrayList<Player> players = new ArrayList<>();
     private Map<Integer, Integer> faithPath = new HashMap<Integer, Integer>();
     HashMap<Player, Integer> victoryPointsByPlayer = new HashMap<Player, Integer>();
 
@@ -41,8 +41,10 @@ public class GameManager {
     private ArrayList<LeaderCard> leaderCardsDeck;
     private ArrayList<ExcommunicationCard> excommunicationCards;
 
-    private ArrayList<AbstractGameContext> contexts;
-    private ArrayList<Observer> observersBonuses = new ArrayList<Observer>();
+    /*GAME CONTEXTS*/
+    protected ArrayList<AbstractGameContext> contexts;
+    private AbstractGameContext currentContext;
+
     /*GAMEBOARD COMPONENTS*/
     private Market market;
     private CouncilPalace councilPalace;
@@ -55,12 +57,19 @@ public class GameManager {
 
         //Load all the configurations from json
         Configurator.loadConfigs();
-        market = Configurator.getMarket();
+
 
         //TODO: load development cards, leaders, excommunication tiles and others GameBoards & PersonalBoard spaces
         Collections.shuffle(players); //randomly set the initial play order
         shuffleDecksByPeriod();
 
+    }
+
+
+    public void prepareGameSpaces() {
+        market = Configurator.getMarket();
+       // councilPalace = Configurator.getPalace();
+       // towers = Configurator.getTowers();
     }
 
     //TODO: chain together remotePlayer (client) and the player
@@ -122,8 +131,13 @@ public class GameManager {
         player.getPersonalBoard().addCard(slot.getCardStored());
     }
 
+
     public void doCurchReport() {
-        //TODO
+        //TODO: all players enter the curch context
+    for (Player player : players)
+        for (AbstractGameContext context : contexts)
+            if (context.getType() == ContextType.CURCH_REPORT_CONTEXT)
+                context.initContext(player);
     }
 
     public void replaceCards() {
@@ -188,7 +202,7 @@ public class GameManager {
         return victoryPointsToPlayers;
     }
 
-    public void tryCardPolymorphism() {
+    /*public void tryCardPolymorphism() {
 
         territoryCardDeck.add(new TerritoryCard("falegnameria", 3, 1, new ResourcesBonus(new Resources(1, 2, 3, 4), 1), new ResourcesBonus(new Resources(2, 3, 4, 5), 2)));
         AbstractDevelopmentCard t = territoryCardDeck.get(0);
@@ -220,30 +234,16 @@ public class GameManager {
         contexts.get(0).initContext(player);
         System.out.println(player.getResources().getResourceByType(ResourceType.VICTORY_POINTS));
 
-    }
+    }*/
 
-    /**
-     *
-     * @param player of the new turn
-     */
-    public void activateObserverOnTurnChange(Player player) {
-        ArrayList<Observable> o;
 
-        for (AbstractGameContext context : contexts)
-            for(Observer observerOfThisContext : observersBonuses)
-                context.addObserver(observerOfThisContext);
-
-    }
 
 
     public void setupGameContexts() {
 
         contexts = new ArrayList<>();
-        for (ContextEnum context : ContextEnum.values())
+        for (ContextType context : ContextType.values())
             contexts.add(ContextFactory.getContext(context));
-
-        ResourcesBonus bonus = new ResourcesBonus(new Resources(0, 0, 5), 0);
-        observersBonuses.add(bonus);
     }
 
 
@@ -255,7 +255,7 @@ public class GameManager {
         //game.tryCardPolymorphism();
 
         game.setupGameContexts();
-        game.tryObserverPattern();
+        //game.tryObserverPattern();
     }
 
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Controller.GameContexts;
 
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Player;
 
 import java.util.Observable;
@@ -11,6 +12,8 @@ import java.util.Observer;
 public abstract class AbstractGameContext extends Observable  {
 
     public abstract void initContext(Player player);
+
+    public abstract ContextType getType();
 
     public abstract void endContext();
 }

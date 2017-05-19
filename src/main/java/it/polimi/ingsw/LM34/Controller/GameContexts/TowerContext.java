@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Controller.GameContexts;
 
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Player;
 
 /**
@@ -14,6 +15,11 @@ public class TowerContext  extends AbstractGameContext {
         //TODO: handle Filippo Brunelleschi, Cesare Borgia
     }
 
+
+    @Override
+    public ContextType getType() {
+        return ContextType.TOWER_CONTEXT;
+    }
 
     public void endContext() {
 

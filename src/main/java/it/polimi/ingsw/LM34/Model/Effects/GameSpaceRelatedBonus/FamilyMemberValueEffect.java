@@ -16,6 +16,8 @@ import java.util.Observer;
  * excomunication tiles, all of which are related to the context where a player places a family member in a game space so that
  * the dice values associated to his pawns has to be incremented or decreased by the effects of the cards mentioned above
  */
+
+//TODO: merge this type of bonuses in a single observer instance
 public class FamilyMemberValueEffect extends AbstractEffect implements Observer {
 
     /**
@@ -25,7 +27,7 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
     private DiceColor diceColor; //keep track on what dice the effect is applied to
 
     //TODO: handle federico da montefeltro
-    
+
     private Integer value;
 
     /**
@@ -36,6 +38,7 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
     private Boolean relative;
 
     public FamilyMemberValueEffect(DiceColor color, Integer value, Boolean relative) {
+
         this.diceColor = color;
         this.value = value;
         this.relative = relative;
@@ -55,6 +58,7 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
 
     @Override
     public void update(Observable o, Object arg) {
+
         Player player = (Player) arg;
         //increase the values of the family members in this context
         ArrayList<FamilyMember> familyMembers = player.getFamilyMembers();

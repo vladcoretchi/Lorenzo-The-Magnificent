@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus;
 
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -12,9 +13,9 @@ import java.util.Observer;
 /**
  * Created by vladc on 5/13/2017.
  */
-//TODO: rename this class or merge it in a new one called TowerBonus
-public class DevelopmentCardAcquireEffect extends AbstractEffect implements Observer {
-    private DevelopmentCardColor color;
+
+public class DevelopmentCardAcquireBonus extends AbstractEffect implements Observer {
+    private DevelopmentCardColor color;  //TODO: initial attempt to handle more bonuses of this type in one instance only
     private Integer value;
     private Resources requirementsDiscount;
 
@@ -25,16 +26,16 @@ public class DevelopmentCardAcquireEffect extends AbstractEffect implements Obse
      */
     private Boolean relative;
 
-    public DevelopmentCardAcquireEffect(DevelopmentCardColor color, Integer value, Boolean relative) {
+    public DevelopmentCardAcquireBonus(DevelopmentCardColor color, Integer value, Boolean relative) {
         this.color = color;
         this.value = value;
         this.requirementsDiscount = null;
         this.relative = relative;
     }
 
-    public DevelopmentCardAcquireEffect(DevelopmentCardColor color, Resources requirementsDiscount) {
+    public DevelopmentCardAcquireBonus(DevelopmentCardColor color, Integer value, Resources requirementsDiscount) {
         this.color = color;
-        this.value = null;
+        this.value = value;
         this.requirementsDiscount = requirementsDiscount;
         this.relative = false;
     }
@@ -62,4 +63,15 @@ public class DevelopmentCardAcquireEffect extends AbstractEffect implements Obse
     }
 
     //TODO: reset to the value before this context started
+
+
+    public DevelopmentCardAcquireBonus mergeInOneObserverInstance(DevelopmentCardAcquireBonus dcae) {
+
+        //TODO: implement this method
+        return null;
+    }
+
+    public ContextType getObservableType() {
+        return ContextType.DEVELOPMENT_CARD_ACQUIRE_CONTEXT;
+    }
 }
