@@ -1,8 +1,13 @@
 package it.polimi.ingsw.LM34.Model.Effects;
 
+import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Utils.Utilities;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -14,35 +19,23 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
     private Integer victoryPoints;
     private Resources resources;
     private Integer playerGoods;
-    private Integer buildingCardsWoods;
-    private Integer buildingCardsStones;
     private DevelopmentCardColor cardColor;
+    Resources buildingCardsResources;
 
-    public VictoryPointsPenalty(Integer victoryPoints, Resources resources) {
-        this.victoryPoints = victoryPoints;
-        this.resources = resources;
-        this.playerGoods = 0;
-        this.buildingCardsWoods = 0;
-        this.buildingCardsStones = 0;
-        this.cardColor = null;
-
-    }
 
     public VictoryPointsPenalty(Integer victoryPoints, Integer playerGoods) {
         this.victoryPoints = victoryPoints;
         this.resources = null;
         this.playerGoods = playerGoods;
-        this.buildingCardsWoods = 0;
-        this.buildingCardsStones = 0;
+        this.buildingCardsResources = null;
         this.cardColor = null;
     }
 
-    public VictoryPointsPenalty(Integer victoryPoints, Integer buildingCardsWoods, Integer buildingCardsStones) {
+    public VictoryPointsPenalty(Integer victoryPoints, Resources resources, Resources buildingCardsResources) {
         this.victoryPoints = victoryPoints;
-        this.resources = null;
+        this.resources = resources;
         this.playerGoods = 0;
-        this.buildingCardsWoods = buildingCardsWoods;
-        this.buildingCardsStones = buildingCardsStones;
+        this.buildingCardsResources = buildingCardsResources;
         this.cardColor = null;
     }
 
@@ -50,8 +43,7 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
         this.victoryPoints = null;
         this.resources = null;
         this.playerGoods = 0;
-        this.buildingCardsWoods = 0;
-        this.buildingCardsStones = 0;
+        this.buildingCardsResources = null;
         this.cardColor = cardColor;
     }
 
@@ -67,12 +59,8 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
         return this.playerGoods;
     }
 
-    public Integer getBuildingCardsWoods() {
-        return this.buildingCardsWoods;
-    }
-
-    public Integer getBuildingCardsStones() {
-        return this.buildingCardsStones;
+    public Resources getBuildingCardsWoods() {
+        return this.buildingCardsResources;
     }
 
     public DevelopmentCardColor getCardColor() {
@@ -82,5 +70,9 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
+    }
+
+    public void registerObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
+        Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT).addObserver(this);
     }
 }

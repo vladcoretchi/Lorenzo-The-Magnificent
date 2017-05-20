@@ -1,13 +1,14 @@
 package it.polimi.ingsw.LM34.Model;
 
-import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
-import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
-import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+import it.polimi.ingsw.LM34.Model.Effects.ObserverEffect;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Observer;
 
 /**
  * Created by Giulio Comi on 03/05/2017.
@@ -21,7 +22,7 @@ public class Player implements Serializable {
     //TODO: initialize the resources elsewhere
     private Resources resources= new Resources();
 
-    private ArrayList<Observer> observerBonuses;
+    private ArrayList<ObserverEffect> observerEffects;
 
     //VARIABLE FOR COMMUNICATION TO CLIENT
     //TODO: evalueate if this network connection is correct
@@ -56,8 +57,8 @@ public class Player implements Serializable {
         return this.familyMembers;
     }
 
-    public ArrayList<Observer> getObservers() {
-        return this.observerBonuses;
+    public ArrayList<ObserverEffect> getObservers() {
+        return this.observerEffects;
     }
 
 }

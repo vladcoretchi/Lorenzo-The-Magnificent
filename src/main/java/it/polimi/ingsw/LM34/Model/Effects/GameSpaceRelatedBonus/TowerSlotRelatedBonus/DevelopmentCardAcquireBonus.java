@@ -1,10 +1,13 @@
 package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus;
 
+import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -19,6 +22,8 @@ public class DevelopmentCardAcquireBonus extends AbstractEffect implements Obser
     private Integer value;
     private Resources requirementsDiscount;
 
+
+    //TODO: pico della mirandola, filippo brunelleschi, santa rita
     /**
      * applied only if value is not null
      * if true - the value is applied when the user goes on a tower action space.
@@ -62,6 +67,7 @@ public class DevelopmentCardAcquireBonus extends AbstractEffect implements Obser
 
     }
 
+
     //TODO: reset to the value before this context started
 
 
@@ -71,7 +77,8 @@ public class DevelopmentCardAcquireBonus extends AbstractEffect implements Obser
         return null;
     }
 
-    public ContextType getObservableType() {
-        return ContextType.DEVELOPMENT_CARD_ACQUIRE_CONTEXT;
+
+    public void registerObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
+        Utilities.getContextByType(contexts, ContextType.DEVELOPMENT_CARD_ACQUIRE_CONTEXT).addObserver(this);
     }
 }

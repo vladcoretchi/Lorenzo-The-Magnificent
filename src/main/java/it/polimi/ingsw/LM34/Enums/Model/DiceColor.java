@@ -7,5 +7,6 @@ public enum DiceColor {
     ORANGE,
     BLACK,
     WHITE,
-    NEUTRAL //for representing bonuses that applies to all type of dices
+    NEUTRAL,
+    DEFAULT //for representing bonuses that applies to all type of dices
 }

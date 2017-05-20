@@ -26,6 +26,7 @@ public final class SetupDecks {
 
 
     public static void prepareDevelopmentCard(ArrayList<AbstractDevelopmentCard> deck) {
+
         Collections.shuffle(deck);
         orderDevelopmentCardByPeriod(deck);
     }

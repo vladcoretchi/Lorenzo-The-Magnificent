@@ -1,5 +1,10 @@
 package it.polimi.ingsw.LM34.Utils;
 
+import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
+
+import java.util.ArrayList;
 import java.util.function.BiFunction;
 
 /**
@@ -9,7 +14,6 @@ import java.util.function.BiFunction;
  * @author vladc
  */
 public final class Utilities {
-
     private Utilities() {}
 
     /**
@@ -31,4 +35,19 @@ public final class Utilities {
     }
 
     public static BiFunction<Integer, Integer, Integer> sumInteger = (val1, val2) -> val1 + val2;
+
+
+    /**
+     This static method is called often by observers to register themselves to the right context
+     */
+    public static AbstractGameContext getContextByType(ArrayList<AbstractGameContext> contexts, ContextType contextType) throws NoSuchContextException {
+        //TODO: refactor this loop
+        for(AbstractGameContext context : contexts)
+            if(context.getType() == ContextType.CURCH_REPORT_CONTEXT)
+                    return context;
+
+        throw new NoSuchContextException();
+
+
+    }
 }

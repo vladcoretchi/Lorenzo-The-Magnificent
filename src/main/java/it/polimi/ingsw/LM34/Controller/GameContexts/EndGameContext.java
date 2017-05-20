@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Controller.GameContexts;
 
+import it.polimi.ingsw.LM34.Enums.Controller.ContextStatus;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Model.Player;
 
 /**
  * Created by GiulioComi on 15/05/2017.
@@ -10,9 +10,10 @@ import it.polimi.ingsw.LM34.Model.Player;
 //here all excomunication cards of III period are all notified to apply their malus
 public class EndGameContext  extends AbstractGameContext {
 
-    public void initContext(Player player) {
+    @Override
+    public void initContext() {
         setChanged();
-        notifyObservers(player);
+        notifyObservers(ContextStatus.FINISHED);
     }
 
     @Override
@@ -20,9 +21,10 @@ public class EndGameContext  extends AbstractGameContext {
         return ContextType.END_GAME_CONTEXT;
     }
 
+    @Override
     public void endContext() {
         setChanged();
-        notifyObservers("siamo alla fine del game");
+        notifyObservers(ContextStatus.FINISHED);
     }
 
     }

@@ -1,5 +1,6 @@
-package it.polimi.ingsw.LM34.Controller.GameContexts;
+package it.polimi.ingsw.LM34.Controller;
 
+import it.polimi.ingsw.LM34.Controller.GameContexts.*;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 
 /**
@@ -23,8 +24,10 @@ public final class ContextFactory {
                 return new ProductionAreaContext();
             case RESOURCE_INCOME_CONTEXT:
                 return new ResourceIncomeContext();
-            case TOWER_CONTEXT:
-                return new TowerContext();
+            case DEVELOPMENT_CARD_ACQUIRE_CONTEXT:
+                return new DevelopmentCardAcquireContext();
+            case INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT:
+                return new IncreasePawnsValueByServantsContext();
             default:
                 return null;
         }

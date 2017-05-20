@@ -1,7 +1,12 @@
 package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus;
 
+import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+import it.polimi.ingsw.LM34.Utils.Utilities;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -18,5 +23,9 @@ public class MarketBan extends AbstractEffect implements Observer {
     public void update(Observable o, Object arg) {
         //TODO: disable the possibility to the player to place a pawn in a market slot
 
+    }
+
+    public void registerObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
+        Utilities.getContextByType(contexts, ContextType.ACTION_SLOT_CONTEXT).addObserver(this);
     }
 }

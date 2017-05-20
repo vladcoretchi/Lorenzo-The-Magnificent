@@ -1,10 +1,10 @@
 package it.polimi.ingsw.LM34.Controller;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.GameContexts.ContextFactory;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
@@ -18,6 +18,7 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.RemotePlayer;
 import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 import it.polimi.ingsw.LM34.Utils.SetupDecks;
+import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,10 +31,10 @@ import java.util.Map;
 public class GameManager {
 
     private Integer period; //3 in a game
-    private Integer turn; //3*2 in a game
+    private Integer round; //3*2 in a game
     private Integer phase; //equal to #players
     private ArrayList<Dice> dices;
-    protected ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<>();
     private Map<Integer, Integer> faithPath = new HashMap<Integer, Integer>();
     HashMap<Player, Integer> victoryPointsByPlayer = new HashMap<Player, Integer>();
 
@@ -111,22 +112,30 @@ public class GameManager {
 
     }
 
-    public void nextPeriod() { //round = mezzo periodo
-        turn++;
-        if (turn % 2 == 0)
-            doCurchReport();
+    public void nextRound() { //round = half period
+        rollDices();
+        round++;
+        if(round %2 == 0)
+            nextPeriod();
     }
 
-    public void nextTurn() {
-        //resetMillisTImer //unico per giocatori
-        sweepActionSlots();
-        replaceCards();
-        setNewTurnOrder();
-        rollDices();
-        if (phase == players.size()) {
-            nextPeriod();
-            turn = 0;
-        } else phase++;
+    public void nextPeriod() {
+        round = 0;
+        try
+        {
+            Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT).initContext();
+        }
+        catch (NoSuchContextException e) {
+            //TODO: handle this exception
+        }
+    }
+    public void nextPhase() {
+        //resetMillisTimer //unique per player
+        if (++phase == players.size()) {
+            nextRound();
+            phase = 0;
+        }
+        else phase++;
     }
 
     public void buyCard(Player player, TowerSlot slot) throws InvalidCardType {
@@ -134,16 +143,8 @@ public class GameManager {
     }
 
 
-    public void doCurchReport() {
-        //TODO: all players enter the curch context
-    for (Player player : players)
-        for (AbstractGameContext context : contexts)
-            if (context.getType() == ContextType.CURCH_REPORT_CONTEXT)
-                context.initContext(player);
-    }
-
     public void replaceCards() {
-        //TODO
+        sweepActionSlots();
     }
 
     public void sweepActionSlots() {
@@ -239,8 +240,9 @@ public class GameManager {
     }*/
 
 
-
-
+    /**
+     * Instantiate all the game contexts at the start of the game
+     */
     public void setupGameContexts() {
 
         contexts = new ArrayList<>();

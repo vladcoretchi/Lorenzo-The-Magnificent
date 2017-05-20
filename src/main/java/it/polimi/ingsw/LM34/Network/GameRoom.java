@@ -11,3 +11,6 @@ public class GameRoom {
     private ArrayList<RemotePlayer> players;
     private GameManager gameManager;
 }
+
+
+//TODO: handle disconnections, timer of turn, ecc

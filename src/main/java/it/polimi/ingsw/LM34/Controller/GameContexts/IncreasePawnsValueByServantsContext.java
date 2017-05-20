@@ -1,15 +1,18 @@
 package it.polimi.ingsw.LM34.Controller.GameContexts;
 
+import it.polimi.ingsw.LM34.Enums.Controller.ContextStatus;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Model.Player;
 
 /**
  * Created by GiulioComi on 18/05/2017.
  */
 public class IncreasePawnsValueByServantsContext extends AbstractGameContext {
-    @Override
-    public void initContext(Player player) {
 
+
+    @Override
+    public void initContext() {
+        setChanged();
+        notifyObservers(ContextStatus.ENTERED);
     }
 
     @Override
@@ -19,6 +22,7 @@ public class IncreasePawnsValueByServantsContext extends AbstractGameContext {
 
     @Override
     public void endContext() {
-
+        setChanged();
+        notifyObservers(ContextStatus.FINISHED);
     }
 }

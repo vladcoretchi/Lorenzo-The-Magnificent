@@ -1,10 +1,14 @@
 package it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus;
 
-import it.polimi.ingsw.LM34.Controller.GameManager;
+import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Utils.Utilities;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -48,5 +52,10 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
     public void update(Observable o, Object arg) {
         Player player = (Player) arg;
         player.addResources(this.resources);
+    }
+
+
+    public void registerObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
+        Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT).addObserver(this);
     }
 }

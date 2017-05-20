@@ -1,9 +1,13 @@
 package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus;
 
-import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -65,5 +69,9 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
         for(FamilyMember member : familyMembers)
             if(member.getDiceColorAssociated() == this.diceColor)
                 member.setValue(member.getValue()+this.value);
+    }
+
+    public void registerObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
+        Utilities.getContextByType(contexts, ContextType.ACTION_SLOT_CONTEXT).addObserver(this);
     }
 }
