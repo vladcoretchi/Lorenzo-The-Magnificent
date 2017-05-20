@@ -1,75 +1,51 @@
 package it.polimi.ingsw.LM34.UI;
 
 import it.polimi.ingsw.LM34.UI.CLI.IOInterface;
-import java.io.FileInputStream;
-import java.util.HashMap;
-import it.polimi.ingsw.LM34.UI.CLI.PlayerLoginInfo;
-import java.io.InputStream;
 
-public class Launcher extends TestCli implements IOInterface {
+public class Launcher implements IOInterface {
 
+    public static Boolean setUserInputToFalse() {
+        return false;
+    }
     public static void main(String[] args) {
 
-        String conntectionType;
+        TestCli Cli = new TestCli();
 
-        TestCli CLI = new TestCli();
+        Boolean userInputIsValid = false;
+        String playerUsername;
 
-        CLI.printSplashScreen();
-        CLI.printSeparator();
+        Cli.printSplashScreen();
+        Cli.printDivider();
 
-        while(true) {
-            if(CLI.startMenu().equalsIgnoreCase("cli"))
-                break;
-            else if(CLI.startMenu().equalsIgnoreCase(("gui")))
-                System.err.println("this feature may be not available for non premium user \n"); //anche i .err sono da ridefinire in IOInterface
+        while(!userInputIsValid) {
+
+            if (Cli.startMenu().equalsIgnoreCase("cli"))
+                userInputIsValid = true;
             else
-                System.err.println("please choose cli or gui");
+                printToConsole.println("gui choice is not available, please choose cli ");
         }
 
-        while(true) {
-            CLI.loginMenu();
-            if(PlayerLoginInfo.PLAYER_LOGIN_INFO.get("username").equals("giulio"))
-                break;
+        Cli.loginMenu(); //Username and password will be sent to server
+
+        userInputIsValid = setUserInputToFalse();
+
+        while(!userInputIsValid) {
+            if(Cli.printMenu().equalsIgnoreCase("new game"))
+                userInputIsValid = true;
             else
-                System.err.println("please login as giulio \n");
+                printToConsole.println("you have 0 previous games");
         }
 
-        while(true) {
-            conntectionType = CLI.choiceConnectionType();
+        userInputIsValid = setUserInputToFalse();
 
-            if(conntectionType.equalsIgnoreCase("cli") || conntectionType.equalsIgnoreCase("rmi"))
-                break;
+        while(!userInputIsValid) {
+            if(Cli.choiceConnectionType().equalsIgnoreCase("rmi") || Cli.choiceConnectionType().equalsIgnoreCase("socket"))
+                userInputIsValid = true;
             else
-                System.err.println("please choose rmi or socket");
+                printToConsole.println("please choose rmi or socket");
         }
 
-        CLI.printSeparator();
-
-        CLI.printTowers();
-
-        //testare junit con le classi che gia ci sono
-
-
-        //probabilmente anche i comandi andranno importati in modo statico
-
-        //creare un controller che, una volta creata la partita, si interfacci col model.
-
-        //immaginiamo di essere gia in partita
-
-        //essendo in partita, devo interfacciarmi col model, deserializzandolo
-
-        // GameController GameSituationController = new GameController();
-        //verificare se è meglio gestire tutto direttamente nel launcher o la parte relativa alla partita relegarla al controller
-
-        //immaginando di essere in partita, in un contesto dove l'utente decide di incrementare il
-        //valore dei dadi usando i servitori
-
-        //se il giocatore ha detto di si, quindi ha compiuto l'azione, allora il turno termina
-
-        //testare una partita con dati fittizzi, in modo da verificare come verranno stampati su console
-        //fare il .jar, in modo da generare la console
-        //provare a vedere se si riesce a stampare le torri, e se in qualche modo si riesce a avere una dimensione
-        //minima della console
+        userInputIsValid = setUserInputToFalse();
 
     }
 }
