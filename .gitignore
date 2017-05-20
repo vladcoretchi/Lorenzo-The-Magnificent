@@ -9,7 +9,8 @@ target/generated-test-sources/
 
 # IntelliJ stuff
 .idea/
-#*.iml
+*.iml
+pom.xml
 
 # JavaDoc directory
 javaDoc/
