@@ -1,10 +1,7 @@
 package it.polimi.ingsw.LM34.Utils.Configurations;
 
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Resources;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -22,9 +19,12 @@ import java.util.ArrayList;
  */
 public final class Configurator {
 
+    public static final Integer TOTAL_PERIODS=3;
     private static Market market;
     private static CouncilPalace palace;
     private static ArrayList<Tower> towers;
+    private static WorkingArea harvestArea;
+    private static WorkingArea productionArea;
 
 
     public static void loadConfigs() {
@@ -50,9 +50,6 @@ public final class Configurator {
 
     }
 
-    public static Market getMarket() {
-        return market;
-    }
 
     private static ActionSlot getActionSlotFromJson(Integer diceValue,JSONObject jsonObject) {
         Integer[] resourcesArray = new Integer[jsonObject.length()];
@@ -68,8 +65,8 @@ public final class Configurator {
         Resources resources = new Resources(resourcesArray[0], resourcesArray[1], resourcesArray[2], resourcesArray[3], resourcesArray[4], resourcesArray[5], resourcesArray[6]);
         return new ActionSlot(true, diceValue, resources, numberCouncilPrivilege);
     }
-    //TODO: make this private for production! ;D
-    public static void printMarket() {
+
+    private static void printMarket() {
         Resources res = null;
         for (Integer i = 0; i < market.getSize(); i++) {
             res = market.getActionSlots().get(i).getResourcesReward();
@@ -94,10 +91,14 @@ public final class Configurator {
     //MAIN WITH THE PURPOSE TO VERIFY THE CORRECT LOADING OF MODEL OBJECTS FROM FILE
     public static void main(String[] args) {
         Configurator.loadConfigs();
-        Configurator.printMarket();
+        Configurator.printMarket(); //check with human readable feedback that market is correctly instantiated
+
+    }
 
 
 
+    public static Market getMarket() {
+        return market;
     }
 
     public static CouncilPalace getPalace() {
@@ -106,5 +107,13 @@ public final class Configurator {
 
     public static ArrayList<Tower> getTowers() {
         return towers;
+    }
+
+    public static WorkingArea getHarvestArea() {
+        return harvestArea;
+    }
+
+    public static WorkingArea getProductionArea() {
+        return productionArea;
     }
 }

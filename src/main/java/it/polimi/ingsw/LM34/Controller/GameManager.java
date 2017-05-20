@@ -6,18 +6,18 @@ import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
-import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
-import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
-import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
-import it.polimi.ingsw.LM34.Model.Cards.VentureCard;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Dice;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.RemotePlayer;
 import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
-import it.polimi.ingsw.LM34.Utils.SetupDecks;
+import it.polimi.ingsw.LM34.Utils.SetupLeaderAndExcommunicationDecks;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.ArrayList;
@@ -40,10 +40,10 @@ public class GameManager {
 
     //TODO: apply factory patterns to DECKS
     //DECKS cointaining all the 96 development cards of the game, that at the beginning of each period will be partially loaded in the towers
-    private ArrayList<AbstractDevelopmentCard> territoryCardDeck = new ArrayList<>();
-    private ArrayList<AbstractDevelopmentCard> characterCardDeck = new ArrayList<>();
-    private ArrayList<AbstractDevelopmentCard> ventureCardDeck = new ArrayList<>();
-    private ArrayList<AbstractDevelopmentCard> buildingCardDeck = new ArrayList<>();
+    private  DevelopmentCardDeck<TerritoryCard> territoryCardDeck = new DevelopmentCardDeck<TerritoryCard>();
+    private DevelopmentCardDeck<CharacterCard> characterCardDeck = new DevelopmentCardDeck<CharacterCard>();
+    private DevelopmentCardDeck<VentureCard> ventureCardDeck = new DevelopmentCardDeck<VentureCard>();
+    private DevelopmentCardDeck<BuildingCard> buildingCardDeck = new DevelopmentCardDeck<BuildingCard>();
     private ArrayList<LeaderCard> leaderCardsDeck;
     private ArrayList<ExcommunicationCard> excommunicationCards;
 
@@ -63,16 +63,19 @@ public class GameManager {
 
         //Load all the configurations from json
         Configurator.loadConfigs();
-        //TODO: load development cards, leaders, excommunication tiles and others GameBoards & PersonalBoard spaces
+        //TODO: sync the loading so that none of the methods below is called before configs.json file has been parsed
         Collections.shuffle(players); //randomly set the initial play order
-        shuffleDecksByPeriod();
         prepareGameSpaces();
+        prepareDecks();
 
     }
     public void prepareGameSpaces() {
+
         market = Configurator.getMarket();
         councilPalace = Configurator.getPalace();
         towers = Configurator.getTowers();
+        harvestArea = Configurator.getHarvestArea();
+        productionArea = Configurator.getProductionArea();
     }
 
     //TODO: chain together remotePlayer (client) and the player
@@ -87,14 +90,15 @@ public class GameManager {
     }
 
     //method called only at the start of the game
-    public void shuffleDecksByPeriod() {
+    public void prepareDecks() {
 
-            SetupDecks.prepareDevelopmentCard(territoryCardDeck);
-            SetupDecks.prepareDevelopmentCard(buildingCardDeck);
-            SetupDecks.prepareDevelopmentCard(characterCardDeck);
-            SetupDecks.prepareDevelopmentCard(ventureCardDeck);
+            territoryCardDeck.prepareDevelopmentCard();
+            buildingCardDeck.prepareDevelopmentCard();
+            characterCardDeck.prepareDevelopmentCard();
+            ventureCardDeck.prepareDevelopmentCard();
 
-            SetupDecks.prepareOtherDecks(leaderCardsDeck, excommunicationCards);
+            SetupLeaderAndExcommunicationDecks.prepareLeaderAndExcommunicationDecks(leaderCardsDeck, excommunicationCards);
+            SetupLeaderAndExcommunicationDecks.orderExcommunicatioCardByPeriod(excommunicationCards);
     }
 
     public void setNewTurnOrder() {
@@ -136,10 +140,6 @@ public class GameManager {
             phase = 0;
         }
         else phase++;
-    }
-
-    public void buyCard(Player player, TowerSlot slot) throws InvalidCardType {
-        player.getPersonalBoard().addCard(slot.getCardStored());
     }
 
 
