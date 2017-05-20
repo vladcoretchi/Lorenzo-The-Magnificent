@@ -1,15 +1,17 @@
 package it.polimi.ingsw.LM34.Controller;
 
-import it.polimi.ingsw.LM34.Controller.GameContexts.*;
-import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
-import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
-import it.polimi.ingsw.LM34.Model.Cards.*;
-import it.polimi.ingsw.LM34.Model.Dice;
+import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.GameContexts.ContextFactory;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
-import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
+import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
+import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+import it.polimi.ingsw.LM34.Model.Cards.VentureCard;
+import it.polimi.ingsw.LM34.Model.Dice;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
@@ -17,7 +19,10 @@ import it.polimi.ingsw.LM34.Network.RemotePlayer;
 import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 import it.polimi.ingsw.LM34.Utils.SetupDecks;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by GiulioComi on 05/05/2017.
@@ -57,19 +62,16 @@ public class GameManager {
 
         //Load all the configurations from json
         Configurator.loadConfigs();
-
-
         //TODO: load development cards, leaders, excommunication tiles and others GameBoards & PersonalBoard spaces
         Collections.shuffle(players); //randomly set the initial play order
         shuffleDecksByPeriod();
+        prepareGameSpaces();
 
     }
-
-
     public void prepareGameSpaces() {
         market = Configurator.getMarket();
-       // councilPalace = Configurator.getPalace();
-       // towers = Configurator.getTowers();
+        councilPalace = Configurator.getPalace();
+        towers = Configurator.getTowers();
     }
 
     //TODO: chain together remotePlayer (client) and the player

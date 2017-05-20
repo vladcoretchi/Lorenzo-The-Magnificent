@@ -1,19 +1,20 @@
 package it.polimi.ingsw.LM34.Utils.Configurations;
 
+import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
+import it.polimi.ingsw.LM34.Model.Resources;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
-import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
-import it.polimi.ingsw.LM34.Model.Resources;
-
-import org.json.*;
-import org.apache.commons.io.IOUtils;
 
 /**
  * Created by GiulioComi on 07/05/2017.
@@ -22,6 +23,8 @@ import org.apache.commons.io.IOUtils;
 public final class Configurator {
 
     private static Market market;
+    private static CouncilPalace palace;
+    private static ArrayList<Tower> towers;
 
 
     public static void loadConfigs() {
@@ -95,5 +98,13 @@ public final class Configurator {
 
 
 
+    }
+
+    public static CouncilPalace getPalace() {
+        return palace;
+    }
+
+    public static ArrayList<Tower> getTowers() {
+        return towers;
     }
 }

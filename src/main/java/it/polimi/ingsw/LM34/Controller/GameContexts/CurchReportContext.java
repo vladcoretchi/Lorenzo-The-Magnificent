@@ -19,12 +19,15 @@ public class CurchReportContext  extends AbstractGameContext {
     }
 
     @Override
+    public void initContext(Player player) {}
+
+    @Override
     public ContextType getType() {
         return ContextType.CURCH_REPORT_CONTEXT;
     }
 
     public void endContext() {
-
+        
 
     }
 

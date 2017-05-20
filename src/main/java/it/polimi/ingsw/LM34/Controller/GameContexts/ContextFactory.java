@@ -9,8 +9,6 @@ import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
  */
 public final class ContextFactory {
 
-
-    //TODO: evaluate if this is really static or cannot be in factory pattern
     public  static AbstractGameContext getContext(ContextType contextType) {
         switch (contextType) {
             case ACTION_SLOT_CONTEXT:
@@ -29,8 +27,6 @@ public final class ContextFactory {
                 return new TowerContext();
             default:
                 return null;
-
         }
-
     }
 }

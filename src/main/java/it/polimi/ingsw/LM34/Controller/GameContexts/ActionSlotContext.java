@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Controller.GameContexts;
 
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Player;
 
 /**
@@ -13,6 +14,11 @@ public class ActionSlotContext extends AbstractGameContext {
     //handle a particular excommunication card
     public void initContext(Player player) {
 
+    }
+
+    @Override
+    public ContextType getType() {
+        return ContextType.ACTION_SLOT_CONTEXT;
     }
 
     public void endContext() {

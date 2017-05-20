@@ -13,6 +13,9 @@ public class TurnContext extends AbstractGameContext {
     ArrayList<AbstractGameContext> contexts;
 
 
+    public TurnContext(ArrayList<AbstractGameContext> contexts) {
+        this.contexts = contexts;
+    }
 
     public void initContext(Player player) {
     //TODO:in this context reactivate all observers of the player that is playing

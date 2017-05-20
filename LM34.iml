@@ -16,6 +16,10 @@
     <orderEntry type="library" name="Maven: org.json:json:20160212" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.5" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.5" level="project" />
+    <orderEntry type="library" name="org.json:json:20170516" level="project" />
+    <orderEntry type="library" name="org.apache.commons:commons-lang3:3.0.1" level="project" />
+    <orderEntry type="library" name="org.apache.commons:commons-lang3:3.3" level="project" />
+    <orderEntry type="library" name="org.apache.directory.studio:org.apache.commons.io:2.4" level="project" />
   </component>
   <component name="sonarModuleSettings">
     <option name="alternativeWorkingDirPath" value="" />
