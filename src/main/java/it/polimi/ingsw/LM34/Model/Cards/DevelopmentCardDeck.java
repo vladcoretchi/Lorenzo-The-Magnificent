@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 
 import java.util.ArrayList;
@@ -13,9 +14,13 @@ public class DevelopmentCardDeck<T extends AbstractDevelopmentCard> implements  
 
     //TODO: get deck loaded from Configurator at the preparation of the game
     private ArrayList<T> developmentDeck;
+    private DevelopmentCardColor cardColor;
 
     public DevelopmentCardDeck(ArrayList<T> developmentCards) {
+
         this.developmentDeck = developmentCards;
+        //get the development card color type by extracting this info from the first card of the deck
+        cardColor = developmentCards.get(0).getColor(); //TODO: refactor
     }
 
     public DevelopmentCardDeck() {
@@ -43,6 +48,10 @@ public class DevelopmentCardDeck<T extends AbstractDevelopmentCard> implements  
                     temp.add(card);
 
         developmentDeck = temp;
+    }
+
+    public DevelopmentCardColor getCardColor() {
+        return this.cardColor;
     }
 
 }

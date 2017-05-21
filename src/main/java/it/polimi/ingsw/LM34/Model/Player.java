@@ -20,7 +20,7 @@ public class Player implements Serializable {
     private ArrayList <LeaderCard> leadercards;
     private AbstractEffect permanentBonus;
     //TODO: initialize the resources elsewhere
-    private Resources resources= new Resources();
+    private Resources resources;
 
     private ArrayList<ObserverEffect> observerEffects;
 
@@ -30,6 +30,7 @@ public class Player implements Serializable {
     public Player(PawnColor pawnColor, PersonalBoard personalBoard) {
         this.pawnColor= pawnColor;
         this.personalBoard= personalBoard;
+        resources = new Resources();
 
         familyMembers= new ArrayList<FamilyMember>();
 

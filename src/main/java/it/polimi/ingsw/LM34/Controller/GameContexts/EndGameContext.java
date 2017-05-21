@@ -7,6 +7,8 @@ import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.VentureCard;
 import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +17,6 @@ import java.util.HashMap;
  * Created by GiulioComi on 15/05/2017.
  */
 
-//here all excomunication cards of III period are all notified to apply their malus
 public class EndGameContext  extends AbstractGameContext {
     ArrayList<Player> players;
 
@@ -23,7 +24,11 @@ public class EndGameContext  extends AbstractGameContext {
         setChanged();
         notifyObservers(ContextStatus.ENTERED);
 
-        onEndCalculateVictoryPointsPerPlayer();
+        onEndCalculateVictoryPointsPerPlayerByVentureCards();
+        onEndCalculateVictoryPointsPerPlayerByResources();
+        
+
+        //TODO: all excommunication III period penalty are applied here as observers
     }
     @Override
     public ContextType getType() {
@@ -44,7 +49,7 @@ public class EndGameContext  extends AbstractGameContext {
     /**
      * @return the hashmap with a correlation between players and their points earned by venture cards
      */
-    public HashMap<Player, Integer> onEndCalculateVictoryPointsPerPlayer() {
+    public HashMap<Player, Integer> onEndCalculateVictoryPointsPerPlayerByVentureCards() {
 
         HashMap<Player, Integer> victoryPointsToPlayers = new HashMap<Player, Integer>();
         Integer totalVictoryPointsByVentureCardReward = 0;
@@ -67,6 +72,24 @@ public class EndGameContext  extends AbstractGameContext {
         } catch (InvalidCardType ict) {
             ict.printStackTrace();
         } //TODO:  adjust this exception handle
+
+        return victoryPointsToPlayers;
+    }
+
+
+
+    public HashMap<Player, Integer> onEndCalculateVictoryPointsPerPlayerByResources() {
+
+        HashMap<Player, Integer> victoryPointsToPlayers = new HashMap<Player, Integer>();
+        Integer totalVictoryPointsByResources = 0;
+        //for each player we calculate the sum of the victory points rewards provided by his resources
+
+            for (Player p : players) {
+                Resources resources = p.getResources();
+                totalVictoryPointsByResources = Utilities.getTotalAmount(resources);
+
+                victoryPointsToPlayers.put(p, totalVictoryPointsByResources);
+            }
 
         return victoryPointsToPlayers;
     }

@@ -2,7 +2,6 @@ package it.polimi.ingsw.LM34.Controller;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
@@ -11,12 +10,10 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
 import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Dice;
 import it.polimi.ingsw.LM34.Model.Effects.ObserverEffect;
-import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.RemotePlayer;
 import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
-import it.polimi.ingsw.LM34.Utils.SetupLeaderAndExcommunicationDecks;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.ArrayList;
@@ -29,16 +26,25 @@ import java.util.Map;
  */
 public class GameManager {
 
+    /*TURNS*/
     private Integer period; //3 in a game
     private Integer round; //3*2 in a game
     private Integer phase; //equal to #players
+
     private ArrayList<Dice> dices;
     private ArrayList<Player> players = new ArrayList<>();
+
+    /*GAMEBOARD COMPONENTS*/
+    private Market market;
+    private CouncilPalace councilPalace;
+    private ArrayList<Tower> towers;
+    private WorkingArea harvestArea;
+    private WorkingArea productionArea;
     private Map<Integer, Integer> faithPath = new HashMap<Integer, Integer>();
+
     HashMap<Player, Integer> victoryPointsByPlayer = new HashMap<Player, Integer>();
 
-    //TODO: apply factory patterns to DECKS
-    //DECKS cointaining all the 96 development cards of the game, that at the beginning of each period will be partially loaded in the towers
+    /*DECKS*/
     private  DevelopmentCardDeck<TerritoryCard> territoryCardDeck = new DevelopmentCardDeck<TerritoryCard>();
     private DevelopmentCardDeck<CharacterCard> characterCardDeck = new DevelopmentCardDeck<CharacterCard>();
     private DevelopmentCardDeck<VentureCard> ventureCardDeck = new DevelopmentCardDeck<VentureCard>();
@@ -51,24 +57,29 @@ public class GameManager {
     private PhaseContext phaseContext;
     private AbstractGameContext currentContext;
 
-    /*GAMEBOARD COMPONENTS*/
-    private Market market;
-    private CouncilPalace councilPalace;
-    private ArrayList<Tower> towers;
-    private WorkingArea harvestArea;
-    private WorkingArea productionArea;
+    public GameManager() {
 
-    public void startGame() {
-        //check all the clients are connected, load configurations from file, setup all the game components with the configuration
-
+        period = 1; //TODO: refactor
+        round = 1;
+        phase = 1;
         //Load all the configurations from json
         Configurator.loadConfigs();
+
         //TODO: sync the loading so that none of the methods below is called before configs.json file has been parsed
-        Collections.shuffle(players); //randomly set the initial play order
         prepareGameSpaces();
         prepareDecks();
+        //TODO: initialize players
+        setupPlayersResources();
+        Collections.shuffle(players); //randomly set the initial play order
+
+        setupGameContexts();
+        startGame();
 
     }
+        public void startGame() {
+            //TODO
+    }
+
     public void prepareGameSpaces() {
 
         market = Configurator.getMarket();
@@ -76,6 +87,7 @@ public class GameManager {
         towers = Configurator.getTowers();
         harvestArea = Configurator.getHarvestArea();
         productionArea = Configurator.getProductionArea();
+        //TODO: prepare faithPath, etc
     }
 
     //TODO: chain together remotePlayer (client) and the player
@@ -101,28 +113,18 @@ public class GameManager {
             characterCardDeck = (DevelopmentCardDeck<CharacterCard>) Configurator.prepareDevelopmentDeck();
             ventureCardDeck = (DevelopmentCardDeck<VentureCard>) Configurator.prepareDevelopmentDeck();
 
-            SetupLeaderAndExcommunicationDecks.prepareLeaderAndExcommunicationDecks(leaderCardsDeck, excommunicationCards);
-            SetupLeaderAndExcommunicationDecks.orderExcommunicatioCardByPeriod(excommunicationCards);
-    }
-
-    public void setNewTurnOrder() {
-        ArrayList<FamilyMember> temp;
-        ArrayList<Player> oldPlayersOrder = players;
-        temp = councilPalace.getNextTurnOrder();
-        players.clear();
-        for (FamilyMember fm : temp) {
-            PawnColor pawnColor = fm.getFamilyMemberColor();
-            for (Player rm : oldPlayersOrder)
-                if (rm.getPawnColor() == pawnColor)
-                    players.add(rm);
-        }
-
+            Configurator.prepareLeaderAndExcommunicationDecks(leaderCardsDeck, excommunicationCards);
+            Configurator.orderExcommunicatioCardByPeriod(excommunicationCards);
     }
 
     public void nextRound() { //round = half period
 
         round++;
+
+        Utilities.setNewTurnOrder(councilPalace, players);
         rollDices();
+        sweepActionSlots();  //sweeps all action and tower slots from pawns and cards
+        replaceCards();
 
         for (Player player : players) {
             player.unSubscribeObservers();
@@ -136,8 +138,9 @@ public class GameManager {
     }
 
     public void nextPeriod() {
-
-        round = 0;
+        period++;
+        if(period > Configurator.TOTAL_PERIODS)
+        round = 1;
         //TODO
     }
 
@@ -146,21 +149,27 @@ public class GameManager {
         //resetMillisTimer //unique per player
         if (++phase == players.size()) {
             nextRound();
-            phase = 0;
+            phase = 1;
         }
         else phase++;
 
         try {
+            //Now is the turn of the next player to place his family member
             phaseContext.initContext(players.get(phase));
         } catch (NoSuchContextException e) {
             e.printStackTrace();
         }
-
-
     }
 
     public void replaceCards() {
-        sweepActionSlots();
+        //TODO: add cards from decks to tower slots by development type
+
+        //TODO: refactor this
+            Utilities.placeNewRoundCards(towers, territoryCardDeck);
+            Utilities.placeNewRoundCards(towers, buildingCardDeck);
+            Utilities.placeNewRoundCards(towers, characterCardDeck);
+            Utilities.placeNewRoundCards(towers, ventureCardDeck);
+
     }
 
     public void sweepActionSlots() {
@@ -181,48 +190,11 @@ public class GameManager {
      * provide the players the initial amount of resources
      */
     public void setupPlayersResources() {
-        Integer incrementalCoins = 5;
+        Integer incrementalCoins = Configurator.BASE_COINS;
         for (Player player : players) {
             player.addResources(new Resources(incrementalCoins++, 2, 2, 3));
         }
     }
-
-
-
-    /*public void tryCardPolymorphism() {
-
-        territoryCardDeck.add(new TerritoryCard("falegnameria", 3, 1, new ResourcesBonus(new Resources(1, 2, 3, 4), 1), new ResourcesBonus(new Resources(2, 3, 4, 5), 2)));
-        AbstractDevelopmentCard t = territoryCardDeck.get(0);
-        System.out.println(t.getColor());
-        System.out.println(t.getPeriod());
-        System.out.println(t.getName());
-        System.out.println(t.getResourcesRequired());
-
-        buildingCardDeck.add(new BuildingCard("giardino",2, 1, (new Resources(1, 2, 3, 4)),new ResourcesBonus(new Resources(2, 3, 4, 5), 3), new ResourcesBonus(new Resources(2, 3, 4, 5), 2)));
-        AbstractDevelopmentCard b = buildingCardDeck.get(0);
-        BuildingCard bb = (BuildingCard) b;
-        System.out.println((bb.getDiceValueToProduct()));
-        System.out.println(b.getColor());
-        System.out.println(b.getPeriod());
-        System.out.println(b.getName());
-        System.out.println(b.getResourcesRequired());
-        System.out.println(b.getInstantBonus());
-
-    }
-
-    public void tryObserverPattern() {
-        Player player = new Player(PawnColor.BLUE, null);
-        players.add(player);
-        setupPlayersResources();
-        Integer preVictoryPoints = player.getResources().getResourceByType(ResourceType.VICTORY_POINTS);
-        System.out.println("victory points " + preVictoryPoints);
-
-        activateObserverOnTurnChange(player);
-        contexts.get(0).initContext(player);
-        System.out.println(player.getResources().getResourceByType(ResourceType.VICTORY_POINTS));
-
-    }*/
-
 
     /**
      * Instantiate all the game contexts at the start of the game
@@ -237,20 +209,6 @@ public class GameManager {
             contexts.add(phaseContext);
 
     }
-
-
-    //a testing porpuse main
-    public static void main(String[] args) {
-     //   Configurator.loadConfigs();
-
-        GameManager game = new GameManager();
-        //game.tryCardPolymorphism();
-
-        game.setupGameContexts();
-        //game.tryObserverPattern();
-    }
-
-
 }
 
 

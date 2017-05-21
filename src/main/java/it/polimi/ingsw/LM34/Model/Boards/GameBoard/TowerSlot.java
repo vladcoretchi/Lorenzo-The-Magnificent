@@ -10,6 +10,7 @@ import it.polimi.ingsw.LM34.Model.Resources;
 
 //general slot of the tower
 public class TowerSlot extends ActionSlot {
+
     private Integer diceValueRequired;
     private FamilyMember familyMember;
     private AbstractDevelopmentCard cardStored;
@@ -29,6 +30,7 @@ public class TowerSlot extends ActionSlot {
         return this.cardStored;
     }
 
+    @Override
     public boolean isEmpty() {
         return (this.cardStored==null); //card already taken by a player
     }

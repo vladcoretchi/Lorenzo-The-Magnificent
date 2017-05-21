@@ -4,6 +4,8 @@ import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardDeck;
+import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Resources;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -14,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by GiulioComi on 07/05/2017.
@@ -21,7 +24,9 @@ import java.util.ArrayList;
  */
 public final class Configurator {
 
-    public static final Integer TOTAL_PERIODS=3;
+    public static final Integer TOTAL_PERIODS = 3; //#total periods
+    public static final Integer CARD_PER_ROUND = 4; //#development cards stored in a tower per round
+    public static final Integer BASE_COINS = 5; //#coins given to first player at the starting of the game
     private static Market market;
     private static CouncilPalace palace;
     private static ArrayList<Tower> towers;
@@ -126,5 +131,25 @@ public final class Configurator {
 
         deck.setupDevelopmentCardDeck();
         return deck;
+    }
+
+
+
+    public static void prepareLeaderAndExcommunicationDecks(ArrayList<LeaderCard> leaderCards, ArrayList<ExcommunicationCard> excommunicationCards) {
+        //TODO: Load from json all cards
+        Collections.shuffle(leaderCards);
+        Collections.shuffle(excommunicationCards);
+        orderExcommunicatioCardByPeriod(excommunicationCards);
+    }
+
+
+    public static void orderExcommunicatioCardByPeriod(ArrayList<ExcommunicationCard> exc) {
+        ArrayList<ExcommunicationCard> temp = new ArrayList();
+
+        for (Integer period = 1; period <= Configurator.TOTAL_PERIODS; period++)
+            for (ExcommunicationCard e : exc)
+                if (e.getPeriod() == period)
+                    temp.add(e);
+        exc = temp;
     }
 }

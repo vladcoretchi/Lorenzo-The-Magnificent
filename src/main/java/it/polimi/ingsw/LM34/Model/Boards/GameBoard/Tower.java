@@ -1,9 +1,8 @@
 package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
 
-import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
-import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 
@@ -36,12 +35,12 @@ public class Tower extends GameSpace {
     public DevelopmentCardColor getCardColor() {return cardColor;}
 
 
-    public void addCard (TowerSlot slot, AbstractDevelopmentCard card) throws InvalidCardType {
+    public void addCard (AbstractDevelopmentCard card) {
         boolean inserted= false;
         //found the right tower based on the card type
 
-        //ora aggiungi nello slot giusto al livello libero la carta...
-        while(this.hasNextLevel() && inserted==false) {
+        //now add the card at the first free tower slot found
+        while(this.hasNextLevel() && !inserted) {
             AbstractDevelopmentCard temp;
             if (!this.slots[level].isEmpty())
                 level++;
@@ -79,7 +78,7 @@ public class Tower extends GameSpace {
 
 
     //called at the end of each turn
-   
+   @Override
     public void sweep() {
             while(this.hasNextLevel())
                 slots[level].sweepTowerSlot();
@@ -90,4 +89,12 @@ public class Tower extends GameSpace {
     public Resources getTowerSlotResources() {
         return slots[level].getResourcesReward();
     }
+
+
+    public DevelopmentCardColor getDevelopmentTypeStored() {
+        return this.cardColor;
+    }
+
+    //TODO
+    public Tower() {}
 }
