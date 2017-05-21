@@ -21,6 +21,10 @@ public class DevelopmentCardAcquireContext extends AbstractGameContext {
         notifyObservers(ContextStatus.ENTERED);
     }
 
+    private void interactWithPlayer(Player player) {
+        //TODO: implement what player can do here and modify the model in this controller class
+    }
+
     @Override
     public void initContext() {}
 

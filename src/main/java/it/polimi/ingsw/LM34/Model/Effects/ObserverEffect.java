@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Effects;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 
 import java.util.ArrayList;
 
@@ -10,7 +9,7 @@ import java.util.ArrayList;
  */
 public interface ObserverEffect {
     
-    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException;
+    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts);
 
     public void resetApplyFlag();
 }

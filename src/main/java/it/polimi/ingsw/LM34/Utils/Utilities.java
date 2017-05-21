@@ -4,7 +4,6 @@ import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
@@ -51,15 +50,13 @@ public final class Utilities {
     /**
      This static method is called often by observers to register themselves to the right context
      */
-    public static AbstractGameContext getContextByType(ArrayList<AbstractGameContext> contexts, ContextType contextType) throws NoSuchContextException {
+    public static AbstractGameContext getContextByType(ArrayList<AbstractGameContext> contexts, ContextType contextType) {
         //TODO: refactor this loop
         for(AbstractGameContext context : contexts)
             if(context.getType() == ContextType.CURCH_REPORT_CONTEXT)
                     return context;
 
-        throw new NoSuchContextException();
-
-
+        return null;
     }
 
     public static Integer getTotalAmount(Resources resources) {

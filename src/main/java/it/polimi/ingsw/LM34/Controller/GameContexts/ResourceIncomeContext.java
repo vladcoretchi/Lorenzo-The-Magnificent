@@ -2,6 +2,7 @@ package it.polimi.ingsw.LM34.Controller.GameContexts;
 
 import it.polimi.ingsw.LM34.Enums.Controller.ContextStatus;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Model.Player;
 
 /**
  * Created by GiulioComi on 16/05/2017.
@@ -17,6 +18,10 @@ public class ResourceIncomeContext extends AbstractGameContext {
         notifyObservers(ContextStatus.FINISHED);
     }
 
+    private void interactWithPlayer(Player player) {
+        //TODO: implement what player can do here and modify the model in this controller class
+        //convertCouncilPrivilege();
+    }
 
     @Override
     public ContextType getType() {

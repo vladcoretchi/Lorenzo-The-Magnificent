@@ -2,7 +2,6 @@ package it.polimi.ingsw.LM34.Controller;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Model.Effects.ObserverEffect;
 import it.polimi.ingsw.LM34.Model.Player;
 
@@ -15,6 +14,7 @@ public class PhaseContext extends AbstractGameContext {
     ArrayList<AbstractGameContext> contexts;
 
 
+    //Constructor called only at the game setup
     public PhaseContext(ArrayList<AbstractGameContext> contexts) {
         this.contexts = contexts;
     }
@@ -23,7 +23,7 @@ public class PhaseContext extends AbstractGameContext {
      * @param player about to begin his turn
      *Reactivate all observers of the player that is going to play
      */
-    public void initContext(Player player) throws NoSuchContextException {
+    public void initContext(Player player) {
 
         ArrayList<ObserverEffect> observers = player.getObservers();
             for (ObserverEffect observer : observers)

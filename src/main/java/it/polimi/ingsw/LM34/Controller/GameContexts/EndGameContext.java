@@ -20,15 +20,15 @@ import java.util.HashMap;
 public class EndGameContext  extends AbstractGameContext {
     ArrayList<Player> players;
 
+    //TODO: all excommunication III period penalty are applied here as observers
     public void initContext(ArrayList<Player> players) {
         setChanged();
         notifyObservers(ContextStatus.ENTERED);
 
         onEndCalculateVictoryPointsPerPlayerByVentureCards();
         onEndCalculateVictoryPointsPerPlayerByResources();
-        
 
-        //TODO: all excommunication III period penalty are applied here as observers
+
     }
     @Override
     public ContextType getType() {
@@ -39,6 +39,7 @@ public class EndGameContext  extends AbstractGameContext {
     public void endContext() {
         setChanged();
         notifyObservers(ContextStatus.FINISHED);
+        //TODO: show results and disconnect players
     }
 
     public HashMap<Player, Integer> onEndGameCalculatePointsByDevelopmentCardsOwned(HashMap<Player, Integer> victoryPointsByPlayer) {
@@ -97,5 +98,9 @@ public class EndGameContext  extends AbstractGameContext {
     @Override
     public void initContext() {}
 
+
+    private void interactWithPlayer(Player player) {
+        //TODO: implement what player can do here and modify the model in this controller class
+    }
 }
 

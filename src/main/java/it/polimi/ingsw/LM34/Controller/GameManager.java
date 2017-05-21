@@ -1,8 +1,8 @@
 package it.polimi.ingsw.LM34.Controller;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.GameContexts.CurchReportContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -76,8 +76,9 @@ public class GameManager {
         startGame();
 
     }
-        public void startGame() {
+        public void startGame()  {
             //TODO
+            phaseContext.initContext(players.get(phase)); //first player start first round of the game
     }
 
     public void prepareGameSpaces() {
@@ -97,12 +98,8 @@ public class GameManager {
 
     public void endGame() {
         //TODO
-        try {
-            AbstractGameContext endGameContext = Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT);
+            AbstractGameContext endGameContext = Utilities.getContextByType(contexts, ContextType.END_GAME_CONTEXT);
             endGameContext.initContext();
-        } catch (NoSuchContextException e) {
-            //TODO: handle this exception
-        }
     }
 
     //method called only at the start of the game
@@ -139,7 +136,18 @@ public class GameManager {
 
     public void nextPeriod() {
         period++;
+
+        //Do curch report after 2nd round of each period
+        if(period %2 == 0) {
+
+            CurchReportContext curchContext = (CurchReportContext) Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT);
+            curchContext.initContext();
+        }
+
+
+        //enter the endGame context in which final points are calculated
         if(period > Configurator.TOTAL_PERIODS)
+            endGame();
         round = 1;
         //TODO
     }
@@ -153,16 +161,14 @@ public class GameManager {
         }
         else phase++;
 
-        try {
-            //Now is the turn of the next player to place his family member
-            phaseContext.initContext(players.get(phase));
-        } catch (NoSuchContextException e) {
-            e.printStackTrace();
-        }
+        /**
+         *@param player Now is the turn of the next player to place his family member
+         */
+        phaseContext.initContext(players.get(phase));
+
     }
 
     public void replaceCards() {
-        //TODO: add cards from decks to tower slots by development type
 
         //TODO: refactor this
             Utilities.placeNewRoundCards(towers, territoryCardDeck);
@@ -173,6 +179,7 @@ public class GameManager {
     }
 
     public void sweepActionSlots() {
+
         for (Tower tower : towers)
             tower.sweep();
 

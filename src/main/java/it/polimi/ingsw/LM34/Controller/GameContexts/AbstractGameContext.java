@@ -19,4 +19,5 @@ public abstract class AbstractGameContext extends Observable  {
     }
 
     public abstract void endContext();
+
 }
