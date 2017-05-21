@@ -2,16 +2,15 @@ package it.polimi.ingsw.LM34.Controller;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
-import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
 import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Dice;
+import it.polimi.ingsw.LM34.Model.Effects.ObserverEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
@@ -49,6 +48,7 @@ public class GameManager {
 
     /*GAME CONTEXTS*/
     protected ArrayList<AbstractGameContext> contexts;
+    private PhaseContext phaseContext;
     private AbstractGameContext currentContext;
 
     /*GAMEBOARD COMPONENTS*/
@@ -85,17 +85,21 @@ public class GameManager {
 
     public void endGame() {
         //TODO
-        onEndCalculateVictoryPointsPerPlayer();
-        onEndGameCalculatePointsByDevelopmentCardsOwned(victoryPointsByPlayer);
+        try {
+            AbstractGameContext endGameContext = Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT);
+            endGameContext.initContext();
+        } catch (NoSuchContextException e) {
+            //TODO: handle this exception
+        }
     }
 
     //method called only at the start of the game
     public void prepareDecks() {
 
-            territoryCardDeck.prepareDevelopmentCard();
-            buildingCardDeck.prepareDevelopmentCard();
-            characterCardDeck.prepareDevelopmentCard();
-            ventureCardDeck.prepareDevelopmentCard();
+            territoryCardDeck = (DevelopmentCardDeck<TerritoryCard>) Configurator.prepareDevelopmentDeck();
+            buildingCardDeck = (DevelopmentCardDeck<BuildingCard>) Configurator.prepareDevelopmentDeck();
+            characterCardDeck = (DevelopmentCardDeck<CharacterCard>) Configurator.prepareDevelopmentDeck();
+            ventureCardDeck = (DevelopmentCardDeck<VentureCard>) Configurator.prepareDevelopmentDeck();
 
             SetupLeaderAndExcommunicationDecks.prepareLeaderAndExcommunicationDecks(leaderCardsDeck, excommunicationCards);
             SetupLeaderAndExcommunicationDecks.orderExcommunicatioCardByPeriod(excommunicationCards);
@@ -111,28 +115,33 @@ public class GameManager {
             for (Player rm : oldPlayersOrder)
                 if (rm.getPawnColor() == pawnColor)
                     players.add(rm);
-
         }
 
     }
 
     public void nextRound() { //round = half period
-        rollDices();
+
         round++;
+        rollDices();
+
+        for (Player player : players) {
+            player.unSubscribeObservers();
+            ArrayList<ObserverEffect> playerObservers = player.getObservers();
+            for(ObserverEffect observerEffect : playerObservers)
+                observerEffect.resetApplyFlag();
+        }
+
         if(round %2 == 0)
             nextPeriod();
     }
 
     public void nextPeriod() {
+
         round = 0;
-        try
-        {
-            Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT).initContext();
-        }
-        catch (NoSuchContextException e) {
-            //TODO: handle this exception
-        }
+        //TODO
     }
+
+
     public void nextPhase() {
         //resetMillisTimer //unique per player
         if (++phase == players.size()) {
@@ -140,8 +149,15 @@ public class GameManager {
             phase = 0;
         }
         else phase++;
-    }
 
+        try {
+            phaseContext.initContext(players.get(phase));
+        } catch (NoSuchContextException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
     public void replaceCards() {
         sweepActionSlots();
@@ -171,39 +187,7 @@ public class GameManager {
         }
     }
 
-    public HashMap<Player, Integer> onEndGameCalculatePointsByDevelopmentCardsOwned(HashMap<Player, Integer> victoryPointsByPlayer) {
 
-        return victoryPointsByPlayer;
-    }
-
-    /**
-     * @return the hashmap with a correlation between players and their points earned by venture cards
-     */
-    public HashMap<Player, Integer> onEndCalculateVictoryPointsPerPlayer() {
-        HashMap<Player, Integer> victoryPointsToPlayers = new HashMap<Player, Integer>();
-        Integer totalVictoryPointsByVentureCardReward = 0;
-        ArrayList<AbstractDevelopmentCard> tempPlayerVentureCards = new ArrayList<AbstractDevelopmentCard>();
-        //for each player we calculate the sum of the victory points rewards provided by his venture cards stored in the personal board
-        try {
-            for (Player p : players) {
-                //TODO: check if the player has the excommunication card that disable this step
-                /*if(p.getMalus== noCalculateEndPoints)
-                    victoryPointsToPlayers(p, 0);*/
-                // else
-                tempPlayerVentureCards = p.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.PURPLE);
-                totalVictoryPointsByVentureCardReward = 0;
-                for (AbstractDevelopmentCard dci : tempPlayerVentureCards) {
-                    VentureCard dciVenture = (VentureCard) dci;
-                    totalVictoryPointsByVentureCardReward += dciVenture.getEndingVictoryPointsReward();
-                }
-                victoryPointsToPlayers.put(p, totalVictoryPointsByVentureCardReward);
-            }
-        } catch (InvalidCardType ict) {
-            ict.printStackTrace();
-        } //TODO:  adjust this exception handle
-
-        return victoryPointsToPlayers;
-    }
 
     /*public void tryCardPolymorphism() {
 
@@ -248,6 +232,10 @@ public class GameManager {
         contexts = new ArrayList<>();
         for (ContextType context : ContextType.values())
             contexts.add(ContextFactory.getContext(context));
+
+            phaseContext = new PhaseContext(contexts);
+            contexts.add(phaseContext);
+
     }
 
 

@@ -50,7 +50,7 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
 
     }
 
-    public void registerObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
+    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
         ContextType contextType;
 
         if (areaType == WorkingAreaType.PRODUCTION)

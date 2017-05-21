@@ -72,7 +72,7 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
 
     }
 
-    public void registerObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
+    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
         Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT).addObserver(this);
     }
 }

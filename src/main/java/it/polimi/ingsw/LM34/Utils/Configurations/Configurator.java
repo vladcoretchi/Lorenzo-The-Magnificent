@@ -2,6 +2,8 @@ package it.polimi.ingsw.LM34.Utils.Configurations;
 
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
+import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardDeck;
 import it.polimi.ingsw.LM34.Model.Resources;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -115,5 +117,14 @@ public final class Configurator {
 
     public static WorkingArea getProductionArea() {
         return productionArea;
+    }
+
+    public static DevelopmentCardDeck<? extends AbstractDevelopmentCard> prepareDevelopmentDeck() {
+
+        DevelopmentCardDeck<?> deck = new DevelopmentCardDeck<>();
+        //TODO: load from json all the cards
+
+        deck.setupDevelopmentCardDeck();
+        return deck;
     }
 }

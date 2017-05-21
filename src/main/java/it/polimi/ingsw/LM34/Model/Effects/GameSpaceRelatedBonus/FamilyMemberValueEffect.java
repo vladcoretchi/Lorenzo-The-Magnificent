@@ -71,7 +71,7 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
                 member.setValue(member.getValue()+this.value);
     }
 
-    public void registerObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
+    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
         Utilities.getContextByType(contexts, ContextType.ACTION_SLOT_CONTEXT).addObserver(this);
     }
 }

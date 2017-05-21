@@ -27,7 +27,7 @@ public class DevelopmentCardDeck<T extends AbstractDevelopmentCard> implements  
         return developmentDeck.iterator();
     }
 
-    public void prepareDevelopmentCard() {
+    public void setupDevelopmentCardDeck() {
 
         Collections.shuffle(developmentDeck);
         orderDevelopmentCardByPeriod();

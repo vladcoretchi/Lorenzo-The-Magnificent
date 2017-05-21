@@ -5,17 +5,13 @@
 	},
 	"configuration": {
 		"server": {
-			"waitingRoomTimeout": 30,
-			"userTurnTimeout": 120
+			"timeout": 120
 		},
-
 		"game": {
 			"maxPlayers": 5,
 			"periods": 3,
 			"roundsPerPeriod": 2,
-
 			"towerLevels": 4,
-
 			"councilPrivilege": [
 				{
 					"coins": 0,
@@ -63,7 +59,6 @@
 					"victoryPoints": 0
 				}
 			],
-
 			"finalVictoryPoints": {
 				"territories": {
 					"0": 0,
@@ -74,7 +69,6 @@
 					"5": 10,
 					"6": 20
 				},
-
 				"buildings": {
 					"0": 0,
 					"1": 1,
@@ -84,7 +78,6 @@
 					"5": 15,
 					"6": 25
 				},
-
 				"faithPoints": {
 					"0": 0,
 					"1": 1,
@@ -103,11 +96,9 @@
 					"14": 25,
 					"15": 30
 				},
-
 				"resourcesForVictoryPoint": 5
 			}
 		},
-
 		"actionSlots": {
 			"towers": [
 				[
@@ -401,7 +392,6 @@
 					}
 				]
 			],
-
 			"councilPalace": {
 				"singlePawnSlot": false,
 				"diceValue": 1,
@@ -416,7 +406,6 @@
 					"victoryPoints": 0
 				}
 			},
-
 			"market": [
 				{
 					"singlePawnSlot": true,
@@ -475,7 +464,6 @@
 					}
 				}
 			],
-
 			"productionArea": [
 				{
 					"singlePawnSlot": true,
@@ -506,7 +494,6 @@
 					}
 				}
 			],
-
 			"harvestArea": [
 				{
 					"singlePawnSlot": true,
@@ -538,7 +525,6 @@
 				}
 			]
 		},
-
 		"personalTiles": [
 			{
 				"standard": {
@@ -811,11 +797,9 @@
 				}
 			}
 		],
-
 		"developmentCards": {
 			"cardTemplate": {
 				"__comment": "only for defining the structure; once all cards are added this can be removed; permanentBonus not requiered yet",
-
 				"requirements": {
 					"coins": 0,
 					"woods": 0,
@@ -826,7 +810,7 @@
 					"victoryPoints": 0
 				},
 				"instantBonus": {
-					resources: {
+					"resources": {
 						"coins": 0,
 						"woods": 0,
 						"stones": 0,
@@ -845,7 +829,6 @@
 				},
 				"permanentBonus": {}
 			},
-
 			"territories": [
 				{
 					"#": 1,
@@ -987,7 +970,8 @@
 							"councilPrivilege": 1
 						}
 					}
-				},{
+				},
+				{
 					"#": 9,
 					"name": "Miniera d'Oro",
 					"period": 2,
@@ -1321,7 +1305,6 @@
 					}
 				}
 			],
-
 			"buildings": [
 				{
 					"#": 25,
@@ -1453,16 +1436,10 @@
 						"resourcesExchangeBonus": [
 							{
 								"resources": {
-									"woods": 1
-								},
-								"resources": {
 									"coins": 3
 								}
 							},
 							{
-								"resources": {
-									"woods": 2
-								},
 								"resources": {
 									"coins": 5
 								}
@@ -1492,16 +1469,10 @@
 						"resourcesExchangeBonus": [
 							{
 								"resources": {
-									"stones": 1
-								},
-								"resources": {
 									"coins": 3
 								}
 							},
 							{
-								"resources": {
-									"stones": 2
-								},
 								"resources": {
 									"coins": 5
 								}
@@ -1529,9 +1500,6 @@
 					"permanentBonus": {
 						"resourcesExchangeBonus": [
 							{
-								"resources": {
-									"coins": 1
-								},
 								"resources": {
 									"faithPoints": 1
 								}
@@ -1589,9 +1557,6 @@
 						"resourcesExchangeBonus": [
 							{
 								"resources": {
-									"coins": 3
-								},
-								"resources": {
 									"woods": 2,
 									"stones": 2
 								}
@@ -1620,16 +1585,10 @@
 						"resourcesExchangeBonus": [
 							{
 								"resources": {
-									"coins": 1
-								},
-								"resources": {
 									"victoryPoints": 3
 								}
 							},
 							{
-								"resources": {
-									"coins": 2
-								},
 								"resources": {
 									"victoryPoints": 5
 								}
@@ -1658,16 +1617,10 @@
 						"resourcesExchangeBonus": [
 							{
 								"resources": {
-									"woods": 1
-								},
-								"resources": {
 									"victoryPoints": 3
 								}
 							},
 							{
-								"resources": {
-									"woods": 3
-								},
 								"resources": {
 									"victoryPoints": 7
 								}
@@ -1696,16 +1649,10 @@
 						"resourcesExchangeBonus": [
 							{
 								"resources": {
-									"stones": 1
-								},
-								"resources": {
 									"victoryPoints": 3
 								}
 							},
 							{
-								"resources": {
-									"stones": 3
-								},
 								"resources": {
 									"victoryPoints": 7
 								}
@@ -1735,11 +1682,6 @@
 						"resourcesExchangeBonus": [
 							{
 								"resources": {
-									"servants": 1,
-									"woods": 1,
-									"stones": 1
-								},
-								"resources": {
 									"victoryPoints": 6
 								}
 							}
@@ -1767,9 +1709,6 @@
 					"permanentBonus": {
 						"resourcesExchangeBonus": [
 							{
-								"resources": {
-									"faithPoints": 1
-								},
 								"resources": {
 									"coins": 2,
 									"victoryPoints": 2
@@ -1799,9 +1738,6 @@
 					"permanentBonus": {
 						"resourcesExchangeBonus": [
 							{
-								"resources": {
-									"servants": 1
-								},
 								"resources": {
 									"militaryPoints": 3
 								}
@@ -1885,9 +1821,6 @@
 					"permanentBonus": {
 						"resourcesExchangeBonus": [
 							{
-								"resources": {
-									"coins": 2
-								},
 								"resources": {
 									"woods": 3,
 									"stones": 3
@@ -1974,9 +1907,6 @@
 						"resourcesExchangeBonus": [
 							{
 								"resources": {
-									"coins": 1
-								},
-								"resources": {
 									"servants": 2,
 									"victoryPoints": 4
 								}
@@ -2007,16 +1937,10 @@
 						"resourcesExchangeBonus": [
 							{
 								"resources": {
-									"woods": 1
-								},
-								"resources": {
 									"faithPoints": 2
 								}
 							},
 							{
-								"resources": {
-									"stones": 1
-								},
 								"resources": {
 									"faithPoints": 2
 								}
@@ -2046,9 +1970,6 @@
 					"permanentBonus": {
 						"resourcesExchangeBonus": [
 							{
-								"resources": {
-									"servants": 1
-								},
 								"resources": {
 									"militaryPoints": 3,
 									"victoryPoints": 1
@@ -2085,7 +2006,6 @@
 					}
 				}
 			],
-
 			"characters": [
 				{
 					"#": 49,
@@ -2210,7 +2130,10 @@
 					},
 					"permanentBonus": {
 						"ActionSlotPenalty": {
-							"noResourcesFromTowerLevels": [5, 7]
+							"noResourcesFromTowerLevels": [
+								5,
+								7
+							]
 						}
 					}
 				},
@@ -2498,7 +2421,6 @@
 					}
 				}
 			],
-
 			"ventures": [
 				{
 					"#": 73,
@@ -3020,7 +2942,6 @@
 				}
 			]
 		},
-
 		"leaderCards": [
 			{
 				"leaderName": "Francesco Sforza",
@@ -3423,7 +3344,6 @@
 				"oncePerTurn": false
 			}
 		],
-
 		"excommunicationTiles": [
 			{
 				"period": 1,

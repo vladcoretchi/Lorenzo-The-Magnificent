@@ -61,4 +61,11 @@ public class Player implements Serializable {
         return this.observerEffects;
     }
 
+    public void addObserver(ObserverEffect observer) {
+        observerEffects.add(observer);
+    }
+
+    public void unSubscribeObservers() {
+        observerEffects.clear();
+    }
 }

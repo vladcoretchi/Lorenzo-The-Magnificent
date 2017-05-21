@@ -22,7 +22,7 @@ public class HalveServantsValue implements Observer {
         //TODO: halve the servants value during "IncreasePawnsValueByServantsContext"
     }
 
-    public void registerObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
+    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
         Utilities.getContextByType(contexts, ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT).addObserver(this);
     }
 }

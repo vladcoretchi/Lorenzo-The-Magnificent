@@ -9,7 +9,8 @@ import java.util.ArrayList;
  * Created by GiulioComi on 20/05/2017.
  */
 public interface ObserverEffect {
+    
+    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException;
 
-    public void registerObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException;
-
+    public void resetApplyFlag();
 }
