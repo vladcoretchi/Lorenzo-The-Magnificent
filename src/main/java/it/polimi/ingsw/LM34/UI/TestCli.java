@@ -2,11 +2,6 @@ package it.polimi.ingsw.LM34.UI;
 
 import it.polimi.ingsw.LM34.UI.CLI.IOInterface;
 
-import org.json.*;
-
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.lang.String;
 
 /**
@@ -126,24 +121,9 @@ public class TestCli extends AbstractUI implements IOInterface {
      * if the request will be card's name, the helper will display all information about this card
      */
     @Override
-    public void helper(String userSearchedItem) {
-        String allLinesRead = "";
-        try {
-        BufferedReader bufferedReader = new BufferedReader((new FileReader(PATH_TO_CONFIG_JSON)));
-        StringBuilder stringBuilder = new StringBuilder();
-        String lineRead = bufferedReader.readLine();
-        while(lineRead != null) {
-            stringBuilder.append(lineRead);
-            lineRead = bufferedReader.readLine();
-        }
-        allLinesRead = stringBuilder.toString();
-        bufferedReader.close();
-    } catch (IOException ex) {
-        ex.printStackTrace();
-    }
-
-    JSONObject allLineReadsToJson = new JSONObject(allLinesRead);
-
+    public String helper() {
+        printToConsole.println("type help + 'card name' to obtain all information about the card");
+        return readUserInput.nextLine();
     }
 
     /**

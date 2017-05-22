@@ -11,6 +11,6 @@ public abstract class AbstractUI {
     public abstract void loginMenu();
     public abstract String printMenu();
     public abstract String choiceConnectionType();
-    public abstract void helper(String userSearchedItem);
+    public abstract String helper();
     public abstract void printTowers();
 }

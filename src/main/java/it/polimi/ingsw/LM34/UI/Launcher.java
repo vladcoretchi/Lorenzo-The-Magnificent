@@ -41,6 +41,8 @@ public class Launcher implements IOInterface {
      */
     public static final String RESET_COLOR = ESCAPE_SEQUENCE+RESET_COLOR_TO_DEFAULT;
 
+    public static String HELPER_CARD_NAME;
+
     public static void main(String[] args) {
 
         /**
@@ -109,15 +111,18 @@ public class Launcher implements IOInterface {
          * this cycle will check if user will type 'help', follwed by a card`s name. In this case, it will return all information about searched card.
          */
         while(!userInputIsValid) {
-            printToConsole.println("type help + 'card name' to obtain all information about the card");
-            StringTokenizer stringDividedIntoTokens = new StringTokenizer(readUserInput.nextLine());
-            if(stringDividedIntoTokens.nextToken().equalsIgnoreCase("help")) {
+            StringTokenizer stringDividedIntoTokens = new StringTokenizer(Cli.helper());
+
+            HELPER_CARD_NAME = stringDividedIntoTokens.nextToken();
+
+            if(HELPER_CARD_NAME.equalsIgnoreCase("help"))
+                printToConsole.println(ERROR_MESSAGE_COLOR+"to use helper, command must start with 'help'"+RESET_COLOR);
+
+            else {
+                HELPER_CARD_NAME = stringDividedIntoTokens.nextToken();
+                printToConsole.println(HELPER_CARD_NAME); //only for debug. On production, HELPER_CARD_NAME will be sent to server
                 userInputIsValid = true;
-                Cli.helper(readUserInput.nextLine());
             }
-            else
-                printToConsole.println("to use helper, command must start with 'help");
-            //TODO: check if the typed card`s name is correct
 
         }
 
