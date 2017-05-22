@@ -2,6 +2,13 @@ package it.polimi.ingsw.LM34.UI;
 
 import it.polimi.ingsw.LM34.UI.CLI.IOInterface;
 
+import org.json.*;
+
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.lang.String;
+
 /**
  * this class was built on {@link AbstractUI}. It implement all method body that will be used to describe and manage Cli
  * this class also implements {@link IOInterface}, the interface that remap I/O streams
@@ -35,6 +42,8 @@ public class TestCli extends AbstractUI implements IOInterface {
 
     private String playerUsername;
     private String playerPassword;
+
+    private static final String PATH_TO_CONFIG_JSON = "./src/main/resources/configurations/config.json";
 
     /**
      * this method will be called when the console will print on screen the Splash screen, at the beginning of it's lifecycle
@@ -113,6 +122,31 @@ public class TestCli extends AbstractUI implements IOInterface {
     }
 
     /**
+     * this method will be called when, in game, user type "help", followed by a request.
+     * if the request will be card's name, the helper will display all information about this card
+     */
+    @Override
+    public void helper(String userSearchedItem) {
+        String allLinesRead = "";
+        try {
+        BufferedReader bufferedReader = new BufferedReader((new FileReader(PATH_TO_CONFIG_JSON)));
+        StringBuilder stringBuilder = new StringBuilder();
+        String lineRead = bufferedReader.readLine();
+        while(lineRead != null) {
+            stringBuilder.append(lineRead);
+            lineRead = bufferedReader.readLine();
+        }
+        allLinesRead = stringBuilder.toString();
+        bufferedReader.close();
+    } catch (IOException ex) {
+        ex.printStackTrace();
+    }
+
+    JSONObject allLineReadsToJson = new JSONObject(allLinesRead);
+
+    }
+
+    /**
      * this method will be called when the console will print towers on screen
      */
 
@@ -122,3 +156,4 @@ public class TestCli extends AbstractUI implements IOInterface {
     }
 
 }
+
