@@ -20,15 +20,13 @@ import java.util.HashMap;
 public class EndGameContext  extends AbstractGameContext {
     ArrayList<Player> players;
 
-    //TODO: all excommunication III period penalty are applied here as observers
+    //TODO: all excommunication III period penalties are applied here as observers
     public void initContext(ArrayList<Player> players) {
         setChanged();
         notifyObservers(ContextStatus.ENTERED);
 
         onEndCalculateVictoryPointsPerPlayerByVentureCards();
         onEndCalculateVictoryPointsPerPlayerByResources();
-
-
     }
     @Override
     public ContextType getType() {
@@ -58,7 +56,7 @@ public class EndGameContext  extends AbstractGameContext {
         //for each player we calculate the sum of the victory points rewards provided by his venture cards stored in the personal board
         try {
             for (Player p : players) {
-                //TODO: check if the player has the excommunication card that disable this step
+                //TODO: check if the player has the excommunication card that disables this step
                 /*if(p.getMalus== noCalculateEndPoints)
                     victoryPointsToPlayers(p, 0);*/
                 // else
@@ -87,7 +85,7 @@ public class EndGameContext  extends AbstractGameContext {
 
             for (Player p : players) {
                 Resources resources = p.getResources();
-                totalVictoryPointsByResources = Utilities.getTotalAmount(resources);
+                totalVictoryPointsByResources = Utilities.getTotalAmount(resources) /5; //TODO
 
                 victoryPointsToPlayers.put(p, totalVictoryPointsByResources);
             }

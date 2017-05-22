@@ -18,7 +18,6 @@ public class HarvestAreaContext extends AbstractGameContext {
 
     public void interactWithPlayer(Player player) {
         //TODO: implement what player can do here and modify the model in this controller class
-
         //Utilities.getContextByType(contexts, ContextType.ACTION_SLOT_CONTEXT).initContext();
     }
 

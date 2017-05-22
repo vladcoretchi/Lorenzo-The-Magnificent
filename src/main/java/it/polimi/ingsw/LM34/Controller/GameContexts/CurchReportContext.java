@@ -20,6 +20,7 @@ public class CurchReportContext  extends AbstractGameContext {
 
     private void interactWithPlayer(Player player) {
         //TODO: implement what player can do here and modify the model in this controller class
+        //let the player choice if they wants to be excommunicated and assigned the negative effect to them
     }
 
     @Override

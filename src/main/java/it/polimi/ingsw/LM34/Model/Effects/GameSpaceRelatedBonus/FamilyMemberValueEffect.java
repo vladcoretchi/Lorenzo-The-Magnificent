@@ -68,10 +68,11 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
         ArrayList<FamilyMember> familyMembers = player.getFamilyMembers();
         for(FamilyMember member : familyMembers)
             if(member.getDiceColorAssociated() == this.diceColor)
-                member.setValue(member.getValue()+this.value);
+                member.setValue(member.getValue() + this.value);
     }
 
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
         Utilities.getContextByType(contexts, ContextType.ACTION_SLOT_CONTEXT).addObserver(this);
+        Utilities.getContextByType(contexts, ContextType.DEVELOPMENT_CARD_ACQUIRE_CONTEXT).addObserver(this);
     }
 }

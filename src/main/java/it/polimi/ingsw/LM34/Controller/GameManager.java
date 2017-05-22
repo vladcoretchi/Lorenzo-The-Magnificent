@@ -121,7 +121,7 @@ public class GameManager {
         Utilities.setNewTurnOrder(councilPalace, players);
         rollDices();
         sweepActionSlots();  //sweeps all action and tower slots from pawns and cards
-        replaceCards();
+        replaceCards();      //Four development cards per type are moved from the decks into the towerslots
 
         for (Player player : players) {
             player.unSubscribeObservers();
@@ -140,8 +140,15 @@ public class GameManager {
         //Do curch report after 2nd round of each period
         if(period %2 == 0) {
 
+            /**
+             * Now it is Curch Report time
+             */
             CurchReportContext curchContext = (CurchReportContext) Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT);
-            curchContext.initContext();
+
+            /**
+             * @param players are passed to the context so that CurchReportContext handle the interact with them
+             */
+            curchContext.initContext(players);
         }
 
 

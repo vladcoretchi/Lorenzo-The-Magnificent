@@ -15,7 +15,7 @@ public class ResourceIncomeContext extends AbstractGameContext {
     @Override
     public void initContext() {
         setChanged();
-        notifyObservers(ContextStatus.FINISHED);
+        notifyObservers(ContextStatus.ENTERED);
     }
 
     private void interactWithPlayer(Player player) {

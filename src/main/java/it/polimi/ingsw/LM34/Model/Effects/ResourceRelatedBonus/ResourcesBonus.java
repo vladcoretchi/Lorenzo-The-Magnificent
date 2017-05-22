@@ -56,6 +56,6 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
 
 
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
-        Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT).addObserver(this);
+        Utilities.getContextByType(contexts, ContextType.RESOURCE_INCOME_CONTEXT).addObserver(this);
     }
 }

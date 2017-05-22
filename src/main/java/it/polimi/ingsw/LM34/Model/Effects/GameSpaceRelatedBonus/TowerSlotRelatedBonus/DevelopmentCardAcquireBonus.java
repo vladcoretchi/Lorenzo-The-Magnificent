@@ -81,4 +81,7 @@ public class DevelopmentCardAcquireBonus extends AbstractEffect implements Obser
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
         Utilities.getContextByType(contexts, ContextType.DEVELOPMENT_CARD_ACQUIRE_CONTEXT).addObserver(this);
     }
+
+
+
 }

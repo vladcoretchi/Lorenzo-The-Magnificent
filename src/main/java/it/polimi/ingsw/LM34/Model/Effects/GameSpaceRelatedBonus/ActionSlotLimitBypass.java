@@ -21,6 +21,6 @@ public class ActionSlotLimitBypass extends AbstractEffect implements Observer {
     }
 
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
-        Utilities.getContextByType(contexts, ContextType.DEVELOPMENT_CARD_ACQUIRE_CONTEXT).addObserver(this);
+        Utilities.getContextByType(contexts, ContextType.ACTION_SLOT_CONTEXT).addObserver(this);
     }
 }

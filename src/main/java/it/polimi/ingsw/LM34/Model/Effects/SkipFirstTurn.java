@@ -31,6 +31,6 @@ public class SkipFirstTurn extends AbstractEffect implements Observer {
     }
 
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
-        Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT).addObserver(this);
+        Utilities.getContextByType(contexts, ContextType.PHASE_CONTEXT).addObserver(this);
     }
 }

@@ -34,5 +34,4 @@ public class ProductionAreaContext extends AbstractGameContext {
         notifyObservers(ContextStatus.FINISHED);
     }
 
-
 }
