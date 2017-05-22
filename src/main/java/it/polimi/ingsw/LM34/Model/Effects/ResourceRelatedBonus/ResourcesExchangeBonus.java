@@ -25,8 +25,13 @@ public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
         this.resourceExchange = resourceExchange;
     }
 
+    @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
         Utilities.getContextByType(contexts, ContextType.PRODUCTION_AREA_CONTEXT).addObserver(this);
+    }
+
+
+    public void resetApplyFlag() {
     }
 
     @Override

@@ -2,7 +2,6 @@ package it.polimi.ingsw.LM34.Model.Effects;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import java.util.Observer;
 
 public class SkipFirstTurn extends AbstractEffect implements Observer {
     private Boolean skipFirstTurn;
+    ArrayList<AbstractGameContext> contexts;
 
     public SkipFirstTurn(Boolean skipFirstTurn) {
         this.skipFirstTurn = skipFirstTurn;
@@ -28,9 +28,24 @@ public class SkipFirstTurn extends AbstractEffect implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        //TODO: fai saltare il turno
+        /**
+         * Unregister this observer because it is applicable once per round; it will be reactivated next round in the phase context
+         */
+        Utilities.getContextByType(contexts, ContextType.PHASE_CONTEXT).deleteObserver(this);
     }
 
-    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
+    @Override
+    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
+        contexts = contexts;
         Utilities.getContextByType(contexts, ContextType.PHASE_CONTEXT).addObserver(this);
+    }
+
+
+    public void resetApplyFlag() {}
+
+    @Override
+    public boolean isOncePerRound() {
+        return true;
     }
 }

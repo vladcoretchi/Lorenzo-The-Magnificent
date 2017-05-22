@@ -3,7 +3,6 @@ package it.polimi.ingsw.LM34.Model.Effects;
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
@@ -72,7 +71,13 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
 
     }
 
-    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
-        Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT).addObserver(this);
+    @Override
+    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
+        Utilities.getContextByType(contexts, ContextType.END_GAME_CONTEXT).addObserver(this);
     }
+
+
+    public void resetApplyFlag() {}
+
+
 }
