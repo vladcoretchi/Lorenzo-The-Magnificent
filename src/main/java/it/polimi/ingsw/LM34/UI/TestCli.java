@@ -132,6 +132,8 @@ public class TestCli extends AbstractUI implements IOInterface {
 
     @Override
     public void printTowers() {
+        printToConsole.println("tower 1 ");
+
         //TODO: print towers one bottom others, color-coded
     }
 

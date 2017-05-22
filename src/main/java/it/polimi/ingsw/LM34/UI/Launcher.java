@@ -115,18 +115,19 @@ public class Launcher implements IOInterface {
 
             HELPER_CARD_NAME = stringDividedIntoTokens.nextToken();
 
-            if(HELPER_CARD_NAME.equalsIgnoreCase("help"))
-                printToConsole.println(ERROR_MESSAGE_COLOR+"to use helper, command must start with 'help'"+RESET_COLOR);
-
-            else {
+            if(HELPER_CARD_NAME.equalsIgnoreCase("help")) {
                 HELPER_CARD_NAME = stringDividedIntoTokens.nextToken();
                 printToConsole.println(HELPER_CARD_NAME); //only for debug. On production, HELPER_CARD_NAME will be sent to server
                 userInputIsValid = true;
             }
 
+            else
+                printToConsole.println(ERROR_MESSAGE_COLOR+"to use helper, command must start with 'help'"+RESET_COLOR);
         }
 
         userInputIsValid = false;
+
+        Cli.printTowers();
 
     }
 }
