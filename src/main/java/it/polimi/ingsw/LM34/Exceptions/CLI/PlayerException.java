@@ -6,8 +6,4 @@ public class PlayerException extends Exception {
 
         super(playerException);
     }
-
-    public String getErrorMessage() {
-        return super.getMessage();
-    }
 }

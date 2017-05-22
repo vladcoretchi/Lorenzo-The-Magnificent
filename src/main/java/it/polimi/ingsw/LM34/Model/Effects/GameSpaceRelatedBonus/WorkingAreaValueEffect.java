@@ -54,10 +54,8 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
         ContextType contextType;
 
         if (areaType == WorkingAreaType.PRODUCTION)
-            contextType = ContextType.PRODUCTION_AREA_CONTEXT;
+            Utilities.getContextByType(contexts, ContextType.PRODUCTION_AREA_CONTEXT).addObserver(this);
         else
-            contextType = ContextType.HARVEST_AREA_CONTEXT;
-
-        Utilities.getContextByType(contexts, ContextType.PRODUCTION_AREA_CONTEXT).addObserver(this);
+            Utilities.getContextByType(contexts, ContextType.HARVEST_AREA_CONTEXT).addObserver(this);
     }
 }
