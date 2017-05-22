@@ -37,9 +37,20 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
         return this.militaryPointsRequired;
     }
 
+    @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
+        //TODO: evaluate if correct here for instant bonuses
         Utilities.getContextByType(contexts, ContextType.DEVELOPMENT_CARD_ACQUIRE_CONTEXT).addObserver(this);
+        //TODO: for building cards permanent bonuses
+        Utilities.getContextByType(contexts, ContextType.PRODUCTION_AREA_CONTEXT).addObserver(this);
     }
+
+
+    public void resetApplyFlag() {
+
+    }
+
+
 
     @Override
     public void update(Observable o, Object arg) {

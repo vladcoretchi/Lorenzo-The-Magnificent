@@ -3,7 +3,6 @@ package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus;
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.WorkingAreaType;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
@@ -50,7 +49,8 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
 
     }
 
-    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
+    @Override
+    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
         ContextType contextType;
 
         if (areaType == WorkingAreaType.PRODUCTION)
@@ -58,4 +58,8 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
         else
             Utilities.getContextByType(contexts, ContextType.HARVEST_AREA_CONTEXT).addObserver(this);
     }
+
+    public void resetApplyFlag() {
+    }
+
 }

@@ -9,7 +9,7 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
 import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Dice;
-import it.polimi.ingsw.LM34.Model.Effects.ObserverEffect;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.RemotePlayer;
@@ -115,6 +115,7 @@ public class GameManager {
     }
 
     public void nextRound() { //round = half period
+        ArrayList<AbstractEffect> playerObservers = new ArrayList<>();
 
         round++;
 
@@ -123,13 +124,23 @@ public class GameManager {
         sweepActionSlots();  //sweeps all action and tower slots from pawns and cards
         replaceCards();      //Four development cards per type are moved from the decks into the towerslots
 
-        for (Player player : players) {
+       /* for (Player player : players) {
             player.unSubscribeObservers();
-            ArrayList<ObserverEffect> playerObservers = player.getObservers();
-            for(ObserverEffect observerEffect : playerObservers)
-                observerEffect.resetApplyFlag();
-        }
+            ArrayList<AbstractEffect> playerObservers = player.getObservers();
+            for(AbstractEffect AbstractEffect : playerObservers)
+                AbstractEffect.resetApplyFlag();
+        }*/
 
+        /**
+         * At the beginning of the round re apply all the once per round observers of the players
+         */
+        for (Player player : players) {
+           playerObservers = player.getObservers();
+            for(AbstractEffect observer : playerObservers)
+                if(observer.isOncePerRound())
+                    observer.subscribeObserverToContext(contexts);
+
+        }
         if(round %2 == 0)
             nextPeriod();
     }

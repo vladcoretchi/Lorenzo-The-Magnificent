@@ -2,7 +2,6 @@ package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelate
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
@@ -19,7 +18,13 @@ public class NoMilitaryRequirementsForTerritory extends AbstractEffect implement
 
     }
 
-    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) throws NoSuchContextException {
+    @Override
+    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
         Utilities.getContextByType(contexts, ContextType.DEVELOPMENT_CARD_ACQUIRE_CONTEXT).addObserver(this);
     }
+
+    public void resetApplyFlag() {
+
+    }
+
 }

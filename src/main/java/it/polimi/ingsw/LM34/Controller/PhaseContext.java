@@ -2,7 +2,7 @@ package it.polimi.ingsw.LM34.Controller;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Model.Effects.ObserverEffect;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
 
 import java.util.ArrayList;
@@ -25,9 +25,10 @@ public class PhaseContext extends AbstractGameContext {
      */
     public void initContext(Player player) {
 
-        ArrayList<ObserverEffect> observers = player.getObservers();
-            for (ObserverEffect observer : observers)
-                observer.subscribeObserverToContext(contexts);
+        ArrayList<AbstractEffect> observers = player.getObservers();
+            for (AbstractEffect observer : observers)
+                if(!observer.isOncePerRound())
+                    observer.subscribeObserverToContext(contexts);
     }
 
     
