@@ -108,7 +108,7 @@ public class Launcher implements IOInterface {
         userInputIsValid = false;
 
         /**
-         * this cycle will check if user will type 'help', follwed by a card`s name. In this case, it will return all information about searched card.
+         * this cycle will check if user will type 'help', followed by a card`s name. In this case, it will return all information about searched card.
          */
         while(!userInputIsValid) {
             StringTokenizer stringDividedIntoTokens = new StringTokenizer(Cli.helper());
