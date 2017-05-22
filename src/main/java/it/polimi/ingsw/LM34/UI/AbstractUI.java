@@ -1,6 +1,9 @@
 package it.polimi.ingsw.LM34.UI;
 
-public abstract class AbstractUI { //scrivere anche una classe che si occuperà di verificare se effettivamente l'input dell'utente è giusto
+/**
+ * this abstract class represent all prototype of cli methods, and will be implemented in {@link TestCli}
+ */
+public abstract class AbstractUI {
 
     public abstract void printSplashScreen();
     public abstract void printDivider();

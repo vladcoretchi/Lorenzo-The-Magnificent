@@ -2,11 +2,10 @@ package it.polimi.ingsw.LM34.UI;
 
 import it.polimi.ingsw.LM34.UI.CLI.IOInterface;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.HashMap;
-import java.util.Map;
+/**
+ * this class was built on {@link AbstractUI}. It implement all method body that will be used to describe and manage Cli
+ * this class also implements {@link IOInterface}, the interface that remap I/O streams
+ */
 
 public class TestCli extends AbstractUI implements IOInterface {
 
@@ -37,20 +36,28 @@ public class TestCli extends AbstractUI implements IOInterface {
     private String playerUsername;
     private String playerPassword;
 
-    protected Pair<String, String> playerUsernamePassword;
-
-
+    /**
+     * this method will be called when the console will print on screen the Splash screen, at the beginning of it's lifecycle
+     */
     @Override
     public void printSplashScreen() {
 
         printToConsole.println(SPLASH_SCREEN);
     }
 
+    /**
+     * this method will be called when the console need to separate some information to others
+     */
+
     @Override
     public void printDivider() {
         printToConsole.println(DIVIDER);
     }
 
+    /**
+     * this method will be called when the console will start to interact to the user; it will print a menu that allow to the user to choice how Ui he wants to use between Cli or Gui
+     * @return the user's choice
+     */
     @Override
     public String startMenu() {
         printToConsole.println("Welcome to Lorenzo il Magnifico. " +
@@ -60,6 +67,10 @@ public class TestCli extends AbstractUI implements IOInterface {
         return readUserInput.nextLine();
 
     }
+
+    /**
+     * this method will be called when the console will ask to user to insert his username and password
+     */
 
     @Override
     public void loginMenu() {
@@ -72,6 +83,11 @@ public class TestCli extends AbstractUI implements IOInterface {
 
     }
 
+    /**
+     * this method will be called when the console will ask user if he wants to start new game or continue previous game
+     * @return the user's choice
+     */
+
     @Override
     public String printMenu() {
         printToConsole.println("Game menu:\n" +
@@ -82,6 +98,10 @@ public class TestCli extends AbstractUI implements IOInterface {
         return readUserInput.nextLine();
     }
 
+    /**
+     * this method will be called when the console will ask user what kind of connection technology he wants to use, Rmi or Socket
+     * @return the user's choice
+     */
     @Override
     public String choiceConnectionType() {
         printToConsole.println("which technology do you wish to use to connect to the server?\n" +
@@ -91,6 +111,10 @@ public class TestCli extends AbstractUI implements IOInterface {
 
         return readUserInput.nextLine();
     }
+
+    /**
+     * this method will be called when the console will print towers on screen
+     */
 
     @Override
     public void printTowers() {
