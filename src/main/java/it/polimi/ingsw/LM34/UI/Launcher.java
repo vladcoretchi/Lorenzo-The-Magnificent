@@ -66,7 +66,6 @@ public class Launcher implements IOInterface {
          * this cycle will call user to choose between Cli or Gui, and repeat this question until the answer will be 'cli' or 'gui', ignoring uppercase
          */
         while(!userInputIsValid) {
-
             if (Cli.startMenu().equalsIgnoreCase("cli") || Cli.startMenu().equalsIgnoreCase("gui"))
                 userInputIsValid = true;
             else
@@ -116,7 +115,7 @@ public class Launcher implements IOInterface {
             HELPER_CARD_NAME = stringDividedIntoTokens.nextToken();
 
             if(HELPER_CARD_NAME.equalsIgnoreCase("help")) {
-                HELPER_CARD_NAME = stringDividedIntoTokens.nextToken();
+                    HELPER_CARD_NAME = stringDividedIntoTokens.nextToken();
                 printToConsole.println(HELPER_CARD_NAME); //only for debug. On production, HELPER_CARD_NAME will be sent to server
                 userInputIsValid = true;
             }
