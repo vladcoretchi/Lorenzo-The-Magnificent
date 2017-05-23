@@ -70,20 +70,38 @@ public final class Utilities {
          return totalUnit;
     }
 
-
+    //TODO: refactor
     public static ArrayList<Player>  setNewTurnOrder(CouncilPalace councilPalace, ArrayList<Player> players) {
-        ArrayList<FamilyMember> temp;
-        ArrayList<Player> oldPlayersOrder = players;
-        temp = councilPalace.getNextTurnOrder();
-        players.clear();
-        for (FamilyMember fm : temp) {
-            PawnColor pawnColor = fm.getFamilyMemberColor();
-            for (Player rm : oldPlayersOrder)
-                if (rm.getPawnColor() == pawnColor)
-                    players.add(rm);
-        }
 
-        return players;
+        ArrayList<Player> oldPlayersOrder = players;
+        ArrayList<Player> newPlayersOrder = new ArrayList<>();
+        ArrayList<FamilyMember> membersInOrder = councilPalace.getOccupyingPawns();
+
+        /*First remove all multipe pawns associated to the same player*/
+        /*These inner loops do not add temporal complexity because pawns' count is negligible*/
+        for(FamilyMember fm1 : membersInOrder)
+            for(FamilyMember fm2 : membersInOrder)
+                if(fm1.getFamilyMemberColor() == fm2.getFamilyMemberColor())
+                    membersInOrder.remove(fm2); //keep just the first pawn for every player
+
+        /*now that there is one pawn per players order the player based on pawns' positions*/
+        for(FamilyMember fm : membersInOrder) {
+            PawnColor color = fm.getFamilyMemberColor();
+            for (Player player : oldPlayersOrder)
+                if (player.getPawnColor() == color) {
+                    newPlayersOrder.add(player);
+                    oldPlayersOrder.remove(player);
+                }
+        }
+        /**
+         *@param remainingPlayers that did not placed their familyMembers in councilPalace
+         */
+        newPlayersOrder.addAll(oldPlayersOrder);
+
+        /**
+         * @return this is the new players order for the next round
+         */
+        return newPlayersOrder;
     }
 
     /**

@@ -1,7 +1,8 @@
 package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
-import java.util.ArrayList;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
+
+import java.util.ArrayList;
 
 //TODO: apply Singleton design pattern
 public class CouncilPalace extends GameSpace {
@@ -30,13 +31,10 @@ public class CouncilPalace extends GameSpace {
         return occupyingPawns.isEmpty();
     }
 
+    //TODO: remove from here and do this in the controller
     //return the order of the players in the next turn
-    public ArrayList<FamilyMember> getNextTurnOrder() {
-        ArrayList<FamilyMember> tempOrder = new ArrayList<FamilyMember>(); //temporary variable
-        for (FamilyMember fm : occupyingPawns)
-            if(!occupyingPawns.contains(fm))
-                tempOrder.add(fm);
-        return tempOrder;
+    public ArrayList<FamilyMember> getOccupyingPawns() {
+        return this.occupyingPawns;
     }
 
 

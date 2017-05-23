@@ -21,7 +21,8 @@ public class PhaseContext extends AbstractGameContext {
 
     /**
      * @param player about to begin his turn
-     *Reactivate all observers of the player that is going to play
+     *Reactivate all observers that are of the player that is going to play
+     *NOTE: OncePerRound observers are excluded
      */
     public void initContext(Player player) {
 
@@ -38,9 +39,7 @@ public class PhaseContext extends AbstractGameContext {
     }
 
     @Override
-    public void initContext() {
-
-    }
+    public void initContext() {/*not used*/}
 
     @Override
     public ContextType getType() {
@@ -49,9 +48,11 @@ public class PhaseContext extends AbstractGameContext {
 
     @Override
     public void endContext() {
-
+        //TODO
     }
+
     //the only observer associated with this context is the penalty of the excommunication card that make you skip
     //your first turn
+
 
 }
