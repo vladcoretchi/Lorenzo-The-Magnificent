@@ -16,7 +16,7 @@ public class ActionSlotLimitBypass extends AbstractEffect implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        
     }
 
     @Override

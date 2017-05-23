@@ -77,7 +77,6 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
     }
 
 
-    public void resetApplyFlag() {}
 
 
 }

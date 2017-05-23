@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus;
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.ArrayList;
@@ -16,16 +17,19 @@ import java.util.Observer;
 //TODO: evaluate to 'merge' in FamilyMemberValueEffect observer class
 
 public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
-    private ContextType areaType;
-    private Integer diceValue;
-    private Boolean isActionFree; //TODO: "sforza", "da vinci"
+    private Player player;
+    private ContextType areaType; //PRODUCTION_CONTEXT OR HARVEST_CONTEXT
+    private Integer diceValue; //TODO: "sforza", "da vinci"
+    private Boolean isInstant;
 
     /**
-     *The additional value on dice is absolute or relative depending on the cards
+     *The additional value on dice is absolute or relative depending on the card effects
      */
     private Boolean relative;
 
-    public WorkingAreaValueEffect(ContextType areaType, Integer value, Boolean relative) {
+    public WorkingAreaValueEffect(Player player, Boolean isInstant, ContextType areaType, Integer value, Boolean relative) {
+        this.player = player;
+        this.isInstant = isInstant;
         this.areaType = areaType;
         this.diceValue = value;
         this.relative = relative;
@@ -46,11 +50,38 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
+        AbstractGameContext gameContext = (AbstractGameContext) o;
+        ContextType currentContext = gameContext.getType();
+
+        if(areaType == currentContext)
+            //TODO: get dice value from family member currently selected and apply bonus;
+            // TODO: remember to reset the dice value powered before exiting this context
+            player.getFamilyMembers(); //choose just one
+            /*
+            if(isRelative)
+            diceContextValue = familyMemberSelected.getValue +diceValue;
+            else
+            diceContextValue = diceValue;
+             */
+            //Utilities.getContextByType(areaType).continue(diceContextValue);
+
+
+
+
+
+
     }
 
     @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
         Utilities.getContextByType(contexts, areaType).addObserver(this);
 
+    }
+
+    public void applyEffect(ArrayList<AbstractGameContext> contexts) {
+        if(isInstant) //check if this is instant effect
+        Utilities.getContextByType(contexts, areaType).initContext();
+        else //register the permanent bonus as observer
+        subscribeObserverToContext(contexts);
     }
 }

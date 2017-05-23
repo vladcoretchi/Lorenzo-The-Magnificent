@@ -20,9 +20,10 @@ public class DevelopmentCardAcquireBonus extends AbstractEffect implements Obser
     private DevelopmentCardColor color;  //TODO: initial attempt to handle more bonuses of this type in one instance only
     private Integer value;
     private Resources requirementsDiscount;
+    private Boolean isInstant;
 
 
-    //TODO: pico della mirandola, filippo brunelleschi, santa rita
+    //TODO: pico della mirandola, filippo brunelleschi
     /**
      * applied only if value is not null
      * if true - the value is applied when the user goes on a tower action space.
@@ -30,7 +31,8 @@ public class DevelopmentCardAcquireBonus extends AbstractEffect implements Obser
      */
     private Boolean relative;
 
-    public DevelopmentCardAcquireBonus(DevelopmentCardColor color, Integer value, Boolean relative) {
+    public DevelopmentCardAcquireBonus(Boolean isInstant, DevelopmentCardColor color, Integer value, Boolean relative) {
+        this.isInstant = isInstant;
         this.color = color;
         this.value = value;
         this.requirementsDiscount = null;
@@ -63,18 +65,15 @@ public class DevelopmentCardAcquireBonus extends AbstractEffect implements Obser
     @Override
     public void update(Observable o, Object arg) {
         Player player = (Player) arg;
-
+        //get dice select by player, add value bonus and discounts
+        //TODO
     }
 
 
     //TODO: reset to the value before this context started
 
 
-    public DevelopmentCardAcquireBonus mergeInOneObserverInstance(DevelopmentCardAcquireBonus dcae) {
 
-        //TODO: implement this method
-        return null;
-    }
 
 
     @Override
@@ -83,8 +82,15 @@ public class DevelopmentCardAcquireBonus extends AbstractEffect implements Obser
     }
 
 
-    public void resetApplyFlag() {
-
+    public void applyEffect(ArrayList<AbstractGameContext> contexts) {
+        if(isInstant) {
+            subscribeObserverToContext(contexts);
+            AbstractGameContext context = Utilities.getContextByType(contexts, ContextType.DEVELOPMENT_CARD_ACQUIRE_CONTEXT);
+            context.initContext();
+            context.deleteObserver(this);
+        }
+        else
+            subscribeObserverToContext(contexts);
     }
 
 

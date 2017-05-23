@@ -32,7 +32,7 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
     /*santa rita*/
     public ResourcesBonus(Integer developmentCardsGoodsMultiplier) {
         this.resources = null;
-        this.councilPrivilege = null;
+        this.councilPrivilege = 0;
         this.developmentCardsGoodsMultiplier = developmentCardsGoodsMultiplier; //santa rita, 2 di solito
     }
 

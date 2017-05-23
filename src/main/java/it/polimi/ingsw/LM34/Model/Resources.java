@@ -2,6 +2,7 @@ package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Utils.Utilities;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -71,5 +72,12 @@ public class Resources implements Serializable {
 
         for (Map.Entry<ResourceType, Integer> resEntry : res.getResources().entrySet())
             this.modifyResourceByType(resEntry.getKey(), resEntry.getValue());
+    }
+
+    public void subResources (Resources res) {
+        if (res == null) throw new NullPointerException();
+
+        for (Map.Entry<ResourceType, Integer> resEntry : res.getResources().entrySet())
+            this.modifyResourceByType(resEntry.getKey(), -resEntry.getValue());
     }
 }

@@ -129,5 +129,19 @@ public final class Utilities {
 
     }
 
+    /**
+     * @param player on which to control the amount of resources he has available
+     * @param resourcesRequired to activate the exchange bonus
+     * @see it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesExchangeBonus
+     * @return if the effect is activable or not
+     */
+    public static Boolean hasEnoughResources (Player player, Resources resourcesRequired) {
+        Resources resourcesAvailable = player.getResources();
+        for(ResourceType resType : ResourceType.values())
+            if(!(resourcesAvailable.getResourceByType(resType) >= resourcesRequired.getResourceByType(resType)))
+                return false;
+
+        return true;
+    }
 
 }

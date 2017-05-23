@@ -13,6 +13,7 @@ public class DevelopmentCardAcquireContext extends AbstractGameContext {
     //TODO: use a temporary dice value instead of modifying the real dice value stored in the game manager
     //TODO: handle Filippo Brunelleschi, Cesare Borgia
     private Player currentPlayer;
+    private Boolean hasPenalty; //"predicatore"
 
 
     public void initContext(Player player) {
@@ -44,5 +45,9 @@ public class DevelopmentCardAcquireContext extends AbstractGameContext {
     //TODO: evaluate if the buy should stay in this class
     public void buyCard(TowerSlot slot) throws InvalidCardType {
        currentPlayer.getPersonalBoard().addCard(slot.getCardStored());
+    }
+
+    public void setHasPenalty(Boolean hasPenalty) {
+        this.hasPenalty = hasPenalty; //set by "predicatore"
     }
 }

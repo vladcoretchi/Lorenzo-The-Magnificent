@@ -48,7 +48,7 @@ public class Player implements Serializable {
         return pawnColor;
     }
 
-    public void addResources(Resources res) {
+    public void addResources(Resources res)    {
         this.resources.sumResources(res);
     }
 
@@ -76,5 +76,9 @@ public class Player implements Serializable {
 
     public void addCouncilPrivileges(Integer councilPrivileges) {
         this.councilPrivileges += councilPrivileges;
+    }
+
+    public void subResources(Resources res) {
+        this.resources.subResources(res);
     }
 }

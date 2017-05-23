@@ -9,19 +9,26 @@ import it.polimi.ingsw.LM34.Model.Player;
  */
 public class HarvestAreaContext extends AbstractGameContext {
 
-    @Override
-    public void initContext() {
+
+    public void initContext(Player player) {
         setChanged();
-        notifyObservers(ContextStatus.ENTERED);
+        notifyObservers(player.getFamilyMembers());
     }
 
 
     public void interactWithPlayer(Player player) {
         //TODO: implement what player can do here and modify the model in this controller class
         //Utilities.getContextByType(contexts, ContextType.ACTION_SLOT_CONTEXT).initContext();
+        //TODO: player chooses the familymember
+        setChanged();
+        //TODO: here we pass the family member chosed (only one)
+        notifyObservers(player.getFamilyMembers());
+        //TODO: now values of dices are increased
     }
 
 
+    @Override
+    public void initContext() {}
 
     @Override
     public ContextType getType() {
