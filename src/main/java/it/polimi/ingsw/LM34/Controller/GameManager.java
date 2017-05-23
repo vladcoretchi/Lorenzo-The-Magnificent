@@ -2,6 +2,7 @@ package it.polimi.ingsw.LM34.Controller;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.GameContexts.CurchReportContext;
+import it.polimi.ingsw.LM34.Controller.GameContexts.PhaseContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
@@ -57,6 +58,7 @@ public class GameManager {
     private PhaseContext phaseContext;
     private AbstractGameContext currentContext;
 
+    /*CONSTRUCTOR*/
     public GameManager() {
 
         period = 1; //TODO: refactor
@@ -76,7 +78,8 @@ public class GameManager {
         startGame();
 
     }
-        public void startGame()  {
+
+    public void startGame()  {
             //TODO
             phaseContext.initContext(players.get(phase)); //first player start first round of the game
     }

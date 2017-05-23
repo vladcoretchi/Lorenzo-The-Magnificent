@@ -11,7 +11,7 @@ public abstract class AbstractEffect {
 
     /**
      *
-     * @return true if the observer is activable once per round (e.g. SkipTurn, LeaderPerRoundReward)
+     * @return true if the observer is activable once per round (e.g. SkipTurn, PerRoundLeaderReward)
      * Default is false
      */
     public boolean isOncePerRound() {

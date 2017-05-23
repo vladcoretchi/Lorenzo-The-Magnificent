@@ -26,13 +26,14 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
     public ResourcesBonus(Resources resources, Integer councilPrivilege) {
         this.resources = resources;
         this.councilPrivilege = councilPrivilege;
-        this.developmentCardsGoodsMultiplier = null;
+        this.developmentCardsGoodsMultiplier = 1;
     }
 
+    /*santa rita*/
     public ResourcesBonus(Integer developmentCardsGoodsMultiplier) {
         this.resources = null;
         this.councilPrivilege = null;
-        this.developmentCardsGoodsMultiplier = developmentCardsGoodsMultiplier;
+        this.developmentCardsGoodsMultiplier = developmentCardsGoodsMultiplier; //santa rita, 2 di solito
     }
 
     public Resources getResources() {
@@ -53,16 +54,12 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
         player.addResources(this.resources);
     }
 
-
+    /*santa rita*/
     @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
         Utilities.getContextByType(contexts, ContextType.RESOURCE_INCOME_CONTEXT).addObserver(this);
     }
 
-
-    public void resetApplyFlag() {
-
-    }
 
 
 }

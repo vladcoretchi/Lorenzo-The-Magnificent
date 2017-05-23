@@ -4,6 +4,7 @@ import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.WorkingAreaValueEffect;
+import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
@@ -15,20 +16,20 @@ import java.util.Observer;
  * Created by GiulioComi on 18/05/2017.
  */
 
-//TODO: apply DECORATOR pattern for aggregate in a unique instances all the rewards the leader gave in each phase
 
-//TODO: remember to activate this rewards in the controller at the beginning of the phase of each player
-public class LeaderPerRoundReward extends AbstractEffect implements Observer {
+//TODO: remember to activate these rewards in the controller at the beginning of the phase of each player
+public class PerRoundLeaderReward extends AbstractEffect implements Observer {
     private Resources resources;
     private Integer councilPrivilege;
     private WorkingAreaValueEffect workingAreaValueEffect; //"francesco sforza, leonardo da vinci"
 
-    public LeaderPerRoundReward(Resources resources, Integer councilPrivilege) {
+    public PerRoundLeaderReward(Resources resources, Integer councilPrivilege) {
         this.resources = resources;
         this.councilPrivilege = councilPrivilege;
     }
 
-    public LeaderPerRoundReward(WorkingAreaValueEffect valueEffect) {
+    //TODO: "francesco sforza, leonardo da vinci"
+    public PerRoundLeaderReward(WorkingAreaValueEffect valueEffect) {
         this.workingAreaValueEffect = valueEffect;
     }
 
@@ -46,16 +47,24 @@ public class LeaderPerRoundReward extends AbstractEffect implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        
+        if (arg instanceof Player) {
+            Player player = (Player) arg;
+            player.addResources(resources);
+            player.addCouncilPrivileges(councilPrivilege);
+        }
     }
 
     @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
-        Utilities.getContextByType(contexts, ContextType.PHASE_CONTEXT).addObserver(this);
+        //"francesco sforza, leonardo da vinci"
+        if(workingAreaValueEffect != null)
+            workingAreaValueEffect.subscribeObserverToContext(contexts);
+        else
+            Utilities.getContextByType(contexts, ContextType.PHASE_CONTEXT).addObserver(this);
     }
 
     @Override
     public boolean isOncePerRound() {
-        return true;
+        return true; //all these leader bonuses are activable once per round
     }
 }

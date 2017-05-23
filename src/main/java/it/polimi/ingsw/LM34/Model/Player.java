@@ -20,6 +20,7 @@ public class Player implements Serializable {
     private AbstractEffect permanentBonus;
     //TODO: initialize the resources elsewhere
     private Resources resources;
+    private Integer councilPrivileges;
 
     private ArrayList<AbstractEffect> AbstractEffects;
 
@@ -67,5 +68,13 @@ public class Player implements Serializable {
 
     public void unSubscribeObservers() {
         AbstractEffects.clear();
+    }
+
+    public Integer getCouncilPrivileges() {
+        return councilPrivileges;
+    }
+
+    public void addCouncilPrivileges(Integer councilPrivileges) {
+        this.councilPrivileges += councilPrivileges;
     }
 }

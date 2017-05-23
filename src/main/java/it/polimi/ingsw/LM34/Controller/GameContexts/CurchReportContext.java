@@ -13,14 +13,18 @@ public class CurchReportContext  extends AbstractGameContext {
 
 
     public void initContext(ArrayList<Player> players) {
-        //TODO:implementation
-        setChanged(); //trigger sisto IV if is an observer
-        notifyObservers(ContextStatus.ENTERED);
+
     }
 
     private void interactWithPlayer(Player player) {
         //TODO: implement what player can do here and modify the model in this controller class
         //let the player choice if they wants to be excommunicated and assigned the negative effect to them
+
+
+
+        //TODO:for each player that satisfied notify his activated observe
+        setChanged(); //trigger sisto IV if is an observer
+        notifyObservers(ContextStatus.ENTERED);
     }
 
     @Override

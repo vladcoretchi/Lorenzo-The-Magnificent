@@ -17,21 +17,17 @@ public class CurchSupportBonus extends AbstractEffect implements Observer {
     private boolean alreadyApplied;
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("ok, sono stato chiamato perchè siamo nel contesto di Curch Report");
+        
     }
 
 
     @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
         Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT).addObserver(this);
-        alreadyApplied = true;
-    }
-
-
-    public void resetApplyFlag() {
-        alreadyApplied = false;
 
     }
+
+
 
     @Override
     public boolean isOncePerRound() {
