@@ -43,6 +43,10 @@ public class Launcher implements IOInterface {
 
     public static String HELPER_CARD_NAME;
 
+    public static String cliOrGui;
+    public static String newOrOldGame;
+    public static String rmiOrSocket;
+
     public static void main(String[] args) {
 
         /**
@@ -66,7 +70,8 @@ public class Launcher implements IOInterface {
          * this cycle will call user to choose between Cli or Gui, and repeat this question until the answer will be 'cli' or 'gui', ignoring uppercase
          */
         while(!userInputIsValid) {
-            if (Cli.startMenu().equalsIgnoreCase("cli") || Cli.startMenu().equalsIgnoreCase("gui"))
+            cliOrGui = Cli.startMenu();
+            if (cliOrGui.equalsIgnoreCase("cli") || cliOrGui.equalsIgnoreCase("gui"))
                 userInputIsValid = true;
             else
                 printToConsole.println(ERROR_MESSAGE_COLOR+ "Please choose cli or gui" +RESET_COLOR);
@@ -75,7 +80,7 @@ public class Launcher implements IOInterface {
         /**
          * username and password will be sent to server
          */
-        Cli.loginMenu();
+       // Cli.loginMenu();
 
         /**
          * when the previous cycle is over, userInputIsValid will be set to false, to allow the following cycle to verify the next user's answer
@@ -85,11 +90,14 @@ public class Launcher implements IOInterface {
         /**
          * this cycle will call user to start new game or restore previous game.
          */
-        while(!userInputIsValid) {
-            if(Cli.printMenu().equalsIgnoreCase("new game"))
+         while(!userInputIsValid) {
+            newOrOldGame = Cli.printMenu();
+            if(newOrOldGame.equalsIgnoreCase("new game") || newOrOldGame.equals("1"))
                 userInputIsValid = true;
-            else
+            else if(newOrOldGame.equalsIgnoreCase("previous game") || newOrOldGame.equals("2"))
                 printToConsole.println(ERROR_MESSAGE_COLOR+"you have 0 previous games"+RESET_COLOR);
+            else
+                printToConsole.println(ERROR_MESSAGE_COLOR+"please choose new game or previous game"+RESET_COLOR);
         }
 
         userInputIsValid = false;
@@ -98,7 +106,8 @@ public class Launcher implements IOInterface {
          * this cycle will call user to choose between Rmi or Socket, and repeat this question until the user's answer will be 'rmi' or 'socket', ignoring uppercase
          */
         while(!userInputIsValid) {
-            if(Cli.choiceConnectionType().equalsIgnoreCase("rmi") || Cli.choiceConnectionType().equalsIgnoreCase("socket"))
+            rmiOrSocket = Cli.choiceConnectionType();
+            if(rmiOrSocket.equalsIgnoreCase("rmi") || rmiOrSocket.equalsIgnoreCase("socket") || rmiOrSocket.equals("1") || rmiOrSocket.equals("2"))
                 userInputIsValid = true;
             else
                 printToConsole.println(ERROR_MESSAGE_COLOR+"please choose rmi or socket"+RESET_COLOR);
@@ -107,7 +116,7 @@ public class Launcher implements IOInterface {
         userInputIsValid = false;
 
         /**
-         * this cycle will check if user will type 'help', follwed by a card`s name. In this case, it will return all information about searched card.
+         * this cycle will check if user will type 'help', followed by a card`s name. In this case, it will return all information about searched card.
          */
         while(!userInputIsValid) {
             StringTokenizer stringDividedIntoTokens = new StringTokenizer(Cli.helper());
@@ -115,7 +124,14 @@ public class Launcher implements IOInterface {
             HELPER_CARD_NAME = stringDividedIntoTokens.nextToken();
 
             if(HELPER_CARD_NAME.equalsIgnoreCase("help")) {
-                    HELPER_CARD_NAME = stringDividedIntoTokens.nextToken();
+
+                while(stringDividedIntoTokens.hasMoreTokens()) {
+
+                    HELPER_CARD_NAME += stringDividedIntoTokens.nextToken();
+                    HELPER_CARD_NAME += " ";
+                }
+
+                HELPER_CARD_NAME = HELPER_CARD_NAME.replace("help", "");
                 printToConsole.println(HELPER_CARD_NAME); //only for debug. On production, HELPER_CARD_NAME will be sent to server
                 userInputIsValid = true;
             }
@@ -126,7 +142,7 @@ public class Launcher implements IOInterface {
 
         userInputIsValid = false;
 
-        Cli.printTowers();
+      //  Cli.printTowers();
 
     }
 }

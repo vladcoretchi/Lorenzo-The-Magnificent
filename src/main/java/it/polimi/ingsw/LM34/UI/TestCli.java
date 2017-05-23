@@ -110,7 +110,7 @@ public class TestCli extends AbstractUI implements IOInterface {
     public String choiceConnectionType() {
         printToConsole.println("which technology do you wish to use to connect to the server?\n" +
                 "1) RMI\n" +
-                "2) Socket\n"
+                "2) Socket"
         );
 
         return readUserInput.nextLine();
