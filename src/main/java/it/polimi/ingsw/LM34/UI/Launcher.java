@@ -80,7 +80,7 @@ public class Launcher implements IOInterface {
         /**
          * username and password will be sent to server
          */
-       // Cli.loginMenu();
+        Cli.loginMenu();
 
         /**
          * when the previous cycle is over, userInputIsValid will be set to false, to allow the following cycle to verify the next user's answer
@@ -121,19 +121,42 @@ public class Launcher implements IOInterface {
         while(!userInputIsValid) {
             StringTokenizer stringDividedIntoTokens = new StringTokenizer(Cli.helper());
 
+            /**
+             * it'll take the first token of user's input. This token should be "help"
+             */
             HELPER_CARD_NAME = stringDividedIntoTokens.nextToken();
 
             if(HELPER_CARD_NAME.equalsIgnoreCase("help")) {
 
+                /**
+                 * this cycle will remove any of useless initial space in user's input
+                 */
                 while(stringDividedIntoTokens.hasMoreTokens()) {
 
                     HELPER_CARD_NAME += stringDividedIntoTokens.nextToken();
+
+                    /**
+                     * this will maintain the original spaces between words in card's name
+                     */
                     HELPER_CARD_NAME += " ";
                 }
 
-                HELPER_CARD_NAME = HELPER_CARD_NAME.replace("help", "");
-                printToConsole.println(HELPER_CARD_NAME); //only for debug. On production, HELPER_CARD_NAME will be sent to server
-                userInputIsValid = true;
+                /**
+                 * this will remove the word "help" at beginning of user's input. By this way, the server will receive
+                 * only the useful information
+                 */
+                HELPER_CARD_NAME = HELPER_CARD_NAME.substring(4);
+
+                /**
+                 * this regex will check if the user's input will contain at least 1 character
+                 */
+                if(HELPER_CARD_NAME.matches(".*[a-zA-Z].*")) {
+
+                    printToConsole.println(HELPER_CARD_NAME);//only for debug. In stable version, HELPER_CARD_GAME will be sent to server
+                    userInputIsValid = true;
+                }
+                else
+                    printToConsole.println("card's name cannot be left blank");
             }
 
             else
@@ -141,8 +164,6 @@ public class Launcher implements IOInterface {
         }
 
         userInputIsValid = false;
-
-      //  Cli.printTowers();
 
     }
 }
