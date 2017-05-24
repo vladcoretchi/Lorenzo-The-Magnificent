@@ -37,8 +37,7 @@ public class CurchReportContext  extends AbstractGameContext {
 
     @Override
     public void endContext() {
-        setChanged();
-        notifyObservers(ContextStatus.FINISHED);
+        //phaseContext.interactWithPlayer();
     }
 
 

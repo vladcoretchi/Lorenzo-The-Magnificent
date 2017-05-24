@@ -1,4 +1,4 @@
-package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus;
+package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.GameContexts.DevelopmentCardAcquireContext;
@@ -13,7 +13,7 @@ import java.util.Observer;
 /**
  * Created by vladc on 5/14/2017.
  */
-public class ActionSlotPenalty extends AbstractEffect implements Observer {
+public class TowerSlotPenalty extends AbstractEffect implements Observer {
     private Integer noResourcesFromTowerLevels[]; //handles card "predicatore"
 
 
@@ -21,12 +21,12 @@ public class ActionSlotPenalty extends AbstractEffect implements Observer {
      *
      * @param noResourcesFromTowerActionSpaces the levels of towers from where the player does not gain a reward
      */
-    public ActionSlotPenalty(Integer noResourcesFromTowerActionSpaces[]) {
+    public TowerSlotPenalty(Integer noResourcesFromTowerActionSpaces[]) {
         this.noResourcesFromTowerLevels = noResourcesFromTowerActionSpaces;
 
     }
 
-    public ActionSlotPenalty(Boolean marketBan) {
+    public TowerSlotPenalty(Boolean marketBan) {
         this.noResourcesFromTowerLevels = null;
     }
 

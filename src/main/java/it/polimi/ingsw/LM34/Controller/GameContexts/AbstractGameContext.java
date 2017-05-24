@@ -9,7 +9,6 @@ import java.util.Observable;
  * Created by GiulioComi on 17/05/2017.
  */
 public abstract class AbstractGameContext extends Observable  {
-
     public abstract void initContext();
 
     public abstract ContextType getType();
@@ -19,5 +18,6 @@ public abstract class AbstractGameContext extends Observable  {
     }
 
     public abstract void endContext();
+
 
 }

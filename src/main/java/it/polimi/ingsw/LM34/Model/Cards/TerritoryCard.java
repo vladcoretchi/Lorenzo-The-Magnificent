@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
-import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 /**
@@ -38,6 +38,7 @@ public class TerritoryCard extends AbstractDevelopmentCard {
         return this.period;
     }
 
+    @Override
     public ResourcesBonus getPermanentBonus() {
         return permanentBonus;
     }
@@ -51,6 +52,7 @@ public class TerritoryCard extends AbstractDevelopmentCard {
      *
      * @return a resources with all type of goods set to 0 because territory cards do not have requirements
      */
+    @Override
     public Resources getResourcesRequired() {
         return new Resources();
     }

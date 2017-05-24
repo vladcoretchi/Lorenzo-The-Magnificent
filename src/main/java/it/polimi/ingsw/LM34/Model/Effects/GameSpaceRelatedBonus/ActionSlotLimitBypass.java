@@ -12,6 +12,8 @@ import java.util.Observer;
 /**
  * Created by GiulioComi on 16/05/2017.
  */
+
+/*"ludovico ariosto"*/
 public class ActionSlotLimitBypass extends AbstractEffect implements Observer {
 
     @Override
@@ -25,8 +27,5 @@ public class ActionSlotLimitBypass extends AbstractEffect implements Observer {
     }
 
 
-    public void resetApplyFlag() {
-
-    }
 
 }

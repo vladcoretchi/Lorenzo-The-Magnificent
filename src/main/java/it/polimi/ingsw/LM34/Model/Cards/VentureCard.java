@@ -1,8 +1,8 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
-import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 /**
@@ -15,7 +15,7 @@ public class VentureCard extends AbstractDevelopmentCard {
     private AbstractEffect permanentBonus;
     private ResourcesBonus instantBonus;
 
-    //verified by the controller if this variable is set to true and then two type of payments are allowed
+    //TODO: verified by the controller if this variable is set to true and then two type of payments are allowed
     private boolean isThereAlternativeToMilitaryPointsPayment; //carte "sostegno al cardinale e sostegno al papa"
 
     //Only a peculiarity of VentureCards
@@ -33,15 +33,18 @@ public class VentureCard extends AbstractDevelopmentCard {
         this.endingVictoryPointsReward = endingVictoryPointsReward;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public ResourcesBonus getInstantBonus() {
         return instantBonus;
     }
 
 
+    @Override
     public AbstractEffect getPermanentBonus() {
         return permanentBonus;
     }

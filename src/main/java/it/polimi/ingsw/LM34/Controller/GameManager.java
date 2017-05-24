@@ -76,7 +76,6 @@ public class GameManager {
 
         setupGameContexts();
         startGame();
-
     }
 
     public void startGame()  {
@@ -153,7 +152,6 @@ public class GameManager {
 
         //Do curch report after 2nd round of each period
         if(period %2 == 0) {
-
             /**
              * Now it is Curch Report time
              */

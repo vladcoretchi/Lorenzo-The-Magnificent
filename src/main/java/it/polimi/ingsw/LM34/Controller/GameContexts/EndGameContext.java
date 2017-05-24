@@ -33,11 +33,9 @@ public class EndGameContext  extends AbstractGameContext {
         return ContextType.END_GAME_CONTEXT;
     }
 
-    @Override
-    public void endContext() {
-        setChanged();
-        notifyObservers(ContextStatus.FINISHED);
-        //TODO: show results and disconnect players
+
+    public void endContext(ArrayList<Player> players) {
+        interactWithPlayer(players);
     }
 
     public HashMap<Player, Integer> onEndGameCalculatePointsByDevelopmentCardsOwned(HashMap<Player, Integer> victoryPointsByPlayer) {
@@ -97,8 +95,13 @@ public class EndGameContext  extends AbstractGameContext {
     public void initContext() {}
 
 
-    private void interactWithPlayer(Player player) {
-        //TODO: implement what player can do here and modify the model in this controller class
+    private void interactWithPlayer(ArrayList<Player> players) {
+        //TODO: show calculations and ranks
+    }
+
+    @Override
+    public void endContext() {
+
     }
 }
 

@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus;
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
@@ -19,20 +20,20 @@ import java.util.Observer;
 public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
     private Player player;
     private ContextType areaType; //PRODUCTION_CONTEXT OR HARVEST_CONTEXT
-    private Integer diceValue; //TODO: "sforza", "da vinci"
-    private Boolean isInstant;
+    private Integer diceValue;
+    private Boolean isInstant; //TODO: "sforza", "da vinci"
 
     /**
      *The additional value on dice is absolute or relative depending on the card effects
      */
-    private Boolean relative;
+    private Boolean isRelative;
 
     public WorkingAreaValueEffect(Player player, Boolean isInstant, ContextType areaType, Integer value, Boolean relative) {
         this.player = player;
         this.isInstant = isInstant;
         this.areaType = areaType;
         this.diceValue = value;
-        this.relative = relative;
+        this.isRelative = relative;
     }
 
     public ContextType getType() {
@@ -44,7 +45,7 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
     }
 
     public Boolean isRelative() {
-        return this.relative;
+        return this.isRelative;
     }
 
     @Override
@@ -52,17 +53,18 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
 
         AbstractGameContext gameContext = (AbstractGameContext) o;
         ContextType currentContext = gameContext.getType();
+        FamilyMember familyMember = (FamilyMember) arg;
 
         if(areaType == currentContext)
             //TODO: get dice value from family member currently selected and apply bonus;
             // TODO: remember to reset the dice value powered before exiting this context
-            player.getFamilyMembers(); //choose just one
-            /*
+
+
             if(isRelative)
-            diceContextValue = familyMemberSelected.getValue +diceValue;
+                familyMember.setValue(diceValue + familyMember.getValue());
             else
-            diceContextValue = diceValue;
-             */
+                familyMember.setValue(diceValue);
+
             //Utilities.getContextByType(areaType).continue(diceContextValue);
 
 

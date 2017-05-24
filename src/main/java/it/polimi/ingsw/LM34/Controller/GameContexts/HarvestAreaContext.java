@@ -2,15 +2,19 @@ package it.polimi.ingsw.LM34.Controller.GameContexts;
 
 import it.polimi.ingsw.LM34.Enums.Controller.ContextStatus;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
+
+import java.util.ArrayList;
 
 /**
  * Created by GiulioComi on 16/05/2017.
  */
 public class HarvestAreaContext extends AbstractGameContext {
-
+    private ArrayList<FamilyMember> familyMember;
 
     public void initContext(Player player) {
+        familyMember = player.getFamilyMembers();
         setChanged();
         notifyObservers(player.getFamilyMembers());
     }

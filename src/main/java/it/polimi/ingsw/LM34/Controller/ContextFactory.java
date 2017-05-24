@@ -12,6 +12,7 @@ public final class ContextFactory {
 
     public  static AbstractGameContext getContext(ContextType contextType) {
         switch (contextType) {
+
             case ACTION_SLOT_CONTEXT:
                 return  new ActionSlotContext();
             case CURCH_REPORT_CONTEXT:
@@ -28,6 +29,14 @@ public final class ContextFactory {
                 return new DevelopmentCardAcquireContext();
             case INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT:
                 return new IncreasePawnsValueByServantsContext();
+            case RESOURCE_EXCHANGE_CONTEXT:
+                return new ResourchExchangeContext();
+            case USE_COUNCIL_PRIVILEGE_CONTEXT:
+                return new useCouncilPrivilegeContext();
+            case COUNCIL_PALACE_CONTEXT:
+                return new CouncilPalaceContext();
+            case MARKET_AREA_CONTEXT:
+                return new MarketAreaContext();
             default:
                 return null;
         }

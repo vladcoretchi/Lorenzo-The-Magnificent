@@ -20,7 +20,7 @@ import java.util.Observer;
  * the dice values associated to his pawns has to be incremented or decreased by the effects of the cards mentioned above
  */
 
-//TODO: merge this type of bonuses in a single observer instance
+
 public class FamilyMemberValueEffect extends AbstractEffect implements Observer {
 
     /**
@@ -28,6 +28,7 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
      * if MULTICOLOR, the value is applied to all the dices
      */
     private DiceColor diceColor; //keep track on what dice the effect is applied to
+    private ContextType contextType;
 
     //TODO: handle federico da montefeltro
 
@@ -40,8 +41,8 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
      */
     private Boolean relative;
 
-    public FamilyMemberValueEffect(DiceColor color, Integer value, Boolean relative) {
-
+    public FamilyMemberValueEffect(ContextType contextType, DiceColor color, Integer value, Boolean relative) {
+        this.contextType = contextType;
         this.diceColor = color;
         this.value = value;
         this.relative = relative;
@@ -61,7 +62,7 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
 
     @Override
     public void update(Observable o, Object arg) {
-
+        ContextType currentContext = ((AbstractGameContext)o).getType();
         Player player = (Player) arg;
         //increase the values of the family members in this context
         ArrayList<FamilyMember> familyMembers = player.getFamilyMembers();

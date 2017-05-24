@@ -1,8 +1,8 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
-import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 /**
@@ -12,13 +12,14 @@ public class BuildingCard extends AbstractDevelopmentCard {
     private DevelopmentCardColor color= DevelopmentCardColor.YELLOW;
 
 
-    private AbstractEffect permanentBonus;
+
     private String name;
     private Integer diceValueToProduct;
     private Resources resourcesRequired; //we do not store single type of resources as Integer but we wrap them in a Resources class
     private Integer period;
     //this two variables together represents the instant Effects
     private ResourcesBonus instantBonus;
+    private AbstractEffect permanentBonus;
 
 
 
@@ -31,14 +32,18 @@ public class BuildingCard extends AbstractDevelopmentCard {
         this.instantBonus = instantBonus;
     }
 
+
+    @Override
     public Resources getResourcesRequired() {
         return resourcesRequired;
     }
 
+    @Override
     public AbstractEffect getPermanentBonus() {
         return this.permanentBonus;
     }
 
+    @Override
     public ResourcesBonus getInstantBonus() {
         return instantBonus;
     }
@@ -50,10 +55,12 @@ public class BuildingCard extends AbstractDevelopmentCard {
     @Override
     public DevelopmentCardColor getColor() { return this.color; }
 
+    @Override
     public Integer getPeriod() {
         return this.period;
     }
 
+    @Override
     public String getName() {
         return name;
     }

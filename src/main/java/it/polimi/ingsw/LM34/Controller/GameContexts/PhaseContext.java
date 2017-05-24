@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Controller.GameContexts;
 
+import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -11,13 +12,13 @@ import java.util.ArrayList;
  */
 public class PhaseContext extends AbstractGameContext {
     ArrayList<AbstractGameContext> contexts;
-    private Boolean skipTurn;
+    private Boolean skipTurn; //excommunication card malus
 
     //Constructor called only at the game setup
     public PhaseContext(ArrayList<AbstractGameContext> contexts) {
         this.contexts = contexts;
     }
-
+        private GameManager gameManager;
     /**
      * @param player about to begin his turn
      *Reactivate all observers that are of the player that is going to play
@@ -36,15 +37,23 @@ public class PhaseContext extends AbstractGameContext {
                     observer.subscribeObserverToContext(contexts);
 
             notifyObservers(player); //for PerRoundLeaderReward
-        }
 
-        skipTurn = false;
+            interactWithPlayer(player);
+            //TODO: start timeout
+        } else {
+            endContext();
+            skipTurn = false;
+        }
     }
-    
+
+    public void interactWithPlayer(Player player) {
+        //TODO: lascia scegliere al giocatore dove andare
+        //switch sulla scelta dell'utente per farlo entrare nel contesto che vuole
+    }
     public void endContext(Player player) {
         //TODO:in this context deactivate all observers of the player that has finished his turn
         player.unSubscribeObservers();
-        //TODO: tell the game manager to go to the next phase
+        gameManager.nextPhase();
     }
 
     @Override
@@ -60,16 +69,11 @@ public class PhaseContext extends AbstractGameContext {
         //TODO
     }
 
-    public Boolean getSkipTurn() {
-        return skipTurn;
-    }
-
     public void setSkipTurn(Boolean skipTurn) {
         this.skipTurn = skipTurn;
     }
 
-    //the only observer associated with this context is the penalty of the excommunication card that make you skip
-    //your first turn
-
-
+    public void setGameManager(GameManager gameManager) {
+        this.gameManager = gameManager;
+    }
 }
