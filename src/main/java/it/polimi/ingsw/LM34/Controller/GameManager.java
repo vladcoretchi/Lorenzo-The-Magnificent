@@ -2,6 +2,7 @@ package it.polimi.ingsw.LM34.Controller;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.GameContexts.CurchReportContext;
+import it.polimi.ingsw.LM34.Controller.GameContexts.EndGameContext;
 import it.polimi.ingsw.LM34.Controller.GameContexts.PhaseContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
@@ -99,9 +100,8 @@ public class GameManager {
     }
 
     public void endGame() {
-        //TODO
-            AbstractGameContext endGameContext = Utilities.getContextByType(contexts, ContextType.END_GAME_CONTEXT);
-            endGameContext.initContext();
+            EndGameContext endGameContext = (EndGameContext) Utilities.getContextByType(contexts, ContextType.END_GAME_CONTEXT);
+            endGameContext.interactWithPlayer(players);
     }
 
     //method called only at the start of the game
@@ -125,13 +125,6 @@ public class GameManager {
         rollDices();
         sweepActionSlots();  //sweeps all action and tower slots from pawns and cards
         replaceCards();      //Four development cards per type are moved from the decks into the towerslots
-
-       /* for (Player player : players) {
-            player.unSubscribeObservers();
-            ArrayList<AbstractEffect> playerObservers = player.getObservers();
-            for(AbstractEffect AbstractEffect : playerObservers)
-                AbstractEffect.resetApplyFlag();
-        }*/
 
         /**
          * At the beginning of the round re apply all the once per round observers of the players
@@ -167,7 +160,8 @@ public class GameManager {
         //enter the endGame context in which final points are calculated
         if(period > Configurator.TOTAL_PERIODS)
             endGame();
-        round = 1;
+        else
+            round = 1;
         //TODO
     }
 
@@ -231,8 +225,11 @@ public class GameManager {
         for (ContextType context : ContextType.values())
             contexts.add(ContextFactory.getContext(context));
 
-            phaseContext = new PhaseContext(contexts);
-            contexts.add(phaseContext);
+        /*This is the main context that registers the observers of the current player */
+        phaseContext = new PhaseContext(contexts);
+        phaseContext.setGameManager(this); //The PhaseContext need a callback to the GameManager
+        contexts.add(phaseContext);
+
 
     }
 }

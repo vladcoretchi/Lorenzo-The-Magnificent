@@ -46,6 +46,7 @@ public class PhaseContext extends AbstractGameContext {
         }
     }
 
+    @Override
     public void interactWithPlayer(Player player) {
         //TODO: lascia scegliere al giocatore dove andare
         //switch sulla scelta dell'utente per farlo entrare nel contesto che vuole
@@ -56,15 +57,13 @@ public class PhaseContext extends AbstractGameContext {
         gameManager.nextPhase();
     }
 
-    @Override
-    public void initContext() {/*not used*/}
+
 
     @Override
     public ContextType getType() {
         return ContextType.PHASE_CONTEXT;
     }
 
-    @Override
     public void endContext() {
         //TODO
     }

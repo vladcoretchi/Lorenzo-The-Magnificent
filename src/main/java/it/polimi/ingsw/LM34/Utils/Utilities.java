@@ -24,6 +24,7 @@ import java.util.function.BiFunction;
  * @author vladc
  */
 public final class Utilities {
+    private ArrayList<AbstractGameContext> contexts;
     private Utilities() {}
 
     /**
@@ -144,4 +145,8 @@ public final class Utilities {
         return true;
     }
 
+    /*Called by Game Manager only at the beginning of the game*/
+    public void setContexts(ArrayList<AbstractGameContext> contexts) {
+        this.contexts = contexts;
+    }
 }

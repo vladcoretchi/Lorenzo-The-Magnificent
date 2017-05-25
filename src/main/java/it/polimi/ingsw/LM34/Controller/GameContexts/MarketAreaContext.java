@@ -7,10 +7,6 @@ import it.polimi.ingsw.LM34.Model.Player;
  * Created by GiulioComi on 24/05/2017.
  */
 public class MarketAreaContext extends AbstractGameContext {
-    @Override
-    public void initContext() {
-
-    }
 
     @Override
     public ContextType getType() {
@@ -18,12 +14,11 @@ public class MarketAreaContext extends AbstractGameContext {
     }
 
 
+    @Override
     public void interactWithPlayer(Player player) {
 
+
+        //phaseContext.interactWithPlayer();
     }
 
-        @Override
-    public void endContext() {
-            //phaseContext.interactWithPlayer();
-    }
 }
