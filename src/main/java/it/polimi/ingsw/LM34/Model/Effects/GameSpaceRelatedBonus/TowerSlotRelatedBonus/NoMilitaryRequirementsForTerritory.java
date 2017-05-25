@@ -19,7 +19,7 @@ public class NoMilitaryRequirementsForTerritory extends AbstractEffect implement
     public void update(Observable o, Object arg) {
         //TODO: skip control on how many military points the player has if cesare borgia is activated
         DevelopmentCardAcquireContext context = (DevelopmentCardAcquireContext) o;
-        context.
+
     }
 
     @Override

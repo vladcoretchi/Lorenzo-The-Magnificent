@@ -1,8 +1,9 @@
 package it.polimi.ingsw.LM34.Model.Boards.PlayerBoard;
 
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
-import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+
 import java.util.ArrayList;
 
 /**
@@ -53,5 +54,9 @@ public class PersonalBoard {
                 throw new InvalidCardType("This card is not a DevelopmentCard");
 
         }
+    }
+
+    public ArrayList<AbstractDevelopmentCard> getBuildingCardOwned() {
+        return buildings;
     }
 }

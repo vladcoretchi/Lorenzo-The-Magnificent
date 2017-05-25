@@ -82,7 +82,7 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
 
     public void applyEffect(ArrayList<AbstractGameContext> contexts) {
         if(isInstant) //check if this is instant effect
-        Utilities.getContextByType(contexts, areaType).initContext();
+        Utilities.getContextByType(contexts, areaType).interactWithPlayer(player);
         else //register the permanent bonus as observer
         subscribeObserverToContext(contexts);
     }

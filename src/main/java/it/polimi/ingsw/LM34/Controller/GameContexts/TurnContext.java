@@ -10,12 +10,13 @@ import java.util.ArrayList;
 /**
  * Created by GiulioComi on 18/05/2017.
  */
-public class PhaseContext extends AbstractGameContext {
+public class TurnContext extends AbstractGameContext {
     ArrayList<AbstractGameContext> contexts;
-    private Boolean skipTurn; //excommunication card malus
 
-    //Constructor called only at the game setup
-    public PhaseContext(ArrayList<AbstractGameContext> contexts) {
+    /**
+     Constructor called only at the game setup
+     */
+    public TurnContext(ArrayList<AbstractGameContext> contexts) {
         this.contexts = contexts;
     }
         private GameManager gameManager;
@@ -30,49 +31,45 @@ public class PhaseContext extends AbstractGameContext {
         setChanged();
         notifyObservers(this); //for SkipTurn observer
 
-        if (!skipTurn) {
-            ArrayList<AbstractEffect> observers = player.getObservers();
-            for (AbstractEffect observer : observers)
-                if (!observer.isOncePerRound())
-                    observer.subscribeObserverToContext(contexts);
+
+        ArrayList<AbstractEffect> observers = player.getObservers();
+        for (AbstractEffect observer : observers)
+            if (!observer.isOncePerRound())
+                observer.subscribeObserverToContext(contexts);
 
             notifyObservers(player); //for PerRoundLeaderReward
 
             interactWithPlayer(player);
             //TODO: start timeout
-        } else {
-            endContext();
-            skipTurn = false;
-        }
+
+
     }
 
     @Override
     public void interactWithPlayer(Player player) {
-        //TODO: lascia scegliere al giocatore dove andare
+        //TODO: let the player visit where he pleases to go
         //switch sulla scelta dell'utente per farlo entrare nel contesto che vuole
     }
     public void endContext(Player player) {
         //TODO:in this context deactivate all observers of the player that has finished his turn
         player.unSubscribeObservers();
-        gameManager.nextPhase();
+        gameManager.nextTurn();
     }
-
-
-
+    
     @Override
     public ContextType getType() {
-        return ContextType.PHASE_CONTEXT;
+        return ContextType.TURN_CONTEXT;
     }
 
     public void endContext() {
-        //TODO
+        //void
     }
 
-    public void setSkipTurn(Boolean skipTurn) {
-        this.skipTurn = skipTurn;
-    }
-
+    /**
+     * @param gameManager passed as parameter at the beginning of the game
+     */
     public void setGameManager(GameManager gameManager) {
         this.gameManager = gameManager;
     }
+
 }

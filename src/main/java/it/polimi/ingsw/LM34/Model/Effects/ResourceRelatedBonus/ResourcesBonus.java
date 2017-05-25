@@ -60,6 +60,11 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
         Utilities.getContextByType(contexts, ContextType.RESOURCE_INCOME_CONTEXT).addObserver(this);
     }
 
+    @Override
+    public void applyEffect(Player player) {
+        player.addResources(resources);
+        player.addCouncilPrivileges(councilPrivilege);
+    }
 
 
 }

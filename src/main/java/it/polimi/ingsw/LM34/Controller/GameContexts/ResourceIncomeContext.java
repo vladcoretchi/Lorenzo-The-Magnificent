@@ -17,7 +17,7 @@ public class ResourceIncomeContext extends AbstractGameContext {
         setChanged();
         notifyObservers();
 
-        //phaseContext.interactWithPlayer();
+        //turnContext.interactWithPlayer();
     }
 
     @Override

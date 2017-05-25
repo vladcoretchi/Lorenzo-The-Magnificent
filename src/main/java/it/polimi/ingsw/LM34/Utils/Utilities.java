@@ -8,6 +8,7 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardDeck;
+import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
@@ -148,5 +149,21 @@ public final class Utilities {
     /*Called by Game Manager only at the beginning of the game*/
     public void setContexts(ArrayList<AbstractGameContext> contexts) {
         this.contexts = contexts;
+    }
+
+    /**
+     *
+     * @param cards excommunication deck from which to extract one card by period
+     * @return the 3 card choosed
+     */
+    public static ArrayList<ExcommunicationCard> getExcommunictionCards(ArrayList<ExcommunicationCard> cards) {
+        ArrayList<ExcommunicationCard> exCardChoosed = new ArrayList<>();
+        Integer period = 1;
+        for(ExcommunicationCard card : cards)
+            if(card.getPeriod() == period) {
+                exCardChoosed.add(card);
+                period++;
+            }
+        return exCardChoosed; //return the 3 cards, one by period
     }
 }

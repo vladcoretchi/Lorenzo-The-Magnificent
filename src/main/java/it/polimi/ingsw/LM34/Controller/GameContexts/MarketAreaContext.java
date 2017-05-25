@@ -17,8 +17,11 @@ public class MarketAreaContext extends AbstractGameContext {
     @Override
     public void interactWithPlayer(Player player) {
 
-
-        //phaseContext.interactWithPlayer();
+        //TODO
+        //turnContext.interactWithPlayer();
     }
 
+    public void endContext() {
+        //turnContext.interactWithPlayer();
+    }
 }

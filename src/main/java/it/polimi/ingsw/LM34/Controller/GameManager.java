@@ -3,7 +3,7 @@ package it.polimi.ingsw.LM34.Controller;
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.GameContexts.CurchReportContext;
 import it.polimi.ingsw.LM34.Controller.GameContexts.EndGameContext;
-import it.polimi.ingsw.LM34.Controller.GameContexts.PhaseContext;
+import it.polimi.ingsw.LM34.Controller.GameContexts.TurnContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
@@ -32,6 +32,7 @@ public class GameManager {
     private Integer period; //3 in a game
     private Integer round; //3*2 in a game
     private Integer phase; //equal to #players
+    private Integer turn;
 
     private ArrayList<Dice> dices;
     private ArrayList<Player> players = new ArrayList<>();
@@ -56,21 +57,24 @@ public class GameManager {
 
     /*GAME CONTEXTS*/
     protected ArrayList<AbstractGameContext> contexts;
-    private PhaseContext phaseContext;
+    private TurnContext turnContext;
+    private CurchReportContext curchContext;
     private AbstractGameContext currentContext;
 
     /*CONSTRUCTOR*/
     public GameManager() {
 
         period = 1; //TODO: refactor
-        round = 1;
-        phase = 1;
+        round = 1; //when all players have placed all their pawns
+        phase = 1; //where all players have placed 1 of their pawn
+        turn = 1; //where the current player places his pawn
         //Load all the configurations from json
         Configurator.loadConfigs();
 
         //TODO: sync the loading so that none of the methods below is called before configs.json file has been parsed
         prepareGameSpaces();
         prepareDecks();
+        drwaExcommunicationCards();
         //TODO: initialize players
         setupPlayersResources();
         Collections.shuffle(players); //randomly set the initial play order
@@ -79,9 +83,15 @@ public class GameManager {
         startGame();
     }
 
+    private void drwaExcommunicationCards() {
+        ArrayList<ExcommunicationCard> exCards = Utilities.getExcommunictionCards(excommunicationCards);
+        for(ExcommunicationCard card : exCards)
+            curchContext.addExcommunicationCard(card);
+    }
+
     public void startGame()  {
             //TODO
-            phaseContext.initContext(players.get(phase)); //first player start first round of the game
+            turnContext.initContext(players.get(phase)); //first player start first round of the game
     }
 
     public void prepareGameSpaces() {
@@ -140,6 +150,16 @@ public class GameManager {
             nextPeriod();
     }
 
+    public void nextTurn() {
+
+        turnContext.initContext(players.get(phase));
+        if (++phase >= players.size()) { //all players have placed 1 pawn
+            nextPhase();
+            turn = 1;
+        }
+
+    }
+
     public void nextPeriod() {
         period++;
 
@@ -153,7 +173,7 @@ public class GameManager {
             /**
              * @param players are passed to the context so that CurchReportContext handle the interact with them
              */
-            curchContext.initContext(players);
+            curchContext.interactWithPlayer(players);
         }
 
 
@@ -163,21 +183,23 @@ public class GameManager {
         else
             round = 1;
         //TODO
+
     }
 
 
     public void nextPhase() {
-        //resetMillisTimer //unique per player
-        if (++phase == players.size()) {
+        /**
+         * If all players have placed all of their pawns go to the next round
+         */
+        if(phase >= (players.size() * players.get(1).getFamilyMembers().size())) //TODO: refactor
             nextRound();
-            phase = 1;
-        }
-        else phase++;
+        else
+            phase++;
 
         /**
          *@param player Now is the turn of the next player to place his family member
          */
-        phaseContext.initContext(players.get(phase));
+
 
     }
 
@@ -226,9 +248,9 @@ public class GameManager {
             contexts.add(ContextFactory.getContext(context));
 
         /*This is the main context that registers the observers of the current player */
-        phaseContext = new PhaseContext(contexts);
-        phaseContext.setGameManager(this); //The PhaseContext need a callback to the GameManager
-        contexts.add(phaseContext);
+        turnContext = (TurnContext) Utilities.getContextByType(contexts,ContextType.TURN_CONTEXT);
+        turnContext.setGameManager(this); //The TurnContext need a callback to the GameManager
+        curchContext = (CurchReportContext) Utilities.getContextByType(contexts,ContextType.CURCH_REPORT_CONTEXT);
 
 
     }

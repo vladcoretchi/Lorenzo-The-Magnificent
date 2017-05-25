@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.Model.Cards;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 /**
@@ -19,11 +20,11 @@ public class BuildingCard extends AbstractDevelopmentCard {
     private Integer period;
     //this two variables together represents the instant Effects
     private ResourcesBonus instantBonus;
-    private AbstractEffect permanentBonus;
+    private ResourcesBonus permanentBonus;
 
 
 
-    public BuildingCard(String buildingName, Integer diceValueToProduct, Integer period, Resources resourcesRequired, ResourcesBonus instantBonus, AbstractEffect  permanentBonus) {
+    public BuildingCard(String buildingName, Integer diceValueToProduct, Integer period, Resources resourcesRequired, ResourcesBonus instantBonus, ResourcesBonus  permanentBonus) {
         this.resourcesRequired= resourcesRequired;
         this.name= buildingName;
         this.period = period;
@@ -63,5 +64,9 @@ public class BuildingCard extends AbstractDevelopmentCard {
     @Override
     public String getName() {
         return name;
+    }
+
+    public void applyPermanentEffect(Player player) {
+        this.getPermanentBonus().applyEffect(player);
     }
 }

@@ -20,6 +20,6 @@ public class ResourchExchangeContext extends AbstractGameContext {
     @Override
     public void  interactWithPlayer(Player player) {
 
-        //phaseContext.interactWithPlayer();
+        //turnContext.interactWithPlayer();
     }
 }

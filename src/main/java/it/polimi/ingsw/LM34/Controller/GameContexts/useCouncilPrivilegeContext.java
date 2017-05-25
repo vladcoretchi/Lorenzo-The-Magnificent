@@ -47,16 +47,24 @@ public class useCouncilPrivilegeContext extends AbstractGameContext implements O
             case DEVELOPMENT_CARD_ACQUIRE_CONTEXT:
                 //TODO
                 break;
+            case PRODUCTION_AREA_CONTEXT:
+                //TODO
+                break;
+            case HARVEST_AREA_CONTEXT:
+                //TODO
+                break;
             default:
                 break;
         }
     }
 
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
+        
         Utilities.getContextByType(contexts, ContextType.DEVELOPMENT_CARD_ACQUIRE_CONTEXT).addObserver(this);
         Utilities.getContextByType(contexts, ContextType.ACTION_SLOT_CONTEXT).addObserver(this);
         Utilities.getContextByType(contexts, ContextType.LEADER_DISCARD_CONTEXT).addObserver(this);
-
+        Utilities.getContextByType(contexts, ContextType.PRODUCTION_AREA_CONTEXT).addObserver(this);
+        Utilities.getContextByType(contexts, ContextType.HARVEST_AREA_CONTEXT).addObserver(this);
 
     }
 

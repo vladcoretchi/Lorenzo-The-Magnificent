@@ -17,7 +17,7 @@ public class CouncilPalaceContext extends AbstractGameContext {
     @Override
     public void interactWithPlayer(Player player) {
 
-        //phaseContext.interactWithPlayer();
+        //turnContext.interactWithPlayer();
 
     }
 

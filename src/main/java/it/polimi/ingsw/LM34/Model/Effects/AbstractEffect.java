@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Effects;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
+import it.polimi.ingsw.LM34.Model.Player;
 
 import java.util.ArrayList;
 
@@ -20,4 +21,7 @@ public abstract class AbstractEffect {
 
 
     public abstract void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts);
+
+    public abstract void applyEffect(Player player);
+
 }

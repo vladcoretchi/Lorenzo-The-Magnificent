@@ -2,6 +2,7 @@ package it.polimi.ingsw.LM34.Model.Cards;
 
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 /**
@@ -60,4 +61,11 @@ public class TerritoryCard extends AbstractDevelopmentCard {
     @Override
     public DevelopmentCardColor getColor() { return this.color; }
 
+    public Integer getDiceValueToHarvest() {
+        return diceValueToHarvest;
+    }
+
+    public void applyPermanentEffect(Player player) {
+        this.getPermanentBonus().applyEffect(player);
+    }
 }
