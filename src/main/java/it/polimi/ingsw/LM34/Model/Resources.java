@@ -6,6 +6,7 @@ import it.polimi.ingsw.LM34.Utils.Utilities;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 /**
  * Created by Giulio Comi on 03/04/2017.
@@ -47,6 +48,10 @@ public class Resources implements Serializable {
         this.resources.put(ResourceType.VICTORY_POINTS, victoryPoints);
     }
 
+    public Resources(Map<ResourceType, Integer> resources) {
+        this.resources = resources;
+    }
+
     public Map<ResourceType, Integer> getResources() {
         return this.resources;
     }
@@ -70,14 +75,12 @@ public class Resources implements Serializable {
     public void sumResources (Resources res) {
         if (res == null) throw new NullPointerException();
 
-        for (Map.Entry<ResourceType, Integer> resEntry : res.getResources().entrySet())
-            this.modifyResourceByType(resEntry.getKey(), resEntry.getValue());
+        res.getResources().forEach((type, value) -> this.modifyResourceByType(type, value));
     }
 
     public void subResources (Resources res) {
         if (res == null) throw new NullPointerException();
 
-        for (Map.Entry<ResourceType, Integer> resEntry : res.getResources().entrySet())
-            this.modifyResourceByType(resEntry.getKey(), -resEntry.getValue());
+        res.getResources().forEach((type, value) -> this.modifyResourceByType(type, value));
     }
 }
