@@ -24,7 +24,8 @@ public class DevelopmentCardAcquireContext extends AbstractGameContext {
         familyMembers = currentPlayer.getFamilyMembers();
     }
 
-    private void interactWithPlayer(Player player) {
+    @Override
+    public void interactWithPlayer(Player player) {
 
         FamilyMember familyMemberChoosed;
         //TODO: implement what player can do here and modify the model in this controller class
@@ -38,22 +39,18 @@ public class DevelopmentCardAcquireContext extends AbstractGameContext {
         /*
         buyCard(); tower slot selected*/
         //card.applyInstantEffect();
+
+        //phaseContext.interactWithPlayer();
     }
 
-    @Override
-    public void initContext() {}
+
 
     @Override
     public ContextType getType() {
         return ContextType.DEVELOPMENT_CARD_ACQUIRE_CONTEXT;
     }
 
-    @Override
-    public void endContext() {
-        //phaseContext.interactWithPlayer();
 
-
-    }
 
     //TODO: evaluate if the buy should stay in this class
     public void buyCard(TowerSlot slot) throws InvalidCardType {

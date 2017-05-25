@@ -2,6 +2,8 @@ package it.polimi.ingsw.LM34.Model.Effects;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.ArrayList;
@@ -17,9 +19,10 @@ public class CurchSupportBonus extends AbstractEffect implements Observer {
     private boolean alreadyApplied;
     @Override
     public void update(Observable o, Object arg) {
+        Player player = (Player) arg;
+        player.addResources(new Resources(0,0,5));
         
     }
-
 
     @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
@@ -27,11 +30,9 @@ public class CurchSupportBonus extends AbstractEffect implements Observer {
 
     }
 
-
-
     @Override
     public boolean isOncePerRound() {
-        return true; //TODO
+        return true;
     }
 
 }

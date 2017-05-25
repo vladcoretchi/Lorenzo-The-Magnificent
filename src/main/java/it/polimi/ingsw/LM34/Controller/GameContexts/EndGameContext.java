@@ -1,6 +1,5 @@
 package it.polimi.ingsw.LM34.Controller.GameContexts;
 
-import it.polimi.ingsw.LM34.Enums.Controller.ContextStatus;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
@@ -21,13 +20,7 @@ public class EndGameContext  extends AbstractGameContext {
     ArrayList<Player> players;
 
     //TODO: all excommunication III period penalties are applied here as observers
-    public void initContext(ArrayList<Player> players) {
-        setChanged();
-        notifyObservers(ContextStatus.ENTERED);
 
-        onEndCalculateVictoryPointsPerPlayerByVentureCards();
-        onEndCalculateVictoryPointsPerPlayerByResources();
-    }
     @Override
     public ContextType getType() {
         return ContextType.END_GAME_CONTEXT;
@@ -91,17 +84,15 @@ public class EndGameContext  extends AbstractGameContext {
         return victoryPointsToPlayers;
     }
 
-    @Override
-    public void initContext() {}
 
+    public void interactWithPlayer(ArrayList<Player> players) {
+        setChanged();
+        notifyObservers();
 
-    private void interactWithPlayer(ArrayList<Player> players) {
+        onEndCalculateVictoryPointsPerPlayerByVentureCards();
+        onEndCalculateVictoryPointsPerPlayerByResources();
         //TODO: show calculations and ranks
     }
 
-    @Override
-    public void endContext() {
-
-    }
 }
 
