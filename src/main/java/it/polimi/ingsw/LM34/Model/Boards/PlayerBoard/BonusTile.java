@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Boards.PlayerBoard;
 
-import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
 
 /**
  * Created by Giulio Comi on 03/05/2017.

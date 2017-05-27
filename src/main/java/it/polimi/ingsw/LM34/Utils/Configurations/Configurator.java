@@ -2,10 +2,8 @@ package it.polimi.ingsw.LM34.Utils.Configurations;
 
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
-import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
-import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardDeck;
-import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
-import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+import it.polimi.ingsw.LM34.Model.Cards.*;
+import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Resources;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -15,8 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 /**
  * Created by GiulioComi on 07/05/2017.
@@ -27,15 +24,23 @@ public final class Configurator {
     public static final Integer TOTAL_PERIODS = 3; //#total periods
     public static final Integer CARD_PER_ROUND = 4; //#development cards stored in a tower per round
     public static final Integer BASE_COINS = 5; //#coins given to first player at the starting of the game
+
     private static Market market;
     private static CouncilPalace palace;
     private static ArrayList<Tower> towers;
     private static WorkingArea harvestArea;
     private static WorkingArea productionArea;
+    private static List<TerritoryCard> territoryCards;
+    private static List<BuildingCard> buildingCards;
+    private static List<CharacterCard> characterCards;
+    private static List<VentureCard> ventureCards;
+    private static List<LeaderCard> leaderCards;
+    private static List<ExcommunicationCard> excommunicationTiles;
 
 
     public static void loadConfigs() {
         JSONObject jsonObject = null;
+
         try {
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
             File file = new File(loader.getResource("configurations/config.json").getFile());
@@ -44,61 +49,74 @@ public final class Configurator {
             jsonObject = new JSONObject(jsonString).getJSONObject("configuration");
         } catch (Exception e) {e.printStackTrace();}
 
-        setupMarket(jsonObject);
-
+        try {
+            setupMarket(jsonObject.getJSONObject("actionSlots").getJSONArray("market"));
+            setupDevelopmentCards(jsonObject.getJSONObject("developmentCards"));
+        } catch (Exception e) {e.printStackTrace();}
     }
 
-    private static void setupMarket(JSONObject jsonObject) {
-        market = new Market(new ArrayList<ActionSlot>());
-        JSONArray market_array = jsonObject.getJSONObject("actionSlots").getJSONArray("market");
+    private static void setupMarket(JSONArray market_array) { //(JSONObject jsonObject) {
+        market = new Market(new ArrayList<>());
         for (int i = 0; i < market_array.length(); i++) {
-            market.addSlot(getActionSlotFromJson(market_array.getJSONObject(i).getInt("diceValue"),market_array.getJSONObject(i).getJSONObject("resources")));
+            market.addSlot(getActionSlotFromJson(market_array.getJSONObject(i)));
         }
-
     }
 
-
-    private static ActionSlot getActionSlotFromJson(Integer diceValue,JSONObject jsonObject) {
-        Integer[] resourcesArray = new Integer[jsonObject.length()];
-        resourcesArray[0] = jsonObject.getInt("coins");
-        resourcesArray[1] = jsonObject.getInt("woods");
-        resourcesArray[2] = jsonObject.getInt("stones");
-        resourcesArray[3] = jsonObject.getInt("faithPoints");
-        resourcesArray[4] = jsonObject.getInt("servants");
-        resourcesArray[5] = jsonObject.getInt("militaryPoints");
-        resourcesArray[6] = jsonObject.getInt("victoryPoints");
-        Integer numberCouncilPrivilege = jsonObject.getInt("councilPrivilege");
-
-        Resources resources = new Resources(resourcesArray[0], resourcesArray[1], resourcesArray[2], resourcesArray[3], resourcesArray[4], resourcesArray[5], resourcesArray[6]);
-        return new ActionSlot(true, diceValue, resources, numberCouncilPrivilege);
+    private static void setupDevelopmentCards(JSONObject jsonObject) {
+        territoryCards = getTerritoryCardsFromJson(jsonObject.getJSONArray("territories"));
     }
 
-    private static void printMarket() {
-        Resources res = null;
-        for (Integer i = 0; i < market.getSize(); i++) {
-            res = market.getActionSlots().get(i).getResourcesReward();
-            try {
-                System.out.println(market.getActionSlots().get(i).getDiceValue());
-                System.out.println((market.getActionSlots().get(i).getDiceValue()));
-                System.out.println((res.getResourceByType(ResourceType.STONES)));
-                System.out.println((res.getResourceByType(ResourceType.SERVANTS)));
-                System.out.println((res.getResourceByType(ResourceType.WOODS)));
-                System.out.println((res.getResourceByType(ResourceType.COINS)));
-                System.out.println((res.getResourceByType(ResourceType.FAITH_POINTS)));
-                System.out.println((res.getResourceByType(ResourceType.MILITARY_POINTS)));
-                System.out.println((res.getResourceByType(ResourceType.VICTORY_POINTS)));
-                System.out.println(market.getActionSlots().get(i).getCouncilPrivilege());
-                System.out.println("-----------------------------------------");
-            } catch (Exception e) {
-                e.printStackTrace();
+    private static ActionSlot getActionSlotFromJson(JSONObject jsonObject) {
+        Boolean singlePawnSlot = jsonObject.optBoolean("singlePawnSlot", true);
+        Integer diceValue = jsonObject.optInt("diceValue", 0);
+        Integer councilPrivilege = jsonObject.getInt("councilPrivilege");
+        Resources resources = getResourcesFromJson(jsonObject.getJSONObject("resources"));
+
+        return new ActionSlot(singlePawnSlot, diceValue, resources, councilPrivilege);
+    }
+
+    private static Resources getResourcesFromJson(JSONObject jsonResources) {
+        Map<ResourceType, Integer> resourcesMap = new HashMap<>();
+
+        if(jsonResources != null) {
+            Integer value;
+            for (ResourceType type : ResourceType.values()) {
+                value = jsonResources.optInt(type.toString(), 0);
+                if (value != 0)
+                    resourcesMap.put(type, value);
             }
         }
+
+        return new Resources(resourcesMap);
     }
+
+    private static List<TerritoryCard> getTerritoryCardsFromJson(JSONArray jsonArray) {
+        ArrayList<TerritoryCard> territoryCards = new ArrayList<>();
+
+        for(int i = 0; i < jsonArray.length(); i++) {
+            territoryCards.add(getTerritoryCardFromJson(jsonArray.getJSONObject(i)));
+        }
+
+        return territoryCards;
+    }
+
+    private static TerritoryCard getTerritoryCardFromJson(JSONObject jsonObject) {
+        String name = jsonObject.optString("name");
+        Integer period = jsonObject.optInt("period");
+        Integer diceValueToHarvest = jsonObject.optInt("diceValueToHarvest");
+        Resources resources = getResourcesFromJson(jsonObject.getJSONObject("permanentBonus").getJSONObject("resourcesBonus").optJSONObject("resources"));
+        Integer councilPrivilege = jsonObject.getJSONObject("permanentBonus").getJSONObject("resourcesBonus").optInt("councliPrivilege");
+
+        ResourcesBonus permanentBonus = new ResourcesBonus(resources, councilPrivilege);
+
+        return new TerritoryCard(name, diceValueToHarvest, period, null, permanentBonus);
+    }
+
 
     //MAIN WITH THE PURPOSE TO VERIFY THE CORRECT LOADING OF MODEL OBJECTS FROM FILE
     public static void main(String[] args) {
         Configurator.loadConfigs();
-        Configurator.printMarket(); //check with human readable feedback that market is correctly instantiated
+
 
     }
 

@@ -48,8 +48,9 @@ public class TurnContext extends AbstractGameContext {
     @Override
     public void interactWithPlayer(Player player) {
         //TODO: let the player visit where he pleases to go
-        //switch sulla scelta dell'utente per farlo entrare nel contesto che vuole
-    }
+        //switchto che vuole
+    } //sulla scelta dell'utente per farlo entrare nel contes
+
     public void endContext(Player player) {
         //TODO:in this context deactivate all observers of the player that has finished his turn
         player.unSubscribeObservers();
@@ -61,9 +62,9 @@ public class TurnContext extends AbstractGameContext {
         return ContextType.TURN_CONTEXT;
     }
 
-    public void endContext() {
+    /*public void endContext() {
         //void
-    }
+    }*/
 
     /**
      * @param gameManager passed as parameter at the beginning of the game

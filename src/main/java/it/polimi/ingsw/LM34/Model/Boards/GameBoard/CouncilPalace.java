@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
-import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 
 import java.util.ArrayList;

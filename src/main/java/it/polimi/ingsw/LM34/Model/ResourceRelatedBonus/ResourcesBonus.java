@@ -1,4 +1,4 @@
-package it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus;
+package it.polimi.ingsw.LM34.Model.ResourceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;

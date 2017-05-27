@@ -1,16 +1,22 @@
 package it.polimi.ingsw.LM34.UI;
 
+import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
+import it.polimi.ingsw.LM34.UI.CLI.CLI;
+
 /**
- * this abstract class represent all prototype of cli methods, and will be implemented in {@link TestCli}
+ * this abstract class represent all prototype of cli methods, and will be implemented in {@link CLI}
  */
 public abstract class AbstractUI {
+    protected static final String SERVER_IP = "localhost";
+    protected static final Integer SOCKET_PORT = 20001;
+    protected static final Integer RMI_PORT = 20002;
 
-    public abstract void printSplashScreen();
+    protected AbstractClient networkClient;
+
+    public abstract void show();
+    public abstract void showSplashScreen();
     public abstract void printDivider();
-    public abstract String startMenu();
     public abstract void loginMenu();
-    public abstract String printMenu();
-    public abstract String choiceConnectionType();
-    public abstract String helper();
+    public abstract String connectionTypeSelection();
     public abstract void printTowers();
 }
