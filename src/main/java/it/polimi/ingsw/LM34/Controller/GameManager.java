@@ -5,6 +5,8 @@ import it.polimi.ingsw.LM34.Controller.SpecialContexts.CurchReportContext;
 import it.polimi.ingsw.LM34.Controller.SpecialContexts.EndGameContext;
 import it.polimi.ingsw.LM34.Controller.SpecialContexts.TurnContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -12,16 +14,14 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
 import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Dice;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.RemotePlayer;
 import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by GiulioComi on 05/05/2017.
@@ -85,7 +85,7 @@ public class GameManager {
 
 
     private void drwaExcommunicationCards() {
-        ArrayList<ExcommunicationCard> exCards = Utilities.getExcommunictionCards(excommunicationCards);
+        ArrayList<ExcommunicationCard> exCards = getExcommunictionCards(excommunicationCards);
         for (ExcommunicationCard card : exCards)
             curchContext.addExcommunicationCard(card);
     }
@@ -139,7 +139,7 @@ public class GameManager {
 
         round++;
 
-        Utilities.setNewTurnOrder(councilPalace, players);
+        setNewTurnOrder(councilPalace, players);
         rollDices();
         sweepActionSlots();  //sweeps all action and tower slots from pawns and cards
         replaceCards();      //Four development cards per type are moved from the decks into the towerslots
@@ -215,10 +215,10 @@ public class GameManager {
      */
     public void replaceCards() {
 
-            Utilities.placeNewRoundCards(towers, territoryCardDeck);
-            Utilities.placeNewRoundCards(towers, buildingCardDeck);
-            Utilities.placeNewRoundCards(towers, characterCardDeck);
-            Utilities.placeNewRoundCards(towers, ventureCardDeck);
+        placeNewRoundCards(towers, territoryCardDeck);
+        placeNewRoundCards(towers, buildingCardDeck);
+        placeNewRoundCards(towers, characterCardDeck);
+        placeNewRoundCards(towers, ventureCardDeck);
     }
 
     /**
@@ -264,6 +264,102 @@ public class GameManager {
         for(AbstractGameContext context : contexts)
             if(context.getType() == ContextType.TURN_CONTEXT)
                 turnContext = (TurnContext) context;
+    }
+
+
+    //TODO: refactor
+    public static ArrayList<Player>  setNewTurnOrder(CouncilPalace councilPalace, ArrayList<Player> players) {
+
+        ArrayList<Player> oldPlayersOrder = players;
+        ArrayList<Player> newPlayersOrder = new ArrayList<>();
+        ArrayList<FamilyMember> membersInOrder = councilPalace.getOccupyingPawns();
+
+        /*First remove all multipe pawns associated to the same player*/
+        /*These inner loops do not add temporal complexity because pawns' count is negligible*/
+        for(FamilyMember fm1 : membersInOrder)
+            for(FamilyMember fm2 : membersInOrder)
+                if(fm1.getFamilyMemberColor() == fm2.getFamilyMemberColor())
+                    membersInOrder.remove(fm2); //keep just the first pawn for every player
+
+        /*now that there is one pawn per players order the player based on pawns' positions*/
+        for(FamilyMember fm : membersInOrder) {
+            PawnColor color = fm.getFamilyMemberColor();
+            for (Player player : oldPlayersOrder)
+                if (player.getPawnColor() == color) {
+                    newPlayersOrder.add(player);
+                    oldPlayersOrder.remove(player);
+                }
+        }
+        /**
+         *@param remainingPlayers that did not placed their familyMembers in councilPalace
+         */
+        newPlayersOrder.addAll(oldPlayersOrder);
+
+        /**
+         * @return this is the new players order for the next round
+         */
+        return newPlayersOrder;
+    }
+
+    /**
+     *
+     * @param towers from which choose the right tower by development card type
+     * @param developmentDeck from which to extract and place in the tower the cards for the new round
+     */
+    public static void placeNewRoundCards(ArrayList<Tower> towers, DevelopmentCardDeck<?> developmentDeck) {
+
+        Tower tower = new Tower();
+        Iterator iterator  = developmentDeck.iterator();
+        AbstractDevelopmentCard card;
+
+        //select the right tower...
+        for (Tower t : towers)
+            if (t.getDevelopmentTypeStored() == developmentDeck.getCardColor())
+                tower = t;
+
+        //...and now place every card in the deck until the tower's slots are full
+        Integer cardStored = 0;
+        while (iterator.hasNext() && cardStored< Configurator.CARD_PER_ROUND) {
+            card = (AbstractDevelopmentCard) iterator.next();
+            tower.addCard(card);
+        }
+
+    }
+
+    /**
+     * @param player on which to control the amount of resources he has available
+     * @param resourcesRequired to activate the exchange bonus
+     * @see it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesExchangeBonus
+     * @return if the effect is activable or not
+     */
+    public static Boolean hasEnoughResources (Player player, Resources resourcesRequired) {
+        Resources resourcesAvailable = player.getResources();
+        for(ResourceType resType : ResourceType.values())
+            if(!(resourcesAvailable.getResourceByType(resType) >= resourcesRequired.getResourceByType(resType)))
+                return false;
+
+        return true;
+    }
+
+    /*Called by Game Manager only at the beginning of the game*/
+    public void setContexts(ArrayList<AbstractGameContext> contexts) {
+        this.contexts = contexts;
+    }
+
+    /**
+     *
+     * @param cards excommunication deck from which to extract one card by period
+     * @return the 3 card choosed
+     */
+    public static ArrayList<ExcommunicationCard> getExcommunictionCards(ArrayList<ExcommunicationCard> cards) {
+        ArrayList<ExcommunicationCard> exCardChoosed = new ArrayList<>();
+        Integer period = 1;
+        for(ExcommunicationCard card : cards)
+            if(card.getPeriod() == period) {
+                exCardChoosed.add(card);
+                period++;
+            }
+        return exCardChoosed; //return the 3 cards, one by period
     }
 }
 
