@@ -38,16 +38,16 @@ public class TowersContext extends AbstractGameContext {
         //TODO
         /*
         buyCard(); tower slot selected*/
-        //card.applyInstantEffect();
-
-        //turnContext.interactWithPlayer();
+        //card.getInstantBonus().applyInstantEffect();
+        //card.getPermanentBonus().applyPermanentEffect();
+;
     }
 
 
 
     @Override
     public ContextType getType() {
-        return ContextType.DEVELOPMENT_CARD_ACQUIRE_CONTEXT;
+        return ContextType.TOWERS_CONTEXT;
     }
 
 

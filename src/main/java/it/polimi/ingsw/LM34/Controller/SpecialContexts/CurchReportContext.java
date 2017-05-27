@@ -30,6 +30,9 @@ public class CurchReportContext  extends AbstractGameContext {
         return ContextType.CURCH_REPORT_CONTEXT;
     }
 
+    public void addExcommunicationCard(ExcommunicationCard card) {
+        excommunicationCards.add(card);
+    }
 }
 
 

@@ -23,13 +23,11 @@ public class MarketAreaContext extends AbstractGameContext {
         //marketSlot.getReward().applyEffect(player);
         //} catch(...) {
         //say that slot occupied and remake the player do his choices
-        //interactWithPlayer(player); //let the player redo his choices...
+        //TODO: correct: ?interactWithPlayer(player); //let the player redo his choices...
 
-        //TODO: when the player choices to go back to the gameboard view...
-        //endContext();
+
     }
 
     public void endContext() {
-        //turnContext.interactWithPlayer();
     }
 }

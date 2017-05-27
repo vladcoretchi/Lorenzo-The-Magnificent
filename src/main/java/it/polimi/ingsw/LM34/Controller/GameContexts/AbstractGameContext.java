@@ -13,7 +13,6 @@ public abstract class AbstractGameContext extends Observable  {
     protected ArrayList<AbstractGameContext> contexts;
 
 
-
     public abstract ContextType getType();
 
     public void interactWithPlayer(Player player) {

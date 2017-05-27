@@ -23,8 +23,6 @@ public class CouncilPalaceContext extends AbstractGameContext {
 
 
 
-        //turnContext.interactWithPlayer();
-
     }
 
 

@@ -31,7 +31,7 @@ public final class ContextFactory {
             case INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT:
                 return new IncreasePawnsValueByServantsContext();
             case RESOURCE_EXCHANGE_CONTEXT:
-                return new ResourchExchangeContext();
+                return new ResourcesExchangeContext();
             case USE_COUNCIL_PRIVILEGE_CONTEXT:
                 return new useCouncilPrivilegeContext();
             case COUNCIL_PALACE_CONTEXT:

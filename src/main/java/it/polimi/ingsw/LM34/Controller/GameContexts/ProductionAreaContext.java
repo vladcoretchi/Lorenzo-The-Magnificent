@@ -23,7 +23,7 @@ public class ProductionAreaContext extends AbstractGameContext {
         //TODO: the player chooses the slot to occupy (highlight the difference beetwen single slot and advanced slot)
         setChanged();
         //TODO: now values of dices are increased
-        //Utilities.getContextByType(contexts, ContextType.ACTION_SLOT_CONTEXT).initContext();
+        getContextByType(ContextType.ACTION_SLOT_CONTEXT).interactWithPlayer(player);
         //TODO: player chooses the familymember
 
         //TODO: now values of dices are increased

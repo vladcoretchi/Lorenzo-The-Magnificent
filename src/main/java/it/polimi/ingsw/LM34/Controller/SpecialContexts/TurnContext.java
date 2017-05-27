@@ -11,7 +11,6 @@ import java.util.ArrayList;
  * Created by GiulioComi on 18/05/2017.
  */
 public class TurnContext extends AbstractGameContext {
-    ArrayList<AbstractGameContext> contexts;
 
     /**
      Constructor called only at the game setup

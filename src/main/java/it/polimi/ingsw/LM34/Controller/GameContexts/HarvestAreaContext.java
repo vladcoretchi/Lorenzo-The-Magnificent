@@ -15,8 +15,8 @@ public class HarvestAreaContext extends AbstractGameContext {
         //TODO: the player chooses the slot to occupy (highlight the difference beetwen single slot and advanced slot)
         setChanged();
         //TODO: now values of dices are increased
-        //Utilities.getContextByType(contexts, ContextType.ACTION_SLOT_CONTEXT).initContext();
         //TODO: player chooses the familymember
+        getContextByType(ContextType.ACTION_SLOT_CONTEXT).interactWithPlayer(player);
 
         //TODO: now values of dices are increased
         FamilyMember memberChoosed = player.getFamilyMembers().get(1);

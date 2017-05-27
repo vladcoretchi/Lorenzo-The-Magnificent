@@ -21,7 +21,6 @@ public class ActionSlotContext extends AbstractGameContext {
         //TODO: player choices pawn to place and the slot
         //if(actionSlot.getSingleSlot()) ...
 
-        //turnContext.interactWithPlayer();
     }
 
 

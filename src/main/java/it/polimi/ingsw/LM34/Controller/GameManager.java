@@ -261,9 +261,9 @@ public class GameManager {
         contexts.forEach((c) -> c.setContexts(contexts));
 
         /*This is the main context that registers the observers of the current player */
-        //turnContext = (TurnContext) Utilities.getContextByType(contexts,ContextType.TURN_CONTEXT);
-        //turnContext.setGameManager(this); //The TurnContext need a callback to the GameManager
-        //curchContext = (CurchReportContext) Utilities.getContextByType(contexts,ContextType.CURCH_REPORT_CONTEXT);
+        for(AbstractGameContext context : contexts)
+            if(context.getType() == ContextType.TURN_CONTEXT)
+                turnContext = (TurnContext) context;
     }
 }
 
