@@ -48,7 +48,7 @@ public class GameManager {
     HashMap<Player, Integer> victoryPointsByPlayer = new HashMap<Player, Integer>();
 
     /*DECKS*/
-    private  DevelopmentCardDeck<TerritoryCard> territoryCardDeck = new DevelopmentCardDeck<TerritoryCard>();
+    private DevelopmentCardDeck<TerritoryCard> territoryCardDeck = new DevelopmentCardDeck<TerritoryCard>();
     private DevelopmentCardDeck<CharacterCard> characterCardDeck = new DevelopmentCardDeck<CharacterCard>();
     private DevelopmentCardDeck<VentureCard> ventureCardDeck = new DevelopmentCardDeck<VentureCard>();
     private DevelopmentCardDeck<BuildingCard> buildingCardDeck = new DevelopmentCardDeck<BuildingCard>();
@@ -64,10 +64,10 @@ public class GameManager {
     /*CONSTRUCTOR*/
     public GameManager() {
 
-        period = 1; //TODO: refactor
+        period = 1; //when cards of the new period are stored on towers
         round = 1; //when all players have placed all their pawns
-        phase = 1; //where all players have placed 1 of their pawn
-        turn = 1; //where the current player places his pawn
+        phase = 1; //when all players have placed 1 of their pawn
+        turn = 1; //when the current player places his pawn
         //Load all the configurations from json
         Configurator.loadConfigs();
 
@@ -83,17 +83,21 @@ public class GameManager {
         startGame();
     }
 
+
     private void drwaExcommunicationCards() {
         ArrayList<ExcommunicationCard> exCards = Utilities.getExcommunictionCards(excommunicationCards);
-        for(ExcommunicationCard card : exCards)
+        for (ExcommunicationCard card : exCards)
             curchContext.addExcommunicationCard(card);
     }
 
-    public void startGame()  {
-            //TODO
-            turnContext.initContext(players.get(phase)); //first player start first round of the game
+    public void startGame() {
+        //TODO
+        turnContext.initContext(players.get(phase)); //first player start first round of the game
     }
 
+    /**
+     * Sets up the game spaces before game begins
+     */
     public void prepareGameSpaces() {
 
         market = Configurator.getMarket();
@@ -109,21 +113,25 @@ public class GameManager {
         players.add(player);
     }
 
+    /**
+     * Enter the EndGameContext during which final points are calculated and ranking is showed
+     */
     public void endGame() {
-            EndGameContext endGameContext = (EndGameContext) Utilities.getContextByType(contexts, ContextType.END_GAME_CONTEXT);
-            endGameContext.interactWithPlayer(players);
+        EndGameContext endGameContext = (EndGameContext) Utilities.getContextByType(contexts, ContextType.END_GAME_CONTEXT);
+        endGameContext.interactWithPlayer(players);
     }
 
-    //method called only at the start of the game
+    /**
+     * Prepare decks at the start of the game
+     */
     public void prepareDecks() {
 
-            territoryCardDeck = (DevelopmentCardDeck<TerritoryCard>) Configurator.prepareDevelopmentDeck();
-            buildingCardDeck = (DevelopmentCardDeck<BuildingCard>) Configurator.prepareDevelopmentDeck();
-            characterCardDeck = (DevelopmentCardDeck<CharacterCard>) Configurator.prepareDevelopmentDeck();
-            ventureCardDeck = (DevelopmentCardDeck<VentureCard>) Configurator.prepareDevelopmentDeck();
-
-            Configurator.prepareLeaderAndExcommunicationDecks(leaderCardsDeck, excommunicationCards);
-            Configurator.orderExcommunicatioCardByPeriod(excommunicationCards);
+        territoryCardDeck = (DevelopmentCardDeck<TerritoryCard>) Configurator.prepareDevelopmentDeck();
+        buildingCardDeck = (DevelopmentCardDeck<BuildingCard>) Configurator.prepareDevelopmentDeck();
+        characterCardDeck = (DevelopmentCardDeck<CharacterCard>) Configurator.prepareDevelopmentDeck();
+        ventureCardDeck = (DevelopmentCardDeck<VentureCard>) Configurator.prepareDevelopmentDeck();
+        Configurator.prepareLeaderAndExcommunicationDecks(leaderCardsDeck, excommunicationCards);
+        Configurator.orderExcommunicatioCardByPeriod(excommunicationCards);
     }
 
     public void nextRound() { //round = half period
@@ -140,14 +148,24 @@ public class GameManager {
          * At the beginning of the round re apply all the once per round observers of the players
          */
         for (Player player : players) {
-           playerObservers = player.getObservers();
-            for(AbstractEffect observer : playerObservers)
-                if(observer.isOncePerRound())
+            playerObservers = player.getObservers();
+            for (AbstractEffect observer : playerObservers)
+                if (observer.isOncePerRound())
                     observer.subscribeObserverToContext(contexts);
 
         }
-        if(round %2 == 0)
+        if (round % 2 == 0) {
+            /**
+             * Now it is Curch Report time
+             */
+            CurchReportContext curchContext = (CurchReportContext) Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT);
+
+            //param players are passed to the context so that CurchReportContext handle the interact with them
+            curchContext.interactWithPlayer(players);
+
             nextPeriod();
+        }
+
     }
 
     public void nextTurn() {
@@ -163,25 +181,14 @@ public class GameManager {
     public void nextPeriod() {
         period++;
 
-        //Do curch report after 2nd round of each period
-        if(period %2 == 0) {
-            /**
-             * Now it is Curch Report time
-             */
-            CurchReportContext curchContext = (CurchReportContext) Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT);
 
-            /**
-             * @param players are passed to the context so that CurchReportContext handle the interact with them
-             */
-            curchContext.interactWithPlayer(players);
-        }
-
-
-        //enter the endGame context in which final points are calculated
         if(period > Configurator.TOTAL_PERIODS)
+            //enter the endGame context in which final points are calculated
             endGame();
         else
             round = 1;
+
+        nextTurn();
         //TODO
 
     }
@@ -203,16 +210,20 @@ public class GameManager {
 
     }
 
+    /**
+     * New cards are placed in the towers at the beginning of the new round
+     */
     public void replaceCards() {
 
-        //TODO: refactor this
             Utilities.placeNewRoundCards(towers, territoryCardDeck);
             Utilities.placeNewRoundCards(towers, buildingCardDeck);
             Utilities.placeNewRoundCards(towers, characterCardDeck);
             Utilities.placeNewRoundCards(towers, ventureCardDeck);
-
     }
 
+    /**
+     * Free all the action slots from the pawns and card stored during the previous round
+     */
     public void sweepActionSlots() {
 
         for (Tower tower : towers)
@@ -251,8 +262,6 @@ public class GameManager {
         turnContext = (TurnContext) Utilities.getContextByType(contexts,ContextType.TURN_CONTEXT);
         turnContext.setGameManager(this); //The TurnContext need a callback to the GameManager
         curchContext = (CurchReportContext) Utilities.getContextByType(contexts,ContextType.CURCH_REPORT_CONTEXT);
-
-
     }
 }
 

@@ -16,9 +16,17 @@ public class MarketAreaContext extends AbstractGameContext {
 
     @Override
     public void interactWithPlayer(Player player) {
+        //the player chooses the family member to place and where to place it
+        //if(fm.getValue() >= market.getDiceValue())
+        //try {
+        // market.insertFamilyMember(fm);
+        //marketSlot.getReward().applyEffect(player);
+        //} catch(...) {
+        //say that slot occupied and remake the player do his choices
+        //interactWithPlayer(player); //let the player redo his choices...
 
-        //TODO
-        //turnContext.interactWithPlayer();
+        //TODO: when the player choices to go back to the gameboard view...
+        //endContext();
     }
 
     public void endContext() {

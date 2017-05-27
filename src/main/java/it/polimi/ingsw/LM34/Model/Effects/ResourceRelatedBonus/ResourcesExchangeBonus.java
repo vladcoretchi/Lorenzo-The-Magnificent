@@ -39,6 +39,11 @@ public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
         Utilities.getContextByType(contexts, ContextType.PRODUCTION_AREA_CONTEXT).addObserver(this);
     }
 
+    @Override
+    public void applyEffect(Player player) {
+
+    }
+
 
     @Override
     public void update(Observable o, Object arg) {

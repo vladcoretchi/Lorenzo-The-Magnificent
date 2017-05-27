@@ -6,17 +6,14 @@ import it.polimi.ingsw.LM34.Model.Cards.BuildingCard;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 
-import java.util.ArrayList;
-
 /**
  * Created by GiulioComi on 16/05/2017.
  */
 public class ProductionAreaContext extends AbstractGameContext {
-    private ArrayList<FamilyMember> familyMembers;
+    private FamilyMember memberChoosed;
     private Integer tempValue;
 
     public void initContext(Player player) {
-        familyMembers = player.getFamilyMembers();
         setChanged();
         notifyObservers(player.getFamilyMembers());
     }
@@ -25,15 +22,17 @@ public class ProductionAreaContext extends AbstractGameContext {
     @Override
     public void interactWithPlayer(Player player) {
 
-        //TODO: implement what player can do here and modify the model in this controller class
-        //Utilities.getContextByType(contexts, ContextType.ACTION_SLOT_CONTEXT).initContext();
+
+        //TODO: the player chooses the slot to occupy
         //TODO: player chooses the familymember
+        //Utilities.getContextByType(contexts, ContextType.ACTION_SLOT_CONTEXT).initContext();
         setChanged();
-        //TODO: now values of dices are increased
-        FamilyMember memberChoosed = player.getFamilyMembers().get(1);
+        //TODO: now values of dices have been increased
+        memberChoosed = player.getFamilyMembers().get(1);
         //TODO: here we pass the family member chosed (only one)
         notifyObservers(memberChoosed);
         tempValue = memberChoosed.getValue(); //TODO: change this harcoded position
+        //TODO: tempValue= increasepawnsvalue.interactwithplayer();
 
         BuildingCard buildingCard;
         for(AbstractDevelopmentCard c : player.getPersonalBoard().getBuildingCardOwned()) {

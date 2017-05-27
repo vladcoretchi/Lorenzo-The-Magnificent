@@ -26,11 +26,18 @@ public class EndGameContext  extends AbstractGameContext {
         return ContextType.END_GAME_CONTEXT;
     }
 
-
+    /**
+     *Entry point of the class. This method is called by the game manager at the end of the game
+     * @param players
+     */
     public void endContext(ArrayList<Player> players) {
+
         interactWithPlayer(players);
     }
 
+    /**
+     * @return the hashmap with a correlation between players and their points earned by cards
+     */
     public HashMap<Player, Integer> onEndGameCalculatePointsByDevelopmentCardsOwned(HashMap<Player, Integer> victoryPointsByPlayer) {
         //TODO
         return victoryPointsByPlayer;
@@ -67,7 +74,9 @@ public class EndGameContext  extends AbstractGameContext {
     }
 
 
-
+    /**
+     * @return the hashmap with a correlation between players and their points earned by number of resources
+     */
     public HashMap<Player, Integer> onEndCalculateVictoryPointsPerPlayerByResources() {
 
         HashMap<Player, Integer> victoryPointsToPlayers = new HashMap<Player, Integer>();
@@ -76,7 +85,7 @@ public class EndGameContext  extends AbstractGameContext {
 
             for (Player p : players) {
                 Resources resources = p.getResources();
-                totalVictoryPointsByResources = Utilities.getTotalAmount(resources) /5; //TODO
+                totalVictoryPointsByResources = Utilities.getTotalAmount(resources) /5;
 
                 victoryPointsToPlayers.put(p, totalVictoryPointsByResources);
             }

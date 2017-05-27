@@ -17,9 +17,9 @@ public class ActionSlotContext extends AbstractGameContext {
         //handle "federico da montefeltro"
         setChanged();
         notifyObservers();
-
-
-
+        //actionSlot.setSingleSlot(false);
+        //TODO: player choices pawn to place and the slot
+        //if(actionSlot.getSingleSlot()) ...
 
         //turnContext.interactWithPlayer();
     }
@@ -29,9 +29,6 @@ public class ActionSlotContext extends AbstractGameContext {
     public ContextType getType() {
         return ContextType.ACTION_SLOT_CONTEXT;
     }
-
-
-
 
 
 }

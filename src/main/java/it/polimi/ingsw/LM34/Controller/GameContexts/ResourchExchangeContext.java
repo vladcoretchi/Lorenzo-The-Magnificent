@@ -7,7 +7,7 @@ import it.polimi.ingsw.LM34.Model.Player;
  * Created by GiulioComi on 23/05/2017.
  */
 
-/*TODO: probably to be removed*/
+/*TODO: probably to be removed or implement Observer and register to bonuses of production*/
 public class ResourchExchangeContext extends AbstractGameContext {
 
 
@@ -20,6 +20,6 @@ public class ResourchExchangeContext extends AbstractGameContext {
     @Override
     public void  interactWithPlayer(Player player) {
 
-        //turnContext.interactWithPlayer();
+        //exit normally to get back to the caller context
     }
 }

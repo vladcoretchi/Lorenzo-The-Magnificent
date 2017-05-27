@@ -6,7 +6,7 @@ import it.polimi.ingsw.LM34.Model.Player;
 /**
  * Created by GiulioComi on 16/05/2017.
  */
-
+//TODO: here we enter after the player has obtained some bonuses from most of the other contexts
 public class ResourceIncomeContext extends AbstractGameContext {
 
     //TODO: handle santa rita here

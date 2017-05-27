@@ -23,8 +23,9 @@ public class HarvestAreaContext extends AbstractGameContext {
 
     @Override
     public void interactWithPlayer(Player player) {
+        //TODO: the player chooses the slot to occupy (highlight the difference beetwen single slot and advanced slot)
+        setChanged();
         //TODO: now values of dices are increased
-        //TODO: implement what player can do here and modify the model in this controller class
         //Utilities.getContextByType(contexts, ContextType.ACTION_SLOT_CONTEXT).initContext();
         //TODO: player chooses the familymember
         setChanged();
@@ -32,7 +33,7 @@ public class HarvestAreaContext extends AbstractGameContext {
         FamilyMember memberChoosed = player.getFamilyMembers().get(1);
         //TODO: here we pass the family member chosed (only one)
         notifyObservers(memberChoosed);
-        tempValue = memberChoosed.getValue(); //TODO: change this harcoded position
+        tempValue = memberChoosed.getValue();
 
         TerritoryCard territoryCard;
         for(AbstractDevelopmentCard c : player.getPersonalBoard().getBuildingCardOwned()) {

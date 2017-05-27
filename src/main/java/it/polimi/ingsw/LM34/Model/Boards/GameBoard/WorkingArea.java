@@ -8,10 +8,21 @@ import java.util.ArrayList;
 //TODO: apply Singleton design pattern
 public class WorkingArea extends GameSpace {
     private Integer diceValueToWork; //production and harvest
+    private ActionSlot singleSlot;
+    private ArrayList<ActionSlot> advancedSlots;
 
-    public WorkingArea(ArrayList<ActionSlot> actionSlots) {
-        this.actionSlots= actionSlots;
+    public WorkingArea(ActionSlot singleSlot, ArrayList<ActionSlot> advancedSlots) {
+
+        this.singleSlot = singleSlot;
+        this.advancedSlots = advancedSlots;
     }
 
+    public ActionSlot getSingleSlot() {
+        return singleSlot;
+    }
+
+    public ArrayList<ActionSlot> getAdvancedSlots() {
+        return advancedSlots;
+    }
 }
 

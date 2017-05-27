@@ -16,6 +16,12 @@ public class CouncilPalaceContext extends AbstractGameContext {
 
     @Override
     public void interactWithPlayer(Player player) {
+        //TODO: interact: let the player choice the family member to use
+        //if(fm.getValue() >= councilPalace.getDiceValue();
+       // councilPalace.insertFamilyMember(fm);
+         // councilPalace.getReward();
+
+
 
         //turnContext.interactWithPlayer();
 
