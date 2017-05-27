@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Model.ResourceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.SpecialContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -50,20 +51,33 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        ResourceIncomeContext callerContext = (ResourceIncomeContext) o;
+        ContextType contextType = callerContext.getType();
+        if(contextType == ContextType.TOWERS_CONTEXT)
+            resources = (Resources) arg;
+            resources.sumResources(this.resources);
+
         Player player = (Player) arg;
-        player.addResources(this.resources);
     }
 
     /*santa rita*/
     @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
-        Utilities.getContextByType(contexts, ContextType.RESOURCE_INCOME_CONTEXT).addObserver(this);
+        Utilities.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT).addObserver(this);
+        //Utilities.getContextByType(ContextType.TOWERS_CONTEXT).addObserver(this);
     }
 
     @Override
-    public void applyEffect(Player player) {
-        player.addResources(resources);
-        player.addCouncilPrivileges(councilPrivilege);
+    public void applyEffect(ArrayList<AbstractGameContext> contexts, Player player) {
+
+        //TODO: access through resourcesincomecontext
+        //then i register...
+        // resourcesincomecontext.handleResources(player, resources);
+        //subscribeObserverToContext(contexts);
+
+        //player.addCouncilPrivileges(councilPrivilege);
+        //player.addResources(resources);
+
     }
 
 

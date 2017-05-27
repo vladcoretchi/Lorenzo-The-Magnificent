@@ -2,6 +2,7 @@ package it.polimi.ingsw.LM34.Controller.GameContexts;
 
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Utils.Utilities;
 
 /**
  * Created by GiulioComi on 25/05/2017.
@@ -18,18 +19,10 @@ public class LeaderDiscardContext extends AbstractGameContext {
 
     @Override
     public void interactWithPlayer(Player player) {
-        //TODO: handle the player discard
-        setChanged();
-        notifyObservers(totalLeadersDiscarded);
-        //TODO: the useCouncilPrivilegeContext is registered as observer
+        //TODO: handle the player discards and count how many councilPrivileges he deserves (totalleaders = ...)
+        for(Integer i = 0; i<totalLeadersDiscarded; i++)
+            Utilities.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT).interactWithPlayer(player);
     }
 
 
-    public void setTotalLeadersDiscarded(Integer totalLeadersDiscarded) {
-        this.totalLeadersDiscarded = totalLeadersDiscarded;
-    }
-
-    public Integer getTotalLeadersDiscarded() {
-        return this.totalLeadersDiscarded;
-    }
 }

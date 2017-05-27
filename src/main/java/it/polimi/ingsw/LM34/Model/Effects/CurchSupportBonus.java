@@ -26,7 +26,12 @@ public class CurchSupportBonus extends AbstractEffect implements Observer {
 
     @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
-        Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT).addObserver(this);
+        Utilities.getContextByType(ContextType.CURCH_REPORT_CONTEXT).addObserver(this);
+
+    }
+
+    @Override
+    public void applyEffect(Player player) {
 
     }
 

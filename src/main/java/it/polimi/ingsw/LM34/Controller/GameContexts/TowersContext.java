@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Created by GiulioComi on 18/05/2017.
  */
-public class DevelopmentCardAcquireContext extends AbstractGameContext {
+public class TowersContext extends AbstractGameContext {
     //TODO: use a temporary dice value instead of modifying the real dice value stored in the game manager
     //TODO: handle Filippo Brunelleschi, Cesare Borgia
     private Player currentPlayer;

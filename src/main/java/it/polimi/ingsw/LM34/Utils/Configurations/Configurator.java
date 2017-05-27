@@ -71,8 +71,9 @@ public final class Configurator {
         Integer diceValue = jsonObject.optInt("diceValue", 0);
         Integer councilPrivilege = jsonObject.getInt("councilPrivilege");
         Resources resources = getResourcesFromJson(jsonObject.getJSONObject("resources"));
-
-        return new ActionSlot(singlePawnSlot, diceValue, resources, councilPrivilege);
+        //wrapper
+        ResourcesBonus resourcesBonus = new ResourcesBonus(resources, councilPrivilege);
+        return new ActionSlot(singlePawnSlot, diceValue, resourcesBonus);
     }
 
     private static Resources getResourcesFromJson(JSONObject jsonResources) {

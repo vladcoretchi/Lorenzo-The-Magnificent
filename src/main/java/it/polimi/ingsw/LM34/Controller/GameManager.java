@@ -1,9 +1,9 @@
 package it.polimi.ingsw.LM34.Controller;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.GameContexts.CurchReportContext;
-import it.polimi.ingsw.LM34.Controller.GameContexts.EndGameContext;
-import it.polimi.ingsw.LM34.Controller.GameContexts.TurnContext;
+import it.polimi.ingsw.LM34.Controller.SpecialContexts.CurchReportContext;
+import it.polimi.ingsw.LM34.Controller.SpecialContexts.EndGameContext;
+import it.polimi.ingsw.LM34.Controller.SpecialContexts.TurnContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
@@ -258,10 +258,12 @@ public class GameManager {
         for (ContextType context : ContextType.values())
             contexts.add(ContextFactory.getContext(context));
 
+        contexts.forEach((c) -> c.setContexts(contexts));
+
         /*This is the main context that registers the observers of the current player */
-        turnContext = (TurnContext) Utilities.getContextByType(contexts,ContextType.TURN_CONTEXT);
-        turnContext.setGameManager(this); //The TurnContext need a callback to the GameManager
-        curchContext = (CurchReportContext) Utilities.getContextByType(contexts,ContextType.CURCH_REPORT_CONTEXT);
+        //turnContext = (TurnContext) Utilities.getContextByType(contexts,ContextType.TURN_CONTEXT);
+        //turnContext.setGameManager(this); //The TurnContext need a callback to the GameManager
+        //curchContext = (CurchReportContext) Utilities.getContextByType(contexts,ContextType.CURCH_REPORT_CONTEXT);
     }
 }
 

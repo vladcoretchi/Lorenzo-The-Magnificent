@@ -1,5 +1,6 @@
-package it.polimi.ingsw.LM34.Controller.GameContexts;
+package it.polimi.ingsw.LM34.Controller.SpecialContexts;
 
+import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -14,15 +15,14 @@ public class CurchReportContext  extends AbstractGameContext {
 
 
     public void interactWithPlayer(ArrayList<Player> players) {
-        //TODO: implement what player can do here and modify the model in this controller class
         //let the player choice if they wants to be excommunicated and assigned the negative effect to them
         //TODO: if players get excommunicated assign to him and activate the excommunication card
-
-        //TODO:for each player that satisfied notify his activated observe
-        setChanged(); //trigger sisto IV if is an observer
-        notifyObservers();
-
-        //turnContext.interactWithPlayer();
+            //card.applyEffect(player)
+            //player.addExcommunicationCard(card);
+        //TODO:for each player that satisfied notify his activated observer
+        /*trigger sisto IV if is an observer*/
+        setChanged(); notifyObservers();
+        //TODO: for each player, addVcitoryPointsFromFaithPath...
     }
 
     @Override
@@ -30,10 +30,6 @@ public class CurchReportContext  extends AbstractGameContext {
         return ContextType.CURCH_REPORT_CONTEXT;
     }
 
-
-    public void addExcommunicationCard(ExcommunicationCard card) {
-        this.excommunicationCards.add(card);
-    }
 }
 
 

@@ -60,7 +60,12 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
         if(workingAreaValueEffect != null)
             workingAreaValueEffect.subscribeObserverToContext(contexts);
         else
-            Utilities.getContextByType(contexts, ContextType.TURN_CONTEXT).addObserver(this);
+            Utilities.getContextByType(ContextType.TURN_CONTEXT).addObserver(this);
+    }
+
+    @Override
+    public void applyEffect(Player player) {
+
     }
 
     @Override

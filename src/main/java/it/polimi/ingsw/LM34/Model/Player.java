@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.Model;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
+import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 
@@ -17,6 +18,7 @@ public class Player implements Serializable {
     private ArrayList<FamilyMember>  familyMembers;
     private PersonalBoard personalBoard;
     private ArrayList <LeaderCard> leadercards;
+    private ArrayList<ExcommunicationCard> excommunicationCards;
     private AbstractEffect permanentBonus;
     //TODO: initialize the resources elsewhere
     private Resources resources;
@@ -80,5 +82,13 @@ public class Player implements Serializable {
 
     public void subResources(Resources res) {
         this.resources.subResources(res);
+    }
+
+    public ArrayList<ExcommunicationCard> getExcommunicationCards() {
+        return excommunicationCards;
+    }
+
+    public void addExcommunicationCards(ExcommunicationCard excommunicationCard) {
+        this.excommunicationCards.add(excommunicationCard);
     }
 }

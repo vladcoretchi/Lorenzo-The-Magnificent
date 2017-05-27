@@ -22,6 +22,6 @@ public abstract class AbstractEffect {
 
     public abstract void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts);
 
-    public abstract void applyEffect(Player player);
+    public abstract void applyEffect(ArrayList<AbstractGameContext> contexts, Player player);
 
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Controller;
 
-import it.polimi.ingsw.LM34.Controller.GameContexts.CurchReportContext;
+import it.polimi.ingsw.LM34.Controller.SpecialContexts.CurchReportContext;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 import org.junit.Test;

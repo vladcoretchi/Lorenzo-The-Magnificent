@@ -52,6 +52,8 @@ public final class Utilities {
     /**
      This static method is called often by observers to register themselves to the right context
      */
+    //Utilized by all games observer that passes the contexts of that particular game
+    //and receives back the instance of the context it needs
     public static AbstractGameContext getContextByType(ArrayList<AbstractGameContext> contexts, ContextType contextType) {
         //TODO: refactor this loop
         for(AbstractGameContext context : contexts)

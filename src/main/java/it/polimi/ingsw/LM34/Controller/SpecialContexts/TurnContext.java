@@ -1,6 +1,6 @@
-package it.polimi.ingsw.LM34.Controller.GameContexts;
+package it.polimi.ingsw.LM34.Controller.SpecialContexts;
 
-import it.polimi.ingsw.LM34.Controller.GameManager;
+import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -19,7 +19,7 @@ public class TurnContext extends AbstractGameContext {
     public TurnContext(ArrayList<AbstractGameContext> contexts) {
         this.contexts = contexts;
     }
-        private GameManager gameManager;
+
     /**
      * @param player about to begin his turn
      *Reactivate all observers that are of the player that is going to play
@@ -42,7 +42,6 @@ public class TurnContext extends AbstractGameContext {
             interactWithPlayer(player);
             //TODO: start timeout
 
-
     }
 
     @Override
@@ -52,25 +51,13 @@ public class TurnContext extends AbstractGameContext {
     } //sulla scelta dell'utente per farlo entrare nel contes
 
     public void endContext(Player player) {
-        //TODO:in this context deactivate all observers of the player that has finished his turn
+        /*In this context deactivate all observers of the player that has finished his turn*/
         player.unSubscribeObservers();
-        gameManager.nextTurn();
     }
     
     @Override
     public ContextType getType() {
         return ContextType.TURN_CONTEXT;
     }
-
-    /*public void endContext() {
-        //void
-    }*/
-
-    /**
-     * @param gameManager passed as parameter at the beginning of the game
-     */
-    public void setGameManager(GameManager gameManager) {
-        this.gameManager = gameManager;
-    }
-
+    
 }

@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Created by Giulio Comi on 02/04/2017.
  */
-public class FamilyMember implements Serializable {
+public class FamilyMember implements Serializable, Cloneable {
     private final PawnColor pawnColor;
     private DiceColor diceColor;
     private Integer value;
@@ -25,6 +25,16 @@ public class FamilyMember implements Serializable {
         this.isUsed = false;
     }
 
+    //TODO
+    @Override
+    public FamilyMember clone() {
+        try {
+            return (FamilyMember) super.clone();
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
     //used to verify if a action is allowed based on the corresponding dice value

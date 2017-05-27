@@ -1,5 +1,6 @@
-package it.polimi.ingsw.LM34.Controller.GameContexts;
+package it.polimi.ingsw.LM34.Controller.SpecialContexts;
 
+import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Player;
 
@@ -7,7 +8,10 @@ import it.polimi.ingsw.LM34.Model.Player;
  * Created by GiulioComi on 23/05/2017.
  */
 
-/*TODO: probably to be removed or implement Observer and register to bonuses of production*/
+/**
+ *Building permanent effects make the player access
+ *this contexts so that he can chooses what option he want to activate
+ */
 public class ResourchExchangeContext extends AbstractGameContext {
 
 
@@ -19,7 +23,6 @@ public class ResourchExchangeContext extends AbstractGameContext {
 
     @Override
     public void  interactWithPlayer(Player player) {
-
-        //exit normally to get back to the caller context
+        //TODO: let the player choose the options...
     }
 }
