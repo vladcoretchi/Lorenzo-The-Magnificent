@@ -1,12 +1,12 @@
 package it.polimi.ingsw.LM34.Controller;
 
-import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.GameContexts.CurchReportContext;
-import it.polimi.ingsw.LM34.Controller.GameContexts.EndGameContext;
-import it.polimi.ingsw.LM34.Controller.GameContexts.TurnContext;
+import it.polimi.ingsw.LM34.Controller.DiceDependentContexts.CouncilPalaceContext;
+import it.polimi.ingsw.LM34.Controller.SpecialContexts.CurchReportContext;
+import it.polimi.ingsw.LM34.Controller.SpecialContexts.EndGameContext;
+import it.polimi.ingsw.LM34.Controller.SpecialContexts.TurnContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import static it.polimi.ingsw.LM34.Enums.Model.PawnColor.BLUE;
+import static it.polimi.ingsw.LM34.Enums.Model.PawnColor.RED;
 
 /**
  * Created by GiulioComi on 05/05/2017.
@@ -39,11 +40,10 @@ public class GameManager {
     private Integer turn;
 
     private ArrayList<Dice> dices;
-    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Player> players;
 
     /*GAMEBOARD COMPONENTS*/
     private Market market;
-    private CouncilPalace councilPalace;
     private ArrayList<Tower> towers;
     private WorkingArea harvestArea;
     private WorkingArea productionArea;
@@ -52,7 +52,8 @@ public class GameManager {
     HashMap<Player, Integer> victoryPointsByPlayer = new HashMap<Player, Integer>();
 
     /*DECKS*/
-    public DevelopmentCardDeck<TerritoryCard> territoryCardDeck = new DevelopmentCardDeck<TerritoryCard>();
+    //TODO: migrate from arraylist to deck generics <T>
+    public ArrayList<TerritoryCard> territoryCardDeck = new ArrayList<>();
     private DevelopmentCardDeck<CharacterCard> characterCardDeck = new DevelopmentCardDeck<CharacterCard>();
     private DevelopmentCardDeck<VentureCard> ventureCardDeck = new DevelopmentCardDeck<VentureCard>();
     private DevelopmentCardDeck<BuildingCard> buildingCardDeck = new DevelopmentCardDeck<BuildingCard>();
@@ -60,14 +61,19 @@ public class GameManager {
     private ArrayList<ExcommunicationCard> excommunicationCards;
 
     /*GAME CONTEXTS*/
-    protected ArrayList<AbstractGameContext> contexts;
-    private TurnContext turnContext;
+    protected static ArrayList<AbstractGameContext> contexts;
+    private TurnContext turnContext = new TurnContext();
     private CurchReportContext curchContext;
     private AbstractGameContext currentContext;
+    private CouncilPalaceContext palaceContext;
 
     /*CONSTRUCTOR*/
     public GameManager() {
+        //palaceContext = (CouncilPalaceContext) getContextByType(ContextType.COUNCIL_PALACE_CONTEXT);
 
+        turn = 0;
+        phase = 0;
+        players = new ArrayList<Player>();
        /* period = 1; //when cards of the new period are stored on towers
         round = 1; //when all players have placed all their pawns
         phase = 1; //when all players have placed 1 of their pawn
@@ -96,7 +102,7 @@ public class GameManager {
 
     public void startGame() {
         //TODO
-        turnContext.initContext(players.get(phase)); //first player start first round of the game
+        turnContext.initContext(players.get(turn)); //first player start first round of the game
     }
 
     /**
@@ -105,7 +111,6 @@ public class GameManager {
     public void prepareGameSpaces() {
 
         market = Configurator.getMarket();
-        councilPalace = Configurator.getPalace();
         towers = Configurator.getTowers();
         harvestArea = Configurator.getHarvestArea();
         productionArea = Configurator.getProductionArea();
@@ -130,7 +135,7 @@ public class GameManager {
      */
     public void prepareDecks() {
 
-        territoryCardDeck = (DevelopmentCardDeck<TerritoryCard>) Configurator.prepareDevelopmentDeck();
+        //territoryCardDeck = (DevelopmentCardDeck<TerritoryCard>) Configurator.prepareDevelopmentDeck();
         buildingCardDeck = (DevelopmentCardDeck<BuildingCard>) Configurator.prepareDevelopmentDeck();
         characterCardDeck = (DevelopmentCardDeck<CharacterCard>) Configurator.prepareDevelopmentDeck();
         ventureCardDeck = (DevelopmentCardDeck<VentureCard>) Configurator.prepareDevelopmentDeck();
@@ -143,7 +148,7 @@ public class GameManager {
 
         round++;
 
-        setNewTurnOrder(councilPalace, players);
+        setNewTurnOrder();
         rollDices();
         sweepActionSlots();  //sweeps all action and tower slots from pawns and cards
         replaceCards();      //Four development cards per type are moved from the decks into the towerslots
@@ -173,13 +178,14 @@ public class GameManager {
     }
 
     public void nextTurn() {
-
-        turnContext.initContext(players.get(phase));
-        if (++phase >= players.size()) { //all players have placed 1 pawn
+        if (turn >= players.size()-1) { //all players have placed 1 pawn
+            System.out.println("Turni finiti");
             nextPhase();
-            turn = 1;
+            turn = 0;
+        } else {
+            turn++;
+            turnContext.initContext(players.get(turn));
         }
-
     }
 
     public void nextPeriod() {
@@ -219,7 +225,7 @@ public class GameManager {
      */
     public void replaceCards() {
 
-        placeNewRoundCards(towers, territoryCardDeck);
+        //placeNewRoundCards(towers, territoryCardDeck);
         placeNewRoundCards(towers, buildingCardDeck);
         placeNewRoundCards(towers, characterCardDeck);
         placeNewRoundCards(towers, ventureCardDeck);
@@ -234,7 +240,8 @@ public class GameManager {
             tower.sweep();
 
         market.sweep();
-        councilPalace.sweep();
+        //TODO: transfer areas variable from gamemanager to related contexts...
+        palaceContext.councilPalace.sweep();
         productionArea.sweep();
         harvestArea.sweep();
     }
@@ -260,25 +267,40 @@ public class GameManager {
 
         contexts = new ArrayList<>();
         for (ContextType context : ContextType.values())
+            try {
             contexts.add(ContextFactory.getContext(context));
+            } catch (NoSuchContextException e) {
+                e.printStackTrace();
+            }
 
-        contexts.forEach((c) -> c.setContexts(contexts));
-        /*for(AbstractGameContext context : contexts)
-            context.setContexts(contexts);*/
+        //contexts.forEach((c) -> c.setContexts(contexts));
 
         /*This is the main context that registers the observers of the current player */
-        for(AbstractGameContext context : contexts)
-            if(context.getType() == ContextType.TURN_CONTEXT)
+        /*for(AbstractGameContext context : contexts)
+            if(context.getType() == ContextType.TURN_CONTEXT) {
                 turnContext = (TurnContext) context;
+                turnContext.setGameManager(this);
+            }*/
+
+        TurnContext turnContext = (TurnContext) getContextByType(ContextType.TURN_CONTEXT);
     }
 
 
+    public static AbstractGameContext getContextByType(ContextType contextType) {
+        //TODO: refactor this loop
+        for (AbstractGameContext context : contexts)
+            if (context.getType() == contextType)
+                return context;
+
+        return null;
+    }
+
     //TODO: refactor
-    public static ArrayList<Player>  setNewTurnOrder(CouncilPalace councilPalace, ArrayList<Player> players) {
+    public ArrayList<Player>  setNewTurnOrder() {
 
         ArrayList<Player> oldPlayersOrder = players;
         ArrayList<Player> newPlayersOrder = new ArrayList<>();
-        ArrayList<FamilyMember> membersInOrder = councilPalace.getOccupyingPawns();
+        ArrayList<FamilyMember> membersInOrder = palaceContext.councilPalace.getOccupyingPawns();
 
         /*First remove all multipe pawns associated to the same player*/
         /*These inner loops do not add temporal complexity because pawns' count is negligible*/
@@ -312,7 +334,7 @@ public class GameManager {
      * @param towers from which choose the right tower by development card type
      * @param developmentDeck from which to extract and place in the tower the cards for the new round
      */
-    public static void placeNewRoundCards(ArrayList<Tower> towers, DevelopmentCardDeck<?> developmentDeck) {
+    public void placeNewRoundCards(ArrayList<Tower> towers, DevelopmentCardDeck<?> developmentDeck) {
 
         Tower tower = new Tower();
         Iterator iterator  = developmentDeck.iterator();
@@ -367,25 +389,30 @@ public class GameManager {
     }
 
 
+    public TurnContext getTurnContext() {
+        return this.turnContext;
+    }
     //TODO: this is just for testing purpose
     public ArrayList<Player> getPlayers() {
         return players;
     }
 
+    //TODO: remove this testing main
     public static void main (String [] args) {
         GameManager gameManager = new GameManager();
+
         ArrayList<TerritoryCard> territoryCards = new ArrayList<>();
         Configurator.loadConfigs();
-
+        gameManager.setupGameContexts();
 
         Player player = new Player(BLUE, new PersonalBoard());
+        Player player1 = new Player(RED, new PersonalBoard());
         gameManager.addPlayer(player);
-        //gameManager.setupGameContexts();
-        //TurnContext turnContext = (TurnContext) Utilities.getContextByType(gameManager.getContexts(), ContextType.TURN_CONTEXT);
-        TurnContext turnContext = new TurnContext();
+        gameManager.addPlayer(player1);
 
-
-        turnContext.interactWithPlayer(gameManager.getPlayers().get(0));
+        gameManager.getTurnContext().setGameManager(gameManager);
+        gameManager.territoryCardDeck = territoryCards;
+        gameManager.startGame();
 
     }
 

@@ -1,5 +1,6 @@
-package it.polimi.ingsw.LM34.Controller.GameContexts;
+package it.polimi.ingsw.LM34.Controller.DiceDependentContexts;
 
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -7,7 +8,7 @@ import it.polimi.ingsw.LM34.Model.Player;
 /**
  * Created by GiulioComi on 16/05/2017.
  */
-public class ProductionAreaContext extends AbstractGameContext {
+public class ProductionAreaContext extends AbstractGameContext implements DiceDependentContextsInterface {
     private FamilyMember memberChoosed;
     private Integer tempValue;
 
@@ -16,6 +17,7 @@ public class ProductionAreaContext extends AbstractGameContext {
         notifyObservers(player.getFamilyMembers());
     }
 
+    public ProductionAreaContext() {}
 
     @Override
     public void interactWithPlayer(Player player) {
@@ -31,7 +33,7 @@ public class ProductionAreaContext extends AbstractGameContext {
         FamilyMember tempMemberChoosed = memberChoosed.clone();
         //TODO: here we pass the family member chosed (only one)
         setChanged();
-        notifyObservers(tempMemberChoosed);
+        notifyObservers(tempMemberChoosed);  //observers do a setValue on it
         tempMemberChoosed.getValue();
     }
 
@@ -41,5 +43,8 @@ public class ProductionAreaContext extends AbstractGameContext {
         return ContextType.PRODUCTION_AREA_CONTEXT;
     }
 
-
+    @Override
+    public void increaseTempValue(Integer servantsConsumed) {
+        tempValue += servantsConsumed;
+    }
 }

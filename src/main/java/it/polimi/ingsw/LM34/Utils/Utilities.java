@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Utils;
 
-import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Resources;
@@ -46,7 +46,7 @@ public final class Utilities {
     public static AbstractGameContext getContextByType(ArrayList<AbstractGameContext> contexts, ContextType contextType) {
         //TODO: refactor this loop
         for(AbstractGameContext context : contexts)
-            if(context.getType() == ContextType.CURCH_REPORT_CONTEXT)
+            if(context.getType() == contextType)
                     return context;
 
         return null;

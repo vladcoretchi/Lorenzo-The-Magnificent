@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Model;
 
-import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import org.junit.Test;
@@ -24,10 +24,6 @@ public class PlayerTest {
             }
 
             @Override
-            public void applyEffect(ArrayList<AbstractGameContext> contexts, Player player) {
-
-            }
-
             public void applyEffect(Player player) {
 
             }
@@ -68,11 +64,6 @@ public class PlayerTest {
             }
 
             @Override
-            public void applyEffect(ArrayList<AbstractGameContext> contexts, Player player) {
-
-            }
-
-
             public void  applyEffect(Player player) {
 
             }

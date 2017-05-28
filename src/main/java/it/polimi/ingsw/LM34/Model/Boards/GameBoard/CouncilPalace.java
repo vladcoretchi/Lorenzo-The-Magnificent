@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
-import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
+import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
 
 import java.util.ArrayList;
 
@@ -26,6 +26,7 @@ public class CouncilPalace extends GameSpace {
         occupyingPawns.clear();
     }
 
+    //Returns the council privilege
     public ResourcesBonus getReward() { return this.reward; }
 
 

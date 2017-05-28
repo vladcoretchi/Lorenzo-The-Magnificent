@@ -1,5 +1,6 @@
-package it.polimi.ingsw.LM34.Controller.GameContexts;
+package it.polimi.ingsw.LM34.Controller.SupportContexts;
 
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Player;
 
@@ -10,6 +11,7 @@ public class ActionSlotContext extends AbstractGameContext {
     //TODO: Ludovico Ariosto changes a boolean here so that the player can add his pawn despite of action slot limits
     //handle a particular excommunication card
 
+    public ActionSlotContext() {}
 
     @Override
     public void interactWithPlayer(Player player) {

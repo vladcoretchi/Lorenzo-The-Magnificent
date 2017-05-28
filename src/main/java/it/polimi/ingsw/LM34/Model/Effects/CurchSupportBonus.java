@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Effects;
 
-import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
@@ -30,12 +30,9 @@ public class CurchSupportBonus extends AbstractEffect implements Observer {
 
     }
 
+
+
     @Override
-    public void applyEffect(ArrayList<AbstractGameContext> contexts, Player player) {
-
-    }
-
-
     public void applyEffect(Player player) {
 
     }

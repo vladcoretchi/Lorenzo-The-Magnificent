@@ -146,7 +146,6 @@ public final class Configurator {
     public static DevelopmentCardDeck<? extends AbstractDevelopmentCard> prepareDevelopmentDeck() {
 
         DevelopmentCardDeck<?> deck = new DevelopmentCardDeck<>();
-        //TODO: load from json all the cards
 
         deck.setupDevelopmentCardDeck();
         return deck;

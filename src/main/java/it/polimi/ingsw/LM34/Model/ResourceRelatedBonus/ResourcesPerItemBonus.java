@@ -1,6 +1,8 @@
 package it.polimi.ingsw.LM34.Model.ResourceRelatedBonus;
 
-import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.GameManager;
+import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
@@ -23,8 +25,10 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
     private DevelopmentCardColor cardColor; //"nobile, araldo, cortigiana,governatore, zecca, teatro, esattoria,arco di triongo"
     private Integer militaryPointsRequired; //for "generale" card
     private Integer diceValue;
+    private ArrayList<ContextType> contextToBeSubscribedTo; //PRODUCTION_AREA_CONTEXT only for buildings, null for characters
 
-    public ResourcesPerItemBonus(Resources bonusResources, DevelopmentCardColor cardColor, Integer diceValue) {
+    public ResourcesPerItemBonus(Resources bonusResources, DevelopmentCardColor cardColor, Integer diceValue, ArrayList<ContextType> contexts) {
+        this.contextToBeSubscribedTo = contexts;
         this.bonusResources = bonusResources;
         this.cardColor = cardColor; //"nobile, araldo, cortigiana,governatore, zecca, teatro, esattoria,arco di triongo"
         this.militaryPointsRequired = militaryPointsRequired; //"generale" card
@@ -33,6 +37,7 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
 
     /*Constructor for "generale" card*/
     public ResourcesPerItemBonus(Player player, Resources bonusResources, Integer militaryPointsRequired) {
+        this.contextToBeSubscribedTo = null;
         this.player = player;
         this.bonusResources = bonusResources;
         this.cardColor = null; //"nobile, araldo, cortigiana,governatore, zecca, teatro, esattoria,arco di triongo"
@@ -51,13 +56,8 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
     }
 
     @Override
-    public void applyEffect(ArrayList<AbstractGameContext> contexts, Player player) {
-
-    }
-
-
     public void applyEffect(Player player) {
-        
+
     }
 
     /**
@@ -85,6 +85,7 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         Integer numberOfThatCardTypeOwned = 0;
+        ResourceIncomeContext incomeContext;
         FamilyMember familyMemberUsed = (FamilyMember) arg;
         if( familyMemberUsed.getValue() >= diceValue) {
             try {
@@ -93,11 +94,16 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
             } catch (InvalidCardType e) {
                 e.printStackTrace();
             }
-            for (Integer timesApplied = 0; timesApplied < numberOfThatCardTypeOwned; timesApplied++)
-                player.addResources(bonusResources);
+            for (Integer timesApplied = 0; timesApplied < numberOfThatCardTypeOwned; timesApplied++) {
+                incomeContext = (ResourceIncomeContext) GameManager.getContextByType(ContextType.PRODUCTION_AREA_CONTEXT);
+                incomeContext.handleResources(player, bonusResources);
+            }
         }
     }
 
 
- }
+    public ArrayList<ContextType> getContextToBeSubscribedTo() {
+        return contextToBeSubscribedTo;
+    }
+}
 

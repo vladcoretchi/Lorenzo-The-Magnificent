@@ -1,13 +1,11 @@
 package it.polimi.ingsw.LM34.Model.ResourceRelatedBonus;
 
-import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.GameContexts.LeaderDiscardContext;
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.SupportContexts.LeaderDiscardContext;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.WorkingAreaValueEffect;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
-import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -79,7 +77,7 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
 
     @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
-        Utilities.getContextByType(contexts, ContextType.TURN_CONTEXT).addObserver(this);
+        //Utilities.getContextByType(contexts, ContextType.TURN_CONTEXT).addObserver(this);
 
     }
 
@@ -97,7 +95,7 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
         return this;
     }
     @Override
-    public void applyEffect(ArrayList<AbstractGameContext> contexts, Player player) {
+    public void applyEffect(Player player) {
 
     }
 

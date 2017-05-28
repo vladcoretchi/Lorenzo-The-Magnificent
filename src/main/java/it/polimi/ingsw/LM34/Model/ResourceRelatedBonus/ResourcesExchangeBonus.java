@@ -1,7 +1,8 @@
 package it.polimi.ingsw.LM34.Model.ResourceRelatedBonus;
 
-import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.GameContexts.ResourcesExchangeContext;
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.GameManager;
+import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourcesExchangeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
@@ -11,6 +12,7 @@ import it.polimi.ingsw.LM34.Utils.Utilities;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -26,9 +28,11 @@ public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
     private Pair<Resources, Resources>[] resourceExchange;
     private Pair<Resources, Integer>[] resourceForPrivileges; //Only for "Residenza" building card
     private Integer diceValueToActivate;
+    private ArrayList<ContextType> contextToBeSubscribedTo;
 
 
     public ResourcesExchangeBonus(Player player, Integer diceValue,Pair<Resources, Resources>[] resourceExchange, Pair<Resources, Integer>[] resourceForPrivileges) {
+        contextToBeSubscribedTo.add(ContextType.RESOURCE_EXCHANGE_CONTEXT);
         this.resourceExchange = resourceExchange;
         this.resourceForPrivileges = resourceForPrivileges;
         this.diceValueToActivate = diceValue;
@@ -41,9 +45,9 @@ public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
     }
 
     @Override
-    public void applyEffect(ArrayList<AbstractGameContext> contexts, Player player) {
+    public void applyEffect(Player player) {
         ResourcesExchangeContext resourceExchangeContext;
-        resourceExchangeContext= (ResourcesExchangeContext) Utilities.getContextByType(contexts, ContextType.RESOURCE_EXCHANGE_CONTEXT);
+        resourceExchangeContext= (ResourcesExchangeContext) GameManager.getContextByType(ContextType.RESOURCE_EXCHANGE_CONTEXT);
         resourceExchangeContext.setBonuses(player, resourceExchange, resourceForPrivileges);
     }
 
@@ -85,5 +89,9 @@ public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
                 player.addResources(pair.getRight());
             }
         }
+    }
+
+    public List<ContextType> getContextToBeSubscribedTo() {
+        return contextToBeSubscribedTo;
     }
 }

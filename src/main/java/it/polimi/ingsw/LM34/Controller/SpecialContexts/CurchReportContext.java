@@ -1,5 +1,6 @@
-package it.polimi.ingsw.LM34.Controller.GameContexts;
+package it.polimi.ingsw.LM34.Controller.SpecialContexts;
 
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -11,6 +12,10 @@ import java.util.ArrayList;
  */
 public class CurchReportContext  extends AbstractGameContext {
     private ArrayList<ExcommunicationCard> excommunicationCards; //added by the GameManager at game startup
+
+
+
+    public CurchReportContext() {}
 
 
     public void interactWithPlayer(ArrayList<Player> players) {

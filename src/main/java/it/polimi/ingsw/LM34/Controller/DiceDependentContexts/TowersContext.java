@@ -1,5 +1,6 @@
-package it.polimi.ingsw.LM34.Controller.GameContexts;
+package it.polimi.ingsw.LM34.Controller.DiceDependentContexts;
 
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlot;
@@ -11,12 +12,16 @@ import java.util.ArrayList;
 /**
  * Created by GiulioComi on 18/05/2017.
  */
-public class TowersContext extends AbstractGameContext {
+public class TowersContext extends AbstractGameContext implements  DiceDependentContextsInterface {
     //TODO: use a temporary dice value instead of modifying the real dice value stored in the game manager
     //TODO: handle Filippo Brunelleschi, Cesare Borgia
     private Player currentPlayer;
     private Boolean hasPenalty; //"predicatore"
     private ArrayList<FamilyMember> familyMembers;
+    private Integer tempValue;
+
+
+    public TowersContext() {}
 
 
     public void initContext(Player player) {
@@ -59,5 +64,10 @@ public class TowersContext extends AbstractGameContext {
 
     public void setHasPenalty(Boolean hasPenalty) {
         this.hasPenalty = hasPenalty; //set by "predicatore"
+    }
+
+    @Override
+    public void increaseTempValue(Integer servantsConsumed) {
+        tempValue += servantsConsumed;
     }
 }

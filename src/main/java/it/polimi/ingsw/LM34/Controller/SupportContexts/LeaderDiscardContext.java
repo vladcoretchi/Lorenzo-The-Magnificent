@@ -1,5 +1,6 @@
-package it.polimi.ingsw.LM34.Controller.GameContexts;
+package it.polimi.ingsw.LM34.Controller.SupportContexts;
 
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Player;
 
@@ -9,6 +10,7 @@ import it.polimi.ingsw.LM34.Model.Player;
 public class LeaderDiscardContext extends AbstractGameContext {
     private Integer totalLeadersDiscarded;
 
+public LeaderDiscardContext() {}
 
     @Override
     public ContextType getType() {

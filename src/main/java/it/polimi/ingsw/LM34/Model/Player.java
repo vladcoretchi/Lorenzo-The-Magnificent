@@ -34,6 +34,7 @@ public class Player implements Serializable {
         this.pawnColor= pawnColor;
         this.personalBoard= personalBoard;
         resources = new Resources();
+        councilPrivileges = 0;
 
         familyMembers= new ArrayList<FamilyMember>();
 

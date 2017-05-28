@@ -1,5 +1,6 @@
-package it.polimi.ingsw.LM34.Controller.GameContexts;
+package it.polimi.ingsw.LM34.Controller.SpecialContexts;
 
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
@@ -21,6 +22,8 @@ public class EndGameContext  extends AbstractGameContext {
 
     //TODO: all excommunication III period penalties are applied here as observers
 
+
+    public EndGameContext() {}
     @Override
     public ContextType getType() {
         return ContextType.END_GAME_CONTEXT;
@@ -31,7 +34,6 @@ public class EndGameContext  extends AbstractGameContext {
      * @param players
      */
     public void endContext(ArrayList<Player> players) {
-
         interactWithPlayer(players);
     }
 
