@@ -20,10 +20,7 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 import static it.polimi.ingsw.LM34.Enums.Model.PawnColor.BLUE;
 import static it.polimi.ingsw.LM34.Enums.Model.PawnColor.RED;
@@ -71,26 +68,24 @@ public class GameManager {
     public GameManager() {
         //palaceContext = (CouncilPalaceContext) getContextByType(ContextType.COUNCIL_PALACE_CONTEXT);
 
-        turn = 0;
-        phase = 0;
         players = new ArrayList<Player>();
-       /* period = 1; //when cards of the new period are stored on towers
+        period = 1; //when cards of the new period are stored on towers
         round = 1; //when all players have placed all their pawns
         phase = 1; //when all players have placed 1 of their pawn
-        turn = 1; //when the current player places his pawn
+        turn = 0; //when the current player places his pawn
         //Load all the configurations from json
         Configurator.loadConfigs();
 
         //TODO: sync the loading so that none of the methods below is called before configs.json file has been parsed
-        prepareGameSpaces();
-        prepareDecks();
-        drwaExcommunicationCards();
+        //prepareGameSpaces();
+       // prepareDecks();
+       // drwaExcommunicationCards();
         //TODO: initialize players
         setupPlayersResources();
         Collections.shuffle(players); //randomly set the initial play order
 
         setupGameContexts();
-        startGame();*/
+
     }
 
 

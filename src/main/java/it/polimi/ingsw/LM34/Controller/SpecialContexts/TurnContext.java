@@ -3,9 +3,12 @@ package it.polimi.ingsw.LM34.Controller.SpecialContexts;
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Controller.SupportContexts.LeaderDiscardContext;
+import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Cards.TerritoryCard;
 import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 
 import java.util.ArrayList;
@@ -63,13 +66,13 @@ public class TurnContext extends AbstractGameContext {
         ArrayList<TerritoryCard> territoryCards = (ArrayList) Configurator.getTerritoryCards();
 
 
-        /*//TODO: let the player visit where he pleases to go
+        //TODO: let the player visit where he pleases to go
         for(Integer i=7; i<20; i++) {
             System.out.println("SERVANTS AGGIUNTIVI DI CARTA NUM "+i+"= "+territoryCards.get(i).getPermanentBonus().getResources().getResourceByType(ResourceType.SERVANTS));
             ResourcesBonus bonus = territoryCards.get(i).getPermanentBonus();
             ResourceIncomeContext incomeContext = (ResourceIncomeContext) GameManager.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT);
             incomeContext.addObserver(bonus);
-        }*/
+        }
 
         System.out.println("benvenuto in turn context");
         GameManager.getContextByType(ContextType.MARKET_AREA_CONTEXT).interactWithPlayer(player);
