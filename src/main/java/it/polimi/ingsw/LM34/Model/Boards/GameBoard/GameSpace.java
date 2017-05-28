@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
-import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
+
 import java.util.ArrayList;
 
 /**
@@ -23,8 +24,8 @@ public abstract class GameSpace {
     }
 
     //show to the player all the different type of resource rewards each market slot provides
-    public ArrayList<Resources> getMarketSlotsBonuses() {
-        ArrayList<Resources> rewardFromSlot = new ArrayList<Resources>();
+    public ArrayList<ResourcesBonus> getMarketSlotsBonuses() {
+        ArrayList<ResourcesBonus> rewardFromSlot = new ArrayList<>();
 
         for (ActionSlot as : actionSlots)
             rewardFromSlot.add(as.getResourcesReward());

@@ -76,15 +76,20 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
 
     @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
-        Utilities.getContextByType(areaType).addObserver(this);
+        Utilities.getContextByType(contexts, areaType).addObserver(this);
 
     }
 
     @Override
+    public void applyEffect(ArrayList<AbstractGameContext> contexts, Player player) {
+
+    }
+
+    //TODO: remove nulls
     public void applyEffect(Player player)  {
         if(isInstant) //check if this is instant effect
-        Utilities.getContextByType(areaType).interactWithPlayer(player);
+        Utilities.getContextByType(null, areaType).interactWithPlayer(player);
         else //register the permanent bonus as observer
-        subscribeObserverToContext(contexts);
+        subscribeObserverToContext(null);
     }
 }

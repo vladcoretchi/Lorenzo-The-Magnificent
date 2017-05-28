@@ -2,6 +2,7 @@ package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
@@ -24,7 +25,7 @@ public class Player implements Serializable {
     private Resources resources;
     private Integer councilPrivileges;
 
-    private ArrayList<AbstractEffect> AbstractEffects;
+    private ArrayList<AbstractEffect> abstractEffects;
 
     //VARIABLE FOR COMMUNICATION TO CLIENT
     //TODO: evalueate if this network connection is correct
@@ -61,15 +62,15 @@ public class Player implements Serializable {
     }
 
     public ArrayList<AbstractEffect> getObservers() {
-        return this.AbstractEffects;
+        return this.abstractEffects;
     }
 
-    public void addObserver(AbstractEffect observer) {
-        AbstractEffects.add(observer);
+    public void addObserver(AbstractEffect a) {
+        abstractEffects.add(a);
     }
 
     public void unSubscribeObservers() {
-        AbstractEffects.clear();
+        abstractEffects.clear();
     }
 
     public Integer getCouncilPrivileges() {
@@ -90,5 +91,14 @@ public class Player implements Serializable {
 
     public void addExcommunicationCards(ExcommunicationCard excommunicationCard) {
         this.excommunicationCards.add(excommunicationCard);
+    }
+
+    public Boolean hasEnoughResources (Resources resourcesRequired) {
+        Resources resourcesAvailable =this.getResources();
+        for(ResourceType resType : ResourceType.values())
+            if(!(resourcesAvailable.getResourceByType(resType) >= resourcesRequired.getResourceByType(resType)))
+                return false;
+
+        return true;
     }
 }

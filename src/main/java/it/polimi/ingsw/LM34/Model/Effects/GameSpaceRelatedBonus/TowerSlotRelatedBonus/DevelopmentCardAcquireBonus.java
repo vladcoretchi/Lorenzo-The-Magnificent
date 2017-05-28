@@ -78,14 +78,14 @@ public class DevelopmentCardAcquireBonus extends AbstractEffect implements Obser
 
     @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
-        Utilities.getContextByType(contexts, ContextType.DEVELOPMENT_CARD_ACQUIRE_CONTEXT).addObserver(this);
+        Utilities.getContextByType(contexts, ContextType.TOWERS_CONTEXT).addObserver(this);
     }
 
 
     public void applyEffect(ArrayList<AbstractGameContext> contexts, Player player) {
         if(isInstant) {
             subscribeObserverToContext(contexts);
-            AbstractGameContext context = Utilities.getContextByType(contexts, ContextType.DEVELOPMENT_CARD_ACQUIRE_CONTEXT);
+            AbstractGameContext context = Utilities.getContextByType(contexts, ContextType.TOWERS_CONTEXT);
             context.interactWithPlayer(player);
             context.deleteObserver(this);
         }

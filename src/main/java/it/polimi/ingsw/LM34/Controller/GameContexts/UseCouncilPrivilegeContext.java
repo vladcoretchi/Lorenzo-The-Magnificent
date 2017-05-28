@@ -1,15 +1,12 @@
-package it.polimi.ingsw.LM34.Controller.SpecialContexts;
+package it.polimi.ingsw.LM34.Controller.GameContexts;
 
-import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Model.Resources;
 
 /**
  * Created by GiulioComi on 23/05/2017.
  */
-public class useCouncilPrivilegeContext extends AbstractGameContext {
-    private Player player;
+public class UseCouncilPrivilegeContext extends AbstractGameContext {
     private Integer numberOfCouncilePrivileges;
 
 
@@ -22,11 +19,14 @@ public class useCouncilPrivilegeContext extends AbstractGameContext {
         return ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT;
     }
 
-    public void interactWithPlayer(Integer numberOfCouncilePrivileges) {
+    public void interactWithPlayer(Player player, Integer numberOfCouncilePrivileges) {
+        System.out.println("siamo in UseCouncilPrivilegeContext");
+        ResourceIncomeContext incomeContext = new ResourceIncomeContext();
         //TODO: handle the player choice on how to use the privileges
-        for(Integer used=0; used<numberOfCouncilePrivileges; used++)
+        //for(Integer used=0; used<numberOfCouncilePrivileges; used++)
             //TODO: let the player choice a resourcebonus, but different from the other choosed at the same moment
-            player.addResources(new Resources(2,0,0,0));
+            //incomeContext = (ResourceIncomeContext) getContextByType(ContextType.RESOURCE_INCOME_CONTEXT);
+            //incomeContext.handleResources(player, new Resources(2,0,0,0));
     }
 
 

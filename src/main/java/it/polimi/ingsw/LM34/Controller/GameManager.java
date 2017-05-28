@@ -1,27 +1,31 @@
 package it.polimi.ingsw.LM34.Controller;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.SpecialContexts.CurchReportContext;
-import it.polimi.ingsw.LM34.Controller.SpecialContexts.EndGameContext;
-import it.polimi.ingsw.LM34.Controller.SpecialContexts.TurnContext;
+import it.polimi.ingsw.LM34.Controller.GameContexts.CurchReportContext;
+import it.polimi.ingsw.LM34.Controller.GameContexts.EndGameContext;
+import it.polimi.ingsw.LM34.Controller.GameContexts.TurnContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
-import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Dice;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
-import it.polimi.ingsw.LM34.Network.RemotePlayer;
 import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import static it.polimi.ingsw.LM34.Enums.Model.PawnColor.BLUE;
 
 /**
  * Created by GiulioComi on 05/05/2017.
@@ -48,7 +52,7 @@ public class GameManager {
     HashMap<Player, Integer> victoryPointsByPlayer = new HashMap<Player, Integer>();
 
     /*DECKS*/
-    private DevelopmentCardDeck<TerritoryCard> territoryCardDeck = new DevelopmentCardDeck<TerritoryCard>();
+    public DevelopmentCardDeck<TerritoryCard> territoryCardDeck = new DevelopmentCardDeck<TerritoryCard>();
     private DevelopmentCardDeck<CharacterCard> characterCardDeck = new DevelopmentCardDeck<CharacterCard>();
     private DevelopmentCardDeck<VentureCard> ventureCardDeck = new DevelopmentCardDeck<VentureCard>();
     private DevelopmentCardDeck<BuildingCard> buildingCardDeck = new DevelopmentCardDeck<BuildingCard>();
@@ -64,7 +68,7 @@ public class GameManager {
     /*CONSTRUCTOR*/
     public GameManager() {
 
-        period = 1; //when cards of the new period are stored on towers
+       /* period = 1; //when cards of the new period are stored on towers
         round = 1; //when all players have placed all their pawns
         phase = 1; //when all players have placed 1 of their pawn
         turn = 1; //when the current player places his pawn
@@ -80,7 +84,7 @@ public class GameManager {
         Collections.shuffle(players); //randomly set the initial play order
 
         setupGameContexts();
-        startGame();
+        startGame();*/
     }
 
 
@@ -109,7 +113,7 @@ public class GameManager {
     }
 
     //TODO: chain together remotePlayer (client) and the player
-    public void addPlayer(RemotePlayer remotePlayer, Player player) {
+    public void addPlayer(Player player) {
         players.add(player);
     }
 
@@ -259,6 +263,8 @@ public class GameManager {
             contexts.add(ContextFactory.getContext(context));
 
         contexts.forEach((c) -> c.setContexts(contexts));
+        /*for(AbstractGameContext context : contexts)
+            context.setContexts(contexts);*/
 
         /*This is the main context that registers the observers of the current player */
         for(AbstractGameContext context : contexts)
@@ -332,14 +338,7 @@ public class GameManager {
      * @see it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesExchangeBonus
      * @return if the effect is activable or not
      */
-    public static Boolean hasEnoughResources (Player player, Resources resourcesRequired) {
-        Resources resourcesAvailable = player.getResources();
-        for(ResourceType resType : ResourceType.values())
-            if(!(resourcesAvailable.getResourceByType(resType) >= resourcesRequired.getResourceByType(resType)))
-                return false;
 
-        return true;
-    }
 
     /*Called by Game Manager only at the beginning of the game*/
     public void setContexts(ArrayList<AbstractGameContext> contexts) {
@@ -361,6 +360,35 @@ public class GameManager {
             }
         return exCardChoosed; //return the 3 cards, one by period
     }
+
+    //TODO: this is just for testing purpose
+    public ArrayList<AbstractGameContext> getContexts() {
+        return contexts;
+    }
+
+
+    //TODO: this is just for testing purpose
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public static void main (String [] args) {
+        GameManager gameManager = new GameManager();
+        ArrayList<TerritoryCard> territoryCards = new ArrayList<>();
+        Configurator.loadConfigs();
+
+
+        Player player = new Player(BLUE, new PersonalBoard());
+        gameManager.addPlayer(player);
+        //gameManager.setupGameContexts();
+        //TurnContext turnContext = (TurnContext) Utilities.getContextByType(gameManager.getContexts(), ContextType.TURN_CONTEXT);
+        TurnContext turnContext = new TurnContext();
+
+
+        turnContext.interactWithPlayer(gameManager.getPlayers().get(0));
+
+    }
+
 }
 
 

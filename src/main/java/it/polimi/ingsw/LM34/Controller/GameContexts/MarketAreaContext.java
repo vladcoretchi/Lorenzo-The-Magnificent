@@ -24,7 +24,7 @@ public class MarketAreaContext extends AbstractGameContext {
         //} catch(...) {
         //say that slot occupied and remake the player do his choices
         //TODO: correct: ?interactWithPlayer(player); //let the player redo his choices...
-
+        System.out.println("siamo in market area context");
 
     }
 

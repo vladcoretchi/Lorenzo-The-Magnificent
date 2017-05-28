@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus;
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.ArrayList;
@@ -26,6 +27,10 @@ public class ActionSlotLimitBypass extends AbstractEffect implements Observer {
         Utilities.getContextByType(contexts, ContextType.ACTION_SLOT_CONTEXT).addObserver(this);
     }
 
+    @Override
+    public void applyEffect(ArrayList<AbstractGameContext> contexts, Player player) {
+
+    }
 
 
 }

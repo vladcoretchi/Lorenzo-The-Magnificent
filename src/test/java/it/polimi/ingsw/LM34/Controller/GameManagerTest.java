@@ -1,12 +1,12 @@
 package it.polimi.ingsw.LM34.Controller;
 
-import it.polimi.ingsw.LM34.Controller.SpecialContexts.CurchReportContext;
+import it.polimi.ingsw.LM34.Controller.GameContexts.CurchReportContext;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
-import it.polimi.ingsw.LM34.Utils.Utilities;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.LM34.Controller.GameManager.getExcommunictionCards;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -21,7 +21,7 @@ public class GameManagerTest {
 
         CurchReportContext curchContext = new CurchReportContext();
 
-        ArrayList<ExcommunicationCard> exCards = Utilities.getExcommunictionCards(excommunicationCards);
+        ArrayList<ExcommunicationCard> exCards = getExcommunictionCards(excommunicationCards);
 
         for(ExcommunicationCard card : exCards)
             curchContext.addExcommunicationCard(card);

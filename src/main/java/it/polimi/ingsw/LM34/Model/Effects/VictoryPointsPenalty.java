@@ -74,10 +74,15 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
 
     @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
-        Utilities.getContextByType(ContextType.END_GAME_CONTEXT).addObserver(this);
+        Utilities.getContextByType(contexts, ContextType.END_GAME_CONTEXT).addObserver(this);
     }
 
     @Override
+    public void applyEffect(ArrayList<AbstractGameContext> contexts, Player player) {
+
+    }
+
+
     public void applyEffect(Player player) {
         //subscribeObserverToContext(contexts);
     }

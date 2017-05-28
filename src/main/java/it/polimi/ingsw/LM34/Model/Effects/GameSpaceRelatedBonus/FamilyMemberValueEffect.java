@@ -32,6 +32,7 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
 
     //TODO: handle federico da montefeltro
 
+
     private Integer value;
 
     /**
@@ -74,12 +75,14 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
     @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
         Utilities.getContextByType(contexts, ContextType.ACTION_SLOT_CONTEXT).addObserver(this);
-        Utilities.getContextByType(contexts, ContextType.DEVELOPMENT_CARD_ACQUIRE_CONTEXT).addObserver(this);
+        Utilities.getContextByType(contexts, ContextType.TOWERS_CONTEXT).addObserver(this);
+        Utilities.getContextByType(contexts, ContextType.MARKET_AREA_CONTEXT).addObserver(this);
     }
 
-
-    public void resetApplyFlag() {
+    @Override
+    public void applyEffect(ArrayList<AbstractGameContext> contexts, Player player) {
 
     }
+
 
 }

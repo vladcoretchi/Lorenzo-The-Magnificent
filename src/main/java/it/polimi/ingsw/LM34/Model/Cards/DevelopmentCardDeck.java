@@ -13,7 +13,7 @@ import java.util.Iterator;
 public class DevelopmentCardDeck<T extends AbstractDevelopmentCard> implements  Iterable<T> {
 
     //TODO: get deck loaded from Configurator at the preparation of the game
-    private ArrayList<T> developmentDeck;
+    private ArrayList<T> developmentDeck = new ArrayList<>();
     private DevelopmentCardColor cardColor;
 
     public DevelopmentCardDeck(ArrayList<T> developmentCards) {
@@ -53,5 +53,6 @@ public class DevelopmentCardDeck<T extends AbstractDevelopmentCard> implements  
     public DevelopmentCardColor getCardColor() {
         return this.cardColor;
     }
+
 
 }

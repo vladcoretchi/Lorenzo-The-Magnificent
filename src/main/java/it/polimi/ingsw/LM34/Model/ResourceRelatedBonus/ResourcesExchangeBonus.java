@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Model.ResourceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.SpecialContexts.ResourcesExchangeContext;
+import it.polimi.ingsw.LM34.Controller.GameContexts.ResourcesExchangeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
@@ -66,7 +66,7 @@ public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
 
         for(Pair<Resources, Integer> pair : resourceForPrivileges) {
             /*check if the player has enough resources to activate the card permanent effect*/
-            if (Utilities.hasEnoughResources(player, pair.getLeft())) {
+            if (player.hasEnoughResources(pair.getLeft())) {
                 player.subResources(pair.getLeft());
                 /*activate the card permanent effect providing the player with the resources desired*/
                 player.addCouncilPrivileges(pair.getRight());
@@ -78,7 +78,7 @@ public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
 
         for (Pair<Resources, Resources> pair : resourceExchange) {
             /*check if the player has enough resources to activate the card permanent effect*/
-            if (Utilities.hasEnoughResources(player, pair.getLeft())) {
+            if (player.hasEnoughResources(pair.getLeft())) {
                 /*retrieve from player the resources he needs to pay*/
                 player.subResources(pair.getLeft());
                 /*activate the card permanent effect providing the player with the resources desired*/

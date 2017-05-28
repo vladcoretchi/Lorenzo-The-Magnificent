@@ -47,10 +47,15 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
      */
     @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
-        Utilities.getContextByType(ContextType.PRODUCTION_AREA_CONTEXT).addObserver(this);
+        Utilities.getContextByType(contexts, ContextType.PRODUCTION_AREA_CONTEXT).addObserver(this);
     }
 
     @Override
+    public void applyEffect(ArrayList<AbstractGameContext> contexts, Player player) {
+
+    }
+
+
     public void applyEffect(Player player) {
         
     }

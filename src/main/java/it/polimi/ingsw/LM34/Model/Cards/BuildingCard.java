@@ -1,10 +1,13 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
+import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
-import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Resources;
+
+import java.util.ArrayList;
 
 /**
  * Created by GiulioComi on 04/05/2017.
@@ -66,7 +69,7 @@ public class BuildingCard extends AbstractDevelopmentCard {
         return name;
     }
 
-    public void applyPermanentEffect(Player player) {
-        this.getPermanentBonus().applyEffect(player);
+    public void applyPermanentEffect(ArrayList<AbstractGameContext> contexts, Player player) {
+        this.getPermanentBonus().applyEffect(contexts, player);
     }
 }

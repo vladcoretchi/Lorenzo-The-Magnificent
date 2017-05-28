@@ -1,9 +1,12 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
+import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Resources;
+
+import java.util.ArrayList;
 
 /**
  * Created by GiulioComi on 05/05/2017.
@@ -65,7 +68,7 @@ public class TerritoryCard extends AbstractDevelopmentCard {
         return diceValueToHarvest;
     }
 
-    public void applyPermanentEffect(Player player) {
-        this.getPermanentBonus().applyEffect(player);
+    public void applyPermanentEffect(ArrayList<AbstractGameContext> contexts, Player player) {
+        this.getPermanentBonus().applyEffect(contexts, player);
     }
 }

@@ -1,6 +1,5 @@
-package it.polimi.ingsw.LM34.Controller.SpecialContexts;
+package it.polimi.ingsw.LM34.Controller.GameContexts;
 
-import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Player;

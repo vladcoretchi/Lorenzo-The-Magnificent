@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Model.ResourceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.SpecialContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -11,6 +10,8 @@ import it.polimi.ingsw.LM34.Utils.Utilities;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+
+import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.WOODS;
 
 
 /**
@@ -51,19 +52,20 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        ResourceIncomeContext callerContext = (ResourceIncomeContext) o;
+        System.out.println(resources.getResourceByType(WOODS));
+        /*ResourceIncomeContext callerContext = (ResourceIncomeContext) o;
         ContextType contextType = callerContext.getType();
         if(contextType == ContextType.TOWERS_CONTEXT)
             resources = (Resources) arg;
             resources.sumResources(this.resources);
 
-        Player player = (Player) arg;
+        Player player = (Player) arg;*/
     }
 
     /*santa rita*/
     @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
-        Utilities.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT).addObserver(this);
+        Utilities.getContextByType(contexts, ContextType.RESOURCE_INCOME_CONTEXT).addObserver(this);
         //Utilities.getContextByType(ContextType.TOWERS_CONTEXT).addObserver(this);
     }
 

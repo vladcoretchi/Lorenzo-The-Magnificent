@@ -2,7 +2,7 @@ package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
-import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
 
 /**
  * Created by Julius on 04/05/2017.
@@ -17,8 +17,8 @@ public class TowerSlot extends ActionSlot {
     private Integer level;
     private Integer coloumn;
 
-    public TowerSlot(Resources occupyingReward, Integer diceValueRequired, Integer level, Integer coloumn) {
-        super(true,diceValueRequired, occupyingReward, 0 ); //store in the actionslot the bonus it provides
+    public TowerSlot(ResourcesBonus occupyingReward, Integer diceValueRequired, Integer level, Integer coloumn) {
+        super(true,diceValueRequired, occupyingReward ); //store in the actionslot the bonus it provides
         this.diceValueRequired = diceValueRequired;
     }
 
