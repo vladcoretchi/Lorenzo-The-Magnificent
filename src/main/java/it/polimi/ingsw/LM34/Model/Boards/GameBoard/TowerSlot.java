@@ -1,8 +1,8 @@
 package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
-import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
 
 /**
  * Created by Julius on 04/05/2017.

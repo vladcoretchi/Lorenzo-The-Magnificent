@@ -55,10 +55,7 @@ public class TowersContext extends AbstractGameContext implements  DiceDependent
         //card.getPermanentBonus().applyPermanentEffect();
         towerSelected.getTowerSlotResources().applyEffect(player);
 
-
-;
     }
-
 
     public void setHasPenalty(Boolean hasPenalty) {
         this.hasPenalty = hasPenalty; //set by "predicatore"
@@ -69,17 +66,19 @@ public class TowersContext extends AbstractGameContext implements  DiceDependent
         tempValue += servantsConsumed;
     }
 
-
-
+    @Override
+    public void sweep() {
+        towers.forEach(tower -> tower.sweep());
+    }
 
     @Override
     public ContextType getType() {
         return ContextType.TOWERS_CONTEXT;
     }
 
-
     //TODO: evaluate if the buy should stay in this class
     public void buyCard(Player player, TowerSlot slot) throws InvalidCardType {
+        //TODO: check many things here
         player.getPersonalBoard().addCard(slot.getCardStored());
     }
 

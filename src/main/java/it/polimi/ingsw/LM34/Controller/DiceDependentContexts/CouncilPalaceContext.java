@@ -4,8 +4,8 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 
 /**
@@ -34,6 +34,7 @@ public class CouncilPalaceContext extends AbstractGameContext implements DiceDep
         //councilPalace.insertFamilyMember(fm);
         reward = councilPalace.getReward();
         player.addCouncilPrivileges(reward.getCouncilPrivilege());
+        //Since the player got a council privilege, we call the context in which he can spend it for resources
         GameManager.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT).interactWithPlayer(player);
 
     }
@@ -44,6 +45,7 @@ public class CouncilPalaceContext extends AbstractGameContext implements DiceDep
     }
 
 
+    @Override
     public void sweep() {
         councilPalace.sweepPalace();
     }

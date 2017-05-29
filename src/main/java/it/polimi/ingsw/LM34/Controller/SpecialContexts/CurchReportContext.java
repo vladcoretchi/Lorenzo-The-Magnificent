@@ -19,6 +19,11 @@ public class CurchReportContext  extends AbstractGameContext {
 
     public CurchReportContext() {}
 
+    @Override
+    public void interactWithPlayer(Player player) {
+
+    }
+
 
     public void interactWithPlayer(ArrayList<Player> players) {
         //let the player choice if they wants to be excommunicated and assigned the negative effect to them

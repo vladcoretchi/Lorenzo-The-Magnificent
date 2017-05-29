@@ -3,7 +3,7 @@ package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
-import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 
 
 //LET US USE A MATRIX FOR THE TOWER (ROWS (LEVELS)=4, COLOUMNS (TYPE OF CARD STORED)= 4)

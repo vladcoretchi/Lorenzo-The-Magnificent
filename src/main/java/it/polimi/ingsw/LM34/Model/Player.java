@@ -71,6 +71,7 @@ public class Player implements Serializable {
         observerEffects.add(a);
     }
 
+    //TODO: delete this
     public void unSubscribeObservers() {
         observerEffects.clear();
     }

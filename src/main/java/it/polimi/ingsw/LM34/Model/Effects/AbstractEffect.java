@@ -20,8 +20,8 @@ public abstract class AbstractEffect {
     }
 
 
-    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
-        this.observableContexts = contexts;
+    public ArrayList<AbstractGameContext> getContextToBeSubscribedTo() {
+        return observableContexts;
     }
 
     public abstract void applyEffect( Player player);

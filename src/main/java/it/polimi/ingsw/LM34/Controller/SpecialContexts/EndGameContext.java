@@ -24,6 +24,12 @@ public class EndGameContext  extends AbstractGameContext {
 
 
     public EndGameContext() {}
+
+    @Override
+    public void interactWithPlayer(Player player) {
+
+    }
+
     @Override
     public ContextType getType() {
         return ContextType.END_GAME_CONTEXT;

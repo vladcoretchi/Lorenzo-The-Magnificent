@@ -66,7 +66,6 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
             else
                 familyMember.setValue(diceValue);
 
-            //Utilities.getContextByType(areaType).continue(diceContextValue);
 
 
 
@@ -75,7 +74,7 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
 
     }
 
-    @Override
+
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
         Utilities.getContextByType(contexts, areaType).addObserver(this);
 

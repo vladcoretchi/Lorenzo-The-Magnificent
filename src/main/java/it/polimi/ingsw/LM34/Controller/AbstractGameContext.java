@@ -10,27 +10,27 @@ import java.util.Observable;
  * Created by GiulioComi on 17/05/2017.
  */
 public abstract class AbstractGameContext extends Observable  {
-    protected ArrayList<AbstractGameContext> contexts;
+    protected ArrayList<AbstractGameContext> contextsToSubscribeTo;
 
 
     public AbstractGameContext() {
-        contexts = new ArrayList<>();
-    }
-    public abstract ContextType getType();
-
-    public void interactWithPlayer(Player player) {
+        contextsToSubscribeTo = new ArrayList<>();
     }
 
 
     /**
-     This static method is called often by observers to register themselves to the right context
+     * @param player that is playing his turn and changes context as he pleases
      */
-    public AbstractGameContext getContextByType(ContextType contextType) {
-        for(AbstractGameContext context : contexts)
-            if(context.getType() == contextType)
-                return context;
+    public abstract void interactWithPlayer(Player player);
 
-        return null;
+    /**
+     This list is asked by contexts in order to now to which context subscribe the effects once they are activated
+     */
+    public ArrayList<AbstractGameContext> getContextsToSubscribeTo() {
+        return this.contextsToSubscribeTo;
     }
+
+    public abstract ContextType getType();
+
 
 }

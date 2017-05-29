@@ -2,8 +2,8 @@ package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
 import it.polimi.ingsw.LM34.Exceptions.Model.NoSuchAvailableSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
-import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
 
 import java.util.ArrayList;
 

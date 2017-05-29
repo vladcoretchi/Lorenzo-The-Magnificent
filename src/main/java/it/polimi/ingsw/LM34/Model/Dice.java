@@ -26,8 +26,10 @@ public class Dice implements Serializable {
         return value;
     }
 
-    //method used to set a new value for the Dice; this solution is preferred for sake of simplicity and integrity
-    //against passing the new value from outside this class
+    /**
+     *Method used to set a new value for the Dice; this solution is preferred for sake of simplicity and integrity
+     *against passing the new value from outside this class
+     */
     public void rollDice(){
         this.value = rand.nextInt(6)+1;
     }

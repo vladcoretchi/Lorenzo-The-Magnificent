@@ -3,7 +3,7 @@ package it.polimi.ingsw.LM34.Utils.Configurations;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Cards.*;
-import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Resources;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -122,8 +122,6 @@ public final class Configurator {
 
     }
 
-
-
     public static Market getMarket() {
         return market;
     }
@@ -151,8 +149,6 @@ public final class Configurator {
         deck.setupDevelopmentCardDeck();
         return deck;
     }
-
-
 
     public static void prepareLeaderAndExcommunicationDecks(ArrayList<LeaderCard> leaderCards, ArrayList<ExcommunicationCard> excommunicationCards) {
         //TODO: Load from json all cards

@@ -158,13 +158,13 @@ public class GameManager {
         /**
          * At the beginning of the round re apply all the once per round observers of the players
          */
-        for (Player player : players) {
+        /*for (Player player : players) {
             playerObservers = player.getObservers();
             for (AbstractEffect observer : playerObservers)
                 if (observer.isOncePerRound())
                     observer.subscribeObserverToContext(contexts);
 
-        }
+        }*/
         if (round % 2 == 0) {
             /**
              * Now it is Curch Report time
@@ -355,7 +355,7 @@ public class GameManager {
     /**
      * @param player on which to control the amount of resources he has available
      * @param resourcesRequired to activate the exchange bonus
-     * @see it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesExchangeBonus
+     * @see it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesExchangeBonus
      * @return if the effect is activable or not
      */
 

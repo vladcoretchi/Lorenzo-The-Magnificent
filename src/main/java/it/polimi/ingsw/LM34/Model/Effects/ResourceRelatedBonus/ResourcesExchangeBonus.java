@@ -1,4 +1,4 @@
-package it.polimi.ingsw.LM34.Model.ResourceRelatedBonus;
+package it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourcesExchangeContext;

@@ -22,6 +22,11 @@ public class ResourceIncomeContext extends AbstractGameContext {
     }
 
     @Override
+    public void interactWithPlayer(Player player) {
+
+    }
+
+    @Override
     public ContextType getType() {
         return ContextType.RESOURCE_INCOME_CONTEXT;
     }

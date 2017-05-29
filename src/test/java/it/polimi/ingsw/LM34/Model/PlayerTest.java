@@ -18,7 +18,7 @@ public class PlayerTest {
         ArrayList<AbstractEffect> abstractEffects = new ArrayList<>();
 
         AbstractEffect observer = new AbstractEffect() {
-            @Override
+
             public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
 
             }
@@ -58,7 +58,7 @@ public class PlayerTest {
         ArrayList<AbstractEffect> abstractEffects = new ArrayList<>();
 
         AbstractEffect observer = new AbstractEffect() {
-            @Override
+
             public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
 
             }

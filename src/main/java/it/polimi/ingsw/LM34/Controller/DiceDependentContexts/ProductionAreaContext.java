@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Controller.DiceDependentContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
@@ -30,7 +31,7 @@ public class ProductionAreaContext extends AbstractGameContext implements DiceDe
         //TODO: the player chooses the slot to occupy (highlight the difference beetwen single slot and advanced slot)
         setChanged();
         //TODO: now values of dices are increased
-        getContextByType(ContextType.ACTION_SLOT_CONTEXT).interactWithPlayer(player);
+        GameManager.getContextByType(ContextType.ACTION_SLOT_CONTEXT).interactWithPlayer(player);
         //TODO: player chooses the familymember
 
         //TODO: now values of dices are increased
@@ -53,6 +54,7 @@ public class ProductionAreaContext extends AbstractGameContext implements DiceDe
         tempValue += servantsConsumed;
     }
 
+    @Override
     public void sweep() {
         productionArea.sweep();
     }

@@ -1,12 +1,9 @@
-package it.polimi.ingsw.LM34.Model.ResourceRelatedBonus;
+package it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus;
 
-import it.polimi.ingsw.LM34.Controller.GameManager;
-import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
-import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
@@ -35,6 +32,8 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
 
     /*Constructor for "generale" card*/
     public ResourcesPerItemBonus(Player player, Resources bonusResources, Integer militaryPointsRequired) {
+        contextToBeSubscribedTo = new ArrayList<>();
+        contextToBeSubscribedTo.add(ContextType.TURN_CONTEXT);
         this.contextToBeSubscribedTo = null;
         this.player = player;
         this.bonusResources = bonusResources;
@@ -79,13 +78,20 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        Integer numberOfThatCardTypeOwned = 0;
+        //TODO: testing codes
+        System.out.println("Sono stato notificato");
+        //TODO: the following line has to be propagated to all bonuses that are instant special effects
+        o.deleteObserver(this);
+        //GameManager.getContextByType(ContextType.TURN_CONTEXT).deleteObserver(this);
+
+
+       /* Integer numberOfThatCardTypeOwned = 0;
         ResourceIncomeContext incomeContext;
         FamilyMember familyMemberUsed = (FamilyMember) arg;
         if( familyMemberUsed.getValue() >= diceValue) {
             try {
                 /*Count the #cards of the specified development type belonging to the player*/
-                numberOfThatCardTypeOwned = player.getPersonalBoard().getDevelopmentCardsByType(cardColor).size();
+             /*   numberOfThatCardTypeOwned = player.getPersonalBoard().getDevelopmentCardsByType(cardColor).size();
             } catch (InvalidCardType e) {
                 e.printStackTrace();
             }
@@ -93,7 +99,7 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
                 incomeContext = (ResourceIncomeContext) GameManager.getContextByType(ContextType.PRODUCTION_AREA_CONTEXT);
                 incomeContext.handleResources(player, bonusResources);
             }
-        }
+        }*/
     }
 
 

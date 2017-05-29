@@ -1,4 +1,4 @@
-package it.polimi.ingsw.LM34.Model.ResourceRelatedBonus;
+package it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourceIncomeContext;
@@ -61,8 +61,6 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
 
     /*santa rita*/
   //resource income context
-
-
 
     @Override
     public void applyEffect(Player player) {

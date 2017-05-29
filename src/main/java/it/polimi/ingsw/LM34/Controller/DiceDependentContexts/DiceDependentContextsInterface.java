@@ -5,7 +5,7 @@ package it.polimi.ingsw.LM34.Controller.DiceDependentContexts;
  */
 public interface DiceDependentContextsInterface {
 
-
     public void increaseTempValue(Integer servantsConsumed);
+    public void sweep();
 
 }

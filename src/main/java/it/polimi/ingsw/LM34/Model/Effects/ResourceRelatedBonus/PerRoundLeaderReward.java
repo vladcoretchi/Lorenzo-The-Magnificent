@@ -1,4 +1,4 @@
-package it.polimi.ingsw.LM34.Model.ResourceRelatedBonus;
+package it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.SupportContexts.LeaderDiscardContext;
@@ -75,7 +75,7 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
     }
 
 
-    @Override
+
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
         //Utilities.getContextByType(contexts, ContextType.TURN_CONTEXT).addObserver(this);
 

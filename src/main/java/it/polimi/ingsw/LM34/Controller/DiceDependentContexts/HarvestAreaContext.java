@@ -32,7 +32,7 @@ public class HarvestAreaContext extends AbstractGameContext implements DiceDepen
         //TODO: player chooses the action slot
         //The reward of the slots are add to the player
         //TODO: interact with player in action slot is necessary?
-        getContextByType(ContextType.ACTION_SLOT_CONTEXT).interactWithPlayer(player);
+        GameManager.getContextByType(ContextType.ACTION_SLOT_CONTEXT).interactWithPlayer(player);
 
         //TODO: now values of dices are increased
         FamilyMember memberChoosed = player.getFamilyMembers().get(1);
@@ -45,18 +45,17 @@ public class HarvestAreaContext extends AbstractGameContext implements DiceDepen
         harvestArea.getSingleSlot().getResourcesReward().applyEffect(player);
     }
 
+
+    @Override
+    public void sweep() {
+        harvestArea.sweep();
+    }
+
+    @Override
+    public void increaseTempValue(Integer servantsConsumed) { this.tempValue += servantsConsumed; }
+
     @Override
     public ContextType getType() {
         return ContextType.HARVEST_AREA_CONTEXT;
-    }
-
-
-    @Override
-    public void increaseTempValue(Integer servantsConsumed) {
-        tempValue += servantsConsumed;
-    }
-
-    public void sweep() {
-        harvestArea.sweep();
     }
 }

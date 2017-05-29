@@ -18,17 +18,16 @@ public class MarketBan extends AbstractEffect implements Observer {
     }
     @Override
     public void update(Observable o, Object arg) {
-        //TODO: disable the possibility to the player to place a pawn in a market slot
-        MarketAreaContext marketContext = (MarketAreaContext) o;
+        //Disable the possibility to the player to place a pawn in a market slot
+        ((MarketAreaContext) o).setBan();
 
     }
 
   //market
 
     @Override
-    public void applyEffect( Player player) {
+    public void applyEffect( Player player) {}
 
-    }
 
 
 }

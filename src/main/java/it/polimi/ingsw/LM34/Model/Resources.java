@@ -6,7 +6,6 @@ import it.polimi.ingsw.LM34.Utils.Utilities;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 /**
  * Created by Giulio Comi on 03/04/2017.
@@ -58,7 +57,8 @@ public class Resources implements Serializable {
 
     //this method allows the controller to retrieve just the information about the type of resource it needs in that moment
     public Integer getResourceByType(ResourceType resourceType) {
-        if (resourceType == null) throw new NullPointerException();
+        if (resourceType == null)
+            throw new NullPointerException();
 
         return this.resources.getOrDefault(resourceType, 0);
     }

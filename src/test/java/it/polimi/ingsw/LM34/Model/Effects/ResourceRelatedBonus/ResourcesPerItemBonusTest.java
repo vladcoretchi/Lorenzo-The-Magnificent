@@ -1,4 +1,4 @@
-package it.polimi.ingsw.LM34.Model.ResourceRelatedBonus;
+package it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
@@ -6,7 +6,6 @@ import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Player;
-
 import it.polimi.ingsw.LM34.Model.Resources;
 import org.junit.Rule;
 import org.junit.Test;
