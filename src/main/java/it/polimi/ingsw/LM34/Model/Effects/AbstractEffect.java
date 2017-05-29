@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by vladc on 5/13/2017.
  */
 public abstract class AbstractEffect {
-
+    private ArrayList<AbstractGameContext> observableContexts;
     /**
      *
      * @return true if the observer is activable once per round (e.g. SkipTurn, PerRoundLeaderReward)
@@ -20,7 +20,9 @@ public abstract class AbstractEffect {
     }
 
 
-    public abstract void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts);
+    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
+        this.observableContexts = contexts;
+    }
 
     public abstract void applyEffect( Player player);
 

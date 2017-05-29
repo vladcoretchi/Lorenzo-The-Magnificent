@@ -1,6 +1,5 @@
 package it.polimi.ingsw.LM34.Model.ResourceRelatedBonus;
 
-import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourcesExchangeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
@@ -8,11 +7,9 @@ import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
-import it.polimi.ingsw.LM34.Utils.Utilities;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -39,10 +36,6 @@ public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
     }
 
 
-    @Override
-    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
-        Utilities.getContextByType(contexts, ContextType.PRODUCTION_AREA_CONTEXT).addObserver(this);
-    }
 
     @Override
     public void applyEffect(Player player) {
@@ -91,7 +84,5 @@ public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
         }
     }
 
-    public List<ContextType> getContextToBeSubscribedTo() {
-        return contextToBeSubscribedTo;
-    }
+//production area
 }

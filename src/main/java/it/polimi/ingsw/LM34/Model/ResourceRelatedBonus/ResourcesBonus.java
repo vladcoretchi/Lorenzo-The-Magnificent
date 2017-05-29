@@ -1,15 +1,12 @@
 package it.polimi.ingsw.LM34.Model.ResourceRelatedBonus;
 
-import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
-import it.polimi.ingsw.LM34.Utils.Utilities;
 
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -63,11 +60,7 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
     }
 
     /*santa rita*/
-    @Override
-    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
-        Utilities.getContextByType(contexts, ContextType.RESOURCE_INCOME_CONTEXT).addObserver(this);
-        //Utilities.getContextByType(ContextType.TOWERS_CONTEXT).addObserver(this);
-    }
+  //resource income context
 
 
 

@@ -1,12 +1,8 @@
 package it.polimi.ingsw.LM34.Model.Effects;
 
-import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
-import it.polimi.ingsw.LM34.Utils.Utilities;
 
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -24,11 +20,7 @@ public class CurchSupportBonus extends AbstractEffect implements Observer {
         
     }
 
-    @Override
-    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
-        Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT).addObserver(this);
-
-    }
+//curch report
 
 
 

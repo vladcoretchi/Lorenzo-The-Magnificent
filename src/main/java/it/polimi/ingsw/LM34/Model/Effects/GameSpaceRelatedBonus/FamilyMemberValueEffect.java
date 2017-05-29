@@ -6,7 +6,6 @@ import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -72,13 +71,7 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
                 member.setValue(member.getValue() + this.value);
     }
 
-    @Override
-    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
-        Utilities.getContextByType(contexts, ContextType.ACTION_SLOT_CONTEXT).addObserver(this);
-        Utilities.getContextByType(contexts, ContextType.TOWERS_CONTEXT).addObserver(this);
-        Utilities.getContextByType(contexts, ContextType.MARKET_AREA_CONTEXT).addObserver(this);
-    }
-
+//action slots, towers, market
     @Override
     public void applyEffect(Player player) {
 

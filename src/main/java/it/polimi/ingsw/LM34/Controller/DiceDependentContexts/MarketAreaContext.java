@@ -4,21 +4,24 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 
 /**
  * Created by GiulioComi on 24/05/2017.
  */
 public class MarketAreaContext extends AbstractGameContext implements DiceDependentContextsInterface {
     private Integer tempValue;
+    private Market market;
 
     @Override
     public ContextType getType() {
         return ContextType.MARKET_AREA_CONTEXT;
     }
 
-public MarketAreaContext() {}
+public MarketAreaContext() { market = Configurator.getMarket(); }
 
     @Override
     public void interactWithPlayer(Player player) {
@@ -37,11 +40,13 @@ public MarketAreaContext() {}
 
     }
 
-    public void endContext() {
-    }
 
     @Override
     public void increaseTempValue(Integer servantsConsumed) {
         tempValue += servantsConsumed;
+    }
+
+    public void sweep() {
+        market.sweep();
     }
 }

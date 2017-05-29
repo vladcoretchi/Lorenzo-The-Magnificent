@@ -24,6 +24,7 @@ public final class Configurator {
     public static final Integer TOTAL_PERIODS = 3; //#total periods
     public static final Integer CARD_PER_ROUND = 4; //#development cards stored in a tower per round
     public static final Integer BASE_COINS = 5; //#coins given to first player at the starting of the game
+    public static final Integer[] MIN_FAITHS_POINTS = {3,4,5};
 
     private static Market market;
     private static CouncilPalace palace;

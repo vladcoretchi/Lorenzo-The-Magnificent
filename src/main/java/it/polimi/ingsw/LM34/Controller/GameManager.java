@@ -1,6 +1,9 @@
 package it.polimi.ingsw.LM34.Controller;
 
 import it.polimi.ingsw.LM34.Controller.DiceDependentContexts.CouncilPalaceContext;
+import it.polimi.ingsw.LM34.Controller.DiceDependentContexts.HarvestAreaContext;
+import it.polimi.ingsw.LM34.Controller.DiceDependentContexts.MarketAreaContext;
+import it.polimi.ingsw.LM34.Controller.DiceDependentContexts.ProductionAreaContext;
 import it.polimi.ingsw.LM34.Controller.SpecialContexts.CurchReportContext;
 import it.polimi.ingsw.LM34.Controller.SpecialContexts.EndGameContext;
 import it.polimi.ingsw.LM34.Controller.SpecialContexts.TurnContext;
@@ -63,10 +66,13 @@ public class GameManager {
     private CurchReportContext curchContext;
     private AbstractGameContext currentContext;
     private CouncilPalaceContext palaceContext;
+    private MarketAreaContext marketContext;
+    private ProductionAreaContext productionContext;
+    private HarvestAreaContext harvestContext;
 
     /*CONSTRUCTOR*/
     public GameManager() {
-        //palaceContext = (CouncilPalaceContext) getContextByType(ContextType.COUNCIL_PALACE_CONTEXT);
+
 
         players = new ArrayList<Player>();
         period = 1; //when cards of the new period are stored on towers
@@ -80,6 +86,7 @@ public class GameManager {
         //prepareGameSpaces();
        // prepareDecks();
        // drwaExcommunicationCards();
+
         //TODO: initialize players
         setupPlayersResources();
         Collections.shuffle(players); //randomly set the initial play order
@@ -121,7 +128,7 @@ public class GameManager {
      * Enter the EndGameContext during which final points are calculated and ranking is showed
      */
     public void endGame() {
-        EndGameContext endGameContext = (EndGameContext) Utilities.getContextByType(contexts, ContextType.END_GAME_CONTEXT);
+        EndGameContext endGameContext = (EndGameContext) getContextByType(ContextType.END_GAME_CONTEXT);
         endGameContext.interactWithPlayer(players);
     }
 
@@ -234,11 +241,12 @@ public class GameManager {
         for (Tower tower : towers)
             tower.sweep();
 
-        market.sweep();
+
         //TODO: transfer areas variable from gamemanager to related contexts...
-        palaceContext.councilPalace.sweep();
-        productionArea.sweep();
-        harvestArea.sweep();
+        marketContext.sweep();
+        palaceContext.sweep();
+        productionContext.sweep();
+        harvestContext.sweep();
     }
 
     public void rollDices() {
@@ -268,16 +276,12 @@ public class GameManager {
                 e.printStackTrace();
             }
 
-        //contexts.forEach((c) -> c.setContexts(contexts));
-
-        /*This is the main context that registers the observers of the current player */
-        /*for(AbstractGameContext context : contexts)
-            if(context.getType() == ContextType.TURN_CONTEXT) {
-                turnContext = (TurnContext) context;
-                turnContext.setGameManager(this);
-            }*/
 
         TurnContext turnContext = (TurnContext) getContextByType(ContextType.TURN_CONTEXT);
+        palaceContext = (CouncilPalaceContext) getContextByType(ContextType.COUNCIL_PALACE_CONTEXT);
+        marketContext = (MarketAreaContext) getContextByType(ContextType.MARKET_AREA_CONTEXT);
+        productionContext = (ProductionAreaContext) getContextByType(ContextType.PRODUCTION_AREA_CONTEXT);
+        harvestContext = (HarvestAreaContext) getContextByType(ContextType.HARVEST_AREA_CONTEXT);
     }
 
 
@@ -295,7 +299,7 @@ public class GameManager {
 
         ArrayList<Player> oldPlayersOrder = players;
         ArrayList<Player> newPlayersOrder = new ArrayList<>();
-        ArrayList<FamilyMember> membersInOrder = palaceContext.councilPalace.getOccupyingPawns();
+        ArrayList<FamilyMember> membersInOrder = palaceContext.getCouncilPalace().getOccupyingPawns();
 
         /*First remove all multipe pawns associated to the same player*/
         /*These inner loops do not add temporal complexity because pawns' count is negligible*/
@@ -348,14 +352,12 @@ public class GameManager {
         }
 
     }
-
     /**
      * @param player on which to control the amount of resources he has available
      * @param resourcesRequired to activate the exchange bonus
      * @see it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesExchangeBonus
      * @return if the effect is activable or not
      */
-
 
     /*Called by Game Manager only at the beginning of the game*/
     public void setContexts(ArrayList<AbstractGameContext> contexts) {
@@ -392,13 +394,15 @@ public class GameManager {
         return players;
     }
 
+
     //TODO: remove this testing main
     public static void main (String [] args) {
+        Configurator.loadConfigs();
         GameManager gameManager = new GameManager();
 
-        ArrayList<TerritoryCard> territoryCards = new ArrayList<>();
-        Configurator.loadConfigs();
         gameManager.setupGameContexts();
+        ArrayList<TerritoryCard> territoryCards = new ArrayList<>();
+
 
         Player player = new Player(BLUE, new PersonalBoard());
         Player player1 = new Player(RED, new PersonalBoard());
@@ -410,6 +414,7 @@ public class GameManager {
         gameManager.startGame();
 
     }
+
 
 }
 

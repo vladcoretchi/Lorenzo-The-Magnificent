@@ -12,14 +12,15 @@ import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
  * Created by GiulioComi on 24/05/2017.
  */
 public class CouncilPalaceContext extends AbstractGameContext implements DiceDependentContextsInterface {
-    public CouncilPalace councilPalace;
-    private ResourcesBonus reward;
+    private CouncilPalace councilPalace;
+    private ResourcesBonus reward; //The council privilege
     private Integer councilPrivileges;
     private Integer tempValue;
 
     public CouncilPalaceContext() {
        councilPalace = Configurator.getPalace();
     }
+
     @Override
     public ContextType getType() {
         return ContextType.COUNCIL_PALACE_CONTEXT;
@@ -37,9 +38,17 @@ public class CouncilPalaceContext extends AbstractGameContext implements DiceDep
 
     }
 
-
     @Override
     public void increaseTempValue(Integer servantsConsumed) {
         tempValue += servantsConsumed;
+    }
+
+
+    public void sweep() {
+        councilPalace.sweepPalace();
+    }
+
+    public CouncilPalace getCouncilPalace() {
+        return councilPalace;
     }
 }

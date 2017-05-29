@@ -3,12 +3,10 @@ package it.polimi.ingsw.LM34.Controller.SpecialContexts;
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Controller.SupportContexts.LeaderDiscardContext;
-import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Cards.TerritoryCard;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 
 import java.util.ArrayList;
@@ -30,10 +28,6 @@ public class TurnContext extends AbstractGameContext {
 
     }
 
-    @Override
-    public ContextType getType() {
-        return null;
-    }
 
     /**
      * @param player about to begin his turn
@@ -47,11 +41,10 @@ public class TurnContext extends AbstractGameContext {
         notifyObservers(this); //for SkipTurn observer
 
 
-        /*ArrayList<AbstractEffect> observers = player.getObservers();
+        ArrayList<AbstractEffect> observers = player.getObservers();
         for (AbstractEffect observer : observers)
             if (!observer.isOncePerRound())
                 observer.subscribeObserverToContext(contexts);
-
             notifyObservers(player); //for PerRoundLeaderReward*/
             System.out.println("Now is player: "+player.getPawnColor()+" turn");
             interactWithPlayer(player);
@@ -67,38 +60,47 @@ public class TurnContext extends AbstractGameContext {
 
 
         //TODO: let the player visit where he pleases to go
-        for(Integer i=7; i<20; i++) {
-            System.out.println("SERVANTS AGGIUNTIVI DI CARTA NUM "+i+"= "+territoryCards.get(i).getPermanentBonus().getResources().getResourceByType(ResourceType.SERVANTS));
+       /* for(Integer i=7; i<20; i++) {
+            territoryCards.get(i).getPermanentBonus().getResources().getResourceByType(ResourceType.SERVANTS);
             ResourcesBonus bonus = territoryCards.get(i).getPermanentBonus();
             ResourceIncomeContext incomeContext = (ResourceIncomeContext) GameManager.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT);
             incomeContext.addObserver(bonus);
-        }
+            //TODO: each bonus has to be also be stored in a list assigned to a player in order to reactivate it
+            player.registerObserver(bonus);
+        }*/
 
         System.out.println("benvenuto in turn context");
-        GameManager.getContextByType(ContextType.MARKET_AREA_CONTEXT).interactWithPlayer(player);
-        System.out.println("siamo tornati in turn context");
-        GameManager.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT).interactWithPlayer(player);
-        System.out.println("siamo ritornati in turn context");
-        gameManager.nextTurn();
+        //GameManager.getContextByType(ContextType.MARKET_AREA_CONTEXT).interactWithPlayer(player);
+        //System.out.println("siamo tornati in turn context");
+        //GameManager.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT).interactWithPlayer(player);
+        //System.out.println("siamo ritornati in turn context");
+
+        endContext();
 
 
         //switchto che vuole //sulla scelta dell'utente per farlo entrare nel contesto
     }
 
-    public void endContext(Player player) {
-            //In this context deactivate all observers of the player that has finished his turn*/
-            player.unSubscribeObservers();
-            gameManager.nextTurn();
-        }
+    /**
+     * Deactivates all bonus observers of the player that has played
+     */
+    public void endContext() {
+
+        contexts.forEach((c) -> c.deleteObservers());
+        gameManager.nextTurn();
+
+    }
+
+
 
 
     public void setGameManager(GameManager gameManager) {
         this.gameManager = gameManager;
     }
 
-    //@Override
-   /* public ContextType getType() {
+    @Override
+    public ContextType getType() {
        return ContextType.TURN_CONTEXT;
-    }*/
+    }
     
 }

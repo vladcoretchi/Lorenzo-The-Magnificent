@@ -1,6 +1,5 @@
 package it.polimi.ingsw.LM34.Model.ResourceRelatedBonus;
 
-import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
@@ -10,7 +9,6 @@ import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
-import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -50,10 +48,7 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
      * Only for building cards permanent bonuses
      * @param contexts
      */
-    @Override
-    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
-        Utilities.getContextByType(contexts, ContextType.PRODUCTION_AREA_CONTEXT).addObserver(this);
-    }
+
 
     @Override
     public void applyEffect(Player player) {
@@ -102,8 +97,6 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
     }
 
 
-    public ArrayList<ContextType> getContextToBeSubscribedTo() {
-        return contextToBeSubscribedTo;
-    }
+//production area
 }
 

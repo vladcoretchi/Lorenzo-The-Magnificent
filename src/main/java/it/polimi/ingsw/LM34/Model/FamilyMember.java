@@ -18,6 +18,7 @@ public class FamilyMember implements Serializable, Cloneable {
 
 
     //constructor used only at the beginning of the game during setup up
+
     FamilyMember(PawnColor pawnColor, DiceColor diceColor) {
         this.pawnColor = pawnColor;
         this.diceColor = diceColor;

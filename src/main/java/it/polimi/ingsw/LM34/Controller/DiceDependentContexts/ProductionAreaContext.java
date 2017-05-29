@@ -2,8 +2,10 @@ package it.polimi.ingsw.LM34.Controller.DiceDependentContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 
 /**
  * Created by GiulioComi on 16/05/2017.
@@ -11,13 +13,16 @@ import it.polimi.ingsw.LM34.Model.Player;
 public class ProductionAreaContext extends AbstractGameContext implements DiceDependentContextsInterface {
     private FamilyMember memberChoosed;
     private Integer tempValue;
+    private WorkingArea productionArea;
 
     public void initContext(Player player) {
         setChanged();
         notifyObservers(player.getFamilyMembers());
     }
 
-    public ProductionAreaContext() {}
+    public ProductionAreaContext() {
+        Configurator.getProductionArea();
+    }
 
     @Override
     public void interactWithPlayer(Player player) {
@@ -47,4 +52,9 @@ public class ProductionAreaContext extends AbstractGameContext implements DiceDe
     public void increaseTempValue(Integer servantsConsumed) {
         tempValue += servantsConsumed;
     }
+
+    public void sweep() {
+        productionArea.sweep();
+    }
+
 }

@@ -1,13 +1,9 @@
 package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus;
 
-import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.DiceDependentContexts.TowersContext;
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Utils.Utilities;
 
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -43,10 +39,7 @@ public class TowerSlotPenalty extends AbstractEffect implements Observer {
         context.setHasPenalty(true);
     }
 
-    @Override
-    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
-        Utilities.getContextByType(contexts, ContextType.TOWERS_CONTEXT).addObserver(this);
-    }
+//towers
 
     @Override
     public void applyEffect(Player player) {

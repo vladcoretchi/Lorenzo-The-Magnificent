@@ -40,10 +40,7 @@ public class SkipFirstTurn extends AbstractEffect implements Observer {
         //Utilities.getContextByType(contexts, ContextType.TURN_CONTEXT).deleteObserver(this);
     }
 
-    @Override
-    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
-        //Utilities.getContextByType(contexts, ContextType.TURN_CONTEXT).addObserver(this);
-    }
+  //turn context
 
 
 

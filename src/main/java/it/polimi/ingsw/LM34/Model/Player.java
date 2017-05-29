@@ -25,7 +25,7 @@ public class Player implements Serializable {
     private Resources resources;
     private Integer councilPrivileges;
 
-    private ArrayList<AbstractEffect> abstractEffects;
+    private ArrayList<AbstractEffect> observerEffects;
 
     //VARIABLE FOR COMMUNICATION TO CLIENT
     //TODO: evalueate if this network connection is correct
@@ -35,6 +35,7 @@ public class Player implements Serializable {
         this.personalBoard= personalBoard;
         resources = new Resources();
         councilPrivileges = 0;
+        this.observerEffects = new ArrayList<>();
 
         familyMembers= new ArrayList<FamilyMember>();
 
@@ -63,15 +64,15 @@ public class Player implements Serializable {
     }
 
     public ArrayList<AbstractEffect> getObservers() {
-        return this.abstractEffects;
+        return this.observerEffects;
     }
 
-    public void addObserver(AbstractEffect a) {
-        abstractEffects.add(a);
+    public void registerObserver(AbstractEffect a) {
+        observerEffects.add(a);
     }
 
     public void unSubscribeObservers() {
-        abstractEffects.clear();
+        observerEffects.clear();
     }
 
     public Integer getCouncilPrivileges() {

@@ -7,9 +7,7 @@ import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
-import it.polimi.ingsw.LM34.Utils.Utilities;
 
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -74,14 +72,7 @@ public class DevelopmentCardAcquireBonus extends AbstractEffect implements Obser
     //TODO: reset to the value before this context started
 
 
-
-
-
-    @Override
-    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
-        Utilities.getContextByType(contexts, ContextType.TOWERS_CONTEXT).addObserver(this);
-    }
-
+//towers
 
     @Override
     public void applyEffect(Player player) {

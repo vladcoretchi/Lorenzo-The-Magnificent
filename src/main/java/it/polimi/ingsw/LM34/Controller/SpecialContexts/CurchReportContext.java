@@ -7,6 +7,8 @@ import it.polimi.ingsw.LM34.Model.Player;
 
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.FAITH_POINTS;
+
 /**
  * Created by GiulioComi on 16/05/2017.
  */
@@ -20,13 +22,29 @@ public class CurchReportContext  extends AbstractGameContext {
 
     public void interactWithPlayer(ArrayList<Player> players) {
         //let the player choice if they wants to be excommunicated and assigned the negative effect to them
-        //TODO: if players get excommunicated assign to him and activate the excommunication card
-            //card.applyEffect(player)
-            //player.addExcommunicationCard(card);
-        //TODO:for each player that satisfied notify his activated observer
-        /*trigger sisto IV if is an observer*/
-        setChanged(); notifyObservers();
+        players.forEach(player -> checkEnoughFaithPoints(player, player.getResources().getResourceByType(FAITH_POINTS)));
+
+
+
+
+        setChanged(); notifyObservers();  /*trigger sisto IV if is an observer*/
         //TODO: for each player, addVcitoryPointsFromFaithPath...
+        for(Player player : players) {
+            player.getResources().getResourceByType(FAITH_POINTS);
+            //if (player.getExcommunicationCards().get(period) != null) {
+                //player.addResources(new Resources(0, , 0));
+            //}
+        }
+    }
+
+    /**
+     *
+     * @param resourceByType
+     */
+    private void checkEnoughFaithPoints(Player player, Integer faithPoints) {
+        //TODO: faith points necessary depends on the # of period
+        //if(faithPoints < Configurator.MIN_FAITHS_POINTS[GameManager.getPeriod()])
+            //excommunicationCards.get(GameManager.getPeriod()).getPenalty().applyEffect(player);
     }
 
     @Override
@@ -34,6 +52,9 @@ public class CurchReportContext  extends AbstractGameContext {
         return ContextType.CURCH_REPORT_CONTEXT;
     }
 
+    /**
+     * @param card choosed at game startup as a penalty card (1 per period)
+     */
     public void addExcommunicationCard(ExcommunicationCard card) {
         excommunicationCards.add(card);
     }

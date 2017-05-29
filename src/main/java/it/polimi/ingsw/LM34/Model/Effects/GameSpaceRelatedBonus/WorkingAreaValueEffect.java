@@ -23,6 +23,7 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
     private Integer diceValue;
     private Boolean isInstant; //TODO: "sforza", "da vinci"
 
+
     /**
      *The additional value on dice is absolute or relative depending on the card effects
      */
