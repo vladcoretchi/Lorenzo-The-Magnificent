@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus;
 
-import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
@@ -78,19 +79,20 @@ public class DevelopmentCardAcquireBonus extends AbstractEffect implements Obser
 
     @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
-        Utilities.getContextByType(contexts, ContextType.DEVELOPMENT_CARD_ACQUIRE_CONTEXT).addObserver(this);
+        Utilities.getContextByType(contexts, ContextType.TOWERS_CONTEXT).addObserver(this);
     }
 
 
-    public void applyEffect(ArrayList<AbstractGameContext> contexts, Player player) {
+    @Override
+    public void applyEffect(Player player) {
         if(isInstant) {
-            subscribeObserverToContext(contexts);
-            AbstractGameContext context = Utilities.getContextByType(contexts, ContextType.DEVELOPMENT_CARD_ACQUIRE_CONTEXT);
+            //subscribeObserverToContext(contexts);
+            AbstractGameContext context = GameManager.getContextByType(ContextType.TOWERS_CONTEXT);
             context.interactWithPlayer(player);
             context.deleteObserver(this);
         }
-        else
-            subscribeObserverToContext(contexts);
+        //else
+           // subscribeObserverToContext(contexts);
     }
 
 

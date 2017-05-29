@@ -1,14 +1,8 @@
 package it.polimi.ingsw.LM34.Model;
 
-import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
-import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
-import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
-import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
-import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
-import static java.util.Arrays.asList;
-
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -28,6 +22,7 @@ public class PlayerTest {
             public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
 
             }
+
             @Override
             public void applyEffect(Player player) {
 
@@ -67,6 +62,7 @@ public class PlayerTest {
             public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
 
             }
+
             @Override
             public void  applyEffect(Player player) {
 

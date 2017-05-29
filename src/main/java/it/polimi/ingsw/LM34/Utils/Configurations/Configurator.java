@@ -50,7 +50,7 @@ public final class Configurator {
         } catch (Exception e) {e.printStackTrace();}
 
         try {
-            setupMarket(jsonObject.getJSONObject("actionSlots").getJSONArray("market"));
+            //setupMarket(jsonObject.getJSONObject("actionSlots").getJSONArray("market"));
             setupDevelopmentCards(jsonObject.getJSONObject("developmentCards"));
         } catch (Exception e) {e.printStackTrace();}
     }
@@ -91,7 +91,7 @@ public final class Configurator {
         return new Resources(resourcesMap);
     }
 
-    private static List<TerritoryCard> getTerritoryCardsFromJson(JSONArray jsonArray) {
+    public static List<TerritoryCard> getTerritoryCardsFromJson(JSONArray jsonArray) {
         ArrayList<TerritoryCard> territoryCards = new ArrayList<>();
 
         for(int i = 0; i < jsonArray.length(); i++) {
@@ -146,7 +146,6 @@ public final class Configurator {
     public static DevelopmentCardDeck<? extends AbstractDevelopmentCard> prepareDevelopmentDeck() {
 
         DevelopmentCardDeck<?> deck = new DevelopmentCardDeck<>();
-        //TODO: load from json all the cards
 
         deck.setupDevelopmentCardDeck();
         return deck;
@@ -170,5 +169,9 @@ public final class Configurator {
                 if (e.getPeriod() == period)
                     temp.add(e);
         exc = temp;
+    }
+
+    public static List<TerritoryCard> getTerritoryCards() {
+        return territoryCards;
     }
 }

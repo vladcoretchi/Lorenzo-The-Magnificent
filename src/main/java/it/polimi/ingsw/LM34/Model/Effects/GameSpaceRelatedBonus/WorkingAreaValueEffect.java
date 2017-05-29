@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus;
 
-import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
@@ -76,15 +76,16 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
 
     @Override
     public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
-        Utilities.getContextByType(areaType).addObserver(this);
+        Utilities.getContextByType(contexts, areaType).addObserver(this);
 
     }
 
+    //TODO: remove nulls
     @Override
     public void applyEffect(Player player)  {
         if(isInstant) //check if this is instant effect
-        Utilities.getContextByType(areaType).interactWithPlayer(player);
+        Utilities.getContextByType(null, areaType).interactWithPlayer(player);
         else //register the permanent bonus as observer
-        subscribeObserverToContext(contexts);
+        subscribeObserverToContext(null);
     }
 }

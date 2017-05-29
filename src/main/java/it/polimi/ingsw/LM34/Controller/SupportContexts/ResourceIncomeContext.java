@@ -1,7 +1,8 @@
-package it.polimi.ingsw.LM34.Controller.SpecialContexts;
+package it.polimi.ingsw.LM34.Controller.SupportContexts;
 
-import it.polimi.ingsw.LM34.Controller.GameContexts.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
@@ -12,7 +13,13 @@ import it.polimi.ingsw.LM34.Model.Resources;
 //This context does not provide an interaction with the player but it is important
 // for the effects that are applied when a player receives resources
 public class ResourceIncomeContext extends AbstractGameContext {
+    private Resources income;
     //TODO: handle santa rita here or in towerscontext?
+
+
+    public ResourceIncomeContext() {
+        income = new Resources();
+    }
 
     @Override
     public ContextType getType() {
@@ -21,10 +28,21 @@ public class ResourceIncomeContext extends AbstractGameContext {
 
 
     public void handleResources(Player player, Resources resources) {
+        income = resources;
+        System.out.println("SERVANTS before "+ income.getResourceByType(ResourceType.SERVANTS));
         setChanged();
         notifyObservers(resources);
         //here the resources have already been changed by malus and bonus observers
-        player.addResources(resources);
-
+        player.addResources(income);
+        System.out.println("SERVANTS after "+ income.getResourceByType(ResourceType.SERVANTS));
     }
+
+    /**
+     * Called by the observers so that they add or subtract their effects from the final income bonus
+     */
+    public void setIncome(Resources res) {
+        income.sumResources(res);
+    }
+
+
 }

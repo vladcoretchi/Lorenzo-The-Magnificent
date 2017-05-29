@@ -1,8 +1,12 @@
 package it.polimi.ingsw.LM34.Controller;
 
-import it.polimi.ingsw.LM34.Controller.GameContexts.*;
-import it.polimi.ingsw.LM34.Controller.SpecialContexts.*;
+import it.polimi.ingsw.LM34.Controller.DiceDependentContexts.*;
+import it.polimi.ingsw.LM34.Controller.SpecialContexts.CurchReportContext;
+import it.polimi.ingsw.LM34.Controller.SpecialContexts.EndGameContext;
+import it.polimi.ingsw.LM34.Controller.SpecialContexts.TurnContext;
+import it.polimi.ingsw.LM34.Controller.SupportContexts.*;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 
 /**
  * Created by GiulioComi on 17/05/2017.
@@ -11,11 +15,12 @@ import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
  */
 public final class ContextFactory {
 
-    public  static AbstractGameContext getContext(ContextType contextType) {
+    public  static AbstractGameContext getContext(ContextType contextType) throws NoSuchContextException {
         switch (contextType) {
-
+            case LEADER_DISCARD_CONTEXT:
+                return new LeaderDiscardContext();
             case ACTION_SLOT_CONTEXT:
-                return  new ActionSlotContext();
+                return new ActionSlotContext();
             case CURCH_REPORT_CONTEXT:
                 return new CurchReportContext();
             case END_GAME_CONTEXT:
@@ -33,13 +38,16 @@ public final class ContextFactory {
             case RESOURCE_EXCHANGE_CONTEXT:
                 return new ResourcesExchangeContext();
             case USE_COUNCIL_PRIVILEGE_CONTEXT:
-                return new useCouncilPrivilegeContext();
+                return new UseCouncilPrivilegeContext();
             case COUNCIL_PALACE_CONTEXT:
                 return new CouncilPalaceContext();
             case MARKET_AREA_CONTEXT:
                 return new MarketAreaContext();
+            case TURN_CONTEXT:
+                return new TurnContext();
             default:
-                return null;
+                throw new NoSuchContextException();
         }
     }
 }
+

@@ -3,7 +3,7 @@ package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
-import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Model.ResourceRelatedBonus.ResourcesBonus;
 
 
 //LET US USE A MATRIX FOR THE TOWER (ROWS (LEVELS)=4, COLOUMNS (TYPE OF CARD STORED)= 4)
@@ -86,7 +86,7 @@ public class Tower extends GameSpace {
     }
 
 
-    public Resources getTowerSlotResources() {
+    public ResourcesBonus getTowerSlotResources() {
         return slots[level].getResourcesReward();
     }
 
