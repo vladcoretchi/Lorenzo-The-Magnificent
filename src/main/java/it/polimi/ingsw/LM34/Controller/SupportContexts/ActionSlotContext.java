@@ -11,7 +11,9 @@ public class ActionSlotContext extends AbstractGameContext {
     //TODO: Ludovico Ariosto changes a boolean here so that the player can add his pawn despite of action slot limits
     //handle a particular excommunication card
 
-    public ActionSlotContext() {}
+    public ActionSlotContext() {
+        contextType = ContextType.ACTION_SLOT_CONTEXT;
+    }
 
     @Override
     public void interactWithPlayer(Player player) {
@@ -26,10 +28,6 @@ public class ActionSlotContext extends AbstractGameContext {
     }
 
 
-    @Override
-    public ContextType getType() {
-        return ContextType.ACTION_SLOT_CONTEXT;
-    }
 
 
 }

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Controller.SupportContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Player;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_ACTIVATE_OR_DISCARD_CONTEXT;
@@ -17,13 +16,9 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_ACTIVATE_
 public class LeaderActivateOrDiscardContext extends AbstractGameContext {
     private Integer totalLeadersDiscarded;
 
-public LeaderActivateOrDiscardContext() {}
-
-    @Override
-    public ContextType getType() {
-        return LEADER_ACTIVATE_OR_DISCARD_CONTEXT;
-    }
-
+public LeaderActivateOrDiscardContext() {
+    contextType = LEADER_ACTIVATE_OR_DISCARD_CONTEXT;
+}
 
     @Override
     public void interactWithPlayer(Player player) {
@@ -43,6 +38,4 @@ public LeaderActivateOrDiscardContext() {}
         //for(Integer i = 0; i<totalLeadersDiscarded; i++)
            // getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT).interactWithPlayer(player);
     }
-
-
 }

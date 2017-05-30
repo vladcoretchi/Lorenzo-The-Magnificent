@@ -1,11 +1,14 @@
 package it.polimi.ingsw.LM34.Controller.SpecialContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.GameManager;
+import it.polimi.ingsw.LM34.Controller.DiceDependentContexts.MarketAreaContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesPerItemBonus;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
+import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.MarketBan;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.PerRoundLeaderReward;
 import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +20,10 @@ public class TurnContext extends AbstractGameContext {
     /**
      Constructor called only at the game setup
      */
-    public TurnContext(ArrayList<AbstractGameContext> contexts, GameManager gameManager) {
-        this.gameManager = gameManager;
-    }
+
 
     public TurnContext() {
-
+        contextType = ContextType.TURN_CONTEXT;
     }
 
 
@@ -105,15 +106,28 @@ public class TurnContext extends AbstractGameContext {
     }
 
 
+    public static void main (String[] args) {
+        ArrayList<Player> players = new ArrayList<>();
+        Player player = new Player("cicoio", PawnColor.RED, new PersonalBoard());
+        Configurator.loadConfigs();
+        //GameManager gameManager = new GameManager();
+        /*gameManager.setupGameContexts();
+        TurnContext turnContext = (TurnContext) gameManager.getContextByType(ContextType.TURN_CONTEXT);
+        turnContext.setGameManager(gameManager);
+        turnContext.trial(player);*/
 
-
-    public void setGameManager(GameManager gameManager) {
-        this.gameManager = gameManager;
     }
 
-    @Override
-    public ContextType getType() {
-       return ContextType.TURN_CONTEXT;
+    //TODO: a testing method
+    private void trial(Player player) {
+        PerRoundLeaderReward perRoundLeaderReward = new PerRoundLeaderReward();
+        perRoundLeaderReward.applyEffect(this, player);
+        MarketBan marketBan = new MarketBan();
+        marketBan.applyEffect(this, player);
+        //this.addObserver(marketBan);
+        MarketAreaContext marketAreaContext = (MarketAreaContext) gameManager.getContextByType(ContextType.MARKET_AREA_CONTEXT);
+        marketAreaContext.interactWithPlayer(player);
+
     }
 
 }

@@ -7,6 +7,7 @@ import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.HARVEST_AREA_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;
 
 /**
@@ -18,6 +19,7 @@ public class HarvestAreaContext extends AbstractGameContext implements DiceDepen
 
 
     public HarvestAreaContext() {
+        contextType = HARVEST_AREA_CONTEXT;
         harvestArea = Configurator.getHarvestArea();
     }
 
@@ -53,8 +55,4 @@ public class HarvestAreaContext extends AbstractGameContext implements DiceDepen
     @Override
     public void increaseTempValue(Integer servantsConsumed) { this.tempValue += servantsConsumed; }
 
-    @Override
-    public ContextType getType() {
-        return ContextType.HARVEST_AREA_CONTEXT;
-    }
 }

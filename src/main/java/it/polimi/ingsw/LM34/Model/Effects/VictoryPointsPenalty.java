@@ -8,10 +8,12 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import java.util.Observable;
 import java.util.Observer;
 
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.END_GAME_CONTEXT;
+
 /**
  * Created by vladc on 5/13/2017.
  */
-// handles third period excomunication tiles
+// handles third period excommunication tiles
 public class VictoryPointsPenalty extends AbstractEffect implements Observer {
     private Integer victoryPoints;
     private Resources resources;
@@ -71,7 +73,7 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
 
     @Override
     public void applyEffect(AbstractGameContext callerContext, Player player) {
-
+        callerContext.getContextByType(END_GAME_CONTEXT).addObserver(this);
     }
 
 //end game

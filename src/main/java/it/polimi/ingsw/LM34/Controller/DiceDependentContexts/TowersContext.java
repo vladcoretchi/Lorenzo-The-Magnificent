@@ -25,6 +25,7 @@ public class TowersContext extends AbstractGameContext implements  DiceDependent
 
 
     public TowersContext() {
+        contextType = ContextType.TOWERS_CONTEXT;
         towers = Configurator.getTowers();
     }
 
@@ -71,10 +72,6 @@ public class TowersContext extends AbstractGameContext implements  DiceDependent
         towers.forEach(tower -> tower.sweep());
     }
 
-    @Override
-    public ContextType getType() {
-        return ContextType.TOWERS_CONTEXT;
-    }
 
     //TODO: evaluate if the buy should stay in this class
     public void buyCard(Player player, TowerSlot slot) throws InvalidCardType {

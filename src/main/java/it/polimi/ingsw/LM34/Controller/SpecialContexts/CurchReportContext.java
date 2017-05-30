@@ -2,13 +2,13 @@ package it.polimi.ingsw.LM34.Controller.SpecialContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourceIncomeContext;
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.CURCH_REPORT_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.FAITH_POINTS;
 
@@ -21,6 +21,7 @@ public class CurchReportContext  extends AbstractGameContext {
 
 
     public CurchReportContext() {
+        contextType = CURCH_REPORT_CONTEXT;
         excommunicationCards = new ArrayList<>();
     }
 
@@ -53,10 +54,6 @@ public class CurchReportContext  extends AbstractGameContext {
             //excommunicationCards.get(GameManager.getPeriod()).getPenalty().applyEffect(player);
     }
 
-    @Override
-    public ContextType getType() {
-        return ContextType.CURCH_REPORT_CONTEXT;
-    }
 
     /**
      * @param card choosed at game startup as a penalty card (1 per period)

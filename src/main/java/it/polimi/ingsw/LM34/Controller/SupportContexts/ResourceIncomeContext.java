@@ -18,6 +18,7 @@ public class ResourceIncomeContext extends AbstractGameContext {
 
 
     public ResourceIncomeContext() {
+        this.contextType = ContextType.RESOURCE_INCOME_CONTEXT;
         income = new Resources();
     }
 
@@ -25,12 +26,6 @@ public class ResourceIncomeContext extends AbstractGameContext {
     public void interactWithPlayer(Player player) {
 
     }
-
-    @Override
-    public ContextType getType() {
-        return ContextType.RESOURCE_INCOME_CONTEXT;
-    }
-
 
     public void handleResources(Player player, Resources resources) {
         income = resources;

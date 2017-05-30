@@ -23,16 +23,13 @@ public class EndGameContext  extends AbstractGameContext {
     //TODO: all excommunication III period penalties are applied here as observers
 
 
-    public EndGameContext() {}
+    public EndGameContext() {
+        contextType = ContextType.END_GAME_CONTEXT;
+    }
 
     @Override
     public void interactWithPlayer(Player player) {
 
-    }
-
-    @Override
-    public ContextType getType() {
-        return ContextType.END_GAME_CONTEXT;
     }
 
     /**

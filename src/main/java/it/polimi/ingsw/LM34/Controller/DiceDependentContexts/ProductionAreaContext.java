@@ -21,6 +21,7 @@ public class ProductionAreaContext extends AbstractGameContext implements DiceDe
     }
 
     public ProductionAreaContext() {
+        contextType = ContextType.PRODUCTION_AREA_CONTEXT;
         Configurator.getProductionArea();
     }
 
@@ -42,11 +43,6 @@ public class ProductionAreaContext extends AbstractGameContext implements DiceDe
         tempMemberChoosed.getValue();
     }
 
-
-    @Override
-    public ContextType getType() {
-        return ContextType.PRODUCTION_AREA_CONTEXT;
-    }
 
     @Override
     public void increaseTempValue(Integer servantsConsumed) {

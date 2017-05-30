@@ -1,11 +1,11 @@
 package it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.WorkingAreaValueEffect;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -23,11 +23,10 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
     private Resources resources;
     private Integer councilPrivilege;
     private WorkingAreaValueEffect workingAreaValueEffect; //"francesco sforza, leonardo da vinci"
-    private ArrayList<ContextType> observableContexts;
 
     public PerRoundLeaderReward(Resources resources, Integer councilPrivilege) {
-        this.observableContexts = new ArrayList<>();
-        this.observableContexts.add(TURN_CONTEXT);
+        /*this.observableContexts = new ArrayList<>();
+        this.observableContexts.add(TURN_CONTEXT);*/
         this.resources = resources;
         this.councilPrivilege = councilPrivilege;
     }
@@ -57,22 +56,19 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        System.out.println("Sono PerRoundLeaderReward e sono stato notificato");
 
           /*  ((ResourceIncomeContext)gameManager.getContextByType(RESOURCE_INCOME_CONTEXT)).handleResources(player, resources);
             player.addCouncilPrivileges(councilPrivilege);
         }*/
     }
 
-
-
-
-    public AbstractEffect subscribeObserverToContext(Object bypass, ArrayList<AbstractGameContext> contexts)  {
+    public AbstractEffect subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
         /*//"francesco sforza, leonardo da vinci"
         if(workingAreaValueEffect != null)
             workingAreaValueEffect.subscribeObserverToContext(contexts);
         else*/
-        //Utilities.getContextByType(contexts, ContextType.TURN_CONTEXT).addObserver(this);
+        Utilities.getContextByType(contexts, TURN_CONTEXT).addObserver(this);
         //TODO: remove this testing call
 
 
@@ -81,19 +77,19 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
         return this;
     }
     @Override
-    public void applyEffect(AbstractGameContext callerContext, Player player) {/*VOID*/}
+    public void applyEffect(AbstractGameContext callerContext, Player player) {
+        callerContext.getContextByType(TURN_CONTEXT).addObserver(this);
+
+        System.out.println("mi sono iscritto al contesto");
+        /*VOID*/
+
+
+    }
 
 
     @Override
     public boolean isOncePerRound() {
         return true; //all these leader bonuses are activable once per round
-    }
-
-
-
-    @Override
-    public ArrayList<ContextType> getContextToBeSubscribedTo() {
-        return observableContexts;
     }
 
 }
