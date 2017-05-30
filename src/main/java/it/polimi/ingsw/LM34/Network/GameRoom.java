@@ -20,17 +20,13 @@ public class GameRoom {
     }
 
     public void addPlayer(String username, ServerNetworkController networkController) {
-        players.put(username, networkController);
+        this.players.put(username, networkController);
 
         new Thread(new start()).start();
     }
 
-    public void trySend() {
-        List<String> c = new ArrayList<>();
-        c.add("Context1");
-        c.add("Context2");
-        c.add("Context3");
-        players.get("username").contextSelection(c);
+    public ServerNetworkController getPlayerNetworkController(String player) {
+        return players.get(player);
     }
 
     private class start implements Runnable {
@@ -43,12 +39,10 @@ public class GameRoom {
             }
 
             List<String> playerNames = new ArrayList<>();
-            players.forEach((n, c) -> playerNames.add(n));
+            GameRoom.this.players.forEach((n, c) -> playerNames.add(n));
 
-            gameManager = new GameManager(playerNames);
-            gameManager.run();
-
-            trySend();
+            GameRoom.this.gameManager = new GameManager(GameRoom.this, playerNames);
+            GameRoom.this.gameManager.run();
         }
     }
 }

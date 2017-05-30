@@ -16,7 +16,7 @@ public class ServerNetworkController {
         this.gameRoom = Server.addPlayerToGameRoom(connection.getUsername(), this);
     }
 
-    public void contextSelection(List<String> contexts) {
-        serverConnection.contextSelection(contexts);
+    public Integer contextSelection(List<String> contexts) {
+        return serverConnection.contextSelection(contexts);
     }
 }

@@ -2,9 +2,8 @@ package it.polimi.ingsw.LM34.Network.Client.RMI;
 
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
-import it.polimi.ingsw.LM34.Network.Server.RMI.RMIInterface;
+import it.polimi.ingsw.LM34.Network.Server.RMI.RMIServerInterface;
 import it.polimi.ingsw.LM34.UI.AbstractUI;
-
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -16,13 +15,13 @@ import java.util.List;
 /**
  * Created by vladc on 5/25/2017.
  */
-public class RMIClient extends AbstractClient implements Remote {
-    private RMIInterface server;
+public class RMIClient extends AbstractClient implements RMIClientInterface {
+    private RMIServerInterface server;
 
     public RMIClient(String serverIP, Integer port, AbstractUI ui) {
         try {
             Registry registry = LocateRegistry.getRegistry(serverIP, port);
-            server = (RMIInterface) registry.lookup("RMIServer");
+            server = (RMIServerInterface) registry.lookup("RMIServer");
             UnicastRemoteObject.exportObject(this, 0);
 
             this.networkController = new ClientNetworkController(this);
@@ -35,7 +34,8 @@ public class RMIClient extends AbstractClient implements Remote {
     @Override
     public void login(String username, String password) {
         try {
-            this.networkController.loginResult(server.login(username, password, this));
+            Boolean loginResult = server.login(username, password, this);
+            this.networkController.loginResult(loginResult);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -47,7 +47,7 @@ public class RMIClient extends AbstractClient implements Remote {
 
     @Override
     public Integer contextSelection(List<String> contexts) {
-        return 0;
+        return networkController.contextSelection(contexts);
     }
 
 }

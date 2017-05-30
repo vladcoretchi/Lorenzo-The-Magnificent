@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class SocketConnection extends AbstractConnection implements Runnable {
     private static boolean serverStatus;
-    private boolean run;
+    private boolean runListener;
 
     private final Socket connectionSocket;
     private final ObjectInputStream inStream;
@@ -25,7 +25,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
         this.outStream = new ObjectOutputStream(new BufferedOutputStream(connectionSocket.getOutputStream()));
         this.outStream.flush();
         this.inStream = new ObjectInputStream(new BufferedInputStream(connectionSocket.getInputStream()));
-        this.run = true;
+        this.runListener = true;
 
         serverStatus = true;
     }
@@ -44,14 +44,16 @@ public class SocketConnection extends AbstractConnection implements Runnable {
 
     @Override
     public void run() {
-        while (serverStatus && this.run) {
-            try {
-                String request = this.inStream.readUTF();
+        while (serverStatus) {
+            if (runListener) {
+                try {
+                    String request = this.inStream.readUTF();
 
-                RequestToServer.valueOf(request).readAndHandle(this);
-            } catch (IOException e) {
-                //e.printStackTrace();
-                //this.terminateConnection();
+                    RequestToServer.valueOf(request).readAndHandle(this);
+                } catch (IOException e) {
+                    //e.printStackTrace();
+                    //this.terminateListener();
+                }
             }
         }
 
@@ -62,8 +64,8 @@ public class SocketConnection extends AbstractConnection implements Runnable {
         serverStatus = false;
     }
 
-    public void terminateConnection() {
-        this.run = false;
+    public void terminateListener() {
+        this.runListener = false;
     }
 
     private void closeConnections() {
@@ -85,13 +87,23 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     }
 
     @Override
-    public void contextSelection(List<String> contexts) {
+    public boolean login(String username, String password) {
+        boolean result = super.login(username, password);
+        if (result)
+            this.terminateListener();
+        return result;
+    }
+
+    @Override
+    public Integer contextSelection(List<String> contexts) {
         try {
             this.outStream.writeUTF(RequestToClient.CONTEXT_SELECTION.name());
             this.outStream.writeObject(contexts);
             this.outStream.flush();
+            return this.inStream.readInt();
         } catch (IOException e) {
             e.printStackTrace();
+            return -1;
         }
     }
 }

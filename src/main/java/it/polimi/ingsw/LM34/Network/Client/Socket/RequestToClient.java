@@ -28,9 +28,8 @@ public enum RequestToClient {
             try {
                 List<String> contexts = (List<String>) socketConnection.getInputStream().readObject();
 
-                socketConnection.getOutputStream().writeUTF(RequestToServer.CONTEXT_SELECTION.name());
-                Integer sel = socketConnection.contextSelection(contexts);
-                socketConnection.getOutputStream().writeInt(sel);
+                //socketConnection.getOutputStream().writeUTF(RequestToServer.CONTEXT_SELECTION.name());
+                socketConnection.getOutputStream().writeInt(socketConnection.contextSelection(contexts));
                 socketConnection.getOutputStream().flush();
             } catch (IOException e) {
                 e.printStackTrace();

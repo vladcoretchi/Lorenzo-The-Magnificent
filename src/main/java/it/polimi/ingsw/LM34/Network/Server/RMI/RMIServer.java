@@ -1,7 +1,8 @@
 package it.polimi.ingsw.LM34.Network.Server.RMI;
 
+import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
-import it.polimi.ingsw.LM34.Network.Server.AbstractConnection;
+import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClientInterface;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by vladc on 5/23/2017.
  */
-public class RMIServer implements RMIInterface {
+public class RMIServer implements RMIServerInterface {
     private static Registry registry;
     private List<RMIConnection> rmiConnections;
 
@@ -41,7 +42,8 @@ public class RMIServer implements RMIInterface {
         }
     }
 
-    public boolean login(String username, String password, RMIClient clientRMI) {
+    @Override
+    public boolean login(String username, String password, RMIClientInterface clientRMI) {
         RMIConnection connection = new RMIConnection(clientRMI);
         if (connection.login(username, password)) {
             rmiConnections.add(connection);

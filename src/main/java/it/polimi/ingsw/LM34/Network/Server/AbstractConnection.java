@@ -17,7 +17,7 @@ public abstract class AbstractConnection {
         return this.networkController;
     }
 
-    public final boolean login(String username, String password) {
+    public boolean login(String username, String password) {
         boolean loginResult = Server.login(username, password);
         if (loginResult) {
             this.username = username;
@@ -26,5 +26,5 @@ public abstract class AbstractConnection {
         return loginResult;
     }
 
-    public abstract void contextSelection(List<String> contexts);
+    public abstract Integer contextSelection(List<String> contexts);
 }

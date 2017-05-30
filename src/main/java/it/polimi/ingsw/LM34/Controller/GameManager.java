@@ -21,6 +21,7 @@ import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.GameRoom;
+import it.polimi.ingsw.LM34.Network.Server.ServerNetworkController;
 import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
@@ -73,7 +74,9 @@ public class GameManager {
     private HarvestAreaContext harvestContext;
 
     /*CONSTRUCTOR*/
-    public GameManager(List<String> players) {
+    public GameManager(GameRoom gameRoom, List<String> players) {
+        this.gameRoom = gameRoom;
+
         this.players = new ArrayList<Player>();
 
         //TODO: verify lengths
@@ -96,6 +99,10 @@ public class GameManager {
 
         setupGameContexts();
 
+    }
+
+    public ServerNetworkController getActivePlayerNetworkController() {
+        return this.gameRoom.getPlayerNetworkController(this.players.get(this.turn).getPlayerName());
     }
 
 

@@ -24,8 +24,8 @@ public enum RequestToServer {
                 e.printStackTrace();
             }
         }
-    },
-    CONTEXT_SELECTION {
+    };
+    /*CONTEXT_SELECTION {
         @Override
         void readAndHandle(SocketConnection connection) {
             try {
@@ -36,7 +36,7 @@ public enum RequestToServer {
                 e.printStackTrace();
             }
         }
-    };
+    };*/
 
     abstract void readAndHandle(SocketConnection connection);
 }

@@ -8,6 +8,7 @@ import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by GiulioComi on 18/05/2017.
@@ -65,7 +66,7 @@ public class TurnContext extends AbstractGameContext {
             player.registerObserver(bonus);
         }*/
 
-        System.out.println("benvenuto in turn context");
+        /*System.out.println("benvenuto in turn context");
         //gameManager.getContextByType(ContextType.MARKET_AREA_CONTEXT).interactWithPlayer(player);
         //System.out.println("siamo tornati in turn context");
         //gameManager.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT).interactWithPlayer(player);
@@ -77,10 +78,20 @@ public class TurnContext extends AbstractGameContext {
         System.out.println("il turn context continua la sua esecuzione");
         setChanged(); notifyObservers();
         System.out.println("il turn context sta per terminare");
-        endContext();
-
+        endContext();*/
 
         //switchto che vuole //sulla scelta dell'utente per farlo entrare nel contesto
+
+
+        setChanged();
+        notifyObservers();
+
+        List<String> _contexts = new ArrayList<>();
+        _contexts.add("Market Area");
+        _contexts.add("Production Area");
+        _contexts.add("Discard Leader Cards");
+
+        System.out.println(this.gameManager.getActivePlayerNetworkController().contextSelection(_contexts));
     }
 
     /**
