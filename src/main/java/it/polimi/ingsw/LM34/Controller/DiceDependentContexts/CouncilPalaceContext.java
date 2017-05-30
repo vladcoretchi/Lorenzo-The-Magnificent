@@ -7,6 +7,8 @@ import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.COUNCIL_PALACE_CONTEXT;
+
 /**
  * Created by GiulioComi on 24/05/2017.
  */
@@ -17,13 +19,10 @@ public class CouncilPalaceContext extends AbstractGameContext implements DiceDep
     private Integer tempValue;
 
     public CouncilPalaceContext() {
-       councilPalace = Configurator.getPalace();
+        contextType = COUNCIL_PALACE_CONTEXT;
+        councilPalace = Configurator.getPalace();
     }
 
-    @Override
-    public ContextType getType() {
-        return ContextType.COUNCIL_PALACE_CONTEXT;
-    }
 
 
     @Override

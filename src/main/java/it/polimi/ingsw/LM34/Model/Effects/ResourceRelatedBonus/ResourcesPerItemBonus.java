@@ -56,6 +56,7 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
 
 
         for(Integer timesApplied = 0; timesApplied < militaryPointsRequired; timesApplied++)
+            //TODO: finish this
             player.addResources(bonusResources);
 
         try {

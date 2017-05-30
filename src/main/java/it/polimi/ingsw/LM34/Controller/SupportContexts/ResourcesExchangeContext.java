@@ -19,12 +19,11 @@ public class ResourcesExchangeContext extends AbstractGameContext {
     private Pair<Resources, Integer>[] resourceForPrivileges;
 
 
-    public ResourcesExchangeContext() {}
-
-    @Override
-    public ContextType getType() {
-        return ContextType.RESOURCE_EXCHANGE_CONTEXT;
+    public ResourcesExchangeContext() {
+        contextType = ContextType.RESOURCE_INCOME_CONTEXT;
     }
+
+
 
 
     public void setBonuses(Player player, Pair<Resources, Resources>[] resourceExchange, Pair<Resources, Integer>[] resourceForPrivileges)  {

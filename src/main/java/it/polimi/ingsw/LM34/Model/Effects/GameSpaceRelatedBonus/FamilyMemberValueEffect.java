@@ -28,12 +28,12 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
 
     public FamilyMemberValueEffect() {
         //TODO: read from the configurator the exactly contexts to which each bonus is registrable to
-        this.observableContexts = new ArrayList<>();
+        /*this.observableContexts = new ArrayList<>();
         observableContexts.add(ContextType.MARKET_AREA_CONTEXT);
         observableContexts.add(ContextType.TOWERS_CONTEXT);
         observableContexts.add(ContextType.PRODUCTION_AREA_CONTEXT);
         observableContexts.add(ContextType.HARVEST_AREA_CONTEXT);
-        observableContexts.add(ContextType.COUNCIL_PALACE_CONTEXT);
+        observableContexts.add(ContextType.COUNCIL_PALACE_CONTEXT);*/
 
 
 
@@ -90,7 +90,8 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
 //action slots, towers, market
     @Override
     public void applyEffect(AbstractGameContext callerContext, Player player) {
-
+        //TODO: here we need a fine grained filter to know when dice powered are applicable
+        // callerContext.addObserver();
     }
 
 

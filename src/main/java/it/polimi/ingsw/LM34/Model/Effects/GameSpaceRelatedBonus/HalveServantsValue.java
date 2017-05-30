@@ -4,7 +4,6 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
 
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -17,8 +16,6 @@ public class HalveServantsValue extends AbstractEffect implements Observer {
 
 
     public HalveServantsValue() {
-        this.observableContexts = new ArrayList<>();
-        observableContexts.add(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT);
     }
     @Override
     public void update(Observable o, Object arg) {
@@ -31,6 +28,7 @@ public class HalveServantsValue extends AbstractEffect implements Observer {
 
     @Override
     public void applyEffect(AbstractGameContext callerContext, Player player) {
+        callerContext.getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT).addObserver(this);
 
     }
 

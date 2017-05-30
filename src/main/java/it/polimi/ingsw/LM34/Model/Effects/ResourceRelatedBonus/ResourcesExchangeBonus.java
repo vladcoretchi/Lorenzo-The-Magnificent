@@ -9,9 +9,10 @@ import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.PRODUCTION_AREA_CONTEXT;
 
 /**
  * Created by vladc on 5/13/2017.
@@ -25,11 +26,11 @@ public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
     private Pair<Resources, Resources>[] resourceExchange;
     private Pair<Resources, Integer>[] resourceForPrivileges; //Only for "Residenza" building card
     private Integer diceValueToActivate;
-    private ArrayList<ContextType> contextToBeSubscribedTo;
+    //private ArrayList<ContextType> contextToBeSubscribedTo;
 
 
     public ResourcesExchangeBonus(Player player, Integer diceValue,Pair<Resources, Resources>[] resourceExchange, Pair<Resources, Integer>[] resourceForPrivileges) {
-        contextToBeSubscribedTo.add(ContextType.RESOURCE_EXCHANGE_CONTEXT);
+        //contextToBeSubscribedTo.add(ContextType.RESOURCE_EXCHANGE_CONTEXT);
         this.resourceExchange = resourceExchange;
         this.resourceForPrivileges = resourceForPrivileges;
         this.diceValueToActivate = diceValue;
@@ -42,6 +43,10 @@ public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
         ResourcesExchangeContext resourceExchangeContext;
         resourceExchangeContext= (ResourcesExchangeContext) callerContext.getContextByType(ContextType.RESOURCE_EXCHANGE_CONTEXT);
         resourceExchangeContext.setBonuses(player, resourceExchange, resourceForPrivileges);
+
+
+        /*Subscribe to Production area context*/
+        callerContext.getContextByType(PRODUCTION_AREA_CONTEXT).addObserver(this);
     }
 
 

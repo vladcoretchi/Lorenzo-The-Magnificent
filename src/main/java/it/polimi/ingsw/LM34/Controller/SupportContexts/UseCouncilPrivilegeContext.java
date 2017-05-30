@@ -13,17 +13,17 @@ import java.io.InputStreamReader;
  */
 public class UseCouncilPrivilegeContext extends AbstractGameContext {
     private Integer numberOfCouncilePrivileges = 0;
+    private ContextType type;
 
-    public UseCouncilPrivilegeContext() {}
+    public UseCouncilPrivilegeContext() {
+        contextType = ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT;
+    }
 
     public void initContext(Player player) {
         numberOfCouncilePrivileges = player.getCouncilPrivileges();
     }
 
-    @Override
-    public ContextType getType() {
-        return ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT;
-    }
+
 
     @Override
     public void interactWithPlayer(Player player) {

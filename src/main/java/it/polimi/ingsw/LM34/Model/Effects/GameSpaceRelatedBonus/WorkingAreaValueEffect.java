@@ -5,9 +5,7 @@ import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Utils.Utilities;
 
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -30,8 +28,8 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
     private Boolean isRelative;
 
     public WorkingAreaValueEffect(Player player, Boolean isInstant, ContextType areaType, Integer value, Boolean relative) {
-        this.observableContexts = new ArrayList<>();
-        observableContexts.add(areaType);
+        /*this.observableContexts = new ArrayList<>();
+        observableContexts.add(areaType);*/
         this.player = player;
         this.isInstant = isInstant;
         this.areaType = areaType;
@@ -77,17 +75,12 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
     }
 
 
-    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
-        Utilities.getContextByType(contexts, areaType).addObserver(this);
-
-    }
 
     //TODO: remove nulls
     @Override
     public void applyEffect(AbstractGameContext callerContext, Player player)  {
-        if(isInstant) //check if this is instant effect
+        //if(isInstant) //check if this is instant effect
         callerContext.getContextByType(areaType).interactWithPlayer(player);
-        else //register the permanent bonus as observer
-        subscribeObserverToContext(null);
+        //register the permanent bonus as observer
     }
 }

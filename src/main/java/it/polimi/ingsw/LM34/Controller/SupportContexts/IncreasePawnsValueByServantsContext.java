@@ -14,6 +14,7 @@ public class IncreasePawnsValueByServantsContext extends AbstractGameContext {
     private Integer servantsConsumed;
 
     public IncreasePawnsValueByServantsContext() {
+        contextType = ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;
         servantsConsumed = 0;
     }
 
@@ -41,8 +42,5 @@ public class IncreasePawnsValueByServantsContext extends AbstractGameContext {
         servantsConsumed /= 2;
     }
 
-    @Override
-    public ContextType getType() {
-        return ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;
-    }
+
 }

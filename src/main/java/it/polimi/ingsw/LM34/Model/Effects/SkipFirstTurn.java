@@ -7,6 +7,8 @@ import it.polimi.ingsw.LM34.Model.Player;
 import java.util.Observable;
 import java.util.Observer;
 
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TURN_CONTEXT;
+
 /**
  * Created by vladc on 5/14/2017.
  */
@@ -41,7 +43,7 @@ public class SkipFirstTurn extends AbstractEffect implements Observer {
 
     @Override
     public void applyEffect(AbstractGameContext callerContext, Player player) {
-
+        callerContext.getContextByType(TURN_CONTEXT).addObserver(this);
     }
 
     @Override

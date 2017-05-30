@@ -7,6 +7,8 @@ import it.polimi.ingsw.LM34.Model.Player;
 import java.util.Observable;
 import java.util.Observer;
 
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.ACTION_SLOT_CONTEXT;
+
 /**
  * Created by GiulioComi on 16/05/2017.
  */
@@ -22,7 +24,7 @@ public class ActionSlotLimitBypass extends AbstractEffect implements Observer {
 //action slot
     @Override
     public void applyEffect(AbstractGameContext callerContext, Player player) {
-
+        callerContext.getContextByType(ACTION_SLOT_CONTEXT).addObserver(this);
     }
 
 
