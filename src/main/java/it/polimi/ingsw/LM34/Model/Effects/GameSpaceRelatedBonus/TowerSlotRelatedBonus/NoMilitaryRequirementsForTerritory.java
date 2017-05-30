@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus;
 
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.DiceDependentContexts.TowersContext;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -22,7 +23,7 @@ public class NoMilitaryRequirementsForTerritory extends AbstractEffect implement
   //towers
 
     @Override
-    public void applyEffect( Player player) {
+    public void applyEffect(AbstractGameContext callerContext, Player player) {
 
     }
 

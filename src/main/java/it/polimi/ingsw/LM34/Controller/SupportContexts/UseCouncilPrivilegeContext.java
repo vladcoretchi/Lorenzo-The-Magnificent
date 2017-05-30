@@ -29,7 +29,7 @@ public class UseCouncilPrivilegeContext extends AbstractGameContext {
     public void interactWithPlayer(Player player) {
         System.out.println("siamo in UseCouncilPrivilegeContext");
 
-        //ResourceIncomeContext incomeContext = (ResourceIncomeContext) GameManager.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT);
+        //ResourceIncomeContext incomeContext = (ResourceIncomeContext) gameManager.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT);
         numberOfCouncilePrivileges = player.getCouncilPrivileges();
 
         for(Integer used=0; used<numberOfCouncilePrivileges; used++) {
@@ -45,7 +45,5 @@ public class UseCouncilPrivilegeContext extends AbstractGameContext {
             //TODO: let the player choice a resourcebonus, but different from the other choosed at the same moment
 
     }
-
-
 
 }

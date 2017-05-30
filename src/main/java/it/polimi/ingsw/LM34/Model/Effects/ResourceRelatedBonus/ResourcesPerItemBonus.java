@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus;
 
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
@@ -50,7 +51,7 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
 
 
     @Override
-    public void applyEffect(Player player) {
+    public void applyEffect(AbstractGameContext callerContext, Player player) {
         Integer numberOfThatCardTypeOwned = 0;
 
 
@@ -76,7 +77,7 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
         System.out.println("Sono stato notificato");
         //TODO: the following line has to be propagated to all bonuses that are instant special effects
         o.deleteObserver(this);
-        //GameManager.getContextByType(ContextType.TURN_CONTEXT).deleteObserver(this);
+        //gameManager.getContextByType(ContextType.TURN_CONTEXT).deleteObserver(this);
 
 
        /* Integer numberOfThatCardTypeOwned = 0;
@@ -90,7 +91,7 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
                 e.printStackTrace();
             }
             for (Integer timesApplied = 0; timesApplied < numberOfThatCardTypeOwned; timesApplied++) {
-                incomeContext = (ResourceIncomeContext) GameManager.getContextByType(ContextType.PRODUCTION_AREA_CONTEXT);
+                incomeContext = (ResourceIncomeContext) gameManager.getContextByType(ContextType.PRODUCTION_AREA_CONTEXT);
                 incomeContext.handleResources(player, bonusResources);
             }
         }*/

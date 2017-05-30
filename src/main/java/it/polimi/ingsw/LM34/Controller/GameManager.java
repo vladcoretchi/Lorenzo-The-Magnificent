@@ -27,7 +27,6 @@ import it.polimi.ingsw.LM34.Utils.Utilities;
 import java.util.*;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.CURCH_REPORT_CONTEXT;
-import static it.polimi.ingsw.LM34.Enums.Model.PawnColor.BLUE;
 
 /**
  * Created by GiulioComi on 05/05/2017.
@@ -49,6 +48,7 @@ public class GameManager {
     private ArrayList<Tower> towers;
     private WorkingArea harvestArea;
     private WorkingArea productionArea;
+    /*FaithPath*/
     private Map<Integer, Integer> faithPath = new HashMap<Integer, Integer>();
 
     HashMap<Player, Integer> victoryPointsByPlayer = new HashMap<Player, Integer>();
@@ -290,7 +290,7 @@ public class GameManager {
     }
 
 
-    public static AbstractGameContext getContextByType(ContextType contextType) {
+    public AbstractGameContext getContextByType(ContextType contextType) {
         //TODO: refactor this loop
         for (AbstractGameContext context : contexts)
             if (context.getType() == contextType)

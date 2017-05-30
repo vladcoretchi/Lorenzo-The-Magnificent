@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Controller.DiceDependentContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
@@ -32,7 +31,7 @@ public class HarvestAreaContext extends AbstractGameContext implements DiceDepen
         //TODO: player chooses the action slot
         //The reward of the slots are add to the player
         //TODO: interact with player in action slot is necessary?
-        GameManager.getContextByType(ContextType.ACTION_SLOT_CONTEXT).interactWithPlayer(player);
+        gameManager.getContextByType(ContextType.ACTION_SLOT_CONTEXT).interactWithPlayer(player);
 
         //TODO: now values of dices are increased
         FamilyMember memberChoosed = player.getFamilyMembers().get(1);
@@ -41,8 +40,8 @@ public class HarvestAreaContext extends AbstractGameContext implements DiceDepen
         setChanged();
         notifyObservers(tempMemberChoosed); //observers do a setValue on it
         tempValue = tempMemberChoosed.getValue();
-        GameManager.getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT).interactWithPlayer(player);
-        harvestArea.getSingleSlot().getResourcesReward().applyEffect(player);
+        gameManager.getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT).interactWithPlayer(player);
+        harvestArea.getSingleSlot().getResourcesReward().applyEffect(this, player);
     }
 
 

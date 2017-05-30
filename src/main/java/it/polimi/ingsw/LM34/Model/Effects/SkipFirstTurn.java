@@ -4,7 +4,6 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.SpecialContexts.TurnContext;
 import it.polimi.ingsw.LM34.Model.Player;
 
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,7 +14,6 @@ import java.util.Observer;
 
 public class SkipFirstTurn extends AbstractEffect implements Observer {
     private Boolean skipFirstTurn;
-    ArrayList<AbstractGameContext> contexts;
 
     public SkipFirstTurn(Boolean skipFirstTurn) {
         this.skipFirstTurn = skipFirstTurn;
@@ -24,7 +22,6 @@ public class SkipFirstTurn extends AbstractEffect implements Observer {
     public Boolean hasToSkipFirstTurn() {
         return this.skipFirstTurn;
     }
-
 
     @Override
     public void update(Observable o, Object arg) {
@@ -42,13 +39,10 @@ public class SkipFirstTurn extends AbstractEffect implements Observer {
 
   //turn context
 
-
-
     @Override
-    public void applyEffect(Player player) {
+    public void applyEffect(AbstractGameContext callerContext, Player player) {
 
     }
-
 
     @Override
     public boolean isOncePerRound() {

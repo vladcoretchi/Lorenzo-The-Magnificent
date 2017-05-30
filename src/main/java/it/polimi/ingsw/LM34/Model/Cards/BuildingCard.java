@@ -70,6 +70,6 @@ public class BuildingCard extends AbstractDevelopmentCard {
     }
 
     public void applyPermanentEffect(ArrayList<AbstractGameContext> contexts, Player player) {
-        this.getPermanentBonus().applyEffect(player);
+        //this.getPermanentBonus().applyEffect(player);
     }
 }

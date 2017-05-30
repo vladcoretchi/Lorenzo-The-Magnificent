@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Effects;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Player;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * Created by vladc on 5/13/2017.
  */
 public abstract class AbstractEffect {
-    private ArrayList<AbstractGameContext> observableContexts;
+    protected ArrayList<ContextType> observableContexts;
     /**
      *
      * @return true if the observer is activable once per round (e.g. SkipTurn, PerRoundLeaderReward)
@@ -20,10 +21,10 @@ public abstract class AbstractEffect {
     }
 
 
-    public ArrayList<AbstractGameContext> getContextToBeSubscribedTo() {
+    public ArrayList<ContextType> getContextToBeSubscribedTo() {
         return observableContexts;
     }
 
-    public abstract void applyEffect( Player player);
+    public abstract void applyEffect(AbstractGameContext callerContext, Player player);
 
 }

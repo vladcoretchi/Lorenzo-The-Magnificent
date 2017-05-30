@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus;
 
-import it.polimi.ingsw.LM34.Controller.GameManager;
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
@@ -49,8 +49,9 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        ResourceIncomeContext callerContext = (ResourceIncomeContext) GameManager.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT);
-        callerContext.setIncome(resources);
+        AbstractGameContext callerContext = (AbstractGameContext) o;
+        ResourceIncomeContext incomeContext = (ResourceIncomeContext) callerContext.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT);
+        incomeContext.setIncome(resources);
         System.out.println("Sono un observer della resourcheincomecontext e ho applicato il mio effetto");
 
         /*ContextType contextType = callerContext.getType();
@@ -63,15 +64,15 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
   //resource income context
 
     @Override
-    public void applyEffect(Player player) {
+    public void applyEffect(AbstractGameContext callerContext, Player player) {
 
-        ResourceIncomeContext incomeContext = (ResourceIncomeContext) GameManager.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT);
+        ResourceIncomeContext incomeContext = (ResourceIncomeContext) callerContext.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT);
         incomeContext.handleResources(player, resources);
 
 
         if(councilPrivilege > 0) {
             player.addCouncilPrivileges(councilPrivilege);
-            GameManager.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT).interactWithPlayer(player);
+            callerContext.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT).interactWithPlayer(player);
         }
     }
 

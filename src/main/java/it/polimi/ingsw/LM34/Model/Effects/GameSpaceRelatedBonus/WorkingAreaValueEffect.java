@@ -30,6 +30,8 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
     private Boolean isRelative;
 
     public WorkingAreaValueEffect(Player player, Boolean isInstant, ContextType areaType, Integer value, Boolean relative) {
+        this.observableContexts = new ArrayList<>();
+        observableContexts.add(areaType);
         this.player = player;
         this.isInstant = isInstant;
         this.areaType = areaType;
@@ -82,9 +84,9 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
 
     //TODO: remove nulls
     @Override
-    public void applyEffect(Player player)  {
+    public void applyEffect(AbstractGameContext callerContext, Player player)  {
         if(isInstant) //check if this is instant effect
-        Utilities.getContextByType(null, areaType).interactWithPlayer(player);
+        callerContext.getContextByType(areaType).interactWithPlayer(player);
         else //register the permanent bonus as observer
         subscribeObserverToContext(null);
     }

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Controller.SpecialContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
@@ -26,13 +25,10 @@ public class CurchReportContext  extends AbstractGameContext {
     }
 
 
-
-
     @Override
     public void interactWithPlayer(Player player) {
         //let the player choice if they wants to be excommunicated and assigned the negative effect to them
         checkEnoughFaithPoints(player, player.getResources().getResourceByType(FAITH_POINTS));
-
 
 
         setChanged(); notifyObservers(player);  /*trigger sisto IV if is an observer*/
@@ -40,10 +36,9 @@ public class CurchReportContext  extends AbstractGameContext {
 
         //TODO: addVcitoryPointsFromFaithPath based on faith track position
         Integer faithReward = player.getResources().getResourceByType(FAITH_POINTS);
-        /*Wrapper*/
-        Resources reward = new Resources(0,faithReward,0);
 
-        ((ResourceIncomeContext) GameManager.getContextByType(RESOURCE_INCOME_CONTEXT)).handleResources(player, reward);
+        Resources reward = new Resources(0,faithReward,0);  /*Wrapper*/
+        ((ResourceIncomeContext) gameManager.getContextByType(RESOURCE_INCOME_CONTEXT)).handleResources(player, reward);
 
 
     }

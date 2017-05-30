@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Effects;
 
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
@@ -68,12 +69,13 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
 
     }
 
-//end game
-
     @Override
-    public void applyEffect(Player player) {
+    public void applyEffect(AbstractGameContext callerContext, Player player) {
 
     }
+
+//end game
+
 
 
 

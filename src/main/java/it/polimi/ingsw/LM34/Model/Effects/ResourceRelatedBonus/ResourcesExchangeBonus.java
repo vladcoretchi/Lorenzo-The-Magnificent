@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus;
 
-import it.polimi.ingsw.LM34.Controller.GameManager;
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourcesExchangeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
@@ -38,9 +38,9 @@ public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
 
 
     @Override
-    public void applyEffect(Player player) {
+    public void applyEffect(AbstractGameContext callerContext, Player player) {
         ResourcesExchangeContext resourceExchangeContext;
-        resourceExchangeContext= (ResourcesExchangeContext) GameManager.getContextByType(ContextType.RESOURCE_EXCHANGE_CONTEXT);
+        resourceExchangeContext= (ResourcesExchangeContext) callerContext.getContextByType(ContextType.RESOURCE_EXCHANGE_CONTEXT);
         resourceExchangeContext.setBonuses(player, resourceExchange, resourceForPrivileges);
     }
 

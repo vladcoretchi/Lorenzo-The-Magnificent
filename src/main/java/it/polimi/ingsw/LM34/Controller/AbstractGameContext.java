@@ -10,6 +10,9 @@ import java.util.Observable;
  * Created by GiulioComi on 17/05/2017.
  */
 public abstract class AbstractGameContext extends Observable  {
+    /*Game manager reference*/
+    protected GameManager gameManager;
+    /*All observers subscribed to the context*/
     protected ArrayList<AbstractGameContext> contextsToSubscribeTo;
 
 
@@ -33,4 +36,12 @@ public abstract class AbstractGameContext extends Observable  {
     public abstract ContextType getType();
 
 
+    public void setGameManager(GameManager gameManager) {
+        this.gameManager = gameManager;
+    }
+
+
+    public  AbstractGameContext getContextByType(ContextType contextType) {
+        return gameManager.getContextByType(contextType);
+    }
 }

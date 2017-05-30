@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.WorkingAreaValueEffect;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -9,6 +10,8 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TURN_CONTEXT;
 
 /**
  * Created by GiulioComi on 18/05/2017.
@@ -20,9 +23,11 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
     private Resources resources;
     private Integer councilPrivilege;
     private WorkingAreaValueEffect workingAreaValueEffect; //"francesco sforza, leonardo da vinci"
-    private ArrayList<AbstractGameContext> observableContexts;
+    private ArrayList<ContextType> observableContexts;
 
     public PerRoundLeaderReward(Resources resources, Integer councilPrivilege) {
+        this.observableContexts = new ArrayList<>();
+        this.observableContexts.add(TURN_CONTEXT);
         this.resources = resources;
         this.councilPrivilege = councilPrivilege;
     }
@@ -54,17 +59,13 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
     public void update(Observable o, Object arg) {
 
 
-          /*  ((ResourceIncomeContext)GameManager.getContextByType(RESOURCE_INCOME_CONTEXT)).handleResources(player, resources);
+          /*  ((ResourceIncomeContext)gameManager.getContextByType(RESOURCE_INCOME_CONTEXT)).handleResources(player, resources);
             player.addCouncilPrivileges(councilPrivilege);
         }*/
     }
 
 
 
-    public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
-        //Utilities.getContextByType(contexts, ContextType.TURN_CONTEXT).addObserver(this);
-
-    }
 
     public AbstractEffect subscribeObserverToContext(Object bypass, ArrayList<AbstractGameContext> contexts)  {
         /*//"francesco sforza, leonardo da vinci"
@@ -80,11 +81,7 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
         return this;
     }
     @Override
-    public void applyEffect(Player player) {
-            //GameManager.getContextByType(ContextType.TURN_CONTEXT).addObserver();
-    }
-
-
+    public void applyEffect(AbstractGameContext callerContext, Player player) {/*VOID*/}
 
 
     @Override
@@ -95,7 +92,7 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
 
 
     @Override
-    public ArrayList<AbstractGameContext> getContextToBeSubscribedTo() {
+    public ArrayList<ContextType> getContextToBeSubscribedTo() {
         return observableContexts;
     }
 

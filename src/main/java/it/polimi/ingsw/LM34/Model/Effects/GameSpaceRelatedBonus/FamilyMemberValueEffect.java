@@ -22,6 +22,22 @@ import java.util.Observer;
 
 public class FamilyMemberValueEffect extends AbstractEffect implements Observer {
 
+
+
+
+
+    public FamilyMemberValueEffect() {
+        //TODO: read from the configurator the exactly contexts to which each bonus is registrable to
+        this.observableContexts = new ArrayList<>();
+        observableContexts.add(ContextType.MARKET_AREA_CONTEXT);
+        observableContexts.add(ContextType.TOWERS_CONTEXT);
+        observableContexts.add(ContextType.PRODUCTION_AREA_CONTEXT);
+        observableContexts.add(ContextType.HARVEST_AREA_CONTEXT);
+        observableContexts.add(ContextType.COUNCIL_PALACE_CONTEXT);
+
+
+
+    }
     /**
      * if null then the value is related to the neutral family member
      * if MULTICOLOR, the value is applied to all the dices
@@ -73,7 +89,7 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
 
 //action slots, towers, market
     @Override
-    public void applyEffect(Player player) {
+    public void applyEffect(AbstractGameContext callerContext, Player player) {
 
     }
 

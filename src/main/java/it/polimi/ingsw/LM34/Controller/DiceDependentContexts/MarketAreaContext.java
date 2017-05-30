@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Controller.DiceDependentContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
@@ -27,6 +26,7 @@ public MarketAreaContext() { market = Configurator.getMarket(); }
     public void interactWithPlayer(Player player) {
         System.out.println("siamo in market area context");
 
+
         //TODO: correct: ?interactWithPlayer(player); //let the player redo his choices...
         if(!ban) { //the ban is set if the player got the related excommunication card
 
@@ -37,12 +37,12 @@ public MarketAreaContext() { market = Configurator.getMarket(); }
             //marketSlot.getReward().applyEffect(player);
             //} catch(...) {
             //say that slot occupied and remake the player do his choices
-            ResourceIncomeContext incomeContext = (ResourceIncomeContext) GameManager.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT);
+            ResourceIncomeContext incomeContext = (ResourceIncomeContext) gameManager.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT);
             incomeContext.handleResources(player, new Resources(2, 4, 5, 5));
         }
         else {
             //TODO: inform player of the ban
-            GameManager.getContextByType(TURN_CONTEXT).interactWithPlayer(player);
+            gameManager.getContextByType(TURN_CONTEXT).interactWithPlayer(player);
         }
     }
 
