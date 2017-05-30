@@ -4,22 +4,35 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Player;
 
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_ACTIVATE_OR_DISCARD_CONTEXT;
+
 /**
  * Created by GiulioComi on 25/05/2017.
  */
-public class LeaderDiscardContext extends AbstractGameContext {
+
+/**
+ * In this context the player can discard a leader in favor of a privilege or activate his ability
+ * In the latter case, all requirements of the leader to activate are verified
+ */
+public class LeaderActivateOrDiscardContext extends AbstractGameContext {
     private Integer totalLeadersDiscarded;
 
-public LeaderDiscardContext() {}
+public LeaderActivateOrDiscardContext() {}
 
     @Override
     public ContextType getType() {
-        return ContextType.LEADER_DISCARD_CONTEXT;
+        return LEADER_ACTIVATE_OR_DISCARD_CONTEXT;
     }
 
 
     @Override
     public void interactWithPlayer(Player player) {
+        totalLeadersDiscarded = 0; //default value at the start of this context
+        /*Activate leader cards*/
+        //TODO: check if the player can activate a leader, then register it to the right observer
+
+
+        /* Discard leader cards*/
         totalLeadersDiscarded = 2;
         System.out.println("carte scartate "+ totalLeadersDiscarded);
         setChanged();
@@ -32,7 +45,4 @@ public LeaderDiscardContext() {}
     }
 
 
-    public void setTotalLeadersDiscarded(Integer passedByObserver) {
-        this.totalLeadersDiscarded = passedByObserver;
-    }
 }

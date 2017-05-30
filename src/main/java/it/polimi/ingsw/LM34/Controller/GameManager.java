@@ -25,8 +25,8 @@ import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.*;
 
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.CURCH_REPORT_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Model.PawnColor.BLUE;
-import static it.polimi.ingsw.LM34.Enums.Model.PawnColor.RED;
 
 /**
  * Created by GiulioComi on 05/05/2017.
@@ -72,6 +72,8 @@ public class GameManager {
 
     /*CONSTRUCTOR*/
     public GameManager() {
+
+        setupGameContexts();
 
 
         players = new ArrayList<Player>();
@@ -169,10 +171,12 @@ public class GameManager {
             /**
              * Now it is Curch Report time
              */
-            CurchReportContext curchContext = (CurchReportContext) Utilities.getContextByType(contexts, ContextType.CURCH_REPORT_CONTEXT);
+            CurchReportContext curchContext = (CurchReportContext) Utilities.getContextByType(contexts, CURCH_REPORT_CONTEXT);
 
-            //param players are passed to the context so that CurchReportContext handle the interact with them
-            curchContext.interactWithPlayer(players);
+            /**
+             * CurchReportContext interact with a player at a time, based on turn order
+             */
+            players.forEach(player -> curchContext.interactWithPlayer(player));
 
             nextPeriod();
         }
@@ -396,22 +400,20 @@ public class GameManager {
 
 
     //TODO: remove this testing main
-    public static void main (String [] args) {
-        Configurator.loadConfigs();
-        GameManager gameManager = new GameManager();
+    public void  run() {
 
-        gameManager.setupGameContexts();
+        /*GameManager gameManager = new GameManager();
+        gameManager.setupGameContexts();*/
         ArrayList<TerritoryCard> territoryCards = new ArrayList<>();
 
 
         Player player = new Player(BLUE, new PersonalBoard());
-        Player player1 = new Player(RED, new PersonalBoard());
-        gameManager.addPlayer(player);
-        gameManager.addPlayer(player1);
+        addPlayer(player);
 
-        gameManager.getTurnContext().setGameManager(gameManager);
+
+        /*gameManager.getTurnContext().setGameManager(gameManager);
         gameManager.territoryCardDeck = territoryCards;
-        gameManager.startGame();
+        gameManager.startGame();*/
 
     }
 

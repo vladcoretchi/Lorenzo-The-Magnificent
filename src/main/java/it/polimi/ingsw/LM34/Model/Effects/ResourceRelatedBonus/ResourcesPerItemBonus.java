@@ -51,14 +51,6 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
 
     @Override
     public void applyEffect(Player player) {
-
-    }
-
-    /**
-     * For instant bonuses
-     */
-    public void applyInstantEffect() {
-
         Integer numberOfThatCardTypeOwned = 0;
 
 
@@ -75,6 +67,8 @@ public class ResourcesPerItemBonus extends AbstractEffect implements Observer {
             player.addResources(bonusResources);
 
     }
+
+
 
     @Override
     public void update(Observable o, Object arg) {

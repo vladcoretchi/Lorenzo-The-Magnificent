@@ -17,8 +17,8 @@ public final class ContextFactory {
 
     public  static AbstractGameContext getContext(ContextType contextType) throws NoSuchContextException {
         switch (contextType) {
-            case LEADER_DISCARD_CONTEXT:
-                return new LeaderDiscardContext();
+            case LEADER_ACTIVATE_OR_DISCARD_CONTEXT:
+                return new LeaderActivateOrDiscardContext();
             case ACTION_SLOT_CONTEXT:
                 return new ActionSlotContext();
             case CURCH_REPORT_CONTEXT:

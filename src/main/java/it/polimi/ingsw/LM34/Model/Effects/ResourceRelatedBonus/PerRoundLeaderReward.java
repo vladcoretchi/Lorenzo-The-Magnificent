@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.SupportContexts.LeaderDiscardContext;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.WorkingAreaValueEffect;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -21,6 +20,7 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
     private Resources resources;
     private Integer councilPrivilege;
     private WorkingAreaValueEffect workingAreaValueEffect; //"francesco sforza, leonardo da vinci"
+    private ArrayList<AbstractGameContext> observableContexts;
 
     public PerRoundLeaderReward(Resources resources, Integer councilPrivilege) {
         this.resources = resources;
@@ -52,24 +52,9 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        //TODO: remove this testing call
-        LeaderDiscardContext callerContext = (LeaderDiscardContext) o;
-        Integer numberOfDiscardedCards = (Integer) arg;
-        numberOfDiscardedCards = 7;
-        callerContext.setTotalLeadersDiscarded(numberOfDiscardedCards);
-        /*try {
-            Thread.sleep(1000);
-        } catch(InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }*/
 
 
-        System.out.println("Carte scartate: " + numberOfDiscardedCards);
-
-
-        /*if (arg instanceof Player) {
-            Player player = (Player) arg;
-            player.addResources(resources);
+          /*  ((ResourceIncomeContext)GameManager.getContextByType(RESOURCE_INCOME_CONTEXT)).handleResources(player, resources);
             player.addCouncilPrivileges(councilPrivilege);
         }*/
     }
@@ -96,13 +81,11 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
     }
     @Override
     public void applyEffect(Player player) {
-
+            //GameManager.getContextByType(ContextType.TURN_CONTEXT).addObserver();
     }
 
 
-    public void applyEffect(ArrayList<AbstractGameContext> contexts) {
-        subscribeObserverToContext(contexts);
-    }
+
 
     @Override
     public boolean isOncePerRound() {
@@ -111,6 +94,9 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
 
 
 
-
+    @Override
+    public ArrayList<AbstractGameContext> getContextToBeSubscribedTo() {
+        return observableContexts;
+    }
 
 }

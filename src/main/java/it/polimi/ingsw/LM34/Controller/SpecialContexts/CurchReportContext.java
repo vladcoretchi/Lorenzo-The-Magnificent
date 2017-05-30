@@ -1,12 +1,16 @@
 package it.polimi.ingsw.LM34.Controller.SpecialContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.GameManager;
+import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.FAITH_POINTS;
 
 /**
@@ -17,29 +21,31 @@ public class CurchReportContext  extends AbstractGameContext {
 
 
 
-    public CurchReportContext() {}
-
-    @Override
-    public void interactWithPlayer(Player player) {
-
+    public CurchReportContext() {
+        excommunicationCards = new ArrayList<>();
     }
 
 
-    public void interactWithPlayer(ArrayList<Player> players) {
+
+
+    @Override
+    public void interactWithPlayer(Player player) {
         //let the player choice if they wants to be excommunicated and assigned the negative effect to them
-        players.forEach(player -> checkEnoughFaithPoints(player, player.getResources().getResourceByType(FAITH_POINTS)));
+        checkEnoughFaithPoints(player, player.getResources().getResourceByType(FAITH_POINTS));
 
 
 
+        setChanged(); notifyObservers(player);  /*trigger sisto IV if is an observer*/
 
-        setChanged(); notifyObservers();  /*trigger sisto IV if is an observer*/
-        //TODO: for each player, addVcitoryPointsFromFaithPath...
-        for(Player player : players) {
-            player.getResources().getResourceByType(FAITH_POINTS);
-            //if (player.getExcommunicationCards().get(period) != null) {
-                //player.addResources(new Resources(0, , 0));
-            //}
-        }
+
+        //TODO: addVcitoryPointsFromFaithPath based on faith track position
+        Integer faithReward = player.getResources().getResourceByType(FAITH_POINTS);
+        /*Wrapper*/
+        Resources reward = new Resources(0,faithReward,0);
+
+        ((ResourceIncomeContext) GameManager.getContextByType(RESOURCE_INCOME_CONTEXT)).handleResources(player, reward);
+
+
     }
 
     /**
