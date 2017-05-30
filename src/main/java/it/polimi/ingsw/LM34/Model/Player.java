@@ -15,6 +15,7 @@ import java.util.ArrayList;
  * Created by Giulio Comi on 03/05/2017.
  */
 public class Player implements Serializable {
+    private final String playerName;
     private final PawnColor pawnColor; //COLOR OF THE PAWN ASSOCIATED TO THE PLAYER
     private ArrayList<FamilyMember>  familyMembers;
     private PersonalBoard personalBoard;
@@ -30,7 +31,8 @@ public class Player implements Serializable {
     //VARIABLE FOR COMMUNICATION TO CLIENT
     //TODO: evalueate if this network connection is correct
 
-    public Player(PawnColor pawnColor, PersonalBoard personalBoard) {
+    public Player(String name, PawnColor pawnColor, PersonalBoard personalBoard) {
+        this.playerName = name;
         this.pawnColor= pawnColor;
         this.personalBoard= personalBoard;
         resources = new Resources();
@@ -43,6 +45,9 @@ public class Player implements Serializable {
             familyMembers.add(new FamilyMember(pawnColor, diceColor));
     }
 
+    public String getPlayerName() {
+        return this.playerName;
+    }
 
     //the controller updates the resources and bonuses of the player directly in the personalBoard;
     public PersonalBoard getPersonalBoard() {

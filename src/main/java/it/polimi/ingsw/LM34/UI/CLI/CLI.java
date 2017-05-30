@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.UI.CLI;
 
+import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.UI.AbstractUI;
@@ -21,17 +22,18 @@ public class CLI extends AbstractUI {
         while(!userInputIsValid) {
             String connectionTypeChoice = connectionTypeSelection();
             if(connectionTypeChoice.equalsIgnoreCase("rmi") || connectionTypeChoice.equals("1")) {
-                networkClient = new RMIClient(SERVER_IP, RMI_PORT);
+                this.networkClient = new RMIClient(SERVER_IP, RMI_PORT, this);
                 userInputIsValid = true;
             }
             else if (connectionTypeChoice.equalsIgnoreCase("socket") || connectionTypeChoice.equals("2")) {
-                networkClient = new SocketClient(SERVER_IP, SOCKET_PORT);
+                this.networkClient = new SocketClient(SERVER_IP, SOCKET_PORT, this);
                 userInputIsValid = true;
             }
             else
                 CLIStuff.printToConsole.println(CLIStuff.ERROR_MESSAGE_COLOR + "please choose rmi or socket" + CLIStuff.RESET_COLOR);
         }
 
+        this.networkController = networkClient.getNetworkController();
         loginMenu();
     }
 
@@ -62,7 +64,20 @@ public class CLI extends AbstractUI {
         CLIStuff.printToConsole.println("please insert your password:");
         String playerPassword = CLIStuff.readUserInput.nextLine();
 
-        //TODO: login on server
+        networkController.login(playerUsername, playerPassword);
+    }
+
+    /**
+     * Receives the login operation result
+     * @param result login result
+     */
+    public void loginResult(Boolean result) {
+        if (result) {
+            CLIStuff.printToConsole.println("Access granted!");
+        } else {
+            CLIStuff.printToConsole.println("Access denied! Wrong username or password.");
+            loginMenu();
+        }
     }
 
     /**

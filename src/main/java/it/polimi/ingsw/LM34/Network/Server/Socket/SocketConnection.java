@@ -1,60 +1,97 @@
 package it.polimi.ingsw.LM34.Network.Server.Socket;
 
-import it.polimi.ingsw.LM34.Utils.Utilities;
+import it.polimi.ingsw.LM34.Network.Client.Socket.RequestToClient;
+import it.polimi.ingsw.LM34.Network.Server.AbstractConnection;
+import it.polimi.ingsw.LM34.Network.Server.Server;
+import it.polimi.ingsw.LM34.Network.Server.ServerNetworkController;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 
 /**
  * Created by vladc on 5/23/2017.
  */
-public class SocketConnection implements Runnable {
-    private Boolean run;
+public class SocketConnection extends AbstractConnection implements Runnable {
+    private static boolean serverStatus;
+    private boolean run;
 
-    private static Socket connectionSocket;
-    private static ObjectInputStream inStream;
-    private static ObjectOutputStream outStream;
+    private final Socket connectionSocket;
+    private final ObjectInputStream inStream;
+    private final ObjectOutputStream outStream;
 
     public SocketConnection(Socket socket) throws IOException {
-        connectionSocket = socket;
-        outStream = new ObjectOutputStream(new BufferedOutputStream(connectionSocket.getOutputStream()));
-        outStream.flush();
-        inStream = new ObjectInputStream(new BufferedInputStream(connectionSocket.getInputStream()));
-        run = true;
+        this.connectionSocket = socket;
+        this.outStream = new ObjectOutputStream(new BufferedOutputStream(connectionSocket.getOutputStream()));
+        this.outStream.flush();
+        this.inStream = new ObjectInputStream(new BufferedInputStream(connectionSocket.getInputStream()));
+        this.run = true;
+
+        serverStatus = true;
     }
 
-    public void terminate() {
-        this.run = false;
+    public Socket getSocket() {
+        return connectionSocket;
+    }
+
+    public ObjectInputStream getInputStream() {
+        return inStream;
+    }
+
+    public ObjectOutputStream getOutputStream() {
+        return outStream;
     }
 
     @Override
     public void run() {
-        System.out.println("run method started");
-        while (run) {
+        while (serverStatus && this.run) {
             try {
-                String message = (String) inStream.readObject();
+                String request = this.inStream.readUTF();
 
-                System.out.println(message);
-            }
-            catch (IOException e) {
+                RequestToServer.valueOf(request).readAndHandle(this);
+            } catch (IOException e) {
                 //e.printStackTrace();
-                //this.terminate();
-            }
-            catch (ClassNotFoundException e) {
-                //e.printStackTrace();
-                //this.terminate();
+                //this.terminateConnection();
             }
         }
 
-        closeConnection(inStream);
-        closeConnection(outStream);
-        closeConnection(connectionSocket);
+        closeConnections();
     }
 
-    private void closeConnection(Closeable obj) {
+    public static void terminate() {
+        serverStatus = false;
+    }
+
+    public void terminateConnection() {
+        this.run = false;
+    }
+
+    private void closeConnections() {
         try {
-            obj.close();
+            this.inStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        catch (IOException e) { }
+        try {
+            this.outStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            this.connectionSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void contextSelection(List<String> contexts) {
+        try {
+            this.outStream.writeUTF(RequestToClient.CONTEXT_SELECTION.name());
+            this.outStream.writeObject(contexts);
+            this.outStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

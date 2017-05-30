@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34;
 
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
+import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.UI.AbstractUI;

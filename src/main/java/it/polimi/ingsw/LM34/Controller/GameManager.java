@@ -20,6 +20,7 @@ import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Network.GameRoom;
 import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
@@ -32,6 +33,7 @@ import static it.polimi.ingsw.LM34.Enums.Model.PawnColor.BLUE;
  * Created by GiulioComi on 05/05/2017.
  */
 public class GameManager {
+    private GameRoom gameRoom;
 
     /*TURNS*/
     private Integer period; //3 in a game
@@ -71,18 +73,17 @@ public class GameManager {
     private HarvestAreaContext harvestContext;
 
     /*CONSTRUCTOR*/
-    public GameManager() {
+    public GameManager(List<String> players) {
+        this.players = new ArrayList<Player>();
 
-        setupGameContexts();
+        //TODO: verify lengths
+        for (int i = 0; i < players.size(); i++)
+            this.players.add(new Player(players.get(i), PawnColor.values()[i], new PersonalBoard()));
 
-
-        players = new ArrayList<Player>();
-        period = 1; //when cards of the new period are stored on towers
-        round = 1; //when all players have placed all their pawns
-        phase = 1; //when all players have placed 1 of their pawn
-        turn = 0; //when the current player places his pawn
-        //Load all the configurations from json
-        Configurator.loadConfigs();
+        this.period = 1; //when cards of the new period are stored on towers
+        this.round = 1; //when all players have placed all their pawns
+        this.phase = 1; //when all players have placed 1 of their pawn
+        this.turn = 0; //when the current player places his pawn
 
         //TODO: sync the loading so that none of the methods below is called before configs.json file has been parsed
         //prepareGameSpaces();
@@ -400,21 +401,15 @@ public class GameManager {
 
 
     //TODO: remove this testing main
-    public void  run() {
+    public void run() {
 
         /*GameManager gameManager = new GameManager();
         gameManager.setupGameContexts();*/
         ArrayList<TerritoryCard> territoryCards = new ArrayList<>();
 
-
-        Player player = new Player(BLUE, new PersonalBoard());
-        addPlayer(player);
-
-
-        /*gameManager.getTurnContext().setGameManager(gameManager);
-        gameManager.territoryCardDeck = territoryCards;
-        gameManager.startGame();*/
-
+        this.getTurnContext().setGameManager(this);
+        this.territoryCardDeck = territoryCards;
+        this.startGame();
     }
 
 

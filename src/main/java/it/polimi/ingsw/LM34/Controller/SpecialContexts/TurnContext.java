@@ -108,10 +108,4 @@ public class TurnContext extends AbstractGameContext {
        return ContextType.TURN_CONTEXT;
     }
 
-
-
-    public static void main(String[] args) {
-        TurnContext turnContext = new TurnContext();
-        turnContext.interactWithPlayer(new Player(PawnColor.RED, new PersonalBoard()));
-    }
 }

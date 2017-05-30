@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.UI;
 
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
+import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.UI.CLI.CLI;
 
 import java.util.List;
@@ -14,11 +15,13 @@ public abstract class AbstractUI {
     protected static final Integer RMI_PORT = 20002;
 
     protected AbstractClient networkClient;
+    protected ClientNetworkController networkController;
 
     public abstract void show();
     public abstract void showSplashScreen();
     public abstract void printDivider();
     public abstract void loginMenu();
+    public abstract void loginResult(Boolean result);
     public abstract String connectionTypeSelection();
     public abstract Integer contextSelection(List<String> allContext);
     public abstract String towerSlotSelection(Integer towerNumber, Integer towerFloor);
