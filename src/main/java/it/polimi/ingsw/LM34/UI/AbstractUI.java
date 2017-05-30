@@ -3,6 +3,8 @@ package it.polimi.ingsw.LM34.UI;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.UI.CLI.CLI;
 
+import java.util.List;
+
 /**
  * this abstract class represent all prototype of cli methods, and will be implemented in {@link CLI}
  */
@@ -18,5 +20,8 @@ public abstract class AbstractUI {
     public abstract void printDivider();
     public abstract void loginMenu();
     public abstract String connectionTypeSelection();
-    public abstract void printTowers();
+    public abstract Integer contextSelection(List<String> allContext);
+    public abstract String towerSlotSelection(Integer towerNumber, Integer towerFloor);
+    public abstract Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested);
+    public abstract void printGameBoard();
 }
