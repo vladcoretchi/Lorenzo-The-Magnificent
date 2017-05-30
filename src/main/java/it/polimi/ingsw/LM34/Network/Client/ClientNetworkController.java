@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Network.Client;
 
-import java.io.IOException;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class ClientNetworkController {
         clientConnection.getUI().loginResult(result);
     }
 
-    public Integer contextSelection(List<String> contexts) {
+    public Integer contextSelection(List<ContextType> contexts) {
         return clientConnection.getUI().contextSelection(contexts);
     }
 }

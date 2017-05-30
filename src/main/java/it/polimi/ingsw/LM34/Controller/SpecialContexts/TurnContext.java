@@ -17,6 +17,7 @@ import java.util.List;
  * Created by GiulioComi on 18/05/2017.
  */
 public class TurnContext extends AbstractGameContext {
+
     /**
      Constructor called only at the game setup
      */
@@ -52,6 +53,7 @@ public class TurnContext extends AbstractGameContext {
 
     @Override
     public void interactWithPlayer(Player player) {
+        Boolean correctRequest = false;
         //LeaderDiscardContext leaderContext = (LeaderDiscardContext) gameManager.getContextByType(ContextType.LEADER_DISCARD_CONTEXT);
 
         //ArrayList<TerritoryCard> territoryCards = (ArrayList) Configurator.getTerritoryCards();
@@ -82,17 +84,38 @@ public class TurnContext extends AbstractGameContext {
         endContext();*/
 
         //switchto che vuole //sulla scelta dell'utente per farlo entrare nel contesto
-
-
         setChanged();
         notifyObservers();
 
-        List<String> _contexts = new ArrayList<>();
-        _contexts.add("Market Area");
-        _contexts.add("Production Area");
-        _contexts.add("Discard Leader Cards");
 
-        System.out.println(this.gameManager.getActivePlayerNetworkController().contextSelection(_contexts));
+        
+        ContextType selectedContext = null;
+        List<ContextType> _contexts = new ArrayList<>();
+        _contexts.add(ContextType.MARKET_AREA_CONTEXT);
+        _contexts.add(ContextType.PRODUCTION_AREA_CONTEXT);
+        _contexts.add(ContextType.LEADER_ACTIVATE_OR_DISCARD_CONTEXT);
+
+        while(!correctRequest) {
+            Integer selected = this.gameManager.getActivePlayerNetworkController().contextSelection(_contexts);
+
+            /*CONTEXT SIDE VALIDATION*/
+            if(selected == -1) //PASS THE TURN
+                endContext();
+
+            else
+                try {
+                    selectedContext = _contexts.get(selected);
+                    correctRequest = true;
+
+                } catch (Exception e) {
+                    correctRequest = false;
+                }
+        }
+        if(selectedContext != null)
+            getContextByType(selectedContext).interactWithPlayer(player);
+
+
+
     }
 
     /**
@@ -101,7 +124,7 @@ public class TurnContext extends AbstractGameContext {
     public void endContext() {
         //TODO: unsubscribe player observer at the end of the turn
         /*contexts.forEach((c) -> c.deleteObservers());*/
-        //gameManager.nextTurn();
+        gameManager.nextTurn();
 
     }
 

@@ -1,10 +1,11 @@
 package it.polimi.ingsw.LM34.Network.Client.Socket;
 
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Server.Socket.RequestToServer;
 import it.polimi.ingsw.LM34.UI.AbstractUI;
-import it.polimi.ingsw.LM34.Utils.Utilities;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.List;
@@ -82,7 +83,7 @@ public class SocketClient extends AbstractClient {
     }
 
     @Override
-    public Integer contextSelection(List<String> contexts) {
+    public Integer contextSelection(List<ContextType> contexts) {
         return networkController.contextSelection(contexts);
     }
 }

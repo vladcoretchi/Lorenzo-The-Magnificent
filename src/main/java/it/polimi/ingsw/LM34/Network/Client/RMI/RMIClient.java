@@ -1,11 +1,12 @@
 package it.polimi.ingsw.LM34.Network.Client.RMI;
 
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Server.RMI.RMIServerInterface;
 import it.polimi.ingsw.LM34.UI.AbstractUI;
+
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -46,7 +47,7 @@ public class RMIClient extends AbstractClient implements RMIClientInterface {
     }
 
     @Override
-    public Integer contextSelection(List<String> contexts) {
+    public Integer contextSelection(List<ContextType> contexts) {
         return networkController.contextSelection(contexts);
     }
 

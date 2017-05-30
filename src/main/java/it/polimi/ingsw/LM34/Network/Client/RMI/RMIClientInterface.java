@@ -1,5 +1,7 @@
 package it.polimi.ingsw.LM34.Network.Client.RMI;
 
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -9,5 +11,5 @@ import java.util.List;
  */
 public interface RMIClientInterface extends Remote {
 
-    Integer contextSelection(List<String> contexts) throws RemoteException;
+    Integer contextSelection(List<ContextType> contexts) throws RemoteException;
 }

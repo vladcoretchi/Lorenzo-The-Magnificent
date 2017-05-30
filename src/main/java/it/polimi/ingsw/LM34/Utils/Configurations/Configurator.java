@@ -20,6 +20,9 @@ import java.util.*;
  * config parameters loaded from file as static variables
  */
 public final class Configurator {
+    /*CONVENTION GAME_CODES*/
+    private static final Integer BACK_OR_PASS = -1;
+
 
     public static final Integer TOTAL_PERIODS = 3; //#total periods
     public static final Integer CARD_PER_ROUND = 4; //#development cards stored in a tower per round

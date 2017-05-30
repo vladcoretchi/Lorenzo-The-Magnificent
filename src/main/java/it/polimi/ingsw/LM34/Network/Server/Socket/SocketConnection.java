@@ -1,9 +1,8 @@
 package it.polimi.ingsw.LM34.Network.Server.Socket;
 
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Network.Client.Socket.RequestToClient;
 import it.polimi.ingsw.LM34.Network.Server.AbstractConnection;
-import it.polimi.ingsw.LM34.Network.Server.Server;
-import it.polimi.ingsw.LM34.Network.Server.ServerNetworkController;
 
 import java.io.*;
 import java.net.Socket;
@@ -95,7 +94,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     }
 
     @Override
-    public Integer contextSelection(List<String> contexts) {
+    public Integer contextSelection(List<ContextType> contexts) {
         try {
             this.outStream.writeUTF(RequestToClient.CONTEXT_SELECTION.name());
             this.outStream.writeObject(contexts);

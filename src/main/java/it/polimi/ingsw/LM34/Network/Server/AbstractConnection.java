@@ -1,5 +1,7 @@
 package it.polimi.ingsw.LM34.Network.Server;
 
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+
 import java.util.List;
 
 /**
@@ -26,5 +28,5 @@ public abstract class AbstractConnection {
         return loginResult;
     }
 
-    public abstract Integer contextSelection(List<String> contexts);
+    public abstract Integer contextSelection(List<ContextType> contexts);
 }
