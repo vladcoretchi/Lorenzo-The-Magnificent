@@ -8,21 +8,22 @@ import it.polimi.ingsw.LM34.UI.AbstractUI;
 import it.polimi.ingsw.LM34.UI.CLI.CLI;
 import it.polimi.ingsw.LM34.UI.CLI.CLIStuff;
 
-/**
- * Created by vladc on 5/25/2017.
- */
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class GameClient {
     private static AbstractUI ui;
 
     public static void main(String[] args) {
-        /**
-         * variable that will remain false until the user's input will be correct
-         */
+
+         // variable that will remain false until the user's input will be correct
+
         Boolean userInputIsValid = false;
 
-        /**
-         * this cycle will call user to choose between Cli or Gui, and repeat this question until the answer will be 'cli' or 'gui', ignoring uppercase
-         */
+         // this cycle will call user to choose between Cli or Gui, and repeat this question until the answer will be 'cli' or 'gui', ignoring uppercase
+
         while(!userInputIsValid) {
             showSplashScreen();
             String viewChoice = viewSelection();
@@ -58,4 +59,5 @@ public class GameClient {
     public static void showSplashScreen() {
         CLIStuff.printToConsole.println(CLIStuff.SPLASH_SCREEN);
     }
+
 }

@@ -1,12 +1,19 @@
 package it.polimi.ingsw.LM34.UI.CLI;
 
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.UI.AbstractUI;
 
-import java.lang.String;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * this class was built on {@link AbstractUI}. It implement all method body that will be used to describe and manage Cli
@@ -111,16 +118,119 @@ public class CLI extends AbstractUI {
      * this method will be called when the user will choice about which context player wish to use
      */
     @Override
-    public Integer contextSelection(List<String> allContext)  {
+    public Integer contextSelection(List<ContextType> allContext)  {
 
-        Integer userContextSelection;
-        CLIStuff.printToConsole.println("in which context do you wish to enter? \n");
-        allContext.forEach((context)->CLIStuff.printToConsole.println(context));
-        userContextSelection = CLIStuff.readUserInput.nextInt();
+        String userContextSelection;
 
-        return userContextSelection;
+        Integer userSelection = 0;
+
+        allContext.forEach((context) -> context.toString().replace("_CONTEXT", "").replace("_", " "));
+
+        allContext.forEach((context)-> CLIStuff.printToConsole.println(context));
+
+        Boolean isANumber = false;
+
+        do {
+
+            try {
+                CLIStuff.printToConsole.println("in which context do you wish to enter? \n"+
+                        "type 1 to enter into the first context, type 2 to enter into the second context, ...\n" +
+                        "type 0 to exit");
+
+                userContextSelection = CLIStuff.readUserInput.nextLine();
+                userSelection = Integer.parseInt(userContextSelection);
+
+                if(userSelection >= 0 && userSelection <= allContext.size())
+                    isANumber = true;
+
+            } catch (NumberFormatException ex) {
+                CLIStuff.printToConsole.println("please select a valid context ");
+            }
+        }
+        while(isANumber == false);
+
+        return --userSelection;
 
         //TODO: return to server the user's choiced context
+    }
+
+    /**
+     * this method will be called when cli will ask how many cards player wish to discard
+     */
+    @Override
+    public ArrayList<String> discardLeaderCard(List<String> playerLeaderCards) { //playLeaderCard     lista contenente quali leader vuole scartare, e quali leader vuole giocare
+
+        String discardedCards;
+        Integer numberOfDiscardedCards;
+        ArrayList<String> listOfDiscardedLeaderCards = new ArrayList<>();
+
+        playerLeaderCards.stream().forEach((leaderCard) -> {CLIStuff.printToConsole.println(playerLeaderCards);});
+
+            CLIStuff.printToConsole.println("which leader do you wish to discard? \n" +
+                                            "to select, please insert card's number, eventually separated by comma in case of multiple choice");
+            discardedCards = CLIStuff.readUserInput.nextLine();
+
+
+            Pattern pattern = Pattern.compile("[0-9]+");
+
+            Matcher matcher = pattern.matcher(discardedCards);
+
+            while(matcher.find()){
+
+                numberOfDiscardedCards = Integer.parseInt(matcher.group());
+
+                listOfDiscardedLeaderCards.add(playerLeaderCards.get(numberOfDiscardedCards));
+            }
+
+
+        return listOfDiscardedLeaderCards;
+
+        //TODO: make control of user's input and bring pattern code into separate function
+
+    }
+
+    @Override
+    public void playLeaderCard(List<String> playedLeaderCard) {
+
+
+    }
+
+    @Override
+    public void market(Market market) {
+
+        CLIStuff.printToConsole.println("welcome to the market "); //se gia occupato le scritte sono in rosso
+
+        ArrayList<ActionSlot> marketSlots = market.getMarketSlots(); //stampare il market e altri contesti, con dentro anche le pedine
+
+       /* for (ActionSlot as : marketSlots) {
+
+            getResourcesReward() = as.getResourcesReward().getResources().getResources().keySet();
+
+             for (String : ) {
+                
+            }
+        }*/
+
+        CLIStuff.printToConsole.println(
+                 "_________ __________ _____4____ _____4____\n" +
+                "|         |          |          |          |\n" +
+                "|   5     |    5     |  3 M.P   |   1 C.P  |\n" +
+                "|  coins  | servants |  2 coins |   !=     |\n" +
+                "|         |          |          |   1 C.P  |\n" +
+                "|____1____|_____1____|_____1____|_____1____|"
+        );
+    }
+
+    @Override
+    public void productionArea() {
+        CLIStuff.printToConsole.println("welcome to the production area ");
+        CLIStuff.printToConsole.println(
+                        " ____________    _________3+__________\n" +
+                        "|            |  |                     |\n" +
+                        "| production |  | production          |\n" +
+                        "|            |  |   -3 to dice value  |\n" +
+                        "|______1_____|  |__________1__________|"
+        );
     }
 
     /**
@@ -140,9 +250,8 @@ public class CLI extends AbstractUI {
         CLIStuff.printToConsole.println("in which tower's floor do you wish to put your pawn? ");
         floor = CLIStuff.readUserInput.nextInt();
 
-        /**
-         * decrement tower and floor because user's choice is between 1 and 4, but server's range is between 0 and 3
-         */
+         // decrement tower and floor because user's choice is between 1 and 4, but server's range is between 0 and 3
+
         tower--; floor--;
 
         towerAndItsFloor = tower.toString() + ":" + floor.toString();
@@ -178,8 +287,8 @@ public class CLI extends AbstractUI {
 
         CLIStuff.printToConsole.println(" ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______\n" +
                 "|      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |\n" +
-                "|  0   |  1   |  2   |  3   |  4   |  5   |  6   |  7   |  8   |  9   |  10  |  11  |  12  |  13  |  14  |  15  |  16  |  17  |  18  |  19  | 20   |                                                                                                                                      \n" +
-                "|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|                                                                                                                         \n" +
+                "|  0   |  1   |  2   |  3   |  4   |  5   |  6   |  7   |  8   |  9   |  10  |  11  |  12  |  13  |  14  |  15  |  16  |  17  |  18  |  19  | 20   |\n" +
+                "|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|\n" +
                 "|      |                                                                                                                                    |      |\n" +
                 "| 99   |    ___________ ...........   ___________ ...........   ____________ ...........   ___________ ...........      1°—>5 2°—>2         | 21   |\n" +
                 "|______|   |           |    2     .  |           |    2     .  |            |    2     .  |           |     2    .      __________          |______|\n" +
@@ -278,5 +387,8 @@ public class CLI extends AbstractUI {
         //TODO: rename CliStuff, and move gameBoard into constant
 
     }
+
+    //nei contesti, se sceglie 0 allora esci/passi, entra nei turni, funzione che chiede quante carte vuole scartare (0+)
+    //riguardo al market, lui entra, una funzione al momento void e poi esce
 
 }

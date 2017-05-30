@@ -19,7 +19,7 @@ public class UseCouncilPrivilegeContextTest {
 
         Integer numberOfCouncilPrivileges  = 3;
         PersonalBoard personalBoard = new PersonalBoard();
-        Player player = new Player(PawnColor.RED, personalBoard);
+        /*Player player = new Player(PawnColor.RED, personalBoard);
 
         for(Integer used = 0; used < numberOfCouncilPrivileges; used++) {
             player.addResources(new Resources(1,2,3,4));
@@ -30,5 +30,5 @@ public class UseCouncilPrivilegeContextTest {
         assertEquals("Stones: expected 9", player.getResources().getResourceByType(ResourceType.STONES).intValue(), 9);
         assertEquals("Servants: expected 12", player.getResources().getResourceByType(ResourceType.SERVANTS).intValue(), 12);
 
-    }
+    */}
 }

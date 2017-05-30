@@ -35,6 +35,9 @@ public class Market extends GameSpace {
 
     public Integer getSize() { return this.actionSlots.size(); }
 
+    public ArrayList<ActionSlot> getMarketSlots() {
+        return this.marketSlots;
+    }
 
 }
 			

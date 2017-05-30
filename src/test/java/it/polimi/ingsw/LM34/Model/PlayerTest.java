@@ -17,7 +17,7 @@ public class PlayerTest {
 
         ArrayList<AbstractEffect> abstractEffects = new ArrayList<>();
 
-        AbstractEffect observer = new AbstractEffect() {
+       /* AbstractEffect observer = new AbstractEffect() {
 
             public void subscribeObserverToContext(ArrayList<AbstractGameContext> contexts) {
 
@@ -94,6 +94,6 @@ public class PlayerTest {
         assertEquals("FaithPoints: expected 1", res.getResourceByType(ResourceType.FAITH_POINTS).intValue(), 1);
         assertEquals("VictoryPoints: expected 1", res.getResourceByType(ResourceType.VICTORY_POINTS).intValue(), 1);
 
-    }
+   */ }
 
 }

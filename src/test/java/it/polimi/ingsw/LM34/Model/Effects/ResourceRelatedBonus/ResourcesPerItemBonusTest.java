@@ -27,7 +27,7 @@ public class ResourcesPerItemBonusTest {
         Integer militaryPointsRequired = 100;
 
         PersonalBoard personalBoard = new PersonalBoard();
-        Player player = new Player(PawnColor.RED, personalBoard);
+        /*Player player = new Player(PawnColor.RED, personalBoard);
         Resources bonusResources = new Resources(1,1,1,1,1,1,1);
 
         for(Integer timesApplied = 0; timesApplied < militaryPointsRequired; timesApplied++) {
@@ -63,6 +63,6 @@ public class ResourcesPerItemBonusTest {
         exception.expect(IllegalArgumentException.class);
         exception.reportMissingExceptionWithMessage("IllegalArgumentException was not thrown");
 
-    }
+    */}
 
 }

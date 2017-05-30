@@ -1,9 +1,12 @@
 package it.polimi.ingsw.LM34.UI;
 
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.UI.CLI.CLI;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,8 +26,12 @@ public abstract class AbstractUI {
     public abstract void loginMenu();
     public abstract void loginResult(Boolean result);
     public abstract String connectionTypeSelection();
-    public abstract Integer contextSelection(List<String> allContext);
+    public abstract Integer contextSelection(List<ContextType> allContext);
     public abstract String towerSlotSelection(Integer towerNumber, Integer towerFloor);
     public abstract Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested);
+    public abstract void playLeaderCard(List<String> playedLeaderCard);
+    public abstract ArrayList<String> discardLeaderCard(List<String> playerLeaderCards);
+    public abstract void market(Market market);
+    public abstract void productionArea();
     public abstract void printGameBoard();
 }
