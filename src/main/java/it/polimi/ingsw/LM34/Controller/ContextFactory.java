@@ -1,10 +1,9 @@
 package it.polimi.ingsw.LM34.Controller;
 
-import it.polimi.ingsw.LM34.Controller.DiceDependentContexts.*;
-import it.polimi.ingsw.LM34.Controller.SpecialContexts.CurchReportContext;
-import it.polimi.ingsw.LM34.Controller.SpecialContexts.EndGameContext;
-import it.polimi.ingsw.LM34.Controller.SpecialContexts.TurnContext;
-import it.polimi.ingsw.LM34.Controller.SupportContexts.*;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.*;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.*;
+import it.polimi.ingsw.LM34.Controller.NonInteractableContexts.EndGameContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractableContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 

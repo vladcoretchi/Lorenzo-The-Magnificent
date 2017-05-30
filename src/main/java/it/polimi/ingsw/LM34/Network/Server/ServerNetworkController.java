@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Server;
 
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
 import it.polimi.ingsw.LM34.Network.GameRoom;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class ServerNetworkController {
         this.gameRoom = Server.addPlayerToGameRoom(connection.getUsername(), this);
     }
 
-    public Integer contextSelection(List<ContextType> contexts) {
+    public Integer contextSelection(List<PlayerSelectionableContexts> contexts) {
         return serverConnection.contextSelection(contexts);
     }
 }

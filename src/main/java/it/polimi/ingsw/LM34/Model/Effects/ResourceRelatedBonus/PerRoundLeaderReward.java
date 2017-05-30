@@ -5,9 +5,7 @@ import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.WorkingAreaValueEffect;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
-import it.polimi.ingsw.LM34.Utils.Utilities;
 
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -63,19 +61,7 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
         }*/
     }
 
-    public AbstractEffect subscribeObserverToContext(ArrayList<AbstractGameContext> contexts)  {
-        /*//"francesco sforza, leonardo da vinci"
-        if(workingAreaValueEffect != null)
-            workingAreaValueEffect.subscribeObserverToContext(contexts);
-        else*/
-        Utilities.getContextByType(contexts, TURN_CONTEXT).addObserver(this);
-        //TODO: remove this testing call
 
-
-
-        System.out.println("mi sono iscritto al contesto");
-        return this;
-    }
     @Override
     public void applyEffect(AbstractGameContext callerContext, Player player) {
         callerContext.getContextByType(TURN_CONTEXT).addObserver(this);

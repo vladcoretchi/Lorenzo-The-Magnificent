@@ -1,13 +1,14 @@
 package it.polimi.ingsw.LM34.Controller;
 
-import it.polimi.ingsw.LM34.Controller.DiceDependentContexts.CouncilPalaceContext;
-import it.polimi.ingsw.LM34.Controller.DiceDependentContexts.HarvestAreaContext;
-import it.polimi.ingsw.LM34.Controller.DiceDependentContexts.MarketAreaContext;
-import it.polimi.ingsw.LM34.Controller.DiceDependentContexts.ProductionAreaContext;
-import it.polimi.ingsw.LM34.Controller.SpecialContexts.CurchReportContext;
-import it.polimi.ingsw.LM34.Controller.SpecialContexts.EndGameContext;
-import it.polimi.ingsw.LM34.Controller.SpecialContexts.TurnContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.CouncilPalaceContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.HarvestAreaContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.MarketAreaContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ProductionAreaContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.CurchReportContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.TurnContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractableContexts.EndGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
@@ -22,8 +23,7 @@ import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.GameRoom;
 import it.polimi.ingsw.LM34.Network.Server.ServerNetworkController;
-import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
-import it.polimi.ingsw.LM34.Utils.Utilities;
+import it.polimi.ingsw.LM34.Utils.Configurator;
 
 import java.util.*;
 
@@ -179,7 +179,7 @@ public class GameManager {
             /**
              * Now it is Curch Report time
              */
-            CurchReportContext curchContext = (CurchReportContext) Utilities.getContextByType(contexts, CURCH_REPORT_CONTEXT);
+            CurchReportContext curchContext = (CurchReportContext) getContextByType(CURCH_REPORT_CONTEXT);
 
             /**
              * CurchReportContext interact with a player at a time, based on turn order
@@ -301,6 +301,15 @@ public class GameManager {
         //TODO: refactor this loop
         for (AbstractGameContext context : contexts)
             if (context.getType() == contextType)
+                return context;
+
+        return null;
+    }
+
+    public AbstractGameContext getContextByType(PlayerSelectionableContexts contextType) {
+        //TODO: refactor this loop
+        for (AbstractGameContext context : contexts)
+            if (context.getType().equals(contextType))
                 return context;
 
         return null;

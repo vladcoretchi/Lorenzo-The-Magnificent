@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Server.Socket;
 
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
 import it.polimi.ingsw.LM34.Network.Client.Socket.RequestToClient;
 import it.polimi.ingsw.LM34.Network.Server.AbstractConnection;
 
@@ -94,7 +94,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     }
 
     @Override
-    public Integer contextSelection(List<ContextType> contexts) {
+    public Integer contextSelection(List<PlayerSelectionableContexts> contexts) {
         try {
             this.outStream.writeUTF(RequestToClient.CONTEXT_SELECTION.name());
             this.outStream.writeObject(contexts);

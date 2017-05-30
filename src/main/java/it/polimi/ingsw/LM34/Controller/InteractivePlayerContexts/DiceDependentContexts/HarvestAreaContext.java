@@ -1,11 +1,11 @@
-package it.polimi.ingsw.LM34.Controller.DiceDependentContexts;
+package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
+import it.polimi.ingsw.LM34.Utils.Configurator;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.HARVEST_AREA_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Client;
 
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class ClientNetworkController {
         clientConnection.getUI().loginResult(result);
     }
 
-    public Integer contextSelection(List<ContextType> contexts) {
+    public Integer contextSelection(List<PlayerSelectionableContexts> contexts) {
         return clientConnection.getUI().contextSelection(contexts);
     }
 }

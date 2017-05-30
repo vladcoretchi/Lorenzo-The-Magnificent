@@ -17,5 +17,11 @@ public enum ContextType {
     MARKET_AREA_CONTEXT,
     LEADER_ACTIVATE_OR_DISCARD_CONTEXT,
     COUNCIL_PALACE_CONTEXT,
-    TURN_CONTEXT
+    TURN_CONTEXT;
+
+
+    /*Method used to allow a corrispondence between ContexType and PlayerSelectionableContexts*/
+    public final Boolean equals(PlayerSelectionableContexts context) {
+        return this.toString() == context.toString();
+    }
 }

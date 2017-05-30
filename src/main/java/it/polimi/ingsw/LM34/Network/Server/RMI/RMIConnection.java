@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Server.RMI;
 
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClientInterface;
 import it.polimi.ingsw.LM34.Network.Server.AbstractConnection;
 
@@ -18,7 +18,7 @@ public class RMIConnection extends AbstractConnection {
     }
 
     @Override
-    public Integer contextSelection(List<ContextType> contexts) {
+    public Integer contextSelection(List<PlayerSelectionableContexts> contexts) {
         try {
             return clientRMI.contextSelection(contexts);
         } catch (RemoteException e) {

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Client.RMI;
 
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Server.RMI.RMIServerInterface;
@@ -47,7 +47,7 @@ public class RMIClient extends AbstractClient implements RMIClientInterface {
     }
 
     @Override
-    public Integer contextSelection(List<ContextType> contexts) {
+    public Integer contextSelection(List<PlayerSelectionableContexts> contexts) {
         return networkController.contextSelection(contexts);
     }
 

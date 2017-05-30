@@ -1,4 +1,4 @@
-package it.polimi.ingsw.LM34.Controller.DiceDependentContexts;
+package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts;
 
 /**
  * Created by GiulioComi on 28/05/2017.

@@ -1,11 +1,8 @@
 package it.polimi.ingsw.LM34.UI.CLI;
 
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
-import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
-import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.UI.AbstractUI;
@@ -118,7 +115,7 @@ public class CLI extends AbstractUI {
      * this method will be called when the user will choice about which context player wish to use
      */
     @Override
-    public Integer contextSelection(List<ContextType> allContext)  {
+    public Integer contextSelection(List<PlayerSelectionableContexts> allContext)  {
 
         String userContextSelection;
 

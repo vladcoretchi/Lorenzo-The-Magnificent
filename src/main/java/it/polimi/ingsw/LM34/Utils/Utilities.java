@@ -1,11 +1,8 @@
 package it.polimi.ingsw.LM34.Utils;
 
-import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Resources;
 
-import java.util.ArrayList;
 import java.util.function.BiFunction;
 
 /**
@@ -38,20 +35,8 @@ public final class Utilities {
     public static BiFunction<Integer, Integer, Integer> sumInteger = (val1, val2) -> val1 + val2;
 
 
-    /**
-     This static method is called often by observers to register themselves to the right context
-     */
-    //Utilized by all games observer that passes the contexts of that particular game
-    //and receives back the instance of the context it needs
-    public static AbstractGameContext getContextByType(ArrayList<AbstractGameContext> contexts, ContextType contextType) {
-        //TODO: refactor this loop
-        for(AbstractGameContext context : contexts)
-            if(context.getType() == contextType)
-                    return context;
 
-        return null;
-    }
-
+    /*Useful method helpful in counting end game total amount of resources*/
     public static Integer getTotalAmount(Resources resources) {
 
          Integer totalUnit = 0;

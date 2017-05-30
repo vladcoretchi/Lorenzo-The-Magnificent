@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Client;
 
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
 import it.polimi.ingsw.LM34.UI.AbstractUI;
 
 import java.util.List;
@@ -22,6 +22,6 @@ public abstract class AbstractClient {
 
     public abstract void login(String username, String password);
 
-    public abstract Integer contextSelection(List<ContextType> contexts);
+    public abstract Integer contextSelection(List<PlayerSelectionableContexts> contexts);
 
 }

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.LM34.Controller.SupportContexts;
+package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;

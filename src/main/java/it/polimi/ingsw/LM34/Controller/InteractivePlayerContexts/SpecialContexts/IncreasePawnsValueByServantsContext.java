@@ -1,7 +1,7 @@
-package it.polimi.ingsw.LM34.Controller.SupportContexts;
+package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.DiceDependentContexts.DiceDependentContextsInterface;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.DiceDependentContextsInterface;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Player;
 

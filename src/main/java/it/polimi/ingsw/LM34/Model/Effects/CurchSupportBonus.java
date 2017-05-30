@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Effects;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.SupportContexts.ResourceIncomeContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractableContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 

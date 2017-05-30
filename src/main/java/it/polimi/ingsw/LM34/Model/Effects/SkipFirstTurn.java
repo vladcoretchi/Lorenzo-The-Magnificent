@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Effects;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.SpecialContexts.TurnContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.TurnContext;
 import it.polimi.ingsw.LM34.Model.Player;
 
 import java.util.Observable;
