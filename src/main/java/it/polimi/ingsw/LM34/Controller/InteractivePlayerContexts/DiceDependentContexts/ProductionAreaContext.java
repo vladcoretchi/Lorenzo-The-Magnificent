@@ -20,6 +20,7 @@ public class ProductionAreaContext extends AbstractGameContext implements DiceDe
         notifyObservers(player.getFamilyMembers());
     }
 
+    /*CONSTRUCTOR*/
     public ProductionAreaContext() {
         contextType = ContextType.PRODUCTION_AREA_CONTEXT;
         Configurator.getProductionArea();

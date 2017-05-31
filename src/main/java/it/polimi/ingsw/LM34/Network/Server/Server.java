@@ -3,7 +3,7 @@ package it.polimi.ingsw.LM34.Network.Server;
 import it.polimi.ingsw.LM34.Network.GameRoom;
 import it.polimi.ingsw.LM34.Network.Server.RMI.RMIServer;
 import it.polimi.ingsw.LM34.Network.Server.Socket.SocketServer;
-import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
+import it.polimi.ingsw.LM34.Utils.Configurator;
 
 import java.util.ArrayList;
 import java.util.List;

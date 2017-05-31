@@ -6,7 +6,7 @@ import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentCo
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
-import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectDataException;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.MarketBan;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.PerRoundLeaderReward;
@@ -98,7 +98,7 @@ public class TurnContext extends AbstractGameContext {
             getContextByType(selectedContext).interactWithPlayer(player);
         }
         /*If input mismatch expected informations... the player is able to try again*/
-        catch(IncorrectDataException ide){
+        catch(IncorrectInputException ide){
                 contextSelection(player);
          }
     }

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Utils.Configurations.Configurator;
+import it.polimi.ingsw.LM34.Utils.Configurator;
 
 import java.util.ArrayList;
 import java.util.Collections;

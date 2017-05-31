@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static it.polimi.ingsw.LM34.UI.CLI.CLIStuff.printToConsole;
+
 /**
  * this class was built on {@link AbstractUI}. It implement all method body that will be used to describe and manage Cli
  */
@@ -34,7 +36,7 @@ public class CLI extends AbstractUI {
                 userInputIsValid = true;
             }
             else
-                CLIStuff.printToConsole.println(CLIStuff.ERROR_MESSAGE_COLOR + "please choose rmi or socket" + CLIStuff.RESET_COLOR);
+                printToConsole.println(CLIStuff.ERROR_MESSAGE_COLOR + "please choose rmi or socket" + CLIStuff.RESET_COLOR);
         }
 
         this.networkController = networkClient.getNetworkController();
@@ -46,7 +48,7 @@ public class CLI extends AbstractUI {
      */
     @Override
     public void showSplashScreen() {
-        CLIStuff.printToConsole.println(CLIStuff.SPLASH_SCREEN);
+        printToConsole.println(CLIStuff.SPLASH_SCREEN);
     }
 
     /**
@@ -54,7 +56,7 @@ public class CLI extends AbstractUI {
      */
     @Override
     public void printDivider() {
-        CLIStuff.printToConsole.println(CLIStuff.DIVIDER);
+        printToConsole.println(CLIStuff.DIVIDER);
     }
 
     /**
@@ -62,10 +64,10 @@ public class CLI extends AbstractUI {
      */
     @Override
     public void loginMenu() {
-        CLIStuff.printToConsole.println("Please insert your username:");
+        printToConsole.println("Please insert your username:");
         String playerUsername = CLIStuff.readUserInput.nextLine();
 
-        CLIStuff.printToConsole.println("please insert your password:");
+        printToConsole.println("please insert your password:");
         String playerPassword = CLIStuff.readUserInput.nextLine();
 
         networkController.login(playerUsername, playerPassword);
@@ -77,9 +79,9 @@ public class CLI extends AbstractUI {
      */
     public void loginResult(Boolean result) {
         if (result) {
-            CLIStuff.printToConsole.println("Access granted!");
+            printToConsole.println("Access granted!");
         } else {
-            CLIStuff.printToConsole.println("Access denied! Wrong username or password.");
+            printToConsole.println("Access denied! Wrong username or password.");
             loginMenu();
         }
     }
@@ -90,7 +92,7 @@ public class CLI extends AbstractUI {
      */
     @Override
     public String connectionTypeSelection() {
-        CLIStuff.printToConsole.println("which technology do you wish to use to connect to the server?\n" +
+        printToConsole.println("which technology do you wish to use to connect to the server?\n" +
                 "1) RMI\n" +
                 "2) Socket"
         );
@@ -104,7 +106,7 @@ public class CLI extends AbstractUI {
      * if the request will be another user's name, the helper will display all information about that user
      */
     public String helper() {
-        CLIStuff.printToConsole.println("type help + 'card name' to obtain all information about the searched card\n" +
+        printToConsole.println("type help + 'card name' to obtain all information about the searched card\n" +
                 "type help + 'player name' to obtain all information about the searched player\n"+
                 "currently, in-game are present x player, which names are ...\n");
 
@@ -123,14 +125,14 @@ public class CLI extends AbstractUI {
 
         allContext.forEach((context) -> context.toString().replace("_CONTEXT", "").replace("_", " "));
 
-        allContext.forEach((context)-> CLIStuff.printToConsole.println(context));
+        allContext.forEach((context)-> printToConsole.println(context));
 
         Boolean isANumber = false;
 
         do {
 
             try {
-                CLIStuff.printToConsole.println("in which context do you wish to enter? \n"+
+                printToConsole.println("in which context do you wish to enter? \n"+
                         "type 1 to enter into the first context, type 2 to enter into the second context, ...\n" +
                         "type 0 to exit");
 
@@ -141,7 +143,7 @@ public class CLI extends AbstractUI {
                     isANumber = true;
 
             } catch (NumberFormatException ex) {
-                CLIStuff.printToConsole.println("please select a valid context ");
+                printToConsole.println("please select a valid context ");
             }
         }
         while(isANumber == false);
@@ -161,9 +163,10 @@ public class CLI extends AbstractUI {
         Integer numberOfDiscardedCards;
         ArrayList<String> listOfDiscardedLeaderCards = new ArrayList<>();
 
-        playerLeaderCards.stream().forEach((leaderCard) -> {CLIStuff.printToConsole.println(playerLeaderCards);});
+        playerLeaderCards.stream().forEach((leaderCard) -> {
+            printToConsole.println(playerLeaderCards);});
 
-            CLIStuff.printToConsole.println("which leader do you wish to discard? \n" +
+            printToConsole.println("which leader do you wish to discard? \n" +
                                             "to select, please insert card's number, eventually separated by comma in case of multiple choice");
             discardedCards = CLIStuff.readUserInput.nextLine();
 
@@ -195,7 +198,7 @@ public class CLI extends AbstractUI {
     @Override
     public void market(Market market) {
 
-        CLIStuff.printToConsole.println("welcome to the market "); //se gia occupato le scritte sono in rosso
+        printToConsole.println("welcome to the market "); //se gia occupato le scritte sono in rosso
 
         ArrayList<ActionSlot> marketSlots = market.getMarketSlots(); //stampare il market e altri contesti, con dentro anche le pedine
 
@@ -208,7 +211,7 @@ public class CLI extends AbstractUI {
             }
         }*/
 
-        CLIStuff.printToConsole.println(
+        printToConsole.println(
                  "_________ __________ _____4____ _____4____\n" +
                 "|         |          |          |          |\n" +
                 "|   5     |    5     |  3 M.P   |   1 C.P  |\n" +
@@ -220,8 +223,8 @@ public class CLI extends AbstractUI {
 
     @Override
     public void productionArea() {
-        CLIStuff.printToConsole.println("welcome to the production area ");
-        CLIStuff.printToConsole.println(
+        printToConsole.println("welcome to the production area ");
+        printToConsole.println(
                         " ____________    _________3+__________\n" +
                         "|            |  |                     |\n" +
                         "| production |  | production          |\n" +
@@ -241,10 +244,10 @@ public class CLI extends AbstractUI {
         Integer tower, floor;
         String towerAndItsFloor;
 
-        CLIStuff.printToConsole.println("in which tower do you wish to bring your pawn? ");
+        printToConsole.println("in which tower do you wish to place your pawn? ");
         tower = CLIStuff.readUserInput.nextInt();
 
-        CLIStuff.printToConsole.println("in which tower's floor do you wish to put your pawn? ");
+        printToConsole.println("in which tower's floor do you wish to place your pawn? ");
         floor = CLIStuff.readUserInput.nextInt();
 
          // decrement tower and floor because user's choice is between 1 and 4, but server's range is between 0 and 3
@@ -268,8 +271,8 @@ public class CLI extends AbstractUI {
 
         Integer usedServants;
 
-        CLIStuff.printToConsole.println("to complete this action, you need at least " + minimumServantsRequested.toString() + "servants, and max " + servantsAvailable.toString() + " servants ");
-        CLIStuff.printToConsole.println("how many servants do you want to use? ");
+        printToConsole.println("to complete this action, you need at least " + minimumServantsRequested.toString() + "servants, and max " + servantsAvailable.toString() + " servants ");
+        printToConsole.println("how many servants do you want to use? ");
         usedServants = CLIStuff.readUserInput.nextInt();
 
         return usedServants;
@@ -282,7 +285,7 @@ public class CLI extends AbstractUI {
     @Override
     public void printGameBoard() {
 
-        CLIStuff.printToConsole.println(" ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______\n" +
+        printToConsole.println(" ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______\n" +
                 "|      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |\n" +
                 "|  0   |  1   |  2   |  3   |  4   |  5   |  6   |  7   |  8   |  9   |  10  |  11  |  12  |  13  |  14  |  15  |  16  |  17  |  18  |  19  | 20   |\n" +
                 "|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|\n" +

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.LM34.Utils.Configurations;
+package it.polimi.ingsw.LM34.Utils;
 
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
