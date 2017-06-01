@@ -2,11 +2,15 @@ package it.polimi.ingsw.LM34.UI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.UI.CLI.CLI;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -29,9 +33,10 @@ public abstract class AbstractUI {
     public abstract Integer contextSelection(List<PlayerSelectionableContexts> allContext);
     public abstract String towerSlotSelection(Integer towerNumber, Integer towerFloor);
     public abstract Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested);
-    public abstract void playLeaderCard(List<String> playedLeaderCard);
-    public abstract ArrayList<String> discardLeaderCard(List<String> playerLeaderCards);
-    public abstract void market(Market market);
-    public abstract void productionArea();
+    public abstract ArrayList<String> playerLeaderCardsAction(List<String> playerLeaderCards, String action);
+    public abstract HashMap<Integer, Integer> market(Market market, Player player);
+    public abstract void workingArea(String workingAreaChoice, Player player);
+    public abstract Integer councilPalace(Player player);
+    public abstract void printTowers(ArrayList<Tower> towers);
     public abstract void printGameBoard();
 }

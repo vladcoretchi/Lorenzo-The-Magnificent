@@ -1,24 +1,28 @@
 package it.polimi.ingsw.LM34.UI.CLI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
+import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
+import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.UI.AbstractUI;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static it.polimi.ingsw.LM34.UI.CLI.CLIStuff.printToConsole;
 
 /**
  * this class was built on {@link AbstractUI}. It implement all method body that will be used to describe and manage Cli
  */
 
 public class CLI extends AbstractUI {
+
+    //TODO: implementare il thread che svuota il buffer ogni volta che l`utente ha inserito qualcosa
 
     public void show() {
         // variable that will remain false until the user's input will be correct
@@ -36,7 +40,7 @@ public class CLI extends AbstractUI {
                 userInputIsValid = true;
             }
             else
-                printToConsole.println(CLIStuff.ERROR_MESSAGE_COLOR + "please choose rmi or socket" + CLIStuff.RESET_COLOR);
+                CLIStuff.printToConsole.println(CLIStuff.ERROR_MESSAGE_COLOR + "please choose rmi or socket" + CLIStuff.RESET_COLOR);
         }
 
         this.networkController = networkClient.getNetworkController();
@@ -48,7 +52,7 @@ public class CLI extends AbstractUI {
      */
     @Override
     public void showSplashScreen() {
-        printToConsole.println(CLIStuff.SPLASH_SCREEN);
+        CLIStuff.printToConsole.println(CLIStuff.SPLASH_SCREEN);
     }
 
     /**
@@ -56,7 +60,7 @@ public class CLI extends AbstractUI {
      */
     @Override
     public void printDivider() {
-        printToConsole.println(CLIStuff.DIVIDER);
+        CLIStuff.printToConsole.println(CLIStuff.DIVIDER);
     }
 
     /**
@@ -64,10 +68,10 @@ public class CLI extends AbstractUI {
      */
     @Override
     public void loginMenu() {
-        printToConsole.println("Please insert your username:");
+        CLIStuff.printToConsole.println("Please insert your username:");
         String playerUsername = CLIStuff.readUserInput.nextLine();
 
-        printToConsole.println("please insert your password:");
+        CLIStuff.printToConsole.println("please insert your password:");
         String playerPassword = CLIStuff.readUserInput.nextLine();
 
         networkController.login(playerUsername, playerPassword);
@@ -79,9 +83,9 @@ public class CLI extends AbstractUI {
      */
     public void loginResult(Boolean result) {
         if (result) {
-            printToConsole.println("Access granted!");
+            CLIStuff.printToConsole.println("Access granted!");
         } else {
-            printToConsole.println("Access denied! Wrong username or password.");
+            CLIStuff.printToConsole.println("Access denied! Wrong username or password.");
             loginMenu();
         }
     }
@@ -92,7 +96,7 @@ public class CLI extends AbstractUI {
      */
     @Override
     public String connectionTypeSelection() {
-        printToConsole.println("which technology do you wish to use to connect to the server?\n" +
+        CLIStuff.printToConsole.println("which technology do you wish to use to connect to the server?\n" +
                 "1) RMI\n" +
                 "2) Socket"
         );
@@ -106,7 +110,7 @@ public class CLI extends AbstractUI {
      * if the request will be another user's name, the helper will display all information about that user
      */
     public String helper() {
-        printToConsole.println("type help + 'card name' to obtain all information about the searched card\n" +
+        CLIStuff.printToConsole.println("type help + 'card name' to obtain all information about the searched card\n" +
                 "type help + 'player name' to obtain all information about the searched player\n"+
                 "currently, in-game are present x player, which names are ...\n");
 
@@ -125,14 +129,14 @@ public class CLI extends AbstractUI {
 
         allContext.forEach((context) -> context.toString().replace("_CONTEXT", "").replace("_", " "));
 
-        allContext.forEach((context)-> printToConsole.println(context));
+        allContext.forEach((context)-> CLIStuff.printToConsole.println(context));
 
         Boolean isANumber = false;
 
         do {
 
             try {
-                printToConsole.println("in which context do you wish to enter? \n"+
+                CLIStuff.printToConsole.println("in which context do you wish to enter? \n"+
                         "type 1 to enter into the first context, type 2 to enter into the second context, ...\n" +
                         "type 0 to exit");
 
@@ -143,94 +147,209 @@ public class CLI extends AbstractUI {
                     isANumber = true;
 
             } catch (NumberFormatException ex) {
-                printToConsole.println("please select a valid context ");
+                CLIStuff.printToConsole.println("please select a valid context ");
             }
         }
-        while(isANumber == false);
+        while(!isANumber);
 
         return --userSelection;
 
-        //TODO: return to server the user's choiced context
     }
 
     /**
-     * this method will be called when cli will ask how many cards player wish to discard
+     * this method will be called when player will want to play or discard some leader cards
+     * @param playerLeaderCards the leader cards that player actually have in his hand
+     * @param action the action the player will be. It can be discard (in case player will want to discard some leader cards) or play (in case player will want to play some leader cards)
+     * @return a list that contains which leader cards player have chosen to discard/play
      */
     @Override
-    public ArrayList<String> discardLeaderCard(List<String> playerLeaderCards) { //playLeaderCard     lista contenente quali leader vuole scartare, e quali leader vuole giocare
+    public ArrayList<String> playerLeaderCardsAction(List<String> playerLeaderCards, String action) {
 
-        String discardedCards;
-        Integer numberOfDiscardedCards;
-        ArrayList<String> listOfDiscardedLeaderCards = new ArrayList<>();
+        String cardsInfluencedByAction;
+        Integer numberOfInfluencedCards;
+        ArrayList<String> listOfInfluencedCards = new ArrayList<>();
 
-        playerLeaderCards.stream().forEach((leaderCard) -> {
-            printToConsole.println(playerLeaderCards);});
+        //print all player`s leader cards
+        playerLeaderCards.stream().forEach((leaderCard) -> {CLIStuff.printToConsole.println(playerLeaderCards);});
 
-            printToConsole.println("which leader do you wish to discard? \n" +
-                                            "to select, please insert card's number, eventually separated by comma in case of multiple choice");
-            discardedCards = CLIStuff.readUserInput.nextLine();
-
-
-            Pattern pattern = Pattern.compile("[0-9]+");
-
-            Matcher matcher = pattern.matcher(discardedCards);
-
-            while(matcher.find()){
-
-                numberOfDiscardedCards = Integer.parseInt(matcher.group());
-
-                listOfDiscardedLeaderCards.add(playerLeaderCards.get(numberOfDiscardedCards));
-            }
+        CLIStuff.printToConsole.format("which leader do you wish to %s? %n" +
+                "to select, please insert card's number, eventually separated by comma in case of multiple choice", action);
+        cardsInfluencedByAction = CLIStuff.readUserInput.nextLine();
 
 
-        return listOfDiscardedLeaderCards;
+        Pattern pattern = Pattern.compile("[0-9]+");
 
-        //TODO: make control of user's input and bring pattern code into separate function
+        Matcher matcher = pattern.matcher(cardsInfluencedByAction);
+
+        while(matcher.find()){
+
+            numberOfInfluencedCards = Integer.parseInt(matcher.group());
+
+            listOfInfluencedCards.add(playerLeaderCards.get(numberOfInfluencedCards));
+        }
+
+        return listOfInfluencedCards;
 
     }
 
+    /**
+     * this method will be called when player will want to enter into market
+     * @param market all market`s slot information
+     */
     @Override
-    public void playLeaderCard(List<String> playedLeaderCard) {
+    public HashMap<Integer, Integer> market(Market market, Player player) {
+
+        Integer playerChosenFamilyMember;
+        Integer playerChosenFamilyMemberValue;
+        Integer playerChosenSlot;
+
+        HashMap<Integer, Integer> playerChosenSlotAndPawn = new HashMap<>();
+
+        CLIStuff.printToConsole.println("welcome to the market "); //if not free, market will printed in red
+
+        ArrayList<ActionSlot> marketSlots = market.getMarketSlots();
+
+        for (ActionSlot slot : marketSlots) {
+            CLIStuff.printToConsole.format("_________ ");
+        }
+
+        CLIStuff.printToConsole.format("%n");
+
+        for (ActionSlot slot : marketSlots) {
+            CLIStuff.printToConsole.format("|         |");
+        }
+
+        CLIStuff.printToConsole.format("%n");
+
+        for (ActionSlot slot : marketSlots) {
+
+            Set<ResourceType> key = slot.getResourcesReward().getResources().getResources().keySet();
+
+            Integer value = slot.getResourcesReward().getResources().getResources().get(key);
+
+            CLIStuff.printToConsole.format("|   %d     |", value);
+        }
+
+        CLIStuff.printToConsole.println("%n");
+
+        for (ActionSlot slot : marketSlots) {
+
+            Set<ResourceType> key = slot.getResourcesReward().getResources().getResources().keySet();
+
+            CLIStuff.printToConsole.format("|  %s  |", key.toString());
+
+        }
+
+        CLIStuff.printToConsole.println("\n");
+
+        for (ActionSlot slot : marketSlots) {
+
+            CLIStuff.printToConsole.println("_________ ");
+        }
+
+        CLIStuff.printToConsole.println("which family member do you wish to put into market? ");
+        playerChosenFamilyMember = CLIStuff.readUserInput.nextInt();
+
+        playerChosenFamilyMemberValue = player.getFamilyMembers().get(playerChosenFamilyMember).getValue();
+
+        if(playerChosenFamilyMemberValue < 1)
+            servantsSelection(player.getResources().getResourceByType(ResourceType.SERVANTS), 1);
+
+        CLIStuff.printToConsole.println("in which action slot do you wish to put this family member? ");
+        playerChosenSlot = CLIStuff.readUserInput.nextInt();
+
+        //check if action slot selected is available
+
+        playerChosenSlotAndPawn.put(playerChosenFamilyMember, playerChosenSlot);
+
+        return playerChosenSlotAndPawn;
 
 
-    }
-
-    @Override
-    public void market(Market market) {
-
-        printToConsole.println("welcome to the market "); //se gia occupato le scritte sono in rosso
-
-        ArrayList<ActionSlot> marketSlots = market.getMarketSlots(); //stampare il market e altri contesti, con dentro anche le pedine
-
-       /* for (ActionSlot as : marketSlots) {
-
-            getResourcesReward() = as.getResourcesReward().getResources().getResources().keySet();
-
-             for (String : ) {
-                
-            }
-        }*/
-
-        printToConsole.println(
+        /*CLIStuff.printToConsole.println(
                  "_________ __________ _____4____ _____4____\n" +
                 "|         |          |          |          |\n" +
                 "|   5     |    5     |  3 M.P   |   1 C.P  |\n" +
                 "|  coins  | servants |  2 coins |   !=     |\n" +
                 "|         |          |          |   1 C.P  |\n" +
                 "|____1____|_____1____|_____1____|_____1____|"
-        );
+        );*/
     }
 
     @Override
-    public void productionArea() {
-        printToConsole.println("welcome to the production area ");
-        printToConsole.println(
-                        " ____________    _________3+__________\n" +
-                        "|            |  |                     |\n" +
-                        "| production |  | production          |\n" +
-                        "|            |  |   -3 to dice value  |\n" +
-                        "|______1_____|  |__________1__________|"
-        );
+    public void workingArea(String workingAreaChoice, Player player) {
+
+        Integer selectedSlot;
+        Integer familyMemberValue;
+        Integer servantsAvailable  = player.getResources().getResourceByType(ResourceType.SERVANTS);;
+        Integer selectedFamilyMember;
+        Integer tempDiceValue;
+        Boolean useSomeServants;
+        Integer usedServants = 0;
+        String userChoice = (workingAreaChoice.equalsIgnoreCase("production")) ? "produce" : "harvest";
+
+        CLIStuff.printToConsole.format("in which slot do you want to %s?", userChoice);
+        selectedSlot = CLIStuff.readUserInput.nextInt();
+
+        CLIStuff.printToConsole.println("which family member do you wish to use? ");
+        selectedFamilyMember = CLIStuff.readUserInput.nextInt();
+
+        familyMemberValue = player.getFamilyMembers().get(selectedFamilyMember).getValue();
+
+        tempDiceValue = familyMemberValue;
+
+        CLIStuff.printToConsole.format("actually, you can %s for %d. Do you wish to use some servants to increase this value? ",userChoice ,familyMemberValue);
+        useSomeServants = (CLIStuff.readUserInput.nextLine().equalsIgnoreCase("yes")) ? true : false;
+
+        if(useSomeServants) {
+
+           do {
+               CLIStuff.printToConsole.println("how many servants do you wish to use? ");
+               usedServants = servantsSelection(servantsAvailable, CLIStuff.readUserInput.nextInt());
+           }
+           while(servantsAvailable < usedServants);
+        }
+
+        tempDiceValue += usedServants;
+
+        //print harvest or production area, depending of user`s choice
+
+    }
+
+    /**
+     * this method will be called when player will enter into Council Palace
+     * @param player all player`s information
+     * @return which bonus the player has chosen
+     */
+    @Override
+    public Integer councilPalace(Player player) {
+
+        Integer selectedFamilyMember;
+        Integer chosenFamilyMemberValue;
+        Integer servantsAvailable = player.getResources().getResourceByType(ResourceType.SERVANTS);
+        Integer usedServants;
+        Integer selectedCouncilPrivilegeBonus = 0;
+
+            CLIStuff.printToConsole.println("which family member do you wish to use? ");
+            selectedFamilyMember = CLIStuff.readUserInput.nextInt();
+
+            chosenFamilyMemberValue = player.getFamilyMembers().get(selectedFamilyMember).getValue();
+
+            if(chosenFamilyMemberValue < 1) {
+
+                usedServants = servantsSelection(servantsAvailable, 1);
+
+            }
+
+        //print councilPalace
+
+            do {
+                CLIStuff.printToConsole.println("which CouncilPrivilege bonus do you wish to take? ");
+                selectedCouncilPrivilegeBonus = CLIStuff.readUserInput.nextInt();
+            }
+            while(selectedCouncilPrivilegeBonus < 1 || selectedCouncilPrivilegeBonus > 5);
+
+        return selectedCouncilPrivilegeBonus;
+
     }
 
     /**
@@ -244,10 +363,10 @@ public class CLI extends AbstractUI {
         Integer tower, floor;
         String towerAndItsFloor;
 
-        printToConsole.println("in which tower do you wish to place your pawn? ");
+        CLIStuff.printToConsole.println("in which tower do you wish to bring your family member? ");
         tower = CLIStuff.readUserInput.nextInt();
 
-        printToConsole.println("in which tower's floor do you wish to place your pawn? ");
+        CLIStuff.printToConsole.println("in which tower's floor do you wish to put your family member? ");
         floor = CLIStuff.readUserInput.nextInt();
 
          // decrement tower and floor because user's choice is between 1 and 4, but server's range is between 0 and 3
@@ -264,19 +383,41 @@ public class CLI extends AbstractUI {
      * this method will be called when user need to use some servants to improve his pawn's value
      * @param servantsAvailable user's available servants
      * @param minimumServantsRequested minimum number of servants to complete action
-     * @return which servants user decide to use
+     * @return how many servants user has decided to use
      */
     @Override
     public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
 
         Integer usedServants;
 
-        printToConsole.println("to complete this action, you need at least " + minimumServantsRequested.toString() + "servants, and max " + servantsAvailable.toString() + " servants ");
-        printToConsole.println("how many servants do you want to use? ");
-        usedServants = CLIStuff.readUserInput.nextInt();
+        do {
+
+            CLIStuff.printToConsole.println("to complete this action, you need at least " + minimumServantsRequested.toString() + "servants, and max " + servantsAvailable.toString() + " servants ");
+            CLIStuff.printToConsole.println("how many servants do you want to use? ");
+            usedServants = CLIStuff.readUserInput.nextInt();
+        }
+        while(((usedServants + servantsAvailable) < minimumServantsRequested) || usedServants > servantsAvailable);
 
         return usedServants;
 
+    }
+
+    @Override
+    public void printTowers(ArrayList<Tower> towers) {
+
+        String cardName = "support to the pope";
+        Integer valueOfInstantResourceBonus = 2; //to be determine according to tower`s floor
+        String typeOfIntegerResourceBonus = "military points";
+        Integer diceValueRequested = 7;
+
+        for(Tower tower : towers) {
+
+            CLIStuff.printToConsole.format("___________ ...........   ___________ ...........   ____________ ...........   ___________ ...........%n");
+            CLIStuff.printToConsole.format("|           |    %d     .  |           |    %d     .  |            |    %d     .  |           |     %d    . %n",valueOfInstantResourceBonus ,valueOfInstantResourceBonus ,valueOfInstantResourceBonus ,valueOfInstantResourceBonus);
+            CLIStuff.printToConsole.format("| %s    |  %s   .  | %s|  %s  .  | %s   | %s .  | %s |   %s  .%n",cardName ,typeOfIntegerResourceBonus ,cardName ,typeOfIntegerResourceBonus ,cardName ,typeOfIntegerResourceBonus ,cardName ,typeOfIntegerResourceBonus);
+            CLIStuff.printToConsole.format("|           |...........  |           |...........  |            |...........  |           |...........%n");
+            CLIStuff.printToConsole.format("|___________|    %d        |___________|    %d        |____________|    %d        |___________|     %d ",diceValueRequested ,diceValueRequested ,diceValueRequested ,diceValueRequested);
+        }
     }
 
     /**
@@ -285,7 +426,7 @@ public class CLI extends AbstractUI {
     @Override
     public void printGameBoard() {
 
-        printToConsole.println(" ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______\n" +
+        CLIStuff.printToConsole.println(" ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______\n" +
                 "|      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |\n" +
                 "|  0   |  1   |  2   |  3   |  4   |  5   |  6   |  7   |  8   |  9   |  10  |  11  |  12  |  13  |  14  |  15  |  16  |  17  |  18  |  19  | 20   |\n" +
                 "|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|\n" +
@@ -387,8 +528,5 @@ public class CLI extends AbstractUI {
         //TODO: rename CliStuff, and move gameBoard into constant
 
     }
-
-    //nei contesti, se sceglie 0 allora esci/passi, entra nei turni, funzione che chiede quante carte vuole scartare (0+)
-    //riguardo al market, lui entra, una funzione al momento void e poi esce
 
 }
