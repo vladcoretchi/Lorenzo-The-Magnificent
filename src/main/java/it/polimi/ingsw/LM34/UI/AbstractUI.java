@@ -3,7 +3,6 @@ package it.polimi.ingsw.LM34.UI;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
@@ -36,7 +35,7 @@ public abstract class AbstractUI {
     public abstract ArrayList<String> playerLeaderCardsAction(List<String> playerLeaderCards, String action);
     public abstract HashMap<Integer, Integer> market(Market market, Player player);
     public abstract void workingArea(String workingAreaChoice, Player player);
-    public abstract Integer councilPalace(Player player);
+    public abstract Integer councilPalace(Player player); //TODO: maybe void
     public abstract void printTowers(ArrayList<Tower> towers);
     public abstract void printGameBoard();
 }

@@ -16,9 +16,9 @@ public class PersonalBoard {
     private ArrayList<AbstractDevelopmentCard> ventures = new ArrayList<AbstractDevelopmentCard>();
     private ArrayList<AbstractDevelopmentCard> buildings = new ArrayList<AbstractDevelopmentCard>();
     //bonus tile
-    BonusTile personalBonusTile;
+    private BonusTile personalBonusTile;
 
-
+    //TODO: refactor this switch
     public void addCard(AbstractDevelopmentCard card) throws InvalidCardType {
         switch (card.getColor()) {
             case GREEN:
@@ -57,5 +57,9 @@ public class PersonalBoard {
 
     public ArrayList<AbstractDevelopmentCard> getBuildingCardOwned() {
         return buildings;
+    }
+
+    public BonusTile getPersonalBonusTile() {
+        return this.personalBonusTile;
     }
 }

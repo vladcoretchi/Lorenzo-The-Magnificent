@@ -2,6 +2,8 @@ package it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.ResourcesExchangeContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractableContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
@@ -9,10 +11,11 @@ import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.PRODUCTION_AREA_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
 
 /**
  * Created by vladc on 5/13/2017.
@@ -23,16 +26,14 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.PRODUCTION_AREA_
 //TODO: think of a way to have two alternatives for the special building cards
 public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
     private Player player;
-    private Pair<Resources, Resources>[] resourceExchange;
-    private Pair<Resources, Integer>[] resourceForPrivileges; //Only for "Residenza" building card
+    private List<Pair<Resources, ResourcesBonus>> resourceExchange;
     private Integer diceValueToActivate;
     //private ArrayList<ContextType> contextToBeSubscribedTo;
 
 
-    public ResourcesExchangeBonus(Player player, Integer diceValue,Pair<Resources, Resources>[] resourceExchange, Pair<Resources, Integer>[] resourceForPrivileges) {
+    public ResourcesExchangeBonus(Player player, Integer diceValue,List<Pair<Resources, ResourcesBonus>> resourceExchange) {
         //contextToBeSubscribedTo.add(ContextType.RESOURCE_EXCHANGE_CONTEXT);
         this.resourceExchange = resourceExchange;
-        this.resourceForPrivileges = resourceForPrivileges;
         this.diceValueToActivate = diceValue;
     }
 
@@ -42,7 +43,7 @@ public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
     public void applyEffect(AbstractGameContext callerContext, Player player) {
         ResourcesExchangeContext resourceExchangeContext;
         resourceExchangeContext= (ResourcesExchangeContext) callerContext.getContextByType(ContextType.RESOURCE_EXCHANGE_CONTEXT);
-        resourceExchangeContext.setBonuses(player, resourceExchange, resourceForPrivileges);
+        resourceExchangeContext.setBonuses(player, resourceExchange);
 
 
         /*Subscribe to Production area context*/
@@ -55,36 +56,39 @@ public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         FamilyMember familyMember = (FamilyMember) arg;
+        AbstractGameContext callerContext = (AbstractGameContext) o;
 
         /*check if dice value is enough to activate the card permanent effect*/
         if(familyMember.getValue() >= diceValueToActivate) {
-            activatePrivilegeExchange(familyMember);
-            activateResourcesExchange(familyMember);
+            activateResourcesExchange(callerContext, familyMember);
         }
 
     }
 
-    public void activatePrivilegeExchange(FamilyMember familyMember) {
+    public void activatePrivilegeExchange(AbstractGameContext callerContext, FamilyMember familyMember) {
 
-        for(Pair<Resources, Integer> pair : resourceForPrivileges) {
+        for(Pair<Resources, ResourcesBonus> pair : resourceExchange) {
             /*check if the player has enough resources to activate the card permanent effect*/
             if (player.hasEnoughResources(pair.getLeft())) {
                 player.subResources(pair.getLeft());
                 /*activate the card permanent effect providing the player with the resources desired*/
-                player.addCouncilPrivileges(pair.getRight());
+                player.addCouncilPrivileges(pair.getRight().getCouncilPrivilege());
+                ((UseCouncilPrivilegeContext)callerContext.getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(player);
             }
         }
     }
 
-    public void activateResourcesExchange(FamilyMember familyMember) {
+    public void activateResourcesExchange(AbstractGameContext callerContext, FamilyMember familyMember) {
 
-        for (Pair<Resources, Resources> pair : resourceExchange) {
+        for (Pair<Resources, ResourcesBonus> pair : resourceExchange) {
             /*check if the player has enough resources to activate the card permanent effect*/
             if (player.hasEnoughResources(pair.getLeft())) {
                 /*retrieve from player the resources he needs to pay*/
                 player.subResources(pair.getLeft());
                 /*activate the card permanent effect providing the player with the resources desired*/
-                player.addResources(pair.getRight());
+                ((ResourceIncomeContext)callerContext.getContextByType(RESOURCE_INCOME_CONTEXT)).handleResources(player, pair.getRight().getResources());
+
+
             }
         }
     }

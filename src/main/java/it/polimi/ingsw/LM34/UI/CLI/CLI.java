@@ -6,15 +6,16 @@ import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
-import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.UI.AbstractUI;
 import it.polimi.ingsw.LM34.Utils.Validator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -504,9 +505,9 @@ public class CLI extends AbstractUI {
     public void printTowers(ArrayList<Tower> towers) {
 
         String cardName = "support to the pope";
-        Integer valueOfInstantResourceBonus; //to be determine according to tower`s floor
+        Integer valueOfInstantResourceBonus = 1; //to be determine according to tower`s floor
         String typeOfIntegerResourceBonus = "military points";
-        Integer diceValueRequested;
+        Integer diceValueRequested = 1;
 
         for(Tower tower : towers) {
 

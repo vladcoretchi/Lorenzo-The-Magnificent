@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Enums.Model.LeaderNames;
 import it.polimi.ingsw.LM34.Model.Player;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_ACTIVATE_OR_DISCARD_CONTEXT;
@@ -15,6 +16,7 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_ACTIVATE_
  */
 public class LeaderActivateOrDiscardContext extends AbstractGameContext {
     private Integer totalLeadersDiscarded;
+    private LeaderNames leaderToActivate; //TODO
 
 public LeaderActivateOrDiscardContext() {
     contextType = LEADER_ACTIVATE_OR_DISCARD_CONTEXT;

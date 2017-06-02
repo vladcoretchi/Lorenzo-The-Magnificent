@@ -13,4 +13,3 @@ public enum ResourceType {
     FAITH_POINTS
 }
 
-//TODO: evaluate the scomposition of goods and points into two different classes instead of just the Resource class

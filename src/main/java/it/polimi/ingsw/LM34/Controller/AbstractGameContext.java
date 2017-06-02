@@ -54,4 +54,5 @@ public abstract class AbstractGameContext extends Observable  {
     public final void setGameManager(GameManager gameManager) {
         this.gameManager = gameManager;
     }
+
 }
