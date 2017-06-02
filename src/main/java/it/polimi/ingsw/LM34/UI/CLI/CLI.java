@@ -2,6 +2,7 @@ package it.polimi.ingsw.LM34.UI.CLI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -11,6 +12,7 @@ import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.UI.AbstractUI;
+import it.polimi.ingsw.LM34.Utils.Validator;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -21,8 +23,6 @@ import java.util.regex.Pattern;
  */
 
 public class CLI extends AbstractUI {
-
-    //TODO: implementare il thread che svuota il buffer ogni volta che l`utente ha inserito qualcosa
 
     public void show() {
         // variable that will remain false until the user's input will be correct
@@ -68,6 +68,7 @@ public class CLI extends AbstractUI {
      */
     @Override
     public void loginMenu() {
+
         CLIStuff.printToConsole.println("Please insert your username:");
         String playerUsername = CLIStuff.readUserInput.nextLine();
 
@@ -131,11 +132,9 @@ public class CLI extends AbstractUI {
 
         allContext.forEach((context)-> CLIStuff.printToConsole.println(context));
 
-        Boolean isANumber = false;
+        Boolean validContext = false;
 
         do {
-
-            try {
                 CLIStuff.printToConsole.println("in which context do you wish to enter? \n"+
                         "type 1 to enter into the first context, type 2 to enter into the second context, ...\n" +
                         "type 0 to exit");
@@ -143,14 +142,17 @@ public class CLI extends AbstractUI {
                 userContextSelection = CLIStuff.readUserInput.nextLine();
                 userSelection = Integer.parseInt(userContextSelection);
 
-                if(userSelection >= 0 && userSelection <= allContext.size())
-                    isANumber = true;
+                try {
+                    Validator.checkValidity(userContextSelection);
+                    validContext = true;
 
-            } catch (NumberFormatException ex) {
-                CLIStuff.printToConsole.println("please select a valid context ");
-            }
+                }
+                catch (IncorrectInputException ex) {
+                    CLIStuff.printToConsole.println("please select a valid context ");
+                }
+
         }
-        while(!isANumber);
+        while(!validContext);
 
         return --userSelection;
 
@@ -202,6 +204,7 @@ public class CLI extends AbstractUI {
         Integer playerChosenFamilyMember;
         Integer playerChosenFamilyMemberValue;
         Integer playerChosenSlot;
+        Boolean validUserInput;
 
         HashMap<Integer, Integer> playerChosenSlotAndPawn = new HashMap<>();
 
@@ -247,18 +250,41 @@ public class CLI extends AbstractUI {
             CLIStuff.printToConsole.println("_________ ");
         }
 
-        CLIStuff.printToConsole.println("which family member do you wish to put into market? ");
-        playerChosenFamilyMember = CLIStuff.readUserInput.nextInt();
+        do {
+            CLIStuff.printToConsole.println("which family member do you wish to put into market? ");
+            playerChosenFamilyMember = CLIStuff.readUserInput.nextInt();
+
+            try {
+                Validator.checkValidity(playerChosenFamilyMember.toString());
+                validUserInput = true;
+            } catch (IncorrectInputException ex) {
+                CLIStuff.printToConsole.println("please select a valid family member");
+                validUserInput = true;
+            }
+        }
+        while(!validUserInput);
+
 
         playerChosenFamilyMemberValue = player.getFamilyMembers().get(playerChosenFamilyMember).getValue();
 
         if(playerChosenFamilyMemberValue < 1)
             servantsSelection(player.getResources().getResourceByType(ResourceType.SERVANTS), 1);
 
-        CLIStuff.printToConsole.println("in which action slot do you wish to put this family member? ");
-        playerChosenSlot = CLIStuff.readUserInput.nextInt();
+        validUserInput = false;
 
-        //check if action slot selected is available
+        do {
+            CLIStuff.printToConsole.println("in which action slot do you wish to put this family member? ");
+            playerChosenSlot = CLIStuff.readUserInput.nextInt();
+
+            try {
+                Validator.checkValidity(playerChosenSlot.toString());
+                validUserInput = true;
+            }
+            catch (IncorrectInputException ex) {
+                CLIStuff.printToConsole.println("please select a valid action slot ");
+            }
+        }
+        while(!validUserInput);
 
         playerChosenSlotAndPawn.put(playerChosenFamilyMember, playerChosenSlot);
 
@@ -286,12 +312,37 @@ public class CLI extends AbstractUI {
         Boolean useSomeServants;
         Integer usedServants = 0;
         String userChoice = (workingAreaChoice.equalsIgnoreCase("production")) ? "produce" : "harvest";
+        Boolean validUserInput = false;
 
-        CLIStuff.printToConsole.format("in which slot do you want to %s?", userChoice);
-        selectedSlot = CLIStuff.readUserInput.nextInt();
+       do {
+           CLIStuff.printToConsole.format("in which slot do you want to %s?", userChoice);
+           selectedSlot = CLIStuff.readUserInput.nextInt();
 
-        CLIStuff.printToConsole.println("which family member do you wish to use? ");
-        selectedFamilyMember = CLIStuff.readUserInput.nextInt();
+           try {
+               Validator.checkValidity(selectedSlot.toString());
+               validUserInput = true;
+           }
+           catch(IncorrectInputException ex) {
+               CLIStuff.printToConsole.println("please select a valid slot");
+           }
+
+       }
+       while(!validUserInput);
+
+       validUserInput = false;
+
+        do {
+            CLIStuff.printToConsole.println("which family member do you wish to use? ");
+            selectedFamilyMember = CLIStuff.readUserInput.nextInt();
+
+            try {
+                Validator.checkValidity(selectedFamilyMember.toString());
+                validUserInput = true;
+            } catch (IncorrectInputException ex) {
+                CLIStuff.printToConsole.println("please select a valid family member");
+            }
+        }
+        while(!validUserInput);
 
         familyMemberValue = player.getFamilyMembers().get(selectedFamilyMember).getValue();
 
@@ -328,9 +379,21 @@ public class CLI extends AbstractUI {
         Integer servantsAvailable = player.getResources().getResourceByType(ResourceType.SERVANTS);
         Integer usedServants;
         Integer selectedCouncilPrivilegeBonus = 0;
+        Boolean validUserInput = false;
 
+        do {
             CLIStuff.printToConsole.println("which family member do you wish to use? ");
             selectedFamilyMember = CLIStuff.readUserInput.nextInt();
+
+            try {
+                Validator.checkValidity(selectedFamilyMember.toString());
+                validUserInput = true;
+            }
+            catch (IncorrectInputException ex) {
+                CLIStuff.printToConsole.println("please select a valid family member");
+            }
+        }
+        while (!validUserInput);
 
             chosenFamilyMemberValue = player.getFamilyMembers().get(selectedFamilyMember).getValue();
 
@@ -342,11 +405,21 @@ public class CLI extends AbstractUI {
 
         //print councilPalace
 
+            validUserInput = false;
+
             do {
                 CLIStuff.printToConsole.println("which CouncilPrivilege bonus do you wish to take? ");
                 selectedCouncilPrivilegeBonus = CLIStuff.readUserInput.nextInt();
+
+               try {
+                   Validator.checkValidity(selectedCouncilPrivilegeBonus.toString());
+                   validUserInput = true;
+               }
+               catch (IncorrectInputException ex) {
+                   CLIStuff.printToConsole.println("please select a correct CouncilPrivilege bonus ");
+               }
             }
-            while(selectedCouncilPrivilegeBonus < 1 || selectedCouncilPrivilegeBonus > 5);
+            while(!validUserInput);
 
         return selectedCouncilPrivilegeBonus;
 
@@ -362,12 +435,37 @@ public class CLI extends AbstractUI {
 
         Integer tower, floor;
         String towerAndItsFloor;
+        Boolean validUserInput = false;
 
-        CLIStuff.printToConsole.println("in which tower do you wish to bring your family member? ");
-        tower = CLIStuff.readUserInput.nextInt();
+       do {
+           CLIStuff.printToConsole.println("in which tower do you wish to bring your family member? ");
+           tower = CLIStuff.readUserInput.nextInt();
 
-        CLIStuff.printToConsole.println("in which tower's floor do you wish to put your family member? ");
-        floor = CLIStuff.readUserInput.nextInt();
+           try {
+               Validator.checkValidity(tower.toString());
+               validUserInput = true;
+           }
+           catch (IncorrectInputException ex) {
+               CLIStuff.printToConsole.println("please select a valid tower ");
+           }
+       }
+       while(!validUserInput);
+
+        validUserInput = false;
+
+        do {
+            CLIStuff.printToConsole.println("in which tower's floor do you wish to put your family member? ");
+            floor = CLIStuff.readUserInput.nextInt();
+
+            try {
+                Validator.checkValidity(floor.toString());
+                validUserInput = true;
+            }
+            catch (IncorrectInputException ex) {
+                CLIStuff.printToConsole.println("please select a valid tower's floor");
+            }
+        }
+        while (!validUserInput);
 
          // decrement tower and floor because user's choice is between 1 and 4, but server's range is between 0 and 3
 
@@ -406,9 +504,9 @@ public class CLI extends AbstractUI {
     public void printTowers(ArrayList<Tower> towers) {
 
         String cardName = "support to the pope";
-        Integer valueOfInstantResourceBonus = 2; //to be determine according to tower`s floor
+        Integer valueOfInstantResourceBonus; //to be determine according to tower`s floor
         String typeOfIntegerResourceBonus = "military points";
-        Integer diceValueRequested = 7;
+        Integer diceValueRequested;
 
         for(Tower tower : towers) {
 

@@ -7,6 +7,7 @@ import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.UI.AbstractUI;
 import it.polimi.ingsw.LM34.UI.CLI.CLI;
 import it.polimi.ingsw.LM34.UI.CLI.CLIStuff;
+import it.polimi.ingsw.LM34.UI.CLI.IgnoreInput;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +18,8 @@ public class GameClient {
     private static AbstractUI ui;
 
     public static void main(String[] args) {
+
+        IgnoreInput ignoreInput = new IgnoreInput();
 
          // variable that will remain false until the user's input will be correct
 
