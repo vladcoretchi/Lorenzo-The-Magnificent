@@ -12,6 +12,8 @@ import it.polimi.ingsw.LM34.Utils.Configurator;
 
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;
+
 /**
  * Created by GiulioComi on 18/05/2017.
  */
@@ -30,21 +32,18 @@ public class TowersContext extends AbstractGameContext implements  DiceDependent
     }
 
 
-    public void initContext(Player player) {
-
-    }
-
     @Override
     public void interactWithPlayer(Player player) {
         familyMembers = player.getFamilyMembers();
 
         FamilyMember familyMemberChoosed;
+        getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT).interactWithPlayer(player);
         //TODO: player chooses tower...
         //TODO: TOWER OF TERRITORY CARDS
         Tower towerSelected = towers.get(DevelopmentCardColor.GREEN.ordinal());
 
         //if player choose a territory card... let's calculate if he has enough military points, or
-        //skip this step if cesaare borgia is activated
+        //skip this step if cesare borgia is activated
         //TODO: card choosed
         notifyObservers("cesare borgia, activate yourself");
         setChanged();
@@ -52,8 +51,8 @@ public class TowersContext extends AbstractGameContext implements  DiceDependent
         //TODO
         /*
         buyCard(); tower slot selected*/
-        //card.getInstantBonus().applyInstantEffect();
-        //card.getPermanentBonus().applyPermanentEffect();
+        //card.getInstantBonus().applyEffect();
+        //card.getPermanentBonus().applyEffect();
         towerSelected.getTowerSlotResources().applyEffect(this,player);
 
     }

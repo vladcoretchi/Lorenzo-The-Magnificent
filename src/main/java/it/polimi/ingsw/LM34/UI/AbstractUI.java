@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.UI;
 
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -29,7 +29,7 @@ public abstract class AbstractUI {
     public abstract void loginMenu();
     public abstract void loginResult(Boolean result);
     public abstract String connectionTypeSelection();
-    public abstract Integer contextSelection(List<PlayerSelectionableContexts> allContext);
+    public abstract Integer contextSelection(List<PlayerSelectableContexts> allContext);
     public abstract String towerSlotSelection(Integer towerNumber, Integer towerFloor);
     public abstract Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested);
     public abstract ArrayList<String> playerLeaderCardsAction(List<String> playerLeaderCards, String action);

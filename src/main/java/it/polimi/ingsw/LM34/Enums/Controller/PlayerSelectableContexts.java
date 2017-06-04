@@ -3,7 +3,7 @@ package it.polimi.ingsw.LM34.Enums.Controller;
 /**
  * Created by GiulioComi on 30/05/2017.
  */
-public enum PlayerSelectionableContexts {
+public enum PlayerSelectableContexts {
     MARKET_AREA_CONTEXT("Market"),
     PRODUCTION_AREA_CONTEXT("Production Area"),
     LEADER_ACTIVATE_OR_DISCARD_CONTEXT("Leader Activate or Discard"),
@@ -16,7 +16,7 @@ public enum PlayerSelectionableContexts {
     /*The contextName is used in CLI and GUI for showing a beautified and human friendly name of the contexts*/
     private String contextName;
 
-    PlayerSelectionableContexts(String contextName) {
+    PlayerSelectableContexts(String contextName) {
         this.contextName = contextName;
     }
 

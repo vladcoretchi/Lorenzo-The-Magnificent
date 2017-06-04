@@ -8,7 +8,7 @@ import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.TurnContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractableContexts.EndGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
@@ -308,7 +308,7 @@ public class GameManager {
         return null;
     }
 
-    public AbstractGameContext getContextByType(PlayerSelectionableContexts contextType) {
+    public AbstractGameContext getContextByType(PlayerSelectableContexts contextType) {
         //TODO: refactor this loop
         for (AbstractGameContext context : contexts)
             if (context.getType().equals(contextType))

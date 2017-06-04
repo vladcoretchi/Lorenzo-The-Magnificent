@@ -5,7 +5,7 @@ package it.polimi.ingsw.LM34.Utils;
  */
 
 import it.polimi.ingsw.LM34.Controller.GameManager;
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlot;
@@ -77,8 +77,8 @@ public final class Validator {
         Scanner in = new Scanner(System.in);
 
         /*CONTEXTTYPE ENUM*/
-        ArrayList<PlayerSelectionableContexts> accessibleContexts = new ArrayList<>();
-        for(PlayerSelectionableContexts p : PlayerSelectionableContexts.values())
+        ArrayList<PlayerSelectableContexts> accessibleContexts = new ArrayList<>();
+        for(PlayerSelectableContexts p : PlayerSelectableContexts.values())
             accessibleContexts.add(p);
 
         /*TOWERSLOTS*/

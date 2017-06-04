@@ -50,6 +50,8 @@ public class HarvestAreaContext extends AbstractGameContext implements DiceDepen
         gameManager.getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT).interactWithPlayer(player);
         harvestArea.getSingleSlot().getResourcesReward().applyEffect(this, player);
         Resources harvestBonus = player.getPersonalBoard().getPersonalBonusTile().getHarvestBonus();
+        player.getPersonalBoard().getBuildingCardOwned().
+                forEach(card -> card.getPermanentBonus().applyEffect(this, player));
         ((ResourceIncomeContext)gameManager.getContextByType(RESOURCE_INCOME_CONTEXT)).handleResources(player, harvestBonus);
     }
 

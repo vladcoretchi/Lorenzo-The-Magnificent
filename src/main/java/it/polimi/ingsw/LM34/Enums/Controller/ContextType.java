@@ -20,8 +20,8 @@ public enum ContextType {
     TURN_CONTEXT;
 
 
-    /*Method used to allow a corrispondence between ContexType and PlayerSelectionableContexts*/
-    public final Boolean equals(PlayerSelectionableContexts context) {
+    /*Method used to allow a corrispondence between ContexType and PlayerSelectableContexts*/
+    public final Boolean equals(PlayerSelectableContexts context) {
         return this.toString() == context.toString();
     }
 }

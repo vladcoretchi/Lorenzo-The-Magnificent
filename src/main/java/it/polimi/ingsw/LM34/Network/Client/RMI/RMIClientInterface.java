@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Client.RMI;
 
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface RMIClientInterface extends Remote {
 
-    Integer contextSelection(List<PlayerSelectionableContexts> contexts) throws RemoteException;
+    Integer contextSelection(List<PlayerSelectableContexts> contexts) throws RemoteException;
 }

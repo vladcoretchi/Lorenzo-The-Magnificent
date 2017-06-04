@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Client.Socket;
 
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Server.Socket.RequestToServer;
@@ -83,7 +83,7 @@ public class SocketClient extends AbstractClient {
     }
 
     @Override
-    public Integer contextSelection(List<PlayerSelectionableContexts> contexts) {
+    public Integer contextSelection(List<PlayerSelectableContexts> contexts) {
         return networkController.contextSelection(contexts);
     }
 }

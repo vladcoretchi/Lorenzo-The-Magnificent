@@ -52,6 +52,7 @@ public class ResourcesExchangeContext extends AbstractGameContext {
         try {
             Validator.checkValidity(selected.toString(),resourceExchange);
             Pair<Resources, ResourcesBonus> selectedBonus = resourceExchange.get(selected);
+            selectedBonus.getRight().applyEffect(this, player);
             gameManager.getContextByType(RESOURCE_INCOME_CONTEXT).interactWithPlayer(player);
         }
         /*If input mismatch expected informations... the player is able to try again*/

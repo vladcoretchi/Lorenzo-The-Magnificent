@@ -4,7 +4,7 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.MarketAreaContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
@@ -22,7 +22,7 @@ import java.util.List;
  * Created by GiulioComi on 18/05/2017.
  */
 public class TurnContext extends AbstractGameContext {
-    List<PlayerSelectionableContexts> accessibleContexts = new ArrayList<>();
+    List<PlayerSelectableContexts> accessibleContexts = new ArrayList<>();
 
 
 
@@ -43,7 +43,7 @@ public class TurnContext extends AbstractGameContext {
      *NOTE: OncePerRound observers are excluded
      */
     public void initContext(Player player) {
-        for(PlayerSelectionableContexts p : PlayerSelectionableContexts.values())
+        for(PlayerSelectableContexts p : PlayerSelectableContexts.values())
             accessibleContexts.add(p);
         /*To make the player skip his turn*/
         setChanged();
@@ -69,7 +69,7 @@ public class TurnContext extends AbstractGameContext {
         notifyObservers();
 
         /*Provide to the players all the info for the contexts of the game he can enter freely*/
-        PlayerSelectionableContexts selectedContext = null;
+        PlayerSelectableContexts selectedContext = null;
         /*CONTEXT SIDE VALIDATION*/
         contextSelection(player);
 
@@ -94,7 +94,7 @@ public class TurnContext extends AbstractGameContext {
 
         try {
             Validator.checkValidity(selected.toString(),accessibleContexts);
-            PlayerSelectionableContexts selectedContext = accessibleContexts.get(selected);
+            PlayerSelectableContexts selectedContext = accessibleContexts.get(selected);
             getContextByType(selectedContext).interactWithPlayer(player);
         }
         /*If input mismatch expected informations... the player is able to try again*/
@@ -114,7 +114,7 @@ public class TurnContext extends AbstractGameContext {
         playersName.add("pippo");
         GameManager gameManager = new GameManager(new GameRoom(),playersName);
         gameManager.setupGameContexts();
-        AbstractGameContext context = gameManager.getContextByType(PlayerSelectionableContexts.HARVEST_AREA_CONTEXT);
+        AbstractGameContext context = gameManager.getContextByType(PlayerSelectableContexts.HARVEST_AREA_CONTEXT);
         System.out.println(context.getType().toString());
         /*gameManager.setupGameContexts();
         TurnContext turnContext = (TurnContext) gameManager.getContextByType(ContextType.TURN_CONTEXT);

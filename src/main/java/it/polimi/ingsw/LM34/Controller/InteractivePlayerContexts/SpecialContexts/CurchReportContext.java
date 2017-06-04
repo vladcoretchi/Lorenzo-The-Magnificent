@@ -30,12 +30,14 @@ public class CurchReportContext  extends AbstractGameContext {
     public void interactWithPlayer(Player player) {
         //let the player choice if they wants to be excommunicated and assigned the negative effect to them
         checkEnoughFaithPoints(player, player.getResources().getResourceByType(FAITH_POINTS));
+        //TODO: for players that have enough points ask YES or NO to be excommunicated
+        Boolean choice = gameManager.getActivePlayerNetworkController().curchReportDecision();
 
 
         setChanged(); notifyObservers(player);  /*trigger sisto IV if is an observer*/
 
 
-        //TODO: addVcitoryPointsFromFaithPath based on faith track position
+        //TODO: addVictoryPointsFromFaithPath based on faith track position
         Integer faithReward = player.getResources().getResourceByType(FAITH_POINTS);
 
         Resources reward = new Resources(0,faithReward,0);  /*Wrapper*/

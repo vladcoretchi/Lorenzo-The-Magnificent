@@ -72,6 +72,7 @@ public class Player implements Serializable {
         return this.observerEffects;
     }
 
+    //TODO: delete this
     public void registerObserver(AbstractEffect a) {
         observerEffects.add(a);
     }
@@ -94,7 +95,16 @@ public class Player implements Serializable {
     }
 
     public ArrayList<ExcommunicationCard> getExcommunicationCards() {
-        return excommunicationCards;
+        return this.excommunicationCards;
+    }
+
+    public ArrayList<LeaderCard> getActivatedLeadercards() {
+        ArrayList<LeaderCard> activatedLeaders = new ArrayList<>();
+        for(LeaderCard c : leadercards)
+            if (c.isActivatedByPlayer())
+                activatedLeaders.add(c);
+
+        return activatedLeaders;
     }
 
     public void addExcommunicationCards(ExcommunicationCard excommunicationCard) {
@@ -109,4 +119,8 @@ public class Player implements Serializable {
 
         return true;
     }
+
+
+
+
 }

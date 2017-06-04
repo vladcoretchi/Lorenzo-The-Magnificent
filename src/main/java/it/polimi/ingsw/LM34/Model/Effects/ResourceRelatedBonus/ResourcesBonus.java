@@ -69,11 +69,9 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
         ResourceIncomeContext incomeContext = (ResourceIncomeContext) callerContext.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT);
         incomeContext.handleResources(player, resources);
 
+        player.addCouncilPrivileges(councilPrivilege);
+        callerContext.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT).interactWithPlayer(player);
 
-        if(councilPrivilege > 0) {
-            player.addCouncilPrivileges(councilPrivilege);
-            callerContext.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT).interactWithPlayer(player);
-        }
     }
 
 }

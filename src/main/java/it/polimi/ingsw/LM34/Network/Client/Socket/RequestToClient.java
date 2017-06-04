@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Client.Socket;
 
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,7 +26,7 @@ public enum RequestToClient {
         @Override
         void readAndHandle(SocketClient socketConnection) {
             try {
-                List<PlayerSelectionableContexts> contexts = (List<PlayerSelectionableContexts>) socketConnection.getInputStream().readObject();
+                List<PlayerSelectableContexts> contexts = (List<PlayerSelectableContexts>) socketConnection.getInputStream().readObject();
 
                 //socketConnection.getOutputStream().writeUTF(RequestToServer.CONTEXT_SELECTION.name());
                 socketConnection.getOutputStream().writeInt(socketConnection.contextSelection(contexts));

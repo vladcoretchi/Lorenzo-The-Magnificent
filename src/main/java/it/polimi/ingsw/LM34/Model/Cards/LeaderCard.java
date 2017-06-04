@@ -11,6 +11,7 @@ import it.polimi.ingsw.LM34.Model.LeaderRequirements;
     private LeaderNames leaderName; /*Enum*/
     private LeaderRequirements requirements;
     private AbstractEffect bonus;
+    private Boolean isActivatedByPlayer; //For CopyOtherLeader
 
     public LeaderCard(LeaderNames leaderName, LeaderRequirements requirements, AbstractEffect bonus) {
         this.leaderName= leaderName;
@@ -28,6 +29,16 @@ import it.polimi.ingsw.LM34.Model.LeaderRequirements;
 
     public AbstractEffect getBonus() {
         return this.bonus;
+    }
+
+
+
+    public void setIsActivatedByPlayer() {
+        this.isActivatedByPlayer = true;
+    }
+
+    public Boolean isActivatedByPlayer() {
+        return this.isActivatedByPlayer;
     }
 
 }

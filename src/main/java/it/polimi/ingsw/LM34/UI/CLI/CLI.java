@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.UI.CLI;
 
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
@@ -123,7 +123,7 @@ public class CLI extends AbstractUI {
      * this method will be called when the user will choice about which context player wish to use
      */
     @Override
-    public Integer contextSelection(List<PlayerSelectionableContexts> allContext)  {
+    public Integer contextSelection(List<PlayerSelectableContexts> allContext)  {
 
         String userContextSelection;
 

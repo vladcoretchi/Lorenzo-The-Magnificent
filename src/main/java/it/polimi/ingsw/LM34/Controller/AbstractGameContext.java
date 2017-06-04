@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Controller;
 
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Model.Player;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public abstract class AbstractGameContext extends Observable  {
         return gameManager.getContextByType(contextType);
     }
 
-    public  AbstractGameContext getContextByType(PlayerSelectionableContexts contextType) {
+    public  AbstractGameContext getContextByType(PlayerSelectableContexts contextType) {
         return gameManager.getContextByType(contextType);
     }
 

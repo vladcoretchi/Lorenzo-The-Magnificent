@@ -26,7 +26,6 @@ public MarketAreaContext() {
         setChanged();
         notifyObservers();
 
-        //TODO: correct: ?interactWithPlayer(player); //let the player redo his choices...
         /*if(!ban) { //the ban is set if the player got the related excommunication card
 
             //the player chooses the family member to place and where to place it

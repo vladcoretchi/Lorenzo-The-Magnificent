@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Server;
 
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectionableContexts;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 
 import java.util.List;
 
@@ -28,5 +28,5 @@ public abstract class AbstractConnection {
         return loginResult;
     }
 
-    public abstract Integer contextSelection(List<PlayerSelectionableContexts> contexts);
+    public abstract Integer contextSelection(List<PlayerSelectableContexts> contexts);
 }
