@@ -44,6 +44,8 @@ public final class ContextFactory {
                 return new MarketAreaContext();
             case TURN_CONTEXT:
                 return new TurnContext();
+            case FAMILY_MEMBER_SELECTION_CONTEXT:
+                return new FamilyMemberSelectionContext();
             default:
                 throw new NoSuchContextException();
         }

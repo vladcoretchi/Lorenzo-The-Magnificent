@@ -35,9 +35,6 @@ public abstract class AbstractGameContext extends Observable  {
     }
 
 
-
-
-
     /**
      *Kind of bridge beetwen contexts and effects, still valid widely
      * @param contextType

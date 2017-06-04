@@ -55,6 +55,7 @@ public MarketAreaContext() {
         market.sweep();
     }
 
+
     public void setBan() { this.ban = true; }
 
 }

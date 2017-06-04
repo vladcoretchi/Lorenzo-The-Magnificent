@@ -5,6 +5,7 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.GameRoom;
@@ -66,6 +67,10 @@ public class ServerNetworkController {
     }
 
     public Integer leaderSelection(List<LeaderCard> leaderCards) {
+        return 0; //TODO
+    }
+
+    public Integer familyMemberSelection(ArrayList<FamilyMember> familyMembers) {
         return 0; //TODO
     }
 }

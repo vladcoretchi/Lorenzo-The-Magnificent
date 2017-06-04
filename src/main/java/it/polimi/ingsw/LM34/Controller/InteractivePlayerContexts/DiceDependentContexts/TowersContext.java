@@ -53,7 +53,7 @@ public class TowersContext extends AbstractGameContext implements  DiceDependent
         buyCard(); tower slot selected*/
         //card.getInstantBonus().applyEffect();
         //card.getPermanentBonus().applyEffect();
-        towerSelected.getTowerSlotResources().applyEffect(this,player);
+        towerSelected.getTowerSlotResources().applyEffect(this, player);
 
     }
 
@@ -77,5 +77,4 @@ public class TowersContext extends AbstractGameContext implements  DiceDependent
         //TODO: check many things here
         player.getPersonalBoard().addCard(slot.getCardStored());
     }
-
 }

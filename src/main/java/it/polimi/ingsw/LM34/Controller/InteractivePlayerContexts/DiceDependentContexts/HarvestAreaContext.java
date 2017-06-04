@@ -79,4 +79,5 @@ public class HarvestAreaContext extends AbstractGameContext implements DiceDepen
             actionSlotSelection(player);
         }
     }
+
 }
