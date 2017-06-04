@@ -47,6 +47,4 @@ public final class Utilities {
 
          return totalUnit;
     }
-
-
 }

@@ -14,6 +14,7 @@ import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Dice;
@@ -104,9 +105,12 @@ public class GameManager {
     }
 
     public ServerNetworkController getActivePlayerNetworkController() {
-        return this.gameRoom.getPlayerNetworkController(this.players.get(this.turn).getPlayerName());
+        return this.gameRoom.getPlayerNetworkController(players.get(this.turn).getPlayerName());
     }
 
+    public ServerNetworkController getPlayerNetworkController(Player player) {
+        return this.gameRoom.getPlayerNetworkController(player.getPlayerName());
+    }
 
     private void drwaExcommunicationCards() {
         ArrayList<ExcommunicationCard> exCards = getExcommunictionCards(excommunicationCards);
@@ -431,7 +435,36 @@ public class GameManager {
     }
 
 
+    //TODO:
+    public void bonusTileSelectionPhase() {
+        ArrayList<BonusTile> bonusTiles = new ArrayList<>();
+        //TODO: load from configurator
+        for (Player p : players) {
+            Integer selected = getPlayerNetworkController(p).bonusTileSelection(bonusTiles);
+            p.getPersonalBoard().setPersonalBonusTile(bonusTiles.get(selected));
+            bonusTiles.remove(selected);
+        }
+    }
+
+    /**
+     * To each player presents 4 leader at each step, from which he chooses one
+     */
+    //TODO: implement the steps defined in the rules to manage how leaders selection works
+    public void leaderSelectionPhase() {
+        //the leadercards are only 4*#players
+        leaderCardsDeck = (ArrayList) leaderCardsDeck.subList(0, Configurator.MAX_LEADER_PER_PLAYER * players.size());
+
+        for (Integer i = 0; i < Configurator.MAX_LEADER_PER_PLAYER; i++) {
+            for (Player p : players) {
+                //Integer selected = getPlayerNetworkController(p).leaderSelection(leaderCardsDeck.subList());
+                //leaderCardsDeck.remove(selected);
+            }
+        }
+    }
+
+
 }
+
 
 
 

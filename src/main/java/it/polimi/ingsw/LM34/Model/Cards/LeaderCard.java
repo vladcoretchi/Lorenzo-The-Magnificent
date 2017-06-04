@@ -8,7 +8,7 @@ import it.polimi.ingsw.LM34.Model.LeaderRequirements;
  * Created by Julius on 03/05/2017.
  */
     public class LeaderCard {
-    private LeaderNames leaderName; /*Enum*/
+    private LeaderNames leaderName;
     private LeaderRequirements requirements;
     private AbstractEffect bonus;
     private Boolean isActivatedByPlayer; //For CopyOtherLeader

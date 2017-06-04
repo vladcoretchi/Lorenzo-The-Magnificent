@@ -9,9 +9,12 @@ import it.polimi.ingsw.LM34.Model.Cards.VentureCard;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Utilities;
+import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 /**
  * Created by GiulioComi on 15/05/2017.
@@ -19,12 +22,15 @@ import java.util.HashMap;
 
 public class EndGameContext  extends AbstractGameContext {
     ArrayList<Player> players;
+    HashMap<Player, Integer> victoryPointsToPlayers;
 
     //TODO: all excommunication III period penalties are applied here as observers
 
 
     public EndGameContext() {
+        players = gameManager.getPlayers();
         contextType = ContextType.END_GAME_CONTEXT;
+        victoryPointsToPlayers = new HashMap<>();
     }
 
     @Override
@@ -51,9 +57,8 @@ public class EndGameContext  extends AbstractGameContext {
     /**
      * @return the hashmap with a correlation between players and their points earned by venture cards
      */
-    public HashMap<Player, Integer> onEndCalculateVictoryPointsPerPlayerByVentureCards() {
+    public HashMap<Player, Integer> onEndCalculateVictoryPointsPerPlayerByVentureCards(HashMap<Player, Integer> victoryPointsToPlayers) {
 
-        HashMap<Player, Integer> victoryPointsToPlayers = new HashMap<Player, Integer>();
         Integer totalVictoryPointsByVentureCardReward = 0;
         ArrayList<AbstractDevelopmentCard> tempPlayerVentureCards = new ArrayList<AbstractDevelopmentCard>();
         //for each player we calculate the sum of the victory points rewards provided by his venture cards stored in the personal board
@@ -72,7 +77,7 @@ public class EndGameContext  extends AbstractGameContext {
                 victoryPointsToPlayers.put(p, totalVictoryPointsByVentureCardReward);
             }
         } catch (InvalidCardType ict) {
-            ict.printStackTrace();
+            Logger.getAnonymousLogger().log(new LogRecord(Log.VERBOSE, ict.getMessage()));
         } //TODO:  adjust this exception handle
 
         return victoryPointsToPlayers;
@@ -82,9 +87,8 @@ public class EndGameContext  extends AbstractGameContext {
     /**
      * @return the hashmap with a correlation between players and their points earned by number of resources
      */
-    public HashMap<Player, Integer> onEndCalculateVictoryPointsPerPlayerByResources() {
+    public HashMap<Player, Integer> onEndCalculateVictoryPointsPerPlayerByResources(HashMap<Player, Integer> victoryPointsToPlayers) {
 
-        HashMap<Player, Integer> victoryPointsToPlayers = new HashMap<Player, Integer>();
         Integer totalVictoryPointsByResources = 0;
         //for each player we calculate the sum of the victory points rewards provided by his resources
 
@@ -103,8 +107,9 @@ public class EndGameContext  extends AbstractGameContext {
         setChanged();
         notifyObservers();
 
-        onEndCalculateVictoryPointsPerPlayerByVentureCards();
-        onEndCalculateVictoryPointsPerPlayerByResources();
+        onEndCalculateVictoryPointsPerPlayerByVentureCards(victoryPointsToPlayers);
+        onEndCalculateVictoryPointsPerPlayerByResources(victoryPointsToPlayers);
+        players.forEach(p -> gameManager.getPlayerNetworkController(p).endGameResults(victoryPointsToPlayers));
         //TODO: show calculations and ranks
     }
 
