@@ -4,6 +4,7 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlot;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
@@ -61,10 +62,7 @@ public class TowersContext extends AbstractGameContext implements  DiceDependent
         this.hasPenalty = hasPenalty; //set by "predicatore"
     }
 
-    
-    public void increaseTempValue(Integer servantsConsumed) {
-        tempValue += servantsConsumed;
-    }
+
 
     @Override
     public void sweep() {
@@ -76,5 +74,11 @@ public class TowersContext extends AbstractGameContext implements  DiceDependent
     public void buyCard(Player player, TowerSlot slot) throws InvalidCardType {
         //TODO: check many things here
         player.getPersonalBoard().addCard(slot.getCardStored());
+    }
+
+  //TODO
+  @Override
+    public ArrayList<ActionSlot> getActionSlots() {
+        return null;
     }
 }

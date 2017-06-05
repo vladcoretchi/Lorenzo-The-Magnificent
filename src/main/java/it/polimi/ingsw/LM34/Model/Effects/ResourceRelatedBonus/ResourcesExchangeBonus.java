@@ -65,18 +65,7 @@ public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
 
     }
 
-    public void activatePrivilegeExchange(AbstractGameContext callerContext, FamilyMember familyMember) {
 
-        for(Pair<Resources, ResourcesBonus> pair : resourceExchange) {
-            /*check if the player has enough resources to activate the card permanent effect*/
-            if (player.hasEnoughResources(pair.getLeft())) {
-                player.subResources(pair.getLeft());
-                /*activate the card permanent effect providing the player with the resources desired*/
-                player.addCouncilPrivileges(pair.getRight().getCouncilPrivilege());
-                ((UseCouncilPrivilegeContext)callerContext.getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(player);
-            }
-        }
-    }
 
     public void activateResourcesExchange(AbstractGameContext callerContext, FamilyMember familyMember) {
 
@@ -86,8 +75,9 @@ public class ResourcesExchangeBonus extends AbstractEffect implements Observer {
                 /*retrieve from player the resources he needs to pay*/
                 player.subResources(pair.getLeft());
                 /*activate the card permanent effect providing the player with the resources desired*/
-                ((ResourceIncomeContext)callerContext.getContextByType(RESOURCE_INCOME_CONTEXT)).handleResources(player, pair.getRight().getResources());
-
+                ((ResourceIncomeContext)callerContext.getContextByType(RESOURCE_INCOME_CONTEXT)).handleResources(player, pair.getRight());
+                player.addCouncilPrivileges(pair.getRight().getCouncilPrivilege());
+                ((UseCouncilPrivilegeContext)callerContext.getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(player);
 
             }
         }

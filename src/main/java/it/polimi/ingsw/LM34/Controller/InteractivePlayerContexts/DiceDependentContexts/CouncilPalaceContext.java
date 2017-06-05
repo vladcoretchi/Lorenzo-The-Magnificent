@@ -1,10 +1,13 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Configurator;
+
+import java.util.ArrayList;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.COUNCIL_PALACE_CONTEXT;
 
@@ -51,6 +54,10 @@ public class CouncilPalaceContext extends AbstractGameContext implements DiceDep
         councilPalace.sweepPalace();
     }
 
+    @Override
+    public ArrayList<ActionSlot> getActionSlots() {
+        return councilPalace.getActionSlots();
+    }
 
 
     public CouncilPalace getCouncilPalace() {

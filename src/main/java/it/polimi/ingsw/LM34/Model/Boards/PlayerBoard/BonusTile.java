@@ -1,19 +1,18 @@
 package it.polimi.ingsw.LM34.Model.Boards.PlayerBoard;
 
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
-import it.polimi.ingsw.LM34.Model.Resources;
 
 /**
  * Created by Giulio Comi on 03/05/2017.
  */
 
 public class BonusTile {
-private Resources productionBonus;
-private Resources harvestBonus;
+private ResourcesBonus productionBonus;
+private ResourcesBonus harvestBonus;
 
 
 //to be initialized before the starting of the game with the bonus values reported in the bonus tiles
-    public BonusTile(Resources pb, Resources hb) {
+    public BonusTile(ResourcesBonus pb, ResourcesBonus hb) {
 	this.productionBonus = pb;
 	this.harvestBonus = hb;
     }
@@ -25,11 +24,11 @@ private Resources harvestBonus;
     public void setHarvestBonus(ResourcesBonus b) {
     }
 
-    public Resources getHarvestBonus() {
+    public ResourcesBonus getHarvestBonus() {
         return this.harvestBonus;
     }
 
-    public Resources getProductionBonus() {
+    public ResourcesBonus getProductionBonus() {
         return this.productionBonus;
     }
 }

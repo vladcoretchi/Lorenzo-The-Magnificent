@@ -2,6 +2,7 @@ package it.polimi.ingsw.LM34.Model.Effects;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractableContexts.ResourceIncomeContext;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
@@ -21,12 +22,10 @@ public class CurchSupportBonus extends AbstractEffect implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         AbstractGameContext callerContext = (AbstractGameContext) o;
-        Resources reward = new Resources(0,0,5);
+        ResourcesBonus reward = new ResourcesBonus(new Resources(0,0,5), 0);
         Player player = (Player) arg;
         ((ResourceIncomeContext)callerContext.getContextByType(RESOURCE_INCOME_CONTEXT)).handleResources(player, reward);
     }
-
-//curch report
 
     @Override
     public void applyEffect(AbstractGameContext callerContext, Player player) {

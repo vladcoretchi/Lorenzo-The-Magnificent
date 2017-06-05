@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContext
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractableContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
@@ -40,7 +41,7 @@ public class CurchReportContext  extends AbstractGameContext {
         //TODO: addVictoryPointsFromFaithPath based on faith track position
         Integer faithReward = player.getResources().getResourceByType(FAITH_POINTS);
 
-        Resources reward = new Resources(0,faithReward,0);  /*Wrapper*/
+        ResourcesBonus reward = new ResourcesBonus(new Resources(0,faithReward,0), 0);  /*Wrapper*/
         ((ResourceIncomeContext) gameManager.getContextByType(RESOURCE_INCOME_CONTEXT)).handleResources(player, reward);
 
 
