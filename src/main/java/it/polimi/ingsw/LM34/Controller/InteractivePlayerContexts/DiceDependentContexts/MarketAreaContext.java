@@ -23,8 +23,19 @@ public MarketAreaContext() {
     @Override
     public void interactWithPlayer(Player player) {
         System.out.println("siamo in market area context");
-        setChanged();
-        notifyObservers();
+
+
+        /*First ActionSlot Choice*/
+
+
+        //Integer diceValueToHave = actionslot.getDiceValue();
+        /*Then FamilyMember Choice*/
+        /*FamilyMember selectedPawn = ((FamilyMemberSelectionContext)getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT))
+                                    .familyMemberSelection(diceValueToHave, player);*/
+
+
+
+
 
         /*if(!ban) { //the ban is set if the player got the related excommunication card
 

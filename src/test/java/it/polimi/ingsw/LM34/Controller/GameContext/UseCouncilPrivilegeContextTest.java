@@ -1,13 +1,7 @@
 package it.polimi.ingsw.LM34.Controller.GameContext;
 
-import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
-import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
-import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Model.Resources;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created by robertodorata on 5/26/17.
@@ -15,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 public class UseCouncilPrivilegeContextTest {
 
     @Test
-    public void testIntractWithPlayer() {
+    public void testInteractWithPlayer() {
 
         Integer numberOfCouncilPrivileges  = 3;
         PersonalBoard personalBoard = new PersonalBoard();

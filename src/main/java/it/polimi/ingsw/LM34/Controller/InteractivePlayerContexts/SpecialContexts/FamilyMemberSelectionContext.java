@@ -16,7 +16,7 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.INCREASE_PAWNS_V
 
 /*Called by DiceDependentContext classes*/
 public class FamilyMemberSelectionContext extends AbstractGameContext {
-
+    private Integer tempValue;
 
     @Override
     public void interactWithPlayer(Player player) {
@@ -24,7 +24,7 @@ public class FamilyMemberSelectionContext extends AbstractGameContext {
     }
 
 
-    public FamilyMember familyMemberSelection(Player player) {
+    public FamilyMember familyMemberSelection(Integer diceValueNeeded, Player player) {
         FamilyMember selectedPawn = null;
         ArrayList<FamilyMember> playerPawns = new ArrayList();
         Integer selected = this.gameManager.getActivePlayerNetworkController().familyMemberSelection(playerPawns);
@@ -32,12 +32,22 @@ public class FamilyMemberSelectionContext extends AbstractGameContext {
         try {
             Validator.checkValidity(selected.toString(),playerPawns);
             selectedPawn = playerPawns.get(selected);
-            gameManager.getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT).interactWithPlayer(player);
+            tempValue = selectedPawn.getValue();
+            if ( tempValue <= diceValueNeeded)
+                gameManager.getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT).interactWithPlayer(player);
+
         }
         /*If input mismatches expected informations... the player is able to try again*/
         catch(IncorrectInputException ide){
-            familyMemberSelection(player);
+            familyMemberSelection(diceValueNeeded, player);
         }
+      //TODO: handle if player has not enough dice value...
         return selectedPawn;
     }
+
+
+    public void increaseTempValue(Integer servantsConsumed) {
+        tempValue += servantsConsumed;
+    }
+
 }
