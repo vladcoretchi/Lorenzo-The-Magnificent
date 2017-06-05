@@ -1,8 +1,8 @@
 package it.polimi.ingsw.LM34.Network.Client;
 
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.UI.AbstractUI;
-
 import java.util.List;
 
 /**
@@ -23,5 +23,7 @@ public abstract class AbstractClient {
     public abstract void login(String username, String password);
 
     public abstract Integer contextSelection(List<PlayerSelectableContexts> contexts);
+
+    public abstract Integer marketSlotSelection(Market market);
 
 }

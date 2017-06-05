@@ -1,23 +1,23 @@
 package it.polimi.ingsw.LM34.UI.CLI;
 
+import java.util.Collections;
+import static it.polimi.ingsw.LM34.UI.CLI.CLIStuff.*;
+import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
+import it.polimi.ingsw.LM34.Enums.UI.NetworkType;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.UI.AbstractUI;
+import it.polimi.ingsw.LM34.Utils.Utilities;
 import it.polimi.ingsw.LM34.Utils.Validator;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*;
 
 /**
  * this class was built on {@link AbstractUI}. It implement all method body that will be used to describe and manage Cli
@@ -25,23 +25,34 @@ import java.util.regex.Pattern;
 
 public class CLI extends AbstractUI {
 
-    public void show() {
-        // variable that will remain false until the user's input will be correct
-        Boolean userInputIsValid = false;
+    private Integer selectionMenu(List<?> data, Optional<String> backString, Optional<String> message, Optional<String> errorMessage) {
+        Integer userSelection;
 
-        // this cycle will call user to choose between Rmi or Socket, and repeat this question until the user's answer will be 'rmi' or 'socket', ignoring uppercase
-        while(!userInputIsValid) {
-            String connectionTypeChoice = connectionTypeSelection();
-            if(connectionTypeChoice.equalsIgnoreCase("rmi") || connectionTypeChoice.equals("1")) {
-                this.networkClient = new RMIClient(SERVER_IP, RMI_PORT, this);
-                userInputIsValid = true;
-            }
-            else if (connectionTypeChoice.equalsIgnoreCase("socket") || connectionTypeChoice.equals("2")) {
-                this.networkClient = new SocketClient(SERVER_IP, SOCKET_PORT, this);
-                userInputIsValid = true;
-            }
-            else
-                CLIStuff.printToConsole.println(CLIStuff.ERROR_MESSAGE_COLOR + "please choose rmi or socket" + CLIStuff.RESET_COLOR);
+        backString.ifPresent((str) -> printFormat("%1$d) %2$s\n", 0, str));
+        for (int i = 0; i < data.size(); i++) {
+            printFormat("%1$d) %2$s\n", i+1, data.get(i).toString());
+        }
+
+        message.ifPresent((str) -> printLine(str));
+        String userSelectionString = readUserInput.nextLine();
+        try {
+            userSelection = Validator.checkValidity(userSelectionString, data);
+        }
+        catch (IncorrectInputException ex) {
+            errorMessage.ifPresent((str) -> printError(str));
+            userSelection = selectionMenu(data, backString, message, errorMessage);
+        }
+
+        return --userSelection;
+    }
+
+    public void show() {
+        NetworkType connectionTypeChoice = connectionTypeSelection();
+        if(connectionTypeChoice == NetworkType.RMI) {
+            this.networkClient = new RMIClient(SERVER_IP, RMI_PORT, this);
+        }
+        else if (connectionTypeChoice == NetworkType.SOCKET) {
+            this.networkClient = new SocketClient(SERVER_IP, SOCKET_PORT, this);
         }
 
         this.networkController = networkClient.getNetworkController();
@@ -49,32 +60,17 @@ public class CLI extends AbstractUI {
     }
 
     /**
-     * this method will be called when the console will print on screen the Splash screen, at the beginning of it's lifecycle
-     */
-    @Override
-    public void showSplashScreen() {
-        CLIStuff.printToConsole.println(CLIStuff.SPLASH_SCREEN);
-    }
-
-    /**
-     * this method will be called when the console need to separate some information to others
-     */
-    @Override
-    public void printDivider() {
-        CLIStuff.printToConsole.println(CLIStuff.DIVIDER);
-    }
-
-    /**
      * this method will be called when the console will ask to user to insert his username and password
      */
     @Override
-    public void loginMenu() {
+    protected void loginMenu() {
+        printLine("--- Login ---");
 
-        CLIStuff.printToConsole.println("Please insert your username:");
-        String playerUsername = CLIStuff.readUserInput.nextLine();
+        printLine("Username:");
+        String playerUsername = readUserInput.nextLine();
 
-        CLIStuff.printToConsole.println("please insert your password:");
-        String playerPassword = CLIStuff.readUserInput.nextLine();
+        printLine("Password:");
+        String playerPassword = readUserInput.nextLine();
 
         networkController.login(playerUsername, playerPassword);
     }
@@ -84,10 +80,10 @@ public class CLI extends AbstractUI {
      * @param result login result
      */
     public void loginResult(Boolean result) {
-        if (result) {
-            CLIStuff.printToConsole.println("Access granted!");
-        } else {
-            CLIStuff.printToConsole.println("Access denied! Wrong username or password.");
+        if (result)
+            printLine("Access granted!");
+        else {
+            printError("Access denied! Wrong username or password");
             loginMenu();
         }
     }
@@ -97,26 +93,14 @@ public class CLI extends AbstractUI {
      * @return the user's choice
      */
     @Override
-    public String connectionTypeSelection() {
-        CLIStuff.printToConsole.println("which technology do you wish to use to connect to the server?\n" +
-                "1) RMI\n" +
-                "2) Socket"
-        );
+    public NetworkType connectionTypeSelection() {
+        List<NetworkType> networkTypes = Arrays.asList(NetworkType.values());
+        Integer selection = selectionMenu(networkTypes,
+                Optional.empty(),
+                Optional.of("Select the network connection type:"),
+                Optional.of("Invalid selection"));
 
-        return CLIStuff.readUserInput.nextLine();
-    }
-
-    /**
-     * this method will be called when, in game, user type "help", followed by a request.
-     * if the request will be card's name, the helper will display all information about this card
-     * if the request will be another user's name, the helper will display all information about that user
-     */
-    public String helper() {
-        CLIStuff.printToConsole.println("type help + 'card name' to obtain all information about the searched card\n" +
-                "type help + 'player name' to obtain all information about the searched player\n"+
-                "currently, in-game are present x player, which names are ...\n");
-
-        return CLIStuff.readUserInput.nextLine();
+        return networkTypes.get(selection);
     }
 
     /**
@@ -124,75 +108,24 @@ public class CLI extends AbstractUI {
      */
     @Override
     public Integer contextSelection(List<PlayerSelectableContexts> allContext)  {
-
-        String userContextSelection;
-
-        Integer userSelection = 0;
-
-        allContext.forEach((context) -> context.toString().replace("_CONTEXT", "").replace("_", " "));
-
-        allContext.forEach((context)-> CLIStuff.printToConsole.println(context));
-
-        Boolean validContext = false;
-
-        do {
-                CLIStuff.printToConsole.println("in which context do you wish to enter? \n"+
-                        "type 1 to enter into the first context, type 2 to enter into the second context, ...\n" +
-                        "type 0 to exit");
-
-                userContextSelection = CLIStuff.readUserInput.nextLine();
-                userSelection = Integer.parseInt(userContextSelection);
-
-                try {
-                    Validator.checkValidity(userContextSelection);
-                    validContext = true;
-
-                }
-                catch (IncorrectInputException ex) {
-                    CLIStuff.printToConsole.println("please select a valid context ");
-                }
-
-        }
-        while(!validContext);
-
-        return --userSelection;
-
+        return selectionMenu(allContext,
+                Optional.of("End turn"),
+                Optional.of("Select the context to enter or 0 to end this turn"),
+                Optional.of("Invalid selection"));
     }
 
     /**
      * this method will be called when player will want to play or discard some leader cards
      * @param playerLeaderCards the leader cards that player actually have in his hand
-     * @param action the action the player will be. It can be discard (in case player will want to discard some leader cards) or play (in case player will want to play some leader cards)
-     * @return a list that contains which leader cards player have chosen to discard/play
+     * @param action the action to do with the leader card
+     * @return the index of the selected leader card
      */
     @Override
-    public ArrayList<String> playerLeaderCardsAction(List<String> playerLeaderCards, String action) {
-
-        String cardsInfluencedByAction;
-        Integer numberOfInfluencedCards;
-        ArrayList<String> listOfInfluencedCards = new ArrayList<>();
-
-        //print all player`s leader cards
-        playerLeaderCards.stream().forEach((leaderCard) -> {CLIStuff.printToConsole.println(playerLeaderCards);});
-
-        CLIStuff.printToConsole.format("which leader do you wish to %s? %n" +
-                "to select, please insert card's number, eventually separated by comma in case of multiple choice", action);
-        cardsInfluencedByAction = CLIStuff.readUserInput.nextLine();
-
-
-        Pattern pattern = Pattern.compile("[0-9]+");
-
-        Matcher matcher = pattern.matcher(cardsInfluencedByAction);
-
-        while(matcher.find()){
-
-            numberOfInfluencedCards = Integer.parseInt(matcher.group());
-
-            listOfInfluencedCards.add(playerLeaderCards.get(numberOfInfluencedCards));
-        }
-
-        return listOfInfluencedCards;
-
+    public Integer leaderCardAction(List<String> playerLeaderCards, LeaderCardsAction action) {
+        return selectionMenu(playerLeaderCards,
+                Optional.of("Back to context selection"),
+                Optional.of(String.format("Select the leader card to %1$s", action.toString().toLowerCase())),
+                Optional.of("Invalid selection"));
     }
 
     /**
@@ -200,9 +133,73 @@ public class CLI extends AbstractUI {
      * @param market all market`s slot information
      */
     @Override
-    public HashMap<Integer, Integer> market(Market market, Player player) {
+    public Integer marketSlotSelection(Market market) {
+        List<List<Map.Entry<String,Integer>>> slotsResources = new ArrayList<>();
+        market.getMarketSlots().forEach((ActionSlot as) -> {
+            Map res = new HashMap<>();
+            Resources resources = as.getResourcesReward().getResources();
+            resources.getResources().forEach((ResourceType rt, Integer val) -> res.put(rt.toString(), val));
+            if (as.getResourcesReward().getCouncilPrivilege() > 0)
+                res.put("COUNCIL PRIVILEGES", as.getResourcesReward().getCouncilPrivilege());
+            slotsResources.add(new ArrayList<>(res.entrySet()));
+        });
 
-        Integer playerChosenFamilyMember;
+        Integer resourcesLines = 0;
+        for (List sr : slotsResources) {
+            if (sr.size() > resourcesLines)
+                resourcesLines = sr.size();
+        }
+
+        printFormat(" %1$s \n", String.join(" ", Collections.nCopies(slotsResources.size(), "__________")));
+        printFormat("|%1$s|\n", String.join("|", Collections.nCopies(slotsResources.size(), "          ")));
+
+        for (int i = 0; i < resourcesLines; i++) {
+            String s;
+
+            /*print resource value and get resources' splitted string*/
+            s = "|";
+            List<String[]> splittedStrings = new ArrayList<>();
+            Integer resourceNameLines = 0;
+            for (List<Map.Entry<String,Integer>> sr : slotsResources) {
+                List<String> slotResource = new ArrayList<>();
+                if (i < sr.size()) {
+                    s = String.format("%1$s%2$-10s|", s, sr.get(i).getValue());
+                    String splittedResourceName[] = Utilities.splitStringByLength(sr.get(i).getKey(), 10);
+                    splittedStrings.add(splittedResourceName);
+                    if (splittedResourceName.length > resourceNameLines)
+                        resourceNameLines = splittedResourceName.length;
+                }
+                else {
+                    s = String.format("%1$s%2$10s|", s, "");
+                    splittedStrings.add(new String[0]);
+                }
+            }
+            printLine(s);
+
+            /*print resources names*/
+            for (int j = 0; j < resourceNameLines; j++) {
+                s = "|";
+                for (String name[] : splittedStrings) {
+                    if (j < name.length)
+                        s = String.format("%1$s%2$-10s|", s, name[j]);
+                    else
+                        s = String.format("%1$s%2$10s|", s, "");
+                }
+                printLine(s);
+            }
+
+            /*print empty line*/
+            printFormat("|%1$s|\n", String.join("|", Collections.nCopies(slotsResources.size(), "          ")));
+        }
+
+        printFormat("|%1$s|\n", String.join("|", Collections.nCopies(slotsResources.size(), "__________")));
+
+        //TODO: print dice value requirements
+        //TODO: player input
+
+        return 0;
+
+        /*Integer playerChosenFamilyMember;
         Integer playerChosenFamilyMemberValue;
         Integer playerChosenSlot;
         Boolean validUserInput;
@@ -253,7 +250,7 @@ public class CLI extends AbstractUI {
 
         do {
             CLIStuff.printToConsole.println("which family member do you wish to put into market? ");
-            playerChosenFamilyMember = CLIStuff.readUserInput.nextInt();
+            playerChosenFamilyMember = readUserInput.nextInt();
 
             try {
                 Validator.checkValidity(playerChosenFamilyMember.toString());
@@ -275,7 +272,7 @@ public class CLI extends AbstractUI {
 
         do {
             CLIStuff.printToConsole.println("in which action slot do you wish to put this family member? ");
-            playerChosenSlot = CLIStuff.readUserInput.nextInt();
+            playerChosenSlot = readUserInput.nextInt();
 
             try {
                 Validator.checkValidity(playerChosenSlot.toString());
@@ -317,7 +314,7 @@ public class CLI extends AbstractUI {
 
        do {
            CLIStuff.printToConsole.format("in which slot do you want to %s?", userChoice);
-           selectedSlot = CLIStuff.readUserInput.nextInt();
+           selectedSlot = readUserInput.nextInt();
 
            try {
                Validator.checkValidity(selectedSlot.toString());
@@ -334,7 +331,7 @@ public class CLI extends AbstractUI {
 
         do {
             CLIStuff.printToConsole.println("which family member do you wish to use? ");
-            selectedFamilyMember = CLIStuff.readUserInput.nextInt();
+            selectedFamilyMember = readUserInput.nextInt();
 
             try {
                 Validator.checkValidity(selectedFamilyMember.toString());
@@ -350,13 +347,13 @@ public class CLI extends AbstractUI {
         tempDiceValue = familyMemberValue;
 
         CLIStuff.printToConsole.format("actually, you can %s for %d. Do you wish to use some servants to increase this value? ",userChoice ,familyMemberValue);
-        useSomeServants = (CLIStuff.readUserInput.nextLine().equalsIgnoreCase("yes")) ? true : false;
+        useSomeServants = (readUserInput.nextLine().equalsIgnoreCase("yes")) ? true : false;
 
         if(useSomeServants) {
 
            do {
                CLIStuff.printToConsole.println("how many servants do you wish to use? ");
-               usedServants = servantsSelection(servantsAvailable, CLIStuff.readUserInput.nextInt());
+               usedServants = servantsSelection(servantsAvailable, readUserInput.nextInt());
            }
            while(servantsAvailable < usedServants);
         }
@@ -384,7 +381,7 @@ public class CLI extends AbstractUI {
 
         do {
             CLIStuff.printToConsole.println("which family member do you wish to use? ");
-            selectedFamilyMember = CLIStuff.readUserInput.nextInt();
+            selectedFamilyMember = readUserInput.nextInt();
 
             try {
                 Validator.checkValidity(selectedFamilyMember.toString());
@@ -410,7 +407,7 @@ public class CLI extends AbstractUI {
 
             do {
                 CLIStuff.printToConsole.println("which CouncilPrivilege bonus do you wish to take? ");
-                selectedCouncilPrivilegeBonus = CLIStuff.readUserInput.nextInt();
+                selectedCouncilPrivilegeBonus = readUserInput.nextInt();
 
                try {
                    Validator.checkValidity(selectedCouncilPrivilegeBonus.toString());
@@ -440,7 +437,7 @@ public class CLI extends AbstractUI {
 
        do {
            CLIStuff.printToConsole.println("in which tower do you wish to bring your family member? ");
-           tower = CLIStuff.readUserInput.nextInt();
+           tower = readUserInput.nextInt();
 
            try {
                Validator.checkValidity(tower.toString());
@@ -456,7 +453,7 @@ public class CLI extends AbstractUI {
 
         do {
             CLIStuff.printToConsole.println("in which tower's floor do you wish to put your family member? ");
-            floor = CLIStuff.readUserInput.nextInt();
+            floor = readUserInput.nextInt();
 
             try {
                 Validator.checkValidity(floor.toString());
@@ -493,7 +490,7 @@ public class CLI extends AbstractUI {
 
             CLIStuff.printToConsole.println("to complete this action, you need at least " + minimumServantsRequested.toString() + "servants, and max " + servantsAvailable.toString() + " servants ");
             CLIStuff.printToConsole.println("how many servants do you want to use? ");
-            usedServants = CLIStuff.readUserInput.nextInt();
+            usedServants = readUserInput.nextInt();
         }
         while(((usedServants + servantsAvailable) < minimumServantsRequested) || usedServants > servantsAvailable);
 
@@ -524,108 +521,7 @@ public class CLI extends AbstractUI {
      */
     @Override
     public void printGameBoard() {
-
-        CLIStuff.printToConsole.println(" ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______\n" +
-                "|      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |\n" +
-                "|  0   |  1   |  2   |  3   |  4   |  5   |  6   |  7   |  8   |  9   |  10  |  11  |  12  |  13  |  14  |  15  |  16  |  17  |  18  |  19  | 20   |\n" +
-                "|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|\n" +
-                "|      |                                                                                                                                    |      |\n" +
-                "| 99   |    ___________ ...........   ___________ ...........   ____________ ...........   ___________ ...........      1°—>5 2°—>2         | 21   |\n" +
-                "|______|   |           |    2     .  |           |    2     .  |            |    2     .  |           |     2    .      __________          |______|\n" +
-                "|      |   | marble    |  woods   .  | ambassador|  stones  .  | military   | military .  | support to|   coins  .     |    25    |         |      |\n" +
-                "| 98   |   | pit       |          .  |           |          .  | academy    | points   .  | the pope  |          .     |__________|         | 22   |\n" +
-                "|______|   |           |...........  |           |...........  |            |...........  |           |...........     |    24    |         |______|\n" +
-                "|      |   |___________|    7        |___________|    7        |____________|    7        |___________|     7          |__________|         |      |\n" +
-                "| 97   |    ___________ ...........   ___________ ...........   ____________ ...........   ___________ ...........     |    23    |         | 23   |\n" +
-                "|______|   |           |    1     .  |           |    1     .  |            |    1     .  |           |     1    .     |__________|         |______|\n" +
-                "|      |   | manor     |  woods   .  | paramour  |  stones  .  | stronghold | military .  | improving |   coins  .     |    22    |         |      |\n" +
-                "| 96   |   | house     |          .  |           |          .  |            | points   .  | the roads |          .     |__________|         | 24   |\n" +
-                "|______|   |           |...........  |           |...........  |            |...........  |           |...........     |    21    |         |______|\n" +
-                "|      |   |___________|    5        |___________|    5        |____________|    5        |___________|     5          |__________|         |      |\n" +
-                "| 95   |                                                                                                               |    20    |         | 25   |\n" +
-                "|______|    ___________ ...........   ___________ ...........   ____________ ...........   ___________ ...........     |__________|         |______|\n" +
-                "|      |   |           |          .  |           |          .  |            |          .  |           |          .     |    19    |         |      |\n" +
-                "| 94   |   | fortified |          .  | governor  |          .  |stonemason’s|          .  | repairing |          .     |__________|         | 26   |\n" +
-                "|______|   | town      |          .  |           |          .  | guild      |          .  | the       |          .     |    18    | 6       |______|\n" +
-                "|      |   |           |...........  |           |...........  |            |...........  | cathedral |...........     |__________|         |      |\n" +
-                "| 93   |   |___________|    3        |___________|    3        |____________|    3        |___________|     3          |    17    |         | 27   |\n" +
-                "|______|                                                                                                               |__________|         |______|\n" +
-                "|      |    ___________ ...........   ___________ ...........   ___________ ...........    ___________ ...........     |    16    |         |      |\n" +
-                "| 92   |   |           |          .  |           |          .  |           |          .   |           |          .     |__________|         | 28   |\n" +
-                "|______|   | trading   |          .  | royal     |          .  | sculptor’s|          .   | support to|          .     |    15    |         |______|\n" +
-                "|      |   | town      |          .  | messenger |          .  | guild     |          .   | the       |          .     |__________|         |      |\n" +
-                "| 91   |   |           |...........  |           |...........  |           |...........   | cardinal  |...........     |    14    |         | 29   |\n" +
-                "|______|   |___________|    1        |___________|    1        |___________|     1        |___________|     1          |__________|         |______|\n" +
-                "|      |                                                                                                               |    13    |         |      |\n" +
-                "| 90   |                                                                                                               |__________|         | 30   |\n" +
-                "|______|                                                       ___________________________________       1° ___        |    12    | 5       |______|\n" +
-                "|      |                                                      |             1°=>2°=>3°=>4°=>=>=>  |        |   |       |__________|         |      |\n" +
-                "| 89   |                                                      |                                   |        |   |       |    11    |         | 31   |\n" +
-                "|______|                                                      |  1C.P                             |        |___|       |__________|         |______|\n" +
-                "|      |                                                      |     1 coin                        |                    |    10    |         |      |\n" +
-                "| 88   |                                                      |                                   |      2° ___        |__________|         | 32   |\n" +
-                "|______|                                                      |                                   |        |   |       |     9    |         |______|\n" +
-                "|      |                                                      |_________________1_________________|        |   |       |__________|         |      |\n" +
-                "| 87   |                                                                                                   |___|       |     8    |         | 33   |\n" +
-                "|______|                                                                                                               |__________|         |______|\n" +
-                "|      |                                                       ____________________________________      3° ___        |     7    | 4       |      |\n" +
-                "| 86   |                                                      |                                    |       |   |       |__________|         | 34   |\n" +
-                "|______|                                                      | 1C.P => 1W+1S/2SV/2CS/2MP/1FP      |       |   |       |     6    |         |______|\n" +
-                "|      |                                                      |____________________________________|       |___|       |__________|         |      |\n" +
-                "| 85   |                                                                                                               |     5    |         | 35   |\n" +
-                "|______|                                                                                                 4° ___        |__________|         |______|\n" +
-                "|      |                                                                                                   |   |       |     4    |         |      |\n" +
-                "| 84   |                                                                                                   |   |       |__________|         | 36   |\n" +
-                "|______|     |                                                                                             |___|       |     3    | 3       |______|\n" +
-                "|      |   __|__                                                                                                       |__________|         |      |\n" +
-                "| 83   |     |                                                                                                         |     2    |         | 37   |\n" +
-                "|______|     |                                                                                                         |__________|         |______|\n" +
-                "|      |                                                                                                               |     1    |         |      |\n" +
-                "| 82   |    0    1    2    3   4    5    7    9    11   13   15   17   19   22   25   30                               |__________|         | 38   |\n" +
-                "|______|  ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____                              |     0    | 2       |______|\n" +
-                "|      | |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |                             |__________|         |      |\n" +
-                "| 81   | | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 10 | 11 | 12 | 13 | 14 | 15 |                                                  | 39   |\n" +
-                "|______| |____|____|____|____|____|____|____|____|____|____|____|____|____|____|____|____|                                                  |______|\n" +
-                "|      |                                                                                                                                    |      |\n" +
-                "| 80   |                                                                                                                                    | 40   |\n" +
-                "|______|                                                                                                                                    |______|\n" +
-                "|      |                                                                                                                                    |      |\n" +
-                "| 79   |                                                                                                                                    | 41   |\n" +
-                "|______|                                                                                                                                    |______|\n" +
-                "|      |                                                                                                                                    |      |\n" +
-                "| 78   |                                                                                                                                    | 42   |\n" +
-                "|______|                                                                                                                                    |______|\n" +
-                "|      |   ____________   _________3+__________                                 _________ __________ _____4____ _____4____                  |      |\n" +
-                "| 77   |  |            | |                     |                               |         |          |          |          |                 | 43   |\n" +
-                "|______|  | production | | production          |                               |    5    |    5     |  3 M.P   |   1 C.P  |                 |______|\n" +
-                "|      |  |            | |   -3 to dice value  |                               |  coins  | servants |  2 coins |    !=    |                 |      |\n" +
-                "| 76   |  |______1_____| |__________1__________|                               |         |          |          |   1 C.P  |                 | 44   |\n" +
-                "|______|                                                                       |____1____|_____1____|_____1____|_____1____|                 |______|\n" +
-                "|      |                                                                                                                                    |      |\n" +
-                "| 75   |                                                                                                                                    | 45   |\n" +
-                "|______|                                                                                                                                    |______|\n" +
-                "|      |   ____________   _________3+__________                                                                                             |      |\n" +
-                "| 74   |  |            | |                     |                                __________ __________ __________                            | 46   |\n" +
-                "|______|  | harvest    | | harvest             |                               |          |          |          |                           |______|\n" +
-                "|      |  |            | |  -3 to dice value   |                               |  black   |  white   |  orange  |                           |      |\n" +
-                "| 73   |  |_____1______| |__________1__________|                               |  pawn    |  pawn    |  pawn    |                           | 47   |\n" +
-                "|______|                                                                       |          |          |          |                           |______|\n" +
-                "|      |                                                                       |__________|__________|__________|                           |      |\n" +
-                "| 72   |                                          1 Servant = +1 dice value                                                                 | 48   |\n" +
-                "|______|                                                                                                                                    |______|\n" +
-                "|      |                                                                                                                                    |      |\n" +
-                "| 71   |                                                                                                                                    | 49   |\n" +
-                "|______|______ _______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ ______ _____|______|\n" +
-                "|      |      |       |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |     |      |\n" +
-                "| 70   | 69   | 68    | 67   | 66   | 65   | 64   | 63   | 62   |  61  | 60   | 59   | 58   | 57   | 56   | 55   | 54   | 53   | 52   | 51  | 50   |\n" +
-                "|______|______|_______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|______|_____|______|\n" +
-                "\n");
-
-        //TODO: manage pawns into tower's floor
-
-        //TODO: print towers color-coded
-        //TODO: rename CliStuff, and move gameBoard into constant
-
+        //TODO
     }
 
 }

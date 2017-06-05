@@ -2,8 +2,12 @@ package it.polimi.ingsw.LM34.Utils;
 
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Resources;
-
+import org.apache.commons.lang3.StringUtils;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiFunction;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Utilities class
@@ -34,17 +38,31 @@ public final class Utilities {
 
     public static BiFunction<Integer, Integer, Integer> sumInteger = (val1, val2) -> val1 + val2;
 
-
-
     /*Useful method helpful in counting end game total amount of resources*/
     public static Integer getTotalAmount(Resources resources) {
-
-         Integer totalUnit = 0;
-         totalUnit = resources.getResourceByType(ResourceType.WOODS)+
-                     resources.getResourceByType(ResourceType.STONES)+
-                     resources.getResourceByType(ResourceType.COINS)+
-                     resources.getResourceByType(ResourceType.SERVANTS);
-
+         Integer totalUnit = resources.getResourceByType(ResourceType.WOODS) +
+                 resources.getResourceByType(ResourceType.STONES) +
+                 resources.getResourceByType(ResourceType.COINS) +
+                 resources.getResourceByType(ResourceType.SERVANTS);
          return totalUnit;
     }
+
+    /**
+     * Split a string in substring with a maximum length
+     * https://stackoverflow.com/questions/25853393/split-a-string-in-java-into-equal-length-substrings-while-maintaining-word-bound
+     * @param data string to split
+     * @param maxLength maximum length of the substrings
+     * @return
+     */
+    public static String[] splitStringByLength(String data, Integer maxLength) {
+        List<String> result = new ArrayList<>();
+
+        Pattern p = Pattern.compile("\\G(\\s*|_*)(.{1," + maxLength + "})(?=\\s|_|$)", Pattern.DOTALL);
+        Matcher m = p.matcher(data);
+        while (m.find())
+            result.add(StringUtils.strip(m.group(2).trim(), "_"));
+
+        return result.toArray(new String[0]);
+    }
+
 }

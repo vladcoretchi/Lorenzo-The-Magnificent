@@ -4,13 +4,13 @@ import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.GameRoom;
 import org.apache.commons.lang3.tuple.Pair;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +29,10 @@ public class ServerNetworkController {
 
     public Integer contextSelection(List<PlayerSelectableContexts> contexts) {
         return serverConnection.contextSelection(contexts);
+    }
+
+    public Integer marketSlotSelection(Market market) {
+        return serverConnection.marketSlotSelection(market);
     }
 
     public Integer actionSlotSelection(ArrayList<ActionSlot> actionSlots) {

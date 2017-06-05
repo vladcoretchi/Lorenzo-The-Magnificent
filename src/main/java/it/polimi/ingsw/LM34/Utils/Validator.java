@@ -12,7 +12,6 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlot;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Network.GameRoom;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -34,17 +33,27 @@ public final class Validator {
 
 
     /*Validate input based on expected data types and ranges*/
-    public static final void checkValidity(String input,List<?> dataType) throws IncorrectInputException {
+    public static final Integer checkValidity(String input, List<?> data) throws IncorrectInputException {
         try {
             /*Try to extract an Integer from input*/
             Integer inputValue = Integer.parseInt(input);
-            /*Calculates range*/
-            Integer min = 1; //TODO: FIX THIS BASE INDEX HERE OR IN THE CONTEXTS
-            Integer max = dataType.toArray().length;
-            /*Check if input meets the requirements*/
-            if(inputValue < min || inputValue > max)
-                throw new IncorrectInputException();
+            checkValidity(inputValue, data);
+            return inputValue;
+        } catch (Exception e) {
+            throw new IncorrectInputException();
+        }
+    }
 
+    /*Validate input based on expected data types and ranges*/
+    public static final void checkValidity(Integer input, List<?> data) throws IncorrectInputException {
+        try {
+            /*Calculates range*/
+            Integer min = 0;
+            Integer max = data.size();
+
+            /*Check if input meets the requirements*/
+            if(input < min || input > max)
+                throw new IncorrectInputException();
         } catch (Exception e) {
             throw new IncorrectInputException();
         }
@@ -52,7 +61,13 @@ public final class Validator {
 
     /*Validate Number type inputs*/
     public static final void checkValidity(String input) throws IncorrectInputException {
-        if(Integer.parseInt(input) <= 0)
+        if(Integer.parseInt(input) < 0)
+            throw new IncorrectInputException();
+    }
+
+    /*Validate Number type inputs*/
+    public static final void checkValidity(Integer input, Integer max) throws IncorrectInputException {
+        if(input < 0 || input > max)
             throw new IncorrectInputException();
     }
 

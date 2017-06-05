@@ -7,6 +7,7 @@ import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
+import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 

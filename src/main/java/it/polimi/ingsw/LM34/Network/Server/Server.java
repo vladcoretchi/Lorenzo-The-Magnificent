@@ -50,7 +50,6 @@ public class Server {
     }
 
     public static GameRoom addPlayerToGameRoom(String username, ServerNetworkController networkController) {
-        //TODO: handle game rooms creation, game start timer, etc
         waitingRoom.addPlayer(username, networkController);
         return waitingRoom;
     }

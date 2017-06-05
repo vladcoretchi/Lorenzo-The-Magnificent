@@ -61,7 +61,7 @@ public class HarvestAreaContext extends AbstractGameContext implements DiceDepen
         harvestArea.sweep();
     }
 
-    @Override
+
     public void increaseTempValue(Integer servantsConsumed) { this.tempValue += servantsConsumed; }
 
 

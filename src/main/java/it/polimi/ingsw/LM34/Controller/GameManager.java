@@ -97,11 +97,10 @@ public class GameManager {
        // drwaExcommunicationCards();
 
         //TODO: initialize players
-        setupPlayersResources();
         Collections.shuffle(players); //randomly set the initial play order
+        setupPlayersResources();
 
         setupGameContexts();
-
     }
 
     public ServerNetworkController getActivePlayerNetworkController() {

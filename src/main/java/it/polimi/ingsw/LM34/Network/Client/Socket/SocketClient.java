@@ -1,11 +1,11 @@
 package it.polimi.ingsw.LM34.Network.Client.Socket;
 
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Server.Socket.RequestToServer;
 import it.polimi.ingsw.LM34.UI.AbstractUI;
-
 import java.io.*;
 import java.net.Socket;
 import java.util.List;
@@ -85,5 +85,10 @@ public class SocketClient extends AbstractClient {
     @Override
     public Integer contextSelection(List<PlayerSelectableContexts> contexts) {
         return networkController.contextSelection(contexts);
+    }
+
+    @Override
+    public Integer marketSlotSelection(Market market) {
+        return networkController.marketSlotSelection(market);
     }
 }

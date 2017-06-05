@@ -4,12 +4,14 @@ import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 
+import java.io.Serializable;
+
 /**
  * Created by Giulio Comi on 03/05/2017.
  */
 //TODO: evaluate to apply a factory pattern
 
-public class ActionSlot {
+public class ActionSlot implements Serializable {
     private FamilyMember familyMember; //the pawn inside the action slot
     private final ResourcesBonus resources; //the bonus the slot provides
     //TODO: evaluate if diceValue should be considered at this level or in market, towers, etc.

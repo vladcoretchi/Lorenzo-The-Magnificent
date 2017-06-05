@@ -24,6 +24,11 @@ public final class Configurator {
     private static final Integer BACK_OR_PASS = -1;
 
 
+    public static final Integer WAITING_ROOM_TIMEOUT = 10000;
+    public static final Integer WAITING_ROOM_PLAYERS_THRESHOLD = 2;
+    public static final Integer PLAYER_MOVE_TIMEOUT = 2000;
+
+    public static final Integer MAX_PLAYERS = 4;
     public static final Integer TOTAL_PERIODS = 3; //#total periods
     public static final Integer CARD_PER_ROUND = 4; //#development cards stored in a tower per round
     public static final Integer BASE_COINS = 5; //#coins given to first player at the starting of the game
@@ -55,15 +60,15 @@ public final class Configurator {
         } catch (Exception e) {e.printStackTrace();}
 
         try {
-            //setupMarket(jsonObject.getJSONObject("actionSlots").getJSONArray("market"));
+            setupMarket(jsonObject.getJSONObject("actionSlots").getJSONArray("market"));
             setupDevelopmentCards(jsonObject.getJSONObject("developmentCards"));
         } catch (Exception e) {e.printStackTrace();}
     }
 
-    private static void setupMarket(JSONArray market_array) { //(JSONObject jsonObject) {
+    private static void setupMarket(JSONArray market_array) {
         market = new Market(new ArrayList<>());
         for (int i = 0; i < market_array.length(); i++) {
-            market.addSlot(getActionSlotFromJson(market_array.getJSONObject(i)));
+            market.getMarketSlots().add(getActionSlotFromJson(market_array.getJSONObject(i)));
         }
     }
 

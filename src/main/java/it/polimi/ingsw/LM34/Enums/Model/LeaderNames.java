@@ -26,7 +26,7 @@ public enum LeaderNames {
     PICO_DELLA_MIRANDOLA("Pico della Mirandola");
 
 
-    /*The contextName is used in CLI and GUI for showing a beautified and human friendly name of the leaders*/
+    /*The contextName is used in UI and GUI for showing a beautified and human friendly name of the leaders*/
     private String leaderName;
 
     LeaderNames(String contextName) {

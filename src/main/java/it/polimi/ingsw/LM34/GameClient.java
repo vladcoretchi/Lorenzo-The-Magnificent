@@ -1,34 +1,18 @@
 package it.polimi.ingsw.LM34;
 
-import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
-import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
-import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
-import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.UI.AbstractUI;
 import it.polimi.ingsw.LM34.UI.CLI.CLI;
-import it.polimi.ingsw.LM34.UI.CLI.CLIStuff;
-import it.polimi.ingsw.LM34.UI.CLI.IgnoreInput;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static it.polimi.ingsw.LM34.UI.CLI.CLIStuff.*;
 
 public class GameClient {
     private static AbstractUI ui;
 
     public static void main(String[] args) {
+        printSplashScreen();
 
-        IgnoreInput ignoreInput = new IgnoreInput();
-
-         // variable that will remain false until the user's input will be correct
-
+        /*variable that will remain false until the user's input will be correct*/
         Boolean userInputIsValid = false;
-
-         // this cycle will call user to choose between Cli or Gui, and repeat this question until the answer will be 'cli' or 'gui', ignoring uppercase
-
         while(!userInputIsValid) {
-            showSplashScreen();
             String viewChoice = viewSelection();
 
             if (viewChoice.equalsIgnoreCase("cli")) {
@@ -40,7 +24,7 @@ public class GameClient {
                 userInputIsValid = false;
             }
             else
-                CLIStuff.printToConsole.println(CLIStuff.ERROR_MESSAGE_COLOR + "Please choose cli or gui" + CLIStuff.RESET_COLOR);
+                printError("Invalid selection!");
         }
 
         ui.show();
@@ -51,16 +35,8 @@ public class GameClient {
      * @return the user's choice
      */
     public static String viewSelection() {
-        CLIStuff.printToConsole.println("Do you wish to play using CLI or GUI?");
+        printLine("Do you wish to play using CLI or GUI?");
 
-        return CLIStuff.readUserInput.nextLine();
+        return readUserInput.nextLine();
     }
-
-    /**
-     * this method will be called when the console will print on screen the Splash screen, at the beginning of it's lifecycle
-     */
-    public static void showSplashScreen() {
-        CLIStuff.printToConsole.println(CLIStuff.SPLASH_SCREEN);
-    }
-
 }

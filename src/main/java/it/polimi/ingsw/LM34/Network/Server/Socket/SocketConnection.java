@@ -1,9 +1,9 @@
 package it.polimi.ingsw.LM34.Network.Server.Socket;
 
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Network.Client.Socket.RequestToClient;
 import it.polimi.ingsw.LM34.Network.Server.AbstractConnection;
-
 import java.io.*;
 import java.net.Socket;
 import java.util.List;
@@ -98,6 +98,19 @@ public class SocketConnection extends AbstractConnection implements Runnable {
         try {
             this.outStream.writeUTF(RequestToClient.CONTEXT_SELECTION.name());
             this.outStream.writeObject(contexts);
+            this.outStream.flush();
+            return this.inStream.readInt();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    @Override
+    public Integer marketSlotSelection(Market market) {
+        try {
+            this.outStream.writeUTF(RequestToClient.MARKET_SLOT_SELECTION.name());
+            this.outStream.writeObject(market);
             this.outStream.flush();
             return this.inStream.readInt();
         } catch (IOException e) {

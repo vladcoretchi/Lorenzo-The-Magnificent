@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Network.Client.Socket;
 
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
-
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import java.io.IOException;
 import java.util.List;
 
@@ -30,6 +30,21 @@ public enum RequestToClient {
 
                 //socketConnection.getOutputStream().writeUTF(RequestToServer.CONTEXT_SELECTION.name());
                 socketConnection.getOutputStream().writeInt(socketConnection.contextSelection(contexts));
+                socketConnection.getOutputStream().flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    },
+    MARKET_SLOT_SELECTION {
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+                Market market = (Market) socketConnection.getInputStream().readObject();
+
+                socketConnection.getOutputStream().writeInt(socketConnection.marketSlotSelection(market));
                 socketConnection.getOutputStream().flush();
             } catch (IOException e) {
                 e.printStackTrace();

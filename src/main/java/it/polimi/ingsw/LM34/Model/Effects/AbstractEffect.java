@@ -3,10 +3,12 @@ package it.polimi.ingsw.LM34.Model.Effects;
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Model.Player;
 
+import java.io.Serializable;
+
 /**
  * Created by vladc on 5/13/2017.
  */
-public abstract class AbstractEffect {
+public abstract class AbstractEffect implements Serializable {
     //protected ArrayList<ContextType> observableContexts;
     /**
      *

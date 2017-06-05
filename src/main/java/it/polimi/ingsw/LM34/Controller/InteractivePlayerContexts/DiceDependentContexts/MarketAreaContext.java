@@ -56,7 +56,7 @@ public MarketAreaContext() {
     }
 
 
-    @Override
+
     public void increaseTempValue(Integer servantsConsumed) {
         tempValue += servantsConsumed;
     }

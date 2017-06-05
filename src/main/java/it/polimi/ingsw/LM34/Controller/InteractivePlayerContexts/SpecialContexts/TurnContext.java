@@ -16,6 +16,7 @@ import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.Validator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,8 +31,6 @@ public class TurnContext extends AbstractGameContext {
     /**
      Constructor called only at the game setup
      */
-
-
     public TurnContext() {
         contextType = ContextType.TURN_CONTEXT;
     }
@@ -72,7 +71,6 @@ public class TurnContext extends AbstractGameContext {
         PlayerSelectableContexts selectedContext = null;
         /*CONTEXT SIDE VALIDATION*/
         contextSelection(player);
-
     }
 
     /**
@@ -93,13 +91,13 @@ public class TurnContext extends AbstractGameContext {
         Integer selected = this.gameManager.getActivePlayerNetworkController().contextSelection(accessibleContexts);
 
         try {
-            Validator.checkValidity(selected.toString(),accessibleContexts);
+            Validator.checkValidity(selected.toString(), accessibleContexts);
             PlayerSelectableContexts selectedContext = accessibleContexts.get(selected);
             getContextByType(selectedContext).interactWithPlayer(player);
         }
-        /*If input mismatch expected informations... the player is able to try again*/
         catch(IncorrectInputException ide){
-                contextSelection(player);
+            /*If input mismatch expected informations... the player is able to try again*/
+            contextSelection(player);
          }
     }
 

@@ -61,7 +61,7 @@ public class TowersContext extends AbstractGameContext implements  DiceDependent
         this.hasPenalty = hasPenalty; //set by "predicatore"
     }
 
-    @Override
+    
     public void increaseTempValue(Integer servantsConsumed) {
         tempValue += servantsConsumed;
     }

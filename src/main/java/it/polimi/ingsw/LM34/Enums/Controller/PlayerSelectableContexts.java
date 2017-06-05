@@ -18,9 +18,8 @@ public enum PlayerSelectableContexts {
         this.contextName = contextName;
     }
 
-    public String getContextName() {
+    @Override
+    public String toString() {
         return contextName;
     }
-
-
 }

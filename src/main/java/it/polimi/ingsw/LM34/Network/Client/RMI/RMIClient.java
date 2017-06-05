@@ -1,11 +1,11 @@
 package it.polimi.ingsw.LM34.Network.Client.RMI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Server.RMI.RMIServerInterface;
 import it.polimi.ingsw.LM34.UI.AbstractUI;
-
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -49,6 +49,11 @@ public class RMIClient extends AbstractClient implements RMIClientInterface {
     @Override
     public Integer contextSelection(List<PlayerSelectableContexts> contexts) {
         return networkController.contextSelection(contexts);
+    }
+
+    @Override
+    public Integer marketSlotSelection(Market market) {
+        return networkController.marketSlotSelection(market);
     }
 
 }
