@@ -5,7 +5,7 @@
 	},
 	"configuration": {
 		"server": {
-			"timeout": 120
+			"timeout":  120
 		},
 		"game": {
 			"maxPlayers": 5,
@@ -2333,7 +2333,9 @@
 							"diceValue": 4
 						},
 						"resourcesBonus": {
-							"councilPrivilege": 2
+							"resources": {
+								"FAITH_POINTS": 1
+							}
 						}
 					}
 				},

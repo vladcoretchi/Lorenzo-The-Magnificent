@@ -2,9 +2,12 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentC
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Configurator;
+
+import java.util.ArrayList;
 
 /**
  * Created by GiulioComi on 24/05/2017.
@@ -57,15 +60,15 @@ public MarketAreaContext() {
 
 
 
-    public void increaseTempValue(Integer servantsConsumed) {
-        tempValue += servantsConsumed;
-    }
-
     @Override
     public void sweep() {
         market.sweep();
     }
 
+    @Override
+    public ArrayList<ActionSlot> getActionSlots() {
+        return market.getActionSlots();
+    }
 
     public void setBan() { this.ban = true; }
 

@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContext
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractableContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.CURCH_REPORT_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.FAITH_POINTS;
+import static it.polimi.ingsw.LM34.Utils.Configurator.MIN_FAITHS_POINTS;
 
 /**
  * Created by GiulioComi on 16/05/2017.
@@ -32,15 +34,16 @@ public class CurchReportContext  extends AbstractGameContext {
         checkEnoughFaithPoints(player, player.getResources().getResourceByType(FAITH_POINTS));
         //TODO: for players that have enough points ask YES or NO to be excommunicated
         Boolean choice = gameManager.getActivePlayerNetworkController().curchReportDecision();
-
-
-        setChanged(); notifyObservers(player);  /*trigger sisto IV if is an observer*/
+        if(choice) {
+            setChanged();
+            notifyObservers(player);  /*trigger sisto IV if is an observer*/
+        }
 
 
         //TODO: addVictoryPointsFromFaithPath based on faith track position
         Integer faithReward = player.getResources().getResourceByType(FAITH_POINTS);
 
-        Resources reward = new Resources(0,faithReward,0);  /*Wrapper*/
+        ResourcesBonus reward = new ResourcesBonus(new Resources(0,faithReward,0), 0);  /*Wrapper*/
         ((ResourceIncomeContext) gameManager.getContextByType(RESOURCE_INCOME_CONTEXT)).handleResources(player, reward);
 
 
@@ -52,8 +55,8 @@ public class CurchReportContext  extends AbstractGameContext {
      */
     private void checkEnoughFaithPoints(Player player, Integer faithPoints) {
         //TODO: faith points necessary depends on the # of period
-        //if(faithPoints < Configurator.MIN_FAITHS_POINTS[GameManager.getPeriod()])
-            //excommunicationCards.get(GameManager.getPeriod()).getPenalty().applyEffect(player);
+        if(faithPoints < MIN_FAITHS_POINTS[gameManager.getPeriod()])
+            excommunicationCards.get(gameManager.getPeriod()).getPenalty().applyEffect(this, player);
     }
 
 

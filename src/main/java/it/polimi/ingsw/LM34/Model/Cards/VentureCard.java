@@ -14,14 +14,13 @@ public class VentureCard extends AbstractDevelopmentCard {
     private Integer period;
     private AbstractEffect permanentBonus;
     private ResourcesBonus instantBonus;
+    Resources resourcesRequired;
 
     //TODO: verified by the controller if this variable is set to true and then two type of payments are allowed
     private boolean isThereAlternativeToMilitaryPointsPayment; //carte "sostegno al cardinale e sostegno al papa"
 
     //Only a peculiarity of VentureCards
     private Integer endingVictoryPointsReward;
-
-    Resources resourcesRequired;
     private Integer militaryPointsRequired;
 
     public VentureCard( String ventureName, Integer period, Resources resourcesRequired, ResourcesBonus instantBonus, Integer endingVictoryPointsReward, AbstractEffect permanentBonus) {

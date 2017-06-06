@@ -7,7 +7,6 @@ import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
-import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -68,8 +67,7 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
     public void applyEffect(AbstractGameContext callerContext, Player player) {
 
         ResourceIncomeContext incomeContext = (ResourceIncomeContext) callerContext.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT);
-        incomeContext.handleResources(player, resources);
-
+        incomeContext.handleResources(player, new ResourcesBonus(resources, councilPrivilege));
         player.addCouncilPrivileges(councilPrivilege);
         callerContext.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT).interactWithPlayer(player);
 

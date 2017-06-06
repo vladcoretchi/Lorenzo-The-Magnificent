@@ -462,6 +462,9 @@ public class GameManager {
     }
 
 
+    public Integer getPeriod() {
+        return period;
+    }
 }
 
 

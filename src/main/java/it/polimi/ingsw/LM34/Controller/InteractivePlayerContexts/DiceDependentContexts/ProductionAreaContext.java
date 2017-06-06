@@ -2,10 +2,13 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentC
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Configurator;
+
+import java.util.ArrayList;
 
 /**
  * Created by GiulioComi on 16/05/2017.
@@ -45,9 +48,9 @@ public class ProductionAreaContext extends AbstractGameContext implements DiceDe
     }
 
 
-
-    public void increaseTempValue(Integer servantsConsumed) {
-        tempValue += servantsConsumed;
+    @Override
+    public ArrayList<ActionSlot> getActionSlots() {
+        return productionArea.getActionSlots();
     }
 
     @Override
