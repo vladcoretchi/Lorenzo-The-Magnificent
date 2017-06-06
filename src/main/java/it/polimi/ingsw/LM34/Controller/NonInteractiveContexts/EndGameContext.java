@@ -1,20 +1,15 @@
-package it.polimi.ingsw.LM34.Controller.NonInteractableContexts;
+package it.polimi.ingsw.LM34.Controller.NonInteractiveContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.VentureCard;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Utilities;
-import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
 
 /**
  * Created by GiulioComi on 15/05/2017.
@@ -34,7 +29,7 @@ public class EndGameContext  extends AbstractGameContext {
     }
 
     @Override
-    public void interactWithPlayer(Player player) {
+    public void interactWithPlayer() {
 
     }
 
@@ -42,9 +37,7 @@ public class EndGameContext  extends AbstractGameContext {
      *Entry point of the class. This method is called by the game manager at the end of the game
      * @param players
      */
-    public void endContext(ArrayList<Player> players) {
-        interactWithPlayer(players);
-    }
+
 
     /**
      * @return the hashmap with a correlation between players and their points earned by cards
@@ -62,13 +55,15 @@ public class EndGameContext  extends AbstractGameContext {
         Integer totalVictoryPointsByVentureCardReward = 0;
         ArrayList<AbstractDevelopmentCard> tempPlayerVentureCards = new ArrayList<AbstractDevelopmentCard>();
         //for each player we calculate the sum of the victory points rewards provided by his venture cards stored in the personal board
-        try {
+
             for (Player p : players) {
                 //TODO: check if the player has the excommunication card that disables this step
                 /*if(p.getMalus== noCalculateEndPoints)
                     victoryPointsToPlayers(p, 0);*/
                 // else
-                tempPlayerVentureCards = p.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.PURPLE);
+                //TODO: now returned value is Optional, so we must fix the expected value
+                // tempPlayerVentureCards = p.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.PURPLE);
+
                 totalVictoryPointsByVentureCardReward = 0;
                 for (AbstractDevelopmentCard dci : tempPlayerVentureCards) {
                     VentureCard dciVenture = (VentureCard) dci;
@@ -76,9 +71,7 @@ public class EndGameContext  extends AbstractGameContext {
                 }
                 victoryPointsToPlayers.put(p, totalVictoryPointsByVentureCardReward);
             }
-        } catch (InvalidCardType ict) {
-            Logger.getAnonymousLogger().log(new LogRecord(Log.VERBOSE, ict.getMessage()));
-        } //TODO:  adjust this exception handle
+
 
         return victoryPointsToPlayers;
     }

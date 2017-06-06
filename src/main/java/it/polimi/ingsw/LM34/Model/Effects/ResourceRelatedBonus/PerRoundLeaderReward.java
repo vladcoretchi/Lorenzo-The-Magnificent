@@ -3,7 +3,6 @@ package it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus;
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.WorkingAreaValueEffect;
-import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.Observable;
@@ -63,7 +62,7 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
 
 
     @Override
-    public void applyEffect(AbstractGameContext callerContext, Player player) {
+    public void applyEffect(AbstractGameContext callerContext) {
         callerContext.getContextByType(TURN_CONTEXT).addObserver(this);
 
         System.out.println("mi sono iscritto al contesto");

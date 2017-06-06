@@ -2,8 +2,8 @@ package it.polimi.ingsw.LM34.Controller;
 
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.*;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.*;
-import it.polimi.ingsw.LM34.Controller.NonInteractableContexts.EndGameContext;
-import it.polimi.ingsw.LM34.Controller.NonInteractableContexts.ResourceIncomeContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.EndGameContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 
@@ -16,8 +16,8 @@ public final class ContextFactory {
 
     public  static AbstractGameContext getContext(ContextType contextType) throws NoSuchContextException {
         switch (contextType) {
-            case LEADER_ACTIVATE_OR_DISCARD_CONTEXT:
-                return new LeaderActivateOrDiscardContext();
+            case LEADER_CARDS_CONTEXT:
+                return new LeaderCardsContext();
             case ACTION_SLOT_CONTEXT:
                 return new ActionSlotContext();
             case CURCH_REPORT_CONTEXT:

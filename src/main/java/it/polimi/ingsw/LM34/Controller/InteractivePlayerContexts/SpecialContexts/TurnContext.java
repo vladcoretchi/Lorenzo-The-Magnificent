@@ -16,7 +16,6 @@ import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.Validator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -41,7 +40,7 @@ public class TurnContext extends AbstractGameContext {
      *Reactivate all observers that are of the player that is going to play
      *NOTE: OncePerRound observers are excluded
      */
-    public void initContext(Player player) {
+    public void initContext() {
         for(PlayerSelectableContexts p : PlayerSelectableContexts.values())
             accessibleContexts.add(p);
         /*To make the player skip his turn*/
@@ -54,14 +53,14 @@ public class TurnContext extends AbstractGameContext {
             if (!observer.isOncePerRound())
                 observer.subscribeObserverToContext(contexts);
             notifyObservers(player); //for PerRoundLeaderReward*/
-            System.out.println("Now is player: "+player.getPawnColor()+" turn");
-            interactWithPlayer(player);
+            System.out.println("Now is player: "+gameManager.getCurrentPlayer().getPawnColor()+" turn");
+            interactWithPlayer();
             //TODO: start timeout
 
     }
 
     @Override
-    public void interactWithPlayer(Player player) {
+    public void interactWithPlayer() {
         Boolean correctRequest = false;
 
         setChanged();
@@ -70,7 +69,7 @@ public class TurnContext extends AbstractGameContext {
         /*Provide to the players all the info for the contexts of the game he can enter freely*/
         PlayerSelectableContexts selectedContext = null;
         /*CONTEXT SIDE VALIDATION*/
-        contextSelection(player);
+        contextSelection(gameManager.getCurrentPlayer());
     }
 
     /**
@@ -78,7 +77,7 @@ public class TurnContext extends AbstractGameContext {
      */
     public void endContext() {
         //TODO: unsubscribe player observer at the end of the turn
-        /*contexts.forEach((c) -> c.deleteObservers());*/
+        gameManager.getContexts().forEach((c) -> c.deleteObservers());
         gameManager.nextTurn();
 
     }
@@ -93,7 +92,7 @@ public class TurnContext extends AbstractGameContext {
         try {
             Validator.checkValidity(selected.toString(), accessibleContexts);
             PlayerSelectableContexts selectedContext = accessibleContexts.get(selected);
-            getContextByType(selectedContext).interactWithPlayer(player);
+            getContextByType(selectedContext).interactWithPlayer();
         }
         catch(IncorrectInputException ide){
             /*If input mismatch expected informations... the player is able to try again*/
@@ -124,12 +123,12 @@ public class TurnContext extends AbstractGameContext {
     //TODO: a testing method
     private void trial(Player player) {
         PerRoundLeaderReward perRoundLeaderReward = new PerRoundLeaderReward();
-        perRoundLeaderReward.applyEffect(this, player);
+        perRoundLeaderReward.applyEffect(this);
         MarketBan marketBan = new MarketBan();
-        marketBan.applyEffect(this, player);
+        marketBan.applyEffect(this);
         //this.addObserver(marketBan);
         MarketAreaContext marketAreaContext = (MarketAreaContext) gameManager.getContextByType(ContextType.MARKET_AREA_CONTEXT);
-        marketAreaContext.interactWithPlayer(player);
+        marketAreaContext.interactWithPlayer();
 
     }
 

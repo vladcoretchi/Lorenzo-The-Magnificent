@@ -1,8 +1,10 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NoResourcesException;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -14,6 +16,7 @@ import it.polimi.ingsw.LM34.Utils.Configurator;
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
 
 /**
  * Created by GiulioComi on 18/05/2017.
@@ -34,11 +37,11 @@ public class TowersContext extends AbstractGameContext implements  DiceDependent
 
 
     @Override
-    public void interactWithPlayer(Player player) {
-        familyMembers = player.getFamilyMembers();
+    public void interactWithPlayer() {
+        familyMembers = gameManager.getCurrentPlayer().getFamilyMembers();
 
         FamilyMember familyMemberChoosed;
-        getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT).interactWithPlayer(player);
+        getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT).interactWithPlayer();
         //TODO: player chooses tower...
         //TODO: TOWER OF TERRITORY CARDS
         Tower towerSelected = towers.get(DevelopmentCardColor.GREEN.ordinal());
@@ -54,7 +57,9 @@ public class TowersContext extends AbstractGameContext implements  DiceDependent
         buyCard(); tower slot selected*/
         //card.getInstantBonus().applyEffect();
         //card.getPermanentBonus().applyEffect();
-        towerSelected.getTowerSlotResources().applyEffect(this, player);
+        towerSelected.getTowerSlotResources().applyEffect(this);
+
+        finalizeRewardAttribution();
 
     }
 
@@ -69,16 +74,29 @@ public class TowersContext extends AbstractGameContext implements  DiceDependent
         towers.forEach(tower -> tower.sweep());
     }
 
-
-    //TODO: evaluate if the buy should stay in this class
-    public void buyCard(Player player, TowerSlot slot) throws InvalidCardType {
-        //TODO: check many things here
+    //TODO: complete this, Vlad ;D
+    public void buyCard(Player player, TowerSlot slot) throws InvalidCardType, NoResourcesException {
+        player.subResources(slot.getCardStored().getResourcesRequired());
+        /*setChanged();
+        notifyObservers();*/
         player.getPersonalBoard().addCard(slot.getCardStored());
     }
 
-  //TODO
+
   @Override
     public ArrayList<ActionSlot> getActionSlots() {
         return null;
     }
+
+    @Override
+    public void finalizeRewardAttribution(Player player) {
+        //TODO
+    }
+
+
+    public void finalizeRewardAttribution() {
+        ((ResourceIncomeContext)gameManager.getContextByType(RESOURCE_INCOME_CONTEXT)).finalizeIncome();
+    }
+
+
 }

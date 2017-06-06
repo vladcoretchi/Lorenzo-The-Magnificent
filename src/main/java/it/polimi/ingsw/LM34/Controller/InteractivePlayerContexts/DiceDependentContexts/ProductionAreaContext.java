@@ -30,16 +30,18 @@ public class ProductionAreaContext extends AbstractGameContext implements DiceDe
     }
 
     @Override
-    public void interactWithPlayer(Player player) {
+    public void interactWithPlayer() {
 
         //TODO: the player chooses the slot to occupy (highlight the difference beetwen single slot and advanced slot)
-        setChanged();
+
+
+
         //TODO: now values of dices are increased
-        gameManager.getContextByType(ContextType.ACTION_SLOT_CONTEXT).interactWithPlayer(player);
+        gameManager.getContextByType(ContextType.ACTION_SLOT_CONTEXT).interactWithPlayer();
         //TODO: player chooses the familymember
 
         //TODO: now values of dices are increased
-        FamilyMember memberChoosed = player.getFamilyMembers().get(1);
+        FamilyMember memberChoosed = gameManager.getCurrentPlayer().getFamilyMembers().get(1);
         FamilyMember tempMemberChoosed = memberChoosed.clone();
         //TODO: here we pass the family member chosed (only one)
         setChanged();
@@ -51,6 +53,11 @@ public class ProductionAreaContext extends AbstractGameContext implements DiceDe
     @Override
     public ArrayList<ActionSlot> getActionSlots() {
         return productionArea.getActionSlots();
+    }
+
+    @Override
+    public void finalizeRewardAttribution(Player player) {
+
     }
 
     @Override

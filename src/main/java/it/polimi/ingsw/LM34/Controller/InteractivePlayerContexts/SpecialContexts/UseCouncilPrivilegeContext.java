@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.NonInteractableContexts.ResourceIncomeContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -32,21 +32,18 @@ public class UseCouncilPrivilegeContext extends AbstractGameContext {
 
     //TODO: before calling this without having councilPrivileges, it is better to check from caller contexts
     @Override
-    public void interactWithPlayer(Player player) {
+    public void interactWithPlayer() {
         ArrayList<ResourcesBonus> rewardsAvailable = rewardsForPrivilege;
         ResourceIncomeContext incomeContext = (ResourceIncomeContext)gameManager.getContextByType(RESOURCE_INCOME_CONTEXT);
-        numberOfCouncilePrivileges = player.getCouncilPrivileges();
+        numberOfCouncilePrivileges = gameManager.getCurrentPlayer().getCouncilPrivileges();
 
         Integer used =0;
         while(used < numberOfCouncilePrivileges) {
             Integer selected = gameManager.getActivePlayerNetworkController().privilegeRewardSelection(rewardsAvailable);
             ResourcesBonus reward = rewardsAvailable.get(selected);
-            reward.applyEffect(this, player);
-            incomeContext.handleResources(player, reward);
+            incomeContext.setIncome(reward.getResources());
             /*Remove temporarily the reward already choosed*/
             rewardsAvailable.remove(selected);
-
-
             used++;
         }
     }

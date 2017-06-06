@@ -20,7 +20,7 @@ public class IncreasePawnsValueByServantsContext extends AbstractGameContext {
     }
 
     @Override
-    public void interactWithPlayer(Player player) {
+    public void interactWithPlayer() {
 
     }
 

@@ -10,7 +10,7 @@ import it.polimi.ingsw.LM34.Utils.Validator;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_ACTIVATE_OR_DISCARD_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_CARDS_CONTEXT;
 
 /**
  * Created by GiulioComi on 25/05/2017.
@@ -20,22 +20,22 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_ACTIVATE_
  * In this context the player can discard a leader in favor of a privilege or activate his ability
  * In the latter case, all requirements of the leader to activate are verified
  */
-public class LeaderActivateOrDiscardContext extends AbstractGameContext {
+public class LeaderCardsContext extends AbstractGameContext {
     private Integer totalLeadersDiscarded;
     private LeaderNames leaderToActivate; //TODO
 
-public LeaderActivateOrDiscardContext() {
-    contextType = LEADER_ACTIVATE_OR_DISCARD_CONTEXT;
+public LeaderCardsContext() {
+    contextType = LEADER_CARDS_CONTEXT;
 }
 
     @Override
-    public void interactWithPlayer(Player player) {
+    public void interactWithPlayer() {
         totalLeadersDiscarded = 0; //default value at the start of this context
         /*Activate leader cards*/
 
         //TODO: check if the player can activate a leader, then register it to the right observer
         /*CopyOtherLeader is activated here*/
-        setChanged(); notifyObservers(player);
+        setChanged(); notifyObservers(gameManager.getCurrentPlayer());
 
 
 
@@ -75,7 +75,7 @@ public LeaderActivateOrDiscardContext() {
             Validator.checkValidity(leaderToCopy.toString(),allLeadersActivatedByOthers);
             LeaderCard selectedLeader = allLeadersActivatedByOthers.get(leaderToCopy);
             selectedLeader.setIsActivatedByPlayer(); //TODO: evaluate if the card should be stored in the player
-            selectedLeader.getBonus().applyEffect(this, currentPlayer);
+            selectedLeader.getBonus().applyEffect(this);
         }
         /*If input mismatch expected informations... the player is able to try again*/
         catch(IncorrectInputException ide){
@@ -84,4 +84,6 @@ public LeaderActivateOrDiscardContext() {
         //TODO: hen let the current player choose which one activate
 
     }
+
+
 }

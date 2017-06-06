@@ -2,8 +2,9 @@ package it.polimi.ingsw.LM34.Model.Cards;
 
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
-import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Resources;
+
+import java.util.ArrayList;
 
 /**
  * Created by GiulioComi on 04/05/2017.
@@ -12,8 +13,6 @@ public class VentureCard extends AbstractDevelopmentCard {
     private DevelopmentCardColor color= DevelopmentCardColor.PURPLE;
     private String name;
     private Integer period;
-    private AbstractEffect permanentBonus;
-    private ResourcesBonus instantBonus;
     Resources resourcesRequired;
 
     //TODO: verified by the controller if this variable is set to true and then two type of payments are allowed
@@ -23,7 +22,7 @@ public class VentureCard extends AbstractDevelopmentCard {
     private Integer endingVictoryPointsReward;
     private Integer militaryPointsRequired;
 
-    public VentureCard( String ventureName, Integer period, Resources resourcesRequired, ResourcesBonus instantBonus, Integer endingVictoryPointsReward, AbstractEffect permanentBonus) {
+    public VentureCard( String ventureName, Integer period, Resources resourcesRequired, ArrayList<AbstractEffect> instantBonus, Integer endingVictoryPointsReward, AbstractEffect permanentBonus) {
         this.name = ventureName;
         this.resourcesRequired = resourcesRequired;
         this.period = period;
@@ -35,11 +34,6 @@ public class VentureCard extends AbstractDevelopmentCard {
     @Override
     public String getName() {
         return name;
-    }
-
-    @Override
-    public ResourcesBonus getInstantBonus() {
-        return instantBonus;
     }
 
 

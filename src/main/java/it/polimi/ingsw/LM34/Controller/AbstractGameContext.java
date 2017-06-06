@@ -20,7 +20,7 @@ public abstract class AbstractGameContext extends Observable  {
     /**
      * @param player that is playing his turn and changes context as he pleases
      */
-    public abstract void interactWithPlayer(Player player);
+    public abstract void interactWithPlayer();
 
     /**
      This list is asked by contexts in order to now to which context subscribe the effects once they are activated
@@ -46,6 +46,10 @@ public abstract class AbstractGameContext extends Observable  {
 
     public  AbstractGameContext getContextByType(PlayerSelectableContexts contextType) {
         return gameManager.getContextByType(contextType);
+    }
+
+    public Player getCurrentPlayer() {
+        return gameManager.getCurrentPlayer();
     }
 
     public final void setGameManager(GameManager gameManager) {

@@ -2,6 +2,7 @@ package it.polimi.ingsw.LM34.Model.Cards;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
@@ -16,14 +17,12 @@ public class TerritoryCard extends AbstractDevelopmentCard {
     private DevelopmentCardColor color= DevelopmentCardColor.GREEN;
     private String name;
     private Integer period;
-    private ResourcesBonus permanentBonus;
-    private ResourcesBonus  instantBonus;
     private Integer diceValueToHarvest;
     private Resources resourceRequired;
 
 
     //territories does not cost anytype of resources or points as said in the game rules
-    public TerritoryCard(String territoryName, Integer diceValueToHarvest, Integer period, ResourcesBonus instantBonus, ResourcesBonus  permanentBonus) {
+    public TerritoryCard(String territoryName, Integer diceValueToHarvest, Integer period, ArrayList<AbstractEffect> instantBonus, ResourcesBonus  permanentBonus) {
         this.name = territoryName;
         this.period = period;
         this.diceValueToHarvest = diceValueToHarvest;
@@ -42,15 +41,7 @@ public class TerritoryCard extends AbstractDevelopmentCard {
         return this.period;
     }
 
-    @Override
-    public ResourcesBonus getPermanentBonus() {
-        return permanentBonus;
-    }
 
-    @Override
-    public ResourcesBonus getInstantBonus() {
-        return instantBonus;
-    }
 
     /**
      *

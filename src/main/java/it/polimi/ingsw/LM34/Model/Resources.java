@@ -83,4 +83,10 @@ public class Resources implements Serializable {
 
         res.getResources().forEach((type, value) -> this.modifyResourceByType(type, value));
     }
+
+    public void multiplyResources (Integer multiplier) {
+        if (multiplier == null) throw new NullPointerException();
+
+        this.resources.forEach((type, value) -> value *= multiplier);
+    }
 }

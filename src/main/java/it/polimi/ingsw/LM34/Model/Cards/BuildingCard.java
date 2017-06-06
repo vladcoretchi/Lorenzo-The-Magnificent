@@ -3,7 +3,6 @@ package it.polimi.ingsw.LM34.Model.Cards;
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
-import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
@@ -22,12 +21,10 @@ public class BuildingCard extends AbstractDevelopmentCard {
     private Resources resourcesRequired; //we do not store single type of resources as Integer but we wrap them in a Resources class
     private Integer period;
     //this two variables together represents the instant Effects
-    private ResourcesBonus instantBonus;
-    private ResourcesBonus permanentBonus;
 
 
 
-    public BuildingCard(String buildingName, Integer diceValueToProduct, Integer period, Resources resourcesRequired, ResourcesBonus instantBonus, ResourcesBonus  permanentBonus) {
+    public BuildingCard(String buildingName, Integer diceValueToProduct, Integer period, Resources resourcesRequired, ArrayList<AbstractEffect> instantBonus, AbstractEffect  permanentBonus) {
         this.resourcesRequired= resourcesRequired;
         this.name= buildingName;
         this.period = period;
@@ -42,15 +39,7 @@ public class BuildingCard extends AbstractDevelopmentCard {
         return resourcesRequired;
     }
 
-    @Override
-    public AbstractEffect getPermanentBonus() {
-        return this.permanentBonus;
-    }
 
-    @Override
-    public ResourcesBonus getInstantBonus() {
-        return instantBonus;
-    }
 
     public Integer getDiceValueToProduct() {
         return diceValueToProduct;

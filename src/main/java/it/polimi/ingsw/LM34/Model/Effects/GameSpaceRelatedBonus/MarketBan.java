@@ -2,7 +2,6 @@ package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
-import it.polimi.ingsw.LM34.Model.Player;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -19,7 +18,7 @@ public MarketBan() {
     //this.observableContexts = new ArrayList<>();
 }
     @Override
-    public void applyEffect(AbstractGameContext callerContext, Player player) {
+    public void applyEffect(AbstractGameContext callerContext) {
      callerContext.getContextByType(MARKET_AREA_CONTEXT).addObserver(this);
     }
 
@@ -31,6 +30,8 @@ public MarketBan() {
 
     }
 
-  //market
+
+
+    //market
 
 }

@@ -2,8 +2,9 @@ package it.polimi.ingsw.LM34.Model.Cards;
 
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
-import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Resources;
+
+import java.util.List;
 
 /**
  * Created by GiulioComi on 04/05/2017.
@@ -13,12 +14,12 @@ public abstract class AbstractDevelopmentCard {
     private String name;
     private Integer period;
     private DevelopmentCardColor color;
-    private AbstractEffect permanentBonus;
-    private ResourcesBonus instantBonus;
+    protected AbstractEffect permanentBonus;
+    protected List<AbstractEffect> instantBonus;
     private Resources resourceRequired;
 
 
-    public ResourcesBonus getInstantBonus() { return this.instantBonus; }
+    public List<AbstractEffect> getInstantBonus() { return this.instantBonus; }
 
     public Resources getResourcesRequired() { return this.resourceRequired; }
 

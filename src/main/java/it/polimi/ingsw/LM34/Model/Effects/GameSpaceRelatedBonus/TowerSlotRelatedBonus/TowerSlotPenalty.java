@@ -3,7 +3,6 @@ package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelate
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.TowersContext;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
-import it.polimi.ingsw.LM34.Model.Player;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -43,7 +42,7 @@ public class TowerSlotPenalty extends AbstractEffect implements Observer {
 //towers
 
     @Override
-    public void applyEffect(AbstractGameContext callerContext, Player player) {
+    public void applyEffect(AbstractGameContext callerContext) {
 
     }
 

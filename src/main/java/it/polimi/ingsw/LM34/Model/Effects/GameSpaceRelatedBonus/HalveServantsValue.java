@@ -27,7 +27,7 @@ public class HalveServantsValue extends AbstractEffect implements Observer {
 //increase pawns by value context
 
     @Override
-    public void applyEffect(AbstractGameContext callerContext, Player player) {
+    public void applyEffect(AbstractGameContext callerContext) {
         callerContext.getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT).addObserver(this);
 
     }

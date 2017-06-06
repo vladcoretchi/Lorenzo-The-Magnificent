@@ -24,7 +24,7 @@ public MarketAreaContext() {
     market = Configurator.getMarket(); }
 
     @Override
-    public void interactWithPlayer(Player player) {
+    public void interactWithPlayer() {
         System.out.println("siamo in market area context");
 
 
@@ -68,6 +68,11 @@ public MarketAreaContext() {
     @Override
     public ArrayList<ActionSlot> getActionSlots() {
         return market.getActionSlots();
+    }
+
+    @Override
+    public void finalizeRewardAttribution(Player player) {
+
     }
 
     public void setBan() { this.ban = true; }

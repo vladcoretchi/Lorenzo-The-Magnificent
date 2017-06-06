@@ -3,8 +3,12 @@ package it.polimi.ingsw.LM34.Model.Boards.PlayerBoard;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+import it.polimi.ingsw.LM34.Model.Cards.BuildingCard;
+import it.polimi.ingsw.LM34.Model.Cards.TerritoryCard;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 
 //TODO: REFACTOR THIS CLASS
@@ -39,24 +43,39 @@ public class PersonalBoard {
     }
 
 
-    public ArrayList<AbstractDevelopmentCard> getDevelopmentCardsByType(DevelopmentCardColor color) throws InvalidCardType {
+    public Optional<List<AbstractDevelopmentCard>> getDevelopmentCardsByType(DevelopmentCardColor color)  {
         switch (color) {
             case PURPLE:
-                return ventures;
+                return Optional.of(ventures);
             case BLUE:
-                return characters;
+                return Optional.of(characters);
             case GREEN:
-                return territories;
+                return Optional.of(territories);
             case YELLOW:
-                return buildings;
+                return Optional.of(buildings);
             default:
-                throw new InvalidCardType("This card is not a DevelopmentCard");
-
+                return Optional.empty();
         }
     }
 
-    public ArrayList<AbstractDevelopmentCard> getBuildingCardOwned() {
-        return buildings;
+    public List<AbstractDevelopmentCard> getActivableBuildingCard(Integer valueToProduct) {
+        List<AbstractDevelopmentCard> activableCards = new ArrayList<>();
+        buildings.forEach(c -> {
+            if(((BuildingCard)c).getDiceValueToProduct() > valueToProduct)
+                activableCards.add(c);
+        });
+
+        return activableCards;
+    }
+
+    public List<AbstractDevelopmentCard> getActivableTerritoryCard(Integer valueToHarvest) {
+        List<AbstractDevelopmentCard> activableCards = new ArrayList<>();
+        territories.forEach(c -> {
+            if(((TerritoryCard)c).getDiceValueToHarvest() > valueToHarvest)
+                activableCards.add(c);
+        });
+
+        return activableCards;
     }
 
     public BonusTile getPersonalBonusTile() {

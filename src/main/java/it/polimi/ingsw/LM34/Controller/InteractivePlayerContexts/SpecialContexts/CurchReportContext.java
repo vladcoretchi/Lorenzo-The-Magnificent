@@ -1,16 +1,13 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.NonInteractableContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
-import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.CURCH_REPORT_CONTEXT;
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.FAITH_POINTS;
 import static it.polimi.ingsw.LM34.Utils.Configurator.MIN_FAITHS_POINTS;
 
@@ -28,10 +25,11 @@ public class CurchReportContext  extends AbstractGameContext {
     }
 
 
-    @Override
+
     public void interactWithPlayer(Player player) {
+        //TODO: called by game manager that iterates on each player
         //let the player choice if they wants to be excommunicated and assigned the negative effect to them
-        checkEnoughFaithPoints(player, player.getResources().getResourceByType(FAITH_POINTS));
+        checkEnoughFaithPoints();
         //TODO: for players that have enough points ask YES or NO to be excommunicated
         Boolean choice = gameManager.getActivePlayerNetworkController().curchReportDecision();
         if(choice) {
@@ -43,9 +41,8 @@ public class CurchReportContext  extends AbstractGameContext {
         //TODO: addVictoryPointsFromFaithPath based on faith track position
         Integer faithReward = player.getResources().getResourceByType(FAITH_POINTS);
 
-        ResourcesBonus reward = new ResourcesBonus(new Resources(0,faithReward,0), 0);  /*Wrapper*/
-        ((ResourceIncomeContext) gameManager.getContextByType(RESOURCE_INCOME_CONTEXT)).handleResources(player, reward);
-
+        Resources reward = new Resources(0,faithReward,0);  /*Wrapper*/
+        player.addResources(reward);
 
     }
 
@@ -53,10 +50,14 @@ public class CurchReportContext  extends AbstractGameContext {
      *
      * @param resourceByType
      */
-    private void checkEnoughFaithPoints(Player player, Integer faithPoints) {
+    private void checkEnoughFaithPoints() {
+        Player currentPlayer = gameManager.getCurrentPlayer();
+        Integer faithPoints = currentPlayer.getResources().getResourceByType(FAITH_POINTS);
         //TODO: faith points necessary depends on the # of period
+
+        /*Add to player excommunication card*/
         if(faithPoints < MIN_FAITHS_POINTS[gameManager.getPeriod()])
-            excommunicationCards.get(gameManager.getPeriod()).getPenalty().applyEffect(this, player);
+            excommunicationCards.get(gameManager.getPeriod()).getPenalty().applyEffect(this);
     }
 
 
@@ -65,6 +66,11 @@ public class CurchReportContext  extends AbstractGameContext {
      */
     public void addExcommunicationCard(ExcommunicationCard card) {
         excommunicationCards.add(card);
+    }
+
+    @Override
+    public void interactWithPlayer() {
+        /*VOID*/
     }
 }
 

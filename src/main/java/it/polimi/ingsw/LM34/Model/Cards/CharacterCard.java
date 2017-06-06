@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
-import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.List;
@@ -45,6 +45,10 @@ public class CharacterCard extends AbstractDevelopmentCard {
 
     public Integer getPeriod() {
         return this.period;
+    }
+
+    public List<AbstractEffect> getInstantBonus() {
+        return this.instantBonus;
     }
 
 }

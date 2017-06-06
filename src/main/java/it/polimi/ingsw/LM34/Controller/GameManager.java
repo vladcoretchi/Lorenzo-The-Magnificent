@@ -6,7 +6,7 @@ import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentCo
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ProductionAreaContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.CurchReportContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.TurnContext;
-import it.polimi.ingsw.LM34.Controller.NonInteractableContexts.EndGameContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.EndGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
@@ -119,7 +119,7 @@ public class GameManager {
 
     public void startGame() {
         //TODO
-        turnContext.initContext(players.get(turn)); //first player start first round of the game
+        turnContext.initContext(); //first player start first round of the game
     }
 
     /**
@@ -144,7 +144,7 @@ public class GameManager {
      */
     public void endGame() {
         EndGameContext endGameContext = (EndGameContext) getContextByType(ContextType.END_GAME_CONTEXT);
-        endGameContext.interactWithPlayer(players);
+        endGameContext.interactWithPlayer();
     }
 
     /**
@@ -203,7 +203,7 @@ public class GameManager {
             turn = 0;
         } else {
             turn++;
-            turnContext.initContext(players.get(turn));
+            turnContext.initContext();
         }
     }
 
@@ -448,6 +448,8 @@ public class GameManager {
     /**
      * To each player presents 4 leader at each step, from which he chooses one
      */
+
+    //TODO: se scatta timeout(stesso gestito dalla gameroom)
     //TODO: implement the steps defined in the rules to manage how leaders selection works
     public void leaderSelectionPhase() {
         //the leadercards are only 4*#players
@@ -464,6 +466,10 @@ public class GameManager {
 
     public Integer getPeriod() {
         return period;
+    }
+
+    public Player getCurrentPlayer() {
+        return this.players.get(this.turn);
     }
 }
 

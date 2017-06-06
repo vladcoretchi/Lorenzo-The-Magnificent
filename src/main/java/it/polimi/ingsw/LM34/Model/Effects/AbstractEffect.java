@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Effects;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Model.Player;
 
 import java.io.Serializable;
 
@@ -22,6 +21,6 @@ public abstract class AbstractEffect implements Serializable {
 
     //public ArrayList<ContextType> getContextToBeSubscribedTo() {return observableContexts;}
 
-    public abstract void applyEffect(AbstractGameContext callerContext, Player player);
+    public abstract void applyEffect(AbstractGameContext callerContext);
 
 }

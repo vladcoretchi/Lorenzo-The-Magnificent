@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
@@ -10,6 +11,7 @@ import it.polimi.ingsw.LM34.Utils.Configurator;
 import java.util.ArrayList;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.COUNCIL_PALACE_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
 
 /**
  * Created by GiulioComi on 24/05/2017.
@@ -27,7 +29,7 @@ public class CouncilPalaceContext extends AbstractGameContext implements DiceDep
 
 
     @Override
-    public void interactWithPlayer(Player player) {
+    public void interactWithPlayer() {
         tempValue = 0;
             //TODO: interact: let the player choice the family member to use
 
@@ -59,8 +61,17 @@ public class CouncilPalaceContext extends AbstractGameContext implements DiceDep
         return councilPalace.getActionSlots();
     }
 
+    @Override
+    public void finalizeRewardAttribution(Player player) {
+
+    }
+
 
     public CouncilPalace getCouncilPalace() {
         return councilPalace;
+    }
+
+    public void finalizeRewardAttribution() {
+        ((ResourceIncomeContext)gameManager.getContextByType(RESOURCE_INCOME_CONTEXT)).finalizeIncome();
     }
 }

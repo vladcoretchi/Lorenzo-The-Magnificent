@@ -6,6 +6,8 @@ import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -19,7 +21,7 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
     private Player player;
     private ContextType areaType; //PRODUCTION_CONTEXT OR HARVEST_CONTEXT
     private Integer diceValue;
-    private Boolean isInstant; //TODO: "sforza", "da vinci"
+    //TODO: "sforza", "da vinci"
 
 
     /**
@@ -27,11 +29,10 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
      */
     private Boolean isRelative;
 
-    public WorkingAreaValueEffect(Player player, Boolean isInstant, ContextType areaType, Integer value, Boolean relative) {
+    public WorkingAreaValueEffect(Player player, ContextType areaType, Integer value, Boolean relative) {
         /*this.observableContexts = new ArrayList<>();
         observableContexts.add(areaType);*/
         this.player = player;
-        this.isInstant = isInstant;
         this.areaType = areaType;
         this.diceValue = value;
         this.isRelative = relative;
@@ -51,36 +52,19 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        List<FamilyMember> pawns = (ArrayList<FamilyMember>) arg;
 
-        AbstractGameContext gameContext = (AbstractGameContext) o;
-        ContextType currentContext = gameContext.getType();
-        FamilyMember familyMember = (FamilyMember) arg;
-
-        if(areaType == currentContext)
-            //TODO: get dice value from family member currently selected and apply bonus;
-            // TODO: remember to reset the dice value powered before exiting this context
-
-
-            if(isRelative)
-                familyMember.setValue(diceValue + familyMember.getValue());
-            else
-                familyMember.setValue(diceValue);
-
-
-
-
-
-
-
+        pawns.forEach(p -> p.setValue(diceValue + (isRelative ? p.getValue() : 0)));
     }
 
 
-
-    //TODO: remove nulls
     @Override
-    public void applyEffect(AbstractGameContext callerContext, Player player)  {
-        //if(isInstant) //check if this is instant effect
-        callerContext.getContextByType(areaType).interactWithPlayer(player);
+    public void applyEffect(AbstractGameContext callerContext)  {
+        //TODO: handle "cardinale"
         //register the permanent bonus as observer
+        callerContext.getContextByType(areaType).addObserver(this);
+        //if(isInstant) //check if this is instant effect
+        callerContext.getContextByType(areaType).interactWithPlayer();
+
     }
 }

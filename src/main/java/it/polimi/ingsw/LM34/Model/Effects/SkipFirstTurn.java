@@ -2,7 +2,6 @@ package it.polimi.ingsw.LM34.Model.Effects;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.TurnContext;
-import it.polimi.ingsw.LM34.Model.Player;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -29,7 +28,7 @@ public class SkipFirstTurn extends AbstractEffect implements Observer {
     public void update(Observable o, Object arg) {
         if(arg instanceof TurnContext) {
             TurnContext turnContext = (TurnContext) arg;
-            //TODO: Make the player skip his turn
+            turnContext.endContext();
             turnContext.deleteObserver(this);
         }
 
@@ -42,7 +41,7 @@ public class SkipFirstTurn extends AbstractEffect implements Observer {
   //turn context
 
     @Override
-    public void applyEffect(AbstractGameContext callerContext, Player player) {
+    public void applyEffect(AbstractGameContext callerContext) {
         callerContext.getContextByType(TURN_CONTEXT).addObserver(this);
     }
 

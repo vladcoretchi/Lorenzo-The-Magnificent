@@ -2,7 +2,6 @@ package it.polimi.ingsw.LM34.Model.Effects;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.Observable;
@@ -72,7 +71,7 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
     }
 
     @Override
-    public void applyEffect(AbstractGameContext callerContext, Player player) {
+    public void applyEffect(AbstractGameContext callerContext) {
         callerContext.getContextByType(END_GAME_CONTEXT).addObserver(this);
     }
 

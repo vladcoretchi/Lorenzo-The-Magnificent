@@ -2,7 +2,7 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentC
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext;
-import it.polimi.ingsw.LM34.Controller.NonInteractableContexts.ResourceIncomeContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
@@ -28,7 +28,8 @@ public class HarvestAreaContext extends AbstractGameContext implements DiceDepen
     }
 
     @Override
-    public void interactWithPlayer(Player player) {
+    public void interactWithPlayer() {
+        Player player = getCurrentPlayer();
         tempValue = 0;
         //the player chooses the slot to occupy (highlight the difference
         // beetwen single slot and advanced slot)
@@ -39,21 +40,29 @@ public class HarvestAreaContext extends AbstractGameContext implements DiceDepen
         //ActionSlot slotSelected = gameManager.getActivePlayerNetworkController().actionSlotSelection();
         //TODO: interact with player in action slot is necessary?
         ActionSlotContext actionSlotContext = ((ActionSlotContext)gameManager.getContextByType(ACTION_SLOT_CONTEXT));
-        ActionSlot selectedSlot = actionSlotContext.actionSlotSelection(this, player);
-
-        //TODO: now values of dices are increased
-        FamilyMemberSelectionContext familyMemberSelectionContext = (FamilyMemberSelectionContext)getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT);
-        FamilyMember selectedPawn = familyMemberSelectionContext.familyMemberSelection(selectedSlot.getDiceValue(), player);
-        Integer tempValue = selectedPawn.getValue();
-
+        //ActionSlot selectedSlot = actionSlotContext.actionSlotSelection(this, player);
 
         setChanged(); notifyObservers(tempValue); //observers do a setValue on it
 
+
+        //TODO: now values of dices are increased
+        FamilyMemberSelectionContext familyMemberSelectionContext = (FamilyMemberSelectionContext)getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT);
+        FamilyMember selectedPawn = familyMemberSelectionContext.familyMemberSelection(player.getFamilyMembers());
+        Integer tempValue = selectedPawn.getValue();
+
+
+        //TODO: activate permanentbonus from cards based on dice value the player selected
         //harvestArea.getSingleSlot().getResourcesReward().applyEffect(this, player);
         ResourcesBonus harvestBonus = player.getPersonalBoard().getPersonalBonusTile().getHarvestBonus();
-        player.getPersonalBoard().getBuildingCardOwned().
-                forEach(card -> card.getPermanentBonus().applyEffect(this, player));
-        ((ResourceIncomeContext)gameManager.getContextByType(RESOURCE_INCOME_CONTEXT)).handleResources(player, harvestBonus);
+        //TODO
+        /*player.getPersonalBoard().getActivableTerritoryCard(harvestArea.).
+                forEach(card -> card.getPermanentBonus().applyEffect(this));*/
+
+
+        ResourceIncomeContext incomeContext = ((ResourceIncomeContext)gameManager.getContextByType(RESOURCE_INCOME_CONTEXT));
+        incomeContext.setIncome(harvestBonus.getResources());
+
+
     }
 
 
@@ -65,6 +74,11 @@ public class HarvestAreaContext extends AbstractGameContext implements DiceDepen
     @Override
     public ArrayList<ActionSlot> getActionSlots() {
         return harvestArea.getActionSlots();
+    }
+
+    @Override
+    public void finalizeRewardAttribution(Player player) {
+        //TODO
     }
 
 

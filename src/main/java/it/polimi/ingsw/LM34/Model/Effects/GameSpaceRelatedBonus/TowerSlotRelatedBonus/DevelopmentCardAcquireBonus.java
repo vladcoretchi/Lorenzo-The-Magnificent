@@ -4,8 +4,8 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -15,11 +15,9 @@ import java.util.Observer;
  */
 
 public class DevelopmentCardAcquireBonus extends AbstractEffect implements Observer {
-    private DevelopmentCardColor color;  //TODO: initial attempt to handle more bonuses of this type in one instance only
+    private DevelopmentCardColor color;
     private Integer value;
-    private Resources requirementsDiscount;
-    private Boolean isInstant;
-
+    private ResourcesBonus requirementsDiscount; //TODO
 
     //TODO: pico della mirandola, filippo brunelleschi
     /**
@@ -29,15 +27,14 @@ public class DevelopmentCardAcquireBonus extends AbstractEffect implements Obser
      */
     private Boolean relative;
 
-    public DevelopmentCardAcquireBonus(Boolean isInstant, DevelopmentCardColor color, Integer value, Boolean relative) {
-        this.isInstant = isInstant;
+    public DevelopmentCardAcquireBonus(DevelopmentCardColor color, Integer value, Boolean relative) {
         this.color = color;
         this.value = value;
         this.requirementsDiscount = null;
         this.relative = relative;
     }
 
-    public DevelopmentCardAcquireBonus(DevelopmentCardColor color, Integer value, Resources requirementsDiscount) {
+    public DevelopmentCardAcquireBonus(DevelopmentCardColor color, Integer value, ResourcesBonus requirementsDiscount) {
         this.color = color;
         this.value = value;
         this.requirementsDiscount = requirementsDiscount;
@@ -52,7 +49,7 @@ public class DevelopmentCardAcquireBonus extends AbstractEffect implements Obser
         return this.value;
     }
 
-    public Resources getRequirementsDiscount() {
+    public ResourcesBonus getRequirementsDiscount() {
         return this.requirementsDiscount;
     }
 
@@ -74,15 +71,16 @@ public class DevelopmentCardAcquireBonus extends AbstractEffect implements Obser
 //towers
 
     @Override
-    public void applyEffect(AbstractGameContext callerContext, Player player) {
-        if(isInstant) {
-            //subscribeObserverToContext(contexts);
-            AbstractGameContext context = callerContext.getContextByType(ContextType.TOWERS_CONTEXT);
-            context.interactWithPlayer(player);
-            context.deleteObserver(this);
-        }
-        //else
-           // subscribeObserverToContext(contexts);
+    public void applyEffect(AbstractGameContext callerContext) {
+        AbstractGameContext towerContext = callerContext.getContextByType(ContextType.TOWERS_CONTEXT);
+        towerContext.addObserver(this);
+
+        //TODO:blablabla verifare pico della mirandola soddisfatto assieme
+        if(requirementsDiscount != null)
+            towerContext.addObserver(this.requirementsDiscount);
+
+        towerContext.interactWithPlayer();
+        towerContext.deleteObserver(this);
     }
 
 
