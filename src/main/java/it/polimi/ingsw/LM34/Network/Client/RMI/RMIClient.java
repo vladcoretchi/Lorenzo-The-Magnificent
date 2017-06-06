@@ -5,7 +5,7 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Server.RMI.RMIServerInterface;
-import it.polimi.ingsw.LM34.UI.AbstractUI;
+import it.polimi.ingsw.LM34.UI.UIInterface;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -19,7 +19,7 @@ import java.util.List;
 public class RMIClient extends AbstractClient implements RMIClientInterface {
     private RMIServerInterface server;
 
-    public RMIClient(String serverIP, Integer port, AbstractUI ui) {
+    public RMIClient(String serverIP, Integer port, UIInterface ui) {
         try {
             Registry registry = LocateRegistry.getRegistry(serverIP, port);
             server = (RMIServerInterface) registry.lookup("RMIServer");

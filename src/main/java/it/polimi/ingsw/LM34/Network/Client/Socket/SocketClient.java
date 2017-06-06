@@ -5,7 +5,7 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Server.Socket.RequestToServer;
-import it.polimi.ingsw.LM34.UI.AbstractUI;
+import it.polimi.ingsw.LM34.UI.UIInterface;
 import java.io.*;
 import java.net.Socket;
 import java.util.List;
@@ -20,7 +20,7 @@ public class SocketClient extends AbstractClient {
     private static ObjectInputStream inStream;
     private static ObjectOutputStream outStream;
 
-    public SocketClient(String serverIP, Integer port, AbstractUI ui) {
+    public SocketClient(String serverIP, Integer port, UIInterface ui) {
         try {
             socket = new Socket(serverIP, port);
             outStream = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));

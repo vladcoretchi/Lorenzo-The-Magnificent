@@ -2,7 +2,7 @@ package it.polimi.ingsw.LM34.Network.Client;
 
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
-import it.polimi.ingsw.LM34.UI.AbstractUI;
+import it.polimi.ingsw.LM34.UI.UIInterface;
 import java.util.List;
 
 /**
@@ -10,13 +10,13 @@ import java.util.List;
  */
 public abstract class AbstractClient {
     protected ClientNetworkController networkController;
-    protected AbstractUI ui;
+    protected UIInterface ui;
 
     public final ClientNetworkController getNetworkController() {
         return this.networkController;
     }
 
-    public final AbstractUI getUI() {
+    public final UIInterface getUI() {
         return this.ui;
     }
 

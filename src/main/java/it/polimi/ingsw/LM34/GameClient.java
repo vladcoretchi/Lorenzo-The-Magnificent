@@ -1,11 +1,12 @@
 package it.polimi.ingsw.LM34;
 
-import it.polimi.ingsw.LM34.UI.AbstractUI;
 import it.polimi.ingsw.LM34.UI.CLI.CLI;
+import it.polimi.ingsw.LM34.UI.GUI.MainForm;
+import it.polimi.ingsw.LM34.UI.UIInterface;
 import static it.polimi.ingsw.LM34.UI.CLI.CLIStuff.*;
 
 public class GameClient {
-    private static AbstractUI ui;
+    private static UIInterface ui;
 
     public static void main(String[] args) {
         printSplashScreen();
@@ -20,8 +21,8 @@ public class GameClient {
                 userInputIsValid = true;
             }
             else if(viewChoice.equalsIgnoreCase("gui")) {
-                //TODO
-                userInputIsValid = false;
+                ui = new MainForm();
+                userInputIsValid = true;
             }
             else
                 printError("Invalid selection!");

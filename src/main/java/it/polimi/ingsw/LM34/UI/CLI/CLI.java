@@ -12,18 +12,22 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
+import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
-import it.polimi.ingsw.LM34.UI.AbstractUI;
+import it.polimi.ingsw.LM34.UI.UIInterface;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 import it.polimi.ingsw.LM34.Utils.Validator;
 import java.util.*;
 
 /**
- * this class was built on {@link AbstractUI}. It implement all method body that will be used to describe and manage Cli
+ * this class was built on {@link UIInterface}. It implement all method body that will be used to describe and manage Cli
  */
 
-public class CLI extends AbstractUI {
+public class CLI implements UIInterface {
+    private AbstractClient networkClient;
+    private ClientNetworkController networkController;
 
     private Integer selectionMenu(List<?> data, Optional<String> backString, Optional<String> message, Optional<String> errorMessage) {
         Integer userSelection;
@@ -63,7 +67,7 @@ public class CLI extends AbstractUI {
      * this method will be called when the console will ask to user to insert his username and password
      */
     @Override
-    protected void loginMenu() {
+    public void loginMenu() {
         printLine("--- Login ---");
 
         printLine("Username:");
@@ -369,7 +373,6 @@ public class CLI extends AbstractUI {
      * @param player all player`s information
      * @return which bonus the player has chosen
      */
-    @Override
     public Integer councilPalace(Player player) {
 
         Integer selectedFamilyMember;
