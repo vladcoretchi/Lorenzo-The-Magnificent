@@ -42,6 +42,7 @@ public class MainForm extends Application implements UIInterface {
 
 
 
+
         primaryStage.show();
 
 
@@ -54,27 +55,30 @@ public class MainForm extends Application implements UIInterface {
         VBox content = new VBox();
         scrollPane.setContent(content);
         // Just to see that the lines are actually added
-        scrollPane.setPrefWidth(200);
+        scrollPane.setPrefWidth(30);
 
         for (Integer i = 1; i < 5; i++) {
             ImageView imageView = new ImageView();
-            imageView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/developmentCards/Commercial_Hub.png").toExternalForm()));
-            imageView.minHeight(200);
-            imageView.minWidth(250);
+            imageView.maxWidth(300);
+            imageView.maxHeight(200);
+            imageView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/personalBoards/Personal_Board_Cut.png").toExternalForm()));
+            //imageView.minHeight(100);
+            //imageView.minWidth(200);
             imageView.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent me) {
-                    System.out.println("Mouse entered");
+                   // imageView.setImage(new Image("images/personalBoards/Personal_Board_Cut.png"));
                 }
             });
             //scrollPane.getRowConstraints().add(new RowConstraints(30));
             content.getChildren().add(imageView);
         }
+
     }
 
     private void prepareWindow(Stage primaryStage, Parent root) {
-        primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/developmentCards/Commercial_Hub.png").toExternalForm()));
+        primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
         primaryStage.setTitle("Lorenzo il Magnifico by CranioCreations");
-        primaryStage.setScene(new Scene(root, 1500, 1400));
+        primaryStage.setScene(new Scene(root, 2700, 2565));
         primaryStage.setFullScreen(true);
         primaryStage.setResizable(false);
         primaryStage.show();
