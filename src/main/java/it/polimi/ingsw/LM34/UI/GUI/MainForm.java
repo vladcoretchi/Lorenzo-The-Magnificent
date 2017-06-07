@@ -12,10 +12,10 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -34,21 +34,14 @@ public class MainForm extends Application implements UIInterface {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/mainForm.fxml"));
-
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 1500, 1400));
-        primaryStage.setFullScreen(true);
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        prepareWindow(primaryStage, root);
         //TODO
 
-        GridPane grid = (GridPane) root.lookup("#gridPaneResource");
-
-
+        ScrollPane grid = (ScrollPane) root.lookup("#gridPaneResource");
+        VBox content = new VBox();
+        grid.setContent(content);
         // Just to see that the lines are actually added
-        grid.setGridLinesVisible(true);
         grid.setPrefWidth(200);
-
 
         for (Integer i = 1; i < 5; i++) {
             ImageView imageView = new ImageView();
@@ -56,8 +49,7 @@ public class MainForm extends Application implements UIInterface {
             imageView.minHeight(200);
             imageView.minWidth(250);
             //grid.getRowConstraints().add(new RowConstraints(30));
-            grid.getRowConstraints().add(new RowConstraints(30));
-            grid.addRow(i, imageView);
+            content.getChildren().add(imageView);
         }
 
 
@@ -68,6 +60,14 @@ public class MainForm extends Application implements UIInterface {
         //primaryStage.show();
     }
 
+    private void prepareWindow(Stage primaryStage, Parent root) {
+        primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/developmentCards/Commercial_Hub.png").toExternalForm()));
+        primaryStage.setTitle("Lorenzo il Magnifico by CranioCreations");
+        primaryStage.setScene(new Scene(root, 1500, 1400));
+        primaryStage.setFullScreen(true);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+    }
     @Override
     public void loginMenu() {
 

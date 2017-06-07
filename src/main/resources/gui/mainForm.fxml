@@ -4,13 +4,15 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.GridPane?>
 <SplitPane dividerPositions="0.75" orientation="HORIZONTAL" prefHeight="2000" prefWidth="1500" visible="true" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+
         <ScrollPane minWidth="750">
             <ImageView fx:id="gameboard" fitHeight="1848.0" fitWidth="1300.0" preserveRatio="true" style="-fx-border-image-width: 100%;">
                 <Image url="@../images/gameboard.jpeg" />
             </ImageView>
         </ScrollPane>
-   <GridPane id="gridPaneResource" minWidth="250" prefHeight="248.0" prefWidth="300.0">
-   </GridPane>
+
+        <ScrollPane id="gridPaneResource" minWidth="250" prefHeight="248.0" prefWidth="300.0">
+        </ScrollPane>
+
 </SplitPane>
