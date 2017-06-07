@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.image.*?>
+<SplitPane fx:controller="it.polimi.ingsw.LM34.UI.GUI.GuiControllers.OtherPlayersInfoController" dividerPositions="0.835" orientation="HORIZONTAL" prefHeight="1848" prefWidth="1300" stylesheets="@../css/divider.css" visible="true" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+
+        <ScrollPane minWidth="30" onMouseEntered="#changeColor" stylesheets="@../css/scrollBar.css">
+
+                <ImageView fx:id="gameboard" fitHeight="1848.0" fitWidth="1300.0" preserveRatio="true" style="-fx-border-image-width: 100%;">
+                    <Image url="@../images/gameboard.png" />
+                </ImageView>
+
+                <Group fx:id="towers">
+                    <!-- tower 1-->
+                    <ImageView onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="90" layoutX="85" style="-fx-background-color: transparent">
+                        <Image url="@../images/developmentCards/Commercial_Hub.png"/>
+                    </ImageView>
+                    <ImageView  onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="330" layoutX="85" style="-fx-background-color: transparent">
+                        <Image url="@../images/developmentCards/Commercial_Hub.png"/>
+                    </ImageView>
+                    <ImageView onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="560" layoutX="85" style="-fx-background-color: transparent">
+                        <Image url="@../images/developmentCards/Commercial_Hub.png"/>
+                    </ImageView>
+                    <ImageView onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="800" layoutX="85" style="-fx-background-color: transparent">
+                        <Image url="@../images/developmentCards/Commercial_Hub.png"/>
+                    </ImageView>
+
+
+                    <!-- tower 2-->
+                    <ImageView onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="100" layoutX="335" style="-fx-background-color: transparent">
+                        <Image url="@../images/developmentCards/Commercial_Hub.png"/>
+                    </ImageView>
+                    <ImageView onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="330" layoutX="335" style="-fx-background-color: transparent">
+                        <Image url="@../images/developmentCards/Commercial_Hub.png"/>
+                    </ImageView>
+                    <ImageView fitHeight="220" fitWidth="135" layoutY="560" layoutX="335" style="-fx-background-color: transparent">
+                        <Image url="@../images/developmentCards/Commercial_Hub.png"/>
+                    </ImageView>
+                    <ImageView fitHeight="220" fitWidth="135" layoutY="790" layoutX="335" style="-fx-background-color: transparent">
+                        <Image url="@../images/developmentCards/Commercial_Hub.png"/>
+                    </ImageView>
+
+                    <!-- tower 3 -->
+                    <ImageView fitHeight="220" fitWidth="135" layoutY="100" layoutX="585" style="-fx-background-color: transparent">
+                        <Image url="@../images/developmentCards/Commercial_Hub.png"/>
+                    </ImageView>
+                    <ImageView fitHeight="220" fitWidth="135" layoutY="330" layoutX="585" style="-fx-background-color: transparent">
+                        <Image url="@../images/developmentCards/Commercial_Hub.png"/>
+                    </ImageView>
+                    <ImageView fitHeight="220" fitWidth="135" layoutY="560" layoutX="585" style="-fx-background-color: transparent">
+                        <Image url="@../images/developmentCards/Commercial_Hub.png"/>
+                    </ImageView>
+                    <ImageView fitHeight="220" fitWidth="135" layoutY="790" layoutX="585" style="-fx-background-color: transparent">
+                        <Image url="@../images/developmentCards/Commercial_Hub.png"/>
+                    </ImageView>
+
+                    <!-- tower 4-->
+                    <ImageView fitHeight="220" fitWidth="135" layoutY="100" layoutX="835" style="-fx-background-color: transparent">
+                        <Image url="@../images/developmentCards/Commercial_Hub.png"/>
+                    </ImageView>
+                    <ImageView fitHeight="220" fitWidth="135" layoutY="330" layoutX="835" style="-fx-background-color: transparent">
+                        <Image url="@../images/developmentCards/Commercial_Hub.png"/>
+                    </ImageView>
+                    <ImageView fitHeight="220" fitWidth="135" layoutY="560" layoutX="835" style="-fx-background-color: transparent">
+                        <Image url="@../images/developmentCards/Commercial_Hub.png"/>
+                    </ImageView>
+                    <ImageView fitHeight="220" fitWidth="135" layoutY="790" layoutX="835" style="-fx-background-color: transparent">
+                        <Image url="@../images/developmentCards/Commercial_Hub.png"/>
+                    </ImageView>
+
+                    <!-- excommunication cards-->
+                    <ImageView fitHeight="165" fitWidth="85" layoutY="1143" layoutX="248" style="-fx-background-color: transparent">
+                        <Image url="@../images/excommunicationTiles/excomm_3_7.png"/>
+                    </ImageView>
+                    <ImageView fitHeight="165" fitWidth="85" layoutY="1143" layoutX="345" style="-fx-background-color: transparent">
+                        <Image url="@../images/excommunicationTiles/excomm_3_7.png"/>
+                    </ImageView>
+                    <ImageView fitHeight="165" fitWidth="85" layoutY="1143" layoutX="443" style="-fx-background-color: transparent">
+                        <Image url="@../images/excommunicationTiles/excomm_3_7.png"/>
+                    </ImageView>
+
+                </Group>
+
+        </ScrollPane>
+        <ScrollPane id="scrollPanePaneResource" minWidth="250" prefHeight="300.0" prefWidth="500.0">
+        </ScrollPane>
+
+</SplitPane>

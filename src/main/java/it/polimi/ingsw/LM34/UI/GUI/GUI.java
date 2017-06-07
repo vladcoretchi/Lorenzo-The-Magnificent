@@ -7,6 +7,8 @@ import it.polimi.ingsw.LM34.Enums.UI.NetworkType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.UI.GUI.GuiViews.CurchReportDialog;
+import it.polimi.ingsw.LM34.UI.GUI.GuiViews.UseServantsDialog;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -26,7 +28,7 @@ import java.util.List;
 /**
  * Created by vladc on 6/6/2017.
  */
-public class MainForm extends Application implements UIInterface {
+public class GUI extends Application implements UIInterface {
 
     @Override
     public void show() {
@@ -35,10 +37,11 @@ public class MainForm extends Application implements UIInterface {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/mainForm.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/gui.fxml"));
         prepareWindow(primaryStage, root);
-        addPlayersInfo(root);
-
+        servantsSelection(5,1);
+        curchReportDecision(4,2);
+        //addPlayersInfo(root);
 
 
 
@@ -55,30 +58,27 @@ public class MainForm extends Application implements UIInterface {
         VBox content = new VBox();
         scrollPane.setContent(content);
         // Just to see that the lines are actually added
-        scrollPane.setPrefWidth(30);
+        scrollPane.setPrefWidth(200);
 
         for (Integer i = 1; i < 5; i++) {
             ImageView imageView = new ImageView();
-            imageView.setFitWidth(685.2);
-            imageView.setFitHeight(465.6);
-            imageView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/personalBoards/Personal_Board_Cut.png").toExternalForm()));
-            //imageView.minHeight(100);
-            //imageView.minWidth(200);
+            imageView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
+            imageView.minHeight(200);
+            imageView.minWidth(250);
             imageView.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent me) {
-                   // imageView.setImage(new Image("images/personalBoards/Personal_Board_Cut.png"));
+                    System.out.println("Mouse entered");
                 }
             });
             //scrollPane.getRowConstraints().add(new RowConstraints(30));
             content.getChildren().add(imageView);
         }
-
     }
 
     private void prepareWindow(Stage primaryStage, Parent root) {
         primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
         primaryStage.setTitle("Lorenzo il Magnifico by CranioCreations");
-        primaryStage.setScene(new Scene(root, 2700, 2565));
+        primaryStage.setScene(new Scene(root, 1500, 1400));
         primaryStage.setFullScreen(true);
         primaryStage.setResizable(false);
         primaryStage.show();
@@ -111,7 +111,14 @@ public class MainForm extends Application implements UIInterface {
 
     @Override
     public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
-        return null;
+        UseServantsDialog dialog = new UseServantsDialog();
+        return dialog.interactWithPlayer(servantsAvailable, minimumServantsRequested);
+    }
+
+
+    public Integer curchReportDecision(Integer servantsAvailable, Integer minimumServantsRequested) {
+        CurchReportDialog dialog = new CurchReportDialog();
+        return dialog.interactWithPlayer(servantsAvailable, minimumServantsRequested);
     }
 
     @Override
@@ -137,5 +144,11 @@ public class MainForm extends Application implements UIInterface {
     @Override
     public void printGameBoard() {
 
+    }
+
+
+    public static void main(String [] args) {
+        GUI gui = new GUI();
+        gui.show();
     }
 }

@@ -1,8 +1,9 @@
 package it.polimi.ingsw.LM34;
 
 import it.polimi.ingsw.LM34.UI.CLI.CLI;
-import it.polimi.ingsw.LM34.UI.GUI.MainForm;
+import it.polimi.ingsw.LM34.UI.GUI.GUI;
 import it.polimi.ingsw.LM34.UI.UIInterface;
+
 import static it.polimi.ingsw.LM34.UI.CLI.CLIStuff.*;
 
 public class GameClient {
@@ -21,7 +22,7 @@ public class GameClient {
                 userInputIsValid = true;
             }
             else if(viewChoice.equalsIgnoreCase("gui")) {
-                ui = new MainForm();
+                ui = new GUI();
                 userInputIsValid = true;
             }
             else
