@@ -59,8 +59,8 @@ public class MainForm extends Application implements UIInterface {
 
         for (Integer i = 1; i < 5; i++) {
             ImageView imageView = new ImageView();
-            imageView.maxWidth(300);
-            imageView.maxHeight(200);
+            imageView.setFitWidth(685.2);
+            imageView.setFitHeight(465.6);
             imageView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/personalBoards/Personal_Board_Cut.png").toExternalForm()));
             //imageView.minHeight(100);
             //imageView.minWidth(200);
