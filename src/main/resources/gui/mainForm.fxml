@@ -4,15 +4,14 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<SplitPane dividerPositions="0.75" orientation="HORIZONTAL" prefHeight="2000" prefWidth="1500" visible="true" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane fx:controller="it.polimi.ingsw.LM34.UI.GUI.GuiControllers.OtherPlayersInfoController" dividerPositions="0.85" orientation="HORIZONTAL" prefHeight="2000" prefWidth="1500" stylesheets="@../css/divider.css" visible="true" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
 
-        <ScrollPane minWidth="750">
+        <ScrollPane minWidth="750" onMouseEntered="#changeColor" stylesheets="@../css/scrollBar.css">
             <ImageView fx:id="gameboard" fitHeight="1848.0" fitWidth="1300.0" preserveRatio="true" style="-fx-border-image-width: 100%;">
                 <Image url="@../images/gameboard.jpeg" />
             </ImageView>
         </ScrollPane>
-
-        <ScrollPane id="gridPaneResource" minWidth="250" prefHeight="248.0" prefWidth="300.0">
+        <ScrollPane id="scrollPanePaneResource" minWidth="250" prefHeight="248.0" prefWidth="250.0">
         </ScrollPane>
 
 </SplitPane>

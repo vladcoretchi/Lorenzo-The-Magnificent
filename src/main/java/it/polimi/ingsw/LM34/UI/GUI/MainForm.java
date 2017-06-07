@@ -9,12 +9,14 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -35,22 +37,9 @@ public class MainForm extends Application implements UIInterface {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/mainForm.fxml"));
         prepareWindow(primaryStage, root);
-        //TODO
+        addPlayersInfo(root);
 
-        ScrollPane grid = (ScrollPane) root.lookup("#gridPaneResource");
-        VBox content = new VBox();
-        grid.setContent(content);
-        // Just to see that the lines are actually added
-        grid.setPrefWidth(200);
 
-        for (Integer i = 1; i < 5; i++) {
-            ImageView imageView = new ImageView();
-            imageView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/developmentCards/Commercial_Hub.png").toExternalForm()));
-            imageView.minHeight(200);
-            imageView.minWidth(250);
-            //grid.getRowConstraints().add(new RowConstraints(30));
-            content.getChildren().add(imageView);
-        }
 
 
         primaryStage.show();
@@ -58,6 +47,28 @@ public class MainForm extends Application implements UIInterface {
 
 
         //primaryStage.show();
+    }
+
+    private void addPlayersInfo(Parent root) {
+        ScrollPane scrollPane = (ScrollPane) root.lookup("#scrollPanePaneResource");
+        VBox content = new VBox();
+        scrollPane.setContent(content);
+        // Just to see that the lines are actually added
+        scrollPane.setPrefWidth(200);
+
+        for (Integer i = 1; i < 5; i++) {
+            ImageView imageView = new ImageView();
+            imageView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/developmentCards/Commercial_Hub.png").toExternalForm()));
+            imageView.minHeight(200);
+            imageView.minWidth(250);
+            imageView.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent me) {
+                    System.out.println("Mouse entered");
+                }
+            });
+            //scrollPane.getRowConstraints().add(new RowConstraints(30));
+            content.getChildren().add(imageView);
+        }
     }
 
     private void prepareWindow(Stage primaryStage, Parent root) {
@@ -68,6 +79,7 @@ public class MainForm extends Application implements UIInterface {
         primaryStage.setResizable(false);
         primaryStage.show();
     }
+
     @Override
     public void loginMenu() {
 
