@@ -17,19 +17,19 @@ public class UseCouncilPrivilegeDialog {
             choices.add(i.toString());
 
 
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("minimumServantsRequested", choices);
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("0", choices);
         dialog.setTitle("Servants Selection");
         dialog.setGraphic(new ImageView(Thread.currentThread().getContextClassLoader().getResource("images/servants.png").toExternalForm()));
         dialog.setHeaderText("Use privileges:");
         dialog.setContentText("Choose type of reward:");
 
-// Traditional way to get the response value.
+
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
             System.out.println("Your choice: " + result.get());
         }
 
-// The Java 8 way to get the response value (with lambda expression).
+
         result.ifPresent(letter -> System.out.println("Your choice: " + letter));
 
         return 0;

@@ -43,6 +43,7 @@ public class PersonalBoardController {
       }
 
     private void loadCardOnPersonalBoard(AbstractDevelopmentCard card) {
+
     }
 
     public static void main(String [] args) {

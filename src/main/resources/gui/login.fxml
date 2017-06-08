@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane fx:id="root" prefHeight="339.0" prefWidth="422.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <PasswordField layoutX="193.0" layoutY="200.0" />
+      <Label layoutX="86.0" layoutY="204.0" text="Password:" />
+      <Label layoutX="84.0" layoutY="160.0" text="Username:" />
+      <TextField layoutX="193.0" layoutY="157.0" />
+      <Label layoutX="178.0" layoutY="50.0" text="Login" />
+   </children>
+</AnchorPane>
