@@ -114,11 +114,12 @@ public class GUI extends Application implements UIInterface {
         primaryStage.show();
     }
 
-    //TODO
+
     public void loginMenu(Stage primaryStage) {
         try {
             LoginDialog dialog = new LoginDialog();
             dialog.start(primaryStage);
+            networkController.login(dialog.getUsername().getText(), dialog.getPassword().getText());
         }
         catch (Exception e) {
             e.printStackTrace();

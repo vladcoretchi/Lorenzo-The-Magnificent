@@ -1,15 +1,14 @@
 package it.polimi.ingsw.LM34.UI.GUI.GuiControllers;
 
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
-import javafx.collections.FXCollections;
-import javafx.collections.MapChangeListener;
-import javafx.collections.ObservableMap;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.GREEN;
@@ -19,6 +18,8 @@ import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.GREEN;
  */
 public class PersonalBoardController {
     HashMap<String, Integer> map = new HashMap<>();
+    List<AbstractDevelopmentCard> list = new ArrayList<AbstractDevelopmentCard>();
+
     PersonalBoard personalBoard;
 
     /*Constructor*/
@@ -27,10 +28,21 @@ public class PersonalBoardController {
     }
       public void control() {
           Optional<List<AbstractDevelopmentCard>> territoryCards = personalBoard.getDevelopmentCardsByType(GREEN);
-
+          loadCardOnPersonalBoard(territoryCards.get());
           Stream<AbstractDevelopmentCard> stream = territoryCards.orElse(Collections.emptyList()).stream();
 
-          stream.forEach(card -> loadCardOnPersonalBoard(card));
+
+         /*stream.forEach(card -> loadCardOnPersonalBoard(card));
+          ObservableList observableList = FXCollections.observableList(list);
+          observableList.addListener(new ListChangeListener() {
+              @Override
+              public void onChanged(Change change) {
+                  System.out.println("map changed");
+              }
+          });*/
+         //observableList.add(stream.)
+
+          /*stream.forEach(card -> loadCardOnPersonalBoard(card));
           map.put("chiave", 1);
           ObservableMap observableMap = FXCollections.observableMap(map);
           observableMap.addListener(new MapChangeListener() {
@@ -39,10 +51,28 @@ public class PersonalBoardController {
                   System.out.println("map changed");
               }
           });
-         observableMap.put("chiave2",3);
+         observableMap.put("chiave2",3);*/
       }
 
-    private void loadCardOnPersonalBoard(AbstractDevelopmentCard card) {
+    //TODO
+    private void loadCardOnPersonalBoard(List<AbstractDevelopmentCard> territoryCards) {
+        Parent root;
+        Integer index = 1;
+        try {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/gui.fxml"));
+            for (AbstractDevelopmentCard card : territoryCards) {
+                ((ImageView) root.lookup("#tower" + DevelopmentCardColor.GREEN.toString() + "_level" + index))
+                                 .setImage(new Image(Thread.currentThread().getContextClassLoader().
+                                         getResource("images/developmentCards/territories/" + card.getName() +".png").toExternalForm()));
+            index++;
+        }
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+
+
 
     }
 
