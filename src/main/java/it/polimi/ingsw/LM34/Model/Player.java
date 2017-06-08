@@ -26,18 +26,12 @@ public class Player implements Serializable {
     private Resources resources;
     private Integer councilPrivileges;
 
-    private ArrayList<AbstractEffect> observerEffects;
-
-    //VARIABLE FOR COMMUNICATION TO CLIENT
-    //TODO: evalueate if this network connection is correct
-
     public Player(String name, PawnColor pawnColor, PersonalBoard personalBoard) {
         this.playerName = name;
         this.pawnColor= pawnColor;
         this.personalBoard= personalBoard;
         resources = new Resources();
         councilPrivileges = 0;
-        this.observerEffects = new ArrayList<>();
 
         familyMembers= new ArrayList<FamilyMember>();
 
@@ -66,20 +60,6 @@ public class Player implements Serializable {
 
     public ArrayList<FamilyMember> getFamilyMembers() {
         return this.familyMembers;
-    }
-
-    public ArrayList<AbstractEffect> getObservers() {
-        return this.observerEffects;
-    }
-
-    //TODO: delete this
-    public void registerObserver(AbstractEffect a) {
-        observerEffects.add(a);
-    }
-
-    //TODO: delete this
-    public void unSubscribeObservers() {
-        observerEffects.clear();
     }
 
     public Integer getCouncilPrivileges() {

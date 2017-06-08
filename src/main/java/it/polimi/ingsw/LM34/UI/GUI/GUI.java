@@ -8,6 +8,7 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.UI.GUI.GuiViews.CurchReportDialog;
+import it.polimi.ingsw.LM34.UI.GUI.GuiViews.NetworkTypeDialog;
 import it.polimi.ingsw.LM34.UI.GUI.GuiViews.UseServantsDialog;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import javafx.application.Application;
@@ -40,21 +41,15 @@ public class GUI extends Application implements UIInterface {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/gui.fxml"));
         prepareWindow(primaryStage, root);
-        servantsSelection(5,1);
+        //servantsSelection(5,1);
         curchReportDecision(4,2);
-        leaderCardAction(primaryStage); //TODO
-        //addPlayersInfo(root);
-
-
-
-
+        //leaderCardAction(primaryStage); //TODO
+        addPlayersInfo(root);
+        connectionTypeSelection();
 
 
         primaryStage.show();
 
-
-
-        //primaryStage.show();
     }
 
     private void leaderCardAction(Stage primaryStage) {
@@ -98,7 +93,7 @@ public class GUI extends Application implements UIInterface {
     private void prepareWindow(Stage primaryStage, Parent root) {
         primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
         primaryStage.setTitle("Lorenzo il Magnifico by CranioCreations");
-        primaryStage.setScene(new Scene(root, 1500, 1400));
+        primaryStage.setScene(new Scene(root, primaryStage.getMaxWidth(), primaryStage.getMaxHeight()));
         primaryStage.setFullScreen(true);
         primaryStage.setResizable(false);
         primaryStage.show();
@@ -116,7 +111,8 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public NetworkType connectionTypeSelection() {
-        return null;
+        NetworkTypeDialog dialog = new NetworkTypeDialog();
+        return dialog.interactWithPlayer();
     }
 
     @Override

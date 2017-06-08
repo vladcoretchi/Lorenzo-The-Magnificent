@@ -14,15 +14,11 @@ import java.util.ArrayList;
 public class BuildingCard extends AbstractDevelopmentCard {
     private DevelopmentCardColor color= DevelopmentCardColor.YELLOW;
 
-
-
     private String name;
     private Integer diceValueToProduct;
     private Resources resourcesRequired; //we do not store single type of resources as Integer but we wrap them in a Resources class
     private Integer period;
     //this two variables together represents the instant Effects
-
-
 
     public BuildingCard(String buildingName, Integer diceValueToProduct, Integer period, Resources resourcesRequired, ArrayList<AbstractEffect> instantBonus, AbstractEffect  permanentBonus) {
         this.resourcesRequired= resourcesRequired;
@@ -33,13 +29,10 @@ public class BuildingCard extends AbstractDevelopmentCard {
         this.instantBonus = instantBonus;
     }
 
-
     @Override
     public Resources getResourcesRequired() {
         return resourcesRequired;
     }
-
-
 
     public Integer getDiceValueToProduct() {
         return diceValueToProduct;

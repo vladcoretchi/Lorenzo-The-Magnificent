@@ -23,13 +23,13 @@ public class UseServantsDialog {
         dialog.setHeaderText("Increase family member value by using servants");
         dialog.setContentText("Choose number of servants:");
 
-// Traditional way to get the response value.
+
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
             System.out.println("Your choice: " + result.get());
         }
 
-// The Java 8 way to get the response value (with lambda expression).
+
         result.ifPresent(letter -> System.out.println("Your choice: " + letter));
 
         return 0;
