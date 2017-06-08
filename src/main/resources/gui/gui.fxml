@@ -1,90 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<AnchorPane prefHeight="1848" prefWidth="1300" stylesheets="@../css/divider.css" visible="true" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.LM34.UI.GUI.GuiControllers.OtherPlayersInfoController">
+<SplitPane fx:controller="it.polimi.ingsw.LM34.UI.GUI.GuiControllers.OtherPlayersInfoController" dividerPositions="0.835" orientation="HORIZONTAL" prefHeight="1848" prefWidth="1300" stylesheets="@../css/divider.css" visible="true" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
 
-        <ScrollPane minWidth="30" onMouseEntered="#changeColor" stylesheets="@../css/scrollBar.css" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+        <ScrollPane id="board" minWidth="30" onMouseEntered="#changeColor" stylesheets="@../css/scrollBar.css">
 
-                <ImageView fx:id="gameboard" fitHeight="1848.0" fitWidth="1300.0" preserveRatio="true" style="-fx-border-image-width: 100%;">
+            <Group fx:id="towers">
+
+                <ImageView fx:id="gameboard" fitHeight="1894.59" fitWidth="1331.37" style="-fx-border-image-width: 100%;">
                     <Image url="@../images/gameboard.png" />
                 </ImageView>
 
-                <Group fx:id="towers">
-                    <!-- tower 1-->
-                    <ImageView fitHeight="220" fitWidth="135" layoutX="85" layoutY="90" onMouseClicked="#tryBuyCard" style="-fx-background-color: transparent">
-                        <Image url="@../images/developmentCards/Commercial_Hub.png" />
-                    </ImageView>
-                    <ImageView fitHeight="220" fitWidth="135" layoutX="85" layoutY="330" onMouseClicked="#tryBuyCard" style="-fx-background-color: transparent">
-                        <Image url="@../images/developmentCards/Commercial_Hub.png" />
-                    </ImageView>
-                    <ImageView fitHeight="220" fitWidth="135" layoutX="85" layoutY="560" onMouseClicked="#tryBuyCard" style="-fx-background-color: transparent">
-                        <Image url="@../images/developmentCards/Commercial_Hub.png" />
-                    </ImageView>
-                    <ImageView fitHeight="220" fitWidth="135" layoutX="85" layoutY="800" onMouseClicked="#tryBuyCard" style="-fx-background-color: transparent">
-                        <Image url="@../images/developmentCards/Commercial_Hub.png" />
-                    </ImageView>
+                <!-- tower 1-->
+                <ImageView fx:id="towerGreen_level3" onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="100" layoutX="90" style="-fx-background-color: transparent">
+                    <Image url="@../images/developmentCards/territories/Commercial_Hub.png"/>
+                </ImageView>
+                <ImageView fx:id="towerGreen_level2" onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="340" layoutX="90" style="-fx-background-color: transparent">
+                    <Image url="@../images/developmentCards/territories/Commercial_Hub.png"/>
+                </ImageView>
+                <ImageView fx:id="towerGreen_level1" onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="580" layoutX="90" style="-fx-background-color: transparent">
+                    <Image url="@../images/developmentCards/territories/Commercial_Hub.png"/>
+                </ImageView>
+                <ImageView fx:id="towerGreen_level0" onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="820" layoutX="90" style="-fx-background-color: transparent">
+                    <Image url="@../images/developmentCards/territories/Commercial_Hub.png"/>
+                </ImageView>
 
+                 <!-- tower 2-->
+                <ImageView fx:id="towerBlue_level3" onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="100" layoutX="347" style="-fx-background-color: transparent">
+                    <Image url="@../images/developmentCards/territories/Commercial_Hub.png"/>
+                </ImageView>
+                <ImageView fx:id="towerBlue_level2" onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="340" layoutX="347" style="-fx-background-color: transparent">
+                    <Image url="@../images/developmentCards/territories/Commercial_Hub.png"/>
+                </ImageView>
+                <ImageView fx:id="towerBlue_level1" onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="580" layoutX="347" style="-fx-background-color: transparent">
+                    <Image url="@../images/developmentCards/territories/Commercial_Hub.png"/>
+                </ImageView>
+                <ImageView fx:id="towerBlue_level0" onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="820" layoutX="347" style="-fx-background-color: transparent">
+                    <Image url="@../images/developmentCards/territories/Commercial_Hub.png"/>
+                </ImageView>
 
-                    <!-- tower 2-->
-                    <ImageView fitHeight="220" fitWidth="135" layoutX="335" layoutY="100" onMouseClicked="#tryBuyCard" style="-fx-background-color: transparent">
-                        <Image url="@../images/developmentCards/Commercial_Hub.png" />
-                    </ImageView>
-                    <ImageView fitHeight="220" fitWidth="135" layoutX="335" layoutY="330" onMouseClicked="#tryBuyCard" style="-fx-background-color: transparent">
-                        <Image url="@../images/developmentCards/Commercial_Hub.png" />
-                    </ImageView>
-                    <ImageView fitHeight="220" fitWidth="135" layoutX="335" layoutY="560" style="-fx-background-color: transparent">
-                        <Image url="@../images/developmentCards/Commercial_Hub.png" />
-                    </ImageView>
-                    <ImageView fitHeight="220" fitWidth="135" layoutX="335" layoutY="790" style="-fx-background-color: transparent">
-                        <Image url="@../images/developmentCards/Commercial_Hub.png" />
-                    </ImageView>
+                <!-- tower 3 -->
+                <ImageView fx:id="towerYellow_level3" onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="100" layoutX="605" style="-fx-background-color: transparent">
+                    <Image url="@../images/developmentCards/territories/Commercial_Hub.png"/>
+                </ImageView>
+                <ImageView fx:id="towerYellow_level2" onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="340" layoutX="605" style="-fx-background-color: transparent">
+                    <Image url="@../images/developmentCards/territories/Commercial_Hub.png"/>
+                </ImageView>
+                <ImageView fx:id="towerYellow_level1" onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="580" layoutX="605" style="-fx-background-color: transparent">
+                    <Image url="@../images/developmentCards/territories/Commercial_Hub.png"/>
+                </ImageView>
+                <ImageView fx:id="towerYellow_level0" onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="820" layoutX="605" style="-fx-background-color: transparent">
+                    <Image url="@../images/developmentCards/territories/Commercial_Hub.png"/>
+                </ImageView>
 
-                    <!-- tower 3 -->
-                    <ImageView fitHeight="220" fitWidth="135" layoutX="585" layoutY="100" style="-fx-background-color: transparent">
-                        <Image url="@../images/developmentCards/Commercial_Hub.png" />
-                    </ImageView>
-                    <ImageView fitHeight="220" fitWidth="135" layoutX="585" layoutY="330" style="-fx-background-color: transparent">
-                        <Image url="@../images/developmentCards/Commercial_Hub.png" />
-                    </ImageView>
-                    <ImageView fitHeight="220" fitWidth="135" layoutX="585" layoutY="560" style="-fx-background-color: transparent">
-                        <Image url="@../images/developmentCards/Commercial_Hub.png" />
-                    </ImageView>
-                    <ImageView fitHeight="220" fitWidth="135" layoutX="585" layoutY="790" style="-fx-background-color: transparent">
-                        <Image url="@../images/developmentCards/Commercial_Hub.png" />
-                    </ImageView>
+                <!-- tower 4-->
+                <ImageView fx:id="towerPurple_level3" onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="100" layoutX="860" style="-fx-background-color: transparent">
+                    <Image url="@../images/developmentCards/territories/Commercial_Hub.png"/>
+                </ImageView>
+                <ImageView fx:id="towerPurple_level2" onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="340" layoutX="860" style="-fx-background-color: transparent">
+                    <Image url="@../images/developmentCards/territories/Commercial_Hub.png"/>
+                </ImageView>
+                <ImageView fx:id="towerPurple_level1" onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="580" layoutX="860" style="-fx-background-color: transparent">
+                    <Image url="@../images/developmentCards/territories/Commercial_Hub.png"/>
+                </ImageView>
+                <ImageView fx:id="towerPurple_level0" onMouseClicked="#tryBuyCard" fitHeight="220" fitWidth="135" layoutY="820" layoutX="860" style="-fx-background-color: transparent">
+                    <Image url="@../images/developmentCards/territories/Commercial_Hub.png"/>
+                </ImageView>
 
-                    <!-- tower 4-->
-                    <ImageView fitHeight="220" fitWidth="135" layoutX="835" layoutY="100" style="-fx-background-color: transparent">
-                        <Image url="@../images/developmentCards/Commercial_Hub.png" />
-                    </ImageView>
-                    <ImageView fitHeight="220" fitWidth="135" layoutX="835" layoutY="330" style="-fx-background-color: transparent">
-                        <Image url="@../images/developmentCards/Commercial_Hub.png" />
-                    </ImageView>
-                    <ImageView fitHeight="220" fitWidth="135" layoutX="835" layoutY="560" style="-fx-background-color: transparent">
-                        <Image url="@../images/developmentCards/Commercial_Hub.png" />
-                    </ImageView>
-                    <ImageView fitHeight="220" fitWidth="135" layoutX="835" layoutY="790" style="-fx-background-color: transparent">
-                        <Image url="@../images/developmentCards/Commercial_Hub.png" />
-                    </ImageView>
-
-                    <!-- excommunication cards-->
-                    <ImageView fitHeight="165" fitWidth="85" layoutX="248" layoutY="1143" style="-fx-background-color: transparent">
-                        <Image url="@../images/excommunicationTiles/excomm_3_7.png" />
-                    </ImageView>
-                    <ImageView fitHeight="165" fitWidth="85" layoutX="345" layoutY="1143" style="-fx-background-color: transparent">
-                        <Image url="@../images/excommunicationTiles/excomm_3_7.png" />
-                    </ImageView>
-                    <ImageView fitHeight="165" fitWidth="85" layoutX="443" layoutY="1143" style="-fx-background-color: transparent">
-                        <Image url="@../images/excommunicationTiles/excomm_3_7.png" />
-                    </ImageView>
+                <!-- excommunication cards-->
+                <ImageView fx:id="excommunicationCard2" fitHeight="165" fitWidth="85" layoutY="1178" layoutX="256" style="-fx-background-color: transparent">
+                    <Image url="@../images/excommunicationTiles/excomm_3_7.png"/>
+                </ImageView>
+                <ImageView fx:id="excommunicationCard1" fitHeight="165" fitWidth="85" layoutY="1178" layoutX="355" style="-fx-background-color: transparent">
+                    <Image url="@../images/excommunicationTiles/excomm_3_7.png"/>
+                </ImageView>
+                <ImageView fx:id="excommuniationCard0" fitHeight="165" fitWidth="85" layoutY="1178" layoutX="454" style="-fx-background-color: transparent">
+                    <Image url="@../images/excommunicationTiles/excomm_3_7.png"/>
+                </ImageView>
 
                 </Group>
 
         </ScrollPane>
-        <ScrollPane id="scrollPanePaneResource" minWidth="250" prefHeight="266.0" prefWidth="414.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+        <ScrollPane id="scrollPanePaneResource" minWidth="250" prefHeight="300.0" prefWidth="500.0">
         </ScrollPane>
 
-</AnchorPane>
+</SplitPane>
