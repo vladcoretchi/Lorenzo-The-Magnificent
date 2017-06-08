@@ -22,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +42,10 @@ public class GUI extends Application implements UIInterface {
         prepareWindow(primaryStage, root);
         servantsSelection(5,1);
         curchReportDecision(4,2);
+        leaderCardAction(primaryStage); //TODO
         //addPlayersInfo(root);
+
+
 
 
 
@@ -51,6 +55,22 @@ public class GUI extends Application implements UIInterface {
 
 
         //primaryStage.show();
+    }
+
+    private void leaderCardAction(Stage primaryStage) {
+        try {
+            Parent root2 = FXMLLoader.load(getClass().getClassLoader().getResource("gui/leaderCardAction.fxml"));
+            primaryStage.setScene(new Scene(
+                    root2, 500, 400));
+            primaryStage.show();
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
     private void addPlayersInfo(Parent root) {
