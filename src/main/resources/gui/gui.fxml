@@ -4,7 +4,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.image.*?>
-<SplitPane fx:controller="it.polimi.ingsw.LM34.UI.GUI.GuiControllers.OtherPlayersInfoController" dividerPositions="0.835" orientation="HORIZONTAL" prefHeight="1848" prefWidth="1300" stylesheets="@../css/divider.css" visible="true" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane fx:controller="it.polimi.ingsw.LM34.UI.GUI.GUI" dividerPositions="0.835" orientation="HORIZONTAL" prefHeight="1848" prefWidth="1300" stylesheets="@../css/divider.css" visible="true" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
 
         <ScrollPane id="board" minWidth="30" onMouseEntered="#changeColor" stylesheets="@../css/scrollBar.css">
 

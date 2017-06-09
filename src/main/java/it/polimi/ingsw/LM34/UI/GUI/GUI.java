@@ -6,16 +6,23 @@ import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.UI.NetworkType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
+import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+import it.polimi.ingsw.LM34.Model.Cards.TerritoryCard;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
-import it.polimi.ingsw.LM34.UI.GUI.GuiViews.*;
+import it.polimi.ingsw.LM34.UI.GUI.GuiViews.CurchReportDialog;
+import it.polimi.ingsw.LM34.UI.GUI.GuiViews.EndGameDialog;
+import it.polimi.ingsw.LM34.UI.GUI.GuiViews.LoginDialog;
+import it.polimi.ingsw.LM34.UI.GUI.GuiViews.NetworkTypeDialog;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import javafx.application.Application;
-import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
@@ -36,8 +43,10 @@ import java.util.List;
 public class GUI extends Application implements UIInterface {
     private AbstractClient networkClient;
     private ClientNetworkController networkController;
+    private Parent root;
 
-
+    @FXML
+    private Group towers;
     @Override
     public void show() {
         launch(null);
@@ -50,26 +59,54 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/gui.fxml"));
+        root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/gui.fxml"));
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         double width = gd.getDisplayMode().getWidth();
         double height = gd.getDisplayMode().getHeight();
         primaryStage.setMaxWidth(width);
         primaryStage.setMaxHeight(height);
         prepareWindow(primaryStage, root);
+
+        ArrayList<AbstractDevelopmentCard> territoryCards;
+        territoryCards = new ArrayList<>();
+        territoryCards.add(new TerritoryCard("Castle", 2, 1, null, null));
+        territoryCards.add(new TerritoryCard("Hermitage", 2, 1, null, null));
+        territoryCards.add(new TerritoryCard("Estate", 2, 1, null, null));
+        territoryCards.add(new TerritoryCard("Forest", 2, 1, null, null));
+
+        //new PersonalBoardController().loadCardOnPersonalBoard(territoryCards);
+
+        Integer index = 0;
+
+
+            for (AbstractDevelopmentCard card : territoryCards) {
+                System.out.println("#tower" + card.getColor().toString() + "_level" + index);
+                System.out.println("images/developmentCards/territories/" + card.getName() + ".png");
+                ImageView imageView = ((ImageView)root.lookup("#tower" + card.getColor().toString() + "_level" + index));
+                imageView.setImage(new Image(Thread.currentThread()
+                        .getContextClassLoader().getResource("images/developmentCards/territories/" + card.getName() + ".png").toExternalForm()));
+                imageView.setImage(null);
+                index++;
+            }
+
+        primaryStage.show();
+    }
+
+
+
         //servantsSelection(5,1);
         //curchReportDecision(4,2);
         //leaderCardAction(primaryStage); //TODO
         //addPlayersInfo(root);
-        loginMenu(primaryStage);
+        //loginMenu(primaryStage);
         //connectionTypeSelection();
         //endGame(primaryStage);
 
 
 
-        primaryStage.show();
 
-    }
+
+
 
     private void endGame(Stage primaryStage) {
         EndGameDialog dialog = new EndGameDialog();
@@ -101,7 +138,7 @@ public class GUI extends Application implements UIInterface {
         // Just to see that the lines are actually added
         scrollPane.setPrefWidth(200);
 
-        for (Integer i = 1; i < 5; i++) {
+       /* for (Integer i = 1; i < 5; i++) {
             ImageView imageView = new ImageView();
             imageView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
             imageView.minHeight(200);
@@ -113,7 +150,7 @@ public class GUI extends Application implements UIInterface {
             });
             //scrollPane.getRowConstraints().add(new RowConstraints(30));
             content.getChildren().add(imageView);
-        }
+        }*/
     }
 
     private void prepareWindow(Stage primaryStage, Parent root) {
@@ -210,4 +247,30 @@ public class GUI extends Application implements UIInterface {
         GUI gui = new GUI();
         gui.show();
     }
+
+    @FXML
+    public void changeColor() {}
+
+    @FXML
+    public void tryBuyCard(MouseEvent event) {
+        Image image;
+        String source1 = event.getSource().toString(); //yields complete string
+        String source2 = event.getPickResult().getIntersectedNode().getId();//returns JUST the id of the object that was clicked
+        System.out.println("Full String: " + source1);
+        System.out.println("Just the id: " + source2);
+        System.out.println(" " + source2);
+
+        List<Node> nodes = towers.getChildren();
+        for(Node node : nodes)
+            if(node.getId() == source2) {
+                System.out.println("Ok coincidono gli ID");
+                ((ImageView)node).setImage(null);
+            }
+
+
+    }
+
+
+
+
 }

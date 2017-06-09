@@ -1,14 +1,15 @@
 package it.polimi.ingsw.LM34.UI.GUI.GuiControllers;
 
-import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.GREEN;
@@ -21,9 +22,21 @@ public class PersonalBoardController {
     List<AbstractDevelopmentCard> list = new ArrayList<AbstractDevelopmentCard>();
 
     PersonalBoard personalBoard;
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/gui.fxml"));
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        double width = gd.getDisplayMode().getWidth();
+        double height = gd.getDisplayMode().getHeight();
+        primaryStage.setMaxWidth(width);
+        primaryStage.setMaxHeight(height);
 
+
+
+        primaryStage.show();
+
+    }
     /*Constructor*/
-    PersonalBoardController() {
+    public PersonalBoardController() {
         personalBoard = new PersonalBoard();
     }
       public void control() {
@@ -55,28 +68,31 @@ public class PersonalBoardController {
       }
 
     //TODO
-    private void loadCardOnPersonalBoard(List<AbstractDevelopmentCard> territoryCards) {
+    public void loadCardOnPersonalBoard(List<AbstractDevelopmentCard> territoryCards) {
         Parent root;
         Integer index = 1;
         try {
             root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/gui.fxml"));
             for (AbstractDevelopmentCard card : territoryCards) {
-                ((ImageView) root.lookup("#tower" + DevelopmentCardColor.GREEN.toString() + "_level" + index))
-                                 .setImage(new Image(Thread.currentThread().getContextClassLoader().
-                                         getResource("images/developmentCards/territories/" + card.getName() +".png").toExternalForm()));
-            index++;
-        }
+                System.out.println("#tower" + card.getColor().toString() + "_level" + index);
+                System.out.println("images/developmentCards/territories/" + card.getName() + ".png");
+                System.out.println(((ImageView) root.lookup("#tower" + card.getColor().toString() + "_level" + index)).getId());
+                        //.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
+                index++;
+            }
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-
     }
+
+
 
     public static void main(String [] args) {
           PersonalBoardController controller = new PersonalBoardController();
-          controller.control();
+          //controller.control();
+
       }
 
 }
