@@ -22,11 +22,16 @@ public class LoginDialog {
 
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource("gui/login.fxml"));
-        primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
-        primaryStage.setTitle("Lorenzo il Magnifico by CranioCreations");
-        primaryStage.setScene(new Scene(root, primaryStage.getWidth(), primaryStage.getHeight()));
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        //primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
+        //primaryStage.setTitle("Lorenzo il Magnifico by CranioCreations");
+       // primaryStage.setScene(new Scene(root, primaryStage.getWidth(), primaryStage.getHeight()));
+        // primaryStage.setResizable(false);
+        //primaryStage.show();
+
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root, 1000, 1000));
+        stage.initOwner(primaryStage);
+        stage.showAndWait();
 
     }
     public void InteractWithPlayer() {

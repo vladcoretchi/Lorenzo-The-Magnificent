@@ -25,6 +25,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,14 +51,19 @@ public class GUI extends Application implements UIInterface {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/gui.fxml"));
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        double width = gd.getDisplayMode().getWidth();
+        double height = gd.getDisplayMode().getHeight();
+        primaryStage.setMaxWidth(width);
+        primaryStage.setMaxHeight(height);
         prepareWindow(primaryStage, root);
         //servantsSelection(5,1);
         //curchReportDecision(4,2);
         //leaderCardAction(primaryStage); //TODO
-       // addPlayersInfo(root);
-        //loginMenu(primaryStage);
+        //addPlayersInfo(root);
+        loginMenu(primaryStage);
         //connectionTypeSelection();
-        endGame(primaryStage);
+        //endGame(primaryStage);
 
 
 
@@ -85,9 +91,7 @@ public class GUI extends Application implements UIInterface {
         catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
+        
     }
 
     private void addPlayersInfo(Parent root) {
@@ -126,7 +130,7 @@ public class GUI extends Application implements UIInterface {
         try {
             LoginDialog dialog = new LoginDialog();
             dialog.start(primaryStage);
-            networkController.login(dialog.getUsername().getText(), dialog.getPassword().getText());
+           // networkController.login(dialog.getUsername().getText(), dialog.getPassword().getText());
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -165,7 +169,7 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
-        UseServantsDialog dialog = new UseServantsDialog(networkClient);
+        //UseServantsDialog dialog = new UseServantsDialog(networkClient);
          //new UseServantsController(dialog.interactWithPlayer(servantsAvailable, minimumServantsRequested));
     return 0; //TODO
     }
@@ -173,7 +177,7 @@ public class GUI extends Application implements UIInterface {
 
     public Integer curchReportDecision(Integer servantsAvailable, Integer minimumServantsRequested) {
         CurchReportDialog dialog = new CurchReportDialog();
-        return dialog.interactWithPlayer(servantsAvailable, minimumServantsRequested);
+         return dialog.interactWithPlayer(servantsAvailable, minimumServantsRequested);
     }
 
     @Override

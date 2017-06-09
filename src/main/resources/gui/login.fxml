@@ -12,8 +12,10 @@
       <TextField fx:id="username" layoutX="189.0" layoutY="133.0" />
       <PasswordField fx:id="password" layoutX="189.0" layoutY="166.0" />
       <ImageView fitHeight="116.0" fitWidth="128.0" layoutX="125.0" layoutY="9.0">
-         <Image url="@../images/login.jpg" />
+         <Image url="@../images/login.png" />
       </ImageView>
-      <Button onMouseClicked="#login" layoutX="163.0" layoutY="204.0" mnemonicParsing="false" text="Login" />
+      <Button layoutX="163.0" layoutY="204.0" mnemonicParsing="false" text="Login" />
    </children>
 </AnchorPane>
+
+        <!--onMouseClicked="#login"-->
