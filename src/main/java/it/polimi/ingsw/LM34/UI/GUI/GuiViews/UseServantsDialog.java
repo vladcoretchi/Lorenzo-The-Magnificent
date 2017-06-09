@@ -2,6 +2,7 @@ package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Dialog;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Optional;
 /**
  * Created by GiulioComi on 07/06/2017.
  */
-public class UseServantsDialog {
+public class UseServantsDialog implements DialogInterface {
     AbstractClient networkClient;
 
     public UseServantsDialog() {}
@@ -46,5 +47,9 @@ public class UseServantsDialog {
     }
 
 
+    @Override
+    public void setStyle(Dialog dialog) {
+
+    }
 }
 

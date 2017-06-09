@@ -8,10 +8,6 @@ import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Player;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,13 +16,13 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 /**
  * Show end game results of players
  */
-public class EndGameDialog {
+public class EndGameDialog implements DialogInterface {
 
     @FXML
     private BarChart<String, Number> chart;
@@ -64,24 +60,17 @@ public class EndGameDialog {
         period3.getData().add(new XYChart.Data(player2.getPlayerName(), 44835.76));
         period3.getData().add(new XYChart.Data(player3.getPlayerName(), 18722.18));
 
-        Timeline tl = new Timeline();
-        tl.getKeyFrames().add(
-                new KeyFrame(Duration.millis(1500),
-                        new EventHandler<ActionEvent>() {
-                            @Override public void handle(ActionEvent actionEvent) {
-                                for (XYChart.Series<String, Number> period : bc.getData()) {
-                                    for (XYChart.Data<String, Number> data : period.getData()) {
-                                        data.setYValue(data.getYValue().intValue() * 1);
-                                    }
-                                }
-                            }
-                        }
-                ));
-        tl.play();
 
-        Scene scene = new Scene(bc, 800, 600);
-        bc.getData().addAll(period1, period2, period3);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+
+
+                Scene scene = new Scene(bc, 800, 600);
+                bc.getData().addAll(period1, period2, period3);
+                primaryStage.setScene(scene);
+                primaryStage.show();
+            }
+
+    @Override
+    public void setStyle(Dialog dialog) {
+
     }
 }
