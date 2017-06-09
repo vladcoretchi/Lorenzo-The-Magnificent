@@ -11,10 +11,7 @@ import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
-import it.polimi.ingsw.LM34.UI.GUI.GuiViews.CurchReportDialog;
-import it.polimi.ingsw.LM34.UI.GUI.GuiViews.LoginDialog;
-import it.polimi.ingsw.LM34.UI.GUI.GuiViews.NetworkTypeDialog;
-import it.polimi.ingsw.LM34.UI.GUI.GuiViews.UseServantsDialog;
+import it.polimi.ingsw.LM34.UI.GUI.GuiViews.*;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -58,13 +55,23 @@ public class GUI extends Application implements UIInterface {
         //curchReportDecision(4,2);
         //leaderCardAction(primaryStage); //TODO
        // addPlayersInfo(root);
-        loginMenu(primaryStage);
+        //loginMenu(primaryStage);
         //connectionTypeSelection();
+        endGame(primaryStage);
 
 
 
         primaryStage.show();
 
+    }
+
+    private void endGame(Stage primaryStage) {
+        EndGameDialog dialog = new EndGameDialog();
+        try {
+            dialog.start(primaryStage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void leaderCardAction(Stage primaryStage) {

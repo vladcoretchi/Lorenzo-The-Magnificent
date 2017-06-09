@@ -72,8 +72,6 @@ public class PersonalBoardController {
         }
 
 
-
-
     }
 
     public static void main(String [] args) {
