@@ -43,7 +43,7 @@ public class UseServantsDialog implements DialogInterface {
            System.out.println(Integer.parseInt(result.get()));
            return Integer.parseInt(result.get());
        }
-        return 0;
+        return Integer.parseInt(result.get());
     }
 
 

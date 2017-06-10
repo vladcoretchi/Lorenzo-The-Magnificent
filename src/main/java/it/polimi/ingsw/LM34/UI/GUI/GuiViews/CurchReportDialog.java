@@ -11,7 +11,8 @@ import java.util.Optional;
  * Created by GiulioComi on 07/06/2017.
  */
 public class CurchReportDialog implements DialogInterface{
-    public Integer interactWithPlayer(Integer servantsAvailable, Integer minimumServantsRequested) {
+
+    public Integer interactWithPlayer() {
         Alert excommunicationChoice = new Alert(Alert.AlertType.NONE, "Curch Report",ButtonType.OK, ButtonType.NO);
         excommunicationChoice.setContentText("Would you like to be excommunicated?");
         Optional<ButtonType> choice = excommunicationChoice.showAndWait();

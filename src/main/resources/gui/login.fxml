@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--onMouseClicked="#login"-->
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane fx:controller="it.polimi.ingsw.LM34.UI.GUI.GuiViews.LoginDialog" fx:id="root" maxHeight="339.0" maxWidth="422.0" prefHeight="256.0" prefWidth="377.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="login" maxHeight="339.0" maxWidth="422.0" prefHeight="256.0" prefWidth="377.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.LM34.UI.GUI.GUI">
    <children>
 
       <Label layoutX="105.0" layoutY="137.0" text="Username:" />
@@ -14,8 +16,8 @@
       <ImageView fitHeight="116.0" fitWidth="128.0" layoutX="125.0" layoutY="9.0">
          <Image url="@../images/login.png" />
       </ImageView>
-      <Button onMouseClicked="#login" layoutX="163.0" layoutY="204.0" mnemonicParsing="false" text="Login" />
+      <Button onMouseClicked="#doLogin" text="Login"  layoutX="163.0" layoutY="204.0" mnemonicParsing="false" />
+      <RadioButton fx:id="socketChoice" text="Socket"  layoutX="64.0" layoutY="229.0" mnemonicParsing="false"  />
+      <RadioButton fx:id="rmiChoice" text="RMI" layoutX="227.0" layoutY="229.0" mnemonicParsing="false" />
    </children>
 </AnchorPane>
-
-        <!--onMouseClicked="#login"-->

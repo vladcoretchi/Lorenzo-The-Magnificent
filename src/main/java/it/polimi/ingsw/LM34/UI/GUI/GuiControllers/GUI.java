@@ -1,4 +1,4 @@
-package it.polimi.ingsw.LM34.UI.GUI;
+package it.polimi.ingsw.LM34.UI.GUI.GuiControllers;
 
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
@@ -15,6 +15,7 @@ import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.UI.GUI.GuiViews.CurchReportDialog;
 import it.polimi.ingsw.LM34.UI.GUI.GuiViews.EndGameDialog;
+import it.polimi.ingsw.LM34.UI.GUI.GuiViews.FamilyMemberSelectDialog;
 import it.polimi.ingsw.LM34.UI.GUI.GuiViews.LoginDialog;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import javafx.application.Application;
@@ -50,7 +51,7 @@ public class GUI extends Application implements UIInterface {
     private LoginDialog loginDialog;
 
     @FXML
-    private javafx.scene.control.TextField username;
+    private TextField username;
     @FXML
     private TextField password;
     @FXML
@@ -67,6 +68,8 @@ public class GUI extends Application implements UIInterface {
     //TODO
     @Override
     public void show() {
+        /*this.networkClient = new SocketClient(SERVER_IP, SOCKET_PORT, this);
+        this.networkController = this.networkClient.getNetworkController();*/
         loginMenu();
     }
 
@@ -78,12 +81,6 @@ public class GUI extends Application implements UIInterface {
 
         this.networkController = this.networkClient.getNetworkController();
         this.networkClient.login(username.getText(), password.getText());
-
-        try {
-            loginDialog.stop();
-        } catch (Exception e) {
-            e.getMessage();
-        }
     }
 
     @Override
@@ -135,7 +132,7 @@ public class GUI extends Application implements UIInterface {
         catch (IOException e) {
             e.printStackTrace();
         }
-
+        
     }
 
     private void addPlayersInfo() {
@@ -202,6 +199,7 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public void workingArea(String workingAreaChoice, Player player) {
+
     }
 
     @Override
@@ -209,19 +207,27 @@ public class GUI extends Application implements UIInterface {
 
     }
 
-    //TODO
     @Override
     public void printGameBoard() {
-        printTowers(null);
+
     }
 
+    @FXML
+    public void buyCard(MouseEvent event) {
+        Image image;
+        String source2 = event.getPickResult().getIntersectedNode().getId();
 
-
+        List<Node> nodes = towers.getChildren();
+        for(Node node : nodes)
+            if(node.getId() == source2) {
+                ((ImageView)node).setImage(null);
+            }
+    }
 
     public String familyMemberSelection() {
-        /*FamilyMemberSelectDialog dialog = new FamilyMemberSelectDialog();
+        FamilyMemberSelectDialog dialog = new FamilyMemberSelectDialog();
 
-        ArrayList<FamilyMember> members = new ArrayList<>();
+        /*ArrayList<FamilyMember> members = new ArrayList<>();
         members.add(new FamilyMember(PawnColor.BLUE, DiceColor.ORANGE));
         members.add(new FamilyMember(PawnColor.BLUE, DiceColor.WHITE));
         members.add(new FamilyMember(PawnColor.BLUE, DiceColor.BLACK));
@@ -230,7 +236,7 @@ public class GUI extends Application implements UIInterface {
         String selected = dialog.interactWithPlayer(members);
 
         System.out.println(selected);
-        */
+*/
         return null;
     }
 
@@ -253,6 +259,7 @@ public class GUI extends Application implements UIInterface {
 
 
         for (AbstractDevelopmentCard card : territoryCards) {
+                    /*  for (AbstractDevelopmentCard card : territoryCards) {
                  System.out.println("#tower" + card.getColor().toString() + "_level" + index);
                  System.out.println("images/developmentCards/territories/" + card.getName() + ".png");
                  ImageView imageView = ((ImageView)root.lookup("#tower" + card.getColor().toString() + "_level" + index));
@@ -260,23 +267,10 @@ public class GUI extends Application implements UIInterface {
                          .getContextClassLoader().getResource("images/developmentCards/territories/" + card.getName() + ".png").toExternalForm()));
                  imageView.setImage(null);
                  index++;
+    }*/
         }
-
     }
-
-
-    @FXML
-    public void buyCard(MouseEvent event) {
-        Image image;
-        String source2 = event.getPickResult().getIntersectedNode().getId();
-
-        List<Node> nodes = towers.getChildren();
-        for (Node node : nodes)
-            if (node.getId() == source2) {
-                ((ImageView) node).setImage(null);
-            }
-    }
-
+    
     //TODO: remove just after tests
     public static void main(String [] args) {
         GUI gui = new GUI();

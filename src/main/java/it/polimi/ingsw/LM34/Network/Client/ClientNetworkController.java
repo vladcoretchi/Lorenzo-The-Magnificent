@@ -2,6 +2,8 @@ package it.polimi.ingsw.LM34.Network.Client;
 
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
+import javafx.application.Platform;
+
 import java.util.List;
 
 /**
@@ -18,8 +20,11 @@ public class ClientNetworkController {
         this.clientConnection.login(username, password);
     }
 
+
     public void loginResult(Boolean result) {
-        clientConnection.getUI().loginResult(result);
+        Platform.runLater(() -> {
+            clientConnection.getUI().loginResult(result);
+        });
     }
 
     public Integer contextSelection(List<PlayerSelectableContexts> contexts) {

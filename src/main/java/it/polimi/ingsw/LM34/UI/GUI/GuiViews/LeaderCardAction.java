@@ -5,4 +5,9 @@ package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
  */
 public class LeaderCardAction {
 
+
+
+    //activate card, choose card
+
+    //discard card
 }
