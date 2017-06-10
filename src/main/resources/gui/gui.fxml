@@ -81,6 +81,234 @@
                     <Image url="@../images/excommunicationTiles/excomm_3_7.png"/>
                 </ImageView>
 
+                <!-- market area-->
+                <ImageView fx:id="marketActionSlot3" fitHeight="100" fitWidth="100" layoutX="720" layoutY="1520" style="-fx-background-color: transparent">
+                    <Image url="@../images/Icon.png" />
+                </ImageView>
+                <ImageView fx:id="marketActionSlot2" fitHeight="100" fitWidth="100" layoutX="835" layoutY="1520" style="-fx-background-color: transparent">
+                    <Image url="@../images/Icon.png" />
+                </ImageView>
+                <ImageView fx:id="marketActionSlot1" fitHeight="100" fitWidth="100" layoutX="935" layoutY="1550" style="-fx-background-color: transparent">
+                    <Image url="@../images/Icon.png" />
+                </ImageView>
+                <ImageView fx:id="marketActionSlot0" fitHeight="100" fitWidth="100" layoutX="1025" layoutY="1630" style="-fx-background-color: transparent">
+                    <Image url="@../images/Icon.png" />
+                </ImageView>
+
+                <!--dice area-->
+                <ImageView fx:id="diceSlotOrange" fitHeight="100" fitWidth="100" layoutX="915" layoutY="1710" style="-fx-background-color: transparent">
+                    <Image url="@../images/Icon.png" />
+                </ImageView>
+                <ImageView fx:id="diceSlotWhite" fitHeight="100" fitWidth="100" layoutX="815" layoutY="1710" style="-fx-background-color: transparent">
+                    <Image url="@../images/Icon.png" />
+                </ImageView>
+                <ImageView fx:id="diceSlotBlack" fitHeight="100" fitWidth="100" layoutX="665" layoutY="1710" style="-fx-background-color: transparent">
+                    <Image url="@../images/Icon.png" />
+                </ImageView>
+
+                <!--production and harvest area-->
+                <ImageView fx:id="productionArea1" fitHeight="100" fitWidth="100" layoutX="285" layoutY="1530" style="-fx-background-color: transparent">
+                    <Image url="@../images/Icon.png" />
+                </ImageView>
+                <ImageView fx:id="harvestArea1" fitHeight="100" fitWidth="100" layoutX="285" layoutY="1680" style="-fx-background-color: transparent">
+                    <Image url="@../images/Icon.png" />
+                </ImageView>
+
+                <ImageView fx:id="productionArea0" fitHeight="100" fitWidth="100" layoutX="85" layoutY="1530" style="-fx-background-color: transparent">
+                    <Image url="@../images/Icon.png" />
+                </ImageView>
+                <ImageView fx:id="harvestArea0" fitHeight="100" fitWidth="100" layoutX="85" layoutY="1680" style="-fx-background-color: transparent">
+                    <Image url="@../images/Icon.png" />
+                </ImageView>
+
+                <!--council palace-->
+                <ImageView fx:id="councilPalace" fitHeight="100" fitWidth="100" layoutX="715" layoutY="1070" style="-fx-background-color: transparent">
+                    <Image url="@../images/Icon.png" />
+                </ImageView>
+
+                <!--faith points track-->
+                <ImageView fx:id="faithPointsTrack0" fitHeight="30" fitWidth="30" layoutX="90" layoutY="1395" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="faithPointsTrack1" fitHeight="30" fitWidth="30" layoutX="155" layoutY="1395" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="faithPointsTrack2" fitHeight="30" fitWidth="30" layoutX="220" layoutY="1395" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="faithPointsTrack3" fitHeight="30" fitWidth="30" layoutX="267" layoutY="1395" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="faithPointsTrack4" fitHeight="30" fitWidth="30" layoutX="400" layoutY="1395" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="faithPointsTrack5" fitHeight="30" fitWidth="30" layoutX="475" layoutY="1395" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="faithPointsTrack6" fitHeight="30" fitWidth="30" layoutX="540" layoutY="1395" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="faithPointsTrack7" fitHeight="30" fitWidth="30" layoutX="600" layoutY="1395" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="faithPointsTrack8" fitHeight="30" fitWidth="30" layoutX="660" layoutY="1395" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="faithPointsTrack9" fitHeight="30" fitWidth="30" layoutX="725" layoutY="1395" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="faithPointsTrack10" fitHeight="30" fitWidth="30" layoutX="790" layoutY="1395" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="faithPointsTrack11" fitHeight="30" fitWidth="30" layoutX="855" layoutY="1395" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="faithPointsTrack12" fitHeight="30" fitWidth="30" layoutX="895" layoutY="1395" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="faithPointsTrack13" fitHeight="30" fitWidth="30" layoutX="950" layoutY="1395" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="faithPointsTrack14" fitHeight="30" fitWidth="30" layoutX="1015" layoutY="1395" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="faithPointsTrack15" fitHeight="30" fitWidth="30" layoutX="1075" layoutY="1395" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+
+                <!--military points track-->
+                <ImageView fx:id="militaryPointsTruck0" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="1730" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck1" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="1640" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck2" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="1585" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck3" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="1520" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck4" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="1465" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck5" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="1420" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck6" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="1365" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck7" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="1310" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck8" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="1255" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck9" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="1200" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck10" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="1145" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck11" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="1090" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck12" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="1035" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck13" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="980" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck14" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="925" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck15" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="870" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck16" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="815" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck17" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="760" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck18" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="705" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck19" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="650" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck20" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="595" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck21" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="540" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck22" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="315" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck23" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="250" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck24" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="185" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="militaryPointsTruck25" fitHeight="30" fitWidth="30" layoutX="1165" layoutY="125" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+
+                <!--instant bonus, utile per poter poi posizionare le pedine-->
+                <ImageView fx:id="towerGreenBonus3" fitHeight="30" fitWidth="30" layoutX="260" layoutY="185" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="towerGreenBonus2" fitHeight="30" fitWidth="30" layoutX="260" layoutY="435" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="towerGreenBonus1" fitHeight="30" fitWidth="30" layoutX="260" layoutY="665" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="towerGreenBonus0" fitHeight="30" fitWidth="30" layoutX="260" layoutY="915" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+
+                <ImageView fx:id="towerBlueBonus3" fitHeight="30" fitWidth="30" layoutX="500" layoutY="185" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="towerBlueBonus2" fitHeight="30" fitWidth="30" layoutX="500" layoutY="435" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="towerBlueBonus1" fitHeight="30" fitWidth="30" layoutX="500" layoutY="665" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="towerBlueBonus0" fitHeight="30" fitWidth="30" layoutX="500" layoutY="915" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+
+                <ImageView fx:id="towerYellowBonus3" fitHeight="30" fitWidth="30" layoutX="800" layoutY="185" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="towerYellowBonus2" fitHeight="30" fitWidth="30" layoutX="800" layoutY="435" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="towerYellowBonus1" fitHeight="30" fitWidth="30" layoutX="800" layoutY="665" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="towerYellowBonus0" fitHeight="30" fitWidth="30" layoutX="800" layoutY="915" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+
+                <ImageView fx:id="towerPurpleBonus3" fitHeight="30" fitWidth="30" layoutX="1020" layoutY="185" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="towerPurpleBonus2" fitHeight="30" fitWidth="30" layoutX="1020" layoutY="435" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="towerPurpleBonus1" fitHeight="30" fitWidth="30" layoutX="1020" layoutY="665" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+                <ImageView fx:id="towerPurpleBonus0" fitHeight="30" fitWidth="30" layoutX="1020" layoutY="915" style="-fx-background-color: transparent">
+                    <Image url="@../images/servants.png" />
+                </ImageView>
+
                 </Group>
 
         </ScrollPane>
