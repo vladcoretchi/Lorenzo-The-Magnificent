@@ -63,4 +63,5 @@ public class ResourceExchangeDialog implements DialogInterface {
 
     }
 
+    //da fare come networkType
 }

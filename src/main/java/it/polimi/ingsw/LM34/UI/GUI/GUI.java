@@ -78,8 +78,7 @@ public class GUI extends Application implements UIInterface {
 
         Integer index = 0;
 
-
-            for (AbstractDevelopmentCard card : territoryCards) {
+          /*  for (AbstractDevelopmentCard card : territoryCards) {
                 System.out.println("#tower" + card.getColor().toString() + "_level" + index);
                 System.out.println("images/developmentCards/territories/" + card.getName() + ".png");
                 ImageView imageView = ((ImageView)root.lookup("#tower" + card.getColor().toString() + "_level" + index));
@@ -87,7 +86,7 @@ public class GUI extends Application implements UIInterface {
                         .getContextClassLoader().getResource("images/developmentCards/territories/" + card.getName() + ".png").toExternalForm()));
                 imageView.setImage(null);
                 index++;
-            }
+            }*/
 
         primaryStage.show();
     }
@@ -101,8 +100,6 @@ public class GUI extends Application implements UIInterface {
         //loginMenu(primaryStage);
         //connectionTypeSelection();
         //endGame(primaryStage);
-
-
 
 
 
@@ -128,7 +125,7 @@ public class GUI extends Application implements UIInterface {
         catch (IOException e) {
             e.printStackTrace();
         }
-        
+
     }
 
     private void addPlayersInfo(Parent root) {
@@ -157,7 +154,7 @@ public class GUI extends Application implements UIInterface {
         primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
         primaryStage.setTitle("Lorenzo il Magnifico by CranioCreations");
         primaryStage.setScene(new Scene(root, primaryStage.getMaxWidth(), primaryStage.getMaxHeight()));
-        primaryStage.setFullScreen(true);
+       // primaryStage.setFullScreen(true);
         primaryStage.setResizable(true);
         primaryStage.show();
     }
@@ -266,11 +263,6 @@ public class GUI extends Application implements UIInterface {
                 System.out.println("Ok coincidono gli ID");
                 ((ImageView)node).setImage(null);
             }
-
-
     }
-
-
-
 
 }

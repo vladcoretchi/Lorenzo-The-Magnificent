@@ -14,7 +14,7 @@
       <ImageView fitHeight="116.0" fitWidth="128.0" layoutX="125.0" layoutY="9.0">
          <Image url="@../images/login.png" />
       </ImageView>
-      <Button layoutX="163.0" layoutY="204.0" mnemonicParsing="false" text="Login" />
+      <Button onMouseClicked="#login" layoutX="163.0" layoutY="204.0" mnemonicParsing="false" text="Login" />
    </children>
 </AnchorPane>
 

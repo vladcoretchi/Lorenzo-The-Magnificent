@@ -29,7 +29,7 @@ public class LoginDialog {
         //primaryStage.show();
 
         Stage stage = new Stage();
-        stage.setScene(new Scene(root, 1000, 1000));
+        stage.setScene(new Scene(root, 400, 300));
         stage.initOwner(primaryStage);
         stage.showAndWait();
 
