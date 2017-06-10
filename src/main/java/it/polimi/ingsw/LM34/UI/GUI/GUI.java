@@ -87,7 +87,8 @@ public class GUI extends Application implements UIInterface {
                 imageView.setImage(null);
                 index++;
             }*/
-
+          CurchReportDialog dialogo = new CurchReportDialog();
+          dialogo.interactWithPlayer(5,4);
         primaryStage.show();
     }
 
@@ -154,7 +155,6 @@ public class GUI extends Application implements UIInterface {
         primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
         primaryStage.setTitle("Lorenzo il Magnifico by CranioCreations");
         primaryStage.setScene(new Scene(root, primaryStage.getMaxWidth(), primaryStage.getMaxHeight()));
-       // primaryStage.setFullScreen(true);
         primaryStage.setResizable(true);
         primaryStage.show();
     }
