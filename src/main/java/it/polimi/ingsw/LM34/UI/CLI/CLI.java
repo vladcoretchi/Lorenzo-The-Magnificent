@@ -527,4 +527,9 @@ public class CLI implements UIInterface {
         //TODO
     }
 
+    @Override
+    public void sweepSlots() {
+
+    }
+
 }

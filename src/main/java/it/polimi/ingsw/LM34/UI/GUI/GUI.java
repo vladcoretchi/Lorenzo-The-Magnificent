@@ -77,18 +77,12 @@ public class GUI extends Application implements UIInterface {
 
     public void doLogin() {
         if(rmiChoice.isSelected() && !socketChoice.isSelected()) //TODO
-            this.networkClient = new RMIClient("localhost", RMI_PORT, this);
+            this.networkClient = new RMIClient(SERVER_IP, RMI_PORT, this);
         else
-            this.networkClient = new SocketClient("localhost", SOCKET_PORT, this);
+            this.networkClient = new SocketClient(SERVER_IP, SOCKET_PORT, this);
 
         this.networkController = this.networkClient.getNetworkController();
         this.networkClient.login(username.getText(), password.getText());
-
-        try {
-            loginDialog.stop();
-        } catch (Exception e) {
-            e.getMessage();
-        }
     }
 
     @Override
@@ -174,6 +168,7 @@ public class GUI extends Application implements UIInterface {
     public void loginResult(Boolean result) {
         if (result) {
             try {
+                username.getScene().getWindow().hide();
                 this.start(new Stage());
             } catch (Exception e) {
                 e.printStackTrace();

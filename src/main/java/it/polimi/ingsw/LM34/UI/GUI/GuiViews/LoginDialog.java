@@ -12,10 +12,6 @@ import javafx.stage.Stage;
  */
 public class LoginDialog extends Application implements DialogInterface {
 
-    public void stop() {
-        System.exit(0);
-    }
-
     public void show() {
         launch();
     }
