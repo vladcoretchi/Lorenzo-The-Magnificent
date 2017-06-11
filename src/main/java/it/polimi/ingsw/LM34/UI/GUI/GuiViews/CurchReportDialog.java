@@ -10,7 +10,9 @@ import java.util.Optional;
 /**
  * Created by GiulioComi on 07/06/2017.
  */
-public class CurchReportDialog implements DialogInterface{
+public class CurchReportDialog implements DialogInterface {
+
+    public CurchReportDialog() {}
 
     public Integer interactWithPlayer() {
         Alert excommunicationChoice = new Alert(Alert.AlertType.NONE, "Curch Report",ButtonType.OK, ButtonType.NO);

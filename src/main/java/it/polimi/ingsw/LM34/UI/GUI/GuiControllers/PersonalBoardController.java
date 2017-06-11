@@ -23,7 +23,7 @@ public class PersonalBoardController {
 
     PersonalBoard personalBoard;
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/gui.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("views/gui.fxml"));
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         double width = gd.getDisplayMode().getWidth();
         double height = gd.getDisplayMode().getHeight();
@@ -72,7 +72,7 @@ public class PersonalBoardController {
         Parent root;
         Integer index = 1;
         try {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/gui.fxml"));
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("views/gui.fxml"));
             for (AbstractDevelopmentCard card : territoryCards) {
                 System.out.println("#tower" + card.getColor().toString() + "_level" + index);
                 System.out.println("images/developmentCards/territories/" + card.getName() + ".png");

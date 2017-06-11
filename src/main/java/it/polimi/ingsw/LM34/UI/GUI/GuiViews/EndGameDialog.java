@@ -28,7 +28,7 @@ public class EndGameDialog implements DialogInterface {
     private BarChart<String, Number> chart;
 
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource("gui/endGameResult.fxml"));
+        Parent root = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource("views/endGameResult.fxml"));
 
         Player player1 = new Player("player 1", PawnColor.BLUE, new PersonalBoard());
         Player player2 = new Player("player 2", PawnColor.RED, new PersonalBoard());

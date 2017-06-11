@@ -6,21 +6,22 @@ import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Enums.UI.NetworkType;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlot;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.TerritoryCard;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
-import it.polimi.ingsw.LM34.UI.GUI.GuiViews.CurchReportDialog;
-import it.polimi.ingsw.LM34.UI.GUI.GuiViews.EndGameDialog;
-import it.polimi.ingsw.LM34.UI.GUI.GuiViews.FamilyMemberSelectDialog;
-import it.polimi.ingsw.LM34.UI.GUI.GuiViews.LoginDialog;
+import it.polimi.ingsw.LM34.UI.GUI.GuiViews.*;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 import javafx.application.Application;
@@ -94,35 +95,33 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public void start(Stage stage) throws Exception {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/gui.fxml"));
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("views/gui.fxml"));
 
         this.primaryStage = new Stage();
         prepareWindow();
 
         /*----------GAME SETUPS----------*/
         placeExcommunicationCards();
+        loadTowersBonuses(); //TODO
+        loadCouncilPrivilegesBonuses(); //TODO
+        loadMarketBonuses(); //TODO
+        loadFaithPath(); //TODO
 
         /*----------ROUND SETUPS--------*/
         loadCardsOnTowers();
-       sweepSlots();
+        sweepSlots();
 
-        //TODO:loadCardsOnPersonalBoard();
 
         /*----------DIALOGS--------*/
         //servantsSelection(5,1);
         //curchReportDecision(4,2);
         //leaderCardAction(); //TODO
-        //addPlayersInfo(root);
-        //connectionTypeSelection();
+        //addPlayersInfo(root); //TODO
         //endGame(primaryStage);
         //familyMemberSelection();
+        //resourchExchangeDialog//TODO
+        //useCouncilPrivilegeDialog;
 
-    }
-
-
-
-    private void loadCardsOnPersonalBoard() {
-        //TODO
     }
 
 
@@ -137,7 +136,7 @@ public class GUI extends Application implements UIInterface {
 
     public void leaderCardAction() {
         try {
-            Parent root2 = FXMLLoader.load(getClass().getClassLoader().getResource("gui/leaderCardAction.fxml"));
+            Parent root2 = FXMLLoader.load(getClass().getClassLoader().getResource("views/leaderCardAction.fxml"));
             primaryStage.setScene(new Scene(
                     root2, 500, 400));
             primaryStage.show();
@@ -146,9 +145,9 @@ public class GUI extends Application implements UIInterface {
         catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
+    //TODO
     private void addPlayersInfo() {
         ScrollPane scrollPane = (ScrollPane) root.lookup("#scrollPanePaneResource");
         VBox content = new VBox();
@@ -227,10 +226,10 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public void printTowers(ArrayList<Tower> towers) {
-
+        loadCardsOnTowers();
     }
 
-    //TODO
+    //TODO: remove this in UI interface
     @Override
     public void printGameBoard() {
         printTowers(null);
@@ -254,14 +253,7 @@ public class GUI extends Application implements UIInterface {
         sweepCouncilPalace();
         sweepWorkingAreas();
         sweepTowersSlots();
-
-        //TODO: remove this non-working code below
-        /*Group slots = ((Group)root.lookup("#slots"));
-        List<Node> nodes = slots.getChildren();
-        for (Node node : nodes)
-                ((ImageView) node).setImage(null);*/
     }
-
 
     public void loadCardsOnTowers() {
 
@@ -282,8 +274,6 @@ public class GUI extends Application implements UIInterface {
         }
     }
 
-
-
     public void placeExcommunicationCards() {
         ImageView imageView;
         for(Integer index = 1; index <= Configurator.TOTAL_PERIODS; index++) {
@@ -293,20 +283,88 @@ public class GUI extends Application implements UIInterface {
         }
     }
 
+    @FXML
+    public void placePawn(MouseEvent event) {
+        Image image;
+        String choosedPawn;
+
+        ArrayList<FamilyMember> membersAvailable = new ArrayList<>();
+
+        //TODO: get the list from the model instantiated in the client or sent by the controller
+
+        String source = event.getPickResult().getIntersectedNode().getId();
+        FamilyMemberSelectDialog dialog = new FamilyMemberSelectDialog();
+        choosedPawn = dialog.interactWithPlayer(membersAvailable);
+
+        //TODO: the server confirm that the move is valid before removing the card from the towers
+
+        List<Node> nodes = towers.getChildren();
+        for (Node node : nodes)
+            if (node.getId() == source) {
+            //TODO: set image of the pawn getting it from Resource/images/..
+                //((ImageView) node).setImage(....getResource("images/pawns/"+ choosedPawn +".png");
+            }
+    }
+
+    public void loadTowersBonuses() {
+        List<TowerSlot> slots = new ArrayList<>();
+        Resources resources = new Resources();
+        //TODO: load bonuses from model available to the view
+        Integer index = 0;
+        for (TowerSlot slot : slots) {
+
+            ImageView imageView = ((ImageView) root.lookup("#tower" +
+                    slot.getCardStored().getColor().toString() + "Bonus" + index));
+            resources = slot.getResourcesReward().getResources();
+            for(ResourceType resType : ResourceType.values())
+                if(resources.getResourceByType(resType) != 0)
+                    imageView.setImage(new Image(Thread.currentThread()
+                    .getContextClassLoader().getResource("images/resources/" + resType + ".png").toExternalForm()));
+            index++;
+
+        }
+    }
+
+    @FXML
+    public void popupBonus(MouseEvent event) {
+        ActionSlot slot = null;
+         String source = event.getPickResult().getIntersectedNode().getId();
+         Double coordinateX = event.getPickResult().getIntersectedTexCoord().getX();
+         Double coordinateY = event.getPickResult().getIntersectedTexCoord().getX();
 
 
+        PopupSlotBonus popup = new PopupSlotBonus(coordinateX, coordinateY);
+
+        popup.interactWithPlayer(slot.getResourcesReward());
+
+    }
+
+    public void loadMarketBonuses() {
+
+    }
+
+    public void loadCouncilPrivilegesBonuses() {
+
+    }
+
+    public void loadFaithPath() {
+
+    }
 
     @FXML
     public void buyCard(MouseEvent event) {
         Image image;
-        String source2 = event.getPickResult().getIntersectedNode().getId();
+        String source = event.getPickResult().getIntersectedNode().getId();
+
+        //TODO: called after place pawn after the server has confirmed the validity
 
         List<Node> nodes = towers.getChildren();
         for (Node node : nodes)
-            if (node.getId() == source2) {
+            if (node.getId() == source) {
                 ((ImageView) node).setImage(null);
             }
     }
+
     public void sweepMarketSlots() {
         Integer index = 0;
         for(index= 0; index<4; index++) {
@@ -326,8 +384,7 @@ public class GUI extends Application implements UIInterface {
                     imageView.setImage(null);
                 }
     }
-
-    public void sweepWorkingAreas() {
+    private void sweepWorkingAreas() {
         Integer index = 0;
         for(index= 0; index<2; index++) {
             ImageView imageView = ((ImageView) root.lookup("#harvestArea" + index));
@@ -339,6 +396,7 @@ public class GUI extends Application implements UIInterface {
             imageView.setImage(null);
         }
     }
+
     //TODO: remove just after tests
     public static void main(String [] args) {
         GUI gui = new GUI();

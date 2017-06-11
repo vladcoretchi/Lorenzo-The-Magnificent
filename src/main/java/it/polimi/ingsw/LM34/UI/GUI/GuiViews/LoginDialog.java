@@ -18,7 +18,7 @@ public class LoginDialog extends Application implements DialogInterface {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource("gui/login.fxml"));
+        Parent root = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource("views/login.fxml"));
 
         Stage primaryStage = stage;
         primaryStage.setScene(new Scene(root, 400, 400));
