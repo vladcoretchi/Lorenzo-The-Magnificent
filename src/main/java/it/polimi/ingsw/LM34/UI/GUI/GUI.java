@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.UI.GUI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.UI.NetworkType;
@@ -21,6 +22,7 @@ import it.polimi.ingsw.LM34.UI.GUI.GuiViews.EndGameDialog;
 import it.polimi.ingsw.LM34.UI.GUI.GuiViews.FamilyMemberSelectDialog;
 import it.polimi.ingsw.LM34.UI.GUI.GuiViews.LoginDialog;
 import it.polimi.ingsw.LM34.UI.UIInterface;
+import it.polimi.ingsw.LM34.Utils.Configurator;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -61,7 +63,6 @@ public class GUI extends Application implements UIInterface {
     private RadioButton rmiChoice;
     @FXML
     private RadioButton socketChoice;
-
     @FXML
     private AnchorPane login;
     @FXML
@@ -93,17 +94,19 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public void start(Stage stage) throws Exception {
-        this.primaryStage = new Stage();
-        root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/gui.fxml"));
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/gui.fxml"));
 
+        this.primaryStage = new Stage();
         prepareWindow();
+
+        /*----------GAME SETUPS----------*/
+        placeExcommunicationCards();
 
         /*----------ROUND SETUPS--------*/
         loadCardsOnTowers();
-        placeExcommunicationCards();
-        sweepMarketSlots();
-        sweepWorkingAreas();
-        sweepCouncilPalace();
+       sweepSlots();
+
+        //TODO:loadCardsOnPersonalBoard();
 
         /*----------DIALOGS--------*/
         //servantsSelection(5,1);
@@ -116,10 +119,13 @@ public class GUI extends Application implements UIInterface {
 
     }
 
-    private void sweepCouncilPalace() {
-        ImageView imageView = ((ImageView) root.lookup("#councilPalace"));
-        imageView.setImage(null);
+
+
+    private void loadCardsOnPersonalBoard() {
+        //TODO
     }
+
+
 
     public void endGame() {
         try {
@@ -151,6 +157,7 @@ public class GUI extends Application implements UIInterface {
     }
 
     private void prepareWindow() {
+
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         double width = gd.getDisplayMode().getWidth();
         double height = gd.getDisplayMode().getHeight();
@@ -177,7 +184,10 @@ public class GUI extends Application implements UIInterface {
     }
 
     @Override
-    public NetworkType connectionTypeSelection() {/*VOID*/ return null;}
+    public NetworkType connectionTypeSelection() {
+        //TODO: not used
+        return null;
+    }
 
     @Override
     public Integer contextSelection(List<PlayerSelectableContexts> allContext) {
@@ -240,12 +250,18 @@ public class GUI extends Application implements UIInterface {
     }
 
     public void sweepSlots() {
-        Group slots = ((Group)root.lookup("#slots"));
+        sweepMarketSlots();
+        sweepCouncilPalace();
+        sweepWorkingAreas();
+        sweepTowersSlots();
+
+        //TODO: remove this non-working code below
+        /*Group slots = ((Group)root.lookup("#slots"));
         List<Node> nodes = slots.getChildren();
         for (Node node : nodes)
-                ((ImageView) node).setImage(null);
-
+                ((ImageView) node).setImage(null);*/
     }
+
 
     public void loadCardsOnTowers() {
 
@@ -257,37 +273,58 @@ public class GUI extends Application implements UIInterface {
         territoryCards.add(new TerritoryCard("Estate", 2, 1, null, null));
         territoryCards.add(new TerritoryCard("Forest", 2, 1, null, null));
 
-        //new PersonalBoardController().loadCardOnPersonalBoard(territoryCards);
         Integer index = 0;
-
-
         for (AbstractDevelopmentCard card : territoryCards) {
-            System.out.println("#tower" + card.getColor().toString() + "_level" + index);
-            System.out.println("images/developmentCards/territories/" + card.getName() + ".png");
-            //ImageView imageView = ((ImageView)root.lookup("#tower" + card.getColor().toString() + "_level" + index));
-            //imageView.setImage(new Image(Thread.currentThread()
-            ImageView imageView = ((ImageView)root.lookup("#tower" + card.getColor().toString() + "_level" + index));
+            ImageView imageView = ((ImageView) root.lookup("#tower" + card.getColor().toString() + "_level" + index));
             imageView.setImage(new Image(Thread.currentThread()
                     .getContextClassLoader().getResource("images/developmentCards/territories/" + card.getName() + ".png").toExternalForm()));
             index++;
         }
-
     }
 
-    public void placeExcommunicationCards() {
-        Integer index = 1;
-            ImageView imageView = ((ImageView)root.lookup("#excommunicationCard"+ index));
-            imageView.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/excommunicationTiles/excomm_" +  index +"_5.png").toExternalForm()));
-            index++;
-        }
 
+
+    public void placeExcommunicationCards() {
+        ImageView imageView;
+        for(Integer index = 1; index <= Configurator.TOTAL_PERIODS; index++) {
+            imageView = ((ImageView) root.lookup("#excommunicationCard" + index));
+            imageView.setImage(new Image(Thread.currentThread()
+                    .getContextClassLoader().getResource("images/excommunicationTiles/excomm_" + index + "_5.png").toExternalForm()));
+        }
+    }
+
+
+
+
+    @FXML
+    public void buyCard(MouseEvent event) {
+        Image image;
+        String source2 = event.getPickResult().getIntersectedNode().getId();
+
+        List<Node> nodes = towers.getChildren();
+        for (Node node : nodes)
+            if (node.getId() == source2) {
+                ((ImageView) node).setImage(null);
+            }
+    }
     public void sweepMarketSlots() {
         Integer index = 0;
         for(index= 0; index<4; index++) {
             ImageView imageView = ((ImageView) root.lookup("#marketActionSlot" + index));
             imageView.setImage(null);
         }
+    }
+    private void sweepCouncilPalace() {
+        ImageView imageView = ((ImageView) root.lookup("#councilPalace"));
+        imageView.setImage(null);
+    }
+    private void sweepTowersSlots() {
+        for(Integer index = 0; index < Configurator.MAX_TOWER_LEVELS; index++)
+            for(DevelopmentCardColor color : DevelopmentCardColor.values())
+                if(color.toString() != "MULTICOLOR") {
+                    ImageView imageView = ((ImageView) root.lookup("#tower" + color.toString() + "Bonus" + index));
+                    imageView.setImage(null);
+                }
     }
 
     public void sweepWorkingAreas() {
@@ -302,20 +339,6 @@ public class GUI extends Application implements UIInterface {
             imageView.setImage(null);
         }
     }
-
-
-    @FXML
-    public void buyCard(MouseEvent event) {
-        Image image;
-        String source2 = event.getPickResult().getIntersectedNode().getId();
-
-        List<Node> nodes = towers.getChildren();
-        for (Node node : nodes)
-            if (node.getId() == source2) {
-                ((ImageView) node).setImage(null);
-            }
-    }
-
     //TODO: remove just after tests
     public static void main(String [] args) {
         GUI gui = new GUI();

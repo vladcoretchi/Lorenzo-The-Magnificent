@@ -22,15 +22,15 @@ public class EndGameContext  extends AbstractGameContext {
     //TODO: all excommunication III period penalties are applied here as observers
 
 
-    public EndGameContext() {
-        players = gameManager.getPlayers();
+   public EndGameContext() {
+
         contextType = ContextType.END_GAME_CONTEXT;
         victoryPointsToPlayers = new HashMap<>();
     }
 
     @Override
     public void interactWithPlayer() {
-
+        players = gameManager.getPlayers();
     }
 
     /**

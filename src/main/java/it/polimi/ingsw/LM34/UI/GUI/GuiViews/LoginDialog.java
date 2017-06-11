@@ -23,6 +23,7 @@ public class LoginDialog extends Application implements DialogInterface {
         Stage primaryStage = stage;
         primaryStage.setScene(new Scene(root, 400, 400));
         primaryStage.show();
+        primaryStage.setOnHidden(e -> primaryStage.close());
 
     }
 

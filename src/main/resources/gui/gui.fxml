@@ -79,7 +79,7 @@
             <ImageView fx:id="excommunicationCard2" fitHeight="201.92" fitWidth="103.68" layoutX="355" layoutY="1178" style="-fx-background-color: transparent">
                 <Image url="@../images/excommunicationTiles/excomm_2_7.png" />
             </ImageView>
-            <ImageView fx:id="excommuniationCard3" fitHeight="202.0" fitWidth="111.0" layoutX="477.0" layoutY="1159.0" style="-fx-background-color: transparent">
+            <ImageView fx:id="excommunicationCard3" fitHeight="202.0" fitWidth="111.0" layoutX="477.0" layoutY="1159.0" style="-fx-background-color: transparent">
                 <Image url="@../images/excommunicationTiles/excomm_3_7.png" />
             </ImageView>
 
@@ -129,55 +129,55 @@
             </ImageView>
 
             <!--instant bonus, utile per poter poi posizionare le pedine-->
-            <ImageView fx:id="towerGreenBonus3" fitHeight="30" fitWidth="30" layoutX="246" layoutY="115" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerGREENBonus3" fitHeight="30" fitWidth="30" layoutX="246" layoutY="115" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerGreenBonus2" fitHeight="30" fitWidth="30" layoutX="246" layoutY="380" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerGREENBonus2" fitHeight="30" fitWidth="30" layoutX="246" layoutY="380" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerGreenBonus1" fitHeight="30" fitWidth="30" layoutX="246" layoutY="642" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerGREENBonus1" fitHeight="30" fitWidth="30" layoutX="246" layoutY="642" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerGreenBonus0" fitHeight="30" fitWidth="30" layoutX="246" layoutY="902" style="-fx-background-color: transparent">
-                <Image url="@../images/servants.png" />
-            </ImageView>
-
-            <ImageView fx:id="towerBlueBonus3" fitHeight="30" fitWidth="30" layoutX="566" layoutY="115" style="-fx-background-color: transparent">
-                <Image url="@../images/servants.png" />
-            </ImageView>
-            <ImageView fx:id="towerBlueBonus2" fitHeight="30" fitWidth="30" layoutX="566" layoutY="380" style="-fx-background-color: transparent">
-                <Image url="@../images/servants.png" />
-            </ImageView>
-            <ImageView fx:id="towerBlueBonus1" fitHeight="30" fitWidth="30" layoutX="566" layoutY="642" style="-fx-background-color: transparent">
-                <Image url="@../images/servants.png" />
-            </ImageView>
-            <ImageView fx:id="towerBlueBonus0" fitHeight="30" fitWidth="30" layoutX="566" layoutY="902" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerGREENBonus0" fitHeight="30" fitWidth="30" layoutX="246" layoutY="902" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
 
-            <ImageView fx:id="towerYellowBonus3" fitHeight="30" fitWidth="30" layoutX="891" layoutY="115" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerBLUEBonus3" fitHeight="30" fitWidth="30" layoutX="566" layoutY="115" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerYellowBonus2" fitHeight="30" fitWidth="30" layoutX="891" layoutY="380" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerBLUEBonus2" fitHeight="30" fitWidth="30" layoutX="566" layoutY="380" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerYellowBonus1" fitHeight="30" fitWidth="30" layoutX="891" layoutY="642" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerBLUEBonus1" fitHeight="30" fitWidth="30" layoutX="566" layoutY="642" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerYellowBonus0" fitHeight="30" fitWidth="30" layoutX="891" layoutY="902" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerBLUEBonus0" fitHeight="30" fitWidth="30" layoutX="566" layoutY="902" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
 
-            <ImageView fx:id="towerPurpleBonus3" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="115" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOWBonus3" fitHeight="30" fitWidth="30" layoutX="891" layoutY="115" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerPurpleBonus2" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="380" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOWBonus2" fitHeight="30" fitWidth="30" layoutX="891" layoutY="380" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerPurpleBonus1" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="642" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOWBonus1" fitHeight="30" fitWidth="30" layoutX="891" layoutY="642" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerPurpleBonus0" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="902" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOWBonus0" fitHeight="30" fitWidth="30" layoutX="891" layoutY="902" style="-fx-background-color: transparent">
+                <Image url="@../images/servants.png" />
+            </ImageView>
+
+            <ImageView fx:id="towerPURPLEBonus3" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="115" style="-fx-background-color: transparent">
+                <Image url="@../images/servants.png" />
+            </ImageView>
+            <ImageView fx:id="towerPURPLEBonus2" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="380" style="-fx-background-color: transparent">
+                <Image url="@../images/servants.png" />
+            </ImageView>
+            <ImageView fx:id="towerPURPLEBonus1" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="642" style="-fx-background-color: transparent">
+                <Image url="@../images/servants.png" />
+            </ImageView>
+            <ImageView fx:id="towerPURPLEBonus0" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="902" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
         </Group>

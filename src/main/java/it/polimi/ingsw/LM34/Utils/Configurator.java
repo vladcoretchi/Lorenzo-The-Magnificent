@@ -28,6 +28,7 @@ public final class Configurator {
     public static final Integer WAITING_ROOM_PLAYERS_THRESHOLD = 2;
     public static final Integer PLAYER_MOVE_TIMEOUT = 2000;
 
+    public static final Integer MAX_TOWER_LEVELS = 4;
     public static final Integer MAX_PLAYERS = 4;
     public static final Integer TOTAL_PERIODS = 3; //#total periods
     public static final Integer CARD_PER_ROUND = 4; //#development cards stored in a tower per round
