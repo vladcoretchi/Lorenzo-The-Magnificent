@@ -99,23 +99,19 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public void start(Stage stage) throws Exception {
-
         this.primaryStage = new Stage();
         root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/gui.fxml"));
 
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        double width = gd.getDisplayMode().getWidth();
-        double height = gd.getDisplayMode().getHeight();
-        primaryStage.setMaxWidth(width);
-        primaryStage.setMaxHeight(height);
         prepareWindow();
 
-
+        /*----------ROUND SETUPS--------*/
         loadCardsOnTowers();
         placeExcommunicationCards();
         sweepMarketSlots();
         sweepWorkingAreas();
         sweepCouncilPalace();
+
+        /*----------DIALOGS--------*/
         //servantsSelection(5,1);
         //curchReportDecision(4,2);
         //leaderCardAction(); //TODO
@@ -127,6 +123,8 @@ public class GUI extends Application implements UIInterface {
     }
 
     private void sweepCouncilPalace() {
+        ImageView imageView = ((ImageView) root.lookup("#councilPalace"));
+        imageView.setImage(null);
     }
 
     public void endGame() {
@@ -159,6 +157,11 @@ public class GUI extends Application implements UIInterface {
     }
 
     private void prepareWindow() {
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        double width = gd.getDisplayMode().getWidth();
+        double height = gd.getDisplayMode().getHeight();
+        primaryStage.setMaxWidth(width);
+        primaryStage.setMaxHeight(height);
         primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
         primaryStage.setTitle("Lorenzo il Magnifico by CranioCreations");
         primaryStage.setScene(new Scene(root, primaryStage.getMaxWidth(), primaryStage.getMaxHeight()));
@@ -227,9 +230,6 @@ public class GUI extends Application implements UIInterface {
     public void printGameBoard() {
         printTowers(null);
     }
-
-
-
 
     public String familyMemberSelection() {
         FamilyMemberSelectDialog dialog = new FamilyMemberSelectDialog();
@@ -307,6 +307,8 @@ public class GUI extends Application implements UIInterface {
             imageView.setImage(null);
         }
     }
+
+
     @FXML
     public void buyCard(MouseEvent event) {
         Image image;

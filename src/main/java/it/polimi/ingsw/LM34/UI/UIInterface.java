@@ -1,14 +1,13 @@
 package it.polimi.ingsw.LM34.UI;
 
+import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.UI.NetworkType;
-import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
-import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.UI.CLI.CLI;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,4 +31,8 @@ public interface UIInterface {
     void workingArea(String workingAreaChoice, Player player);
     void printTowers(ArrayList<Tower> towers);
     void printGameBoard();
+    void sweepSlots();
+
+    void buyCard(); //Send by UI to server
+    void cardBought(); //Called by server
 }
