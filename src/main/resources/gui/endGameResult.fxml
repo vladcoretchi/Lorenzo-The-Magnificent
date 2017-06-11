@@ -4,8 +4,8 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.layout.*?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.LM34.UI.GUI.GuiControllers.EndGameController">
-   <children>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
       <BarChart fx:id="chart" title="Results" layoutX="-2.0" prefHeight="429.0" prefWidth="600.0"
                 AnchorPane.rightAnchor="0.0"
                 AnchorPane.leftAnchor="0.0"
@@ -18,5 +18,5 @@
           <NumberAxis side="LEFT" />
         </yAxis>
       </BarChart>
-   </children>
+  </children>
 </AnchorPane>
