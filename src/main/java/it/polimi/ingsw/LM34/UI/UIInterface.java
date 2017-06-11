@@ -33,6 +33,6 @@ public interface UIInterface {
     void printGameBoard();
     void sweepSlots();
 
-    void buyCard(); //Send by UI to server
-    void cardBought(); //Called by server
+   // void buyCard(); //Send by UI to server
+   // void cardBought(); //Called by server
 }
