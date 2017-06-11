@@ -27,7 +27,7 @@ public class EndGameDialog implements DialogInterface {
     @FXML
     private BarChart<String, Number> chart;
 
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage, Scene guiScene) throws Exception {
         Parent root = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource("views/endGameResult.fxml"));
 
         Player player1 = new Player("player 1", PawnColor.BLUE, new PersonalBoard());
@@ -63,11 +63,14 @@ public class EndGameDialog implements DialogInterface {
 
 
 
-                Scene scene = new Scene(bc, 800, 600);
-                bc.getData().addAll(period1, period2, period3);
-                primaryStage.setScene(scene);
-                primaryStage.show();
-            }
+        Scene scene = new Scene(bc, 800, 600);
+        bc.getData().addAll(period1, period2, period3);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+        Thread.sleep(2000);
+        primaryStage.setScene(guiScene);
+    }
 
     @Override
     public void setStyle(Dialog dialog) {

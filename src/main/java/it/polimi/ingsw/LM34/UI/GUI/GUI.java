@@ -14,6 +14,7 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlot;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.TerritoryCard;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
@@ -55,6 +56,8 @@ public class GUI extends Application implements UIInterface {
     private Parent root;
     private Stage primaryStage;
     private LoginDialog loginDialog;
+    private PopupSlotBonus popupSlotBonus;
+    private Scene guiScene;
 
     @FXML
     private javafx.scene.control.TextField username;
@@ -71,37 +74,18 @@ public class GUI extends Application implements UIInterface {
     @FXML
     private Group slots;
 
-    //TODO
-    @Override
-    public void show() {
-        loginMenu();
-    }
 
-    public void doLogin() {
-        if(rmiChoice.isSelected() && !socketChoice.isSelected()) //TODO
-            this.networkClient = new RMIClient(SERVER_IP, RMI_PORT, this);
-        else
-            this.networkClient = new SocketClient(SERVER_IP, SOCKET_PORT, this);
-
-        this.networkController = this.networkClient.getNetworkController();
-        this.networkClient.login(username.getText(), password.getText());
-    }
-
-    @Override
-    public void loginMenu() {
-        this.loginDialog = new LoginDialog();
-        this.loginDialog.show();
-    }
 
     @Override
     public void start(Stage stage) throws Exception {
-            root = FXMLLoader.load(getClass().getClassLoader().getResource("views/gui.fxml"));
+        root = FXMLLoader.load(getClass().getClassLoader().getResource("views/gui.fxml"));
 
         this.primaryStage = new Stage();
+        //primaryStage.initStyle(StageStyle.UNDECORATED);
         prepareWindow();
-
+        new PopupSlotBonus(9.0,10.0,new ResourcesBonus(new Resources(9,4,7,3),1)).start(primaryStage, guiScene);
         /*----------GAME SETUPS----------*/
-        placeExcommunicationCards();
+        //placeExcommunicationCards();
         loadTowersBonuses(); //TODO
         loadCouncilPrivilegesBonuses(); //TODO
         loadMarketBonuses(); //TODO
@@ -109,7 +93,7 @@ public class GUI extends Application implements UIInterface {
 
         /*----------ROUND SETUPS--------*/
         loadCardsOnTowers();
-        sweepSlots();
+        //sweepSlots();
 
 
         /*----------DIALOGS--------*/
@@ -117,7 +101,7 @@ public class GUI extends Application implements UIInterface {
         //curchReportDecision(4,2);
         //leaderCardAction(); //TODO
         //addPlayersInfo(root); //TODO
-        //endGame(primaryStage);
+        //endGame();
         //familyMemberSelection();
         //resourchExchangeDialog//TODO
         //useCouncilPrivilegeDialog;
@@ -128,7 +112,7 @@ public class GUI extends Application implements UIInterface {
 
     public void endGame() {
         try {
-            new EndGameDialog().start(primaryStage);
+            new EndGameDialog().start(primaryStage, guiScene);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -164,8 +148,9 @@ public class GUI extends Application implements UIInterface {
         primaryStage.setMaxHeight(height);
         primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
         primaryStage.setTitle("Lorenzo il Magnifico by CranioCreations");
-        primaryStage.setScene(new Scene(root, primaryStage.getMaxWidth(), primaryStage.getMaxHeight()));
-        primaryStage.setFullScreen(true);
+        guiScene = new Scene(root, primaryStage.getMaxWidth(), primaryStage.getMaxHeight());
+        primaryStage.setScene(guiScene);
+        primaryStage.setFullScreen(false);
         primaryStage.setResizable(true);
         primaryStage.show();
     }
@@ -208,6 +193,28 @@ public class GUI extends Application implements UIInterface {
     public Integer curchReportDecision() {
         CurchReportDialog dialog = new CurchReportDialog();
         return 0; //TODO
+    }
+
+    //TODO
+    @Override
+    public void show() {
+        loginMenu();
+    }
+
+    public void doLogin() {
+        if(rmiChoice.isSelected() && !socketChoice.isSelected()) //TODO
+            this.networkClient = new RMIClient(SERVER_IP, RMI_PORT, this);
+        else
+            this.networkClient = new SocketClient(SERVER_IP, SOCKET_PORT, this);
+
+        this.networkController = this.networkClient.getNetworkController();
+        this.networkClient.login(username.getText(), password.getText());
+    }
+
+    @Override
+    public void loginMenu() {
+        this.loginDialog = new LoginDialog();
+        this.loginDialog.show();
     }
 
     @Override
@@ -327,28 +334,33 @@ public class GUI extends Application implements UIInterface {
 
     @FXML
     public void popupBonus(MouseEvent event) {
-        ActionSlot slot = null;
-         String source = event.getPickResult().getIntersectedNode().getId();
-         Double coordinateX = event.getPickResult().getIntersectedTexCoord().getX();
-         Double coordinateY = event.getPickResult().getIntersectedTexCoord().getX();
+        ActionSlot slot = new ActionSlot(true, 3, new ResourcesBonus(new Resources(3,4,4,3),1));
+        String source = event.getPickResult().getIntersectedNode().getId();
+        //TODO: get reward from source String
+        Double coordinateX = event.getPickResult().getIntersectedPoint().getX();
+        Double coordinateY = event.getPickResult().getIntersectedPoint().getY();
+        System.out.println("Entrati alle coordinate: " + coordinateX.toString() + " " + coordinateY);
+        popupSlotBonus =  new PopupSlotBonus(12.0,230.0,new ResourcesBonus(new Resources(3,4,4,3),1));
 
 
-        PopupSlotBonus popup = new PopupSlotBonus(coordinateX, coordinateY);
-
-        popup.interactWithPlayer(slot.getResourcesReward());
+        try {
+            popupSlotBonus.start(primaryStage, guiScene);
+        } catch (Exception e) {
+            System.out.println("Errore nel launch della PopupSlotBonus");
+        }
 
     }
 
     public void loadMarketBonuses() {
-
+        //TODO
     }
 
     public void loadCouncilPrivilegesBonuses() {
-
+        //TODO
     }
 
     public void loadFaithPath() {
-
+        //TODO
     }
 
     @FXML
