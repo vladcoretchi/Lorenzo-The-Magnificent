@@ -75,7 +75,6 @@ public class GUI extends Application implements UIInterface {
     private Group slots;
 
 
-
     @Override
     public void start(Stage stage) throws Exception {
         root = FXMLLoader.load(getClass().getClassLoader().getResource("views/gui.fxml"));
@@ -83,7 +82,9 @@ public class GUI extends Application implements UIInterface {
         this.primaryStage = new Stage();
         //primaryStage.initStyle(StageStyle.UNDECORATED);
         prepareWindow();
-        new PopupSlotBonus(9.0,10.0,new ResourcesBonus(new Resources(9,4,7,3),1)).start(primaryStage, guiScene);
+        endGame();
+        endGame();
+        new PopupSlotBonus(9.0,10.0,new ResourcesBonus(new Resources(9,4,7,3,4,4,5),1)).start(primaryStage);
         /*----------GAME SETUPS----------*/
         //placeExcommunicationCards();
         loadTowersBonuses(); //TODO
@@ -109,10 +110,9 @@ public class GUI extends Application implements UIInterface {
     }
 
 
-
     public void endGame() {
         try {
-            new EndGameDialog().start(primaryStage, guiScene);
+            new EndGameDialog().start(new Stage());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -344,9 +344,9 @@ public class GUI extends Application implements UIInterface {
 
 
         try {
-            popupSlotBonus.start(primaryStage, guiScene);
+            popupSlotBonus.start(primaryStage);
         } catch (Exception e) {
-            System.out.println("Errore nel launch della PopupSlotBonus");
+            e.printStackTrace();
         }
 
     }
