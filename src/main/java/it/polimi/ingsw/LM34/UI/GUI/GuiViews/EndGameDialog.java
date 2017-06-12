@@ -8,15 +8,18 @@ import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Player;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Dialog;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -30,15 +33,14 @@ public class EndGameDialog implements DialogInterface {
     private BarChart<String, Number> chart;
 
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource("views/endGameResult.fxml"));
-
+        //TODO: remove this testing lines
         Player player1 = new Player("player 1", PawnColor.BLUE, new PersonalBoard());
         Player player2 = new Player("player 2", PawnColor.RED, new PersonalBoard());
         Player player3 = new Player("player 3", PawnColor.GREEN, new PersonalBoard());
 
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
-        final BarChart<String, Number> bc =
+        final BarChart<String, Number> pointsChart =
                 new BarChart<String, Number>(xAxis, yAxis);
 
         xAxis.setLabel("Players");
@@ -63,17 +65,36 @@ public class EndGameDialog implements DialogInterface {
         period3.getData().add(new XYChart.Data(player3.getPlayerName(), 18722.18));
 
         // Scene scene = new Scene(bc, 800, 600);
-        bc.getData().addAll(period1, period2, period3);
+        pointsChart.getData().addAll(period1, period2, period3);
+        pointsChart.setStyle("-fx-background-color: transparent;");
 
         Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initModality(Modality.NONE);
         stage.initOwner(primaryStage);
         stage.setFullScreen(false);
-        stage.setScene(new Scene(bc));
+        Scene scene = new Scene(pointsChart);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+
+        pointsChart.setOnKeyPressed(new EventHandler<KeyEvent>()  {
+
+            @Override
+            public void handle(KeyEvent t) {
+                if (t.getCode() == KeyCode.ESCAPE) {
+                    stage.close();
+                }
+            }
+        });
+
+        pointsChart.setOnMouseExited(new EventHandler<MouseEvent>()  {
+            @Override
+            public void handle(MouseEvent m) {
+                stage.close();
+            }
+        });
+
         stage.show();
-        /*popup.getContent().add(bc);
-        popup.show(primaryStage);*/
     }
 
     @Override

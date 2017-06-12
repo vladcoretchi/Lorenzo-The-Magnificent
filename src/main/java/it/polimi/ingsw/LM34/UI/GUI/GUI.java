@@ -83,8 +83,7 @@ public class GUI extends Application implements UIInterface {
         //primaryStage.initStyle(StageStyle.UNDECORATED);
         prepareWindow();
         endGame();
-        endGame();
-        new PopupSlotBonus(9.0,10.0,new ResourcesBonus(new Resources(9,4,7,3,4,4,5),1)).start(primaryStage);
+        //new PopupSlotBonus(9.0,10.0,new ResourcesBonus(new Resources(9,4,7,3,4,4,5),1)).start(primaryStage);
         /*----------GAME SETUPS----------*/
         //placeExcommunicationCards();
         loadTowersBonuses(); //TODO
@@ -337,10 +336,10 @@ public class GUI extends Application implements UIInterface {
         ActionSlot slot = new ActionSlot(true, 3, new ResourcesBonus(new Resources(3,4,4,3),1));
         String source = event.getPickResult().getIntersectedNode().getId();
         //TODO: get reward from source String
-        Double coordinateX = event.getPickResult().getIntersectedPoint().getX();
-        Double coordinateY = event.getPickResult().getIntersectedPoint().getY();
+        Double coordinateX = event.getScreenX();
+        Double coordinateY = event.getScreenY();
         System.out.println("Entrati alle coordinate: " + coordinateX.toString() + " " + coordinateY);
-        popupSlotBonus =  new PopupSlotBonus(12.0,230.0,new ResourcesBonus(new Resources(3,4,4,3),1));
+        popupSlotBonus =  new PopupSlotBonus(coordinateX, coordinateY, new ResourcesBonus(new Resources(3,4,4,3,5,6,4),1));
 
 
         try {
