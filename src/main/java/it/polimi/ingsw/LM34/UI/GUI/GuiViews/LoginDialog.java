@@ -2,11 +2,17 @@ package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.scene.*;
+
+import java.awt.*;
 
 /**
  * Created by GiulioComi on 08/06/2017.
@@ -24,6 +30,7 @@ public class LoginDialog extends Application implements DialogInterface {
         primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
         primaryStage.setTitle("Login - Lorenzo il Magnifico by CranioCreations");
         primaryStage.setScene(new Scene(root, 400, 400));
+        primaryStage.getScene().getStylesheets().add(LoginDialog.class.getResource("/css/login.css").toExternalForm());
         primaryStage.show();
         primaryStage.setOnHidden(e -> primaryStage.close());
 
@@ -31,6 +38,13 @@ public class LoginDialog extends Application implements DialogInterface {
 
     @Override
     public void setStyle(Dialog dialog) {
-
+        DialogPane dialogPane = dialog.getDialogPane();
+        try {
+            dialogPane.getStylesheets().add(LoginDialog.class.getResource("/css/login.css").toExternalForm());
+            System.out.println("si");
+        }
+        catch (NullPointerException ex) {
+            System.out.println("no");
+        }
     }
 }
