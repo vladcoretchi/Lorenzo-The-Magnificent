@@ -77,7 +77,6 @@ public class GUI extends Application implements UIInterface {
     @FXML private Group towers;
     @FXML private Group slots;
     @FXML private VBox playersInfoList;
-    //@FXML private Label prova;
 
     public GUI() {
         personalBoardController = new PersonalBoardController(); //TODO
@@ -90,13 +89,10 @@ public class GUI extends Application implements UIInterface {
         this.primaryStage = new Stage();
         //primaryStage.initStyle(StageStyle.UNDECORATED);
         prepareWindow();
-        //prova = (Label)root.lookup("#prova");
-        /*Platform.runLater(() -> {
-            prova.setText("ciao");
-            System.out.println(prova.getText());
-        });*/
         /*----------GAME SETUPS----------*/
-        //placeExcommunicationCards();
+        loadCardsOnTowers();
+
+        placeExcommunicationCards();
         //loadTowersBonuses(); //TODO
         //loadCouncilPrivilegesBonuses(); //TODO
         //loadMarketBonuses(); //TODO
@@ -107,8 +103,8 @@ public class GUI extends Application implements UIInterface {
         updatePlayersInfo();
 
         /*----------ROUND SETUPS--------*/
-        //loadCardsOnTowers();
-        //sweepSlots();
+
+        sweepSlots();
 
 
         /*----------DIALOGS--------*/
@@ -340,7 +336,6 @@ public class GUI extends Application implements UIInterface {
     @FXML
     public void popupBonus(MouseEvent event) {
         ActionSlot slot = new ActionSlot(true, 3, new ResourcesBonus(new Resources(3,4,4,3),1));
-        String source = event.getPickResult().getIntersectedNode().getId();
         //TODO: get reward from source String
         Double coordinateX = event.getScreenX();
         Double coordinateY = event.getScreenY();
@@ -382,22 +377,19 @@ public class GUI extends Application implements UIInterface {
     @FXML
     public void buyCard(MouseEvent event) {
         Image image;
-        String source = event.getPickResult().getIntersectedNode().getId();
+            Object source = event.getSource();
+           ImageView imageView = (ImageView) source;
+           imageView.setImage(null);
+        }
 
-        //TODO: called after place pawn after the server has confirmed the validity
-        Group towers = ((Group) root.lookup("#towers"));
-        List<Node> nodes = towers.getChildren();
-        for (Node node : nodes)
-            if (node.getId() == source) {
-                ((ImageView) node).setImage(null);
-            }
-    }
+
 
     public void sweepMarketSlots() {
         Integer index = 0;
         for(index= 0; index<4; index++) {
             ImageView imageView = ((ImageView) root.lookup("#marketActionSlot" + index));
-            imageView.setImage(null);
+            imageView.setImage(new Image(Thread.currentThread()
+                    .getContextClassLoader().getResource("images/Icon.png").toExternalForm()));
         }
     }
     private void sweepCouncilPalace() {

@@ -73,6 +73,24 @@ public class PopupSlotBonus implements DialogInterface {
                 rewardList.setVgrow(pane, Priority.ALWAYS);
             }
 
+
+            value = new Text(resourcesReward.getCouncilPrivilege().toString());
+            value.setStyle("-fx-background-color: transparent;");
+            value.setFont(Font.font("Verdana", 30));
+            value.setFill(Color.WHITE);
+            tempImage = new ImageView();
+            tempImage.setFitHeight(50.0);
+            tempImage.setFitWidth(50.0);
+            tempImage.setImage(new Image(Thread.currentThread()
+                    .getContextClassLoader().getResource("images/resources/" + "COUNCIL_PRIVILEGE" + ".png").toExternalForm()));
+            tempImage.setStyle("-fx-background-color: transparent;");
+
+            pane.getChildren().add(tempImage);
+            pane.getChildren().add(value);
+            rewardList.getChildren().add(pane);
+            rewardList.setVgrow(pane, Priority.ALWAYS);
+
+
         Stage stage = new Stage();
 
         rewardList.setOnKeyPressed(new EventHandler<KeyEvent>() {

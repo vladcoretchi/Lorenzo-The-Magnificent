@@ -8,11 +8,11 @@
     <children>
         <ScrollPane id="board" minWidth="30" stylesheets="@../css/scrollBar.css" GridPane.columnIndex="0" GridPane.rowIndex="0"  GridPane.fillHeight="1894.59" GridPane.fillWidth="1331.37">
             <!--gameboard background-->
+
+        <Group fx:id="towers">
             <ImageView fx:id="gameboard" fitHeight="1894.59" fitWidth="1331.37" style="-fx-border-image-width: 100%;">
                 <Image url="@../images/gameboard.jpg" />
             </ImageView>
-        <Group fx:id="towers">
-            <children>
             <!-- tower 1-->
             <ImageView fx:id="towerGREEN_level3" fitHeight="239.008" fitWidth="155.232" layoutX="26" layoutY="10" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
@@ -68,8 +68,7 @@
             <ImageView fx:id="towerPURPLE_level0" fitHeight="239.008" fitWidth="155.232" layoutX="989" layoutY="798" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
-            </children>
-        </Group>
+
             <!-- excommunication cards-->
             <ImageView fx:id="excommunicationCard1" fitHeight="211.0" fitWidth="114.0" layoutX="219.0" layoutY="1154.0" style="-fx-background-color: transparent">
                 <Image url="@../images/excommunicationTiles/excomm_1_7.png" />
@@ -178,6 +177,7 @@
             <ImageView fx:id="towerPURPLEBonus0" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="902" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
+        </Group>
     </ScrollPane>
 
     <VBox id="playersInfoList" minWidth="250" prefHeight="400.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
@@ -224,106 +224,162 @@
             </Pane>
             <Pane fx:id="playerInfo2" prefHeight="100.0" prefWidth="250.0">
                 <children>
-                    <Label fx:id="player2" layoutX="-2.0" layoutY="1.0" text="player2"/>
-                    <ImageView fx:id="SERVANTS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/SERVANTS.png" />
-                    </ImageView>
-                    <ImageView fx:id="COINS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/COINS.png" />
-                    </ImageView>
-                    <ImageView fx:id="WOODS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/WOODS.png" />
-                    </ImageView>
-                    <ImageView fx:id="STONES_player2" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/STONES.png" />
-                    </ImageView>
-                    <ImageView fx:id="FAITH_POINTS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/FAITH_POINTS.png" />
-                    </ImageView>
-                    <ImageView fx:id="VICTORY_POINTS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/VICTORY_POINTS.png" />
-                    </ImageView>
-                    <ImageView fx:id="MILITARY_POINTS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/MILITARY_POINTS.png" />
-                    </ImageView>
+                    <Label fx:id="player2" layoutX="-2.0" layoutY="1.0" text="player1"/>
+                    <StackPane fx:id="SERVANTS_player2_wrapper">
+                        <ImageView fx:id="SERVANTS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/SERVANTS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="COINS_player2_wrapper">
+                        <ImageView fx:id="COINS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/COINS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="WOODS_player2_wrapper">
+                        <ImageView fx:id="WOODS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/WOODS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="STONES_player2_wrapper">
+                        <ImageView fx:id="STONES_player2" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/STONES.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="FAITH_POINTS_player2_wrapper">
+                        <ImageView fx:id="FAITH_POINTS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/FAITH_POINTS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="VICTORY_POINTS_player2_wrapper">
+                        <ImageView fx:id="VICTORY_POINTS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/VICTORY_POINTS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="MILITARY_POINTS_player2_wrapper">
+                        <ImageView fx:id="MILITARY_POINTS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/MILITARY_POINTS.png" />
+                        </ImageView>
+                    </StackPane>
                 </children>
             </Pane>
             <Pane fx:id="playerInfo3" prefHeight="100.0" prefWidth="250.0">
                 <children>
-                    <Label fx:id="player3" layoutX="-2.0" layoutY="1.0" text="player3"/>
-                    <ImageView fx:id="SERVANTS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/SERVANTS.png" />
-                    </ImageView>
-                    <ImageView fx:id="COINS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/COINS.png" />
-                    </ImageView>
-                    <ImageView fx:id="WOODS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/WOODS.png" />
-                    </ImageView>
-                    <ImageView fx:id="STONES_player3" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/STONES.png" />
-                    </ImageView>
-                    <ImageView fx:id="FAITH_POINTS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/FAITH_POINTS.png" />
-                    </ImageView>
-                    <ImageView fx:id="VICTORY_POINTS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/VICTORY_POINTS.png" />
-                    </ImageView>
-                    <ImageView fx:id="MILITARY_POINTS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/MILITARY_POINTS.png" />
-                    </ImageView>
+                    <Label fx:id="player3" layoutX="-2.0" layoutY="1.0" text="player1"/>
+                    <StackPane fx:id="SERVANTS_player3_wrapper">
+                        <ImageView fx:id="SERVANTS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/SERVANTS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="COINS_player3_wrapper">
+                        <ImageView fx:id="COINS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/COINS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="WOODS_player3_wrapper">
+                        <ImageView fx:id="WOODS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/WOODS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="STONES_player3_wrapper">
+                        <ImageView fx:id="STONES_player3" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/STONES.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="FAITH_POINTS_player3_wrapper">
+                        <ImageView fx:id="FAITH_POINTS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/FAITH_POINTS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="VICTORY_POINTS_player3_wrapper">
+                        <ImageView fx:id="VICTORY_POINTS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/VICTORY_POINTS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="MILITARY_POINTS_player3_wrapper">
+                        <ImageView fx:id="MILITARY_POINTS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/MILITARY_POINTS.png" />
+                        </ImageView>
+                    </StackPane>
                 </children>
             </Pane>
             <Pane fx:id="playerInfo4" prefHeight="100.0" prefWidth="250.0">
                 <children>
-                    <Label fx:id="player4" layoutX="-2.0" layoutY="1.0" text="player4"/>
-                    <ImageView fx:id="SERVANTS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/SERVANTS.png" />
-                    </ImageView>
-                    <ImageView fx:id="COINS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/COINS.png" />
-                    </ImageView>
-                    <ImageView fx:id="WOODS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/WOODS.png" />
-                    </ImageView>
-                    <ImageView fx:id="STONES_player4" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/STONES.png" />
-                    </ImageView>
-                    <ImageView fx:id="FAITH_POINTS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/FAITH_POINTS.png" />
-                    </ImageView>
-                    <ImageView fx:id="VICTORY_POINTS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/VICTORY_POINTS.png" />
-                    </ImageView>
-                    <ImageView fx:id="MILITARY_POINTS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/MILITARY_POINTS.png" />
-                    </ImageView>
+                    <Label fx:id="player4" layoutX="-2.0" layoutY="1.0" text="player1"/>
+                    <StackPane fx:id="SERVANTS_player4_wrapper">
+                        <ImageView fx:id="SERVANTS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/SERVANTS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="COINS_player4_wrapper">
+                        <ImageView fx:id="COINS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/COINS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="WOODS_player4_wrapper">
+                        <ImageView fx:id="WOODS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/WOODS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="STONES_player4_wrapper">
+                        <ImageView fx:id="STONES_player4" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/STONES.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="FAITH_POINTS_player4_wrapper">
+                        <ImageView fx:id="FAITH_POINTS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/FAITH_POINTS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="VICTORY_POINTS_player4_wrapper">
+                        <ImageView fx:id="VICTORY_POINTS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/VICTORY_POINTS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="MILITARY_POINTS_player4_wrapper">
+                        <ImageView fx:id="MILITARY_POINTS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/MILITARY_POINTS.png" />
+                        </ImageView>
+                    </StackPane>
                 </children>
             </Pane>
             <Pane fx:id="playerInfo5" prefHeight="100.0" prefWidth="250.0">
                 <children>
-                    <Label fx:id="player5" layoutX="-2.0" layoutY="1.0" text="player5"/>
-                    <ImageView fx:id="SERVANTS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/SERVANTS.png" />
-                    </ImageView>
-                    <ImageView fx:id="COINS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/COINS.png" />
-                    </ImageView>
-                    <ImageView fx:id="WOODS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/WOODS.png" />
-                    </ImageView>
-                    <ImageView fx:id="STONES_player5" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/STONES.png" />
-                    </ImageView>
-                    <ImageView fx:id="FAITH_POINTS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/FAITH_POINTS.png" />
-                    </ImageView>
-                    <ImageView fx:id="VICTORY_POINTS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/VICTORY_POINTS.png" />
-                    </ImageView>
-                    <ImageView fx:id="MILITARY_POINTS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../images/resources/MILITARY_POINTS.png" />
-                    </ImageView>
+                    <Label fx:id="player5" layoutX="-2.0" layoutY="1.0" text="player1"/>
+                    <StackPane fx:id="SERVANTS_player5_wrapper">
+                        <ImageView fx:id="SERVANTS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/SERVANTS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="COINS_player5_wrapper">
+                        <ImageView fx:id="COINS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/COINS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="WOODS_player5_wrapper">
+                        <ImageView fx:id="WOODS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/WOODS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="STONES_player5_wrapper">
+                        <ImageView fx:id="STONES_player5" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/STONES.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="FAITH_POINTS_player5_wrapper">
+                        <ImageView fx:id="FAITH_POINTS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/FAITH_POINTS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="VICTORY_POINTS_player5_wrapper">
+                        <ImageView fx:id="VICTORY_POINTS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/VICTORY_POINTS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="MILITARY_POINTS_player5_wrapper">
+                        <ImageView fx:id="MILITARY_POINTS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/MILITARY_POINTS.png" />
+                        </ImageView>
+                    </StackPane>
                 </children>
             </Pane>
         </children>
