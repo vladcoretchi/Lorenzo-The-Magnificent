@@ -5,7 +5,7 @@ package it.polimi.ingsw.LM34.Enums.Model;
  */
 public enum LeaderNames {
     FRANCESCO_SFORZA("Francesco Sforza"),
-    LUDOVICO_ARIOSTO("Ludovico ariosto"),
+    LUDOVICO_ARIOSTO("Ludovico Ariosto"),
     FILIPPO_BRUNELLESCHI("Filippo Brunelleschi"),
     SIGISMONDO_MALATESTA("Sigismondo Malatesta"),
     GIROLAMO_SAVONAROLA("Girolamo Savonarola"),

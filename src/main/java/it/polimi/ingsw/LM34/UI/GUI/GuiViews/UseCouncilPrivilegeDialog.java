@@ -11,9 +11,9 @@ import java.util.Optional;
  * Created by GiulioComi on 07/06/2017.
  */
 public class UseCouncilPrivilegeDialog {
-    public Integer interactWithPlayer(Integer servantsAvailable, Integer numberOfPrivileges) {
+    public Integer interactWithPlayer(Integer numberOfPrivileges) {
         List<String> choices = new ArrayList<>();
-        for(Integer i = numberOfPrivileges; i < servantsAvailable; i++ )
+        for(Integer i = numberOfPrivileges; i < numberOfPrivileges; i++ )
             choices.add(i.toString());
 
 

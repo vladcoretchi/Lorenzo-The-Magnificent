@@ -1,74 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.image.*?>
-<SplitPane dividerPositions="0.835" orientation="HORIZONTAL" prefHeight="1848" prefWidth="1300" stylesheets="@../css/divider.css" visible="true" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.LM34.UI.GUI.GUI">
-
-    <ScrollPane id="board" minWidth="30" stylesheets="@../css/scrollBar.css">
-        <Group fx:id="towers">
+<?import javafx.scene.layout.*?>
+<GridPane visible="true" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.LM34.UI.GUI.GUI">
+    <children>
+        <ScrollPane id="board" minWidth="30" stylesheets="@../css/scrollBar.css" GridPane.columnIndex="0" GridPane.rowIndex="0"  GridPane.fillHeight="1894.59" GridPane.fillWidth="1331.37">
             <!--gameboard background-->
             <ImageView fx:id="gameboard" fitHeight="1894.59" fitWidth="1331.37" style="-fx-border-image-width: 100%;">
                 <Image url="@../images/gameboard.jpg" />
             </ImageView>
-
+        <Group fx:id="towers">
+            <children>
             <!-- tower 1-->
-            <ImageView fx:id="towerGREEN_level3" onMouseClicked="#buyCard" fitHeight="239.008" fitWidth="155.232" layoutX="26" layoutY="10"  style="-fx-background-color: transparent">
+            <ImageView fx:id="towerGREEN_level3" fitHeight="239.008" fitWidth="155.232" layoutX="26" layoutY="10" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
-            <ImageView fx:id="towerGREEN_level2" onMouseClicked="#buyCard" fitHeight="239.008" fitWidth="155.232" layoutX="26" layoutY="272" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerGREEN_level2" fitHeight="239.008" fitWidth="155.232" layoutX="26" layoutY="272" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
-            <ImageView fx:id="towerGREEN_level1" onMouseClicked="#buyCard" fitHeight="239.008" fitWidth="155.232" layoutX="26" layoutY="534"  style="-fx-background-color: transparent">
+            <ImageView fx:id="towerGREEN_level1" fitHeight="239.008" fitWidth="155.232" layoutX="26" layoutY="534" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
-            <ImageView fx:id="towerGREEN_level0" onMouseClicked="#buyCard" fitHeight="239.008" fitWidth="155.232" layoutX="26" layoutY="798"  style="-fx-background-color: transparent">
+            <ImageView fx:id="towerGREEN_level0" fitHeight="239.008" fitWidth="155.232" layoutX="26" layoutY="798" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
 
             <!-- tower 2-->
-            <ImageView fx:id="towerBLUE_level3" onMouseClicked="#buyCard" fitHeight="239.008" fitWidth="155.232" layoutX="347" layoutY="10" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerBLUE_level3" fitHeight="239.008" fitWidth="155.232" layoutX="347" layoutY="10" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
-            <ImageView fx:id="towerBLUE_level2" onMouseClicked="#buyCard"  fitHeight="239.008" fitWidth="155.232" layoutX="347" layoutY="272" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerBLUE_level2" fitHeight="239.008" fitWidth="155.232" layoutX="347" layoutY="272" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
-            <ImageView fx:id="towerBLUE_level1" onMouseClicked="#buyCard"  fitHeight="239.008" fitWidth="155.232" layoutX="347" layoutY="534" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerBLUE_level1" fitHeight="239.008" fitWidth="155.232" layoutX="347" layoutY="534" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
-            <ImageView fx:id="towerBLUE_level0" onMouseClicked="#buyCard"  fitHeight="239.008" fitWidth="155.232" layoutX="347" layoutY="798" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerBLUE_level0" fitHeight="239.008" fitWidth="155.232" layoutX="347" layoutY="798" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
 
             <!-- tower 3 -->
-            <ImageView fx:id="towerYELLOW_level3" onMouseClicked="#buyCard" fitHeight="239.008" fitWidth="155.232" layoutX="668" layoutY="10" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOW_level3" fitHeight="239.008" fitWidth="155.232" layoutX="668" layoutY="10" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
-            <ImageView fx:id="towerYELLOW_level2" onMouseClicked="#buyCard" fitHeight="239.008" fitWidth="155.232" layoutX="668" layoutY="272" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOW_level2" fitHeight="239.008" fitWidth="155.232" layoutX="668" layoutY="272" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
-            <ImageView fx:id="towerYELLOW_level1" onMouseClicked="#buyCard"  fitHeight="239.008" fitWidth="155.232" layoutX="668" layoutY="534" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOW_level1" fitHeight="239.008" fitWidth="155.232" layoutX="668" layoutY="534" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
-            <ImageView fx:id="towerYELLOW_level0" onMouseClicked="#buyCard"  fitHeight="239.008" fitWidth="155.232" layoutX="668" layoutY="798" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOW_level0" fitHeight="239.008" fitWidth="155.232" layoutX="668" layoutY="798" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
 
             <!-- tower 4-->
-            <ImageView fx:id="towerPURPLE_level3" onMouseClicked="#buyCard" fitHeight="239.008" fitWidth="155.232" layoutX="989" layoutY="10" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerPURPLE_level3" fitHeight="239.008" fitWidth="155.232" layoutX="989" layoutY="10" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
-            <ImageView fx:id="towerPURPLE_level2" onMouseClicked="#buyCard" fitHeight="239.008" fitWidth="155.232" layoutX="989" layoutY="272" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerPURPLE_level2" fitHeight="239.008" fitWidth="155.232" layoutX="989" layoutY="272" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
-            <ImageView fx:id="towerPURPLE_level1" onMouseClicked="#buyCard" fitHeight="239.008" fitWidth="155.232" layoutX="989" layoutY="534" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerPURPLE_level1" fitHeight="239.008" fitWidth="155.232" layoutX="989" layoutY="534" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
-            <ImageView fx:id="towerPURPLE_level0" onMouseClicked="#buyCard" fitHeight="239.008" fitWidth="155.232" layoutX="989" layoutY="798" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerPURPLE_level0" fitHeight="239.008" fitWidth="155.232" layoutX="989" layoutY="798" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
                 <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
-
+            </children>
+        </Group>
             <!-- excommunication cards-->
             <ImageView fx:id="excommunicationCard1" fitHeight="211.0" fitWidth="114.0" layoutX="219.0" layoutY="1154.0" style="-fx-background-color: transparent">
                 <Image url="@../images/excommunicationTiles/excomm_1_7.png" />
@@ -81,16 +82,16 @@
             </ImageView>
 
             <!-- market area-->
-            <ImageView fx:id="marketActionSlot3" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="107.5" fitWidth="124.5" layoutX="1195" layoutY="1690" style="-fx-background-color: transparent">
+            <ImageView fx:id="marketActionSlot3" fitHeight="107.5" fitWidth="124.5" layoutX="1195" layoutY="1690" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/coveringtile_1_back_.png" />
             </ImageView>
-            <ImageView fx:id="marketActionSlot2" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="107.5" fitWidth="124.5" layoutX="1085" layoutY="1590" style="-fx-background-color: transparent">
+            <ImageView fx:id="marketActionSlot2" fitHeight="107.5" fitWidth="124.5" layoutX="1085" layoutY="1590" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/coveringtile_1_back_.png" />
             </ImageView>
-            <ImageView fx:id="marketActionSlot1" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="100" fitWidth="100" layoutX="950" layoutY="1565" style="-fx-background-color: transparent">
+            <ImageView fx:id="marketActionSlot1" fitHeight="100" fitWidth="100" layoutX="950" layoutY="1565" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/Icon.png" />
             </ImageView>
-            <ImageView fx:id="marketActionSlot0" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="100" fitWidth="100" layoutX="800" layoutY="1565" style="-fx-background-color: transparent">
+            <ImageView fx:id="marketActionSlot0" fitHeight="100" fitWidth="100" layoutX="800" layoutY="1565" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/Icon.png" />
             </ImageView>
 
@@ -106,81 +107,233 @@
             </ImageView>
 
             <!--production and harvest area-->
-            <ImageView fx:id="productionArea1" onMouseClicked="#placePawn" fitHeight="116.15" fitWidth="242.19" layoutX="225" layoutY="1590" style="-fx-background-color: transparent">
+            <ImageView fx:id="productionArea1" fitHeight="114.0" fitWidth="323.0" layoutX="225" layoutY="1590" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/coveringtile_2_back_.png" />
             </ImageView>
-            <ImageView fx:id="harvestArea1" onMouseClicked="#placePawn" fitHeight="116.15" fitWidth="242.19" layoutX="225" layoutY="1760" style="-fx-background-color: transparent">
+            <ImageView fx:id="harvestArea1" fitHeight="116.15" fitWidth="242.19" layoutX="225" layoutY="1760" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/coveringtile_2_back_.png" />
             </ImageView>
 
-            <ImageView fx:id="productionArea0" onMouseClicked="#placePawn" fitHeight="100" fitWidth="100" layoutX="26" layoutY="1595" style="-fx-background-color: transparent">
+            <ImageView fx:id="productionArea0" fitHeight="100" fitWidth="100" layoutX="26" layoutY="1595" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/Icon.png" />
             </ImageView>
-            <ImageView fx:id="harvestArea0" onMouseClicked="#placePawn" fitHeight="100" fitWidth="100" layoutX="26" layoutY="1760" style="-fx-background-color: transparent">
+            <ImageView fx:id="harvestArea0" fitHeight="100" fitWidth="100" layoutX="26" layoutY="1760" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/Icon.png" />
             </ImageView>
 
             <!--council palace-->
-            <ImageView fx:id="councilPalace" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="100" fitWidth="100" layoutX="795" layoutY="1070" style="-fx-background-color: transparent">
+            <ImageView fx:id="councilPalace" fitHeight="100" fitWidth="100" layoutX="795" layoutY="1070" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/Icon.png" />
             </ImageView>
 
             <!--tower slots-->
-            <ImageView fx:id="towerGREENBonus3" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="30" fitWidth="30" layoutX="246" layoutY="115" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerGREENBonus3" fitHeight="30" fitWidth="30" layoutX="246" layoutY="115" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerGREENBonus2" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="30" fitWidth="30" layoutX="246" layoutY="380" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerGREENBonus2" fitHeight="30" fitWidth="30" layoutX="246" layoutY="380" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerGREENBonus1" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="30" fitWidth="30" layoutX="246" layoutY="642" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerGREENBonus1" fitHeight="30" fitWidth="30" layoutX="246" layoutY="642" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerGREENBonus0" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="30" fitWidth="30" layoutX="246" layoutY="902" style="-fx-background-color: transparent">
-                <Image url="@../images/servants.png" />
-            </ImageView>
-
-            <ImageView fx:id="towerBLUEBonus3" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="30" fitWidth="30" layoutX="566" layoutY="115" style="-fx-background-color: transparent">
-                <Image url="@../images/servants.png" />
-            </ImageView>
-            <ImageView fx:id="towerBLUEBonus2" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="30" fitWidth="30" layoutX="566" layoutY="380" style="-fx-background-color: transparent">
-                <Image url="@../images/servants.png" />
-            </ImageView>
-            <ImageView fx:id="towerBLUEBonus1" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="30" fitWidth="30" layoutX="566" layoutY="642" style="-fx-background-color: transparent">
-                <Image url="@../images/servants.png" />
-            </ImageView>
-            <ImageView fx:id="towerBLUEBonus0" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="30" fitWidth="30" layoutX="566" layoutY="902" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerGREENBonus0" fitHeight="30" fitWidth="30" layoutX="246" layoutY="902" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
 
-            <ImageView fx:id="towerYELLOWBonus3" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="30" fitWidth="30" layoutX="891" layoutY="115" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerBLUEBonus3" fitHeight="30" fitWidth="30" layoutX="566" layoutY="115" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerYELLOWBonus2" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="30" fitWidth="30" layoutX="891" layoutY="380" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerBLUEBonus2" fitHeight="30" fitWidth="30" layoutX="566" layoutY="380" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerYELLOWBonus1" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="30" fitWidth="30" layoutX="891" layoutY="642" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerBLUEBonus1" fitHeight="30" fitWidth="30" layoutX="566" layoutY="642" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerYELLOWBonus0" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="30" fitWidth="30" layoutX="891" layoutY="902" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerBLUEBonus0" fitHeight="30" fitWidth="30" layoutX="566" layoutY="902" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
 
-            <ImageView fx:id="towerPURPLEBonus3"  onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="115" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOWBonus3" fitHeight="30" fitWidth="30" layoutX="891" layoutY="115" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerPURPLEBonus2" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="380" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOWBonus2" fitHeight="30" fitWidth="30" layoutX="891" layoutY="380" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerPURPLEBonus1" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="642" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOWBonus1" fitHeight="30" fitWidth="30" layoutX="891" layoutY="642" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-            <ImageView fx:id="towerPURPLEBonus0" onMouseEntered="#popupBonus" onMouseClicked="#placePawn" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="902" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOWBonus0" fitHeight="30" fitWidth="30" layoutX="891" layoutY="902" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/servants.png" />
             </ImageView>
-        </Group>
+
+            <ImageView fx:id="towerPURPLEBonus3" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="115" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
+                <Image url="@../images/servants.png" />
+            </ImageView>
+            <ImageView fx:id="towerPURPLEBonus2" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="380" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
+                <Image url="@../images/servants.png" />
+            </ImageView>
+            <ImageView fx:id="towerPURPLEBonus1" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="642" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
+                <Image url="@../images/servants.png" />
+            </ImageView>
+            <ImageView fx:id="towerPURPLEBonus0" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="902" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" onMouseExited="#disableBonus" style="-fx-background-color: transparent">
+                <Image url="@../images/servants.png" />
+            </ImageView>
     </ScrollPane>
 
-    <ScrollPane id="scrollPanePaneResource" minWidth="250" prefHeight="300.0" prefWidth="500.0">
-    </ScrollPane>
-
-</SplitPane>
+    <VBox id="playersInfoList" minWidth="250" prefHeight="400.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <children>
+            <Pane fx:id="playerInfo1" prefHeight="100.0" prefWidth="250.0">
+                <children>
+                    <Label fx:id="player1" layoutX="-2.0" layoutY="1.0" text="player1"/>
+                    <StackPane fx:id="SERVANTS_player1_wrapper">
+                        <ImageView fx:id="SERVANTS_player1" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/SERVANTS.png" />
+                        </ImageView>
+                </StackPane>
+                    <StackPane fx:id="COINS_player1_wrapper">
+                        <ImageView fx:id="COINS_player1" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/COINS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="WOODS_player1_wrapper">
+                        <ImageView fx:id="WOODS_player1" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/WOODS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="STONES_player1_wrapper">
+                        <ImageView fx:id="STONES_player1" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/STONES.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="FAITH_POINTS_player1_wrapper">
+                        <ImageView fx:id="FAITH_POINTS_player1" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/FAITH_POINTS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="VICTORY_POINTS_player1_wrapper">
+                        <ImageView fx:id="VICTORY_POINTS_player1" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/VICTORY_POINTS.png" />
+                        </ImageView>
+                    </StackPane>
+                    <StackPane fx:id="MILITARY_POINTS_player1_wrapper">
+                        <ImageView fx:id="MILITARY_POINTS_player1" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/resources/MILITARY_POINTS.png" />
+                        </ImageView>
+                    </StackPane>
+                </children>
+            </Pane>
+            <Pane fx:id="playerInfo2" prefHeight="100.0" prefWidth="250.0">
+                <children>
+                    <Label fx:id="player2" layoutX="-2.0" layoutY="1.0" text="player2"/>
+                    <ImageView fx:id="SERVANTS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/SERVANTS.png" />
+                    </ImageView>
+                    <ImageView fx:id="COINS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/COINS.png" />
+                    </ImageView>
+                    <ImageView fx:id="WOODS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/WOODS.png" />
+                    </ImageView>
+                    <ImageView fx:id="STONES_player2" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/STONES.png" />
+                    </ImageView>
+                    <ImageView fx:id="FAITH_POINTS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/FAITH_POINTS.png" />
+                    </ImageView>
+                    <ImageView fx:id="VICTORY_POINTS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/VICTORY_POINTS.png" />
+                    </ImageView>
+                    <ImageView fx:id="MILITARY_POINTS_player2" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/MILITARY_POINTS.png" />
+                    </ImageView>
+                </children>
+            </Pane>
+            <Pane fx:id="playerInfo3" prefHeight="100.0" prefWidth="250.0">
+                <children>
+                    <Label fx:id="player3" layoutX="-2.0" layoutY="1.0" text="player3"/>
+                    <ImageView fx:id="SERVANTS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/SERVANTS.png" />
+                    </ImageView>
+                    <ImageView fx:id="COINS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/COINS.png" />
+                    </ImageView>
+                    <ImageView fx:id="WOODS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/WOODS.png" />
+                    </ImageView>
+                    <ImageView fx:id="STONES_player3" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/STONES.png" />
+                    </ImageView>
+                    <ImageView fx:id="FAITH_POINTS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/FAITH_POINTS.png" />
+                    </ImageView>
+                    <ImageView fx:id="VICTORY_POINTS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/VICTORY_POINTS.png" />
+                    </ImageView>
+                    <ImageView fx:id="MILITARY_POINTS_player3" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/MILITARY_POINTS.png" />
+                    </ImageView>
+                </children>
+            </Pane>
+            <Pane fx:id="playerInfo4" prefHeight="100.0" prefWidth="250.0">
+                <children>
+                    <Label fx:id="player4" layoutX="-2.0" layoutY="1.0" text="player4"/>
+                    <ImageView fx:id="SERVANTS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/SERVANTS.png" />
+                    </ImageView>
+                    <ImageView fx:id="COINS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/COINS.png" />
+                    </ImageView>
+                    <ImageView fx:id="WOODS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/WOODS.png" />
+                    </ImageView>
+                    <ImageView fx:id="STONES_player4" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/STONES.png" />
+                    </ImageView>
+                    <ImageView fx:id="FAITH_POINTS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/FAITH_POINTS.png" />
+                    </ImageView>
+                    <ImageView fx:id="VICTORY_POINTS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/VICTORY_POINTS.png" />
+                    </ImageView>
+                    <ImageView fx:id="MILITARY_POINTS_player4" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/MILITARY_POINTS.png" />
+                    </ImageView>
+                </children>
+            </Pane>
+            <Pane fx:id="playerInfo5" prefHeight="100.0" prefWidth="250.0">
+                <children>
+                    <Label fx:id="player5" layoutX="-2.0" layoutY="1.0" text="player5"/>
+                    <ImageView fx:id="SERVANTS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/SERVANTS.png" />
+                    </ImageView>
+                    <ImageView fx:id="COINS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="18.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/COINS.png" />
+                    </ImageView>
+                    <ImageView fx:id="WOODS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/WOODS.png" />
+                    </ImageView>
+                    <ImageView fx:id="STONES_player5" fitHeight="17.0" fitWidth="21.0" layoutX="37.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/STONES.png" />
+                    </ImageView>
+                    <ImageView fx:id="FAITH_POINTS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/FAITH_POINTS.png" />
+                    </ImageView>
+                    <ImageView fx:id="VICTORY_POINTS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/VICTORY_POINTS.png" />
+                    </ImageView>
+                    <ImageView fx:id="MILITARY_POINTS_player5" fitHeight="17.0" fitWidth="21.0" layoutX="64.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/resources/MILITARY_POINTS.png" />
+                    </ImageView>
+                </children>
+            </Pane>
+        </children>
+        </VBox>
+</children>
+    <columnConstraints>
+        <ColumnConstraints hgrow="NEVER" percentWidth="80" />
+        <ColumnConstraints hgrow="NEVER" percentWidth="20" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints vgrow="NEVER" />
+    </rowConstraints>
+</GridPane>

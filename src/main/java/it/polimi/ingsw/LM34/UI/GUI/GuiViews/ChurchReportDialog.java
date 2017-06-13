@@ -10,9 +10,9 @@ import java.util.Optional;
 /**
  * Created by GiulioComi on 07/06/2017.
  */
-public class CurchReportDialog implements DialogInterface {
+public class ChurchReportDialog implements DialogInterface {
 
-    public CurchReportDialog() {}
+    public ChurchReportDialog() {}
 
     public Integer interactWithPlayer() {
         Alert excommunicationChoice = new Alert(Alert.AlertType.NONE, "Curch Report",ButtonType.OK, ButtonType.NO);
@@ -21,7 +21,7 @@ public class CurchReportDialog implements DialogInterface {
         excommunicationChoice.setContentText("We override the style classes of the dialog");
         excommunicationChoice.setContentText("Would you like to be excommunicated?");
         DialogPane dialogPane = excommunicationChoice.getDialogPane();
-        dialogPane.getStylesheets().add(CurchReportDialog.class.getResource("/css/curchReportDialog.css").toExternalForm());
+        dialogPane.getStylesheets().add(ChurchReportDialog.class.getResource("/css/curchReportDialog.css").toExternalForm());
         Optional<ButtonType> choice = excommunicationChoice.showAndWait();
         if(choice.get() == ButtonType.OK)
         {

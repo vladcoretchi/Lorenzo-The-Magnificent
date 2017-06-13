@@ -49,15 +49,15 @@ public class PopupSlotBonus implements DialogInterface {
         value.setStyle("-fx-background-color: transparent;");
         StackPane pane = new StackPane();
 
-        for(ResourceType resType : ResourceType.values())
-            if(resourcesReward.getResources().getResourceByType(resType) > 0) {
+        for (ResourceType resType : ResourceType.values())
+            if (resourcesReward.getResources().getResourceByType(resType) > 0) {
                 pane = new StackPane();
                 pane.setStyle("-fx-background-color: transparent;");
                 pane.setAlignment(Pos.TOP_CENTER);
 
                 value = new Text(resourcesReward.getResources().getResourceByType(resType).toString());
                 value.setStyle("-fx-background-color: transparent;");
-                value.setFont(Font.font ("Verdana", 30));
+                value.setFont(Font.font("Verdana", 30));
                 value.setFill(Color.WHITE);
 
                 tempImage = new ImageView();
@@ -75,7 +75,7 @@ public class PopupSlotBonus implements DialogInterface {
 
         Stage stage = new Stage();
 
-        rewardList.setOnKeyPressed(new EventHandler<KeyEvent>()  {
+        rewardList.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
             @Override
             public void handle(KeyEvent t) {
@@ -85,11 +85,11 @@ public class PopupSlotBonus implements DialogInterface {
             }
         });
 
-        rewardList.setOnMouseExited(new EventHandler<MouseEvent>()  {
+        rewardList.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent m) {
                 stage.close();
-                }
+            }
         });
 
         Scene scene = new Scene(rewardList);
@@ -103,7 +103,6 @@ public class PopupSlotBonus implements DialogInterface {
         stage.setScene(scene);
 
         stage.show();
-
     }
 
     @Override
