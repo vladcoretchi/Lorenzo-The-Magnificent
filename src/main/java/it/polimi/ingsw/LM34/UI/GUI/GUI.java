@@ -337,20 +337,8 @@ public class GUI extends Application implements UIInterface {
     public void popupBonus(MouseEvent event) {
         ActionSlot slot = new ActionSlot(true, 3, new ResourcesBonus(new Resources(3,4,4,3),1));
         //TODO: get reward from source String
-        Double coordinateX = event.getScreenX();
-        Double coordinateY = event.getScreenY();
-        popupSlotBonus =  new PopupSlotBonus(coordinateX, coordinateY, new ResourcesBonus(new Resources(3,0,0,0),1));
+        popupSlotBonus =  new PopupSlotBonus(event, new ResourcesBonus(new Resources(3,0,0,0),1));
 
-        try {
-            popupSlotBonus.start(primaryStage);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    //TODO
-    @FXML
-    public void disableBonus(MouseEvent event) {
         try {
             popupSlotBonus.start(primaryStage);
         } catch (Exception e) {
@@ -379,41 +367,45 @@ public class GUI extends Application implements UIInterface {
         Image image;
             Object source = event.getSource();
            ImageView imageView = (ImageView) source;
-           imageView.setImage(null);
+        imageView.setImage(new Image(Thread.currentThread()
+                .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
         }
-
-
 
     public void sweepMarketSlots() {
         Integer index = 0;
         for(index= 0; index<4; index++) {
             ImageView imageView = ((ImageView) root.lookup("#marketActionSlot" + index));
             imageView.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/Icon.png").toExternalForm()));
+                    .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
         }
     }
     private void sweepCouncilPalace() {
         ImageView imageView = ((ImageView) root.lookup("#councilPalace"));
-        imageView.setImage(null);
+        imageView.setImage(new Image(Thread.currentThread()
+                .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
     }
     private void sweepTowersSlots() {
         for(Integer index = 0; index < Configurator.MAX_TOWER_LEVELS; index++)
             for(DevelopmentCardColor color : DevelopmentCardColor.values())
                 if(color.toString() != "MULTICOLOR") {
                     ImageView imageView = ((ImageView) root.lookup("#tower" + color.toString() + "Bonus" + index));
-                    imageView.setImage(null);
+                    imageView.setImage(new Image(Thread.currentThread()
+                            .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
                 }
     }
     private void sweepWorkingAreas() {
         Integer index = 0;
         for(index= 0; index<2; index++) {
             ImageView imageView = ((ImageView) root.lookup("#harvestArea" + index));
-            imageView.setImage(null);
+            imageView.setImage(new Image(Thread.currentThread()
+                    .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
         }
         index = 0;
         for(index= 0; index<2; index++) {
             ImageView imageView = ((ImageView) root.lookup("#productionArea" + index));
-            imageView.setImage(null);
+            imageView.setImage(new Image(Thread.currentThread()
+                    .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
+
         }
     }
 
@@ -441,9 +433,11 @@ public class GUI extends Application implements UIInterface {
                 res = (ImageView) root.lookup("#" + type.toString() + "_player" + numPlayer);
                 value = new Text();
                 value.setText(player.getResources().getResourceByType(type).toString());
-                value.setFont(Font.font("Verdana", 10));
-                /*value.setX(res.getX());
-                value.setY(res.getY());*/
+                value.setFont(Font.font("Verdana", 100));
+                value.setX(wrapper.getLayoutX()+res.getLayoutX());
+                value.setY(wrapper.getLayoutY()+res.getLayoutY()-80);
+
+                playerinfo.getChildren().add(value);
                 System.out.println(wrapper.getId());
                 //wrapper.getChildren().add(value);
             }

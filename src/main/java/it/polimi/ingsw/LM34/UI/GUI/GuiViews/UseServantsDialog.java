@@ -25,27 +25,23 @@ public class UseServantsDialog implements DialogInterface {
         for(Integer i = minimumServantsRequested; i < servantsAvailable; i++ )
             choices.add(i.toString());
 
-
         ChoiceDialog<String> dialog = new ChoiceDialog<>("minimumServantsRequested", choices);
         dialog.setTitle("Servants Selection");
         dialog.setGraphic(new ImageView(Thread.currentThread().getContextClassLoader().getResource("images/servants.png").toExternalForm()));
         dialog.setHeaderText("Increase family member value by using servants");
         dialog.setContentText("Choose number of servants:");
 
-
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
             System.out.println("Your choice: " + result.get());
         }
 
-
-       if(result.isPresent()) {
+        if(result.isPresent()) {
            System.out.println(Integer.parseInt(result.get()));
            return Integer.parseInt(result.get());
        }
         return Integer.parseInt(result.get());
     }
-
 
     @Override
     public void setStyle(Dialog dialog) {
