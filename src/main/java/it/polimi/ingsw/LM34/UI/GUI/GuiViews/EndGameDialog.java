@@ -41,10 +41,16 @@ public class EndGameDialog implements DialogInterface {
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
         final BarChart<String, Number> pointsChart =
-                new BarChart<String, Number>(xAxis, yAxis);
+                new BarChart<>(xAxis, yAxis);
 
         xAxis.setLabel("Players");
         yAxis.setLabel("VictoryPoints");
+        xAxis.setTickLabelsVisible(true);
+        yAxis.setTickLabelsVisible(true);
+        yAxis.setAutoRanging(true);
+        yAxis.setLowerBound(0);
+        yAxis.setTickUnit(5);
+        yAxis.setMinorTickVisible(false);
 
         XYChart.Series period1 = new XYChart.Series();
         period1.setName("Period 1");
@@ -66,20 +72,20 @@ public class EndGameDialog implements DialogInterface {
 
         // Scene scene = new Scene(bc, 800, 600);
         pointsChart.getData().addAll(period1, period2, period3);
-        pointsChart.setStyle("-fx-background-color: transparent;");
+        //pointsChart.setStyle("-fx-background-color: transparent;");
 
         Stage stage = new Stage();
-        stage.initStyle(StageStyle.TRANSPARENT);
+        //stage.initStyle(StageStyle.TRANSPARENT);
         stage.initModality(Modality.NONE);
         stage.initOwner(primaryStage);
         stage.setFullScreen(false);
         Scene scene = new Scene(pointsChart);
-        scene.setFill(Color.TRANSPARENT);
+        scene.getStylesheets().add(EndGameDialog.class.getResource("/css/endGameDialog.css").toExternalForm());
+        //scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
 
         pointsChart.setOnKeyPressed(new EventHandler<KeyEvent>()  {
 
-            @Override
             public void handle(KeyEvent t) {
                 if (t.getCode() == KeyCode.ESCAPE) {
                     stage.close();
@@ -88,7 +94,7 @@ public class EndGameDialog implements DialogInterface {
         });
 
         pointsChart.setOnMouseExited(new EventHandler<MouseEvent>()  {
-            @Override
+
             public void handle(MouseEvent m) {
                 stage.close();
             }

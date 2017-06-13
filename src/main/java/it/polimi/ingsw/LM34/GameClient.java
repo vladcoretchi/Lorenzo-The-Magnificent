@@ -21,7 +21,7 @@ public class GameClient {
                 ui = new CLI();
                 userInputIsValid = true;
             }
-            else if(viewChoice.equalsIgnoreCase("views")) {
+            else if(viewChoice.equalsIgnoreCase("gui")) {
                 ui = new GUI();
                 userInputIsValid = true;
             }

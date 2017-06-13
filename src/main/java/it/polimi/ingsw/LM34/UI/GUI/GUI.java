@@ -197,6 +197,7 @@ public class GUI extends Application implements UIInterface {
     //TODO
     @Override
     public void show() {
+
         loginMenu();
     }
 
