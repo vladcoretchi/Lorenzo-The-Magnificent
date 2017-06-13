@@ -57,15 +57,13 @@ public class GameRoom {
     public void start() {
         Server.startWaitingGame();
 
-        List<String> playerNames = new ArrayList<>();
-        this.players.forEach((n, c) -> playerNames.add(n));
+        List<String> playerNames = new ArrayList<>(this.players.keySet());
 
         this.gameManager = new GameManager(this, playerNames);
-        this.gameManager.run();
+        this.gameManager.startGame();
     }
 
     private class WaitingRoomTimeout implements Runnable {
-        //private final boolean run;
         private final Integer timeout;
 
         public WaitingRoomTimeout(Integer timeout) {
@@ -81,14 +79,9 @@ public class GameRoom {
                 if (!Thread.currentThread().isInterrupted())
                     GameRoom.this.start();
             } catch (InterruptedException e) {
-                e.printStackTrace();
                 Thread.currentThread().interrupt();
             }
         }
-
-        /*public void terminate() {
-
-        }*/
     }
 }
 

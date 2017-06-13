@@ -74,7 +74,7 @@ public class ServerNetworkController {
         return 0; //TODO
     }
 
-    public Integer familyMemberSelection(ArrayList<FamilyMember> familyMembers) {
+    public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
         return 0; //TODO
     }
 

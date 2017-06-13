@@ -4,31 +4,33 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by vladc on 5/23/2017.
  */
 public final class SocketServer {
-
     private static ServerSocket serverSocket;
-
-    private static ConnectionHandler connectionsHandler;
+    private static Thread connectionsHandler;
+    private static List<SocketConnection> socketCnnections;
 
     public SocketServer(Integer port) {
         try {
-            serverSocket = new ServerSocket(port);
-            connectionsHandler = new ConnectionHandler();
-            connectionsHandler.start();
+            this.serverSocket = new ServerSocket(port);
+            this.connectionsHandler = new Thread(new ConnectionHandler());
+            this.socketCnnections = new ArrayList<>();
+            this.connectionsHandler.start();
         } catch(IOException ex) {
-            ex.printStackTrace();
+            this.terminate();
         }
     }
 
     public void terminate() {
-        connectionsHandler.terminate();
+        this.connectionsHandler.interrupt();
+        this.socketCnnections.forEach(connection -> connection.terminate());
     }
 
-    private class ConnectionHandler extends Thread {
+    private class ConnectionHandler implements Runnable {
         private boolean run = true;
 
         @Override
@@ -39,7 +41,7 @@ public final class SocketServer {
                     Socket socket = serverSocket.accept();
                     SocketConnection connection = new SocketConnection(socket);
                     new Thread(connection).start();
-                } catch (IOException e) {
+                } catch(IOException e) {
                     this.terminate();
                 }
             }
@@ -47,7 +49,6 @@ public final class SocketServer {
 
         public void terminate() {
             this.run = false;
-            SocketConnection.terminate();
         }
     }
 

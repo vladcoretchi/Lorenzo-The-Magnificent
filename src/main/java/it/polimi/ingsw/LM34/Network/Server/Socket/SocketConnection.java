@@ -43,24 +43,21 @@ public class SocketConnection extends AbstractConnection implements Runnable {
 
     @Override
     public void run() {
-        while (serverStatus) {
-            if (runListener) {
-                try {
-                    String request = this.inStream.readUTF();
+        while (runListener) {
+            try {
+                String request = this.inStream.readUTF();
 
-                    RequestToServer.valueOf(request).readAndHandle(this);
-                } catch (IOException e) {
-                    //e.printStackTrace();
-                    //this.terminateListener();
-                }
+                RequestToServer.valueOf(request).readAndHandle(this);
+            } catch (IOException e) {
+                e.printStackTrace();
+                this.terminateListener();
             }
         }
-
-        closeConnections();
     }
 
-    public static void terminate() {
-        serverStatus = false;
+    public void terminate() {
+        this.runListener = false;
+        closeConnections();
     }
 
     public void terminateListener() {
