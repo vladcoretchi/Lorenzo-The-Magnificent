@@ -2188,7 +2188,7 @@
           },
           "instantBonus": {
             "developmentCardAcquireEffect": {
-              "developmentCardColor": "DEFAULT",
+              "developmentCardColor": "MULTICOLOR",
               "diceValue": 4
             },
             "resourcesBonus": {
@@ -2456,7 +2456,7 @@
           },
           "instantBonus": {
             "developmentCardAcquireEffect": {
-              "developmentCardColor": "DEFAULT",
+              "developmentCardColor": "MULTICOLOR",
               "diceValue": 7
             },
             "resourcesBonus": {
@@ -2840,7 +2840,7 @@
           },
           "instantBonus": {
             "developmentCardAcquireEffect": {
-              "developmentCardColor": "DEFAULT",
+              "developmentCardColor": "MULTICOLOR",
               "diceValue": 7
             },
             "resourcesBonus": {
@@ -3009,7 +3009,7 @@
           "leaderRequirements": {
             "cardRequirements": [
               {
-                "developmentCardColor": "DEFAULT",
+                "developmentCardColor": "MULTICOLOR",
                 "number": 6
               }
             ]
@@ -3019,17 +3019,17 @@
               {
                 "diceColor": "WHITE",
                 "diceValue": 2,
-                "realtive": true
+                "relative": true
               },
               {
                 "diceColor": "BLACK",
                 "diceValue": 2,
-                "realtive": true
+                "relative": true
               },
               {
                 "diceColor": "ORANGE",
                 "diceValue": 2,
-                "realtive": true
+                "relative": true
               }
             ]
           },
@@ -3063,9 +3063,9 @@
           "bonus": {
             "familyMemberValueEffect": [
               {
-                "diceColor": "DEFAULT",
+                "diceColor": "MULTICOLOR",
                 "diceValue": 6,
-                "realtive": false
+                "relative": false
               }
             ]
           },
@@ -3111,7 +3111,7 @@
               {
                 "diceColor": "NEUTRAL",
                 "diceValue": 3,
-                "realtive": true
+                "relative": true
               }
             ]
           },
@@ -3344,17 +3344,17 @@
               {
                 "diceColor": "WHITE",
                 "diceValue": 5,
-                "realtive": false
+                "relative": false
               },
               {
                 "diceColor": "BLACK",
                 "diceValue": 5,
-                "realtive": false
+                "relative": false
               },
               {
                 "diceColor": "ORANGE",
                 "diceValue": 5,
-                "realtive": false
+                "relative": false
               }
             ]
           },
@@ -3376,7 +3376,7 @@
           },
           "bonus": {
             "developmentCardAcquireEffect": {
-              "developmentCardColor": "DEFAULT",
+              "developmentCardColor": "MULTICOLOR",
               "requirementsDiscount": {
                 "resources": {
                   "COINS": 3
@@ -3454,17 +3454,17 @@
               {
                 "diceColor": "WHITE",
                 "diceValue": -1,
-                "realtive": true
+                "relative": true
               },
               {
                 "diceColor": "BLACK",
                 "diceValue": -1,
-                "realtive": true
+                "relative": true
               },
               {
                 "diceColor": "ORANGE",
                 "diceValue": -1,
-                "realtive": true
+                "relative": true
               }
             ]
           }

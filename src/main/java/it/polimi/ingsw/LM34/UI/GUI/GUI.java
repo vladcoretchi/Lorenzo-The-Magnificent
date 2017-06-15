@@ -60,7 +60,6 @@ import static it.polimi.ingsw.LM34.Enums.Model.PawnColor.RED;
 public class GUI extends Application implements UIInterface {
     private AbstractClient networkClient;
     private ClientNetworkController networkController;
-
     private PersonalBoardController personalBoardController;
 
     private Parent root;
@@ -105,7 +104,6 @@ public class GUI extends Application implements UIInterface {
         /*----------ROUND SETUPS--------*/
 
         sweepSlots();
-
 
         /*----------DIALOGS--------*/
         //servantsSelection(5,1);

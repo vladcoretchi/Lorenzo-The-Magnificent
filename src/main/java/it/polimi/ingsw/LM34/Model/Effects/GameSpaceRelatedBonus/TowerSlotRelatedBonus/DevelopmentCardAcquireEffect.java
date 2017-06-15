@@ -14,7 +14,7 @@ import java.util.Observer;
  * Created by vladc on 5/13/2017.
  */
 
-public class DevelopmentCardAcquireBonus extends AbstractEffect implements Observer {
+public class DevelopmentCardAcquireEffect extends AbstractEffect implements Observer {
     private DevelopmentCardColor color;
     private Integer value;
     private ResourcesBonus requirementsDiscount; //TODO
@@ -27,14 +27,14 @@ public class DevelopmentCardAcquireBonus extends AbstractEffect implements Obser
      */
     private Boolean relative;
 
-    public DevelopmentCardAcquireBonus(DevelopmentCardColor color, Integer value, Boolean relative) {
+    public DevelopmentCardAcquireEffect(DevelopmentCardColor color, Integer value, Boolean relative) {
         this.color = color;
         this.value = value;
         this.requirementsDiscount = null;
         this.relative = relative;
     }
 
-    public DevelopmentCardAcquireBonus(DevelopmentCardColor color, Integer value, ResourcesBonus requirementsDiscount) {
+    public DevelopmentCardAcquireEffect(DevelopmentCardColor color, Integer value, ResourcesBonus requirementsDiscount) {
         this.color = color;
         this.value = value;
         this.requirementsDiscount = requirementsDiscount;

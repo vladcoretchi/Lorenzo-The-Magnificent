@@ -24,16 +24,11 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
 
 public class FamilyMemberValueEffect extends AbstractEffect implements Observer {
 
-    public FamilyMemberValueEffect() {
-        //TODO: read from the configurator the exactly contexts to which each bonus is registrable to
-
-
-    }
     /**
      * if null then the value is related to the neutral family member
      * if MULTICOLOR, the value is applied to all the dices
      */
-    private DiceColor diceColor; //keep track on what dice the effect is applied to
+    private List<DiceColor> diceColor; //keep track on what dice the effect is applied to
     private ContextType contextType;
 
     //TODO: handle federico da montefeltro
@@ -48,14 +43,13 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
      */
     private Boolean relative;
 
-    public FamilyMemberValueEffect(ContextType contextType, DiceColor color, Integer value, Boolean relative) {
-        this.contextType = contextType;
-        this.diceColor = color;
+    public FamilyMemberValueEffect(List<DiceColor> colors, Integer value, Boolean relative) {
+        this.diceColor = colors;
         this.value = value;
         this.relative = relative;
     }
 
-    public DiceColor getDiceColor() {
+    public List<DiceColor> getDiceColor() {
         return this.diceColor;
     }
 
@@ -72,12 +66,13 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
         List<FamilyMember> familyMembers = (ArrayList<FamilyMember>) arg;
         //increase the values of the family members in this context
         familyMembers.forEach(member -> {
-            if (member.getDiceColorAssociated() == this.diceColor)
-                member.setValue(this.value + (this.relative ? member.getValue() : 0));
+            for(DiceColor c : diceColor)
+                if (member.getDiceColorAssociated() == c)
+                    member.setValue(this.value + (this.relative ? member.getValue() : 0));
         });
     }
 
-//action slots, towers, market
+
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
         callerContext.getContextByType(MARKET_AREA_CONTEXT).addObserver(this);

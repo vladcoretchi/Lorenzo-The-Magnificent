@@ -16,12 +16,12 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.END_GAME_CONTEXT
 public class VictoryPointsPenalty extends AbstractEffect implements Observer {
     private Integer victoryPoints;
     private Resources resources;
-    private Integer playerGoods;
+    private Resources playerGoods;
     private DevelopmentCardColor cardColor;
     Resources buildingCardsResources;
 
 
-    public VictoryPointsPenalty(Integer victoryPoints, Integer playerGoods) {
+    public VictoryPointsPenalty(Integer victoryPoints, Resources playerGoods) {
         this.victoryPoints = victoryPoints;
         this.resources = null;
         this.playerGoods = playerGoods;
@@ -32,7 +32,7 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
     public VictoryPointsPenalty(Integer victoryPoints, Resources resources, Resources buildingCardsResources) {
         this.victoryPoints = victoryPoints;
         this.resources = resources;
-        this.playerGoods = 0;
+        this.playerGoods = null;
         this.buildingCardsResources = buildingCardsResources;
         this.cardColor = null;
     }
@@ -40,7 +40,7 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
     public VictoryPointsPenalty(DevelopmentCardColor cardColor) {
         this.victoryPoints = null;
         this.resources = null;
-        this.playerGoods = 0;
+        this.playerGoods = null;
         this.buildingCardsResources = null;
         this.cardColor = cardColor;
     }
@@ -53,7 +53,7 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
         return this.resources;
     }
 
-    public Integer getPlayerGoods() {
+    public Resources getPlayerGoods() {
         return this.playerGoods;
     }
 

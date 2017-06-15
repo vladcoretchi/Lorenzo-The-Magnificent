@@ -4,7 +4,6 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
-import it.polimi.ingsw.LM34.Model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,6 @@ import java.util.Observer;
 //TODO: evaluate to 'merge' in FamilyMemberValueEffect observer class
 
 public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
-    private Player player;
     private ContextType areaType; //PRODUCTION_CONTEXT OR HARVEST_CONTEXT
     private Integer diceValue;
     //TODO: "sforza", "da vinci"
@@ -29,10 +27,7 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
      */
     private Boolean isRelative;
 
-    public WorkingAreaValueEffect(Player player, ContextType areaType, Integer value, Boolean relative) {
-        /*this.observableContexts = new ArrayList<>();
-        observableContexts.add(areaType);*/
-        this.player = player;
+    public WorkingAreaValueEffect(ContextType areaType, Integer value, Boolean relative) {
         this.areaType = areaType;
         this.diceValue = value;
         this.isRelative = relative;

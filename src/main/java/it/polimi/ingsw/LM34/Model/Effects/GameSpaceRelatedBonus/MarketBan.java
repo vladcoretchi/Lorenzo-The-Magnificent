@@ -13,10 +13,8 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.MARKET_AREA_CONT
  */
 public class MarketBan extends AbstractEffect implements Observer {
 
-public MarketBan() {
+public MarketBan() {}
 
-    //this.observableContexts = new ArrayList<>();
-}
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
      callerContext.getContextByType(MARKET_AREA_CONTEXT).addObserver(this);
@@ -24,14 +22,6 @@ public MarketBan() {
 
     @Override
     public void update(Observable o, Object arg) {
-        //Disable the possibility to the player to place a pawn in a market slot
-        //((MarketAreaContext) o).setBan();
-        System.out.println("Market Ban a rapporto!");
-
+    //TODO
     }
-
-
-
-    //market
-
 }
