@@ -7,6 +7,7 @@ import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by GiulioComi on 04/05/2017.
@@ -20,7 +21,7 @@ public class BuildingCard extends AbstractDevelopmentCard {
     private Integer period;
     //this two variables together represents the instant Effects
 
-    public BuildingCard(String buildingName, Integer diceValueToProduct, Integer period, Resources resourcesRequired, ArrayList<AbstractEffect> instantBonus, AbstractEffect  permanentBonus) {
+    public BuildingCard(String buildingName, Integer diceValueToProduct, Integer period, Resources resourcesRequired, List<AbstractEffect> instantBonus, AbstractEffect  permanentBonus) {
         this.resourcesRequired= resourcesRequired;
         this.name= buildingName;
         this.period = period;

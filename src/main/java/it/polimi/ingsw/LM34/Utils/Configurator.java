@@ -1,11 +1,15 @@
 package it.polimi.ingsw.LM34.Utils;
 
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Cards.*;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesPerItemBonus;
 import it.polimi.ingsw.LM34.Model.Resources;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -32,16 +36,24 @@ public final class Configurator {
     public static final Integer MAX_PLAYERS = 4;
     public static final Integer TOTAL_PERIODS = 3; //#total periods
     public static final Integer CARD_PER_ROUND = 4; //#development cards stored in a tower per round
-    public static final Integer BASE_COINS = 5; //#coins given to first player at the starting of the game
     public static final Integer[] MIN_FAITHS_POINTS = {3,4,5};
     public static final Integer MAX_LEADER_PER_PLAYER = 4;
+    public static final Integer BASE_COINS = 5; //#coins given to first player at game start
+    public static final Integer COINS_INCREMENT_PLAYER_ORDER = 1;
+    public static final Integer BASE_WOODS = 2; //#woods given to first player at game start
+    public static final Integer WOODS_INCREMENT_PLAYER_ORDER = 0;
+    public static final Integer BASE_STONES = 2; //#stones given to first player at game start
+    public static final Integer STONES_INCREMENT_PLAYER_ORDER = 0;
+    public static final Integer BASE_SERVANTS = 2; //#servants given to first player at game start
+    public static final Integer SERVANTS_INCREMENT_PLAYER_ORDER = 0;
 
     private static Market market;
     private static CouncilPalace palace;
     private static ArrayList<Tower> towers;
     private static WorkingArea harvestArea;
     private static WorkingArea productionArea;
-    private static List<TerritoryCard> territoryCards;
+    //private static DevelopmentCardDeck<TerritoryCard> territoryDeck;
+    private static ArrayList<TerritoryCard> territoryCards;
     private static List<BuildingCard> buildingCards;
     private static List<CharacterCard> characterCards;
     private static List<VentureCard> ventureCards;
@@ -60,10 +72,11 @@ public final class Configurator {
             jsonObject = new JSONObject(jsonString).getJSONObject("configuration");
         } catch (Exception e) {e.printStackTrace();}
 
-        try {
+        /*try {
             setupMarket(jsonObject.getJSONObject("actionSlots").getJSONArray("market"));
             setupDevelopmentCards(jsonObject.getJSONObject("developmentCards"));
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {e.printStackTrace();}*/
+        setupDevelopmentCards(jsonObject.getJSONObject("developmentCards"));
     }
 
     private static void setupMarket(JSONArray market_array) {
@@ -73,63 +86,175 @@ public final class Configurator {
         }
     }
 
-    private static void setupDevelopmentCards(JSONObject jsonObject) {
-        territoryCards = getTerritoryCardsFromJson(jsonObject.getJSONArray("territories"));
+    private static void setupDevelopmentCards(JSONObject decks) {
+        //System.out.println(decks.toString());
+        //territoryCards = getTerritoryCardsFromJson(decks.getJSONArray("territories"));
+        //buildingCards = getBuildingCardsFromJson(decks.getJSONArray("buildings"));
+        ventureCards = getVentureCardsFromJson(decks.getJSONArray("ventures"));
     }
 
     private static ActionSlot getActionSlotFromJson(JSONObject jsonObject) {
         Boolean singlePawnSlot = jsonObject.optBoolean("singlePawnSlot", true);
         Integer diceValue = jsonObject.optInt("diceValue", 0);
-        Integer councilPrivilege = jsonObject.getInt("councilPrivilege");
-        Resources resources = getResourcesFromJson(jsonObject.getJSONObject("resources"));
+        //Integer councilPrivilege = jsonObject.getInt("councilPrivilege");
+        ResourcesBonus resourcesBonus = getResourcesBonusFromJson(jsonObject); //TODO: test if this is correct
         //wrapper
-        ResourcesBonus resourcesBonus = new ResourcesBonus(resources, councilPrivilege);
+        //ResourcesBonus resourcesBonus = new ResourcesBonus(resources, councilPrivilege);
         return new ActionSlot(singlePawnSlot, diceValue, resourcesBonus);
     }
 
-    private static Resources getResourcesFromJson(JSONObject jsonResources) {
+    private static ResourcesBonus getResourcesBonusFromJson(JSONObject jsonResourcesBonus) {
         Map<ResourceType, Integer> resourcesMap = new HashMap<>();
-
-        if(jsonResources != null) {
+        Integer councilPrivileges = 0;
+        JSONObject jsonResources = jsonResourcesBonus.optJSONObject("resources");
             Integer value;
-            for (ResourceType type : ResourceType.values()) {
-                value = jsonResources.optInt(type.toString(), 0);
-                if (value != 0)
-                    resourcesMap.put(type, value);
-            }
-        }
+            if (jsonResources != null) {
+                for (ResourceType type : ResourceType.values()) {
+                    value = jsonResources.optInt(type.toString(), 0);
+                    if (value != 0)
+                        resourcesMap.put(type, value);
+                }
 
-        return new Resources(resourcesMap);
+                councilPrivileges = jsonResources.optInt("councilPrivilege", 0);
+            }
+        Resources resources = new Resources(resourcesMap);
+        return new ResourcesBonus(resources, councilPrivileges);
     }
 
-    public static List<TerritoryCard> getTerritoryCardsFromJson(JSONArray jsonArray) {
-        ArrayList<TerritoryCard> territoryCards = new ArrayList<>();
-
+    public static ArrayList<TerritoryCard> getTerritoryCardsFromJson(JSONArray jsonArray) {
+        ArrayList<TerritoryCard> cards = new ArrayList<>();
+        System.out.println(jsonArray.toString());
         for(int i = 0; i < jsonArray.length(); i++) {
-            territoryCards.add(getTerritoryCardFromJson(jsonArray.getJSONObject(i)));
+            cards.add(getTerritoryCardFromJson(jsonArray.getJSONObject(i)));
         }
 
-        return territoryCards;
+        return cards;
     }
 
     private static TerritoryCard getTerritoryCardFromJson(JSONObject jsonObject) {
-        String name = jsonObject.optString("name");
+        System.out.println(jsonObject.toString());
         Integer period = jsonObject.optInt("period");
+        String name = jsonObject.optString("name");
+
         Integer diceValueToHarvest = jsonObject.optInt("diceValueToHarvest");
-        Resources resources = getResourcesFromJson(jsonObject.getJSONObject("permanentBonus").getJSONObject("resourcesBonus").optJSONObject("resources"));
-        Integer councilPrivilege = jsonObject.getJSONObject("permanentBonus").getJSONObject("resourcesBonus").optInt("councliPrivilege");
 
-        ResourcesBonus permanentBonus = new ResourcesBonus(resources, councilPrivilege);
+        ResourcesBonus permanentResources = getResourcesBonusFromJson(jsonObject.getJSONObject("permanentBonus").getJSONObject("resourcesBonus"));
+        //Integer councilPrivilege = jsonObject.getJSONObject("permanentBonus").getJSONObject("resourcesBonus").optInt("councliPrivilege");
+        List<AbstractEffect> instantResources = new ArrayList<>();
+        instantResources.add(getResourcesBonusFromJson(jsonObject.getJSONObject("instantBonus").getJSONObject("resourcesBonus").optJSONObject("resources")));
 
-        return new TerritoryCard(name, diceValueToHarvest, period, null, permanentBonus);
+
+        return new TerritoryCard(name, diceValueToHarvest, period, instantResources, permanentResources);
     }
 
 
-    //MAIN WITH THE PURPOSE TO VERIFY THE CORRECT LOADING OF MODEL OBJECTS FROM FILE
-    public static void main(String[] args) {
-        Configurator.loadConfigs();
+
+    public static ArrayList<BuildingCard> getBuildingCardsFromJson(JSONArray jsonArray) {
+        ArrayList<BuildingCard> cards = new ArrayList<>();
+        System.out.println(jsonArray.toString());
+        for(int i = 0; i < jsonArray.length(); i++) {
+            cards.add(getBuildingCardFromJson(jsonArray.getJSONObject(i)));
+        }
+
+        return cards;
+    }
+
+    private static BuildingCard getBuildingCardFromJson(JSONObject jsonObject) {
+        System.out.println(jsonObject.toString());
+        String name = jsonObject.optString("name");
+        System.out.println(name);
+        Integer period = jsonObject.optInt("period");
+        Integer diceValueToProduct = jsonObject.optInt("diceValueToProduct");
+        Resources resourcesRequired = getResourcesBonusFromJson(jsonObject.getJSONObject("requirements")).getResources();
+        AbstractEffect permanentBonus = null;
+
+        try{
+            permanentBonus = getResourcesBonusFromJson(jsonObject.optJSONObject("permanentBonus").optJSONObject("resourcesBonus"));
+        } catch (Exception e) {
+            System.out.println("Campo resourcesBonus assente nella carta");
+        }
+        //Integer councilPrivilege = jsonObject.getJSONObject("permanentBonus").getJSONObject("resourcesBonus").optInt("councliPrivilege");
+        List<AbstractEffect> instantResources = new ArrayList<>();
+        instantResources.add(getResourcesBonusFromJson(jsonObject.getJSONObject("instantBonus").optJSONObject("resourcesBonus")));
+
+        /*----ResourcePerItem----*/
+       try {
+           String color = jsonObject.optJSONObject("permanentBonus").optJSONObject("resourcesPerItemBonus").optString("developmentCardColor");
+           Resources bonusResources;
+           DevelopmentCardColor cardType = null;
+
+           if(!color.isEmpty()) {
+               bonusResources = getResourcesBonusFromJson(jsonObject.getJSONObject("permanentBonus")
+                       .getJSONObject("resourcesPerItemBonus")).getResources();
+               for (DevelopmentCardColor dc : DevelopmentCardColor.values())
+                   if (color.equalsIgnoreCase(dc.toString()))
+                       cardType = dc;
+               instantResources.add(new ResourcesPerItemBonus(bonusResources, cardType));
+           }
+
+        } catch(Exception e) {
+           System.out.println("Nessun effetto resourcesPerItemBonus in questa carta");
+       }
 
 
+        /*----ResourceExchangeBonus----*/
+        JSONObject exchange = jsonObject.optJSONObject("permanentBonus");
+        JSONArray resourcesExchangeBonus = null;
+        Resources resToDiscard;
+        ResourcesBonus resToGain;
+        List<Pair<Resources, ResourcesBonus>> resExchanges = null;
+        if(!exchange.isNull("resourcesExchangeBonus")) {
+            resourcesExchangeBonus = exchange.getJSONArray("resourcesExchangeBonus");
+            try {
+
+                for (int i = 0; i < resourcesExchangeBonus.length(); i++) {
+                    resToDiscard = getResourcesBonusFromJson(resourcesExchangeBonus.getJSONObject(i).getJSONObject("resourcesDiscard")).getResources();
+                    resToGain = getResourcesBonusFromJson(resourcesExchangeBonus.getJSONObject(i).getJSONObject("resourcesGain"));
+                }
+            } catch (Exception e) {
+                System.out.println("nessun campo resources exchange");
+            }
+            //TODO: resExchanges.add(new Pair(resToDiscard, resToGain));
+        }
+        //permanentBonus = new ResourcesExchangeBonus(resExchangesList);
+
+        return new BuildingCard(name, diceValueToProduct, period, resourcesRequired, instantResources, permanentBonus);
+    }
+
+
+    public static ArrayList<VentureCard> getVentureCardsFromJson(JSONArray jsonArray) {
+        //System.out.println(jsonArray.toString());
+        ArrayList<VentureCard> cards = new ArrayList<>();
+        for(int i = 0; i < jsonArray.length(); i++) {
+            cards.add(getVentureCardFromJson(jsonArray.getJSONObject(i)));
+        }
+
+        return cards;
+    }
+
+    private static VentureCard getVentureCardFromJson(JSONObject jsonObject) {
+        System.out.println(jsonObject.toString());
+        Integer period = jsonObject.optInt("period");
+        String name = jsonObject.optString("name");
+
+        Integer endingVictoryPointsReward = jsonObject.getJSONObject("permanentBonus").optInt("endingVictoryPointsReward");
+        Integer militaryPointsRequired = 0;
+        Integer militaryPointsSubtraction = 0;
+        System.out.println(endingVictoryPointsReward);
+        Resources resourcesRequired = new Resources();
+
+        try {
+            militaryPointsRequired = jsonObject.getJSONObject("requirements").getJSONObject("MILITARY_POINTS").optInt("militaryPointsRequired");
+            militaryPointsSubtraction = jsonObject.getJSONObject("requirements").getJSONObject("MILITARY_POINTS").optInt("militaryPointsSubtraction");
+            resourcesRequired = getResourcesBonusFromJson(jsonObject.getJSONObject("requirements")).getResources();
+        } catch (Exception e) {
+            e.getCause();
+        }
+        List<AbstractEffect> instantResources = new ArrayList<>();
+        //TODO: instantResources.add(getResourcesBonusFromJson(jsonObject.getJSONObject("instantBonus").getJSONObject("resourcesBonus").optJSONObject("resources")));
+
+
+        return new VentureCard(name, period, militaryPointsRequired, militaryPointsSubtraction, resourcesRequired,  instantResources, endingVictoryPointsReward);
     }
 
     public static Market getMarket() {
@@ -150,6 +275,39 @@ public final class Configurator {
 
     public static WorkingArea getProductionArea() {
         return productionArea;
+    }
+    public static Market getMarket(Integer numPlayers) {
+        return market;
+    }
+
+    public static ArrayList<Tower> getTowers(Integer numPlayers) {
+        return towers;
+    }
+    public static WorkingArea getHarvestArea(Integer numPlayers) {
+        return harvestArea;
+    }
+    public static WorkingArea getProductionArea(Integer numPlayers) {
+        return productionArea;
+    }
+
+    public static DevelopmentCardDeck<TerritoryCard> getTerritoryCards() {
+        //System.out.println(territoryCards.toArray().length);
+        return new DevelopmentCardDeck<TerritoryCard>(territoryCards);
+    }
+    public static DevelopmentCardDeck<BuildingCard> getBuildingCards() {
+        return new DevelopmentCardDeck<>(buildingCards);
+    }
+    public static DevelopmentCardDeck<CharacterCard> getCharactersCards() {
+        return new DevelopmentCardDeck<CharacterCard>(characterCards);
+    }
+    public static DevelopmentCardDeck<VentureCard> getVentureCards() {
+        return new DevelopmentCardDeck<>(ventureCards);
+    }
+    public static List<LeaderCard> getLeaderCards(Integer numPlayers) {
+        return leaderCards;
+    }
+    public static List<ExcommunicationCard> getExcommunicationTiles() {
+        return excommunicationTiles;
     }
 
     public static DevelopmentCardDeck<? extends AbstractDevelopmentCard> prepareDevelopmentDeck() {
@@ -178,7 +336,9 @@ public final class Configurator {
         exc = temp;
     }
 
-    public static List<TerritoryCard> getTerritoryCards() {
-        return territoryCards;
+
+    //MAIN WITH THE PURPOSE TO VERIFY THE CORRECT LOADING OF MODEL OBJECTS FROM FILE
+    public static void main(String[] args) {
+        Configurator.loadConfigs();
     }
 }

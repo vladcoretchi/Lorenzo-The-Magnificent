@@ -4,7 +4,7 @@ import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Resources;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by GiulioComi on 04/05/2017.
@@ -21,21 +21,23 @@ public class VentureCard extends AbstractDevelopmentCard {
     //Only a peculiarity of VentureCards
     private Integer endingVictoryPointsReward;
     private Integer militaryPointsRequired;
+    private Integer militaryPointsSubtraction;
 
-    public VentureCard( String ventureName, Integer period, Resources resourcesRequired, ArrayList<AbstractEffect> instantBonus, Integer endingVictoryPointsReward, AbstractEffect permanentBonus) {
+    public VentureCard(String ventureName, Integer period, Integer militaryPointsRequired, Integer militaryPointsSubtraction, Resources resourcesRequired, List<AbstractEffect> instantBonus, Integer endingVictoryPointsReward) {
         this.name = ventureName;
         this.resourcesRequired = resourcesRequired;
         this.period = period;
         this.permanentBonus = permanentBonus;
         this.instantBonus = instantBonus;
         this.endingVictoryPointsReward = endingVictoryPointsReward;
+        this.militaryPointsRequired = militaryPointsRequired;
+        this.militaryPointsSubtraction = militaryPointsSubtraction;
     }
 
     @Override
     public String getName() {
         return name;
     }
-
 
     @Override
     public AbstractEffect getPermanentBonus() {

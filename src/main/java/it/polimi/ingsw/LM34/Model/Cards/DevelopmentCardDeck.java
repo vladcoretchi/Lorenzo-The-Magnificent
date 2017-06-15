@@ -6,6 +6,7 @@ import it.polimi.ingsw.LM34.Utils.Configurator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by GiulioComi on 20/05/2017.
@@ -13,19 +14,22 @@ import java.util.Iterator;
 public class DevelopmentCardDeck<T extends AbstractDevelopmentCard> implements  Iterable<T> {
 
     //TODO: get deck loaded from Configurator at the preparation of the game
-    private ArrayList<T> developmentDeck = new ArrayList<>();
+    private List<T> developmentDeck = new ArrayList<>();
     private DevelopmentCardColor cardColor;
 
     public DevelopmentCardDeck(ArrayList<T> developmentCards) {
-
         this.developmentDeck = developmentCards;
         //get the development card color type by extracting this info from the first card of the deck
-        cardColor = developmentCards.get(0).getColor(); //TODO: refactor
     }
 
     public DevelopmentCardDeck() {
         this.developmentDeck = null;
     }
+
+    public DevelopmentCardDeck(List<T> cardList) {
+        this.developmentDeck = cardList;
+    }
+
 
     @Override
     public Iterator<T> iterator() {

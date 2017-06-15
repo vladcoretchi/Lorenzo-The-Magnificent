@@ -25,14 +25,11 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.USE_COUNCIL_PRIV
 //TODO: think of a way to have two alternatives for the special building cards
 public class ResourcesExchangeBonus extends AbstractEffect {
     private List<Pair<Resources, ResourcesBonus>> resourceExchange;
-    private Integer diceValueToActivate;
-    //private ArrayList<ContextType> contextToBeSubscribedTo;
 
 
-    public ResourcesExchangeBonus(Player player, Integer diceValue,List<Pair<Resources, ResourcesBonus>> resourceExchange) {
+    public ResourcesExchangeBonus(List<Pair<Resources, ResourcesBonus>> resourceExchange) {
         //contextToBeSubscribedTo.add(ContextType.RESOURCE_EXCHANGE_CONTEXT);
         this.resourceExchange = resourceExchange;
-        this.diceValueToActivate = diceValue;
     }
 
 

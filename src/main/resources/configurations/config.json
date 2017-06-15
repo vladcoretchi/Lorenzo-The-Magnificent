@@ -1,3526 +1,3599 @@
 {
-	"url": "http://www.jsoneditoronline.org/?id=c9dd5d7e34c49414db2023da2f0731f8",
-	"notes": {
-		"#32": "council privilege as resource in exchange"
-	},
-	"configuration": {
-		"server": {
-			"timeout":  120
-		},
-		"game": {
-			"maxPlayers": 5,
-			"periods": 3,
-			"roundsPerPeriod": 2,
-			"towerLevels": 4,
-			"councilPrivilege": [
-				{
-					"COINS": 0,
-					"WOODS": 1,
-					"STONES": 1,
-					"SERVANTS": 0,
-					"MILITARY_POINTS": 0,
-					"FAITH_POINTS": 0,
-					"VICTORY_POINTS": 0
-				},
-				{
-					"COINS": 0,
-					"WOODS": 0,
-					"STONES": 0,
-					"SERVANTS": 2,
-					"MILITARY_POINTS": 0,
-					"FAITH_POINTS": 0,
-					"VICTORY_POINTS": 0
-				},
-				{
-					"COINS": 2,
-					"WOODS": 0,
-					"STONES": 0,
-					"SERVANTS": 0,
-					"MILITARY_POINTS": 0,
-					"FAITH_POINTS": 0,
-					"VICTORY_POINTS": 0
-				},
-				{
-					"COINS": 0,
-					"WOODS": 0,
-					"STONES": 0,
-					"SERVANTS": 0,
-					"MILITARY_POINTS": 2,
-					"FAITH_POINTS": 0,
-					"VICTORY_POINTS": 0
-				},
-				{
-					"COINS": 0,
-					"WOODS": 0,
-					"STONES": 0,
-					"SERVANTS": 0,
-					"MILITARY_POINTS": 0,
-					"FAITH_POINTS": 1,
-					"VICTORY_POINTS": 0
-				}
-			],
-			"finalVictoryPoints": {
-				"territories": {
-					"0": 0,
-					"1": 0,
-					"2": 0,
-					"3": 1,
-					"4": 4,
-					"5": 10,
-					"6": 20
-				},
-				"buildings": {
-					"0": 0,
-					"1": 1,
-					"2": 3,
-					"3": 6,
-					"4": 10,
-					"5": 15,
-					"6": 25
-				},
-				"FAITH_POINTS": {
-					"0": 0,
-					"1": 1,
-					"2": 2,
-					"3": 3,
-					"4": 4,
-					"5": 4,
-					"6": 7,
-					"7": 9,
-					"8": 11,
-					"9": 13,
-					"10": 15,
-					"11": 17,
-					"12": 19,
-					"13": 22,
-					"14": 25,
-					"15": 30
-				},
-				"resourcesForVictoryPoint": 5
-			}
-		},
-		"actionSlots": {
-			"towers": [
-				[
-					{
-						"singlePawnSlot": true,
-						"diceValue": 1,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					{
-						"singlePawnSlot": true,
-						"diceValue": 3,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					{
-						"singlePawnSlot": true,
-						"diceValue": 5,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 1,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					{
-						"singlePawnSlot": true,
-						"diceValue": 7,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 2,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					}
-				],
-				[
-					{
-						"singlePawnSlot": true,
-						"diceValue": 1,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					{
-						"singlePawnSlot": true,
-						"diceValue": 3,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					{
-						"singlePawnSlot": true,
-						"diceValue": 5,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 1,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					{
-						"singlePawnSlot": true,
-						"diceValue": 7,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 2,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					}
-				],
-				[
-					{
-						"singlePawnSlot": true,
-						"diceValue": 1,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					{
-						"singlePawnSlot": true,
-						"diceValue": 3,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					{
-						"singlePawnSlot": true,
-						"diceValue": 5,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 1,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					{
-						"singlePawnSlot": true,
-						"diceValue": 7,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 2,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					}
-				],
-				[
-					{
-						"singlePawnSlot": true,
-						"diceValue": 1,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					{
-						"singlePawnSlot": true,
-						"diceValue": 3,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					{
-						"singlePawnSlot": true,
-						"diceValue": 5,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 1,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					{
-						"singlePawnSlot": true,
-						"diceValue": 7,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 2,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					}
-				],
-				[
-					{
-						"singlePawnSlot": true,
-						"diceValue": 1,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					{
-						"singlePawnSlot": true,
-						"diceValue": 3,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					{
-						"singlePawnSlot": true,
-						"diceValue": 5,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 1,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					{
-						"singlePawnSlot": true,
-						"diceValue": 7,
-						"councilPrivilege": 0,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 2,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					}
-				]
-			],
-			"councilPalace": {
-				"singlePawnSlot": false,
-				"diceValue": 1,
-				"councilPrivilege": 0,
-				"resources": {
-					"COINS": 1,
-					"WOODS": 0,
-					"STONES": 0,
-					"SERVANTS": 0,
-					"MILITARY_POINTS": 0,
-					"FAITH_POINTS": 0,
-					"VICTORY_POINTS": 0
-				}
-			},
-			"market": [
-				{
-					"singlePawnSlot": true,
-					"diceValue": 1,
-					"councilPrivilege": 0,
-					"resources": {
-						"COINS": 5,
-						"WOODS": 0,
-						"STONES": 0,
-						"SERVANTS": 0,
-						"MILITARY_POINTS": 0,
-						"FAITH_POINTS": 0,
-						"VICTORY_POINTS": 0
-					}
-				},
-				{
-					"singlePawnSlot": true,
-					"diceValue": 1,
-					"councilPrivilege": 0,
-					"resources": {
-						"COINS": 0,
-						"WOODS": 0,
-						"STONES": 0,
-						"SERVANTS": 5,
-						"MILITARY_POINTS": 0,
-						"FAITH_POINTS": 0,
-						"VICTORY_POINTS": 0
-					}
-				},
-				{
-					"singlePawnSlot": true,
-					"diceValue": 1,
-					"councilPrivilege": 0,
-					"resources": {
-						"COINS": 2,
-						"WOODS": 0,
-						"STONES": 0,
-						"SERVANTS": 0,
-						"MILITARY_POINTS": 3,
-						"FAITH_POINTS": 0,
-						"VICTORY_POINTS": 0
-					}
-				},
-				{
-					"singlePawnSlot": true,
-					"diceValue": 1,
-					"councilPrivilege": 2,
-					"resources": {
-						"COINS": 0,
-						"WOODS": 0,
-						"STONES": 0,
-						"SERVANTS": 0,
-						"MILITARY_POINTS": 0,
-						"FAITH_POINTS": 0,
-						"VICTORY_POINTS": 0
-					}
-				}
-			],
-			"productionArea": [
-				{
-					"singlePawnSlot": true,
-					"diceValue": 1,
-					"councilPrivilege": 0,
-					"resources": {
-						"COINS": 0,
-						"WOODS": 0,
-						"STONES": 0,
-						"SERVANTS": 0,
-						"MILITARY_POINTS": 0,
-						"FAITH_POINTS": 0,
-						"VICTORY_POINTS": 0
-					}
-				},
-				{
-					"singlePawnSlot": false,
-					"diceValue": 4,
-					"councilPrivilege": 0,
-					"resources": {
-						"COINS": 0,
-						"WOODS": 0,
-						"STONES": 0,
-						"SERVANTS": 0,
-						"MILITARY_POINTS": 0,
-						"FAITH_POINTS": 0,
-						"VICTORY_POINTS": 0
-					}
-				}
-			],
-			"harvestArea": [
-				{
-					"singlePawnSlot": true,
-					"diceValue": 1,
-					"councilPrivilege": 0,
-					"resources": {
-						"COINS": 0,
-						"WOODS": 0,
-						"STONES": 0,
-						"SERVANTS": 0,
-						"MILITARY_POINTS": 0,
-						"FAITH_POINTS": 0,
-						"VICTORY_POINTS": 0
-					}
-				},
-				{
-					"singlePawnSlot": false,
-					"diceValue": 4,
-					"councilPrivilege": 0,
-					"resources": {
-						"COINS": 0,
-						"WOODS": 0,
-						"STONES": 0,
-						"SERVANTS": 0,
-						"MILITARY_POINTS": 0,
-						"FAITH_POINTS": 0,
-						"VICTORY_POINTS": 0
-					}
-				}
-			]
-		},
-		"personalTiles": [
-			{
-				"standard": {
-					"production": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 2,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 1,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					"harvest": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 1,
-							"STONES": 1,
-							"SERVANTS": 1,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					}
-				},
-				"advanced": {
-					"production": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 1,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 2,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					"harvest": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 1,
-							"STONES": 1,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 1,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					}
-				}
-			},
-			{
-				"standard": {
-					"production": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 2,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 1,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					"harvest": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 1,
-							"STONES": 1,
-							"SERVANTS": 1,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					}
-				},
-				"advanced": {
-					"production": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 1,
-							"MILITARY_POINTS": 2,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					"harvest": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 1,
-							"WOODS": 1,
-							"STONES": 1,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					}
-				}
-			},
-			{
-				"standard": {
-					"production": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 2,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 1,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					"harvest": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 1,
-							"STONES": 1,
-							"SERVANTS": 1,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					}
-				},
-				"advanced": {
-					"production": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 2,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 1,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					"harvest": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 1,
-							"STONES": 1,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 1,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					}
-				}
-			},
-			{
-				"standard": {
-					"production": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 2,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 1,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					"harvest": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 1,
-							"STONES": 1,
-							"SERVANTS": 1,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					}
-				},
-				"advanced": {
-					"production": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 1,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 2,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					"harvest": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 1,
-							"STONES": 1,
-							"SERVANTS": 1,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					}
-				}
-			},
-			{
-				"standard": {
-					"production": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 2,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 1,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					"harvest": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 1,
-							"STONES": 1,
-							"SERVANTS": 1,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					}
-				},
-				"advanced": {
-					"production": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 0,
-							"WOODS": 0,
-							"STONES": 0,
-							"SERVANTS": 2,
-							"MILITARY_POINTS": 1,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					},
-					"harvest": {
-						"diceValue": 1,
-						"resources": {
-							"COINS": 1,
-							"WOODS": 1,
-							"STONES": 1,
-							"SERVANTS": 0,
-							"MILITARY_POINTS": 0,
-							"FAITH_POINTS": 0,
-							"VICTORY_POINTS": 0
-						}
-					}
-				}
-			}
-		],
-		"developmentCards": {
-			"territories": [
-				{
-					"#": 1,
-					"name": "Avamposto Commerciale",
-					"period": 1,
-					"diceValueToHarvest": 1,
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"COINS": 1
-							}
-						}
-					}
-				},
-				{
-					"#": 2,
-					"name": "Bosco",
-					"period": 1,
-					"diceValueToHarvest": 2,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"WOODS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"WOODS": 1
-							}
-						}
-					}
-				},
-				{
-					"#": 3,
-					"name": "Borgo",
-					"period": 1,
-					"diceValueToHarvest": 3,
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"COINS": 1,
-								"SERVANTS": 1
-							}
-						}
-					}
-				},
-				{
-					"#": 4,
-					"name": "Cava di Ghiaia",
-					"period": 1,
-					"diceValueToHarvest": 4,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"STONES": 2
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"STONES": 2
-							}
-						}
-					}
-				},
-				{
-					"#": 5,
-					"name": "Foresta",
-					"period": 1,
-					"diceValueToHarvest": 5,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"WOODS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"WOODS": 3
-							}
-						}
-					}
-				},
-				{
-					"#": 6,
-					"name": "Monastero",
-					"period": 1,
-					"diceValueToHarvest": 6,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"MILITARY_POINTS": 2,
-								"SERVANTS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 1,
-								"STONES": 1
-							}
-						}
-					}
-				},
-				{
-					"#": 7,
-					"name": "Rocca",
-					"period": 1,
-					"diceValueToHarvest": 5,
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"MILITARY_POINTS": 2,
-								"STONES": 1
-							}
-						}
-					}
-				},
-				{
-					"#": 8,
-					"name": "Città",
-					"period": 1,
-					"diceValueToHarvest": 6,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"COINS": 3
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"councilPrivilege": 1
-						}
-					}
-				},
-				{
-					"#": 9,
-					"name": "Miniera d'Oro",
-					"period": 2,
-					"diceValueToHarvest": 1,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"COINS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"COINS": 2
-							}
-						}
-					}
-				},
-				{
-					"#": 10,
-					"name": "Villaggio Montano",
-					"period": 2,
-					"diceValueToHarvest": 3,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"SERVANTS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"MILITARY_POINTS": 1,
-								"WOODS": 2
-							}
-						}
-					}
-				},
-				{
-					"#": 11,
-					"name": "Villaggio Minerario",
-					"period": 2,
-					"diceValueToHarvest": 4,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"SERVANTS": 2,
-								"STONES": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"SERVANTS": 1,
-								"STONES": 2
-							}
-						}
-					}
-				},
-				{
-					"#": 12,
-					"name": "Cava di Pietra",
-					"period": 2,
-					"diceValueToHarvest": 3,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"WOODS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"STONES": 3
-							}
-						}
-					}
-				},
-				{
-					"#": 13,
-					"name": "Possedimento",
-					"period": 2,
-					"diceValueToHarvest": 4,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"SERVANTS": 2,
-								"WOODS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"COINS": 1,
-								"WOODS": 2
-							}
-						}
-					}
-				},
-				{
-					"#": 14,
-					"name": "Eremo",
-					"period": 2,
-					"diceValueToHarvest": 2,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 1
-							}
-						}
-					}
-				},
-				{
-					"#": 15,
-					"name": "Maniero",
-					"period": 2,
-					"diceValueToHarvest": 5,
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"MILITARY_POINTS": 2,
-								"SERVANTS": 2
-							}
-						}
-					}
-				},
-				{
-					"#": 16,
-					"name": "Ducato",
-					"period": 2,
-					"diceValueToHarvest": 6,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"COINS": 4
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"COINS": 1,
-								"WOODS": 2,
-								"STONES": 1
-							}
-						}
-					}
-				},
-				{
-					"#": 17,
-					"name": "Città Mercantile",
-					"period": 3,
-					"diceValueToHarvest": 1,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"COINS": 1,
-								"SERVANTS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"COINS": 3
-							}
-						}
-					}
-				},
-				{
-					"#": 18,
-					"name": "Tenuta",
-					"period": 3,
-					"diceValueToHarvest": 3,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 1,
-								"WOODS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 1,
-								"WOODS": 2
-							}
-						}
-					}
-				},
-				{
-					"#": 19,
-					"name": "Colonia",
-					"period": 3,
-					"diceValueToHarvest": 5,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"MILITARY_POINTS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 4,
-								"WOODS": 1
-							}
-						}
-					}
-				},
-				{
-					"#": 20,
-					"name": "Cava di Marmo",
-					"period": 3,
-					"diceValueToHarvest": 2,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 3
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 1,
-								"STONES": 2
-							}
-						}
-					}
-				},
-				{
-					"#": 21,
-					"name": "Provincia",
-					"period": 3,
-					"diceValueToHarvest": 6,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"STONES": 1
-							},
-							"councilPrivilege": 1
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 4,
-								"STONES": 1
-							}
-						}
-					}
-				},
-				{
-					"#": 22,
-					"name": "Santuario",
-					"period": 3,
-					"diceValueToHarvest": 1,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"COINS": 1,
-								"FAITH_POINTS": 1
-							}
-						}
-					}
-				},
-				{
-					"#": 23,
-					"name": "Castello",
-					"period": 3,
-					"diceValueToHarvest": 4,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 2,
-								"COINS": 2
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"MILITARY_POINTS": 3,
-								"SERVANTS": 1
-							}
-						}
-					}
-				},
-				{
-					"#": 24,
-					"name": "Città Fortificata",
-					"period": 3,
-					"diceValueToHarvest": 2,
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"MILITARY_POINTS": 2,
-								"SERVANTS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"MILITARY_POINTS": 1,
-								"SERVANTS": 2
-							}
-						}
-					}
-				}
-			],
-			"buildings": [
-				{
-					"#": 25,
-					"name": "Zecca",
-					"period": 1,
-					"diceValueToProduct": 5,
-					"requirements": {
-						"resources": {
-							"WOODS": 1,
-							"STONES": 3
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 5
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesPerItemBonus": {
-							"resources": {
-								"COINS": 1
-							},
-							"developmentCardColor": "YELLOW"
-						}
-					}
-				},
-				{
-					"#": 26,
-					"name": "Esattoria",
-					"period": 1,
-					"diceValueToProduct": 5,
-					"requirements": {
-						"resources": {
-							"WOODS": 3,
-							"STONES": 1
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 5
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesPerItemBonus": {
-							"resources": {
-								"COINS": 1
-							},
-							"developmentCardColor": "GREEN"
-						}
-					}
-				},
-				{
-					"#": 27,
-					"name": "Arco di Trionfo",
-					"period": 1,
-					"diceValueToProduct": 6,
-					"requirements": {
-						"resources": {
-							"COINS": 2,
-							"STONES": 2
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 6
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesPerItemBonus": {
-							"resources": {
-								"COINS": 1
-							},
-							"developmentCardColor": "PURPLE"
-						}
-					}
-				},
-				{
-					"#": 28,
-					"name": "Teatro",
-					"period": 1,
-					"diceValueToProduct": 6,
-					"requirements": {
-						"resources": {
-							"COINS": 2,
-							"WOODS": 2
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 6
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesPerItemBonus": {
-							"resources": {
-								"COINS": 1
-							},
-							"developmentCardColor": "BLUE"
-						}
-					}
-				},
-				{
-					"#": 29,
-					"name": "Falegnameria",
-					"period": 1,
-					"diceValueToProduct": 4,
-					"requirements": {
-						"resources": {
-							"COINS": 1,
-							"WOODS": 2
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 3
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesExchangeBonus": [
-							{
-								"resources": {
-									"COINS": 3
-								}
-							},
-							{
-								"resources": {
-									"COINS": 5
-								}
-							}
-						]
-					}
-				},
-				{
-					"#": 30,
-					"name": "Tagliapietre",
-					"period": 1,
-					"diceValueToProduct": 3,
-					"requirements": {
-						"resources": {
-							"COINS": 1,
-							"STONES": 2
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 2
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesExchangeBonus": [
-							{
-								"resources": {
-									"COINS": 3
-								}
-							},
-							{
-								"resources": {
-									"COINS": 5
-								}
-							}
-						]
-					}
-				},
-				{
-					"#": 31,
-					"name": "Cappella",
-					"period": 1,
-					"diceValueToProduct": 2,
-					"requirements": {
-						"resources": {
-							"WOODS": 2
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesExchangeBonus": [
-							{
-								"resources": {
-									"FAITH_POINTS": 1
-								}
-							}
-						]
-					}
-				},
-				{
-					"#": 32,
-					"name": "Residenza",
-					"period": 1,
-					"diceValueToProduct": 1,
-					"requirements": {
-						"resources": {
-							"STONES": 2
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesExchangeBonus": [
-							{
-								"resources": {
-									"COINS": 1
-								},
-								"councilPrivilege": 1
-							}
-						]
-					}
-				},
-				{
-					"#": 33,
-					"name": "Mercato",
-					"period": 2,
-					"diceValueToProduct": 3,
-					"requirements": {
-						"resources": {
-							"WOODS": 2,
-							"STONES": 1
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 3
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesExchangeBonus": [
-							{
-								"resources": {
-									"WOODS": 2,
-									"STONES": 2
-								}
-							}
-						]
-					}
-				},
-				{
-					"#": 34,
-					"name": "Tesoreria",
-					"period": 2,
-					"diceValueToProduct": 3,
-					"requirements": {
-						"resources": {
-							"WOODS": 3
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 4
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesExchangeBonus": [
-							{
-								"resources": {
-									"VICTORY_POINTS": 3
-								}
-							},
-							{
-								"resources": {
-									"VICTORY_POINTS": 5
-								}
-							}
-						]
-					}
-				},
-				{
-					"#": 35,
-					"name": "Gilda dei Pittori",
-					"period": 2,
-					"diceValueToProduct": 4,
-					"requirements": {
-						"resources": {
-							"WOODS": 4
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 5
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesExchangeBonus": [
-							{
-								"resources": {
-									"VICTORY_POINTS": 3
-								}
-							},
-							{
-								"resources": {
-									"VICTORY_POINTS": 7
-								}
-							}
-						]
-					}
-				},
-				{
-					"#": 36,
-					"name": "Gilda degli Scultori",
-					"period": 2,
-					"diceValueToProduct": 5,
-					"requirements": {
-						"resources": {
-							"STONES": 4
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 6
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesExchangeBonus": [
-							{
-								"resources": {
-									"VICTORY_POINTS": 3
-								}
-							},
-							{
-								"resources": {
-									"VICTORY_POINTS": 7
-								}
-							}
-						]
-					}
-				},
-				{
-					"#": 37,
-					"name": "Gilda dei Costruttori",
-					"period": 2,
-					"diceValueToProduct": 4,
-					"requirements": {
-						"resources": {
-							"WOODS": 1,
-							"STONES": 2
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 4
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesExchangeBonus": [
-							{
-								"resources": {
-									"VICTORY_POINTS": 6
-								}
-							}
-						]
-					}
-				},
-				{
-					"#": 38,
-					"name": "Battistero",
-					"period": 2,
-					"diceValueToProduct": 2,
-					"requirements": {
-						"resources": {
-							"STONES": 3
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 2,
-								"FAITH_POINTS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesExchangeBonus": [
-							{
-								"resources": {
-									"COINS": 2,
-									"VICTORY_POINTS": 2
-								}
-							}
-						]
-					}
-				},
-				{
-					"#": 39,
-					"name": "Caserma",
-					"period": 2,
-					"diceValueToProduct": 1,
-					"requirements": {
-						"resources": {
-							"WOODS": 1,
-							"STONES": 1
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 3
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesExchangeBonus": [
-							{
-								"resources": {
-									"MILITARY_POINTS": 3
-								}
-							}
-						]
-					}
-				},
-				{
-					"#": 40,
-					"name": "Fortezza",
-					"period": 2,
-					"diceValueToProduct": 6,
-					"requirements": {
-						"resources": {
-							"COINS": 2,
-							"WOODS": 2,
-							"STONES": 2
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 8
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"MILITARY_POINTS": 2,
-								"VICTORY_POINTS": 2
-							}
-						}
-					}
-				},
-				{
-					"#": 41,
-					"name": "Banca",
-					"period": 3,
-					"diceValueToProduct": 2,
-					"requirements": {
-						"resources": {
-							"COINS": 3,
-							"WOODS": 1,
-							"STONES": 3
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 7
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"COINS": 5
-							}
-						}
-					}
-				},
-				{
-					"#": 42,
-					"name": "Fiera",
-					"period": 3,
-					"diceValueToProduct": 4,
-					"requirements": {
-						"resources": {
-							"COINS": 4,
-							"WOODS": 3
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 8
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesExchangeBonus": [
-							{
-								"resources": {
-									"WOODS": 3,
-									"STONES": 3
-								}
-							}
-						]
-					}
-				},
-				{
-					"#": 43,
-					"name": "Giardino",
-					"period": 3,
-					"diceValueToProduct": 1,
-					"requirements": {
-						"resources": {
-							"SERVANTS": 2,
-							"WOODS": 4,
-							"STONES": 2
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 10
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 3
-							}
-						}
-					}
-				},
-				{
-					"#": 44,
-					"name": "Castelletto",
-					"period": 3,
-					"diceValueToProduct": 5,
-					"requirements": {
-						"resources": {
-							"COINS": 2,
-							"WOODS": 2,
-							"STONES": 4
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 9
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"COINS": 2
-							},
-							"councilPrivilege": 1
-						}
-					}
-				},
-				{
-					"#": 45,
-					"name": "Palazzo",
-					"period": 3,
-					"diceValueToProduct": 6,
-					"requirements": {
-						"resources": {
-							"COINS": 3,
-							"WOODS": 3,
-							"STONES": 1
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 9
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesExchangeBonus": [
-							{
-								"resources": {
-									"SERVANTS": 2,
-									"VICTORY_POINTS": 4
-								}
-							}
-						]
-					}
-				},
-				{
-					"#": 46,
-					"name": "Basilica",
-					"period": 3,
-					"diceValueToProduct": 1,
-					"requirements": {
-						"resources": {
-							"WOODS": 1,
-							"STONES": 4
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 5,
-								"FAITH_POINTS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesExchangeBonus": [
-							{
-								"resources": {
-									"FAITH_POINTS": 2
-								}
-							},
-							{
-								"resources": {
-									"FAITH_POINTS": 2
-								}
-							}
-						]
-					}
-				},
-				{
-					"#": 47,
-					"name": "Accademia Militare",
-					"period": 3,
-					"diceValueToProduct": 3,
-					"requirements": {
-						"resources": {
-							"SERVANTS": 1,
-							"WOODS": 2,
-							"STONES": 4
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 7
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesExchangeBonus": [
-							{
-								"resources": {
-									"MILITARY_POINTS": 3,
-									"VICTORY_POINTS": 1
-								}
-							}
-						]
-					}
-				},
-				{
-					"#": 48,
-					"name": "Cattedrale",
-					"period": 3,
-					"diceValueToProduct": 2,
-					"requirements": {
-						"resources": {
-							"WOODS": 4,
-							"STONES": 4
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 7,
-								"FAITH_POINTS": 3
-							}
-						}
-					},
-					"permanentBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"VICTORY_POINTS": 1
-							}
-						}
-					}
-				}
-			],
-			"characters": [
-				{
-					"#": 49,
-					"name": "Condottiero",
-					"period": 1,
-					"requirements": {
-						"COINS": 2
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"MILITARY_POINTS": 3
-							}
-						}
-					},
-					"permanentBonus": {
-						"developmentCardAcquireEffect": {
-							"developmentCardColor": "GREEN",
-							"diceValue": 2
-						}
-					}
-				},
-				{
-					"#": 50,
-					"name": "Costruttore",
-					"period": 1,
-					"requirements": {
-						"COINS": 4
-					},
-					"permanentBonus": {
-						"developmentCardAcquireEffect": {
-							"developmentCardColor": "YELLOW",
-							"diceValue": 2,
-							"requirementsDiscount": {
-								"resources": {
-									"WOODS": 1,
-									"STONES": 1
-								}
-							}
-						}
-					}
-				},
-				{
-					"#": 51,
-					"name": "Dama",
-					"period": 1,
-					"requirements": {
-						"COINS": 4
-					},
-					"permanentBonus": {
-						"developmentCardAcquireEffect": {
-							"developmentCardColor": "BLUE",
-							"diceValue": 2,
-							"requirementsDiscount": {
-								"resources": {
-									"COINS": 1
-								}
-							}
-						}
-					}
-				},
-				{
-					"#": 52,
-					"name": "Cavaliere",
-					"period": 1,
-					"requirements": {
-						"COINS": 2
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"councilPrivilege": 1
-						}
-					},
-					"permanentBonus": {
-						"developmentCardAcquireEffect": {
-							"developmentCardColor": "PURPLE",
-							"diceValue": 2
-						}
-					}
-				},
-				{
-					"#": 53,
-					"name": "Contadino",
-					"period": 1,
-					"requirements": {
-						"COINS": 3
-					},
-					"permanentBonus": {
-						"workingAreaValueEffect": {
-							"workingAreaType": "HARVEST",
-							"diceValue": 2
-						}
-					}
-				},
-				{
-					"#": 54,
-					"name": "Artiginao",
-					"period": 1,
-					"requirements": {
-						"COINS": 3
-					},
-					"permanentBonus": {
-						"workingAreaValueEffect": {
-							"workingAreaType": "PRODUCTION",
-							"diceValue": 2
-						}
-					}
-				},
-				{
-					"#": 55,
-					"name": "Predicatore",
-					"period": 1,
-					"requirements": {
-						"COINS": 2
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 4
-							}
-						}
-					},
-					"permanentBonus": {
-						"ActionSlotPenalty": {
-							"noResourcesFromTowerLevels": [
-								5,
-								7
-							]
-						}
-					}
-				},
-				{
-					"#": 56,
-					"name": "Badessa",
-					"period": 1,
-					"requirements": {
-						"COINS": 3
-					},
-					"instantBonus": {
-						"developmentCardAcquireEffect": {
-							"developmentCardColor": "DEFAULT",
-							"diceValue": 4
-						},
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 1
-							}
-						}
-					}
-				},
-				{
-					"#": 57,
-					"name": "Capitano",
-					"period": 2,
-					"requirements": {
-						"COINS": 4
-					},
-					"instantBonus": {
-						"developmentCardAcquireEffect": {
-							"developmentCardColor": "GREEN",
-							"diceValue": 6
-						},
-						"resourcesBonus": {
-							"resources": {
-								"MILITARY_POINTS": 2
-							}
-						}
-					}
-				},
-				{
-					"#": 58,
-					"name": "Architetto",
-					"period": 2,
-					"requirements": {
-						"COINS": 4
-					},
-					"instantBonus": {
-						"developmentCardAcquireEffect": {
-							"developmentCardColor": "YELLOW",
-							"diceValue": 6,
-							"requirementsDiscount": {
-								"resources": {
-									"WOODS": 1,
-									"STONES": 1
-								}
-							}
-						}
-					}
-				},
-				{
-					"#": 59,
-					"name": "Mecenate",
-					"period": 2,
-					"requirements": {
-						"COINS": 3
-					},
-					"instantBonus": {
-						"developmentCardAcquireEffect": {
-							"developmentCardColor": "BLUE",
-							"diceValue": 6,
-							"requirementsDiscount": {
-								"resources": {
-									"COINS": 2
-								}
-							}
-						}
-					}
-				},
-				{
-					"#": 60,
-					"name": "Eroe",
-					"period": 2,
-					"requirements": {
-						"COINS": 4
-					},
-					"instantBonus": {
-						"developmentCardAcquireEffect": {
-							"developmentCardColor": "PURPLE",
-							"diceValue": 6
-						},
-						"resourcesBonus": {
-							"councilPrivilege": 1
-						}
-					}
-				},
-				{
-					"#": 61,
-					"name": "Fattore",
-					"period": 2,
-					"requirements": {
-						"COINS": 4
-					},
-					"permanentBonus": {
-						"workingAreaValueEffect": {
-							"workingAreaType": "HARVEST",
-							"diceValue": 3
-						}
-					}
-				},
-				{
-					"#": 62,
-					"name": "Studioso",
-					"period": 2,
-					"requirements": {
-						"COINS": 4
-					},
-					"permanentBonus": {
-						"workingAreaValueEffect": {
-							"workingAreaType": "PRODUCTION",
-							"diceValue": 3
-						}
-					}
-				},
-				{
-					"#": 63,
-					"name": "Messo Papale",
-					"period": 2,
-					"requirements": {
-						"COINS": 5
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 3
-							}
-						}
-					}
-				},
-				{
-					"#": 64,
-					"name": "Messo Reale",
-					"period": 2,
-					"requirements": {
-						"COINS": 5
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"councilPrivilege": 3
-						}
-					}
-				},
-				{
-					"#": 65,
-					"name": "Nobile",
-					"period": 3,
-					"requirements": {
-						"COINS": 6
-					},
-					"instantBonus": {
-						"resourcesPerItemBonus": {
-							"resources": {
-								"VICTORY_POINTS": 2
-							},
-							"developmentCardColor": "GREEN"
-						}
-					}
-				},
-				{
-					"#": 66,
-					"name": "Governatore",
-					"period": 3,
-					"requirements": {
-						"COINS": 6
-					},
-					"instantBonus": {
-						"resourcesPerItemBonus": {
-							"resources": {
-								"VICTORY_POINTS": 2
-							},
-							"developmentCardColor": "YELLOW"
-						}
-					}
-				},
-				{
-					"#": 67,
-					"name": "Cortigiana",
-					"period": 3,
-					"requirements": {
-						"COINS": 7
-					},
-					"instantBonus": {
-						"resourcesPerItemBonus": {
-							"resources": {
-								"VICTORY_POINTS": 2
-							},
-							"developmentCardColor": "BLUE"
-						}
-					}
-				},
-				{
-					"#": 68,
-					"name": "Araldo",
-					"period": 3,
-					"requirements": {
-						"COINS": 6
-					},
-					"instantBonus": {
-						"resourcesPerItemBonus": {
-							"resources": {
-								"VICTORY_POINTS": 2
-							},
-							"developmentCardColor": "PURPLE"
-						}
-					}
-				},
-				{
-					"#": 69,
-					"name": "Cardinale",
-					"period": 3,
-					"requirements": {
-						"COINS": 4
-					},
-					"instantBonus": {
-						"workingAreaValueEffect": {
-							"workingAreaType": "HARVEST",
-							"diceValue": 4
-						},
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 2
-							}
-						}
-					}
-				},
-				{
-					"#": 70,
-					"name": "Vescovo",
-					"period": 3,
-					"requirements": {
-						"COINS": 5
-					},
-					"instantBonus": {
-						"workingAreaValueEffect": {
-							"workingAreaType": "PRODUCTION",
-							"diceValue": 4
-						},
-						"resourcesBonus": {
-							"councilPrivilege": 1
-						}
-					}
-				},
-				{
-					"#": 71,
-					"name": "Generale",
-					"period": 3,
-					"requirements": {
-						"COINS": 5
-					},
-					"instantBonus": {
-						"resourcesPerItemBonus": {
-							"resources": {
-								"VICTORY_POINTS": 1
-							},
-							"requiredResources": {
-								"MILITARY_POINTS": 2
-							}
-						}
-					}
-				},
-				{
-					"#": 72,
-					"name": "Ambasciatore",
-					"period": 3,
-					"requirements": {
-						"COINS": 6
-					},
-					"instantBonus": {
-						"developmentCardAcquireEffect": {
-							"developmentCardColor": "DEFAULT",
-							"diceValue": 7
-						},
-						"resourcesBonus": {
-							"councilPrivilege": 1
-						}
-					}
-				}
-			],
-			"ventures": [
-				{
-					"#": 73,
-					"name": "Ingaggiare Reclute",
-					"period": 1,
-					"requirements": {
-						"resources": {
-							"COINS": 4
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"MILITARY_POINTS": 5
-							}
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 4
-					}
-				},
-				{
-					"#": 74,
-					"name": "Riparare la Chiesa",
-					"period": 1,
-					"requirements": {
-						"resources": {
-							"COINS": 1,
-							"WOODS": 1,
-							"STONES": 1
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 5
-					}
-				},
-				{
-					"#": 75,
-					"name": "Costruire le Mura",
-					"period": 1,
-					"requirements": {
-						"resources": {
-							"STONES": 3
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"MILITARY_POINTS": 2
-							},
-							"councilPrivilege": 1
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 3
-					}
-				},
-				{
-					"#": 76,
-					"name": "Innalzare una Statua",
-					"period": 1,
-					"requirements": {
-						"resources": {
-							"WOODS": 2,
-							"STONES": 2
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"councilPrivilege": 2
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 4
-					}
-				},
-				{
-					"#": 77,
-					"name": "Campagna Militare",
-					"period": 1,
-					"requirements": {
-						"MILITARY_POINTS": {
-							"militaryPointsRequired": 3,
-							"militaryPointsSubtraction": 2
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"COINS": 3
-							}
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 5
-					}
-				},
-				{
-					"#": 78,
-					"name": "Ospitare i Mendicanti",
-					"period": 1,
-					"requirements": {
-						"resources": {
-							"WOODS": 3
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"SERVANTS": 4
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 4
-					}
-				},
-				{
-					"#": 79,
-					"name": "Combattere Eresie",
-					"period": 1,
-					"requirements": {
-						"MILITARY_POINTS": {
-							"militaryPointsRequired": 5,
-							"militaryPointsSubtraction": 3
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 2
-							}
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 5
-					}
-				},
-				{
-					"#": 80,
-					"name": "Sostegno al Vescovo",
-					"period": 1,
-					"requirements": {
-						"MILITARY_POINTS": {
-							"militaryPointsRequired": 4,
-							"militaryPointsSubtraction": 2
-						},
-						"resources": {
-							"COINS": 2,
-							"WOODS": 1,
-							"STONES": 1
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 3
-							}
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 1
-					}
-				},
-				{
-					"#": 81,
-					"name": "Ingaggiare Soldati",
-					"period": 2,
-					"requirements": {
-						"resources": {
-							"COINS": 6
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"MILITARY_POINTS": 6
-							}
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 5
-					}
-				},
-				{
-					"#": 82,
-					"name": "Riparare l'Abbazia",
-					"period": 2,
-					"requirements": {
-						"resources": {
-							"COINS": 2,
-							"WOODS": 2,
-							"STONES": 2
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 2
-							}
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 6
-					}
-				},
-				{
-					"#": 83,
-					"name": "Costruire Bastioni",
-					"period": 2,
-					"requirements": {
-						"resources": {
-							"STONES": 4
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"MILITARY_POINTS": 3
-							},
-							"councilPrivilege": 1
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 2
-					}
-				},
-				{
-					"#": 84,
-					"name": "Supporto al Re",
-					"period": 2,
-					"requirements": {
-						"MILITARY_POINTS": {
-							"militaryPointsRequired": 6,
-							"militaryPointsSubtraction": 3
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"COINS": 5
-							},
-							"councilPrivilege": 1
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 3
-					}
-				},
-				{
-					"#": 85,
-					"name": "Scavare Canalizzazioni",
-					"period": 2,
-					"requirements": {
-						"resources": {
-							"COINS": 3,
-							"SERVANTS": 2
-						}
-					},
-					"instantBonus": {
-						"workingAreaValueEffect": {
-							"workingAreaType": "HARVEST",
-							"diceValue": 4
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 5
-					}
-				},
-				{
-					"#": 86,
-					"name": "Accogliere gli Stranieri",
-					"period": 2,
-					"requirements": {
-						"resources": {
-							"WOODS": 4
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"SERVANTS": 5
-							}
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 4
-					}
-				},
-				{
-					"#": 87,
-					"name": "Crociata",
-					"period": 2,
-					"requirements": {
-						"MILITARY_POINTS": {
-							"militaryPointsRequired": 8,
-							"militaryPointsSubtraction": 4
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"COINS": 5,
-								"FAITH_POINTS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 5
-					}
-				},
-				{
-					"#": 88,
-					"name": "Sostegno al Cardinale",
-					"period": 2,
-					"requirements": {
-						"MILITARY_POINTS": {
-							"militaryPointsRequired": 7,
-							"militaryPointsSubtraction": 4
-						},
-						"resources": {
-							"COINS": 3,
-							"WOODS": 2,
-							"STONES": 2
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 3
-							}
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 4
-					}
-				},
-				{
-					"#": 89,
-					"name": "Ingaggiare Mercenari",
-					"period": 3,
-					"requirements": {
-						"resources": {
-							"COINS": 8
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"MILITARY_POINTS": 7
-							}
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 6
-					}
-				},
-				{
-					"#": 90,
-					"name": "Riparare la Cattedrale",
-					"period": 3,
-					"requirements": {
-						"resources": {
-							"COINS": 3,
-							"WOODS": 3,
-							"STONES": 3
-						}
-					},
-					"instantBonus": {
-						"developmentCardAcquireEffect": {
-							"developmentCardColor": "DEFAULT",
-							"diceValue": 7
-						},
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 1
-							}
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 5
-					}
-				},
-				{
-					"#": 91,
-					"name": "Costruire le Torri",
-					"period": 3,
-					"requirements": {
-						"resources": {
-							"STONES": 6
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"MILITARY_POINTS": 4
-							},
-							"councilPrivilege": 1
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 4
-					}
-				},
-				{
-					"#": 92,
-					"name": "Commissionare Arte Sacra",
-					"period": 3,
-					"requirements": {
-						"resources": {
-							"WOODS": 26
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 3
-							}
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 3
-					}
-				},
-				{
-					"#": 93,
-					"name": "Conquista Militare",
-					"period": 3,
-					"requirements": {
-						"MILITARY_POINTS": {
-							"militaryPointsRequired": 12,
-							"militaryPointsSubtraction": 6
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"COINS": 3,
-								"WOODS": 3,
-								"STONES": 3
-							}
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 7
-					}
-				},
-				{
-					"#": 94,
-					"name": "Migliorare le Strade",
-					"period": 3,
-					"requirements": {
-						"resources": {
-							"COINS": 4,
-							"SERVANTS": 3
-						}
-					},
-					"instantBonus": {
-						"workingAreaValueEffect": {
-							"workingAreaType": "PRODUCTION",
-							"diceValue": 3
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 5
-					}
-				},
-				{
-					"#": 95,
-					"name": "Guerra Santa",
-					"period": 3,
-					"requirements": {
-						"MILITARY_POINTS": {
-							"militaryPointsRequired": 15,
-							"militaryPointsSubtraction": 8
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 4
-							}
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 8
-					}
-				},
-				{
-					"#": 96,
-					"name": "Sostegno al Papa",
-					"period": 3,
-					"requirements": {
-						"MILITARY_POINTS": {
-							"militaryPointsRequired": 10,
-							"militaryPointsSubtraction": 5
-						},
-						"resources": {
-							"COINS": 4,
-							"WOODS": 3,
-							"STONES": 3
-						}
-					},
-					"instantBonus": {
-						"resourcesBonus": {
-							"resources": {
-								"FAITH_POINTS": 2
-							}
-						}
-					},
-					"permanentBonus": {
-						"endingVictoryPointsReward": 10
-					}
-				}
-			]
-		},
-		"leaderCards": [
-			{
-				"leaderName": "Francesco Sforza",
-				"leaderRequirements": {
-					"cardRequirements": [
-						{
-							"developmentCardColor": "PURPLE",
-							"number": 5
-						}
-					]
-				},
-				"bonus": {
-					"workingAreaValueEffect": {
-						"workingAreaType": "HARVEST",
-						"diceValue": 1
-					}
-				},
-				"oncePerTurn": true
-			},
-			{
-				"leaderName": "Lucrezia Borgia",
-				"leaderRequirements": {
-					"cardRequirements": [
-						{
-							"developmentCardColor": "DEFAULT",
-							"number": 6
-						}
-					]
-				},
-				"bonus": {
-					"familyMemberValueEffect": [
-						{
-							"diceColor": "WHITE",
-							"diceValue": 2,
-							"realtive": true
-						},
-						{
-							"diceColor": "BLACK",
-							"diceValue": 2,
-							"realtive": true
-						},
-						{
-							"diceColor": "ORANGE",
-							"diceValue": 2,
-							"realtive": true
-						}
-					]
-				},
-				"oncePerTurn": false
-			},
-			{
-				"leaderName": "Ludovico Ariosto",
-				"leaderRequirements": {
-					"cardRequirements": [
-						{
-							"developmentCardColor": "BLUE",
-							"number": 5
-						}
-					]
-				},
-				"bonus": {
-					"actionSlotLimitBypass": true
-				},
-				"oncePerTurn": false
-			},
-			{
-				"leaderName": "Federico da Montefeltro",
-				"leaderRequirements": {
-					"cardRequirements": [
-						{
-							"developmentCardColor": "GREEN",
-							"number": 5
-						}
-					]
-				},
-				"bonus": {
-					"familyMemberValueEffect": [
-						{
-							"diceColor": "DEFAULT",
-							"diceValue": 6,
-							"realtive": false
-						}
-					]
-				},
-				"oncePerTurn": true
-			},
-			{
-				"leaderName": "Filippo Brunelleschi",
-				"leaderRequirements": {
-					"cardRequirements": [
-						{
-							"developmentCardColor": "YELLOW",
-							"number": 5
-						}
-					]
-				},
-				"bonus": {
-					"noOccupiedTowerTax": true
-				},
-				"oncePerTurn": false
-			},
-			{
-				"leaderName": "Lorenzo de Medici",
-				"leaderRequirements": {
-					"resourcesRequirements": {
-						"VICTORY_POINTS": 35
-					}
-				},
-				"bonus": {
-					"copyOtherLeaderCardBonus": true
-				},
-				"oncePerTurn": false
-			},
-			{
-				"leaderName": "Sigismondo Malatesta",
-				"leaderRequirements": {
-					"resourcesRequirements": {
-						"MILITARY_POINTS": 7,
-						"FAITH_POINTS": 3
-					}
-				},
-				"bonus": {
-					"familyMemberValueEffect": [
-						{
-							"diceColor": "NEUTRAL",
-							"diceValue": 3,
-							"realtive": true
-						}
-					]
-				},
-				"oncePerTurn": false
-			},
-			{
-				"leaderName": "Sisto IV",
-				"leaderRequirements": {
-					"resourcesRequirements": {
-						"COINS": 6,
-						"WOODS": 6,
-						"STONES": 6,
-						"SERVANTS": 6
-					}
-				},
-				"bonus": {
-					"churchSupportBonus": {
-						"resources": {
-							"VICTORY_POINTS": 5
-						}
-					}
-				},
-				"oncePerTurn": false
-			},
-			{
-				"leaderName": "Girolamo Savonarola",
-				"leaderRequirements": {
-					"resources": {
-						"COINS": 18
-					}
-				},
-				"bonus": {
-					"resourcesBonus": {
-						"resources": {
-							"FAITH_POINTS": 1
-						}
-					}
-				},
-				"oncePerTurn": true
-			},
-			{
-				"leaderName": "Cesare Borgia",
-				"leaderRequirements": {
-					"cardRequirements": [
-						{
-							"developmentCardColor": "YELLOW",
-							"number": 3
-						}
-					],
-					"resourcesRequirements": {
-						"COINS": 12,
-						"FAITH_POINTS": 2
-					}
-				},
-				"bonus": {
-					"noMilitaryPointsRequirementForTerritoryCards": true
-				},
-				"oncePerTurn": false
-			},
-			{
-				"leaderName": "Michelangelo Buonarroti",
-				"leaderRequirements": {
-					"resources": {
-						"STONES": 10
-					}
-				},
-				"bonus": {
-					"resourcesBonus": {
-						"resources": {
-							"COINS": 3
-						}
-					}
-				},
-				"oncePerTurn": true
-			},
-			{
-				"leaderName": "Santa Rita",
-				"leaderRequirements": {
-					"resourcesRequirements": {
-						"FAITH_POINTS": 8
-					}
-				},
-				"bonus": {
-					"doubleGoodsIncomeFromDevelopmentCardsImmediateEffect": true
-				},
-				"oncePerTurn": false
-			},
-			{
-				"leaderName": "Giovanni dalle Bande Nere",
-				"leaderRequirements": {
-					"resources": {
-						"MILITARY_POINTS": 12
-					}
-				},
-				"bonus": {
-					"resourcesBonus": {
-						"resources": {
-							"COINS": 1,
-							"WOODS": 1,
-							"STONES": 1
-						}
-					}
-				},
-				"oncePerTurn": true
-			},
-			{
-				"leaderName": "Cosimo de' Medici",
-				"leaderRequirements": {
-					"cardRequirements": [
-						{
-							"developmentCardColor": "BLUE",
-							"number": 2
-						},
-						{
-							"developmentCardColor": "YELLOW",
-							"number": 4
-						}
-					]
-				},
-				"bonus": {
-					"resourcesBonus": {
-						"resources": {
-							"SERVANTS": 3,
-							"VICTORY_POINTS": 1
-						}
-					}
-				},
-				"oncePerTurn": true
-			},
-			{
-				"leaderName": "Leonardo da Vinci",
-				"leaderRequirements": {
-					"cardRequirements": [
-						{
-							"developmentCardColor": "BLUE",
-							"number": 4
-						},
-						{
-							"developmentCardColor": "GREEN",
-							"number": 2
-						}
-					]
-				},
-				"bonus": {
-					"workingAreaValueEffect": {
-						"workingAreaType": "PRODUCTION",
-						"diceValue": 0
-					}
-				},
-				"oncePerTurn": true
-			},
-			{
-				"leaderName": "Bartolomeo Colleoni",
-				"leaderRequirements": {
-					"cardRequirements": [
-						{
-							"developmentCardColor": "PURPLE",
-							"number": 2
-						},
-						{
-							"developmentCardColor": "GREEN",
-							"number": 4
-						}
-					]
-				},
-				"bonus": {
-					"resourcesBonus": {
-						"resources": {
-							"VICTORY_POINTS": 1
-						}
-					}
-				},
-				"oncePerTurn": true
-			},
-			{
-				"leaderName": "Sandro Botticelli",
-				"leaderRequirements": {
-					"resourcesRequirements": {
-						"WOODS": 10
-					}
-				},
-				"bonus": {
-					"resourcesBonus": {
-						"resources": {
-							"MILITARY_POINTS": 2,
-							"VICTORY_POINTS": 1
-						}
-					}
-				},
-				"oncePerTurn": true
-			},
-			{
-				"leaderName": "Ludovico III Gonzaga",
-				"leaderRequirements": {
-					"resourcesRequirements": {
-						"SERVANTS": 15
-					}
-				},
-				"bonus": {
-					"resourcesBonus": {
-						"councilPrevilege": 1
-					}
-				},
-				"oncePerTurn": true
-			},
-			{
-				"leaderName": "Ludovico il Moro",
-				"leaderRequirements": {
-					"cardRequirements": [
-						{
-							"developmentCardColor": "GREEN",
-							"number": 2
-						},
-						{
-							"developmentCardColor": "YELLOW",
-							"number": 2
-						},
-						{
-							"developmentCardColor": "BLUE",
-							"number": 2
-						},
-						{
-							"developmentCardColor": "PURPLE",
-							"number": 2
-						}
-					]
-				},
-				"bonus": {
-					"familyMemberValueEffect": [
-						{
-							"diceColor": "WHITE",
-							"diceValue": 5,
-							"realtive": false
-						},
-						{
-							"diceColor": "BLACK",
-							"diceValue": 5,
-							"realtive": false
-						},
-						{
-							"diceColor": "ORANGE",
-							"diceValue": 5,
-							"realtive": false
-						}
-					]
-				},
-				"oncePerTurn": false
-			},
-			{
-				"leaderName": "Pico della Mirandola",
-				"leaderRequirements": {
-					"cardRequirements": [
-						{
-							"developmentCardColor": "YELLOW",
-							"number": 2
-						},
-						{
-							"developmentCardColor": "PURPLE",
-							"number": 4
-						}
-					]
-				},
-				"bonus": {
-					"developmentCardAcquireEffect": {
-						"developmentCardColor": "DEFAULT",
-						"requirementsDiscount": {
-							"resources": {
-								"COINS": 3
-							}
-						}
-					}
-				},
-				"oncePerTurn": false
-			}
-		],
-		"excommunicationTiles": [
-			{
-				"period": 1,
-				"penalty": {
-					"resourcesIncomePenalty": {
-						"resources": {
-							"MILITARY_POINTS": -1
-						}
-					}
-				}
-			},
-			{
-				"period": 1,
-				"penalty": {
-					"resourcesIncomePenalty": {
-						"resources": {
-							"COINS": -1
-						}
-					}
-				}
-			},
-			{
-				"period": 1,
-				"penalty": {
-					"resourcesIncomePenalty": {
-						"resources": {
-							"SERVANTS": -1
-						}
-					}
-				}
-			},
-			{
-				"period": 1,
-				"penalty": {
-					"resourcesIncomePenalty": {
-						"resources": {
-							"WOODS": -1,
-							"STONES": -1
-						}
-					}
-				}
-			},
-			{
-				"period": 1,
-				"penalty": {
-					"workingAreaValueEffect": {
-						"workingAreaType": "HARVEST",
-						"diceValue": -3
-					}
-				}
-			},
-			{
-				"period": 1,
-				"penalty": {
-					"workingAreaValueEffect": {
-						"workingAreaType": "PRODUCTION",
-						"diceValue": -3
-					}
-				}
-			},
-			{
-				"period": 1,
-				"penalty": {
-					"familyMemberValueEffect": [
-						{
-							"diceColor": "WHITE",
-							"diceValue": -1,
-							"realtive": true
-						},
-						{
-							"diceColor": "BLACK",
-							"diceValue": -1,
-							"realtive": true
-						},
-						{
-							"diceColor": "ORANGE",
-							"diceValue": -1,
-							"realtive": true
-						}
-					]
-				}
-			},
-			{
-				"period": 2,
-				"penalty": {
-					"developmentCardAcquireEffect": {
-						"developmentCardColor": "PURPLE",
-						"diceValue": -4
-					}
-				}
-			},
-			{
-				"period": 2,
-				"penalty": {
-					"developmentCardAcquireEffect": {
-						"developmentCardColor": "BLUE",
-						"diceValue": -4
-					}
-				}
-			},
-			{
-				"period": 2,
-				"penalty": {
-					"developmentCardAcquireEffect": {
-						"developmentCardColor": "YELLOW",
-						"diceValue": -4
-					}
-				}
-			},
-			{
-				"period": 2,
-				"penalty": {
-					"developmentCardAcquireEffect": {
-						"developmentCardColor": "GREEN",
-						"diceValue": -4
-					}
-				}
-			},
-			{
-				"period": 2,
-				"penalty": {
-					"marketBan": true
-				}
-			},
-			{
-				"period": 2,
-				"penalty": {
-					"skipFirstTurn": true
-				}
-			},
-			{
-				"period": 2,
-				"penalty": {
-					"halveServantsValue": true
-				}
-			},
-			{
-				"period": 3,
-				"penalty": {
-					"victoryPointsPenalty": {
-						"VICTORY_POINTS": -1,
-						"resources": {
-							"MILITARY_POINTS": 1
-						}
-					}
-				}
-			},
-			{
-				"period": 3,
-				"penalty": {
-					"victoryPointsPenalty": {
-						"VICTORY_POINTS": -1,
-						"resources": {
-							"VICTORY_POINTS": 5
-						}
-					}
-				}
-			},
-			{
-				"period": 3,
-				"penalty": {
-					"victoryPointsPenalty": {
-						"VICTORY_POINTS": 0,
-						"developmentCardColor": "BLUE"
-					}
-				}
-			},
-			{
-				"period": 3,
-				"penalty": {
-					"victoryPointsPenalty": {
-						"VICTORY_POINTS": 0,
-						"developmentCardColor": "PURPLE"
-					}
-				}
-			},
-			{
-				"period": 3,
-				"penalty": {
-					"victoryPointsPenalty": {
-						"VICTORY_POINTS": 0,
-						"developmentCardColor": "GREEN"
-					}
-				}
-			},
-			{
-				"period": 3,
-				"penalty": {
-					"victoryPointsPenalty": {
-						"VICTORY_POINTS": -1,
-						"playerGoods": 1
-					}
-				}
-			},
-			{
-				"period": 3,
-				"penalty": {
-					"victoryPointsPenalty": {
-						"VICTORY_POINTS": -1,
-						"buildingCardsResources": {
-							"WOODS": 1,
-							"STONES": 1
-						}
-					}
-				}
-			}
-		]
-	}
+  "url": "http://www.jsoneditoronline.org/?id=c9dd5d7e34c49414db2023da2f0731f8",
+  "configuration": {
+    "server": {
+      "timeout": 120
+    },
+    "game": {
+      "maxPlayers": 5,
+      "periods": 3,
+      "roundsPerPeriod": 2,
+      "towerLevels": 4,
+      "councilPrivilege": [
+        {
+          "COINS": 0,
+          "WOODS": 1,
+          "STONES": 1,
+          "SERVANTS": 0,
+          "MILITARY_POINTS": 0,
+          "FAITH_POINTS": 0,
+          "VICTORY_POINTS": 0
+        },
+        {
+          "COINS": 0,
+          "WOODS": 0,
+          "STONES": 0,
+          "SERVANTS": 2,
+          "MILITARY_POINTS": 0,
+          "FAITH_POINTS": 0,
+          "VICTORY_POINTS": 0
+        },
+        {
+          "COINS": 2,
+          "WOODS": 0,
+          "STONES": 0,
+          "SERVANTS": 0,
+          "MILITARY_POINTS": 0,
+          "FAITH_POINTS": 0,
+          "VICTORY_POINTS": 0
+        },
+        {
+          "COINS": 0,
+          "WOODS": 0,
+          "STONES": 0,
+          "SERVANTS": 0,
+          "MILITARY_POINTS": 2,
+          "FAITH_POINTS": 0,
+          "VICTORY_POINTS": 0
+        },
+        {
+          "COINS": 0,
+          "WOODS": 0,
+          "STONES": 0,
+          "SERVANTS": 0,
+          "MILITARY_POINTS": 0,
+          "FAITH_POINTS": 1,
+          "VICTORY_POINTS": 0
+        }
+      ],
+      "finalVictoryPoints": {
+        "territories": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 1,
+          "4": 4,
+          "5": 10,
+          "6": 20
+        },
+        "buildings": {
+          "0": 0,
+          "1": 1,
+          "2": 3,
+          "3": 6,
+          "4": 10,
+          "5": 15,
+          "6": 25
+        },
+        "FAITH_POINTS": {
+          "0": 0,
+          "1": 1,
+          "2": 2,
+          "3": 3,
+          "4": 4,
+          "5": 4,
+          "6": 7,
+          "7": 9,
+          "8": 11,
+          "9": 13,
+          "10": 15,
+          "11": 17,
+          "12": 19,
+          "13": 22,
+          "14": 25,
+          "15": 30
+        },
+        "resourcesForVictoryPoint": 5
+      }
+    },
+    "actionSlots": {
+      "towers": [
+        [
+          {
+            "singlePawnSlot": true,
+            "diceValue": 1,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          {
+            "singlePawnSlot": true,
+            "diceValue": 3,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          {
+            "singlePawnSlot": true,
+            "diceValue": 5,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 1,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          {
+            "singlePawnSlot": true,
+            "diceValue": 7,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 2,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          }
+        ],
+        [
+          {
+            "singlePawnSlot": true,
+            "diceValue": 1,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          {
+            "singlePawnSlot": true,
+            "diceValue": 3,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          {
+            "singlePawnSlot": true,
+            "diceValue": 5,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 1,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          {
+            "singlePawnSlot": true,
+            "diceValue": 7,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 2,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          }
+        ],
+        [
+          {
+            "singlePawnSlot": true,
+            "diceValue": 1,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          {
+            "singlePawnSlot": true,
+            "diceValue": 3,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          {
+            "singlePawnSlot": true,
+            "diceValue": 5,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 1,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          {
+            "singlePawnSlot": true,
+            "diceValue": 7,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 2,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          }
+        ],
+        [
+          {
+            "singlePawnSlot": true,
+            "diceValue": 1,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          {
+            "singlePawnSlot": true,
+            "diceValue": 3,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          {
+            "singlePawnSlot": true,
+            "diceValue": 5,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 1,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          {
+            "singlePawnSlot": true,
+            "diceValue": 7,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 2,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          }
+        ],
+        [
+          {
+            "singlePawnSlot": true,
+            "diceValue": 1,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          {
+            "singlePawnSlot": true,
+            "diceValue": 3,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          {
+            "singlePawnSlot": true,
+            "diceValue": 5,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 1,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          {
+            "singlePawnSlot": true,
+            "diceValue": 7,
+            "councilPrivilege": 0,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 2,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          }
+        ]
+      ],
+      "councilPalace": {
+        "singlePawnSlot": false,
+        "diceValue": 1,
+        "councilPrivilege": 0,
+        "resources": {
+          "COINS": 1,
+          "WOODS": 0,
+          "STONES": 0,
+          "SERVANTS": 0,
+          "MILITARY_POINTS": 0,
+          "FAITH_POINTS": 0,
+          "VICTORY_POINTS": 0
+        }
+      },
+      "market": [
+        {
+          "singlePawnSlot": true,
+          "diceValue": 1,
+          "councilPrivilege": 0,
+          "resources": {
+            "COINS": 5,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        {
+          "singlePawnSlot": true,
+          "diceValue": 1,
+          "councilPrivilege": 0,
+          "resources": {
+            "COINS": 0,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 5,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        {
+          "singlePawnSlot": true,
+          "diceValue": 1,
+          "councilPrivilege": 0,
+          "resources": {
+            "COINS": 2,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 3,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        {
+          "singlePawnSlot": true,
+          "diceValue": 1,
+          "councilPrivilege": 2,
+          "resources": {
+            "COINS": 0,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        }
+      ],
+      "productionArea": [
+        {
+          "singlePawnSlot": true,
+          "diceValue": 1,
+          "councilPrivilege": 0,
+          "resources": {
+            "COINS": 0,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        {
+          "singlePawnSlot": false,
+          "diceValue": 4,
+          "councilPrivilege": 0,
+          "resources": {
+            "COINS": 0,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        }
+      ],
+      "harvestArea": [
+        {
+          "singlePawnSlot": true,
+          "diceValue": 1,
+          "councilPrivilege": 0,
+          "resources": {
+            "COINS": 0,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        {
+          "singlePawnSlot": false,
+          "diceValue": 4,
+          "councilPrivilege": 0,
+          "resources": {
+            "COINS": 0,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        }
+      ]
+    },
+    "personalTiles": [
+      {
+        "standard": {
+          "production": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 2,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 1,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          "harvest": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 1,
+              "STONES": 1,
+              "SERVANTS": 1,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          }
+        },
+        "advanced": {
+          "production": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 1,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 2,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          "harvest": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 1,
+              "STONES": 1,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 1,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          }
+        }
+      },
+      {
+        "standard": {
+          "production": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 2,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 1,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          "harvest": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 1,
+              "STONES": 1,
+              "SERVANTS": 1,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          }
+        },
+        "advanced": {
+          "production": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 1,
+              "MILITARY_POINTS": 2,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          "harvest": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 1,
+              "WOODS": 1,
+              "STONES": 1,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          }
+        }
+      },
+      {
+        "standard": {
+          "production": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 2,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 1,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          "harvest": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 1,
+              "STONES": 1,
+              "SERVANTS": 1,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          }
+        },
+        "advanced": {
+          "production": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 2,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 1,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          "harvest": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 1,
+              "STONES": 1,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 1,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          }
+        }
+      },
+      {
+        "standard": {
+          "production": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 2,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 1,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          "harvest": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 1,
+              "STONES": 1,
+              "SERVANTS": 1,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          }
+        },
+        "advanced": {
+          "production": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 1,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 2,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          "harvest": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 1,
+              "STONES": 1,
+              "SERVANTS": 1,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          }
+        }
+      },
+      {
+        "standard": {
+          "production": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 2,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 1,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          "harvest": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 1,
+              "STONES": 1,
+              "SERVANTS": 1,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          }
+        },
+        "advanced": {
+          "production": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 0,
+              "WOODS": 0,
+              "STONES": 0,
+              "SERVANTS": 2,
+              "MILITARY_POINTS": 1,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          },
+          "harvest": {
+            "diceValue": 1,
+            "resources": {
+              "COINS": 1,
+              "WOODS": 1,
+              "STONES": 1,
+              "SERVANTS": 0,
+              "MILITARY_POINTS": 0,
+              "FAITH_POINTS": 0,
+              "VICTORY_POINTS": 0
+            }
+          }
+        }
+      }
+    ],
+    "developmentCards": {
+      "territories": [
+        {
+          "#": 1,
+          "name": "Avamposto Commerciale",
+          "period": 1,
+          "diceValueToHarvest": 1,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {}
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 1
+              }
+            }
+          }
+        },
+        {
+          "#": 2,
+          "name": "Bosco",
+          "period": 1,
+          "diceValueToHarvest": 2,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "WOODS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "WOODS": 1
+              }
+            }
+          }
+        },
+        {
+          "#": 3,
+          "name": "Borgo",
+          "period": 1,
+          "diceValueToHarvest": 3,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {}
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 1,
+                "SERVANTS": 1
+              }
+            }
+          }
+        },
+        {
+          "#": 4,
+          "name": "Cava di Ghiaia",
+          "period": 1,
+          "diceValueToHarvest": 4,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "STONES": 2
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "STONES": 2
+              }
+            }
+          }
+        },
+        {
+          "#": 5,
+          "name": "Foresta",
+          "period": 1,
+          "diceValueToHarvest": 5,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "WOODS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "WOODS": 3
+              }
+            }
+          }
+        },
+        {
+          "#": 6,
+          "name": "Monastero",
+          "period": 1,
+          "diceValueToHarvest": 6,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 2,
+                "SERVANTS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 1,
+                "STONES": 1
+              }
+            }
+          }
+        },
+        {
+          "#": 7,
+          "name": "Rocca",
+          "period": 1,
+          "diceValueToHarvest": 5,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {}
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 2,
+                "STONES": 1
+              }
+            }
+          }
+        },
+        {
+          "#": 8,
+          "name": "Città",
+          "period": 1,
+          "diceValueToHarvest": 6,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 3
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "councilPrivilege": 1
+            }
+          }
+        },
+        {
+          "#": 9,
+          "name": "Miniera d'Oro",
+          "period": 2,
+          "diceValueToHarvest": 1,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 2
+              }
+            }
+          }
+        },
+        {
+          "#": 10,
+          "name": "Villaggio Montano",
+          "period": 2,
+          "diceValueToHarvest": 3,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "SERVANTS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 1,
+                "WOODS": 2
+              }
+            }
+          }
+        },
+        {
+          "#": 11,
+          "name": "Villaggio Minerario",
+          "period": 2,
+          "diceValueToHarvest": 4,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "SERVANTS": 2,
+                "STONES": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "SERVANTS": 1,
+                "STONES": 2
+              }
+            }
+          }
+        },
+        {
+          "#": 12,
+          "name": "Cava di Pietra",
+          "period": 2,
+          "diceValueToHarvest": 3,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "WOODS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "STONES": 3
+              }
+            }
+          }
+        },
+        {
+          "#": 13,
+          "name": "Possedimento",
+          "period": 2,
+          "diceValueToHarvest": 4,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "SERVANTS": 2,
+                "WOODS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 1,
+                "WOODS": 2
+              }
+            }
+          }
+        },
+        {
+          "#": 14,
+          "name": "Eremo",
+          "period": 2,
+          "diceValueToHarvest": 2,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 1
+              }
+            }
+          }
+        },
+        {
+          "#": 15,
+          "name": "Maniero",
+          "period": 2,
+          "diceValueToHarvest": 5,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {}
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 2,
+                "SERVANTS": 2
+              }
+            }
+          }
+        },
+        {
+          "#": 16,
+          "name": "Ducato",
+          "period": 2,
+          "diceValueToHarvest": 6,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 4
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 1,
+                "WOODS": 2,
+                "STONES": 1
+              }
+            }
+          }
+        },
+        {
+          "#": 17,
+          "name": "Città Mercantile",
+          "period": 3,
+          "diceValueToHarvest": 1,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 1,
+                "SERVANTS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 3
+              }
+            }
+          }
+        },
+        {
+          "#": 18,
+          "name": "Tenuta",
+          "period": 3,
+          "diceValueToHarvest": 3,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 1,
+                "WOODS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 1,
+                "WOODS": 2
+              }
+            }
+          }
+        },
+        {
+          "#": 19,
+          "name": "Colonia",
+          "period": 3,
+          "diceValueToHarvest": 5,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 4,
+                "WOODS": 1
+              }
+            }
+          }
+        },
+        {
+          "#": 20,
+          "name": "Cava di Marmo",
+          "period": 3,
+          "diceValueToHarvest": 2,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 3
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 1,
+                "STONES": 2
+              }
+            }
+          }
+        },
+        {
+          "#": 21,
+          "name": "Provincia",
+          "period": 3,
+          "diceValueToHarvest": 6,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "STONES": 1
+              },
+              "councilPrivilege": 1
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 4,
+                "STONES": 1
+              }
+            }
+          }
+        },
+        {
+          "#": 22,
+          "name": "Santuario",
+          "period": 3,
+          "diceValueToHarvest": 1,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 1,
+                "FAITH_POINTS": 1
+              }
+            }
+          }
+        },
+        {
+          "#": 23,
+          "name": "Castello",
+          "period": 3,
+          "diceValueToHarvest": 4,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 2,
+                "COINS": 2
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 3,
+                "SERVANTS": 1
+              }
+            }
+          }
+        },
+        {
+          "#": 24,
+          "name": "Città Fortificata",
+          "period": 3,
+          "diceValueToHarvest": 2,
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 2,
+                "SERVANTS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 1,
+                "SERVANTS": 2
+              }
+            }
+          }
+        }
+      ],
+      "buildings": [
+        {
+          "#": 25,
+          "name": "Zecca",
+          "period": 1,
+          "diceValueToProduct": 5,
+          "requirements": {
+            "resources": {
+              "WOODS": 1,
+              "STONES": 3
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 5
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesPerItemBonus": {
+              "resources": {
+                "COINS": 1
+              },
+              "developmentCardColor": "YELLOW"
+            }
+          }
+        },
+        {
+          "#": 26,
+          "name": "Esattoria",
+          "period": 1,
+          "diceValueToProduct": 5,
+          "requirements": {
+            "resources": {
+              "WOODS": 3,
+              "STONES": 1
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 5
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesPerItemBonus": {
+              "resources": {
+                "COINS": 1
+              },
+              "developmentCardColor": "GREEN"
+            }
+          }
+        },
+        {
+          "#": 27,
+          "name": "Arco di Trionfo",
+          "period": 1,
+          "diceValueToProduct": 6,
+          "requirements": {
+            "resources": {
+              "COINS": 2,
+              "STONES": 2
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 6
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesPerItemBonus": {
+              "resources": {
+                "COINS": 1
+              },
+              "developmentCardColor": "PURPLE"
+            }
+          }
+        },
+        {
+          "#": 28,
+          "name": "Teatro",
+          "period": 1,
+          "diceValueToProduct": 6,
+          "requirements": {
+            "resources": {
+              "COINS": 2,
+              "WOODS": 2
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 6
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesPerItemBonus": {
+              "resources": {
+                "COINS": 1
+              },
+              "developmentCardColor": "BLUE"
+            }
+          }
+        },
+        {
+          "#": 29,
+          "name": "Falegnameria",
+          "period": 1,
+          "diceValueToProduct": 4,
+          "requirements": {
+            "resources": {
+              "COINS": 1,
+              "WOODS": 2
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 3
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesExchangeBonus": [
+              {
+                "resourcesDiscard": {
+                  "WOODS": 1
+                },
+                "resourcesGain": {
+                  "COINS": 3
+                }
+              },
+              {
+                "resourcesDiscard": {
+                  "WOODS": 2
+                },
+                "resourcesGain": {
+                  "COINS": 5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "#": 30,
+          "name": "Tagliapietre",
+          "period": 1,
+          "diceValueToProduct": 3,
+          "requirements": {
+            "resources": {
+              "COINS": 1,
+              "STONES": 2
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 2
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesExchangeBonus": [
+              {
+                "resourcesDiscard": {
+                  "STONES": 1
+                },
+                "resourcesGain": {
+                  "COINS": 3
+                }
+              },
+              {
+                "resourcesDiscard": {
+                  "STONES": 2
+                },
+                "resourcesGain": {
+                  "COINS": 5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "#": 31,
+          "name": "Cappella",
+          "period": 1,
+          "diceValueToProduct": 2,
+          "requirements": {
+            "resources": {
+              "WOODS": 2
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesExchangeBonus": [
+              {
+                "resourcesDiscard": {
+                  "COINS": 1
+                },
+                "resourcesGain": {
+                  "FAITH_POINTS": 1
+                }
+              }
+            ]
+          }
+        },
+        {
+          "#": 32,
+          "name": "Residenza",
+          "period": 1,
+          "diceValueToProduct": 1,
+          "requirements": {
+            "resources": {
+              "STONES": 2
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesExchangeBonus": [
+              {
+                "resourcesDiscard": {
+                  "COINS": 1
+                },
+                "resourcesGain": {
+                  "councilPrivilege": 1
+                }
+              }
+            ]
+          }
+        },
+        {
+          "#": 33,
+          "name": "Mercato",
+          "period": 2,
+          "diceValueToProduct": 3,
+          "requirements": {
+            "resources": {
+              "WOODS": 2,
+              "STONES": 1
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 3
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesExchangeBonus": [
+              {
+                "resourcesDiscard": {
+                  "COINS": 3
+                },
+                "resourcesGain": {
+                  "WOODS": 2,
+                  "STONES": 2
+                }
+              }
+            ]
+          }
+        },
+        {
+          "#": 34,
+          "name": "Tesoreria",
+          "period": 2,
+          "diceValueToProduct": 3,
+          "requirements": {
+            "resources": {
+              "WOODS": 3
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 4
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesExchangeBonus": [
+              {
+                "resourcesDiscard": {
+                  "SERVANTS": 1
+                },
+                "resourcesGain": {
+                  "VICTORY_POINTS": 3
+                }
+              },
+              {
+                "resourcesDiscard": {
+                  "SERVANTS": 2
+                },
+                "resourcesGain": {
+                  "VICTORY_POINTS": 5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "#": 35,
+          "name": "Gilda dei Pittori",
+          "period": 2,
+          "diceValueToProduct": 4,
+          "requirements": {
+            "resources": {
+              "WOODS": 4
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 5
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesExchangeBonus": [
+              {
+                "resourcesDiscard": {
+                  "WOODS": 1
+                },
+                "resourcesGain": {
+                  "VICTORY_POINTS": 3
+                }
+              },
+              {
+                "resourcesDiscard": {
+                  "WOODS": 3
+                },
+                "resourcesGain": {
+                  "VICTORY_POINTS": 7
+                }
+              }
+            ]
+          }
+        },
+        {
+          "#": 36,
+          "name": "Gilda degli Scultori",
+          "period": 2,
+          "diceValueToProduct": 5,
+          "requirements": {
+            "resources": {
+              "STONES": 4
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 6
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesExchangeBonus": [
+              {
+                "resourcesDiscard": {
+                  "STONES": 3
+                },
+                "resourcesGain": {
+                  "VICTORY_POINTS": 3
+                }
+              },
+              {
+                "resourcesDiscard": {
+                  "STONES": 3
+                },
+                "resourcesGain": {
+                  "VICTORY_POINTS": 7
+                }
+              }
+            ]
+          }
+        },
+        {
+          "#": 37,
+          "name": "Gilda dei Costruttori",
+          "period": 2,
+          "diceValueToProduct": 4,
+          "requirements": {
+            "resources": {
+              "WOODS": 1,
+              "STONES": 2
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 4
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesExchangeBonus": [
+              {
+                "resourcesDiscard": {
+                  "STONES": 1,
+                  "SERVANTS": 1,
+                  "WOODS": 1
+                },
+                "resourcesGain": {
+                  "VICTORY_POINTS": 6
+                }
+              }
+            ]
+          }
+        },
+        {
+          "#": 38,
+          "name": "Battistero",
+          "period": 2,
+          "diceValueToProduct": 2,
+          "requirements": {
+            "resources": {
+              "STONES": 3
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 2,
+                "FAITH_POINTS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesExchangeBonus": [
+              {
+                "resourcesDiscard": {
+                  "FAITH_POINTS": 1
+                },
+                "resourcesGain": {
+                  "COINS": 2,
+                  "VICTORY_POINTS": 2
+                }
+              }
+            ]
+          }
+        },
+        {
+          "#": 39,
+          "name": "Caserma",
+          "period": 2,
+          "diceValueToProduct": 1,
+          "requirements": {
+            "resources": {
+              "WOODS": 1,
+              "STONES": 1
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 3
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesExchangeBonus": [
+              {
+                "resourcesDiscard": {
+                  "SERVANTS": 1
+                },
+                "resourcesGain": {
+                  "MILITARY_POINTS": 3
+                }
+              }
+            ]
+          }
+        },
+        {
+          "#": 40,
+          "name": "Fortezza",
+          "period": 2,
+          "diceValueToProduct": 6,
+          "requirements": {
+            "resources": {
+              "COINS": 2,
+              "WOODS": 2,
+              "STONES": 2
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 8
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 2,
+                "VICTORY_POINTS": 2
+              }
+            }
+          }
+        },
+        {
+          "#": 41,
+          "name": "Banca",
+          "period": 3,
+          "diceValueToProduct": 2,
+          "requirements": {
+            "resources": {
+              "COINS": 3,
+              "WOODS": 1,
+              "STONES": 3
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 7
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 5
+              }
+            }
+          }
+        },
+        {
+          "#": 42,
+          "name": "Fiera",
+          "period": 3,
+          "diceValueToProduct": 4,
+          "requirements": {
+            "resources": {
+              "COINS": 4,
+              "WOODS": 3
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 8
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesExchangeBonus": [
+              {
+                "resourcesDiscard": {
+                  "COINS": 4
+                },
+                "resourcesGain": {
+                  "WOODS": 3,
+                  "STONES": 3
+                }
+              }
+            ]
+          }
+        },
+        {
+          "#": 43,
+          "name": "Giardino",
+          "period": 3,
+          "diceValueToProduct": 1,
+          "requirements": {
+            "resources": {
+              "SERVANTS": 2,
+              "WOODS": 4,
+              "STONES": 2
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 10
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 3
+              }
+            }
+          }
+        },
+        {
+          "#": 44,
+          "name": "Castelletto",
+          "period": 3,
+          "diceValueToProduct": 5,
+          "requirements": {
+            "resources": {
+              "COINS": 2,
+              "WOODS": 2,
+              "STONES": 4
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 9
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 2
+              },
+              "councilPrivilege": 1
+            }
+          }
+        },
+        {
+          "#": 45,
+          "name": "Palazzo",
+          "period": 3,
+          "diceValueToProduct": 6,
+          "requirements": {
+            "resources": {
+              "COINS": 3,
+              "WOODS": 3,
+              "STONES": 1
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 9
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesExchangeBonus": [
+              {
+                "resourcesDiscard": {
+                  "COINS": 1
+                },
+                "resourcesGain": {
+                  "SERVANTS": 2,
+                  "VICTORY_POINTS": 4
+                }
+              }
+            ]
+          }
+        },
+        {
+          "#": 46,
+          "name": "Basilica",
+          "period": 3,
+          "diceValueToProduct": 1,
+          "requirements": {
+            "resources": {
+              "WOODS": 1,
+              "STONES": 4
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 5,
+                "FAITH_POINTS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesExchangeBonus": [
+              {
+                "resourcesDiscard": {
+                  "WOODS": 1
+                },
+                "resources": {
+                  "FAITH_POINTS": 2
+                }
+              }
+            ]
+          }
+        },
+        {
+          "#": 47,
+          "name": "Accademia Militare",
+          "period": 3,
+          "diceValueToProduct": 3,
+          "requirements": {
+            "resources": {
+              "SERVANTS": 1,
+              "WOODS": 2,
+              "STONES": 4
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 7
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesExchangeBonus": [
+              {
+                "resourcesDiscard": {
+                  "SERVANTS": 1
+                },
+                "resourcesGain": {
+                  "MILITARY_POINTS": 3,
+                  "VICTORY_POINTS": 1
+                }
+              }
+            ]
+          }
+        },
+        {
+          "#": 48,
+          "name": "Cattedrale",
+          "period": 3,
+          "diceValueToProduct": 2,
+          "requirements": {
+            "resources": {
+              "WOODS": 4,
+              "STONES": 4
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 7,
+                "FAITH_POINTS": 3
+              }
+            }
+          },
+          "permanentBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 1
+              }
+            }
+          }
+        }
+      ],
+      "characters": [
+        {
+          "#": 49,
+          "name": "Condottiero",
+          "period": 1,
+          "requirements": {
+            "COINS": 2
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 3
+              }
+            }
+          },
+          "permanentBonus": {
+            "developmentCardAcquireEffect": {
+              "developmentCardColor": "GREEN",
+              "diceValue": 2
+            }
+          }
+        },
+        {
+          "#": 50,
+          "name": "Costruttore",
+          "period": 1,
+          "requirements": {
+            "COINS": 4
+          },
+          "permanentBonus": {
+            "developmentCardAcquireEffect": {
+              "developmentCardColor": "YELLOW",
+              "diceValue": 2,
+              "requirementsDiscount": {
+                "resources": {
+                  "WOODS": 1,
+                  "STONES": 1
+                }
+              }
+            }
+          }
+        },
+        {
+          "#": 51,
+          "name": "Dama",
+          "period": 1,
+          "requirements": {
+            "COINS": 4
+          },
+          "permanentBonus": {
+            "developmentCardAcquireEffect": {
+              "developmentCardColor": "BLUE",
+              "diceValue": 2,
+              "requirementsDiscount": {
+                "resources": {
+                  "COINS": 1
+                }
+              }
+            }
+          }
+        },
+        {
+          "#": 52,
+          "name": "Cavaliere",
+          "period": 1,
+          "requirements": {
+            "COINS": 2
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "councilPrivilege": 1
+            }
+          },
+          "permanentBonus": {
+            "developmentCardAcquireEffect": {
+              "developmentCardColor": "PURPLE",
+              "diceValue": 2
+            }
+          }
+        },
+        {
+          "#": 53,
+          "name": "Contadino",
+          "period": 1,
+          "requirements": {
+            "COINS": 3
+          },
+          "permanentBonus": {
+            "workingAreaValueEffect": {
+              "workingAreaType": "HARVEST",
+              "diceValue": 2
+            }
+          }
+        },
+        {
+          "#": 54,
+          "name": "Artiginao",
+          "period": 1,
+          "requirements": {
+            "COINS": 3
+          },
+          "permanentBonus": {
+            "workingAreaValueEffect": {
+              "workingAreaType": "PRODUCTION",
+              "diceValue": 2
+            }
+          }
+        },
+        {
+          "#": 55,
+          "name": "Predicatore",
+          "period": 1,
+          "requirements": {
+            "COINS": 2
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 4
+              }
+            }
+          },
+          "permanentBonus": {
+            "ActionSlotPenalty": {
+              "noResourcesFromTowerLevels": [
+                5,
+                7
+              ]
+            }
+          }
+        },
+        {
+          "#": 56,
+          "name": "Badessa",
+          "period": 1,
+          "requirements": {
+            "COINS": 3
+          },
+          "instantBonus": {
+            "developmentCardAcquireEffect": {
+              "developmentCardColor": "DEFAULT",
+              "diceValue": 4
+            },
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 1
+              }
+            }
+          }
+        },
+        {
+          "#": 57,
+          "name": "Capitano",
+          "period": 2,
+          "requirements": {
+            "COINS": 4
+          },
+          "instantBonus": {
+            "developmentCardAcquireEffect": {
+              "developmentCardColor": "GREEN",
+              "diceValue": 6
+            },
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 2
+              }
+            }
+          }
+        },
+        {
+          "#": 58,
+          "name": "Architetto",
+          "period": 2,
+          "requirements": {
+            "COINS": 4
+          },
+          "instantBonus": {
+            "developmentCardAcquireEffect": {
+              "developmentCardColor": "YELLOW",
+              "diceValue": 6,
+              "requirementsDiscount": {
+                "resources": {
+                  "WOODS": 1,
+                  "STONES": 1
+                }
+              }
+            }
+          }
+        },
+        {
+          "#": 59,
+          "name": "Mecenate",
+          "period": 2,
+          "requirements": {
+            "COINS": 3
+          },
+          "instantBonus": {
+            "developmentCardAcquireEffect": {
+              "developmentCardColor": "BLUE",
+              "diceValue": 6,
+              "requirementsDiscount": {
+                "resources": {
+                  "COINS": 2
+                }
+              }
+            }
+          }
+        },
+        {
+          "#": 60,
+          "name": "Eroe",
+          "period": 2,
+          "requirements": {
+            "COINS": 4
+          },
+          "instantBonus": {
+            "developmentCardAcquireEffect": {
+              "developmentCardColor": "PURPLE",
+              "diceValue": 6
+            },
+            "resourcesBonus": {
+              "councilPrivilege": 1
+            }
+          }
+        },
+        {
+          "#": 61,
+          "name": "Fattore",
+          "period": 2,
+          "requirements": {
+            "COINS": 4
+          },
+          "permanentBonus": {
+            "workingAreaValueEffect": {
+              "workingAreaType": "HARVEST",
+              "diceValue": 3
+            }
+          }
+        },
+        {
+          "#": 62,
+          "name": "Studioso",
+          "period": 2,
+          "requirements": {
+            "COINS": 4
+          },
+          "permanentBonus": {
+            "workingAreaValueEffect": {
+              "workingAreaType": "PRODUCTION",
+              "diceValue": 3
+            }
+          }
+        },
+        {
+          "#": 63,
+          "name": "Messo Papale",
+          "period": 2,
+          "requirements": {
+            "COINS": 5
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 3
+              }
+            }
+          }
+        },
+        {
+          "#": 64,
+          "name": "Messo Reale",
+          "period": 2,
+          "requirements": {
+            "COINS": 5
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "councilPrivilege": 3
+            }
+          }
+        },
+        {
+          "#": 65,
+          "name": "Nobile",
+          "period": 3,
+          "requirements": {
+            "COINS": 6
+          },
+          "instantBonus": {
+            "resourcesPerItemBonus": {
+              "resources": {
+                "VICTORY_POINTS": 2
+              },
+              "developmentCardColor": "GREEN"
+            }
+          }
+        },
+        {
+          "#": 66,
+          "name": "Governatore",
+          "period": 3,
+          "requirements": {
+            "COINS": 6
+          },
+          "instantBonus": {
+            "resourcesPerItemBonus": {
+              "resources": {
+                "VICTORY_POINTS": 2
+              },
+              "developmentCardColor": "YELLOW"
+            }
+          }
+        },
+        {
+          "#": 67,
+          "name": "Cortigiana",
+          "period": 3,
+          "requirements": {
+            "COINS": 7
+          },
+          "instantBonus": {
+            "resourcesPerItemBonus": {
+              "resources": {
+                "VICTORY_POINTS": 2
+              },
+              "developmentCardColor": "BLUE"
+            }
+          }
+        },
+        {
+          "#": 68,
+          "name": "Araldo",
+          "period": 3,
+          "requirements": {
+            "COINS": 6
+          },
+          "instantBonus": {
+            "resourcesPerItemBonus": {
+              "resources": {
+                "VICTORY_POINTS": 2
+              },
+              "developmentCardColor": "PURPLE"
+            }
+          }
+        },
+        {
+          "#": 69,
+          "name": "Cardinale",
+          "period": 3,
+          "requirements": {
+            "COINS": 4
+          },
+          "instantBonus": {
+            "workingAreaValueEffect": {
+              "workingAreaType": "HARVEST",
+              "diceValue": 4
+            },
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 2
+              }
+            }
+          }
+        },
+        {
+          "#": 70,
+          "name": "Vescovo",
+          "period": 3,
+          "requirements": {
+            "COINS": 5
+          },
+          "instantBonus": {
+            "workingAreaValueEffect": {
+              "workingAreaType": "PRODUCTION",
+              "diceValue": 4
+            },
+            "resourcesBonus": {
+              "councilPrivilege": 1
+            }
+          }
+        },
+        {
+          "#": 71,
+          "name": "Generale",
+          "period": 3,
+          "requirements": {
+            "COINS": 5
+          },
+          "instantBonus": {
+            "resourcesPerItemBonus": {
+              "resources": {
+                "VICTORY_POINTS": 1
+              },
+              "requiredResources": {
+                "MILITARY_POINTS": 2
+              }
+            }
+          }
+        },
+        {
+          "#": 72,
+          "name": "Ambasciatore",
+          "period": 3,
+          "requirements": {
+            "COINS": 6
+          },
+          "instantBonus": {
+            "developmentCardAcquireEffect": {
+              "developmentCardColor": "DEFAULT",
+              "diceValue": 7
+            },
+            "resourcesBonus": {
+              "councilPrivilege": 1
+            }
+          }
+        }
+      ],
+      "ventures": [
+        {
+          "#": 73,
+          "name": "Ingaggiare Reclute",
+          "period": 1,
+          "requirements": {
+            "resources": {
+              "COINS": 4
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 5
+              }
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 4
+          }
+        },
+        {
+          "#": 74,
+          "name": "Riparare la Chiesa",
+          "period": 1,
+          "requirements": {
+            "resources": {
+              "COINS": 1,
+              "WOODS": 1,
+              "STONES": 1
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 5
+          }
+        },
+        {
+          "#": 75,
+          "name": "Costruire le Mura",
+          "period": 1,
+          "requirements": {
+            "resources": {
+              "STONES": 3
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 2
+              },
+              "councilPrivilege": 1
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 3
+          }
+        },
+        {
+          "#": 76,
+          "name": "Innalzare una Statua",
+          "period": 1,
+          "requirements": {
+            "resources": {
+              "WOODS": 2,
+              "STONES": 2
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "councilPrivilege": 2
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 4
+          }
+        },
+        {
+          "#": 77,
+          "name": "Campagna Militare",
+          "period": 1,
+          "requirements": {
+            "MILITARY_POINTS": {
+              "militaryPointsRequired": 3,
+              "militaryPointsSubtraction": 2
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 3
+              }
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 5
+          }
+        },
+        {
+          "#": 78,
+          "name": "Ospitare i Mendicanti",
+          "period": 1,
+          "requirements": {
+            "resources": {
+              "WOODS": 3
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "SERVANTS": 4
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 4
+          }
+        },
+        {
+          "#": 79,
+          "name": "Combattere Eresie",
+          "period": 1,
+          "requirements": {
+            "MILITARY_POINTS": {
+              "militaryPointsRequired": 5,
+              "militaryPointsSubtraction": 3
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 2
+              }
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 5
+          }
+        },
+        {
+          "#": 80,
+          "name": "Sostegno al Vescovo",
+          "period": 1,
+          "requirements": {
+            "MILITARY_POINTS": {
+              "militaryPointsRequired": 4,
+              "militaryPointsSubtraction": 2
+            },
+            "resources": {
+              "COINS": 2,
+              "WOODS": 1,
+              "STONES": 1
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 3
+              }
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 1
+          }
+        },
+        {
+          "#": 81,
+          "name": "Ingaggiare Soldati",
+          "period": 2,
+          "requirements": {
+            "resources": {
+              "COINS": 6
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 6
+              }
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 5
+          }
+        },
+        {
+          "#": 82,
+          "name": "Riparare l'Abbazia",
+          "period": 2,
+          "requirements": {
+            "resources": {
+              "COINS": 2,
+              "WOODS": 2,
+              "STONES": 2
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 2
+              }
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 6
+          }
+        },
+        {
+          "#": 83,
+          "name": "Costruire Bastioni",
+          "period": 2,
+          "requirements": {
+            "resources": {
+              "STONES": 4
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 3
+              },
+              "councilPrivilege": 1
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 2
+          }
+        },
+        {
+          "#": 84,
+          "name": "Supporto al Re",
+          "period": 2,
+          "requirements": {
+            "MILITARY_POINTS": {
+              "militaryPointsRequired": 6,
+              "militaryPointsSubtraction": 3
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 5
+              },
+              "councilPrivilege": 1
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 3
+          }
+        },
+        {
+          "#": 85,
+          "name": "Scavare Canalizzazioni",
+          "period": 2,
+          "requirements": {
+            "resources": {
+              "COINS": 3,
+              "SERVANTS": 2
+            }
+          },
+          "instantBonus": {
+            "workingAreaValueEffect": {
+              "workingAreaType": "HARVEST",
+              "diceValue": 4
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 5
+          }
+        },
+        {
+          "#": 86,
+          "name": "Accogliere gli Stranieri",
+          "period": 2,
+          "requirements": {
+            "resources": {
+              "WOODS": 4
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "SERVANTS": 5
+              }
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 4
+          }
+        },
+        {
+          "#": 87,
+          "name": "Crociata",
+          "period": 2,
+          "requirements": {
+            "MILITARY_POINTS": {
+              "militaryPointsRequired": 8,
+              "militaryPointsSubtraction": 4
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 5,
+                "FAITH_POINTS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 5
+          }
+        },
+        {
+          "#": 88,
+          "name": "Sostegno al Cardinale",
+          "period": 2,
+          "requirements": {
+            "MILITARY_POINTS": {
+              "militaryPointsRequired": 7,
+              "militaryPointsSubtraction": 4
+            },
+            "resources": {
+              "COINS": 3,
+              "WOODS": 2,
+              "STONES": 2
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 3
+              }
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 4
+          }
+        },
+        {
+          "#": 89,
+          "name": "Ingaggiare Mercenari",
+          "period": 3,
+          "requirements": {
+            "resources": {
+              "COINS": 8
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 7
+              }
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 6
+          }
+        },
+        {
+          "#": 90,
+          "name": "Riparare la Cattedrale",
+          "period": 3,
+          "requirements": {
+            "resources": {
+              "COINS": 3,
+              "WOODS": 3,
+              "STONES": 3
+            }
+          },
+          "instantBonus": {
+            "developmentCardAcquireEffect": {
+              "developmentCardColor": "DEFAULT",
+              "diceValue": 7
+            },
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 1
+              }
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 5
+          }
+        },
+        {
+          "#": 91,
+          "name": "Costruire le Torri",
+          "period": 3,
+          "requirements": {
+            "resources": {
+              "STONES": 6
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 4
+              },
+              "councilPrivilege": 1
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 4
+          }
+        },
+        {
+          "#": 92,
+          "name": "Commissionare Arte Sacra",
+          "period": 3,
+          "requirements": {
+            "resources": {
+              "WOODS": 26
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 3
+              }
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 3
+          }
+        },
+        {
+          "#": 93,
+          "name": "Conquista Militare",
+          "period": 3,
+          "requirements": {
+            "MILITARY_POINTS": {
+              "militaryPointsRequired": 12,
+              "militaryPointsSubtraction": 6
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 3,
+                "WOODS": 3,
+                "STONES": 3
+              }
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 7
+          }
+        },
+        {
+          "#": 94,
+          "name": "Migliorare le Strade",
+          "period": 3,
+          "requirements": {
+            "resources": {
+              "COINS": 4,
+              "SERVANTS": 3
+            }
+          },
+          "instantBonus": {
+            "workingAreaValueEffect": {
+              "workingAreaType": "PRODUCTION",
+              "diceValue": 3
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 5
+          }
+        },
+        {
+          "#": 95,
+          "name": "Guerra Santa",
+          "period": 3,
+          "requirements": {
+            "MILITARY_POINTS": {
+              "militaryPointsRequired": 15,
+              "militaryPointsSubtraction": 8
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 4
+              }
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 8
+          }
+        },
+        {
+          "#": 96,
+          "name": "Sostegno al Papa",
+          "period": 3,
+          "requirements": {
+            "MILITARY_POINTS": {
+              "militaryPointsRequired": 10,
+              "militaryPointsSubtraction": 5
+            },
+            "resources": {
+              "COINS": 4,
+              "WOODS": 3,
+              "STONES": 3
+            }
+          },
+          "instantBonus": {
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 2
+              }
+            }
+          },
+          "permanentBonus": {
+            "endingVictoryPointsReward": 10
+          }
+        }
+      ],
+      "leaderCards": [
+        {
+          "leaderName": "Francesco Sforza",
+          "leaderRequirements": {
+            "cardRequirements": [
+              {
+                "developmentCardColor": "PURPLE",
+                "number": 5
+              }
+            ]
+          },
+          "bonus": {
+            "workingAreaValueEffect": {
+              "workingAreaType": "HARVEST",
+              "diceValue": 1
+            }
+          },
+          "oncePerTurn": true
+        },
+        {
+          "leaderName": "Lucrezia Borgia",
+          "leaderRequirements": {
+            "cardRequirements": [
+              {
+                "developmentCardColor": "DEFAULT",
+                "number": 6
+              }
+            ]
+          },
+          "bonus": {
+            "familyMemberValueEffect": [
+              {
+                "diceColor": "WHITE",
+                "diceValue": 2,
+                "realtive": true
+              },
+              {
+                "diceColor": "BLACK",
+                "diceValue": 2,
+                "realtive": true
+              },
+              {
+                "diceColor": "ORANGE",
+                "diceValue": 2,
+                "realtive": true
+              }
+            ]
+          },
+          "oncePerTurn": false
+        },
+        {
+          "leaderName": "Ludovico Ariosto",
+          "leaderRequirements": {
+            "cardRequirements": [
+              {
+                "developmentCardColor": "BLUE",
+                "number": 5
+              }
+            ]
+          },
+          "bonus": {
+            "actionSlotLimitBypass": true
+          },
+          "oncePerTurn": false
+        },
+        {
+          "leaderName": "Federico da Montefeltro",
+          "leaderRequirements": {
+            "cardRequirements": [
+              {
+                "developmentCardColor": "GREEN",
+                "number": 5
+              }
+            ]
+          },
+          "bonus": {
+            "familyMemberValueEffect": [
+              {
+                "diceColor": "DEFAULT",
+                "diceValue": 6,
+                "realtive": false
+              }
+            ]
+          },
+          "oncePerTurn": true
+        },
+        {
+          "leaderName": "Filippo Brunelleschi",
+          "leaderRequirements": {
+            "cardRequirements": [
+              {
+                "developmentCardColor": "YELLOW",
+                "number": 5
+              }
+            ]
+          },
+          "bonus": {
+            "noOccupiedTowerTax": true
+          },
+          "oncePerTurn": false
+        },
+        {
+          "leaderName": "Lorenzo de Medici",
+          "leaderRequirements": {
+            "resourcesRequirements": {
+              "VICTORY_POINTS": 35
+            }
+          },
+          "bonus": {
+            "copyOtherLeader": true
+          },
+          "oncePerTurn": false
+        },
+        {
+          "leaderName": "Sigismondo Malatesta",
+          "leaderRequirements": {
+            "resourcesRequirements": {
+              "MILITARY_POINTS": 7,
+              "FAITH_POINTS": 3
+            }
+          },
+          "bonus": {
+            "familyMemberValueEffect": [
+              {
+                "diceColor": "NEUTRAL",
+                "diceValue": 3,
+                "realtive": true
+              }
+            ]
+          },
+          "oncePerTurn": false
+        },
+        {
+          "leaderName": "Sisto IV",
+          "leaderRequirements": {
+            "resourcesRequirements": {
+              "COINS": 6,
+              "WOODS": 6,
+              "STONES": 6,
+              "SERVANTS": 6
+            }
+          },
+          "bonus": {
+            "churchSupportBonus": {
+              "resources": {
+                "VICTORY_POINTS": 5
+              }
+            }
+          },
+          "oncePerTurn": false
+        },
+        {
+          "leaderName": "Girolamo Savonarola",
+          "leaderRequirements": {
+            "resources": {
+              "COINS": 18
+            }
+          },
+          "bonus": {
+            "resourcesBonus": {
+              "resources": {
+                "FAITH_POINTS": 1
+              }
+            }
+          },
+          "oncePerTurn": true
+        },
+        {
+          "leaderName": "Cesare Borgia",
+          "leaderRequirements": {
+            "cardRequirements": [
+              {
+                "developmentCardColor": "YELLOW",
+                "number": 3
+              }
+            ],
+            "resourcesRequirements": {
+              "COINS": 12,
+              "FAITH_POINTS": 2
+            }
+          },
+          "bonus": {
+            "noMilitaryPointsRequirementForTerritoryCards": true
+          },
+          "oncePerTurn": false
+        },
+        {
+          "leaderName": "Michelangelo Buonarroti",
+          "leaderRequirements": {
+            "resources": {
+              "STONES": 10
+            }
+          },
+          "bonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 3
+              }
+            }
+          },
+          "oncePerTurn": true
+        },
+        {
+          "leaderName": "Santa Rita",
+          "leaderRequirements": {
+            "resourcesRequirements": {
+              "FAITH_POINTS": 8
+            }
+          },
+          "bonus": {
+            "doubleGoodsIncomeFromDevelopmentCardsImmediateEffect": true
+          },
+          "oncePerTurn": false
+        },
+        {
+          "leaderName": "Giovanni dalle Bande Nere",
+          "leaderRequirements": {
+            "resources": {
+              "MILITARY_POINTS": 12
+            }
+          },
+          "bonus": {
+            "resourcesBonus": {
+              "resources": {
+                "COINS": 1,
+                "WOODS": 1,
+                "STONES": 1
+              }
+            }
+          },
+          "oncePerTurn": true
+        },
+        {
+          "leaderName": "Cosimo de' Medici",
+          "leaderRequirements": {
+            "cardRequirements": [
+              {
+                "developmentCardColor": "BLUE",
+                "number": 2
+              },
+              {
+                "developmentCardColor": "YELLOW",
+                "number": 4
+              }
+            ]
+          },
+          "bonus": {
+            "resourcesBonus": {
+              "resources": {
+                "SERVANTS": 3,
+                "VICTORY_POINTS": 1
+              }
+            }
+          },
+          "oncePerTurn": true
+        },
+        {
+          "leaderName": "Leonardo da Vinci",
+          "leaderRequirements": {
+            "cardRequirements": [
+              {
+                "developmentCardColor": "BLUE",
+                "number": 4
+              },
+              {
+                "developmentCardColor": "GREEN",
+                "number": 2
+              }
+            ]
+          },
+          "bonus": {
+            "workingAreaValueEffect": {
+              "workingAreaType": "PRODUCTION",
+              "diceValue": 0
+            }
+          },
+          "oncePerTurn": true
+        },
+        {
+          "leaderName": "Bartolomeo Colleoni",
+          "leaderRequirements": {
+            "cardRequirements": [
+              {
+                "developmentCardColor": "PURPLE",
+                "number": 2
+              },
+              {
+                "developmentCardColor": "GREEN",
+                "number": 4
+              }
+            ]
+          },
+          "bonus": {
+            "resourcesBonus": {
+              "resources": {
+                "VICTORY_POINTS": 1
+              }
+            }
+          },
+          "oncePerTurn": true
+        },
+        {
+          "leaderName": "Sandro Botticelli",
+          "leaderRequirements": {
+            "resourcesRequirements": {
+              "WOODS": 10
+            }
+          },
+          "bonus": {
+            "resourcesBonus": {
+              "resources": {
+                "MILITARY_POINTS": 2,
+                "VICTORY_POINTS": 1
+              }
+            }
+          },
+          "oncePerTurn": true
+        },
+        {
+          "leaderName": "Ludovico III Gonzaga",
+          "leaderRequirements": {
+            "resourcesRequirements": {
+              "SERVANTS": 15
+            }
+          },
+          "bonus": {
+            "resourcesBonus": {
+              "councilPrevilege": 1
+            }
+          },
+          "oncePerTurn": true
+        },
+        {
+          "leaderName": "Ludovico il Moro",
+          "leaderRequirements": {
+            "cardRequirements": [
+              {
+                "developmentCardColor": "GREEN",
+                "number": 2
+              },
+              {
+                "developmentCardColor": "YELLOW",
+                "number": 2
+              },
+              {
+                "developmentCardColor": "BLUE",
+                "number": 2
+              },
+              {
+                "developmentCardColor": "PURPLE",
+                "number": 2
+              }
+            ]
+          },
+          "bonus": {
+            "familyMemberValueEffect": [
+              {
+                "diceColor": "WHITE",
+                "diceValue": 5,
+                "realtive": false
+              },
+              {
+                "diceColor": "BLACK",
+                "diceValue": 5,
+                "realtive": false
+              },
+              {
+                "diceColor": "ORANGE",
+                "diceValue": 5,
+                "realtive": false
+              }
+            ]
+          },
+          "oncePerTurn": false
+        },
+        {
+          "leaderName": "Pico della Mirandola",
+          "leaderRequirements": {
+            "cardRequirements": [
+              {
+                "developmentCardColor": "YELLOW",
+                "number": 2
+              },
+              {
+                "developmentCardColor": "PURPLE",
+                "number": 4
+              }
+            ]
+          },
+          "bonus": {
+            "developmentCardAcquireEffect": {
+              "developmentCardColor": "DEFAULT",
+              "requirementsDiscount": {
+                "resources": {
+                  "COINS": 3
+                }
+              }
+            }
+          },
+          "oncePerTurn": false
+        }
+      ],
+      "excommunicationTiles": [
+        {
+          "period": 1,
+          "penalty": {
+            "resourcesIncomePenalty": {
+              "resources": {
+                "MILITARY_POINTS": -1
+              }
+            }
+          }
+        },
+        {
+          "period": 1,
+          "penalty": {
+            "resourcesIncomePenalty": {
+              "resources": {
+                "COINS": -1
+              }
+            }
+          }
+        },
+        {
+          "period": 1,
+          "penalty": {
+            "resourcesIncomePenalty": {
+              "resources": {
+                "SERVANTS": -1
+              }
+            }
+          }
+        },
+        {
+          "period": 1,
+          "penalty": {
+            "resourcesIncomePenalty": {
+              "resources": {
+                "WOODS": -1,
+                "STONES": -1
+              }
+            }
+          }
+        },
+        {
+          "period": 1,
+          "penalty": {
+            "workingAreaValueEffect": {
+              "workingAreaType": "HARVEST",
+              "diceValue": -3
+            }
+          }
+        },
+        {
+          "period": 1,
+          "penalty": {
+            "workingAreaValueEffect": {
+              "workingAreaType": "PRODUCTION",
+              "diceValue": -3
+            }
+          }
+        },
+        {
+          "period": 1,
+          "penalty": {
+            "familyMemberValueEffect": [
+              {
+                "diceColor": "WHITE",
+                "diceValue": -1,
+                "realtive": true
+              },
+              {
+                "diceColor": "BLACK",
+                "diceValue": -1,
+                "realtive": true
+              },
+              {
+                "diceColor": "ORANGE",
+                "diceValue": -1,
+                "realtive": true
+              }
+            ]
+          }
+        },
+        {
+          "period": 2,
+          "penalty": {
+            "developmentCardAcquireEffect": {
+              "developmentCardColor": "PURPLE",
+              "diceValue": -4
+            }
+          }
+        },
+        {
+          "period": 2,
+          "penalty": {
+            "developmentCardAcquireEffect": {
+              "developmentCardColor": "BLUE",
+              "diceValue": -4
+            }
+          }
+        },
+        {
+          "period": 2,
+          "penalty": {
+            "developmentCardAcquireEffect": {
+              "developmentCardColor": "YELLOW",
+              "diceValue": -4
+            }
+          }
+        },
+        {
+          "period": 2,
+          "penalty": {
+            "developmentCardAcquireEffect": {
+              "developmentCardColor": "GREEN",
+              "diceValue": -4
+            }
+          }
+        },
+        {
+          "period": 2,
+          "penalty": {
+            "marketBan": true
+          }
+        },
+        {
+          "period": 2,
+          "penalty": {
+            "skipFirstTurn": true
+          }
+        },
+        {
+          "period": 2,
+          "penalty": {
+            "halveServantsValue": true
+          }
+        },
+        {
+          "period": 3,
+          "penalty": {
+            "victoryPointsPenalty": {
+              "VICTORY_POINTS": -1,
+              "resources": {
+                "MILITARY_POINTS": 1
+              }
+            }
+          }
+        },
+        {
+          "period": 3,
+          "penalty": {
+            "victoryPointsPenalty": {
+              "VICTORY_POINTS": -1,
+              "resources": {
+                "VICTORY_POINTS": 5
+              }
+            }
+          }
+        },
+        {
+          "period": 3,
+          "penalty": {
+            "victoryPointsPenalty": {
+              "VICTORY_POINTS": 0,
+              "developmentCardColor": "BLUE"
+            }
+          }
+        },
+        {
+          "period": 3,
+          "penalty": {
+            "victoryPointsPenalty": {
+              "VICTORY_POINTS": 0,
+              "developmentCardColor": "PURPLE"
+            }
+          }
+        },
+        {
+          "period": 3,
+          "penalty": {
+            "victoryPointsPenalty": {
+              "VICTORY_POINTS": 0,
+              "developmentCardColor": "GREEN"
+            }
+          }
+        },
+        {
+          "period": 3,
+          "penalty": {
+            "victoryPointsPenalty": {
+              "VICTORY_POINTS": -1,
+              "playerGoods": 1
+            }
+          }
+        },
+        {
+          "period": 3,
+          "penalty": {
+            "victoryPointsPenalty": {
+              "VICTORY_POINTS": -1,
+              "buildingCardsResources": {
+                "WOODS": 1,
+                "STONES": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
 }

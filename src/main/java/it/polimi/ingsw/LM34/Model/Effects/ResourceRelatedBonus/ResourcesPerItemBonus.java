@@ -22,22 +22,19 @@ public class ResourcesPerItemBonus extends AbstractEffect {
     private Resources bonusResources;
     private DevelopmentCardColor cardColor; //"nobile, araldo, cortigiana,governatore, zecca, teatro, esattoria,arco di triongo"
     private Integer militaryPointsRequired; //for "generale" card
-    private Integer diceValue;
 
-    public ResourcesPerItemBonus(Resources bonusResources, DevelopmentCardColor cardColor, Integer diceValue) {
+    public ResourcesPerItemBonus(Resources bonusResources, DevelopmentCardColor cardColor) {
         this.bonusResources = bonusResources;
         this.cardColor = cardColor; //"nobile, araldo, cortigiana,governatore, zecca, teatro, esattoria,arco di triongo"
         this.militaryPointsRequired = militaryPointsRequired; //"generale" card
-        this.diceValue = diceValue;
     }
 
     /*Constructor for "generale" card*/
-    public ResourcesPerItemBonus(Player player, Resources bonusResources, Integer militaryPointsRequired) {
+    public ResourcesPerItemBonus(Resources bonusResources, Integer militaryPointsRequired) {
         this.player = player;
         this.bonusResources = bonusResources;
         this.cardColor = null; //"nobile, araldo, cortigiana,governatore, zecca, teatro, esattoria,arco di triongo"
         this.militaryPointsRequired = militaryPointsRequired; //"generale" card
-        this.diceValue = 0;
     }
 
 
