@@ -28,6 +28,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.COINS;
+
 /**
  * Created by GiulioComi on 07/05/2017.
  * config parameters loaded from file as static variables
@@ -35,12 +37,10 @@ import java.util.*;
 public final class Configurator {
     /*CONVENTION GAME_CODES*/
     private static final Integer BACK_OR_PASS = -1;
-
-
     public static final Integer WAITING_ROOM_TIMEOUT = 10000;
     public static final Integer WAITING_ROOM_PLAYERS_THRESHOLD = 2;
-    public static final Integer PLAYER_MOVE_TIMEOUT = 2000;
 
+    public static final Integer PLAYER_MOVE_TIMEOUT = 2000;
     public static final Integer MAX_TOWER_LEVELS = 4;
     public static final Integer MAX_PLAYERS = 4;
     public static final Integer TOTAL_PERIODS = 3; //#total periods
@@ -100,6 +100,7 @@ public final class Configurator {
         //territoryCards = getTerritoryCardsFromJson(decks.getJSONArray("territories"));
         //buildingCards = getBuildingCardsFromJson(decks.getJSONArray("buildings"));
         //ventureCards = getVentureCardsFromJson(decks.getJSONArray("ventures"));
+        characterCards = getCharacterCardsFromJson(decks.getJSONArray("characters"));
     }
 
     private static ActionSlot getActionSlotFromJson(JSONObject jsonObject) {
@@ -233,7 +234,7 @@ public final class Configurator {
 
 
     public static ArrayList<VentureCard> getVentureCardsFromJson(JSONArray jsonArray) {
-        System.out.println(jsonArray.length());
+        //System.out.println(jsonArray.length());
         ArrayList<VentureCard> cards = new ArrayList<>();
         for(int i = 0; i < jsonArray.length(); i++) {
             cards.add(getVentureCardFromJson(jsonArray.getJSONObject(i)));
@@ -413,7 +414,6 @@ public final class Configurator {
               return new ExcommunicationCard(period, penalty);
         }
 
-
         /********Family Member Value Effect*******/
         JSONArray familyMemberValueEffect = jsonPenalty.getJSONArray("FamilyMemberValueEffect");
         JSONObject tempJson;
@@ -497,14 +497,133 @@ public final class Configurator {
                 resources = new Resources(0,1,1,0);
 
                 penalty = new VictoryPointsPenalty(victoryPoints, resources);
-
-
-
              }
         }
 
         return new ExcommunicationCard(period, penalty);
     }
+
+
+    private static List<CharacterCard> getCharacterCardsFromJson(JSONArray jsonArray) {
+        System.out.println(jsonArray.length());
+        ArrayList<CharacterCard> cards = new ArrayList<>();
+        for(int i = 0; i < jsonArray.length(); i++) {
+            cards.add(getCharacterCardFromJson(jsonArray.getJSONObject(i)));
+        }
+
+        return cards;
+    }
+
+    private static CharacterCard getCharacterCardFromJson(JSONObject jsonObject) {
+        //System.out.println(jsonObject.toString());
+        Integer period = jsonObject.optInt("period");
+        String name = jsonObject.optString("name");
+        List<AbstractEffect> instantBonus = new ArrayList<>(); //TODO
+        Resources resourcesRequired = new Resources();
+        AbstractEffect permanentBonus = null;
+
+        /***********RESOURCESBONUS********/
+        try {
+            instantBonus.add(getResourcesBonusFromJson(jsonObject.getJSONObject("instantBonus").getJSONObject("resourcesBonus")));
+            System.out.println("pergamene: " + getResourcesBonusFromJson(jsonObject.getJSONObject("instantBonus").getJSONObject("resourcesBonus")).getCouncilPrivilege());
+            resourcesRequired = getResourcesBonusFromJson(jsonObject.getJSONObject("requirements")).getResources();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        /***********WORKING AREA VALUE EFFECT********/
+        Integer diceValue = 0;
+        String areaType;
+        ContextType workingAreaType = null;
+
+
+            JSONObject jsonPermanentBonus = jsonObject.getJSONObject("permanentBonus");
+            if(jsonPermanentBonus.getJSONObject("workingAreaValueEffect") != null) {
+                diceValue = jsonObject.getJSONObject("permanentBonus").getJSONObject("workingAreaValueEffect").getInt("diceValue");
+                areaType = jsonObject.getJSONObject("permanentBonus").getJSONObject("workingAreaValueEffect").optString("workingAreaType");
+
+                if(areaType.equalsIgnoreCase("PRODUCTION"))
+                    workingAreaType = ContextType.PRODUCTION_AREA_CONTEXT;
+                else if (areaType.equalsIgnoreCase("HARVEST"))
+                    workingAreaType = ContextType.HARVEST_AREA_CONTEXT;
+
+                permanentBonus = new WorkingAreaValueEffect(workingAreaType, diceValue, false);
+            }
+
+            JSONObject jsonInstantBonus = jsonObject.getJSONObject("instantBonus");
+            if(jsonInstantBonus.getJSONObject("workingAreaValueEffect") != null) {
+                diceValue = jsonInstantBonus.getJSONObject("workingAreaValueEffect").getInt("diceValue");
+                areaType = jsonInstantBonus.getJSONObject("workingAreaValueEffect").optString("workingAreaType");
+
+                if (areaType.equalsIgnoreCase("PRODUCTION"))
+                    workingAreaType = ContextType.PRODUCTION_AREA_CONTEXT;
+                else if (areaType.equalsIgnoreCase("HARVEST"))
+                    workingAreaType = ContextType.HARVEST_AREA_CONTEXT;
+
+                instantBonus.add(new WorkingAreaValueEffect(workingAreaType, diceValue, false));
+            }
+
+        /***********DEVELOPMENT CARD ACQUIRE EFFECT********/
+        String cardColor;
+        ResourcesBonus requirementsDiscounts = new ResourcesBonus(new Resources(), 0);
+        DevelopmentCardColor color = null;
+        diceValue = 0; //reset dice value if it has been incremented by working area value effect
+        //TODO
+
+        if(jsonInstantBonus.getJSONObject("developmentCardAcquireEffect") != null) {
+            diceValue = jsonInstantBonus.getJSONObject("developmentCardAcquireEffect").getInt("diceValue");
+            cardColor = jsonInstantBonus.getJSONObject("instantBonus").getJSONObject("developmentCardAcquireEffect").getString("developmentCardColor");
+            for (DevelopmentCardColor c : DevelopmentCardColor.values())
+                if (c.getDevType().equalsIgnoreCase(cardColor))
+                    color = c;
+
+
+            if (jsonObject.getJSONObject("instantBonus").getJSONObject("developmentCardAcquireEffect").getJSONObject("requirementsDiscount") != null)
+                requirementsDiscounts = getResourcesBonusFromJson(jsonObject.getJSONObject("instantBonus").getJSONObject("developmentCardAcquireEffect"));
+
+            instantBonus.add(new DevelopmentCardAcquireEffect(color, diceValue, false));
+
+            //TODO: permanentBonus
+
+            if(jsonPermanentBonus.getJSONObject("developmentCardAcquireEffect") != null) {
+                diceValue = jsonInstantBonus.getJSONObject("developmentCardAcquireEffect").getInt("diceValue");
+                cardColor = jsonInstantBonus.getJSONObject("instantBonus").getJSONObject("developmentCardAcquireEffect").getString("developmentCardColor");
+                for (DevelopmentCardColor c : DevelopmentCardColor.values())
+                    if (c.getDevType().equalsIgnoreCase(cardColor))
+                        color = c;
+
+                if (jsonObject.getJSONObject("instantBonus").getJSONObject("developmentCardAcquireEffect").getJSONObject("requirementsDiscount") != null)
+                    requirementsDiscounts = getResourcesBonusFromJson(jsonObject.getJSONObject("instantBonus").getJSONObject("developmentCardAcquireEffect"));
+
+                permanentBonus = new DevelopmentCardAcquireEffect(color, diceValue, true, requirementsDiscounts);
+            }
+
+
+        /*----ResourcePerItem----*/
+            try {
+                Resources bonusResources;
+                DevelopmentCardColor cardType = null;
+                String stringColor = jsonObject.optJSONObject("instantBonus").optJSONObject("resourcesPerItemBonus").optString("developmentCardColor");
+
+
+                if(!stringColor.isEmpty()) {
+                    bonusResources = getResourcesBonusFromJson(jsonObject.optJSONObject("instantBonus")
+                                            .optJSONObject("resourcesPerItemBonus")).getResources();
+
+                    for (DevelopmentCardColor dc : DevelopmentCardColor.values())
+                        if (stringColor.equalsIgnoreCase(dc.toString()))
+                            cardType = dc;
+                    instantBonus.add(new ResourcesPerItemBonus(bonusResources, cardType));
+                }
+            //TODO
+            } catch(Exception e) {
+                System.out.println("Nessun effetto resourcesPerItemBonus in questa carta");
+            }
+        }
+
+        return new CharacterCard(name, period, resourcesRequired.getResourceByType(COINS), instantBonus, permanentBonus);
+    }
+
 
     //MAIN WITH THE PURPOSE TO VERIFY THE CORRECT LOADING OF MODEL OBJECTS FROM FILE
     public static void main(String[] args) {

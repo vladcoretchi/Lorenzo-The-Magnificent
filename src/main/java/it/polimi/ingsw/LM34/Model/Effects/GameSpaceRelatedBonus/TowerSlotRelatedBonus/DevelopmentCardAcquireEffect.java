@@ -28,17 +28,14 @@ public class DevelopmentCardAcquireEffect extends AbstractEffect implements Obse
     private Boolean relative;
 
     public DevelopmentCardAcquireEffect(DevelopmentCardColor color, Integer value, Boolean relative) {
-        this.color = color;
-        this.value = value;
-        this.requirementsDiscount = null;
-        this.relative = relative;
+        this(color, value, relative, null);
     }
 
-    public DevelopmentCardAcquireEffect(DevelopmentCardColor color, Integer value, ResourcesBonus requirementsDiscount) {
+    public DevelopmentCardAcquireEffect(DevelopmentCardColor color, Integer value, Boolean relative, ResourcesBonus requirementsDiscount) {
         this.color = color;
         this.value = value;
         this.requirementsDiscount = requirementsDiscount;
-        this.relative = false;
+        this.relative = relative;
     }
 
     public DevelopmentCardColor getDevelopmentCardColor() {
