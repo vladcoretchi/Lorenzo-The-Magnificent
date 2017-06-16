@@ -11,6 +11,7 @@ import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.FamilyMemberValu
 import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.HalveServantsValue;
 import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.MarketBan;
 import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus.DevelopmentCardAcquireEffect;
+import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus.TowerSlotPenalty;
 import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.WorkingAreaValueEffect;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesPerItemBonus;
@@ -29,6 +30,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.COINS;
+import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.MILITARY_POINTS;
 
 /**
  * Created by GiulioComi on 07/05/2017.
@@ -206,7 +208,6 @@ public final class Configurator {
         } catch(Exception e) {
            System.out.println("Nessun effetto resourcesPerItemBonus in questa carta");
        }
-
 
         /*----ResourceExchangeBonus----*/
         JSONObject exchange = jsonObject.optJSONObject("permanentBonus");
@@ -583,8 +584,6 @@ public final class Configurator {
 
             instantBonus.add(new DevelopmentCardAcquireEffect(color, diceValue, false));
 
-            //TODO: permanentBonus
-
             if(jsonPermanentBonus.getJSONObject("developmentCardAcquireEffect") != null) {
                 diceValue = jsonInstantBonus.getJSONObject("developmentCardAcquireEffect").getInt("diceValue");
                 cardColor = jsonInstantBonus.getJSONObject("instantBonus").getJSONObject("developmentCardAcquireEffect").getString("developmentCardColor");
@@ -598,32 +597,45 @@ public final class Configurator {
                 permanentBonus = new DevelopmentCardAcquireEffect(color, diceValue, true, requirementsDiscounts);
             }
 
-
-        /*----ResourcePerItem----*/
-            try {
-                Resources bonusResources;
+            /*----ResourcePerItem----*/
+                Resources bonusResources = new Resources();
                 DevelopmentCardColor cardType = null;
                 String stringColor = jsonObject.optJSONObject("instantBonus").optJSONObject("resourcesPerItemBonus").optString("developmentCardColor");
-
+                Resources resReqForItemBonus = new Resources();
 
                 if(!stringColor.isEmpty()) {
                     bonusResources = getResourcesBonusFromJson(jsonObject.optJSONObject("instantBonus")
-                                            .optJSONObject("resourcesPerItemBonus")).getResources();
+                            .optJSONObject("resourcesPerItemBonus")).getResources();
 
                     for (DevelopmentCardColor dc : DevelopmentCardColor.values())
                         if (stringColor.equalsIgnoreCase(dc.toString()))
                             cardType = dc;
-                    instantBonus.add(new ResourcesPerItemBonus(bonusResources, cardType));
+
+                instantBonus.add(new ResourcesPerItemBonus(bonusResources, cardType));
                 }
-            //TODO
-            } catch(Exception e) {
-                System.out.println("Nessun effetto resourcesPerItemBonus in questa carta");
-            }
+
+                JSONObject jsonReqRes = jsonObject.optJSONObject("instantBonus").optJSONObject("resourcesPerItemBonus").getJSONObject("requiredResources");
+                if(jsonReqRes != null)
+                    resReqForItemBonus = getResourcesBonusFromJson(jsonReqRes).getResources();
+
+                instantBonus.add(new ResourcesPerItemBonus(bonusResources, resReqForItemBonus.getResourceByType(MILITARY_POINTS)));
+        }
+
+        /******Action Slot Penalty*****/
+        List<Integer> towersLevels = new ArrayList<>();
+        JSONArray noResourcesFromTowerLevels = null;
+        JSONObject actionSlotPenalty = jsonObject.getJSONObject("permanentBonus").getJSONObject("actionSlotPenalty");
+        if(actionSlotPenalty != null) {
+            noResourcesFromTowerLevels = actionSlotPenalty.getJSONArray("noResourcesFromTowerLevels");
+            for (Integer index = 1; index <= noResourcesFromTowerLevels.length(); index++)
+                towersLevels.add(((JSONObject) noResourcesFromTowerLevels.get(index)).getInt("level" + index));
+
+
+            permanentBonus = new TowerSlotPenalty(towersLevels);
         }
 
         return new CharacterCard(name, period, resourcesRequired.getResourceByType(COINS), instantBonus, permanentBonus);
     }
-
 
     //MAIN WITH THE PURPOSE TO VERIFY THE CORRECT LOADING OF MODEL OBJECTS FROM FILE
     public static void main(String[] args) {

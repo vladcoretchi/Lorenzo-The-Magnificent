@@ -4,6 +4,7 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.TowersContext;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -11,23 +12,21 @@ import java.util.Observer;
  * Created by vladc on 5/14/2017.
  */
 public class TowerSlotPenalty extends AbstractEffect implements Observer {
-    private Integer noResourcesFromTowerLevels[]; //handles card "predicatore"
+    private List<Integer> noResourcesFromTowerLevels; //handles card "predicatore"
 
 
     /**
      *
      * @param noResourcesFromTowerActionSpaces the levels of towers from where the player does not gain a reward
      */
-    public TowerSlotPenalty(Integer noResourcesFromTowerActionSpaces[]) {
+    public TowerSlotPenalty(List<Integer> noResourcesFromTowerActionSpaces) {
         this.noResourcesFromTowerLevels = noResourcesFromTowerActionSpaces;
 
     }
 
-    public TowerSlotPenalty(Boolean marketBan) {
-        this.noResourcesFromTowerLevels = null;
-    }
 
-    public Integer[] getBannedRewardTowerLevels() {
+
+    public List<Integer> getBannedRewardTowerLevels() {
         return this.noResourcesFromTowerLevels;
     }
 

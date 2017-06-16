@@ -2173,8 +2173,12 @@
           "permanentBonus": {
             "ActionSlotPenalty": {
               "noResourcesFromTowerLevels": [
-                5,
-                7
+                {
+                  "level1": 5
+                },
+                {
+                  "level2": 7
+                }
               ]
             }
           }
