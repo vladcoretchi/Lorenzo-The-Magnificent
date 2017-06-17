@@ -1,26 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Group?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
-<?import javafx.scene.text.TextFlow?>
-<?import javafx.scene.effect.Glow?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <GridPane visible="true" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.LM34.UI.GUI.GUI">
     <children>
-        <ScrollPane id="board" minWidth="30" stylesheets="@../css/scrollBar.css" GridPane.columnIndex="0" GridPane.fillHeight="1894.59" GridPane.fillWidth="1331.37" GridPane.rowIndex="0">
+        <ScrollPane id="board" minWidth="30" stylesheets="@../css/scrollBar.css" GridPane.columnIndex="0" GridPane.fillHeight="1894.59" GridPane.fillWidth="1331.37" GridPane.rowIndex="0" GridPane.rowSpan="2">
             <!--gameboard background-->
 
         <Group fx:id="towers">
@@ -102,10 +90,10 @@
                 <Image url="@../images/coveringtile_1_back_.png" />
             </ImageView>
             <ImageView fx:id="marketActionSlot1" fitHeight="100" fitWidth="100" layoutX="950" layoutY="1565" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
             <ImageView fx:id="marketActionSlot0" fitHeight="100" fitWidth="100" layoutX="800" layoutY="1565" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
 
             <!--dices area-->
@@ -128,84 +116,86 @@
             </ImageView>
 
             <ImageView fx:id="productionArea0" fitHeight="100" fitWidth="100" layoutX="26" layoutY="1595" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
             <ImageView fx:id="harvestArea0" fitHeight="100" fitWidth="100" layoutX="26" layoutY="1760" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
 
             <!--council palace-->
             <ImageView fx:id="councilPalace" fitHeight="100" fitWidth="100" layoutX="795" layoutY="1070" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
 
             <!--tower slots-->
             <ImageView fx:id="towerGREENBonus3" fitHeight="30" fitWidth="30" layoutX="246" layoutY="115" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
             <ImageView fx:id="towerGREENBonus2" fitHeight="30" fitWidth="30" layoutX="246" layoutY="380" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
             <ImageView fx:id="towerGREENBonus1" fitHeight="30" fitWidth="30" layoutX="246" layoutY="642" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
             <ImageView fx:id="towerGREENBonus0" fitHeight="30" fitWidth="30" layoutX="246" layoutY="902" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
 
             <ImageView fx:id="towerBLUEBonus3" fitHeight="30" fitWidth="30" layoutX="566" layoutY="115" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
             <ImageView fx:id="towerBLUEBonus2" fitHeight="30" fitWidth="30" layoutX="566" layoutY="380" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
             <ImageView fx:id="towerBLUEBonus1" fitHeight="30" fitWidth="30" layoutX="566" layoutY="642" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
             <ImageView fx:id="towerBLUEBonus0" fitHeight="30" fitWidth="30" layoutX="566" layoutY="902" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
 
             <ImageView fx:id="towerYELLOWBonus3" fitHeight="30" fitWidth="30" layoutX="891" layoutY="115" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
             <ImageView fx:id="towerYELLOWBonus2" fitHeight="30" fitWidth="30" layoutX="891" layoutY="380" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
             <ImageView fx:id="towerYELLOWBonus1" fitHeight="30" fitWidth="30" layoutX="891" layoutY="642" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
             <ImageView fx:id="towerYELLOWBonus0" fitHeight="30" fitWidth="30" layoutX="891" layoutY="902" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
 
             <ImageView fx:id="towerPURPLEBonus3" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="115" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
             <ImageView fx:id="towerPURPLEBonus2" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="380" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
             <ImageView fx:id="towerPURPLEBonus1" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="642" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
             <ImageView fx:id="towerPURPLEBonus0" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="902" onMouseClicked="#placePawn" onMouseEntered="#popupBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparent.png" />
+                <Image url="@../images/transparentSlot.png" />
             </ImageView>
         </Group>
     </ScrollPane>
 
-    <ScrollPane GridPane.columnIndex="1" GridPane.rowIndex="0" minWidth="300" prefWidth="320.0" prefHeight="1250">
-    <VBox id="playersInfoList" minWidth="300" prefHeight="1000.0" prefWidth="320.0"> 
-        <children>
-            <Pane fx:id="playerInfo1" prefHeight="230.0" prefWidth="320.0" style="-fx-background-color: rgba(100,0,0,0.39); -fx-border-color: #1d1d1d">
-                <children>
-                    <Label fx:id="player1" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player1">
-                     <font>
-                        <Font size="17.0" />
-                     </font></Label>
-                    <StackPane fx:id="VICTORY_POINTS_player1_wrapper" layoutX="94.0" layoutY="9.0">
-                        <Group>
-                            <ImageView fx:id="VICTORY_POINTS_player1" fitHeight="45.6" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+        <Pane fx:id="commands" prefHeight="230.0" GridPane.rowIndex="0" GridPane.columnIndex="1" style="-fx-border-color: #1d1d1d">
+        </Pane>
+        <ScrollPane GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.hgrow="NEVER" GridPane.halignment="RIGHT" prefHeight="1250">
+            <VBox id="playersInfoList"  prefHeight="1000.0">
+            <children>
+                <Pane fx:id="playerInfo1" prefHeight="230.0" style="-fx-background-color: rgba(100,0,0,0.39); -fx-border-color: #1d1d1d">
+                    <children>
+                        <Label fx:id="player1" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player1">
+                         <font>
+                            <Font size="17.0" />
+                         </font></Label>
+                        <StackPane fx:id="VICTORY_POINTS_player1_wrapper" layoutX="94.0" layoutY="9.0">
+                            <Group>
+                                <ImageView fx:id="VICTORY_POINTS_player1" fitHeight="45.6" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/VICTORY_POINTS.png" />
                             </ImageView>
                             <Text fx:id="victoryPointsPlayer1" layoutX="17" layoutY="28" text="1" style="-fx-border-color: white; -fx-border-width: 5px;">
@@ -217,10 +207,10 @@
                     </StackPane>
                     <StackPane fx:id="COINS_player1_wrapper" layoutX="20.0" layoutY="70.0">
                         <Group>
-                            <ImageView fx:id="COINS_player1" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
-                                <Image url="@../images/resources/COINS1.png" />
+                            <ImageView fx:id="COINS_player1_image" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
+                                <Image url="@../images/resources/COINS.png" />
                             </ImageView>
-                            <Text fx:id="coinsPlayer1" layoutX="17" layoutY="25" text="1">
+                            <Text fx:id="COINS_player1_text" layoutX="17" layoutY="25" text="1">
                                 <font>
                                     <Font size="22"></Font>
                                 </font>
@@ -229,10 +219,10 @@
                     </StackPane>
                     <StackPane fx:id="STONES_player1_wrapper" layoutX="100.0" layoutY="70.0">
                         <Group>
-                            <ImageView fx:id="STONES_player1" fitHeight="38.88" fitWidth="42.84" pickOnBounds="true" preserveRatio="true"> <!--36%-->
+                            <ImageView fx:id="STONES_player1_image" fitHeight="38.88" fitWidth="42.84" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/STONES.png" />
                             </ImageView>
-                            <Text fx:id="stonesPlayer1" layoutX="12" layoutY="30" text="1">
+                            <Text fx:id="stonesPlayer1_text" layoutX="12" layoutY="30" text="1">
                                 <font>
                                     <Font size="17"></Font>
                                 </font>
@@ -295,7 +285,7 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo2" prefHeight="230.0" prefWidth="320.0" style="-fx-background-color: rgba(100,97,32,0.6); -fx-border-color: #1d1d1d">
+            <Pane fx:id="playerInfo2" prefHeight="230.0" style="-fx-background-color: rgba(100,97,32,0.6); -fx-border-color: #1d1d1d">
                 <children>
                     <Label fx:id="player2" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player2">
                         <font>
@@ -316,7 +306,7 @@
                     <StackPane fx:id="COINS_player2_wrapper" layoutX="20.0" layoutY="70.0">
                         <Group>
                             <ImageView fx:id="COINS_player2" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
-                                <Image url="@../images/resources/COINS1.png" />
+                                <Image url="@../images/resources/COINS.png" />
                             </ImageView>
                             <Text fx:id="coinsPlayer2" layoutX="17" layoutY="25" text="1">
                                 <font>
@@ -393,7 +383,7 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo3" prefHeight="230.0" prefWidth="320.0" style="-fx-background-color: rgba(40,56,100,0.6); -fx-border-color: #1d1d1d">
+            <Pane fx:id="playerInfo3" prefHeight="230.0"  style="-fx-background-color: rgba(40,56,100,0.6); -fx-border-color: #1d1d1d">
                 <children>
                     <Label fx:id="player3" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player3">
                         <font>
@@ -414,7 +404,7 @@
                     <StackPane fx:id="COINS_player3_wrapper" layoutX="20.0" layoutY="70.0">
                         <Group>
                             <ImageView fx:id="COINS_player3" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
-                                <Image url="@../images/resources/COINS1.png" />
+                                <Image url="@../images/resources/COINS.png" />
                             </ImageView>
                             <Text fx:id="coinsPlayer3" layoutX="17" layoutY="25" text="1">
                                 <font>
@@ -491,7 +481,7 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo4" prefHeight="230.0" prefWidth="320.0" style="-fx-background-color: rgba(28,100,23,0.6); -fx-border-color: #1d1d1d">
+            <Pane fx:id="playerInfo4" prefHeight="230.0" style="-fx-background-color: rgba(28,100,23,0.6); -fx-border-color: #1d1d1d">
                 <children>
                     <Label fx:id="player4" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player4">
                         <font>
@@ -512,7 +502,7 @@
                     <StackPane fx:id="COINS_player4_wrapper" layoutX="20.0" layoutY="70.0">
                         <Group>
                             <ImageView fx:id="COINS_player4" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
-                                <Image url="@../images/resources/COINS1.png" />
+                                <Image url="@../images/resources/COINS.png" />
                             </ImageView>
                             <Text fx:id="coinsPlayer4" layoutX="17" layoutY="25" text="1">
                                 <font>
@@ -589,7 +579,7 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo5" prefHeight="230.0" prefWidth="320.0" style="-fx-background-color: rgba(100,29,97,0.6); -fx-border-color: #1d1d1d">
+            <Pane fx:id="playerInfo5" prefHeight="230.0" style="-fx-background-color: rgba(100,29,97,0.6); -fx-border-color: #1d1d1d">
                 <children>
                     <Label fx:id="player5" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player5">
                         <font>
@@ -610,7 +600,7 @@
                     <StackPane fx:id="COINS_player5_wrapper" layoutX="20.0" layoutY="70.0">
                         <Group>
                             <ImageView fx:id="COINS_player5" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
-                                <Image url="@../images/resources/COINS1.png" />
+                                <Image url="@../images/resources/COINS.png" />
                             </ImageView>
                             <Text fx:id="coinsPlayer5" layoutX="17" layoutY="25" text="1">
                                 <font>
@@ -687,17 +677,16 @@
                     </StackPane>
                 </children>
             </Pane>
-            <!--<Pane fx:id="commands" prefHeight="230.0" prefWidth="320.0" style="-fx-border-color: #1d1d1d">
-            </Pane>-->
         </children>
         </VBox>
     </ScrollPane>
 </children>
     <columnConstraints>
-        <ColumnConstraints hgrow="NEVER" percentWidth="80" />
+        <ColumnConstraints hgrow="ALWAYS" percentWidth="80" />
         <ColumnConstraints hgrow="NEVER" percentWidth="20" />
     </columnConstraints>
     <rowConstraints>
+        <RowConstraints vgrow="NEVER" />
         <RowConstraints vgrow="NEVER" />
     </rowConstraints>
 </GridPane>

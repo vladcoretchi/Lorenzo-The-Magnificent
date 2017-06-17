@@ -2,11 +2,9 @@ package it.polimi.ingsw.LM34.UI.GUI;
 
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
-import it.polimi.ingsw.LM34.Enums.UI.NetworkType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
@@ -48,7 +46,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -104,7 +101,6 @@ public class GUI extends Application implements UIInterface {
         //updatePlayersInfo();
 
         /*----------ROUND SETUPS--------*/
-
         sweepSlots();
 
         /*----------DIALOGS--------*/
@@ -115,12 +111,19 @@ public class GUI extends Application implements UIInterface {
         //endGame();
         //familyMemberSelection();
 
-        Resources tempRes = new Resources(1,2,3,4,3,4,5);
-        ResourcesBonus tempResBon = new ResourcesBonus(tempRes, 3);
-        Pair<Resources,ResourcesBonus> pair;
-        //TODO
-        //new ResourceExchangeDialog().interactWithPlayer()//TODO
-        new UseCouncilPrivilegeDialog().interactWithPlayer(2);
+        /*List<Pair<Resources, ResourcesBonus>> listPairExchange = new ArrayList<>();
+        Resources tempRes = new Resources(1,2,9,0);
+        ResourcesBonus tempResBon = new ResourcesBonus(new Resources(), 3);
+        Resources tempRes2 = new Resources(0,0,72,5);
+        ResourcesBonus tempResBon2 = new ResourcesBonus(new Resources(3,2,1,4), 1);
+        listPairExchange.add(new ImmutablePair<>(tempRes, tempResBon));
+        listPairExchange.add(new ImmutablePair<>(tempRes2, tempResBon2));
+        new ResourceExchangeDialog().interactWithPlayer(listPairExchange);*/
+
+        /*List<Resources> resList = new ArrayList<>();
+        resList.add(tempRes);
+        resList.add(new Resources(3,2,1,0));
+        new UseCouncilPrivilegeDialog().interactWithPlayer(resList);*/
     }
 
     public void endGame() {
@@ -131,7 +134,7 @@ public class GUI extends Application implements UIInterface {
         }
     }
 
-    public void leaderCardAction() {
+    /*TODO: public void leaderCardAction() {
         try {
             Parent root2 = FXMLLoader.load(getClass().getClassLoader().getResource("views/leaderCardAction.fxml"));
             primaryStage.setScene(new Scene(
@@ -141,7 +144,7 @@ public class GUI extends Application implements UIInterface {
         catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private void prepareWindow() {
 
@@ -218,8 +221,7 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
-        //networkClient.servantsSelection(servantsAvailable, minimumServantsRequested);
-        return 0; //TODO
+        return new UseServantsDialog().interactWithPlayer(servantsAvailable, minimumServantsRequested);
     }
 
     @Override
@@ -251,7 +253,7 @@ public class GUI extends Application implements UIInterface {
     }
 
     public void doLogin() {
-        if(rmiChoice.isSelected() && !socketChoice.isSelected()) //TODO
+        if(rmiChoice.isSelected() && !socketChoice.isSelected())
             this.networkClient = new RMIClient(SERVER_IP, RMI_PORT, this);
         else
             this.networkClient = new SocketClient(SERVER_IP, SOCKET_PORT, this);
@@ -360,7 +362,7 @@ public class GUI extends Application implements UIInterface {
     public void popupBonus(MouseEvent event) {
         ActionSlot slot = new ActionSlot(true, 3, new ResourcesBonus(new Resources(3,4,4,3),1));
         //TODO: get reward from source String
-        popupSlotBonus =  new PopupSlotBonus(event, new ResourcesBonus(new Resources(3,0,0,0),1));
+        popupSlotBonus =  new PopupSlotBonus(event, new ResourcesBonus(new Resources(3,3,982,90),1));
 
         try {
             popupSlotBonus.start(primaryStage);
@@ -399,13 +401,13 @@ public class GUI extends Application implements UIInterface {
         for(index= 0; index<4; index++) {
             ImageView imageView = ((ImageView) root.lookup("#marketActionSlot" + index));
             imageView.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
+                    .getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
         }
     }
     private void sweepCouncilPalace() {
         ImageView imageView = ((ImageView) root.lookup("#councilPalace"));
         imageView.setImage(new Image(Thread.currentThread()
-                .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
+                .getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
     }
     private void sweepTowersSlots() {
         for(Integer index = 0; index < Configurator.MAX_TOWER_LEVELS; index++)
@@ -413,7 +415,7 @@ public class GUI extends Application implements UIInterface {
                 if(color.toString() != "MULTICOLOR") {
                     ImageView imageView = ((ImageView) root.lookup("#tower" + color.toString() + "Bonus" + index));
                     imageView.setImage(new Image(Thread.currentThread()
-                            .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
+                            .getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
                 }
     }
     private void sweepWorkingAreas() {
@@ -421,13 +423,13 @@ public class GUI extends Application implements UIInterface {
         for(index= 0; index<2; index++) {
             ImageView imageView = ((ImageView) root.lookup("#harvestArea" + index));
             imageView.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
+                    .getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
         }
         index = 0;
         for(index= 0; index<2; index++) {
             ImageView imageView = ((ImageView) root.lookup("#productionArea" + index));
             imageView.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
+                    .getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
 
         }
     }

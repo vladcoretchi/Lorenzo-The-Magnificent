@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -32,8 +33,8 @@ public class PopupSlotBonus {
     private ResourcesBonus resourcesReward;
 
     public PopupSlotBonus(MouseEvent generatingEvent, ResourcesBonus resourcesReward) {
-        this.coordinateX = generatingEvent.getScreenX();
-        this.coordinateY = generatingEvent.getScreenY();
+        this.coordinateX = generatingEvent.getScreenX() + 10;
+        this.coordinateY = generatingEvent.getScreenY()+ 10;
         this.resourcesReward = resourcesReward;
         this.generatingEvent = generatingEvent;
     }
@@ -41,6 +42,7 @@ public class PopupSlotBonus {
     public void start(Stage primaryStage) throws Exception {
 
         VBox rewardList = new VBox();
+        DropShadow borderGlow;
         rewardList.setSpacing(10);
         rewardList.setStyle("-fx-background-color: transparent;");
         ImageView tempImage = new ImageView();
@@ -58,8 +60,16 @@ public class PopupSlotBonus {
                 value = new Text(resourcesReward.getResources().getResourceByType(resType).toString());
                 value.setStyle("-fx-background-color: transparent;");
                 value.setFont(Font.font("Verdana", 30));
-                value.setFill(Color.WHITE);
-
+                value.setFill(Color.BLACK);
+                borderGlow= new DropShadow();
+                borderGlow.setOffsetY(0f);
+                borderGlow.setOffsetX(0f);
+                borderGlow.setSpread(0.4);
+                borderGlow.setRadius(25.0);
+                borderGlow.setColor(Color.WHITE);
+                borderGlow.setWidth(12);
+                borderGlow.setHeight(12);
+                value.setEffect(borderGlow);
                 tempImage = new ImageView();
                 tempImage.setFitHeight(50.0);
                 tempImage.setFitWidth(50.0);
@@ -77,7 +87,16 @@ public class PopupSlotBonus {
         value = new Text(resourcesReward.getCouncilPrivilege().toString());
         value.setStyle("-fx-background-color: transparent;");
         value.setFont(Font.font("Verdana", 30));
-        value.setFill(Color.WHITE);
+        value.setFill(Color.BLACK);
+        borderGlow= new DropShadow();
+        borderGlow.setOffsetY(0f);
+        borderGlow.setOffsetX(0f);
+        borderGlow.setColor(Color.WHITE);
+        borderGlow.setWidth(20);
+        borderGlow.setSpread(0.5);
+        borderGlow.setRadius(5.0);
+        borderGlow.setHeight(20);
+        value.setEffect(borderGlow);
         tempImage = new ImageView();
         tempImage.setFitHeight(50.0);
         tempImage.setFitWidth(50.0);

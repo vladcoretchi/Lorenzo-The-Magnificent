@@ -32,14 +32,7 @@ public class UseServantsDialog implements DialogInterface {
         dialog.setContentText("Choose number of servants:");
 
         Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()){
-            System.out.println("Your choice: " + result.get());
-        }
 
-        if(result.isPresent()) {
-           System.out.println(Integer.parseInt(result.get()));
-           return Integer.parseInt(result.get());
-       }
         return Integer.parseInt(result.get());
     }
 

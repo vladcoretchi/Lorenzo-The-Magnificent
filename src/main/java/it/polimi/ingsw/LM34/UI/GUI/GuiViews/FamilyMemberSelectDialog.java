@@ -23,22 +23,17 @@ public class FamilyMemberSelectDialog implements DialogInterface {
         for(FamilyMember member : membersAvailable)
             members.add(member.getDiceColorAssociated().toString());
 
-
         ChoiceDialog<String> dialog = new ChoiceDialog<>(DiceColor.NEUTRAL.toString(), members);
         dialog.setTitle("Family Member Selection");
         dialog.setGraphic(new ImageView(Thread.currentThread().getContextClassLoader().getResource("images/servants.png").toExternalForm()));
-
-
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
             System.out.println("Your choice: " + result.get());
         }
 
-
         return Optional.empty().toString();
     }
-
 
     @Override
     public void setStyle(Dialog dialog) {

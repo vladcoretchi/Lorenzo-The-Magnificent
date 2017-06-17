@@ -86,8 +86,9 @@ public final class Configurator {
         /*try {
             setupMarket(jsonObject.getJSONObject("actionSlots").getJSONArray("market"));
             setupDevelopmentCards(jsonObject.getJSONObject("developmentCards"));
+            setupDevelopmentCards(jsonObject.getJSONObject("developmentCards"));
         } catch (Exception e) {e.printStackTrace();}*/
-        setupDevelopmentCards(jsonObject.getJSONObject("developmentCards"));
+        //
     }
 
     private static void setupMarket(JSONArray market_array) {
@@ -136,7 +137,6 @@ public final class Configurator {
 
     public static ArrayList<TerritoryCard> getTerritoryCardsFromJson(JSONArray jsonArray) {
         ArrayList<TerritoryCard> cards = new ArrayList<>();
-        //System.out.println(jsonArray.toString());
         for(int i = 0; i < jsonArray.length(); i++) {
             cards.add(getTerritoryCardFromJson(jsonArray.getJSONObject(i)));
         }
@@ -159,8 +159,6 @@ public final class Configurator {
 
         return new TerritoryCard(name, diceValueToHarvest, period, instantResources, permanentResources);
     }
-
-
 
     public static ArrayList<BuildingCard> getBuildingCardsFromJson(JSONArray jsonArray) {
         ArrayList<BuildingCard> cards = new ArrayList<>();
@@ -381,7 +379,6 @@ public final class Configurator {
         exc = temp;
     }
 
-
     private ExcommunicationCard getExcommunicationCardFromJson(JSONObject tile) {
         Integer period = tile.getInt("period");
         JSONObject jsonPenalty = tile.getJSONObject("penalty");
@@ -393,7 +390,6 @@ public final class Configurator {
 
             return new ExcommunicationCard(period, penalty);
         }
-
 
         /******Working Area Value Negative Effect*****/
         if(jsonPenalty.getJSONObject("workingAreaValueEffect") != null) {
