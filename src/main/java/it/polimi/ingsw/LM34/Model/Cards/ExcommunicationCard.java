@@ -6,10 +6,12 @@ import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
  * Created by GiulioComi on 04/05/2017.
  */
 public class ExcommunicationCard {
+    private Integer number;
     private Integer period;
     private AbstractEffect penalty;
 
-    public ExcommunicationCard(Integer period, AbstractEffect penalty) {
+    public ExcommunicationCard(Integer number, Integer period, AbstractEffect penalty) {
+        this.number = number;
         this.period = period;
         this.penalty = penalty;
     }
@@ -18,5 +20,9 @@ public class ExcommunicationCard {
 
     public AbstractEffect getPenalty() {
         return this.penalty;
+    }
+
+    public Integer getNumber() {
+        return number;
     }
 }

@@ -3,14 +3,13 @@ package it.polimi.ingsw.LM34.UI.GUI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
-import it.polimi.ingsw.LM34.Model.Cards.TerritoryCard;
 import it.polimi.ingsw.LM34.Model.Dice;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
@@ -67,14 +66,22 @@ public class GUI extends Application implements UIInterface {
     private PopupSlotBonus popupSlotBonus;
     private Scene guiScene;
 
-    @FXML private TextField username;
-    @FXML private TextField password;
-    @FXML private RadioButton rmiChoice;
-    @FXML private RadioButton socketChoice;
-    @FXML private AnchorPane login;
-    @FXML private Group towers;
-    @FXML private Group slots;
-    @FXML private VBox playersInfoList;
+    @FXML
+    private TextField username;
+    @FXML
+    private TextField password;
+    @FXML
+    private RadioButton rmiChoice;
+    @FXML
+    private RadioButton socketChoice;
+    @FXML
+    private AnchorPane login;
+    @FXML
+    private Group towers;
+    @FXML
+    private Group slots;
+    @FXML
+    private VBox playersInfoList;
 
     public GUI() {
         personalBoardController = new PersonalBoardController(); //TODO
@@ -88,9 +95,6 @@ public class GUI extends Application implements UIInterface {
         //primaryStage.initStyle(StageStyle.UNDECORATED);
         prepareWindow();
         /*----------GAME SETUPS----------*/
-        loadCardsOnTowers();
-
-        placeExcommunicationCards();
         //loadTowersBonuses(); //TODO
         //loadCouncilPrivilegesBonuses(); //TODO
         //loadMarketBonuses(); //TODO
@@ -173,19 +177,70 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
+        ImageView imageView = new ImageView();
+        for (Integer index = 1; index <= Configurator.TOTAL_PERIODS; index++) {
+            imageView = ((ImageView) root.lookup("#excommunicationCard" + excommunicationCards.get(index).getPeriod()));
+            imageView.setImage(new Image(Thread.currentThread()
+                    .getContextClassLoader().getResource("images/excommunicationTiles/excomm_" + index + "_" + excommunicationCards.get(index).getNumber() + ".png")
+                    .toExternalForm()));
+        }
     }
 
     @Override
     public void updateTowers(List<Tower> towers) {
-        loadCardsOnTowers();
+        ArrayList<AbstractDevelopmentCard> tempCardsStored = new ArrayList<>();
+
+
+        for (Tower tower : towers) {
+            /***Load cards***/
+            Integer indexCard = 0;
+            for (AbstractDevelopmentCard card : tower.getCardsStored()) {
+                ImageView imageView = ((ImageView) root.lookup("#tower" + card.getColor().toString() + "_level" + indexCard));
+                imageView.setImage(new Image(Thread.currentThread()
+                        .getContextClassLoader().getResource("images/developmentCards/" + card.getColor().getDevType() + card.getName() + ".png")
+                        .toExternalForm()));
+                indexCard++;
+            }
+            /***Load slots***/
+            Integer indexSlot = 0;
+
+            for (TowerSlot slot : tower.getSlotsStored()) {
+                Resources resources = new Resources();
+                ImageView imageView = ((ImageView) root.lookup("#tower" +
+                        slot.getCardStored().getColor().toString() + "Bonus" + indexSlot));
+                resources = slot.getResourcesReward().getResources();
+                for (ResourceType resType : ResourceType.values())
+                    if (resources.getResourceByType(resType) != 0)
+                        imageView.setImage(new Image(Thread.currentThread()
+                                .getContextClassLoader().getResource("images/resources/" + resType + ".png").toExternalForm()));
+                indexSlot++;
+            }
+        }
     }
 
     @Override
     public void updateCouncilPalace(CouncilPalace councilPalace) {
+        StackPane palacePane = (StackPane) root.lookup("#councilPalace");
+        ImageView imageView;
+        if(councilPalace.getOccupyingPawns().size() <= 0)
+            palacePane.getChildren().removeAll(palacePane.getChildren());
+        else
+            for(FamilyMember pawn : councilPalace.getOccupyingPawns()) {
+                imageView = new ImageView(new Image(Thread.currentThread().getContextClassLoader().getResource("images/pawns" + pawn.getFamilyMemberColor() + ".png").toExternalForm()));
+                palacePane.getChildren().add(imageView);
+            }
     }
 
     @Override
     public void updateMarket(Market market) {
+        Integer index = 0;
+        List<ActionSlot> marketSlots = market.getMarketSlots();
+        for(index = 0; index< marketSlots.size(); index++) {
+            ImageView imageView = ((ImageView) root.lookup("#marketActionSlot" + index));
+            PawnColor pawnColor = marketSlots.get(index).getFamilyMember().getFamilyMemberColor();
+            imageView.setImage(new Image(Thread.currentThread()
+                    .getContextClassLoader().getResource("images/pawns/" + pawnColor.toString() + ".png").toExternalForm()));
+        }
     }
 
     @Override
@@ -196,12 +251,15 @@ public class GUI extends Application implements UIInterface {
     public void updateHarvestArea(WorkingArea harvestArea) {
     }
 
+    //TODO
     @Override
     public void updatePlayersData(List<Player> players) {
     }
 
     @Override
-    public void updateDiceValues(List<Dice> dicesValues) {
+    public void updateDiceValues(List<Dice> dicesValues) { //TODO
+        for(Dice dice : dicesValues)
+            System.out.println(dice.getColor() + ": " + dice.getValue());
     }
 
     @Override
@@ -216,7 +274,7 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
-        return null;
+        return new FamilyMemberSelectDialog().interactWithPlayer(familyMembers);
     }
 
     @Override
@@ -226,9 +284,10 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices) {
-        return null;
+        return new ResourceExchangeDialog().interactWithPlayer(choices);
     }
 
+    //TODO
     @Override
     public Integer leaderCardSelection(List<LeaderCard> leaderCards, LeaderCardsAction action) {
         return null;
@@ -236,13 +295,12 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public Boolean churchSupport() {
-        ChurchReportDialog dialog = new ChurchReportDialog();
-        return true; //TODO
+        return new ChurchReportDialog().interactWithPlayer();
     }
 
     @Override
     public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
-        return null;
+        return new UseCouncilPrivilegeDialog().interactWithPlayer(availableBonuses);
     }
 
     //TODO
@@ -268,58 +326,16 @@ public class GUI extends Application implements UIInterface {
         this.loginDialog.show();
     }
 
-    public String familyMemberSelection() {
-        FamilyMemberSelectDialog dialog = new FamilyMemberSelectDialog();
-        ArrayList<FamilyMember> members = new ArrayList<>();
-        members.add(new FamilyMember(BLUE, DiceColor.ORANGE));
-        members.add(new FamilyMember(BLUE, DiceColor.WHITE));
-        members.add(new FamilyMember(BLUE, DiceColor.BLACK));
-        members.add(new FamilyMember(BLUE, DiceColor.NEUTRAL));
-        String selected = dialog.interactWithPlayer(members);
-        System.out.println(selected);
-
-        return null;
-    }
-
     public void sweepSlots() {
-        sweepMarketSlots();
-        sweepCouncilPalace();
         sweepWorkingAreas();
         sweepTowersSlots();
     }
 
-    public void loadCardsOnTowers() {
 
-        //prepareWindow();
-        ArrayList<AbstractDevelopmentCard> territoryCards;
-        territoryCards = new ArrayList<>();
-        territoryCards.add(new TerritoryCard("Castle", 2, 1, null, null));
-        territoryCards.add(new TerritoryCard("Hermitage", 2, 1, null, null));
-        territoryCards.add(new TerritoryCard("Estate", 2, 1, null, null));
-        territoryCards.add(new TerritoryCard("Forest", 2, 1, null, null));
-
-        Integer index = 0;
-        for (AbstractDevelopmentCard card : territoryCards) {
-            ImageView imageView = ((ImageView) root.lookup("#tower" + card.getColor().toString() + "_level" + index));
-            imageView.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/developmentCards/territories/" + card.getName() + ".png").toExternalForm()));
-            index++;
-        }
-    }
-
-    public void placeExcommunicationCards() {
-        ImageView imageView;
-        for(Integer index = 1; index <= Configurator.TOTAL_PERIODS; index++) {
-            imageView = ((ImageView) root.lookup("#excommunicationCard" + index));
-            imageView.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/excommunicationTiles/excomm_" + index + "_5.png").toExternalForm()));
-        }
-    }
-
+    //TODO
     @FXML
     public void placePawn(MouseEvent event) {
         Image image;
-        String choosedPawn;
 
         ArrayList<FamilyMember> membersAvailable = new ArrayList<>();
 
@@ -327,7 +343,6 @@ public class GUI extends Application implements UIInterface {
 
         String source = event.getPickResult().getIntersectedNode().getId();
         FamilyMemberSelectDialog dialog = new FamilyMemberSelectDialog();
-        choosedPawn = dialog.interactWithPlayer(membersAvailable);
 
         //TODO: the server confirm that the move is valid before removing the card from the towers
 
@@ -339,24 +354,6 @@ public class GUI extends Application implements UIInterface {
             }
     }
 
-    public void loadTowersBonuses() {
-        List<TowerSlot> slots = new ArrayList<>();
-        Resources resources = new Resources();
-        //TODO: load bonuses from model available to the view
-        Integer index = 0;
-        for (TowerSlot slot : slots) {
-
-            ImageView imageView = ((ImageView) root.lookup("#tower" +
-                    slot.getCardStored().getColor().toString() + "Bonus" + index));
-            resources = slot.getResourcesReward().getResources();
-            for(ResourceType resType : ResourceType.values())
-                if(resources.getResourceByType(resType) != 0)
-                    imageView.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/resources/" + resType + ".png").toExternalForm()));
-            index++;
-
-        }
-    }
 
     @FXML
     public void popupBonus(MouseEvent event) {
@@ -394,21 +391,9 @@ public class GUI extends Application implements UIInterface {
            ImageView imageView = (ImageView) source;
         imageView.setImage(new Image(Thread.currentThread()
                 .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
-        }
+    }
 
-    public void sweepMarketSlots() {
-        Integer index = 0;
-        for(index= 0; index<4; index++) {
-            ImageView imageView = ((ImageView) root.lookup("#marketActionSlot" + index));
-            imageView.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
-        }
-    }
-    private void sweepCouncilPalace() {
-        ImageView imageView = ((ImageView) root.lookup("#councilPalace"));
-        imageView.setImage(new Image(Thread.currentThread()
-                .getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
-    }
+
     private void sweepTowersSlots() {
         for(Integer index = 0; index < Configurator.MAX_TOWER_LEVELS; index++)
             for(DevelopmentCardColor color : DevelopmentCardColor.values())

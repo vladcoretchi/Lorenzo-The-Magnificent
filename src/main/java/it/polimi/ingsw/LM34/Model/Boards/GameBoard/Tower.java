@@ -5,6 +5,9 @@ import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 //LET US USE A MATRIX FOR THE TOWER (ROWS (LEVELS)=4, COLOUMNS (TYPE OF CARD STORED)= 4)
 //TODO: HASHMAP?
@@ -22,7 +25,7 @@ public class Tower extends GameSpace {
     public Tower (DevelopmentCardColor cardColor, Integer MAX_LEVELS) {
         this.MAX_LEVELS = MAX_LEVELS;
         this.cardColor = cardColor;
-        slots= new TowerSlot [MAX_LEVELS];
+        slots = new TowerSlot [MAX_LEVELS];
     }
 
     public boolean hasNextLevel() {
@@ -38,7 +41,7 @@ public class Tower extends GameSpace {
     public void addCard (AbstractDevelopmentCard card) {
         boolean inserted= false;
         //found the right tower based on the card type
-
+        level = 0;
         //now add the card at the first free tower slot found
         while(this.hasNextLevel() && !inserted) {
             AbstractDevelopmentCard temp;
@@ -54,6 +57,7 @@ public class Tower extends GameSpace {
 
     public AbstractDevelopmentCard retrieveCard (TowerSlot slot) throws Exception {
         AbstractDevelopmentCard temp;
+        level = slot.getLevel();
         if (!this.slots[level].isEmpty()) {
             //temporary store the card
             temp= this.slots[level].getCardStored();
@@ -97,4 +101,23 @@ public class Tower extends GameSpace {
 
     //TODO
     public Tower() {}
+
+
+    public List<AbstractDevelopmentCard> getCardsStored() {
+        List<AbstractDevelopmentCard> cardsStoredInTower = new ArrayList<>();
+        level = 0;
+        while (this.hasNextLevel()) {
+            cardsStoredInTower.add(this.slots[level].getCardStored());
+        }
+        return cardsStoredInTower;
+    }
+
+    //TODO: load slots bonuses from configurator
+    public void setSlots(TowerSlot[] slotsToLoad) {
+        slots = slotsToLoad.clone();
+    }
+
+    public TowerSlot[] getSlotsStored() {
+       return slots;
+    }
 }

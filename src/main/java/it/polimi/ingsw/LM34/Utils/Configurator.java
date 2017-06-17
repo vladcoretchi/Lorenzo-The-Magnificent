@@ -323,16 +323,6 @@ public final class Configurator {
         return market;
     }
 
-    public static ArrayList<Tower> getTowers(Integer numPlayers) {
-        return towers;
-    }
-    public static WorkingArea getHarvestArea(Integer numPlayers) {
-        return harvestArea;
-    }
-    public static WorkingArea getProductionArea(Integer numPlayers) {
-        return productionArea;
-    }
-
     public static DevelopmentCardDeck<TerritoryCard> getTerritoryCards() {
         //System.out.println(territoryCards.toArray().length);
         return new DevelopmentCardDeck<TerritoryCard>(territoryCards);
@@ -380,6 +370,7 @@ public final class Configurator {
     }
 
     private ExcommunicationCard getExcommunicationCardFromJson(JSONObject tile) {
+        Integer number = tile.getInt("number");
         Integer period = tile.getInt("period");
         JSONObject jsonPenalty = tile.getJSONObject("penalty");
         AbstractEffect penalty = null;
@@ -387,8 +378,6 @@ public final class Configurator {
         /******Resource Income Penalty******/
         if(tile.getJSONObject("resourcesIncomePenalty") != null) {
             penalty = getResourcesBonusFromJson(jsonPenalty.getJSONObject("resourcesIncomePenalty"));
-
-            return new ExcommunicationCard(period, penalty);
         }
 
         /******Working Area Value Negative Effect*****/
@@ -407,8 +396,6 @@ public final class Configurator {
                     workingAreaType = ContextType.HARVEST_AREA_CONTEXT;
 
               penalty = new WorkingAreaValueEffect(workingAreaType, diceValue, false);
-
-              return new ExcommunicationCard(period, penalty);
         }
 
         /********Family Member Value Effect*******/
@@ -497,7 +484,7 @@ public final class Configurator {
              }
         }
 
-        return new ExcommunicationCard(period, penalty);
+        return new ExcommunicationCard(number, period, penalty);
     }
 
 

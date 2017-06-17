@@ -52,4 +52,8 @@ public class ActionSlot implements Serializable {
     public Integer getDiceValue() { return this.diceValue; }
 
     public boolean isSinglePawnSlot() { return this.singlePawnSlot; }
+
+    public FamilyMember getFamilyMember() {
+        return this.familyMember;
+    }
 }

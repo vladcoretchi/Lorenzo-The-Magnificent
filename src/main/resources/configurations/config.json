@@ -3393,6 +3393,7 @@
       ],
       "excommunicationTiles": [
         {
+          "number": 1,
           "period": 1,
           "penalty": {
             "resourcesIncomePenalty": {
@@ -3403,6 +3404,7 @@
           }
         },
         {
+          "number": 2,
           "period": 1,
           "penalty": {
             "resourcesIncomePenalty": {
@@ -3413,6 +3415,7 @@
           }
         },
         {
+          "number": 3,
           "period": 1,
           "penalty": {
             "resourcesIncomePenalty": {
@@ -3423,6 +3426,7 @@
           }
         },
         {
+          "number": 4,
           "period": 1,
           "penalty": {
             "resourcesIncomePenalty": {
@@ -3434,6 +3438,7 @@
           }
         },
         {
+          "number": 5,
           "period": 1,
           "penalty": {
             "workingAreaValueEffect": {
@@ -3443,6 +3448,7 @@
           }
         },
         {
+          "number": 6,
           "period": 1,
           "penalty": {
             "workingAreaValueEffect": {
@@ -3452,6 +3458,7 @@
           }
         },
         {
+          "number": 7,
           "period": 1,
           "penalty": {
             "familyMemberValueEffect": [
@@ -3474,6 +3481,7 @@
           }
         },
         {
+          "number": 1,
           "period": 2,
           "penalty": {
             "developmentCardAcquireEffect": {
@@ -3483,6 +3491,7 @@
           }
         },
         {
+          "number": 2,
           "period": 2,
           "penalty": {
             "developmentCardAcquireEffect": {
@@ -3492,6 +3501,7 @@
           }
         },
         {
+          "number": 3,
           "period": 2,
           "penalty": {
             "developmentCardAcquireEffect": {
@@ -3501,6 +3511,7 @@
           }
         },
         {
+          "number": 4,
           "period": 2,
           "penalty": {
             "developmentCardAcquireEffect": {
@@ -3510,24 +3521,28 @@
           }
         },
         {
+          "number": 5,
           "period": 2,
           "penalty": {
             "marketBan": true
           }
         },
         {
+          "number": 6,
           "period": 2,
           "penalty": {
             "skipFirstTurn": true
           }
         },
         {
+          "number": 7,
           "period": 2,
           "penalty": {
             "halveServantsValue": true
           }
         },
         {
+          "number": 1,
           "period": 3,
           "penalty": {
             "victoryPointsPenalty": {
@@ -3539,6 +3554,7 @@
           }
         },
         {
+          "number": 2,
           "period": 3,
           "penalty": {
             "victoryPointsPenalty": {
@@ -3550,6 +3566,7 @@
           }
         },
         {
+          "number": 3,
           "period": 3,
           "penalty": {
             "victoryPointsPenalty": {
@@ -3559,6 +3576,7 @@
           }
         },
         {
+          "number": 4,
           "period": 3,
           "penalty": {
             "victoryPointsPenalty": {
@@ -3568,6 +3586,7 @@
           }
         },
         {
+          "number": 5,
           "period": 3,
           "penalty": {
             "victoryPointsPenalty": {
@@ -3577,6 +3596,7 @@
           }
         },
         {
+          "number": 6,
           "period": 3,
           "penalty": {
             "victoryPointsPenalty": {
@@ -3586,6 +3606,7 @@
           }
         },
         {
+          "number": 7,
           "period": 3,
           "penalty": {
             "victoryPointsPenalty": {

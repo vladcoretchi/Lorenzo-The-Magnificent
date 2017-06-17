@@ -7,6 +7,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -16,7 +17,7 @@ public class FamilyMemberSelectDialog implements DialogInterface {
 
     public FamilyMemberSelectDialog() {}
 
-    public String interactWithPlayer(ArrayList<FamilyMember> membersAvailable) {
+    public Integer interactWithPlayer(List<FamilyMember> membersAvailable) {
         String choosed;
         ArrayList<String> members = new ArrayList<>();
 
@@ -29,10 +30,10 @@ public class FamilyMemberSelectDialog implements DialogInterface {
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
-            System.out.println("Your choice: " + result.get());
+            return Integer.parseInt(result.get());
         }
-
-        return Optional.empty().toString();
+        else
+            return 0;
     }
 
     @Override

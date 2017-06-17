@@ -15,7 +15,7 @@ public class TowerSlot extends ActionSlot {
     private FamilyMember familyMember;
     private AbstractDevelopmentCard cardStored;
     private Integer level;
-    private Integer coloumn;
+    private Integer coloumn; //TODO: remove perhaps this?
 
     public TowerSlot(ResourcesBonus occupyingReward, Integer diceValueRequired, Integer level, Integer coloumn) {
         super(true,diceValueRequired, occupyingReward ); //store in the actionslot the bonus it provides
@@ -36,6 +36,10 @@ public class TowerSlot extends ActionSlot {
     }
 
     public void sweepTowerSlot() { this.cardStored = null; }
+
+    public Integer getLevel() {
+        return level;
+    }
 
 }
 
