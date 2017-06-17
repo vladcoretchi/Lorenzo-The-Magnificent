@@ -99,7 +99,7 @@ public class GUI extends Application implements UIInterface {
 
         /*----------TURN SETUPS--------*/
         //updatePlayersInfo();
-        updatePlayersInfo();
+        //updatePlayersInfo();
 
         /*----------ROUND SETUPS--------*/
 
