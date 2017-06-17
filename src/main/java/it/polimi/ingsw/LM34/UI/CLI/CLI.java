@@ -7,18 +7,24 @@ import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Enums.UI.NetworkType;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
+import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+import it.polimi.ingsw.LM34.Model.Dice;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
+import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 import it.polimi.ingsw.LM34.Utils.Validator;
+import org.apache.commons.lang3.tuple.Pair;
+
 import java.util.*;
 
 /**
@@ -92,11 +98,65 @@ public class CLI implements UIInterface {
         }
     }
 
+    @Override
+    public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
+
+    }
+
+    @Override
+    public void updateTowers(List<Tower> towers) {
+
+    }
+
+    @Override
+    public void updateCouncilPalace(CouncilPalace councilPalace) {
+
+    }
+
+    @Override
+    public void updateMarket(Market market) {
+
+    }
+
+    @Override
+    public void updateProductionArea(WorkingArea productionArea) {
+
+    }
+
+    @Override
+    public void updateHarvestArea(WorkingArea harvestArea) {
+
+    }
+
+    @Override
+    public void updatePlayersData(List<Player> players) {
+
+    }
+
+    @Override
+    public void updateDiceValues(List<Dice> dicesValues) {
+
+    }
+
+    @Override
+    public PlayerAction turnMainAction(Optional<Boolean> lastActionValid) {
+        return null;
+    }
+
+    @Override
+    public PlayerAction turnSecondaryAction(Optional<Boolean> lastActionValid) {
+        return null;
+    }
+
+    @Override
+    public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
+        return null;
+    }
+
     /**
      * this method will be called when the console will ask user what kind of connection technology he wants to use, Rmi or Socket
      * @return the user's choice
      */
-    @Override
     public NetworkType connectionTypeSelection() {
         List<NetworkType> networkTypes = Arrays.asList(NetworkType.values());
         Integer selection = selectionMenu(networkTypes,
@@ -110,7 +170,6 @@ public class CLI implements UIInterface {
     /**
      * this method will be called when the user will choice about which context player wish to use
      */
-    @Override
     public Integer contextSelection(List<PlayerSelectableContexts> allContext)  {
         return selectionMenu(allContext,
                 Optional.of("End turn"),
@@ -124,7 +183,6 @@ public class CLI implements UIInterface {
      * @param action the action to do with the leader card
      * @return the index of the selected leader card
      */
-    @Override
     public Integer leaderCardAction(List<String> playerLeaderCards, LeaderCardsAction action) {
         return selectionMenu(playerLeaderCards,
                 Optional.of("Back to context selection"),
@@ -136,7 +194,6 @@ public class CLI implements UIInterface {
      * this method will be called when player will want to enter into market
      * @param market all market`s slot information
      */
-    @Override
     public Integer marketSlotSelection(Market market) {
         List<List<Map.Entry<String,Integer>>> slotsResources = new ArrayList<>();
         market.getMarketSlots().forEach((ActionSlot as) -> {
@@ -303,7 +360,6 @@ public class CLI implements UIInterface {
         );*/
     }
 
-    @Override
     public void workingArea(String workingAreaChoice, Player player) {
 
         Integer selectedSlot;
@@ -431,7 +487,6 @@ public class CLI implements UIInterface {
      * @param towerNumber how many towers contains a game board
      * @param towerFloor how many floors contains a tower
      */
-    @Override
     public String towerSlotSelection(Integer towerNumber, Integer towerFloor) {
 
         Integer tower, floor;
@@ -502,6 +557,25 @@ public class CLI implements UIInterface {
     }
 
     @Override
+    public Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices) {
+        return null;
+    }
+
+    @Override
+    public Integer leaderCardSelection(List<LeaderCard> leaderCards, LeaderCardsAction action) {
+        return null;
+    }
+
+    @Override
+    public Boolean churchSupport() {
+        return null;
+    }
+
+    @Override
+    public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
+        return null;
+    }
+
     public void printTowers(ArrayList<Tower> towers) {
 
         String cardName = "support to the pope";
@@ -522,14 +596,10 @@ public class CLI implements UIInterface {
     /**
      * this method will be called when the console will print gameBoard on screen
      */
-    @Override
     public void printGameBoard() {
         //TODO
     }
 
-    @Override
-    public void sweepSlots() {
 
-    }
 
 }

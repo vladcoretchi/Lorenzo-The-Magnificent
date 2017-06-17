@@ -7,13 +7,13 @@ import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Enums.UI.NetworkType;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlot;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Cards.TerritoryCard;
+import it.polimi.ingsw.LM34.Model.Dice;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -22,6 +22,7 @@ import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
+import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.UI.GUI.GuiControllers.PersonalBoardController;
 import it.polimi.ingsw.LM34.UI.GUI.GuiViews.*;
 import it.polimi.ingsw.LM34.UI.UIInterface;
@@ -50,6 +51,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static it.polimi.ingsw.LM34.Enums.Model.PawnColor.BLUE;
 import static it.polimi.ingsw.LM34.Enums.Model.PawnColor.RED;
@@ -167,18 +169,50 @@ public class GUI extends Application implements UIInterface {
     }
 
     @Override
-    public NetworkType connectionTypeSelection() {
-        //TODO: not used
+    public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
+    }
+
+    @Override
+    public void updateTowers(List<Tower> towers) {
+        loadCardsOnTowers();
+    }
+
+    @Override
+    public void updateCouncilPalace(CouncilPalace councilPalace) {
+    }
+
+    @Override
+    public void updateMarket(Market market) {
+    }
+
+    @Override
+    public void updateProductionArea(WorkingArea productionArea) {
+    }
+
+    @Override
+    public void updateHarvestArea(WorkingArea harvestArea) {
+    }
+
+    @Override
+    public void updatePlayersData(List<Player> players) {
+    }
+
+    @Override
+    public void updateDiceValues(List<Dice> dicesValues) {
+    }
+
+    @Override
+    public PlayerAction turnMainAction(Optional<Boolean> lastActionValid) {
         return null;
     }
 
     @Override
-    public Integer contextSelection(List<PlayerSelectableContexts> allContext) {
+    public PlayerAction turnSecondaryAction(Optional<Boolean> lastActionValid) {
         return null;
     }
 
     @Override
-    public String towerSlotSelection(Integer towerNumber, Integer towerFloor) {
+    public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
         return null;
     }
 
@@ -188,9 +222,25 @@ public class GUI extends Application implements UIInterface {
         return 0; //TODO
     }
 
-    public Integer churchReportDecision() {
+    @Override
+    public Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices) {
+        return null;
+    }
+
+    @Override
+    public Integer leaderCardSelection(List<LeaderCard> leaderCards, LeaderCardsAction action) {
+        return null;
+    }
+
+    @Override
+    public Boolean churchSupport() {
         ChurchReportDialog dialog = new ChurchReportDialog();
-        return 0; //TODO
+        return true; //TODO
+    }
+
+    @Override
+    public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
+        return null;
     }
 
     //TODO
@@ -214,31 +264,6 @@ public class GUI extends Application implements UIInterface {
     public void loginMenu() {
         this.loginDialog = new LoginDialog();
         this.loginDialog.show();
-    }
-
-    @Override
-    public Integer leaderCardAction(List<String> playerLeaderCards, LeaderCardsAction action) {
-        return null;
-    }
-
-    @Override
-    public Integer marketSlotSelection(Market market) {
-        return null;
-    }
-
-    @Override
-    public void workingArea(String workingAreaChoice, Player player) {
-    }
-
-    @Override
-    public void printTowers(ArrayList<Tower> towers) {
-        loadCardsOnTowers();
-    }
-
-    //TODO: remove this in UI interface
-    @Override
-    public void printGameBoard() {
-        printTowers(null);
     }
 
     public String familyMemberSelection() {

@@ -28,10 +28,10 @@ public class ClientNetworkController {
     }
 
     public Integer contextSelection(List<PlayerSelectableContexts> contexts) {
-        return clientConnection.getUI().contextSelection(contexts);
+        return 0;
     }
 
     public Integer marketSlotSelection(Market market) {
-        return clientConnection.getUI().marketSlotSelection(market);
+        return 0;
     }
 }
