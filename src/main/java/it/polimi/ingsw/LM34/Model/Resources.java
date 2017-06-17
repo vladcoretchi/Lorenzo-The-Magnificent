@@ -2,57 +2,72 @@ package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Utils.Utilities;
-
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 /**
  * Created by Giulio Comi on 03/04/2017.
  */
 public class Resources implements Serializable {
-    private Map<ResourceType, Integer> resources;
+    private static final long serialVersionUID = 8305447519327637463L;
+
+    private Map<ResourceType, Integer> resourcesMap;
 
     //constructor for initializing all values to 0 (this comes handy in some situation)
     public Resources() {
-        resources = new HashMap<>();
+        resourcesMap = new EnumMap<>(ResourceType.class);
     }
 
     public Resources(Integer coins, Integer woods, Integer stones, Integer servants, Integer militaryPoints, Integer faithPoints, Integer victoryPoints) {
-        resources = new HashMap<>();
+        resourcesMap = new EnumMap<>(ResourceType.class);
 
-        this.resources.put(ResourceType.COINS, coins);
-        this.resources.put(ResourceType.WOODS, woods);
-        this.resources.put(ResourceType.STONES, stones);
-        this.resources.put(ResourceType.SERVANTS, servants);
-        this.resources.put(ResourceType.MILITARY_POINTS, militaryPoints);
-        this.resources.put(ResourceType.FAITH_POINTS, faithPoints);
-        this.resources.put(ResourceType.VICTORY_POINTS, victoryPoints);
+        if(coins > 0)
+            this.resourcesMap.put(ResourceType.COINS, coins);
+        if(woods > 0)
+            this.resourcesMap.put(ResourceType.WOODS, woods);
+        if(stones > 0)
+            this.resourcesMap.put(ResourceType.STONES, stones);
+        if(servants > 0)
+            this.resourcesMap.put(ResourceType.SERVANTS, servants);
+        if(militaryPoints > 0)
+            this.resourcesMap.put(ResourceType.MILITARY_POINTS, militaryPoints);
+        if(faithPoints > 0)
+            this.resourcesMap.put(ResourceType.FAITH_POINTS, faithPoints);
+        if(victoryPoints > 0)
+            this.resourcesMap.put(ResourceType.VICTORY_POINTS, victoryPoints);
     }
 
     public Resources(Integer coins, Integer woods, Integer stones, Integer servants) {
-        resources = new HashMap<>();
+        resourcesMap = new EnumMap<>(ResourceType.class);
 
-        this.resources.put(ResourceType.COINS, coins);
-        this.resources.put(ResourceType.WOODS, woods);
-        this.resources.put(ResourceType.STONES, stones);
-        this.resources.put(ResourceType.SERVANTS, servants);
+        if(coins > 0)
+            this.resourcesMap.put(ResourceType.COINS, coins);
+        if(woods > 0)
+            this.resourcesMap.put(ResourceType.WOODS, woods);
+        if(stones > 0)
+            this.resourcesMap.put(ResourceType.STONES, stones);
+        if(servants > 0)
+            this.resourcesMap.put(ResourceType.SERVANTS, servants);
     }
 
     public Resources(Integer militaryPoints, Integer faithPoints, Integer victoryPoints) {
-        resources = new HashMap<>();
+        resourcesMap = new EnumMap<>(ResourceType.class);
 
-        this.resources.put(ResourceType.MILITARY_POINTS, militaryPoints);
-        this.resources.put(ResourceType.FAITH_POINTS, faithPoints);
-        this.resources.put(ResourceType.VICTORY_POINTS, victoryPoints);
+        if(militaryPoints > 0)
+            this.resourcesMap.put(ResourceType.MILITARY_POINTS, militaryPoints);
+        if(faithPoints > 0)
+            this.resourcesMap.put(ResourceType.FAITH_POINTS, faithPoints);
+        if(victoryPoints > 0)
+            this.resourcesMap.put(ResourceType.VICTORY_POINTS, victoryPoints);
     }
 
-    public Resources(Map<ResourceType, Integer> resources) {
-        this.resources = resources;
+    public Resources(Map<ResourceType, Integer> resourcesMap) {
+        this.resourcesMap = resourcesMap;
     }
 
     public Map<ResourceType, Integer> getResources() {
-        return this.resources;
+        return this.resourcesMap;
     }
 
     //this method allows the controller to retrieve just the information about the type of resource it needs in that moment
@@ -60,33 +75,38 @@ public class Resources implements Serializable {
         if (resourceType == null)
             throw new NullPointerException();
 
-        return this.resources.getOrDefault(resourceType, 0);
+        return this.resourcesMap.getOrDefault(resourceType, 0);
     }
 
     //allows both addition and subtraction of quantity
     public void modifyResourceByType(ResourceType resourceType, Integer quantity) {
-        if (resourceType == null || quantity == null) throw new NullPointerException();
+        if (resourceType == null || quantity == null)
+            throw new NullPointerException();
 
-        this.resources.merge(resourceType, quantity, Utilities.sumInteger);
-        if (this.resources.get(resourceType) == 0) this.resources.remove(resourceType);
+        this.resourcesMap.merge(resourceType, quantity, Utilities.sumInteger);
+        if (this.resourcesMap.get(resourceType) == 0)
+            this.resourcesMap.remove(resourceType);
     }
 
-    //this method also handles subtraction as negative number of resources
+    //this method also handles subtraction as negative number of resourcesMap
     public void sumResources (Resources res) {
-        if (res == null) throw new NullPointerException();
+        if (res == null)
+            throw new NullPointerException();
 
-        res.getResources().forEach((type, value) -> this.modifyResourceByType(type, value));
+        res.getResources().forEach(this::modifyResourceByType);
     }
 
     public void subResources (Resources res) {
-        if (res == null) throw new NullPointerException();
+        if (res == null)
+            throw new NullPointerException();
 
-        res.getResources().forEach((type, value) -> this.modifyResourceByType(type, value));
+        res.getResources().forEach(this::modifyResourceByType);
     }
 
     public void multiplyResources (Integer multiplier) {
-        if (multiplier == null) throw new NullPointerException();
+        if (multiplier == null)
+            throw new NullPointerException();
 
-        this.resources.forEach((type, value) -> value *= multiplier);
+        this.resourcesMap.forEach((type, value) -> value *= multiplier);
     }
 }
