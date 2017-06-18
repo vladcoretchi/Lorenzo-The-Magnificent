@@ -97,15 +97,21 @@
             </ImageView>
 
             <!--dices area-->
-            <ImageView fx:id="diceSlotOrange" fitHeight="100" fitWidth="100" layoutX="1080" layoutY="1785" style="-fx-background-color: transparent">
-                <Image url="@../images/Icon.png" />
-            </ImageView>
-            <ImageView fx:id="diceSlotWhite" fitHeight="100" fitWidth="100" layoutX="925" layoutY="1785" style="-fx-background-color: transparent">
-                <Image url="@../images/Icon.png" />
-            </ImageView>
-            <ImageView fx:id="diceSlotBlack" fitHeight="100" fitWidth="100" layoutX="770" layoutY="1785" style="-fx-background-color: transparent">
-                <Image url="@../images/Icon.png" />
-            </ImageView>
+            <Text fx:id="diceSlotORANGE" layoutX="1120" layoutY="1850" style="-fx-background-color: transparent" textAlignment="CENTER">
+                <font>
+                    <Font size="37.0" />
+                </font>
+            </Text>
+            <Text fx:id="diceSlotWHITE" layoutX="970" layoutY="1850" style="-fx-background-color: transparent" textAlignment="CENTER">
+                <font>
+                    <Font size="37" />
+                </font>
+            </Text>
+            <Text fx:id="diceSlotBLACK" layoutX="790.0" layoutY="1850.0" style="-fx-background-color: transparent" textAlignment="CENTER" wrappingWidth="62.90625">
+                <font>
+                    <Font size="37" />
+                </font>
+            </Text>
 
             <!--production and harvest area-->
             <ImageView fx:id="productionArea1" fitHeight="114.0" fitWidth="323.0" layoutX="225" layoutY="1590" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
@@ -124,7 +130,7 @@
 
             <!--council palace-->
             <StackPane fx:id="councilPalace" onMouseClicked="#placePawn" onMouseEntered="#popupBonus">
-                <ImageView  fitHeight="100" fitWidth="100" layoutX="795" layoutY="1070"   style="-fx-background-color: transparent">
+                <ImageView fitHeight="100" fitWidth="100" layoutX="795" layoutY="1070" style="-fx-background-color: transparent">
                     <Image url="@../images/transparentSlot.png" />
                 </ImageView>
             </StackPane>
@@ -184,12 +190,13 @@
         </Group>
     </ScrollPane>
 
-        <Pane fx:id="commands" prefHeight="230.0" GridPane.rowIndex="0" GridPane.columnIndex="1" style="-fx-border-color: #1d1d1d">
+        <Pane fx:id="commands" prefHeight="230.0" style="-fx-border-color: #1d1d1d" GridPane.columnIndex="1" GridPane.rowIndex="0">
         </Pane>
-        <ScrollPane GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.hgrow="NEVER" GridPane.halignment="RIGHT" prefHeight="1250">
-            <VBox id="playersInfoList"  prefHeight="1000.0">
+
+        <ScrollPane prefHeight="1250" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.rowIndex="0">
+            <VBox id="playersInfoList" prefHeight="1000.0">
             <children>
-                <Pane fx:id="playerInfo1" prefHeight="230.0" style="-fx-background-color: rgba(100,0,0,0.39); -fx-border-color: #1d1d1d">
+                <Pane fx:id="playerInfo1" visible="false" prefHeight="230.0" style="-fx-border-color: #1d1d1d">
                     <children>
                         <Label fx:id="player1" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player1">
                          <font>
@@ -197,97 +204,97 @@
                          </font></Label>
                         <StackPane fx:id="VICTORY_POINTS_player1_wrapper" layoutX="94.0" layoutY="9.0">
                             <Group>
-                                <ImageView fx:id="VICTORY_POINTS_player1" fitHeight="45.6" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                                <ImageView fx:id="VICTORY_POINTS_player1_type" fitHeight="45.6" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/VICTORY_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="victoryPointsPlayer1" layoutX="17" layoutY="28" text="1" style="-fx-border-color: white; -fx-border-width: 5px;">
+                            <Text fx:id="VICTORY_POINTS_player1_value" layoutX="17" layoutY="28" style="-fx-border-color: white; -fx-border-width: 5px;" text="1">
                                 <font>
-                                    <Font size="15"></Font>
+                                    <Font size="15" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="COINS_player1_wrapper" layoutX="20.0" layoutY="70.0">
                         <Group>
-                            <ImageView fx:id="COINS_player1_image" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
+                            <ImageView fx:id="COINS_player1_type" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
                                 <Image url="@../images/resources/COINS.png" />
                             </ImageView>
-                            <Text fx:id="COINS_player1_text" layoutX="17" layoutY="25" text="1">
+                            <Text fx:id="COINS_player1_value" layoutX="17" layoutY="25" text="1">
                                 <font>
-                                    <Font size="22"></Font>
+                                    <Font size="22" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="STONES_player1_wrapper" layoutX="100.0" layoutY="70.0">
                         <Group>
-                            <ImageView fx:id="STONES_player1_image" fitHeight="38.88" fitWidth="42.84" pickOnBounds="true" preserveRatio="true"> <!--36%-->
+                            <ImageView fx:id="STONES_player1_type" fitHeight="38.88" fitWidth="42.84" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/STONES.png" />
                             </ImageView>
-                            <Text fx:id="stonesPlayer1_text" layoutX="12" layoutY="30" text="1">
+                            <Text fx:id="STONES_player1_value" layoutX="12" layoutY="30" text="1">
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="WOODS_player1_wrapper" layoutX="184.0" layoutY="70.0">
                         <Group>
-                            <ImageView fx:id="WOODS_player1" fitHeight="36.0" fitWidth="42.12" layoutX="100.0" pickOnBounds="true" preserveRatio="true"> <!--36%-->
+                            <ImageView fx:id="WOODS_player1_type" fitHeight="36.0" fitWidth="42.12" layoutX="100.0" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/WOODS.png" />
                             </ImageView>
-                            <Text fx:id="woodsPlayer1" layoutX="118" layoutY="4" text="1">
+                            <Text fx:id="WOODS_player1_value" layoutX="118" layoutY="4" text="1">
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="SERVANTS_player1_wrapper" layoutX="20.0" layoutY="140.0">
                         <Group>
-                            <ImageView fx:id="SERVANTS_player1" fitHeight="56.0" fitWidth="33.6" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="SERVANTS_player1_type" fitHeight="56.0" fitWidth="33.6" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/SERVANTS.png" />
                             </ImageView>
-                            <Text fx:id="servantsPlayer1" layoutX="5" layoutY="38" text="1">
+                            <Text fx:id="SERVANTS_player1_value" layoutX="5" layoutY="38" text="1">
                                 <effect>
-                                    <Glow></Glow>
+                                    <Glow />
                                 </effect>
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="FAITH_POINTS_player1_wrapper" layoutX="100.0" layoutY="140.0">
                         <Group>
-                            <ImageView fx:id="FAITH_POINTS_player1" fitHeight="49.28" fitWidth="42.24" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="FAITH_POINTS_player1_type" fitHeight="49.28" fitWidth="42.24" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/FAITH_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="faithPointsPlayer1" layoutX="7" layoutY="41" text="1">
+                            <Text fx:id="FAITH_POINTS_player1_value" layoutX="7" layoutY="41" text="1">
                                 <effect>
                                     <DropShadow color="white"> </DropShadow>
                                 </effect>
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="MILITARY_POINTS_player1_wrapper" layoutX="184.0" layoutY="140.0">
                         <Group>
-                            <ImageView fx:id="MILITARY_POINTS_player1" fitHeight="53.1" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="MILITARY_POINTS_player1_type" fitHeight="53.1" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/MILITARY_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="militaryPointsPlayer1" layoutX="15" layoutY="38" text="1">
+                            <Text fx:id="MILITARY_POINTS_player1_value" layoutX="15" layoutY="38" text="1">
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo2" prefHeight="230.0" style="-fx-background-color: rgba(100,97,32,0.6); -fx-border-color: #1d1d1d">
+            <Pane fx:id="playerInfo2" visible="false" prefHeight="230.0" style="-fx-border-color: #1d1d1d">
                 <children>
                     <Label fx:id="player2" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player2">
                         <font>
@@ -295,97 +302,97 @@
                         </font></Label>
                     <StackPane fx:id="VICTORY_POINTS_player2_wrapper" layoutX="94.0" layoutY="9.0">
                         <Group>
-                            <ImageView fx:id="VICTORY_POINTS_player2" fitHeight="45.6" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="VICTORY_POINTS_player2_type" fitHeight="45.6" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/VICTORY_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="victoryPointsPlayer2" layoutX="17" layoutY="28" text="1" style="-fx-border-color: white; -fx-border-width: 5px;">
+                            <Text fx:id="VICTORY_POINTS_player2_value" layoutX="17" layoutY="28" style="-fx-border-color: white; -fx-border-width: 5px;" text="1">
                                 <font>
-                                    <Font size="15"></Font>
+                                    <Font size="15" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="COINS_player2_wrapper" layoutX="20.0" layoutY="70.0">
                         <Group>
-                            <ImageView fx:id="COINS_player2" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
+                            <ImageView fx:id="COINS_player2_type" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
                                 <Image url="@../images/resources/COINS.png" />
                             </ImageView>
-                            <Text fx:id="coinsPlayer2" layoutX="17" layoutY="25" text="1">
+                            <Text fx:id="COINS_player2_value" layoutX="17" layoutY="25" text="1">
                                 <font>
-                                    <Font size="22"></Font>
+                                    <Font size="22" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="STONES_player2_wrapper" layoutX="100.0" layoutY="70.0">
                         <Group>
-                            <ImageView fx:id="STONES_player2" fitHeight="38.88" fitWidth="42.84" pickOnBounds="true" preserveRatio="true"> <!--36%-->
+                            <ImageView fx:id="STONES_player2_type" fitHeight="38.88" fitWidth="42.84" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/STONES.png" />
                             </ImageView>
-                            <Text fx:id="stonesPlayer2" layoutX="12" layoutY="30" text="1">
+                            <Text fx:id="STONES_player2_value" layoutX="12" layoutY="30" text="1">
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="WOODS_player2_wrapper" layoutX="184.0" layoutY="70.0">
                         <Group>
-                            <ImageView fx:id="WOODS_player2" fitHeight="36.0" fitWidth="42.12" layoutX="100.0" pickOnBounds="true" preserveRatio="true"> <!--36%-->
+                            <ImageView fx:id="WOODS_player2_type" fitHeight="36.0" fitWidth="42.12" layoutX="100.0" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/WOODS.png" />
                             </ImageView>
-                            <Text fx:id="woodsPlayer2" layoutX="118" layoutY="4" text="1">
+                            <Text fx:id="WOODS_player2_value" layoutX="118" layoutY="4" text="1">
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="SERVANTS_player2_wrapper" layoutX="20.0" layoutY="140.0">
                         <Group>
-                            <ImageView fx:id="SERVANTS_player2" fitHeight="56.0" fitWidth="33.6" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="SERVANTS_player2_type" fitHeight="56.0" fitWidth="33.6" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/SERVANTS.png" />
                             </ImageView>
-                            <Text fx:id="servantsPlayer2" layoutX="5" layoutY="38" text="1">
+                            <Text fx:id="SERVANTS_player2_value" layoutX="5" layoutY="38" text="1">
                                 <effect>
-                                    <Glow></Glow>
+                                    <Glow />
                                 </effect>
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="FAITH_POINTS_player2_wrapper" layoutX="100.0" layoutY="140.0">
                         <Group>
-                            <ImageView fx:id="FAITH_POINTS_player2" fitHeight="49.28" fitWidth="42.24" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="FAITH_POINTS_player2_type" fitHeight="49.28" fitWidth="42.24" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/FAITH_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="faithPointsPlayer2" layoutX="7" layoutY="41" text="1">
+                            <Text fx:id="FAITH_POINTS_player2_value" layoutX="7" layoutY="41" text="1">
                                 <effect>
                                     <DropShadow color="white"> </DropShadow>
                                 </effect>
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="MILITARY_POINTS_player2_wrapper" layoutX="184.0" layoutY="140.0">
                         <Group>
-                            <ImageView fx:id="MILITARY_POINTS_player2" fitHeight="53.1" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="MILITARY_POINTS_player2_type" fitHeight="53.1" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/MILITARY_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="militaryPointsPlayer2" layoutX="15" layoutY="38" text="1">
+                            <Text fx:id="MILITARY_POINTS_player2_value" layoutX="15" layoutY="38" text="1">
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo3" prefHeight="230.0"  style="-fx-background-color: rgba(40,56,100,0.6); -fx-border-color: #1d1d1d">
+            <Pane fx:id="playerInfo3" visible="false" prefHeight="230.0" style="-fx-border-color: #1d1d1d">
                 <children>
                     <Label fx:id="player3" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player3">
                         <font>
@@ -393,97 +400,97 @@
                         </font></Label>
                     <StackPane fx:id="VICTORY_POINTS_player3_wrapper" layoutX="94.0" layoutY="9.0">
                         <Group>
-                            <ImageView fx:id="VICTORY_POINTS_player3" fitHeight="45.6" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="VICTORY_POINTS_player3_type" fitHeight="45.6" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/VICTORY_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="victoryPointsPlayer3" layoutX="17" layoutY="28" text="1" style="-fx-border-color: white; -fx-border-width: 5px;">
+                            <Text fx:id="VICTORY_POINTS_player3_value" layoutX="17" layoutY="28" style="-fx-border-color: white; -fx-border-width: 5px;" text="1">
                                 <font>
-                                    <Font size="15"></Font>
+                                    <Font size="15" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="COINS_player3_wrapper" layoutX="20.0" layoutY="70.0">
                         <Group>
-                            <ImageView fx:id="COINS_player3" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
+                            <ImageView fx:id="COINS_player3_type" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
                                 <Image url="@../images/resources/COINS.png" />
                             </ImageView>
-                            <Text fx:id="coinsPlayer3" layoutX="17" layoutY="25" text="1">
+                            <Text fx:id="COINS_player3_value" layoutX="17" layoutY="25" text="1">
                                 <font>
-                                    <Font size="22"></Font>
+                                    <Font size="22" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="STONES_player3_wrapper" layoutX="100.0" layoutY="70.0">
                         <Group>
-                            <ImageView fx:id="STONES_player3" fitHeight="38.88" fitWidth="42.84" pickOnBounds="true" preserveRatio="true"> <!--36%-->
+                            <ImageView fx:id="STONES_player3_type" fitHeight="38.88" fitWidth="42.84" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/STONES.png" />
                             </ImageView>
-                            <Text fx:id="stonesPlayer3" layoutX="12" layoutY="30" text="1">
+                            <Text fx:id="STONES_player3_value" layoutX="12" layoutY="30" text="1">
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="WOODS_player3_wrapper" layoutX="184.0" layoutY="70.0">
                         <Group>
-                            <ImageView fx:id="WOODS_player3" fitHeight="36.0" fitWidth="42.12" layoutX="100.0" pickOnBounds="true" preserveRatio="true"> <!--36%-->
+                            <ImageView fx:id="WOODS_player3_type" fitHeight="36.0" fitWidth="42.12" layoutX="100.0" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/WOODS.png" />
                             </ImageView>
-                            <Text fx:id="woodsPlayer3" layoutX="118" layoutY="4" text="1">
+                            <Text fx:id="WOODS_player3_value" layoutX="118" layoutY="4" text="1">
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="SERVANTS_player3_wrapper" layoutX="20.0" layoutY="140.0">
                         <Group>
-                            <ImageView fx:id="SERVANTS_player3" fitHeight="56.0" fitWidth="33.6" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="SERVANTS_player3_type" fitHeight="56.0" fitWidth="33.6" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/SERVANTS.png" />
                             </ImageView>
-                            <Text fx:id="servantsPlayer3" layoutX="5" layoutY="38" text="1">
+                            <Text fx:id="SERVANTS_player3_value" layoutX="5" layoutY="38" text="1">
                                 <effect>
-                                    <Glow></Glow>
+                                    <Glow />
                                 </effect>
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="FAITH_POINTS_player3_wrapper" layoutX="100.0" layoutY="140.0">
                         <Group>
-                            <ImageView fx:id="FAITH_POINTS_player3" fitHeight="49.28" fitWidth="42.24" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="FAITH_POINTS_player3_type" fitHeight="49.28" fitWidth="42.24" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/FAITH_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="faithPointsPlayer3" layoutX="7" layoutY="41" text="1">
+                            <Text fx:id="FAITH_POINTS_player3_value" layoutX="7" layoutY="41" text="1">
                                 <effect>
                                     <DropShadow color="white"> </DropShadow>
                                 </effect>
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="MILITARY_POINTS_player3_wrapper" layoutX="184.0" layoutY="140.0">
                         <Group>
-                            <ImageView fx:id="MILITARY_POINTS_player3" fitHeight="53.1" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="MILITARY_POINTS_player3_type" fitHeight="53.1" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/MILITARY_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="militaryPointsPlayer3" layoutX="15" layoutY="38" text="1">
+                            <Text fx:id="MILITARY_POINTS_player3_value" layoutX="15" layoutY="38" text="1">
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo4" prefHeight="230.0" style="-fx-background-color: rgba(28,100,23,0.6); -fx-border-color: #1d1d1d">
+            <Pane fx:id="playerInfo4" visible="false" prefHeight="230.0" style="-fx-border-color: #1d1d1d">
                 <children>
                     <Label fx:id="player4" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player4">
                         <font>
@@ -491,97 +498,97 @@
                         </font></Label>
                     <StackPane fx:id="VICTORY_POINTS_player4_wrapper" layoutX="94.0" layoutY="9.0">
                         <Group>
-                            <ImageView fx:id="VICTORY_POINTS_player4" fitHeight="45.6" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="VICTORY_POINTS_player4_type" fitHeight="45.6" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/VICTORY_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="victoryPointsPlayer4" layoutX="17" layoutY="28" text="1" style="-fx-border-color: white; -fx-border-width: 5px;">
+                            <Text fx:id="VICTORY_POINTS_player4_value" layoutX="17" layoutY="28" style="-fx-border-color: white; -fx-border-width: 5px;" text="1">
                                 <font>
-                                    <Font size="15"></Font>
+                                    <Font size="15" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="COINS_player4_wrapper" layoutX="20.0" layoutY="70.0">
                         <Group>
-                            <ImageView fx:id="COINS_player4" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
+                            <ImageView fx:id="COINS_player4_type" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
                                 <Image url="@../images/resources/COINS.png" />
                             </ImageView>
-                            <Text fx:id="coinsPlayer4" layoutX="17" layoutY="25" text="1">
+                            <Text fx:id="COINS_player4_value" layoutX="17" layoutY="25" text="1">
                                 <font>
-                                    <Font size="22"></Font>
+                                    <Font size="22" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="STONES_player4_wrapper" layoutX="100.0" layoutY="70.0">
                         <Group>
-                            <ImageView fx:id="STONES_player4" fitHeight="38.88" fitWidth="42.84" pickOnBounds="true" preserveRatio="true"> <!--36%-->
+                            <ImageView fx:id="STONES_player4_type" fitHeight="38.88" fitWidth="42.84" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/STONES.png" />
                             </ImageView>
-                            <Text fx:id="stonesPlayer4" layoutX="12" layoutY="30" text="1">
+                            <Text fx:id="STONES_player4_value" layoutX="12" layoutY="30" text="1">
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="WOODS_player4_wrapper" layoutX="184.0" layoutY="70.0">
                         <Group>
-                            <ImageView fx:id="WOODS_player4" fitHeight="36.0" fitWidth="42.12" layoutX="100.0" pickOnBounds="true" preserveRatio="true"> <!--36%-->
+                            <ImageView fx:id="WOODS_player4_type" fitHeight="36.0" fitWidth="42.12" layoutX="100.0" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/WOODS.png" />
                             </ImageView>
-                            <Text fx:id="woodsPlayer4" layoutX="118" layoutY="4" text="1">
+                            <Text fx:id="WOODS_player4_value" layoutX="118" layoutY="4" text="1">
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="SERVANTS_player4_wrapper" layoutX="20.0" layoutY="140.0">
                         <Group>
-                            <ImageView fx:id="SERVANTS_player4" fitHeight="56.0" fitWidth="33.6" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="SERVANTS_player4_type" fitHeight="56.0" fitWidth="33.6" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/SERVANTS.png" />
                             </ImageView>
-                            <Text fx:id="servantsPlayer4" layoutX="5" layoutY="38" text="1">
+                            <Text fx:id="SERVANTS_player4_value" layoutX="5" layoutY="38" text="1">
                                 <effect>
-                                    <Glow></Glow>
+                                    <Glow />
                                 </effect>
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="FAITH_POINTS_player4_wrapper" layoutX="100.0" layoutY="140.0">
                         <Group>
-                            <ImageView fx:id="FAITH_POINTS_player4" fitHeight="49.28" fitWidth="42.24" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="FAITH_POINTS_player4_type" fitHeight="49.28" fitWidth="42.24" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/FAITH_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="faithPointsPlayer4" layoutX="7" layoutY="41" text="1">
+                            <Text fx:id="FAITH_POINTS_player4_value" layoutX="7" layoutY="41" text="1">
                                 <effect>
                                     <DropShadow color="white"> </DropShadow>
                                 </effect>
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="MILITARY_POINTS_player4_wrapper" layoutX="184.0" layoutY="140.0">
                         <Group>
-                            <ImageView fx:id="MILITARY_POINTS_player4" fitHeight="53.1" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="MILITARY_POINTS_player4_type" fitHeight="53.1" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/MILITARY_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="militaryPointsPlayer4" layoutX="15" layoutY="38" text="1">
+                            <Text fx:id="MILITARY_POINTS_player4_value" layoutX="15" layoutY="38" text="1">
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo5" prefHeight="230.0" style="-fx-background-color: rgba(100,29,97,0.6); -fx-border-color: #1d1d1d">
+            <Pane fx:id="playerInfo5" visible="false" prefHeight="230.0" style="-fx-border-color: #1d1d1d">
                 <children>
                     <Label fx:id="player5" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player5">
                         <font>
@@ -589,90 +596,90 @@
                         </font></Label>
                     <StackPane fx:id="VICTORY_POINTS_player5_wrapper" layoutX="94.0" layoutY="9.0">
                         <Group>
-                            <ImageView fx:id="VICTORY_POINTS_player5" fitHeight="45.6" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="VICTORY_POINTS_player5_type" fitHeight="45.6" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/VICTORY_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="victoryPointsPlayer5" layoutX="17" layoutY="28" text="1" style="-fx-border-color: white; -fx-border-width: 5px;">
+                            <Text fx:id="VICTORY_POINTS_player5_value" layoutX="17" layoutY="28" style="-fx-border-color: white; -fx-border-width: 5px;" text="1">
                                 <font>
-                                    <Font size="15"></Font>
+                                    <Font size="15" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="COINS_player5_wrapper" layoutX="20.0" layoutY="70.0">
                         <Group>
-                            <ImageView fx:id="COINS_player5" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
+                            <ImageView fx:id="COINS_player5_type" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
                                 <Image url="@../images/resources/COINS.png" />
                             </ImageView>
-                            <Text fx:id="coinsPlayer5" layoutX="17" layoutY="25" text="1">
+                            <Text fx:id="COINS_player5_value" layoutX="17" layoutY="25" text="1">
                                 <font>
-                                    <Font size="22"></Font>
+                                    <Font size="22" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="STONES_player5_wrapper" layoutX="100.0" layoutY="70.0">
                         <Group>
-                            <ImageView fx:id="STONES_player5" fitHeight="38.88" fitWidth="42.84" pickOnBounds="true" preserveRatio="true"> <!--36%-->
+                            <ImageView fx:id="STONES_player5_type" fitHeight="38.88" fitWidth="42.84" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/STONES.png" />
                             </ImageView>
-                            <Text fx:id="stonesPlayer5" layoutX="12" layoutY="30" text="1">
+                            <Text fx:id="STONES_player5_value" layoutX="12" layoutY="30" text="1">
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="WOODS_player5_wrapper" layoutX="184.0" layoutY="70.0">
                         <Group>
-                            <ImageView fx:id="WOODS_player5" fitHeight="36.0" fitWidth="42.12" layoutX="100.0" pickOnBounds="true" preserveRatio="true"> <!--36%-->
+                            <ImageView fx:id="WOODS_player5_type" fitHeight="36.0" fitWidth="42.12" layoutX="100.0" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/WOODS.png" />
                             </ImageView>
-                            <Text fx:id="woodsPlayer5" layoutX="118" layoutY="4" text="1">
+                            <Text fx:id="WOODS_player5_value" layoutX="118" layoutY="4" text="1">
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="SERVANTS_player5_wrapper" layoutX="20.0" layoutY="140.0">
                         <Group>
-                            <ImageView fx:id="SERVANTS_player5" fitHeight="56.0" fitWidth="33.6" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="SERVANTS_player5_type" fitHeight="56.0" fitWidth="33.6" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/SERVANTS.png" />
                             </ImageView>
-                            <Text fx:id="servantsPlayer5" layoutX="5" layoutY="38" text="1">
+                            <Text fx:id="SERVANTS_player5_value" layoutX="5" layoutY="38" text="1">
                                 <effect>
-                                    <Glow></Glow>
+                                    <Glow />
                                 </effect>
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="FAITH_POINTS_player5_wrapper" layoutX="100.0" layoutY="140.0">
                         <Group>
-                            <ImageView fx:id="FAITH_POINTS_player5" fitHeight="49.28" fitWidth="42.24" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="FAITH_POINTS_player5_type" fitHeight="49.28" fitWidth="42.24" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/FAITH_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="faithPointsPlayer5" layoutX="7" layoutY="41" text="1">
+                            <Text fx:id="FAITH_POINTS_player5_value" layoutX="7" layoutY="41" text="1">
                                 <effect>
                                     <DropShadow color="white"> </DropShadow>
                                 </effect>
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
                     <StackPane fx:id="MILITARY_POINTS_player5_wrapper" layoutX="184.0" layoutY="140.0">
                         <Group>
-                            <ImageView fx:id="MILITARY_POINTS_player5" fitHeight="53.1" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
+                            <ImageView fx:id="MILITARY_POINTS_player5_type" fitHeight="53.1" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/MILITARY_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="militaryPointsPlayer5" layoutX="15" layoutY="38" text="1">
+                            <Text fx:id="MILITARY_POINTS_player5_value" layoutX="15" layoutY="38" text="1">
                                 <font>
-                                    <Font size="17"></Font>
+                                    <Font size="17" />
                                 </font>
                             </Text>
                         </Group>

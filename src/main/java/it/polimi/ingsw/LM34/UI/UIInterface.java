@@ -1,9 +1,6 @@
 package it.polimi.ingsw.LM34.UI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
-import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
-import it.polimi.ingsw.LM34.Enums.UI.NetworkType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -19,9 +16,7 @@ import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.UI.CLI.CLI;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -51,6 +46,7 @@ public interface UIInterface {
     void updateHarvestArea(WorkingArea harvestArea);
     void updatePlayersData(List<Player> players);
     void updateDiceValues(List<Dice> dicesValues);
+    void endGame(List<Player> players);
 
     PlayerAction turnMainAction(Optional<Boolean> lastActionValid);
 

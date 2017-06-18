@@ -1,7 +1,5 @@
 package it.polimi.ingsw.LM34.UI.CLI;
 
-import java.util.Collections;
-import static it.polimi.ingsw.LM34.UI.CLI.CLIStuff.*;
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
@@ -26,6 +24,8 @@ import it.polimi.ingsw.LM34.Utils.Validator;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
+
+import static it.polimi.ingsw.LM34.UI.CLI.CLIStuff.*;
 
 /**
  * this class was built on {@link UIInterface}. It implement all method body that will be used to describe and manage Cli
@@ -135,6 +135,11 @@ public class CLI implements UIInterface {
 
     @Override
     public void updateDiceValues(List<Dice> dicesValues) {
+
+    }
+
+    @Override
+    public void endGame(List<Player> players) {
 
     }
 

@@ -6,7 +6,6 @@ import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
-import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
@@ -27,20 +26,20 @@ import it.polimi.ingsw.LM34.Utils.Configurator;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.tuple.Pair;
@@ -48,9 +47,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static it.polimi.ingsw.LM34.Enums.Model.PawnColor.BLUE;
-import static it.polimi.ingsw.LM34.Enums.Model.PawnColor.RED;
 
 /**
  * Created by vladc on 6/6/2017.
@@ -102,10 +98,10 @@ public class GUI extends Application implements UIInterface {
 
         /*----------TURN SETUPS--------*/
         //updatePlayersInfo();
-        //updatePlayersInfo();
+        //updateDiceValues();
 
         /*----------ROUND SETUPS--------*/
-        sweepSlots();
+        //sweepSlots();
 
         /*----------DIALOGS--------*/
         //servantsSelection(5,1);
@@ -128,11 +124,27 @@ public class GUI extends Application implements UIInterface {
         resList.add(tempRes);
         resList.add(new Resources(3,2,1,0));
         new UseCouncilPrivilegeDialog().interactWithPlayer(resList);*/
+
+        /*Player giacomo = new Player("giacomo", BLUE, new PersonalBoard());
+        giacomo.addResources(new Resources(4,5,1,2));
+        Player antonio = new Player("antonio", PawnColor.RED, new PersonalBoard());
+        antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
+        List<Player> players = new ArrayList<>();
+        players.add(giacomo); players.add(antonio);
+        updatePlayersData(players);
+
+        Dice orange = new Dice(ORANGE); orange.rollDice();
+        Dice black = new Dice(BLACK); orange.rollDice();
+        Dice white = new Dice(WHITE); orange.rollDice();
+        List<Dice> dices = new ArrayList<>();
+        dices.add(orange); dices.add(black); dices.add(white);
+        updateDiceValues(dices);*/
     }
 
-    public void endGame() {
+    @Override
+    public void endGame(List<Player> players) {
         try {
-            new EndGameDialog().start(new Stage());
+            new EndGameDialog(players).start(new Stage());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -251,15 +263,47 @@ public class GUI extends Application implements UIInterface {
     public void updateHarvestArea(WorkingArea harvestArea) {
     }
 
-    //TODO
+
     @Override
     public void updatePlayersData(List<Player> players) {
+        Pane playerInfo = new Pane();
+        Label playerName = new Label();
+        Text value = new Text();
+        DropShadow borderGlow;
+        Integer numPlayer = 1;
+
+        for (Player player : players) {
+            playerInfo = (Pane) root.lookup("#playerInfo" + numPlayer);
+            playerInfo.setBackground(new Background(new BackgroundFill(Color.valueOf(player.getPawnColor().toString()), CornerRadii.EMPTY, Insets.EMPTY)));
+            playerInfo.setVisible(true);
+            playerName = (Label) root.lookup("#player" + numPlayer);
+            playerName.setText(player.getPlayerName());
+            for (ResourceType resType : ResourceType.values()) {
+                value = (Text) root.lookup("#" + resType.toString() + "_player" + numPlayer + "_value");
+                value.setText(player.getResources().getResourceByType(resType).toString());
+
+                borderGlow = new DropShadow();
+                borderGlow.setOffsetY(0f);
+                borderGlow.setOffsetX(0f);
+                borderGlow.setSpread(0.4);
+                borderGlow.setRadius(25.0);
+                borderGlow.setColor(Color.WHITE);
+                borderGlow.setWidth(35);
+                borderGlow.setHeight(35);
+                value.setEffect(borderGlow);
+            }
+            numPlayer++;
+        }
     }
 
     @Override
-    public void updateDiceValues(List<Dice> dicesValues) { //TODO
-        for(Dice dice : dicesValues)
-            System.out.println(dice.getColor() + ": " + dice.getValue());
+    public void updateDiceValues(List<Dice> dicesValues) {
+        Text diceSlot = new Text();
+
+        for(Dice dice : dicesValues) {
+            diceSlot = (Text) root.lookup("#diceSlot" + dice.getColor());
+            diceSlot.setText(dice.getValue().toString());
+        }
     }
 
     @Override
@@ -303,7 +347,7 @@ public class GUI extends Application implements UIInterface {
         return new UseCouncilPrivilegeDialog().interactWithPlayer(availableBonuses);
     }
 
-    //TODO
+
     @Override
     public void show() {
 
@@ -331,7 +375,6 @@ public class GUI extends Application implements UIInterface {
         sweepTowersSlots();
     }
 
-
     //TODO
     @FXML
     public void placePawn(MouseEvent event) {
@@ -354,7 +397,6 @@ public class GUI extends Application implements UIInterface {
             }
     }
 
-
     @FXML
     public void popupBonus(MouseEvent event) {
         ActionSlot slot = new ActionSlot(true, 3, new ResourcesBonus(new Resources(3,4,4,3),1));
@@ -375,7 +417,6 @@ public class GUI extends Application implements UIInterface {
         }
     }
 
-
     public void loadCouncilPrivilegesBonuses() {
         //TODO
     }
@@ -393,7 +434,6 @@ public class GUI extends Application implements UIInterface {
                 .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
     }
 
-
     private void sweepTowersSlots() {
         for(Integer index = 0; index < Configurator.MAX_TOWER_LEVELS; index++)
             for(DevelopmentCardColor color : DevelopmentCardColor.values())
@@ -403,6 +443,7 @@ public class GUI extends Application implements UIInterface {
                             .getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
                 }
     }
+
     private void sweepWorkingAreas() {
         Integer index = 0;
         for(index= 0; index<2; index++) {
@@ -419,41 +460,6 @@ public class GUI extends Application implements UIInterface {
         }
     }
 
-    private void updatePlayersInfo() {
-        Pane playerinfo;
-        StackPane wrapper;
-        ImageView res;
-        Text value;
-        List<Player> players = new ArrayList<>();
-        Player p1 = new Player("p1", RED, new PersonalBoard());
-        Player p2 = new Player("p2", BLUE, new PersonalBoard());
-        p1.addResources(new Resources(1,2,3,4));
-        p2.addResources(new Resources(3,4,5,2,3,3,3));
-        players.add(p1);
-        //players.add(p2);
-        Resources tempRes = new Resources();
-        Integer numPlayer = 1;
-        for (Player player : players) {
-            playerinfo = (Pane) root.lookup("#playerInfo" + numPlayer);
-            System.out.println(playerinfo.getId());
-            tempRes = player.getResources();
-            for (ResourceType type : ResourceType.values()) {
-                System.out.println(type);
-                wrapper = (StackPane) root.lookup("#" + type.toString() + "_player" + numPlayer + "_wrapper");
-                res = (ImageView) root.lookup("#" + type.toString() + "_player" + numPlayer);
-                value = new Text();
-                value.setText(player.getResources().getResourceByType(type).toString());
-                value.setFont(Font.font("Verdana", 100));
-                value.setX(wrapper.getLayoutX()+res.getLayoutX());
-                value.setY(wrapper.getLayoutY()+res.getLayoutY()-80);
-
-                playerinfo.getChildren().add(value);
-                System.out.println(wrapper.getId());
-                //wrapper.getChildren().add(value);
-            }
-            numPlayer++;
-        }
-    }
 
     //TODO: remove just after tests
     public static void main(String [] args) {
