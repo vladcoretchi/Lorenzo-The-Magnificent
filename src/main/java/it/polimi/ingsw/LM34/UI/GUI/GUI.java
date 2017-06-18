@@ -86,10 +86,6 @@ public class GUI extends Application implements UIInterface {
     Market market;
     CouncilPalace palace;
 
-    /*public GUI() {
-        personalBoardController = new PersonalBoardController(); //TODO
-    }*/
-
     @Override
     public void start(Stage stage) throws Exception {
         root = FXMLLoader.load(getClass().getClassLoader().getResource("views/gui.fxml"));
@@ -98,54 +94,8 @@ public class GUI extends Application implements UIInterface {
         //primaryStage.initStyle(StageStyle.UNDECORATED);
         prepareWindow();
         /*----------GAME SETUPS----------*/
-        //loadTowersBonuses(); //TODO
-        //loadCouncilPrivilegesBonuses(); //TODO
-        //loadMarketBonuses(); //TODO
         //loadFaithPath(); //TODO
-
-        /*----------TURN SETUPS--------*/
-        //updatePlayersInfo();
-        //updateDiceValues();
-
-        /*----------ROUND SETUPS--------*/
-        //sweepSlots();
-
-        /*----------DIALOGS--------*/
-        //servantsSelection(5,1);
-        //churchReportDecision(4,2);
         //leaderCardAction(); //TODO
-        //addPlayersInfo(root); //TODO
-        //endGame();
-        //familyMemberSelection();
-
-        /*List<Pair<Resources, ResourcesBonus>> listPairExchange = new ArrayList<>();
-        Resources tempRes = new Resources(1,2,9,0);
-        ResourcesBonus tempResBon = new ResourcesBonus(new Resources(), 3);
-        Resources tempRes2 = new Resources(0,0,72,5);
-        ResourcesBonus tempResBon2 = new ResourcesBonus(new Resources(3,2,1,4), 1);
-        listPairExchange.add(new ImmutablePair<>(tempRes, tempResBon));
-        listPairExchange.add(new ImmutablePair<>(tempRes2, tempResBon2));
-        new ResourceExchangeDialog().interactWithPlayer(listPairExchange);*/
-
-        /*List<Resources> resList = new ArrayList<>();
-        resList.add(tempRes);
-        resList.add(new Resources(3,2,1,0));
-        new UseCouncilPrivilegeDialog().interactWithPlayer(resList);*/
-
-        /*Player giacomo = new Player("giacomo", BLUE, new PersonalBoard());
-        giacomo.addResources(new Resources(4,5,1,2));
-        Player antonio = new Player("antonio", PawnColor.RED, new PersonalBoard());
-        antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
-        List<Player> players = new ArrayList<>();
-        players.add(giacomo); players.add(antonio);
-        updatePlayersData(players);
-
-        Dice orange = new Dice(ORANGE); orange.rollDice();
-        Dice black = new Dice(BLACK); orange.rollDice();
-        Dice white = new Dice(WHITE); orange.rollDice();
-        List<Dice> dices = new ArrayList<>();
-        dices.add(orange); dices.add(black); dices.add(white);
-        updateDiceValues(dices);*/
     }
 
     @Override
@@ -424,7 +374,6 @@ public class GUI extends Application implements UIInterface {
         return new UseCouncilPrivilegeDialog().interactWithPlayer(availableBonuses);
     }
 
-
     @Override
     public void show() {
 
@@ -533,6 +482,7 @@ public class GUI extends Application implements UIInterface {
         //TODO
     }
 
+    //TODO: keep this?
     @FXML
     public void buyCard(MouseEvent event) {
         Image image;
@@ -547,5 +497,4 @@ public class GUI extends Application implements UIInterface {
         GUI gui = new GUI();
         gui.show();
     }
-
 }

@@ -8,10 +8,10 @@ import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlot;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Network.GameRoom;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -100,11 +100,11 @@ public final class Validator {
             accessibleContexts.add(p);
 
         /*TOWERSLOTS*/
-        ArrayList<TowerSlot> towerSlots = new ArrayList<>();
+        /*ArrayList<TowerSlot> towerSlots = new ArrayList<>();
         towerSlots.add(new TowerSlot(null,1,1,1));
         towerSlots.add(new TowerSlot(null,2,2,2));
         towerSlots.add(new TowerSlot(null,3,3,3));
-        towerSlots.add(new TowerSlot(null,4,4,4));
+        towerSlots.add(new TowerSlot(null,4,4,4));*/
 
         /*AREATYPE*/
 
@@ -114,11 +114,11 @@ public final class Validator {
 
 
 
-        try {
+       /* try {
             checkValidity(in.nextLine(), towerSlots);
         } catch(Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 

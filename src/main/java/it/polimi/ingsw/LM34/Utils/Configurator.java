@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.MULTICOLOR;
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.COINS;
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.MILITARY_POINTS;
 
@@ -71,7 +72,6 @@ public final class Configurator {
     private static List<LeaderCard> leaderCards;
     private static List<ExcommunicationCard> excommunicationTiles;
 
-
     public static void loadConfigs() {
         JSONObject jsonObject = null;
 
@@ -83,12 +83,41 @@ public final class Configurator {
             jsonObject = new JSONObject(jsonString).getJSONObject("configuration");
         } catch (Exception e) {e.printStackTrace();}
 
-        /*try {
-            setupMarket(jsonObject.getJSONObject("actionSlots").getJSONArray("market"));
-            setupDevelopmentCards(jsonObject.getJSONObject("developmentCards"));
-            setupDevelopmentCards(jsonObject.getJSONObject("developmentCards"));
-        } catch (Exception e) {e.printStackTrace();}*/
-        //
+        try {
+            //setupMarket(jsonObject.getJSONObject("actionSlots").getJSONArray("market"));
+            //setupProductionArea(jsonObject.getJSONObject("actionSlots").getJSONArray("productionArea"));
+            //setupHarvestArea(jsonObject.getJSONObject("actionSlots").getJSONArray("harvestArea"));
+            //setupCouncilPalace(jsonObject.getJSONObject("actionSlots").getJSONObject("councilPalace"));
+            setupTowers(jsonObject.getJSONObject("actionSlots").getJSONArray("towers"));
+            //setupDevelopmentCards(jsonObject.getJSONObject("developmentCards"));
+        } catch (Exception e) {e.printStackTrace();}
+
+    }
+
+    //TODO
+    private static void setupTowers(JSONArray jsonTowersSlots) {
+        Integer index = 0;
+        towers = new ArrayList<>();
+        Tower tower;
+        for(DevelopmentCardColor type : DevelopmentCardColor.values()) {
+            if (type != MULTICOLOR) {
+                tower = new Tower(type);
+                for (; index < MAX_TOWER_LEVELS; index++) {
+                    tower.getTowerSlots().add(getTowerSlotFromJson(jsonTowersSlots.getJSONObject(index)));
+                }
+                towers.add(tower);
+            }
+        }
+    }
+
+    private static TowerSlot getTowerSlotFromJson(JSONObject jsonObject) {
+        Boolean singlePawnSlot = jsonObject.optBoolean("singlePawnSlot", true);
+        Integer diceValue = jsonObject.optInt("diceValue", 0);
+        Integer councilPrivilege = jsonObject.getInt("councilPrivilege");
+        Resources resources = getResourcesBonusFromJson(jsonObject).getResources();
+        //wrapper
+        ResourcesBonus resourcesBonus = new ResourcesBonus(resources, councilPrivilege);
+        return new TowerSlot(singlePawnSlot, diceValue, resourcesBonus);
     }
 
     private static void setupMarket(JSONArray market_array) {
@@ -109,10 +138,10 @@ public final class Configurator {
     private static ActionSlot getActionSlotFromJson(JSONObject jsonObject) {
         Boolean singlePawnSlot = jsonObject.optBoolean("singlePawnSlot", true);
         Integer diceValue = jsonObject.optInt("diceValue", 0);
-        //Integer councilPrivilege = jsonObject.getInt("councilPrivilege");
-        ResourcesBonus resourcesBonus = getResourcesBonusFromJson(jsonObject); //TODO: test if this is correct
+        Integer councilPrivilege = jsonObject.getInt("councilPrivilege");
+        Resources resources = getResourcesBonusFromJson(jsonObject).getResources();
         //wrapper
-        //ResourcesBonus resourcesBonus = new ResourcesBonus(resources, councilPrivilege);
+        ResourcesBonus resourcesBonus = new ResourcesBonus(resources, councilPrivilege);
         return new ActionSlot(singlePawnSlot, diceValue, resourcesBonus);
     }
 
@@ -129,7 +158,6 @@ public final class Configurator {
                 }
             }
                 councilPrivileges = jsonResourcesBonus.optInt("councilPrivilege", 0);
-                System.out.println("privileges: " + councilPrivileges);
 
         Resources resources = new Resources(resourcesMap);
         return new ResourcesBonus(resources, councilPrivileges);
@@ -319,9 +347,6 @@ public final class Configurator {
     public static WorkingArea getProductionArea() {
         return productionArea;
     }
-    public static Market getMarket(Integer numPlayers) {
-        return market;
-    }
 
     public static DevelopmentCardDeck<TerritoryCard> getTerritoryCards() {
         //System.out.println(territoryCards.toArray().length);
@@ -368,6 +393,29 @@ public final class Configurator {
                     temp.add(e);
         exc = temp;
     }
+
+    public static void setupProductionArea(JSONArray productionSlotsJson) {
+        ActionSlot singleSlot = getActionSlotFromJson(productionSlotsJson.getJSONObject(0));
+        ArrayList<ActionSlot> advancedSlots = new ArrayList<>();
+        advancedSlots.add(getActionSlotFromJson(productionSlotsJson.getJSONObject(1)));
+        System.out.println(advancedSlots.get(0).getDiceValue());
+
+        productionArea = new WorkingArea(singleSlot, advancedSlots);
+    }
+
+    public static void setupHarvestArea(JSONArray harvestSlotsJson) {
+        ActionSlot singleSlot = getActionSlotFromJson(harvestSlotsJson.getJSONObject(0));
+        ArrayList<ActionSlot> advancedSlots = new ArrayList<>();
+        for( int i = 1; i < harvestSlotsJson.length(); i++)
+            advancedSlots.add(getActionSlotFromJson(harvestSlotsJson.getJSONObject(i)));
+
+        harvestArea = new WorkingArea(singleSlot, advancedSlots);
+    }
+
+    public static void setupCouncilPalace(JSONObject councilPalaceJson) {
+       palace = new CouncilPalace(getActionSlotFromJson(councilPalaceJson));
+    }
+
 
     private ExcommunicationCard getExcommunicationCardFromJson(JSONObject tile) {
         Integer number = tile.getInt("number");
@@ -486,7 +534,6 @@ public final class Configurator {
 
         return new ExcommunicationCard(number, period, penalty);
     }
-
 
     private static List<CharacterCard> getCharacterCardsFromJson(JSONArray jsonArray) {
         System.out.println(jsonArray.length());
@@ -620,8 +667,55 @@ public final class Configurator {
         return new CharacterCard(name, period, resourcesRequired.getResourceByType(COINS), instantBonus, permanentBonus);
     }
 
+
     //MAIN WITH THE PURPOSE TO VERIFY THE CORRECT LOADING OF MODEL OBJECTS FROM FILE
     public static void main(String[] args) {
+
         Configurator.loadConfigs();
+        /*market.getMarketSlots().forEach(m -> {
+                    System.out.println(m.getDiceValue());
+                    System.out.println("coins: " + m.getResourcesReward().getResources().getResourceByType(COINS).toString());
+                    System.out.println("woods: " + m.getResourcesReward().getResources().getResourceByType(WOODS).toString());
+                    System.out.println("servants: " + m.getResourcesReward().getResources().getResourceByType(SERVANTS).toString());
+                    System.out.println("stones: " + m.getResourcesReward().getResources().getResourceByType(STONES).toString());
+                });*/
+
+        try {
+            /*System.out.println("PRODUCTION");
+            productionArea.getAdvancedSlots().forEach(m -> {
+                System.out.println(m.getDiceValue());
+                System.out.println("coins: " + m.getResourcesReward().getResources().getResourceByType(COINS).toString());
+                System.out.println("woods: " + m.getResourcesReward().getResources().getResourceByType(WOODS).toString());
+                System.out.println("servants: " + m.getResourcesReward().getResources().getResourceByType(SERVANTS).toString());
+                System.out.println("stones: " + m.getResourcesReward().getResources().getResourceByType(STONES).toString());
+            });
+
+                System.out.println(productionArea.getSingleSlot().getDiceValue());
+                System.out.println("coins: " + productionArea.getSingleSlot().getResourcesReward().getResources().getResourceByType(COINS).toString());
+                System.out.println("woods: " + productionArea.getSingleSlot().getResourcesReward().getResources().getResourceByType(WOODS).toString());
+                System.out.println("servants: " + productionArea.getSingleSlot().getResourcesReward().getResources().getResourceByType(SERVANTS).toString());
+                System.out.println("stones: " + productionArea.getSingleSlot().getResourcesReward().getResources().getResourceByType(STONES).toString());
+
+
+            System.out.println("HARVEST");
+            harvestArea.getAdvancedSlots().forEach(m -> {
+                System.out.println(m.getDiceValue());
+                System.out.println("coins: " + m.getResourcesReward().getResources().getResourceByType(COINS).toString());
+                System.out.println("woods: " + m.getResourcesReward().getResources().getResourceByType(WOODS).toString());
+                System.out.println("servants: " + m.getResourcesReward().getResources().getResourceByType(SERVANTS).toString());
+                System.out.println("stones: " + m.getResourcesReward().getResources().getResourceByType(STONES).toString());
+            });
+
+                System.out.println( harvestArea.getSingleSlot().getDiceValue());
+                System.out.println("coins: " +  harvestArea.getSingleSlot().getResourcesReward().getResources().getResourceByType(COINS).toString());
+                System.out.println("woods: " +  harvestArea.getSingleSlot().getResourcesReward().getResources().getResourceByType(WOODS).toString());
+                System.out.println("servants: " +  harvestArea.getSingleSlot().getResourcesReward().getResources().getResourceByType(SERVANTS).toString());
+                System.out.println("stones: " +  harvestArea.getSingleSlot().getResourcesReward().getResources().getResourceByType(STONES).toString());*/
+
+            /*System.out.println(palace.getReward().getResources().getResourceByType(COINS));
+            System.out.println(palace.getReward().getCouncilPrivilege());*/
+
+
+        } catch (Exception e) { e.printStackTrace();}
     }
 }

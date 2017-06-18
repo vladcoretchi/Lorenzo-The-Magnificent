@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
+import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.io.Serializable;
 
@@ -12,12 +13,15 @@ import java.io.Serializable;
 //TODO: evaluate to apply a factory pattern
 
 public class ActionSlot implements Serializable {
-    private FamilyMember familyMember; //the pawn inside the action slot
-    private final ResourcesBonus resources; //the bonus the slot provides
+    protected FamilyMember familyMember; //the pawn inside the action slot
+    protected ResourcesBonus resources; //the bonus the slot provides
     //TODO: evaluate if diceValue should be considered at this level or in market, towers, etc.
-    private Integer diceValue;
-    private boolean singlePawnSlot;
+    protected Integer diceValue;
+    protected boolean singlePawnSlot;
 
+    public ActionSlot() {
+        resources = new ResourcesBonus(new Resources(), 0);
+    }
     //from the configuration file the game controller loads the rewards in each action slot
     //the slots instantiated are then passed to market, council and working areas in groups
     //set methods are not meant to be provided because the action slot bonus does not change during the game

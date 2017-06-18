@@ -17,19 +17,17 @@ public class Tower extends GameSpace {
     //TODO: adjust this in order to know what kind of card are stored in this tower
     //TODO: add a CardColorEnum in towers?
     DevelopmentCardColor cardColor;
-    private Integer MAX_LEVELS;
     private Integer level;
     private Integer coloumn;
-    public TowerSlot []  slots;
+    public List<TowerSlot>  slots;
 
-    public Tower (DevelopmentCardColor cardColor, Integer MAX_LEVELS) {
-        this.MAX_LEVELS = MAX_LEVELS;
+    public Tower (DevelopmentCardColor cardColor) {
         this.cardColor = cardColor;
-        slots = new TowerSlot [MAX_LEVELS];
+        slots = new ArrayList<>();
     }
 
     public boolean hasNextLevel() {
-        return level<=MAX_LEVELS;
+        return level<=slots.size();
     }
 
     /**
@@ -45,10 +43,10 @@ public class Tower extends GameSpace {
         //now add the card at the first free tower slot found
         while(this.hasNextLevel() && !inserted) {
             AbstractDevelopmentCard temp;
-            if (!this.slots[level].isEmpty())
+            if (!this.slots.get(level).isEmpty())
                 level++;
             else {
-                slots[level].setCardStored(card);
+                slots.get(level).setCardStored(card);
                 inserted=true;
             }
 
@@ -58,11 +56,11 @@ public class Tower extends GameSpace {
     public AbstractDevelopmentCard retrieveCard (TowerSlot slot) throws Exception {
         AbstractDevelopmentCard temp;
         level = slot.getLevel();
-        if (!this.slots[level].isEmpty()) {
+        if (!this.slots.get(level).isEmpty()) {
             //temporary store the card
-            temp= this.slots[level].getCardStored();
+            temp= this.slots.get(level).getCardStored();
             //free the slot, il setCardStored(null) è brutto a vedersi
-            this.slots[level].sweepTowerSlot();
+            this.slots.get(level).sweepTowerSlot();
             return temp;
 
         } else throw new Exception("space empty");
@@ -73,7 +71,7 @@ public class Tower extends GameSpace {
     //call to check is a coloumn has already a familyMember inside so that a 3 coins penalty is activated
     public boolean isTowerEmpty() {
         while(this.hasNextLevel()) {
-            if (!this.slots[level].isEmpty())
+            if (!this.slots.get(level).isEmpty())
                 return false;
         }
         return true;
@@ -85,13 +83,13 @@ public class Tower extends GameSpace {
    @Override
     public void sweep() {
             while(this.hasNextLevel())
-                slots[level].sweepTowerSlot();
+                slots.get(level).sweepTowerSlot();
 
     }
 
 
     public ResourcesBonus getTowerSlotResources() {
-        return slots[level].getResourcesReward();
+        return slots.get(level).getResourcesReward();
     }
 
 
@@ -107,27 +105,22 @@ public class Tower extends GameSpace {
         List<AbstractDevelopmentCard> cardsStoredInTower = new ArrayList<>();
         level = 0;
         while (this.hasNextLevel()) {
-            cardsStoredInTower.add(this.slots[level].getCardStored());
+            cardsStoredInTower.add(this.slots.get(level).getCardStored());
         }
         return cardsStoredInTower;
     }
 
     //TODO: load slots bonuses from configurator
-    public void setSlots(TowerSlot[] slotsToLoad) {
-        slots = slotsToLoad.clone();
+    public void setSlots(List<TowerSlot> slotsToLoad) {
+        slots = (ArrayList) slotsToLoad;
     }
 
-    public TowerSlot[] getSlotsStored() {
+    public List<TowerSlot> getSlotsStored() {
        return slots;
     }
 
 
-    public ArrayList<TowerSlot> getTowerSlots() {
-        ArrayList<TowerSlot> slots = new ArrayList<>();
-        level = 0;
-        while (this.hasNextLevel()) {
-            slots.add(this.slots[level]);
-        }
+    public List<TowerSlot> getTowerSlots() {
         return slots;
     }
 }

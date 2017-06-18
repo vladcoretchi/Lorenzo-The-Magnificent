@@ -5,17 +5,15 @@ import it.polimi.ingsw.LM34.Model.FamilyMember;
 
 import java.util.ArrayList;
 
-//TODO: apply Singleton design pattern
 public class CouncilPalace extends GameSpace {
     private ArrayList<FamilyMember> occupyingPawns; //FamilyMembers in the palace
-    private final Integer diceValue; //minimum value to place FamilyMembers in the market space
-    private ResourcesBonus reward;
+    private ActionSlot actionSlot;
     //The CouncilPalace is a special case among the board classes...
     // In fact, it does not need ActionSlots from a design point of view
     //which makes its implementation more straightforward
-    public CouncilPalace(Integer diceValue) {
-        this.diceValue= diceValue;
-        occupyingPawns= new ArrayList<FamilyMember>();
+    public CouncilPalace(ActionSlot palaceSlot) {
+        occupyingPawns = new ArrayList<FamilyMember>();
+        actionSlot = palaceSlot;
     }
 
     public void insertFamilyMember(FamilyMember fm) {
@@ -27,19 +25,13 @@ public class CouncilPalace extends GameSpace {
     }
 
     //Returns the council privilege
-    public ResourcesBonus getReward() { return this.reward; }
+    public ResourcesBonus getReward() { return this.actionSlot.getResourcesReward(); }
 
-
-    //TODO: remove from here and do this in the controller
     //return the order of the players in the next turn
     public ArrayList<FamilyMember> getOccupyingPawns() {
         return this.occupyingPawns;
     }
 
-
-    public Integer getDiceValue() {
-        return diceValue;
-    }
 }
 
 			
