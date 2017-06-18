@@ -32,7 +32,7 @@ public class TowerSlot extends ActionSlot {
 
     @Override
     public boolean isEmpty() {
-        return (this.cardStored==null); //card already taken by a player
+        return (this.cardStored == null); //card already taken by a player
     }
 
     public void sweepTowerSlot() { this.cardStored = null; }

@@ -120,4 +120,14 @@ public class Tower extends GameSpace {
     public TowerSlot[] getSlotsStored() {
        return slots;
     }
+
+
+    public ArrayList<TowerSlot> getTowerSlots() {
+        ArrayList<TowerSlot> slots = new ArrayList<>();
+        level = 0;
+        while (this.hasNextLevel()) {
+            slots.add(this.slots[level]);
+        }
+        return slots;
+    }
 }
