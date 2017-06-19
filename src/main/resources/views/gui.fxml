@@ -139,6 +139,60 @@
                 </ImageView>
             </StackPane>
 
+            <ScrollPane fx:id="personalBoard" layoutY="247" layoutX="206" style="-fx-background-image: url('../images/PersonalBoardBackground.png')" onMouseClicked="#hidePersonalBoard">
+               <Group>
+                   <ImageView fitWidth="881.5" fitHeight="471">
+                       <Image url="@../images/personalBoard.jpg"></Image>
+                    </ImageView>
+                   <ImageView fx:id="YELLOWCard0" fitWidth="126" fitHeight="194" layoutX="20" layoutY="30">
+                       <Image url="@../images/developmentCards/buildings/Bank.png"></Image>
+                   </ImageView>
+                   <ImageView fx:id="YELLOWCard1" fitWidth="126" fitHeight="194" layoutX="160" layoutY="30">
+                       <Image url="@../images/developmentCards/buildings/Bank.png"></Image>
+                   </ImageView>
+                   <ImageView fx:id="YELLOWCard2" fitWidth="126" fitHeight="194" layoutX="300" layoutY="30">
+                       <Image url="@../images/developmentCards/buildings/Bank.png"></Image>
+                   </ImageView>
+                   <ImageView fx:id="YELLOWCard3" fitWidth="126" fitHeight="194" layoutX="440" layoutY="30">
+                       <Image url="@../images/developmentCards/buildings/Bank.png"></Image>
+                   </ImageView>
+                   <ImageView fx:id="YELLOWCard4" fitWidth="126" fitHeight="194" layoutX="570" layoutY="30">
+                       <Image url="@../images/developmentCards/buildings/Bank.png"></Image>
+                   </ImageView>
+                   <ImageView fx:id="YELLOWCard5" fitWidth="126" fitHeight="194" layoutX="700" layoutY="30">
+                       <Image url="@../images/developmentCards/buildings/Bank.png"></Image>
+                   </ImageView>
+
+                   <ImageView fx:id="GREENCard0" fitWidth="126" fitHeight="194" layoutX="20" layoutY="280">
+                       <Image url="@../images/developmentCards/territories/Commercial Hub.png"></Image>
+                   </ImageView>
+                   <ImageView fx:id="GREENCard1" fitWidth="126" fitHeight="194" layoutX="160" layoutY="280">
+                       <Image url="@../images/developmentCards/territories/Commercial Hub.png"></Image>
+                   </ImageView>
+                   <ImageView fx:id="GREENCard2" fitWidth="126" fitHeight="194" layoutX="300" layoutY="280">
+                       <Image url="@../images/developmentCards/territories/Commercial Hub.png"></Image>
+                   </ImageView>
+                   <ImageView fx:id="GREENCard3" fitWidth="126" fitHeight="194" layoutX="440" layoutY="280">
+                       <Image url="@../images/developmentCards/territories/Commercial Hub.png"></Image>
+                   </ImageView>
+                   <ImageView fx:id="GREENCard4" fitWidth="126" fitHeight="194" layoutX="570" layoutY="280">
+                       <Image url="@../images/developmentCards/territories/Commercial Hub.png"></Image>
+                   </ImageView>
+                   <ImageView fx:id="GREENCard5" fitWidth="126" fitHeight="194" layoutX="700" layoutY="280">
+                       <Image url="@../images/developmentCards/territories/Commercial Hub.png"></Image>
+                   </ImageView>
+
+                   <ImageView fx:id="PURPLECard0" fitWidth="126" fitHeight="194" layoutX="880" layoutY="30">
+                       <Image url="@../images/developmentCards/ventures/Building the Bastions.png"></Image>
+                   </ImageView>
+
+                   <ImageView fx:id="BLUECard0" fitWidth="126" fitHeight="194" layoutX="880" layoutY="270">
+                       <Image url="@../images/developmentCards/characters/Abbess.png"></Image>
+                   </ImageView>
+
+               </Group>
+            </ScrollPane>
+
             <!--tower slots-->
             <ImageView fx:id="towerGREENbonus3" fitHeight="30" fitWidth="30" layoutX="246" layoutY="115" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
