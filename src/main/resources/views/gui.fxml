@@ -139,54 +139,57 @@
                 </ImageView>
             </StackPane>
 
-            <ScrollPane fx:id="personalBoard" layoutY="247" layoutX="206" style="-fx-background-image: url('../images/PersonalBoardBackground.png')" onMouseClicked="#hidePersonalBoard">
-               <Group>
+            <ScrollPane fx:id="personalBoard" stylesheets="@../css/personalBoard.css" layoutY="247" layoutX="206" onMouseClicked="#managePersonalBoard" prefWidth="881.5" prefHeight="501" vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED" >
+               <Group fx:id="personalBoardCards">
                    <ImageView fitWidth="881.5" fitHeight="471">
                        <Image url="@../images/personalBoard.jpg"></Image>
                     </ImageView>
-                   <ImageView fx:id="YELLOWCard0" fitWidth="126" fitHeight="194" layoutX="20" layoutY="30">
+                   <ImageView fx:id="personalBoard_YELLOWCard0" fitWidth="126" fitHeight="194" layoutX="20" layoutY="30">
                        <Image url="@../images/developmentCards/buildings/Bank.png"></Image>
                    </ImageView>
-                   <ImageView fx:id="YELLOWCard1" fitWidth="126" fitHeight="194" layoutX="160" layoutY="30">
+                   <ImageView fx:id="personalBoard_YELLOWCard1" fitWidth="126" fitHeight="194" layoutX="160" layoutY="30">
                        <Image url="@../images/developmentCards/buildings/Bank.png"></Image>
                    </ImageView>
-                   <ImageView fx:id="YELLOWCard2" fitWidth="126" fitHeight="194" layoutX="300" layoutY="30">
+                   <ImageView fx:id="personalBoard_YELLOWCard2" fitWidth="126" fitHeight="194" layoutX="300" layoutY="30">
                        <Image url="@../images/developmentCards/buildings/Bank.png"></Image>
                    </ImageView>
-                   <ImageView fx:id="YELLOWCard3" fitWidth="126" fitHeight="194" layoutX="440" layoutY="30">
+                   <ImageView fx:id="personalBoard_YELLOWCard3" fitWidth="126" fitHeight="194" layoutX="440" layoutY="30">
                        <Image url="@../images/developmentCards/buildings/Bank.png"></Image>
                    </ImageView>
-                   <ImageView fx:id="YELLOWCard4" fitWidth="126" fitHeight="194" layoutX="570" layoutY="30">
+                   <ImageView fx:id="personalBoard_YELLOWCard4" fitWidth="126" fitHeight="194" layoutX="570" layoutY="30">
                        <Image url="@../images/developmentCards/buildings/Bank.png"></Image>
                    </ImageView>
-                   <ImageView fx:id="YELLOWCard5" fitWidth="126" fitHeight="194" layoutX="700" layoutY="30">
+                   <ImageView fx:id="personalBoard_YELLOWCard5" fitWidth="126" fitHeight="194" layoutX="700" layoutY="30">
                        <Image url="@../images/developmentCards/buildings/Bank.png"></Image>
                    </ImageView>
 
-                   <ImageView fx:id="GREENCard0" fitWidth="126" fitHeight="194" layoutX="20" layoutY="280">
+                   <ImageView fx:id="personalBoard_GREENCard0" fitWidth="126" fitHeight="194" layoutX="20" layoutY="280">
                        <Image url="@../images/developmentCards/territories/Commercial Hub.png"></Image>
                    </ImageView>
-                   <ImageView fx:id="GREENCard1" fitWidth="126" fitHeight="194" layoutX="160" layoutY="280">
+                   <ImageView fx:id="personalBoard_GREENCard1" fitWidth="126" fitHeight="194" layoutX="160" layoutY="280">
                        <Image url="@../images/developmentCards/territories/Commercial Hub.png"></Image>
                    </ImageView>
-                   <ImageView fx:id="GREENCard2" fitWidth="126" fitHeight="194" layoutX="300" layoutY="280">
+                   <ImageView fx:id="personalBoard_GREENCard2" fitWidth="126" fitHeight="194" layoutX="300" layoutY="280">
                        <Image url="@../images/developmentCards/territories/Commercial Hub.png"></Image>
                    </ImageView>
-                   <ImageView fx:id="GREENCard3" fitWidth="126" fitHeight="194" layoutX="440" layoutY="280">
+                   <ImageView fx:id="personalBoard_GREENCard3" fitWidth="126" fitHeight="194" layoutX="440" layoutY="280">
                        <Image url="@../images/developmentCards/territories/Commercial Hub.png"></Image>
                    </ImageView>
-                   <ImageView fx:id="GREENCard4" fitWidth="126" fitHeight="194" layoutX="570" layoutY="280">
+                   <ImageView fx:id="personalBoard_GREENCard4" fitWidth="126" fitHeight="194" layoutX="570" layoutY="280">
                        <Image url="@../images/developmentCards/territories/Commercial Hub.png"></Image>
                    </ImageView>
-                   <ImageView fx:id="GREENCard5" fitWidth="126" fitHeight="194" layoutX="700" layoutY="280">
+                   <ImageView fx:id="personalBoard_GREENCard5" fitWidth="126" fitHeight="194" layoutX="700" layoutY="280">
                        <Image url="@../images/developmentCards/territories/Commercial Hub.png"></Image>
                    </ImageView>
 
-                   <ImageView fx:id="PURPLECard0" fitWidth="126" fitHeight="194" layoutX="880" layoutY="30">
+                   <ImageView fx:id="personalBoard_PURPLECard0" fitWidth="126" fitHeight="194" layoutX="880" layoutY="30">
+                       <Image url="@../images/developmentCards/ventures/Building the Bastions.png"></Image>
+                   </ImageView>
+                   <ImageView fx:id="personalBoard_PURPLECard1" fitWidth="126" fitHeight="194" layoutX="1020" layoutY="30">
                        <Image url="@../images/developmentCards/ventures/Building the Bastions.png"></Image>
                    </ImageView>
 
-                   <ImageView fx:id="BLUECard0" fitWidth="126" fitHeight="194" layoutX="880" layoutY="270">
+                   <ImageView fx:id="personalBoard_BLUECard0" fitWidth="126" fitHeight="194" layoutX="880" layoutY="270">
                        <Image url="@../images/developmentCards/characters/Abbess.png"></Image>
                    </ImageView>
 
@@ -254,9 +257,9 @@
         <ScrollPane prefHeight="1250" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.rowIndex="0">
             <VBox id="playersInfoList" prefHeight="1000.0">
             <children>
-                <Pane fx:id="playerInfo1" visible="false" prefHeight="230.0" style="-fx-border-color: #1d1d1d">
+                <Pane fx:id="playerInfo1" visible="true" prefHeight="230.0" style="-fx-border-color: #1d1d1d; -fx-background-color: rgba(16,34,100,0.57)">
                     <children>
-                        <Label fx:id="player1" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player1">
+                        <Label fx:id="player1" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player1" onMouseClicked="#managePersonalBoard">
                          <font>
                             <Font size="17.0" />
                          </font></Label>
@@ -352,9 +355,9 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo2" visible="false" prefHeight="230.0" style="-fx-border-color: #1d1d1d">
+            <Pane fx:id="playerInfo2" visible="true" prefHeight="230.0" style="-fx-border-color: #1d1d1d; -fx-background-color: rgba(53,100,18,0.57)">
                 <children>
-                    <Label fx:id="player2" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player2">
+                    <Label fx:id="player2" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player2" onMouseClicked="#managePersonalBoard">
                         <font>
                             <Font size="17.0" />
                         </font></Label>
@@ -450,9 +453,9 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo3" visible="false" prefHeight="230.0" style="-fx-border-color: #1d1d1d">
+            <Pane fx:id="playerInfo3" visible="true" prefHeight="230.0" style="-fx-border-color: #1d1d1d; -fx-background-color: rgba(255,34,0,0.5)">
                 <children>
-                    <Label fx:id="player3" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player3">
+                    <Label fx:id="player3" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player3" onMouseClicked="#managePersonalBoard">
                         <font>
                             <Font size="17.0" />
                         </font></Label>
@@ -548,9 +551,9 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo4" visible="false" prefHeight="230.0" style="-fx-border-color: #1d1d1d">
+            <Pane fx:id="playerInfo4" visible="true" prefHeight="230.0" style="-fx-border-color: #1d1d1d; -fx-background-color: rgba(255,255,80,0.51)">
                 <children>
-                    <Label fx:id="player4" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player4">
+                    <Label fx:id="player4" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player4" onMouseClicked="#managePersonalBoard">
                         <font>
                             <Font size="17.0" />
                         </font></Label>
@@ -646,9 +649,9 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo5" visible="false" prefHeight="230.0" style="-fx-border-color: #1d1d1d">
+            <Pane fx:id="playerInfo5" visible="true" prefHeight="230.0" style="-fx-border-color: #1d1d1d; -fx-background-color: rgba(180,15,255,0.5)">
                 <children>
-                    <Label fx:id="player5" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player5">
+                    <Label fx:id="player5" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player5" onMouseClicked="#managePersonalBoard">
                         <font>
                             <Font size="17.0" />
                         </font></Label>
