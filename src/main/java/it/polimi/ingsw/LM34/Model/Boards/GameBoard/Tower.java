@@ -3,7 +3,6 @@ package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
-import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +48,6 @@ public class Tower extends GameSpace {
                 slots.get(level).setCardStored(card);
                 inserted=true;
             }
-
         }
     }
 
@@ -64,9 +62,7 @@ public class Tower extends GameSpace {
             return temp;
 
         } else throw new Exception("space empty");
-
     }
-
 
     //call to check is a coloumn has already a familyMember inside so that a 3 coins penalty is activated
     public boolean isTowerEmpty() {
@@ -77,29 +73,18 @@ public class Tower extends GameSpace {
         return true;
     }
 
-
-
     //called at the end of each turn
    @Override
     public void sweep() {
             while(this.hasNextLevel())
                 slots.get(level).sweepTowerSlot();
-
     }
-
-
-    public ResourcesBonus getTowerSlotResources() {
-        return slots.get(level).getResourcesReward();
-    }
-
-
     public DevelopmentCardColor getDevelopmentTypeStored() {
         return this.cardColor;
     }
 
     //TODO
     public Tower() {}
-
 
     public List<AbstractDevelopmentCard> getCardsStored() {
         List<AbstractDevelopmentCard> cardsStoredInTower = new ArrayList<>();
@@ -118,7 +103,6 @@ public class Tower extends GameSpace {
     public List<TowerSlot> getSlotsStored() {
        return slots;
     }
-
 
     public List<TowerSlot> getTowerSlots() {
         return slots;

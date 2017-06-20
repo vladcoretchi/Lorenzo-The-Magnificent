@@ -71,10 +71,6 @@ public final class Validator {
             throw new IncorrectInputException();
     }
 
-
-
-
-
     /*TEST Validation Methods here*/
     public static void main (String[] args) {
         Player player = new Player("cicoio", PawnColor.RED, new PersonalBoard());

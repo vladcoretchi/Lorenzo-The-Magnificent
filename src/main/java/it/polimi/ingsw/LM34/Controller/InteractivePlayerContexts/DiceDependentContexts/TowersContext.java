@@ -57,7 +57,8 @@ public class TowersContext extends AbstractGameContext implements  DiceDependent
         buyCard(); tower slot selected*/
         //card.getInstantBonus().applyEffect();
         //card.getPermanentBonus().applyEffect();
-        towerSelected.getTowerSlotResources().applyEffect(this);
+        Integer levelSelected = 0; //TODO
+        towerSelected.getTowerSlots().get(levelSelected).getResourcesReward().applyEffect(this);
 
         finalizeRewardAttribution();
 
