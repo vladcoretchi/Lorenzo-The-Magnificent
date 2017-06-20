@@ -10,43 +10,24 @@ import java.util.List;
  * Created by GiulioComi on 04/05/2017.
  */
 public class VentureCard extends AbstractDevelopmentCard {
-    private DevelopmentCardColor color= DevelopmentCardColor.PURPLE;
-    private String name;
-    private Integer period;
-    Resources resourcesRequired;
-
+    private Integer endingVictoryPointsReward;
+    private Integer militaryPointsRequired;
+    private Integer militaryPointsSubtraction;
     //TODO: verified by the controller if this variable is set to true and then two type of payments are allowed
     private boolean isThereAlternativeToMilitaryPointsPayment; //carte "sostegno al cardinale e sostegno al papa"
 
     //Only a peculiarity of VentureCards
-    private Integer endingVictoryPointsReward;
-    private Integer militaryPointsRequired;
-    private Integer militaryPointsSubtraction;
 
-    public VentureCard(String ventureName, Integer period, Integer militaryPointsRequired, Integer militaryPointsSubtraction, Resources resourcesRequired, List<AbstractEffect> instantBonus, Integer endingVictoryPointsReward) {
+    public VentureCard(String ventureName, Integer period, Integer militaryPointsRequired, Integer militaryPointsSubtraction, Resources resourcesReq, List<AbstractEffect> instantBonus, Integer endingVictoryPointsReward) {
         this.name = ventureName;
-        this.resourcesRequired = resourcesRequired;
+        color= DevelopmentCardColor.PURPLE;
+        resourceRequired = resourcesReq;
         this.period = period;
         this.permanentBonus = permanentBonus;
         this.instantBonus = instantBonus;
         this.endingVictoryPointsReward = endingVictoryPointsReward;
         this.militaryPointsRequired = militaryPointsRequired;
         this.militaryPointsSubtraction = militaryPointsSubtraction;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public AbstractEffect getPermanentBonus() {
-        return permanentBonus;
-    }
-
-    @Override
-    public Integer getPeriod() {
-        return this.period;
     }
 
     //TODO: handle in the controller the payment alternative?
@@ -62,6 +43,4 @@ public class VentureCard extends AbstractDevelopmentCard {
         return this.endingVictoryPointsReward;
     }
 
-    @Override
-    public DevelopmentCardColor getColor() {return this.color;}
 }

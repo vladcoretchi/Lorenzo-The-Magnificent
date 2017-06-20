@@ -1,38 +1,31 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
-import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
-import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by GiulioComi on 04/05/2017.
  */
 public class BuildingCard extends AbstractDevelopmentCard {
-    private DevelopmentCardColor color= DevelopmentCardColor.YELLOW;
 
-    private String name;
     private Integer diceValueToProduct;
-    private Resources resourcesRequired; //we do not store single type of resources as Integer but we wrap them in a Resources class
-    private Integer period;
-    //this two variables together represents the instant Effects
 
     public BuildingCard(String buildingName, Integer diceValueToProduct, Integer period, Resources resourcesRequired, List<AbstractEffect> instantBonus, AbstractEffect  permanentBonus) {
-        this.resourcesRequired= resourcesRequired;
+        this.resourceRequired= resourcesRequired;
         this.name= buildingName;
         this.period = period;
         this.permanentBonus= permanentBonus;
         this.diceValueToProduct= diceValueToProduct;
         this.instantBonus = instantBonus;
+        color= DevelopmentCardColor.YELLOW;
     }
 
     @Override
     public Resources getResourcesRequired() {
-        return resourcesRequired;
+        return resourceRequired;
     }
 
     public Integer getDiceValueToProduct() {
@@ -52,7 +45,4 @@ public class BuildingCard extends AbstractDevelopmentCard {
         return name;
     }
 
-    public void applyPermanentEffect(ArrayList<AbstractGameContext> contexts, Player player) {
-        //this.getPermanentBonus().applyEffect(player);
-    }
 }

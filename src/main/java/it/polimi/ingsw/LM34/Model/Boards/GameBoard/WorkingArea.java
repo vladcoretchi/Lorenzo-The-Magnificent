@@ -1,6 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Giulio Comi on 03/05/2017.
@@ -8,9 +8,9 @@ import java.util.ArrayList;
 //TODO: apply Singleton design pattern
 public class WorkingArea extends GameSpace {
     private ActionSlot singleSlot;
-    private ArrayList<ActionSlot> advancedSlots;
+    private List<ActionSlot> advancedSlots;
 
-    public WorkingArea(ActionSlot singleSlot, ArrayList<ActionSlot> advancedSlots) {
+    public WorkingArea(ActionSlot singleSlot, List<ActionSlot> advancedSlots) {
         this.singleSlot = singleSlot;
         this.advancedSlots = advancedSlots;
     }
@@ -19,7 +19,7 @@ public class WorkingArea extends GameSpace {
         return singleSlot;
     }
 
-    public ArrayList<ActionSlot> getAdvancedSlots() {
+    public List<ActionSlot> getAdvancedSlots() {
         return advancedSlots;
     }
 }

@@ -10,13 +10,14 @@ import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by GiulioComi on 15/05/2017.
  */
 
 public class EndGameContext  extends AbstractGameContext {
-    ArrayList<Player> players;
+    List<Player> players;
     HashMap<Player, Integer> victoryPointsToPlayers;
 
     //TODO: all excommunication III period penalties are applied here as observers

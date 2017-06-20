@@ -44,12 +44,12 @@ public class GameManager {
     private Integer phase; //equal to #players
     private Integer turn;
 
-    private ArrayList<Dice> dices;
-    private ArrayList<Player> players;
+    private List<Dice> dices;
+    private List<Player> players;
 
     /*GAMEBOARD COMPONENTS*/
     private Market market;
-    private ArrayList<Tower> towers;
+    private List<Tower> towers;
     private WorkingArea harvestArea;
     private WorkingArea productionArea;
     /*FaithPath*/
@@ -59,15 +59,15 @@ public class GameManager {
 
     /*DECKS*/
     //TODO: migrate from arraylist to deck generics <T>
-    public ArrayList<TerritoryCard> territoryCardDeck = new ArrayList<>();
+    public  List<TerritoryCard> territoryCardDeck = new ArrayList<>();
     private DevelopmentCardDeck<CharacterCard> characterCardDeck = new DevelopmentCardDeck<CharacterCard>();
     private DevelopmentCardDeck<VentureCard> ventureCardDeck = new DevelopmentCardDeck<VentureCard>();
     private DevelopmentCardDeck<BuildingCard> buildingCardDeck = new DevelopmentCardDeck<BuildingCard>();
-    private ArrayList<LeaderCard> leaderCardsDeck;
-    private ArrayList<ExcommunicationCard> excommunicationCards;
+    private List<LeaderCard> leaderCardsDeck;
+    private List<ExcommunicationCard> excommunicationCards;
 
     /*GAME CONTEXTS*/
-    protected static ArrayList<AbstractGameContext> contexts;
+    protected static List<AbstractGameContext> contexts;
     private TurnContext turnContext = new TurnContext();
     private CurchReportContext curchContext;
     private AbstractGameContext currentContext;
@@ -112,7 +112,7 @@ public class GameManager {
     }
 
     private void drwaExcommunicationCards() {
-        ArrayList<ExcommunicationCard> exCards = getExcommunictionCards(excommunicationCards);
+        List<ExcommunicationCard> exCards = getExcommunictionCards(excommunicationCards);
         for (ExcommunicationCard card : exCards)
             curchContext.addExcommunicationCard(card);
     }
@@ -161,7 +161,7 @@ public class GameManager {
     }
 
     public void nextRound() { //round = half period
-        ArrayList<AbstractEffect> playerObservers = new ArrayList<>();
+       List<AbstractEffect> playerObservers = new ArrayList<>();
 
         round++;
 
@@ -321,11 +321,11 @@ public class GameManager {
     }
 
     //TODO: refactor
-    public ArrayList<Player>  setNewTurnOrder() {
+    public List<Player>  setNewTurnOrder() {
 
-        ArrayList<Player> oldPlayersOrder = players;
-        ArrayList<Player> newPlayersOrder = new ArrayList<>();
-        ArrayList<FamilyMember> membersInOrder = palaceContext.getCouncilPalace().getOccupyingPawns();
+        List<Player> oldPlayersOrder = players;
+        List<Player> newPlayersOrder = new ArrayList<>();
+        List<FamilyMember> membersInOrder = palaceContext.getCouncilPalace().getOccupyingPawns();
 
         /*First remove all multipe pawns associated to the same player*/
         /*These inner loops do not add temporal complexity because pawns' count is negligible*/
@@ -359,7 +359,7 @@ public class GameManager {
      * @param towers from which choose the right tower by development card type
      * @param developmentDeck from which to extract and place in the tower the cards for the new round
      */
-    public void placeNewRoundCards(ArrayList<Tower> towers, DevelopmentCardDeck<?> developmentDeck) {
+    public void placeNewRoundCards(List<Tower> towers, DevelopmentCardDeck<?> developmentDeck) {
 
         Tower tower = new Tower();
         Iterator iterator  = developmentDeck.iterator();
@@ -386,7 +386,7 @@ public class GameManager {
      */
 
     /*Called by Game Manager only at the beginning of the game*/
-    public void setContexts(ArrayList<AbstractGameContext> contexts) {
+    public void setContexts(List<AbstractGameContext> contexts) {
         this.contexts = contexts;
     }
 
@@ -395,8 +395,8 @@ public class GameManager {
      * @param cards excommunication deck from which to extract one card by period
      * @return the 3 card choosed
      */
-    public static ArrayList<ExcommunicationCard> getExcommunictionCards(ArrayList<ExcommunicationCard> cards) {
-        ArrayList<ExcommunicationCard> exCardChoosed = new ArrayList<>();
+    public static List<ExcommunicationCard> getExcommunictionCards(List<ExcommunicationCard> cards) {
+        List<ExcommunicationCard> exCardChoosed = new ArrayList<>();
         Integer period = 1;
         for(ExcommunicationCard card : cards)
             if(card.getPeriod() == period) {
@@ -407,7 +407,7 @@ public class GameManager {
     }
 
     //TODO: this is just for testing purpose
-    public ArrayList<AbstractGameContext> getContexts() {
+    public List<AbstractGameContext> getContexts() {
         return contexts;
     }
 
@@ -416,7 +416,7 @@ public class GameManager {
         return this.turnContext;
     }
     //TODO: this is just for testing purpose
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
@@ -426,7 +426,7 @@ public class GameManager {
 
         /*GameManager gameManager = new GameManager();
         gameManager.setupGameContexts();*/
-        ArrayList<TerritoryCard> territoryCards = new ArrayList<>();
+        List<TerritoryCard> territoryCards = new ArrayList<>();
 
         this.getTurnContext().setGameManager(this);
         this.territoryCardDeck = territoryCards;
@@ -436,7 +436,7 @@ public class GameManager {
 
     //TODO:
     public void bonusTileSelectionPhase() {
-        ArrayList<BonusTile> bonusTiles = new ArrayList<>();
+        List<BonusTile> bonusTiles = new ArrayList<>();
         //TODO: load from configurator
         for (Player p : players) {
             Integer selected = getPlayerNetworkController(p).bonusTileSelection(bonusTiles);
@@ -453,7 +453,7 @@ public class GameManager {
     //TODO: implement the steps defined in the rules to manage how leaders selection works
     public void leaderSelectionPhase() {
         //the leadercards are only 4*#players
-        leaderCardsDeck = (ArrayList) leaderCardsDeck.subList(0, Configurator.MAX_LEADER_PER_PLAYER * players.size());
+        leaderCardsDeck = (List) leaderCardsDeck.subList(0, Configurator.MAX_LEADER_PER_PLAYER * players.size());
 
         for (Integer i = 0; i < Configurator.MAX_LEADER_PER_PLAYER; i++) {
             for (Player p : players) {

@@ -5,6 +5,7 @@ import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static it.polimi.ingsw.LM34.Controller.GameManager.getExcommunictionCards;
 import static org.junit.Assert.assertEquals;
@@ -17,11 +18,11 @@ public class GameManagerTest {
     @Test
     public void testDrawExcommunicationCards() {
 
-        ArrayList<ExcommunicationCard> excommunicationCards = new ArrayList<>();
+        List<ExcommunicationCard> excommunicationCards = new ArrayList<>();
 
         CurchReportContext curchContext = new CurchReportContext();
 
-        ArrayList<ExcommunicationCard> exCards = getExcommunictionCards(excommunicationCards);
+        List<ExcommunicationCard> exCards = getExcommunictionCards(excommunicationCards);
 
         for(ExcommunicationCard card : exCards)
             curchContext.addExcommunicationCard(card);

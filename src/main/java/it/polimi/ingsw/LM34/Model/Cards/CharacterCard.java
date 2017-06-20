@@ -10,17 +10,12 @@ import java.util.List;
  * Created by GiulioComi on 04/05/2017.
  */
 public class CharacterCard extends AbstractDevelopmentCard {
-
-    private DevelopmentCardColor color= DevelopmentCardColor.BLUE;
-    private String name;
     private Integer coinsRequired;
-    private Integer period;
-    public List<AbstractEffect> instantBonus;
-    private AbstractEffect permanentBonus;
 
 
     public CharacterCard(String name, Integer period, Integer coinsRequired, List<AbstractEffect> instantBonus, AbstractEffect permanentBonus)  {
         this.coinsRequired = coinsRequired;
+        color= DevelopmentCardColor.BLUE;
         this.name = name;
         this.period = period;
         this.instantBonus = instantBonus;

@@ -11,12 +11,12 @@ import java.util.List;
  */
 public abstract class AbstractDevelopmentCard {
 
-    private String name;
-    private Integer period;
-    private DevelopmentCardColor color;
+    protected String name;
+    protected Integer period;
+    protected DevelopmentCardColor color;
     protected AbstractEffect permanentBonus;
     protected List<AbstractEffect> instantBonus;
-    private Resources resourceRequired;
+    protected Resources resourceRequired;
 
 
     public List<AbstractEffect> getInstantBonus() { return this.instantBonus; }

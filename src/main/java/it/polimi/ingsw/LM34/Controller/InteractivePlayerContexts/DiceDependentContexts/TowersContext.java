@@ -14,6 +14,7 @@ import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
@@ -25,9 +26,9 @@ public class TowersContext extends AbstractGameContext implements  DiceDependent
     //TODO: use a temporary dice value instead of modifying the real dice value stored in the game manager
     //TODO: handle Filippo Brunelleschi, Cesare Borgia
     private Boolean hasPenalty; //"predicatore"
-    private ArrayList<FamilyMember> familyMembers;
+    private List<FamilyMember> familyMembers;
     private Integer tempValue;
-    private ArrayList<Tower> towers;
+    private List<Tower> towers;
 
 
     public TowersContext() {
