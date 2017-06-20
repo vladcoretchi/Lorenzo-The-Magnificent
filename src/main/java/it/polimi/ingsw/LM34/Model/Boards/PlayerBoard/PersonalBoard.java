@@ -15,14 +15,13 @@ import java.util.Optional;
 /*this class has the aim to aggregate what resources and cards the player have collected*/
 public class PersonalBoard {
     //cards
-    private ArrayList<AbstractDevelopmentCard> territories = new ArrayList<AbstractDevelopmentCard>();
-    private ArrayList<AbstractDevelopmentCard> characters = new ArrayList<AbstractDevelopmentCard>();
-    private ArrayList<AbstractDevelopmentCard> ventures = new ArrayList<AbstractDevelopmentCard>();
-    private ArrayList<AbstractDevelopmentCard> buildings = new ArrayList<AbstractDevelopmentCard>();
+    private List<AbstractDevelopmentCard> territories = new ArrayList<AbstractDevelopmentCard>();
+    private List<AbstractDevelopmentCard> characters = new ArrayList<AbstractDevelopmentCard>();
+    private List<AbstractDevelopmentCard> ventures = new ArrayList<AbstractDevelopmentCard>();
+    private List<AbstractDevelopmentCard> buildings = new ArrayList<AbstractDevelopmentCard>();
     //bonus tile
     private BonusTile personalBonusTile;
 
-    //TODO: refactor this switch
     public void addCard(AbstractDevelopmentCard card) throws InvalidCardType {
         switch (card.getColor()) {
             case GREEN:

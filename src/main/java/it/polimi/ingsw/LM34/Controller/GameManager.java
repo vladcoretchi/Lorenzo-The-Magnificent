@@ -58,7 +58,6 @@ public class GameManager {
     HashMap<Player, Integer> victoryPointsByPlayer = new HashMap<Player, Integer>();
 
     /*DECKS*/
-    //TODO: migrate from arraylist to deck generics <T>
     public  List<TerritoryCard> territoryCardDeck = new ArrayList<>();
     private DevelopmentCardDeck<CharacterCard> characterCardDeck = new DevelopmentCardDeck<CharacterCard>();
     private DevelopmentCardDeck<VentureCard> ventureCardDeck = new DevelopmentCardDeck<VentureCard>();
@@ -67,7 +66,7 @@ public class GameManager {
     private List<ExcommunicationCard> excommunicationCards;
 
     /*GAME CONTEXTS*/
-    protected static List<AbstractGameContext> contexts;
+    protected static ArrayList<AbstractGameContext> contexts;
     private TurnContext turnContext = new TurnContext();
     private CurchReportContext curchContext;
     private AbstractGameContext currentContext;
@@ -161,7 +160,7 @@ public class GameManager {
     }
 
     public void nextRound() { //round = half period
-       List<AbstractEffect> playerObservers = new ArrayList<>();
+        ArrayList<AbstractEffect> playerObservers = new ArrayList<>();
 
         round++;
 
@@ -325,7 +324,7 @@ public class GameManager {
 
         List<Player> oldPlayersOrder = players;
         List<Player> newPlayersOrder = new ArrayList<>();
-        List<FamilyMember> membersInOrder = palaceContext.getCouncilPalace().getOccupyingPawns();
+        ArrayList<FamilyMember> membersInOrder = palaceContext.getCouncilPalace().getOccupyingPawns();
 
         /*First remove all multipe pawns associated to the same player*/
         /*These inner loops do not add temporal complexity because pawns' count is negligible*/
@@ -386,7 +385,7 @@ public class GameManager {
      */
 
     /*Called by Game Manager only at the beginning of the game*/
-    public void setContexts(List<AbstractGameContext> contexts) {
+    public void setContexts(ArrayList<AbstractGameContext> contexts) {
         this.contexts = contexts;
     }
 
@@ -407,7 +406,7 @@ public class GameManager {
     }
 
     //TODO: this is just for testing purpose
-    public List<AbstractGameContext> getContexts() {
+    public ArrayList<AbstractGameContext> getContexts() {
         return contexts;
     }
 
@@ -436,7 +435,7 @@ public class GameManager {
 
     //TODO:
     public void bonusTileSelectionPhase() {
-        List<BonusTile> bonusTiles = new ArrayList<>();
+        ArrayList<BonusTile> bonusTiles = new ArrayList<>();
         //TODO: load from configurator
         for (Player p : players) {
             Integer selected = getPlayerNetworkController(p).bonusTileSelection(bonusTiles);
@@ -453,7 +452,7 @@ public class GameManager {
     //TODO: implement the steps defined in the rules to manage how leaders selection works
     public void leaderSelectionPhase() {
         //the leadercards are only 4*#players
-        leaderCardsDeck = (List) leaderCardsDeck.subList(0, Configurator.MAX_LEADER_PER_PLAYER * players.size());
+        leaderCardsDeck = (ArrayList) leaderCardsDeck.subList(0, Configurator.MAX_LEADER_PER_PLAYER * players.size());
 
         for (Integer i = 0; i < Configurator.MAX_LEADER_PER_PLAYER; i++) {
             for (Player p : players) {

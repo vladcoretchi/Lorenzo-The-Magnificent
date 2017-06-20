@@ -39,6 +39,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
@@ -110,16 +111,17 @@ public class GUI extends Application implements UIInterface {
         //leaderCardAction(); //TODO
         //addPlayersInfo(root); //TODO
         //endGame();
-        //familyMemberSelection();
+        //familyMemberSelection();*/
 
-        /*List<Pair<Resources, ResourcesBonus>> listPairExchange = new ArrayList<>();
+        List<Pair<Resources, ResourcesBonus>> listPairExchange = new ArrayList<>();
         Resources tempRes = new Resources(1,2,9,0);
         ResourcesBonus tempResBon = new ResourcesBonus(new Resources(), 3);
         Resources tempRes2 = new Resources(0,0,72,5);
         ResourcesBonus tempResBon2 = new ResourcesBonus(new Resources(3,2,1,4), 1);
         listPairExchange.add(new ImmutablePair<>(tempRes, tempResBon));
         listPairExchange.add(new ImmutablePair<>(tempRes2, tempResBon2));
-        new ResourceExchangeDialog().interactWithPlayer(listPairExchange);*/
+        Integer result = new ResourceExchangeDialog().interactWithPlayer(listPairExchange);
+        System.out.println("Risultato scelto: "+ result);
 
         /*List<Resources> resList = new ArrayList<>();
         resList.add(tempRes);
@@ -131,10 +133,8 @@ public class GUI extends Application implements UIInterface {
         Player antonio = new Player("antonio", PawnColor.RED, new PersonalBoard());
         antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
         List<Player> players = new ArrayList<>();
-        players.add(giacomo); players.add(antonio);
-        updatePlayersData(players);
-
-        Dice orange = new Dice(ORANGE); orange.rollDice();
+        players.add(giacomo); players.add(antonio);*/
+        /*Dice orange = new Dice(ORANGE); orange.rollDice();
         Dice black = new Dice(BLACK); orange.rollDice();
         Dice white = new Dice(WHITE); orange.rollDice();
         List<Dice> dices = new ArrayList<>();
@@ -225,19 +225,6 @@ public class GUI extends Application implements UIInterface {
 
             /***Load slots***/
             towersSpaces = towers;
-
-            /*Integer indexSlot = 0;
-            for (TowerSlot slot : tower.getSlotsStored()) {
-                Resources resources = new Resources();
-                ImageView imageView = ((ImageView) root.lookup("#tower" +
-                        slot.getCardStored().getColor().toString() + "Bonus" + indexSlot));
-                resources = slot.getResourcesReward().getResources();
-                for (ResourceType resType : ResourceType.values())
-                    if (resources.getResourceByType(resType) != 0)
-                        imageView.setImage(new Image(Thread.currentThread()
-                                .getContextClassLoader().getResource("images/resources/" + resType + ".png").toExternalForm()));
-                indexSlot++;
-            }*/
         }
     }
 
@@ -258,13 +245,17 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public void updateMarket(Market market) {
+        PawnColor pawnColor;
         Integer index = 0;
         List<ActionSlot> marketSlots = market.getMarketSlots();
-        for(index = 0; index< marketSlots.size(); index++) {
+        for (index = 0; index < marketSlots.size(); index++) {
             ImageView imageView = ((ImageView) root.lookup("#marketActionSlot" + index));
-            PawnColor pawnColor = marketSlots.get(index).getFamilyMember().getFamilyMemberColor();
-            imageView.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/pawns/" + pawnColor.toString() + ".png").toExternalForm()));
+            if (marketSlots.get(index).getFamilyMember().getFamilyMemberColor() != null) {
+                pawnColor = marketSlots.get(index).getFamilyMember().getFamilyMemberColor();
+                imageView.setImage(new Image(Thread.currentThread()
+                        .getContextClassLoader().getResource("images/pawns/" + pawnColor.toString() + ".png").toExternalForm()));
+            } else
+                imageView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
         }
     }
 
@@ -521,7 +512,6 @@ public class GUI extends Application implements UIInterface {
         } catch (Exception e) {
             System.out.println("Finchè il server non passa le torri riempite, il PopupSlot non andrà");
         }
-
     }
 
     public void loadFaithPath() {
@@ -543,8 +533,6 @@ public class GUI extends Application implements UIInterface {
         GUI gui = new GUI();
         gui.show();
     }
-
-
 
             //#############################################################################################################################
 

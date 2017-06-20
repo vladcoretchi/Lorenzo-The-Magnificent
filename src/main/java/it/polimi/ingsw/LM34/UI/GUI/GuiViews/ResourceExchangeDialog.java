@@ -25,7 +25,7 @@ public class ResourceExchangeDialog implements DialogInterface {
     public Integer interactWithPlayer(List<Pair<Resources,ResourcesBonus>> resourcesExchange) {
         List<String> choices = new ArrayList<>();
 
-        for(Pair<Resources, ResourcesBonus> pair : resourcesExchange) {
+        for (Pair<Resources, ResourcesBonus> pair : resourcesExchange) {
             ArrayList<String> required = new ArrayList<>();
             pair.getLeft().getResources().forEach((type, value) -> required.add(String.format("%1$s(%2$d)", type.toString(), value)));
 
@@ -44,13 +44,14 @@ public class ResourceExchangeDialog implements DialogInterface {
         dialog.setResizable(true);
 
         Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()){
-            System.out.println("Your choice: " + result.get());
-        }
+        if (result.isPresent()) {
+            Integer choiceId = 0;
+            for (String choice : choices) {
+                if (choice.equalsIgnoreCase(result.get()))
+                    return choiceId;
 
-        if(result.isPresent()) {
-            System.out.println(Integer.parseInt(result.get()));
-            return Integer.parseInt(result.get());
+                choiceId++;
+            }
         }
         return 0;
     }

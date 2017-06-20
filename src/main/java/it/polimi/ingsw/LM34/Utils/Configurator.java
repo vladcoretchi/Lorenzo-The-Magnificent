@@ -42,16 +42,16 @@ import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.MILITARY_POINTS;
 public final class Configurator {
     /*CONVENTION GAME_CODES*/
     private static final Integer BACK_OR_PASS = -1;
-    public static final Integer WAITING_ROOM_TIMEOUT = 10000;
+    public static Integer WAITING_ROOM_TIMEOUT;
     public static final Integer WAITING_ROOM_PLAYERS_THRESHOLD = 2;
 
     public static final Integer PLAYER_MOVE_TIMEOUT = 2000;
     public static final Integer MAX_TOWER_LEVELS = 4;
+    public static final Integer MAX_LEADER_PER_PLAYER = 4;
     public static final Integer MAX_PLAYERS = 4;
     public static final Integer TOTAL_PERIODS = 3; //#total periods
-    public static final Integer CARD_PER_ROUND = 4; //#development cards stored in a tower per round
     public static final Integer[] MIN_FAITHS_POINTS = {3,4,5};
-    public static final Integer MAX_LEADER_PER_PLAYER = 4;
+    public static final Integer CARD_PER_ROUND = 4;
     public static final Integer BASE_COINS = 5; //#coins given to first player at game start
     public static final Integer COINS_INCREMENT_PLAYER_ORDER = 1;
     public static final Integer BASE_WOODS = 2; //#woods given to first player at game start
@@ -61,22 +61,27 @@ public final class Configurator {
     public static final Integer BASE_SERVANTS = 2; //#servants given to first player at game start
     public static final Integer SERVANTS_INCREMENT_PLAYER_ORDER = 0;
 
+
     private static Market market;
     private static CouncilPalace palace;
     private static List<Tower> towers;
     private static WorkingArea harvestArea;
     private static WorkingArea productionArea;
-    //private static DevelopmentCardDeck<TerritoryCard> territoryDeck;
     private static List<TerritoryCard> territoryCards;
     private static List<BuildingCard> buildingCards;
     private static List<CharacterCard> characterCards;
     private static List<VentureCard> ventureCards;
     private static List<LeaderCard> leaderCards;
     private static List<ExcommunicationCard> excommunicationTiles;
+    private static JSONObject jsonObject;
+    private static List<Resources> councilPrivilegeRewards;
+    private static Map<Integer, Integer> faithPath;
+    private static Map<Integer, Integer> endingGameCharactersVictoryPoints;
+    private static Map<Integer, Integer> endingGameTerritoriesVictoryPoints;
+    private static Integer resourcesForVictoryPoints;
 
     public static void loadConfigs() {
         JSONObject jsonObject = null;
-
         try {
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
             File file = new File(loader.getResource("configurations/config.json").getFile());
@@ -85,14 +90,54 @@ public final class Configurator {
             jsonObject = new JSONObject(jsonString).optJSONObject("configuration");
         } catch (Exception e) {e.printStackTrace();}
 
+        /****GameRoom Timeout****/
+        WAITING_ROOM_TIMEOUT = jsonObject.getJSONObject("server").getInt("timeout");
+        print(WAITING_ROOM_TIMEOUT.toString());
 
-        //setupMarket(jsonObject.optJSONObject("actionSlots").optJSONArray("market"));
-        //setupProductionArea(jsonObject.optJSONObject("actionSlots").optJSONArray("productionArea"));
-        //setupHarvestArea(jsonObject.optJSONObject("actionSlots").optJSONArray("harvestArea"));
-        //setupCouncilPalace(jsonObject.optJSONObject("actionSlots").optJSONObject("councilPalace"));
-        //setupTowers(jsonObject.optJSONObject("actionSlots").optJSONArray("towers"));
+        setupGame(jsonObject.getJSONObject("game"));
+        setupPersonalTiles(jsonObject);
+        setupMarket(jsonObject.optJSONObject("actionSlots").optJSONArray("market"));
+        setupProductionArea(jsonObject.optJSONObject("actionSlots").optJSONArray("productionArea"));
+        setupHarvestArea(jsonObject.optJSONObject("actionSlots").optJSONArray("harvestArea"));
+        setupCouncilPalace(jsonObject.optJSONObject("actionSlots").optJSONObject("councilPalace"));
+        setupTowers(jsonObject.optJSONObject("actionSlots").optJSONArray("towers"));
         setupDevelopmentCards(jsonObject.optJSONObject("developmentCards"));
-        //setupExcommunicationTiles(jsonObject.optJSONObject("developmentCards").optJSONArray("excommunicationTiles"));
+        setupExcommunicationTiles(jsonObject.optJSONObject("developmentCards").optJSONArray("excommunicationTiles"));
+    }
+
+    private static void setupPersonalTiles(JSONObject jsonObject) {
+
+    }
+
+    private static void setupGame(JSONObject jsonObject) {
+
+        /****Rewards given by council Privileges*/
+        JSONArray jsonPrivilegeArray = jsonObject.getJSONArray("councilPrivilege");
+        councilPrivilegeRewards = new ArrayList<>();
+        for(Integer index = 0; index < jsonPrivilegeArray.length(); index++)
+            councilPrivilegeRewards.add(getResourcesBonusFromJson(jsonPrivilegeArray.getJSONObject(index)).getResources());
+
+        /****Fait Path****/
+        faithPath = new HashMap<>();
+        JSONArray jsonPathArray = jsonObject.getJSONObject("finalVictoryPoints").getJSONArray("faithPath");
+        for(Integer index = 0; index < jsonPathArray.length(); index++)
+            faithPath.put(index, jsonPathArray.getJSONObject(index).getInt(index.toString()));
+
+        /****Ending game victory points by number of Territories****/
+        endingGameTerritoriesVictoryPoints = new HashMap<>();
+        JSONArray jsonTerritoriesPointsArray = jsonObject.getJSONObject("finalVictoryPoints").getJSONArray("territories");
+        for(Integer index = 0; index < jsonTerritoriesPointsArray.length(); index++)
+            endingGameTerritoriesVictoryPoints.put(index, jsonTerritoriesPointsArray.getJSONObject(index).getInt(index.toString()));
+
+        /****Ending game victory points by number of Characters****/
+        endingGameCharactersVictoryPoints = new HashMap<>();
+        JSONArray jsonCharactersPointsArray = jsonObject.getJSONObject("finalVictoryPoints").getJSONArray("characters");
+        for(Integer index = 0; index < jsonCharactersPointsArray.length(); index++)
+            endingGameCharactersVictoryPoints.put(index, jsonCharactersPointsArray.getJSONObject(index).getInt(index.toString()));
+
+        /****Ending game victory points for the amount of resources specifiec****/
+        resourcesForVictoryPoints = jsonObject.getJSONObject("finalVictoryPoints").getInt("resourcesForVictoryPoint");
+
 
     }
 
@@ -182,7 +227,6 @@ public final class Configurator {
     }
 
     private static TerritoryCard getTerritoryCardFromJson(JSONObject jsonObject) {
-        System.out.println(jsonObject.toString());
         Integer period = jsonObject.optInt("period");
         String name = jsonObject.optString("name");
 
@@ -198,7 +242,6 @@ public final class Configurator {
 
     private static List<BuildingCard> getBuildingCardsFromJson(JSONArray jsonArray) {
         List<BuildingCard> cards = new ArrayList<>();
-        System.out.println(jsonArray.toString());
         for(int i = 0; i < jsonArray.length(); i++) {
             cards.add(getBuildingCardFromJson(jsonArray.optJSONObject(i)));
         }
@@ -207,9 +250,7 @@ public final class Configurator {
     }
 
     private static BuildingCard getBuildingCardFromJson(JSONObject jsonObject) {
-        System.out.println(jsonObject.toString());
         String name = jsonObject.optString("name");
-        System.out.println(name);
         Integer period = jsonObject.optInt("period");
         Integer diceValueToProduct = jsonObject.optInt("diceValueToProduct");
         Resources resourcesRequired = getResourcesBonusFromJson(jsonObject.optJSONObject("requirements")).getResources();
@@ -276,16 +317,15 @@ public final class Configurator {
         Integer militaryPointsRequired = 0;
         Integer militaryPointsSubtraction = 0;
         Resources resourcesRequired = new Resources();
-
+        resourcesRequired = getResourcesBonusFromJson(jsonObject.optJSONObject("requirements")).getResources();
         /***********RESOURCESBONUS********/
         if(jsonObject.optJSONObject("instantBonus") != null) {
-            System.out.println("siamo alla carta: " + name);
             if(jsonObject.optJSONObject("instantBonus").optJSONObject("resourcesBonus") != null)
                 instantBonus.add(getResourcesBonusFromJson(jsonObject.optJSONObject("instantBonus").optJSONObject("resourcesBonus")));
             if(jsonObject.optJSONObject("requirements").optJSONObject("MILITARY_POINTS") != null) {
                 militaryPointsRequired = jsonObject.optJSONObject("requirements").optJSONObject("MILITARY_POINTS").optInt("militaryPointsRequired");
                 militaryPointsSubtraction = jsonObject.optJSONObject("requirements").optJSONObject("MILITARY_POINTS").optInt("militaryPointsSubtraction");
-                resourcesRequired = getResourcesBonusFromJson(jsonObject.optJSONObject("requirements")).getResources();
+
             }
 
             /***********WORKING AREA VALUE EFFECT********/
@@ -356,7 +396,6 @@ public final class Configurator {
         ActionSlot singleSlot = getActionSlotFromJson(productionSlotsJson.optJSONObject(0));
         List<ActionSlot> advancedSlots = new ArrayList<>();
         advancedSlots.add(getActionSlotFromJson(productionSlotsJson.optJSONObject(1)));
-        System.out.println(advancedSlots.get(0).getDiceValue());
 
         productionArea = new WorkingArea(singleSlot, advancedSlots);
     }
@@ -375,17 +414,13 @@ public final class Configurator {
     }
 
     private static ExcommunicationCard getExcommunicationCardFromJson(JSONObject tile) {
-
-        System.out.println("entrati in get excomm card");
         Integer number = tile.getInt("number");
         Integer period = tile.getInt("period");
         JSONObject jsonPenalty = tile.optJSONObject("penalty");
         AbstractEffect penalty = null;
-        System.out.println("entrati in get excomm card");
 
         /******RESOURCE INCOME PENALTY******/
         if(jsonPenalty.optJSONObject("resourcesIncomePenalty") != null) {
-            System.out.println("entrati in resincompenalty");
             penalty = getResourcesBonusFromJson(jsonPenalty.optJSONObject("resourcesIncomePenalty"));
         }
 
@@ -415,7 +450,6 @@ public final class Configurator {
         Integer diceValue = 0;
         if(jsonPenalty.optJSONArray("familyMemberValueEffect") != null) {
             familyMemberValueEffect = jsonPenalty.optJSONArray("familyMemberValueEffect");
-            System.out.println("Family member effect array size: " + familyMemberValueEffect.length());
             for (Integer index = 0; index < familyMemberValueEffect.length(); index++) {
                 tempJson = familyMemberValueEffect.optJSONObject(index);
                 tempStringColor = tempJson.getString("diceColor");
@@ -455,13 +489,11 @@ public final class Configurator {
         /****HalveServantsValue****/
         if(!jsonPenalty.optString("halveServantsValue").isEmpty())
             penalty = new HalveServantsValue();
-        System.out.println("arrivato dopo halveservantsvalue");
         /****VictoryPointsPenalty****/
         JSONObject jsonVictoryPenalty;
         Integer victoryPoints = 0;
         Resources resourcesReward;
         if(jsonPenalty.optJSONObject("victoryPointsPenalty") != null) {
-            System.out.println("arrivato dopo resources");
 
             jsonVictoryPenalty = jsonPenalty.optJSONObject("victoryPointsPenalty");
 
@@ -469,7 +501,6 @@ public final class Configurator {
 
             if(jsonVictoryPenalty.optJSONObject("resources") != null) {
                 resourcesReward = getResourcesBonusFromJson(jsonVictoryPenalty.optJSONObject("resources")).getResources();
-                System.out.println("arrivato dopo resources");
                 penalty = new VictoryPointsPenalty(victoryPoints, resourcesReward);
             }
 
@@ -522,7 +553,6 @@ public final class Configurator {
         ResourcesBonus requirementsDiscounts = new ResourcesBonus(new Resources(), 0);
         DevelopmentCardColor color = null;
         /***********RESOURCESBONUS********/
-        System.out.println(jsonObject.toString());
         if (jsonObject.optJSONObject("instantBonus") != null) {
             jsonInstantBonus = jsonObject.optJSONObject("instantBonus");
             if (jsonInstantBonus.optJSONObject("resourcesBonus") != null) {
@@ -675,11 +705,11 @@ public final class Configurator {
                     System.out.println("woods: " + m.getResourcesReward().getResources().getResourceByType(WOODS).toString());
                     System.out.println("servants: " + m.getResourcesReward().getResources().getResourceByType(SERVANTS).toString());
                     System.out.println("stones: " + m.getResourcesReward().getResources().getResourceByType(STONES).toString());
-                });*/
+                });
 
         try {
-            /*System.out.println("PRODUCTION");
-            productionArea.getAdvancedSlots().forEach(m -> {
+                System.out.println("PRODUCTION");
+                productionArea.getAdvancedSlots().forEach(m -> {
                 System.out.println(m.getDiceValue());
                 System.out.println("coins: " + m.getResourcesReward().getResources().getResourceByType(COINS).toString());
                 System.out.println("woods: " + m.getResourcesReward().getResources().getResourceByType(WOODS).toString());
@@ -694,8 +724,8 @@ public final class Configurator {
                 System.out.println("stones: " + productionArea.getSingleSlot().getResourcesReward().getResources().getResourceByType(STONES).toString());
 
 
-            System.out.println("HARVEST");
-            harvestArea.getAdvancedSlots().forEach(m -> {
+                System.out.println("HARVEST");
+                harvestArea.getAdvancedSlots().forEach(m -> {
                 System.out.println(m.getDiceValue());
                 System.out.println("coins: " + m.getResourcesReward().getResources().getResourceByType(COINS).toString());
                 System.out.println("woods: " + m.getResourcesReward().getResources().getResourceByType(WOODS).toString());
@@ -707,18 +737,18 @@ public final class Configurator {
                 System.out.println("coins: " +  harvestArea.getSingleSlot().getResourcesReward().getResources().getResourceByType(COINS).toString());
                 System.out.println("woods: " +  harvestArea.getSingleSlot().getResourcesReward().getResources().getResourceByType(WOODS).toString());
                 System.out.println("servants: " +  harvestArea.getSingleSlot().getResourcesReward().getResources().getResourceByType(SERVANTS).toString());
-                System.out.println("stones: " +  harvestArea.getSingleSlot().getResourcesReward().getResources().getResourceByType(STONES).toString());*/
+                System.out.println("stones: " +  harvestArea.getSingleSlot().getResourcesReward().getResources().getResourceByType(STONES).toString());
 
-            /*System.out.println(palace.getReward().getResources().getResourceByType(COINS));
-            System.out.println(palace.getReward().getCouncilPrivilege());*/
+            System.out.println(palace.getReward().getResources().getResourceByType(COINS));
+            System.out.println(palace.getReward().getCouncilPrivilege());
 
-            /*excommunicationTiles.forEach(t -> {
+            excommunicationTiles.forEach(t -> {
                 System.out.println(t.getNumber());
                 System.out.println(t.getPenalty());
                 System.out.println("Period: " + t.getPeriod());
-               /* if(t.getPenalty() instanceof ResourcesPerItemBonus)
-                    ((ResourcesPerItemBonus) t.getPenalty())
-            });*/
+                if(t.getPenalty() instanceof ResourcesPerItemBonus)
+                    System.out.println(t.getPenalty().toString());
+            });
 
                 characterCards.forEach(t -> {
                 System.out.println(t.getName());
@@ -754,5 +784,9 @@ public final class Configurator {
                 System.out.println("Permanent bonus: " + t.getPermanentBonus());
                 });
         } catch (Exception e) { e.printStackTrace(); }
+    }*/
+    }
+    private static void print(String s) {
+        System.out.println();
     }
 }

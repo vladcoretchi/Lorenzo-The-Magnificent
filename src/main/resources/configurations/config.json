@@ -11,88 +11,158 @@
       "towerLevels": 4,
       "councilPrivilege": [
         {
-          "COINS": 0,
-          "WOODS": 1,
-          "STONES": 1,
-          "SERVANTS": 0,
-          "MILITARY_POINTS": 0,
-          "FAITH_POINTS": 0,
-          "VICTORY_POINTS": 0
+          "resources": {
+            "COINS": 0,
+            "WOODS": 1,
+            "STONES": 1,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
         },
         {
-          "COINS": 0,
-          "WOODS": 0,
-          "STONES": 0,
-          "SERVANTS": 2,
-          "MILITARY_POINTS": 0,
-          "FAITH_POINTS": 0,
-          "VICTORY_POINTS": 0
+          "resources": {
+            "COINS": 0,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 2,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
         },
         {
-          "COINS": 2,
-          "WOODS": 0,
-          "STONES": 0,
-          "SERVANTS": 0,
-          "MILITARY_POINTS": 0,
-          "FAITH_POINTS": 0,
-          "VICTORY_POINTS": 0
+          "resources": {
+            "COINS": 2,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
         },
         {
-          "COINS": 0,
-          "WOODS": 0,
-          "STONES": 0,
-          "SERVANTS": 0,
-          "MILITARY_POINTS": 2,
-          "FAITH_POINTS": 0,
-          "VICTORY_POINTS": 0
+          "resources": {
+            "COINS": 0,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 2,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
         },
         {
-          "COINS": 0,
-          "WOODS": 0,
-          "STONES": 0,
-          "SERVANTS": 0,
-          "MILITARY_POINTS": 0,
-          "FAITH_POINTS": 1,
-          "VICTORY_POINTS": 0
+          "resources": {
+            "COINS": 0,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 1,
+            "VICTORY_POINTS": 0
+          }
         }
       ],
       "finalVictoryPoints": {
-        "territories": {
-          "0": 0,
-          "1": 0,
-          "2": 0,
-          "3": 1,
-          "4": 4,
-          "5": 10,
-          "6": 20
-        },
-        "buildings": {
-          "0": 0,
-          "1": 1,
-          "2": 3,
-          "3": 6,
-          "4": 10,
-          "5": 15,
-          "6": 25
-        },
-        "FAITH_POINTS": {
-          "0": 0,
-          "1": 1,
-          "2": 2,
-          "3": 3,
-          "4": 4,
-          "5": 4,
-          "6": 7,
-          "7": 9,
-          "8": 11,
-          "9": 13,
-          "10": 15,
-          "11": 17,
-          "12": 19,
-          "13": 22,
-          "14": 25,
-          "15": 30
-        },
+        "territories": [
+          {
+            "0": 0
+          },
+          {
+            "1": 0
+          },
+          {
+            "2": 0
+          },
+          {
+            "3": 1
+          },
+          {
+            "4": 4
+          },
+          {
+            "5": 10
+          },
+          {
+            "6": 20
+          }
+        ],
+        "characters": [
+          {
+            "0": 0
+          },
+          {
+            "1": 1
+          },
+          {
+            "2": 3
+          },
+          {
+            "3": 6
+          },
+          {
+            "4": 10
+          },
+          {
+            "5": 15
+          },
+          {
+            "6": 21
+          }
+        ],
+        "faithPath": [
+          {
+            "0": 0
+          },
+          {
+            "1": 1
+          },
+          {
+            "2": 2
+          },
+          {
+            "3": 3
+          },
+          {
+            "4": 4
+          },
+          {
+            "5": 4
+          },
+          {
+            "6": 7
+          },
+          {
+            "7": 9
+          },
+          {
+            "8": 11
+          },
+          {
+            "9": 13
+          },
+          {
+            "10": 15
+          },
+          {
+            "11": 17
+          },
+          {
+            "12": 19
+          },
+          {
+            "13": 22
+          },
+          {
+            "14": 25
+          },
+          {
+            "15": 30
+          }
+        ],
         "resourcesForVictoryPoint": 5
       }
     },
@@ -1413,8 +1483,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "WOODS": 1
-                }},
+                    "WOODS": 1
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "COINS": 3
@@ -1424,8 +1495,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "WOODS": 2
-                }},
+                    "WOODS": 2
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "COINS": 5
@@ -1458,8 +1530,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "STONES": 1
-                }},
+                    "STONES": 1
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "COINS": 3
@@ -1469,8 +1542,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "STONES": 2
-                }},
+                    "STONES": 2
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "COINS": 5
@@ -1502,8 +1576,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "COINS": 1
-                }},
+                    "COINS": 1
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "FAITH_POINTS": 1
@@ -1535,8 +1610,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "COINS": 1
-                }},
+                    "COINS": 1
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "councilPrivilege": 1
@@ -1569,8 +1645,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "COINS": 3
-                }},
+                    "COINS": 3
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "WOODS": 2,
@@ -1603,8 +1680,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "SERVANTS": 1
-                }},
+                    "SERVANTS": 1
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "VICTORY_POINTS": 3
@@ -1614,8 +1692,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "SERVANTS": 2
-                }},
+                    "SERVANTS": 2
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "VICTORY_POINTS": 5
@@ -1647,8 +1726,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "WOODS": 1
-                }},
+                    "WOODS": 1
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "VICTORY_POINTS": 3
@@ -1658,8 +1738,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "WOODS": 3
-                }},
+                    "WOODS": 3
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "VICTORY_POINTS": 7
@@ -1691,8 +1772,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "STONES": 3
-                }},
+                    "STONES": 3
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "VICTORY_POINTS": 3
@@ -1702,8 +1784,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "STONES": 3
-                }},
+                    "STONES": 3
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "VICTORY_POINTS": 7
@@ -1736,10 +1819,11 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "STONES": 1,
-                  "SERVANTS": 1,
-                  "WOODS": 1
-                }},
+                    "STONES": 1,
+                    "SERVANTS": 1,
+                    "WOODS": 1
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "VICTORY_POINTS": 6
@@ -1772,8 +1856,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "FAITH_POINTS": 1
-                }},
+                    "FAITH_POINTS": 1
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "COINS": 2,
@@ -1807,8 +1892,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "SERVANTS": 1
-                }},
+                    "SERVANTS": 1
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "MILITARY_POINTS": 3
@@ -1897,7 +1983,8 @@
                 "resourcesDiscard": {
                   "resources": {
                     "COINS": 4
-                  }},
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "WOODS": 3,
@@ -1987,8 +2074,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "COINS": 1
-                }},
+                    "COINS": 1
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "SERVANTS": 2,
@@ -2023,8 +2111,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "WOODS": 1
-                }},
+                    "WOODS": 1
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "FAITH_POINTS": 2
@@ -2058,8 +2147,9 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                  "SERVANTS": 1
-                }},
+                    "SERVANTS": 1
+                  }
+                },
                 "resourcesGain": {
                   "resources": {
                     "MILITARY_POINTS": 3,
@@ -2087,7 +2177,8 @@
                 "VICTORY_POINTS": 7,
                 "FAITH_POINTS": 3
               }
-          }},
+            }
+          },
           "permanentBonus": {
             "resourcesBonus": {
               "resources": {
@@ -2981,7 +3072,7 @@
           "period": 3,
           "requirements": {
             "resources": {
-              "WOODS": 26
+              "WOODS": 6
             }
           },
           "instantBonus": {
