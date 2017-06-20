@@ -30,9 +30,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -48,6 +46,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.lang.Character.getNumericValue;
 
 /**
  * Created by vladc on 6/6/2017.
@@ -497,4 +497,29 @@ public class GUI extends Application implements UIInterface {
         GUI gui = new GUI();
         gui.show();
     }
+
+    //#############################################################################################################################
+
+    //test setVisible of personalBoard
+
+    @FXML private ScrollPane personalBoard;
+
+    //TODO: use real number of current player
+    Integer numberOfCurrentPlayers = 5;
+    public void managePersonalBoard(MouseEvent event) {
+        Object source = event.getSource();
+        String id = ((Control)source).getId();
+        Integer numberOfPlayerPersonalBoard = getNumericValue(id.charAt(id.length() - 1));
+
+        if(numberOfPlayerPersonalBoard > 0 && numberOfPlayerPersonalBoard <= numberOfCurrentPlayers) {
+            System.out.println("this is player " + numberOfPlayerPersonalBoard.toString() + " personalBoard");
+            personalBoard.setVisible(true);
+            return;
+        }
+        personalBoard.setVisible(false);
+
+    }
+
+    //#############################################################################################################################
+
 }
