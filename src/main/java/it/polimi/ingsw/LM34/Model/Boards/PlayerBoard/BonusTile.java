@@ -9,19 +9,23 @@ import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 public class BonusTile {
 private ResourcesBonus productionBonus;
 private ResourcesBonus harvestBonus;
+private Integer harvDiceValue;
+private Integer prodDiceValue;
 
 
 //to be initialized before the starting of the game with the bonus values reported in the bonus tiles
-    public BonusTile(ResourcesBonus pb, ResourcesBonus hb) {
-	this.productionBonus = pb;
-	this.harvestBonus = hb;
+    public BonusTile(Integer harvDiceValue, Integer prodDiceValue, ResourcesBonus pb, ResourcesBonus hb) {
+	    this.productionBonus = pb;
+	    this.harvestBonus = hb;
+	    this.harvDiceValue = harvDiceValue;
+	    this.prodDiceValue = prodDiceValue;
     }
 
-    public void setProductionBonus(ResourcesBonus b) {
-
+    public Integer getHarvestDiceValue() {
+        return this.harvDiceValue;
     }
-
-    public void setHarvestBonus(ResourcesBonus b) {
+    public Integer getProductionDiceValue() {
+        return this.prodDiceValue;
     }
 
     public ResourcesBonus getHarvestBonus() {

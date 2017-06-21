@@ -23,7 +23,7 @@ public class LeaderRequirements {
         this.cardRequirements = Optional.of(cardRequirements);
     }
 
-    public LeaderRequirements(Resources resourcesRequirements){
+    /*public LeaderRequirements(Resources resourcesRequirements){
         this.resourcesRequirements = Optional.of(resourcesRequirements);
         this.cardRequirements = Optional.empty();
     }
@@ -31,7 +31,7 @@ public class LeaderRequirements {
     public LeaderRequirements(Map<DevelopmentCardColor, Integer> cardRequirements) {
         this.resourcesRequirements = Optional.empty();
         this.cardRequirements = Optional.of(cardRequirements);
-    }
+    }*/
 
     public Optional<Resources> getResourcesRequirements() {
         return this.resourcesRequirements;

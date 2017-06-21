@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Enums.Model.LeaderNames;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -22,7 +21,7 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_CARDS_CON
  */
 public class LeaderCardsContext extends AbstractGameContext {
     private Integer totalLeadersDiscarded;
-    private LeaderNames leaderToActivate; //TODO
+    private String leaderToActivate; //TODO
 
 public LeaderCardsContext() {
     contextType = LEADER_CARDS_CONTEXT;
@@ -74,7 +73,7 @@ public LeaderCardsContext() {
         try {
             Validator.checkValidity(leaderToCopy.toString(),allLeadersActivatedByOthers);
             LeaderCard selectedLeader = allLeadersActivatedByOthers.get(leaderToCopy);
-            selectedLeader.setIsActivatedByPlayer(); //TODO: evaluate if the card should be stored in the player
+            //selectedLeader.setIsActivatedByPlayer(); //TODO: evaluate if the card should be stored in the player
             selectedLeader.getBonus().applyEffect(this);
         }
         /*If input mismatch expected informations... the player is able to try again*/

@@ -59,16 +59,14 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
         AbstractGameContext callerContext = (AbstractGameContext) o;
         ResourceIncomeContext incomeContext = (ResourceIncomeContext) callerContext.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT);
         incomeContext.setIncome(resources);
-        System.out.println("Sono un observer della resourcheincomecontext e ho applicato il mio effetto");
 
-        /*ContextType contextType = callerContext.getType();
-        if(contextType == ContextType.TOWERS_CONTEXT)
-            resources = (Resources) arg;*/
-           // resources.sumResources(this.resources);
+        //TODO
+         /*santa rita*/
+        //resource income context
+
     }
 
-    /*santa rita*/
-  //resource income context
+
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {

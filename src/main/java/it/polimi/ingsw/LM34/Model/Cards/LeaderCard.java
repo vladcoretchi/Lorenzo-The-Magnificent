@@ -1,6 +1,5 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
-import it.polimi.ingsw.LM34.Enums.Model.LeaderNames;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.LeaderRequirements;
 
@@ -8,18 +7,20 @@ import it.polimi.ingsw.LM34.Model.LeaderRequirements;
  * Created by Julius on 03/05/2017.
  */
     public class LeaderCard {
-    private LeaderNames leaderName;
+    private String leaderName;
     private LeaderRequirements requirements;
     private AbstractEffect bonus;
     private Boolean isActivatedByPlayer; //For CopyOtherLeader
+    private Boolean oncePerRound;
 
-    public LeaderCard(LeaderNames leaderName, LeaderRequirements requirements, AbstractEffect bonus) {
+    public LeaderCard(String leaderName, LeaderRequirements requirements, AbstractEffect bonus, Boolean oncePerRound) {
         this.leaderName= leaderName;
         this.requirements= requirements;
         this.bonus = bonus;
+        this.oncePerRound = oncePerRound;
     }
 
-    public LeaderNames getName() {
+    public String getName() {
         return this.leaderName;
     }
 
@@ -31,6 +32,7 @@ import it.polimi.ingsw.LM34.Model.LeaderRequirements;
         return this.bonus;
     }
 
+    public Boolean isOncePerRound() { return this.oncePerRound; }
 
 
     public void setIsActivatedByPlayer() {

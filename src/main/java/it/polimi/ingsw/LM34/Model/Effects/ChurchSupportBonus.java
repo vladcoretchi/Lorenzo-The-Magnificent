@@ -14,12 +14,15 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.CURCH_REPORT_CON
  *
  * This class represents Sisto IV peculiar effect and registers itself to CurchReportContext
  */
-public class CurchSupportBonus extends AbstractEffect implements Observer {
+public class ChurchSupportBonus extends AbstractEffect implements Observer {
+    private Resources reward;
 
+    public ChurchSupportBonus(Resources reward) {
+        this.reward = reward;
+    }
     @Override
     public void update(Observable o, Object arg) {
         AbstractGameContext callerContext = (AbstractGameContext) o;
-        Resources reward = new Resources(0,0,5);
         Player player = (Player) arg;
         player.getResources().sumResources(reward);
 
