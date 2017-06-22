@@ -5,8 +5,7 @@ import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeCont
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
-
-import java.util.ArrayList;
+import java.util.List;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
 
@@ -16,7 +15,7 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_
 public class UseCouncilPrivilegeContext extends AbstractGameContext {
     private Integer numberOfCouncilePrivileges = 0;
     private ContextType type;
-    private ArrayList<ResourcesBonus> rewardsForPrivilege;
+    private List<ResourcesBonus> rewardsForPrivilege;
 
     public UseCouncilPrivilegeContext() {
         //TODO: load bonus for privileges from configurator... rewardsForPrivilege = Configurator.getPalace();
@@ -33,18 +32,18 @@ public class UseCouncilPrivilegeContext extends AbstractGameContext {
     //TODO: before calling this without having councilPrivileges, it is better to check from caller contexts
     @Override
     public void interactWithPlayer() {
-        ArrayList<ResourcesBonus> rewardsAvailable = rewardsForPrivilege;
+        List<ResourcesBonus> rewardsAvailable = this.rewardsForPrivilege;
         ResourceIncomeContext incomeContext = (ResourceIncomeContext)gameManager.getContextByType(RESOURCE_INCOME_CONTEXT);
         numberOfCouncilePrivileges = gameManager.getCurrentPlayer().getCouncilPrivileges();
 
         Integer used =0;
         while(used < numberOfCouncilePrivileges) {
-            Integer selected = gameManager.getActivePlayerNetworkController().privilegeRewardSelection(rewardsAvailable);
+            /*Integer selected = gameManager.getActivePlayerNetworkController().privilegeRewardSelection(rewardsAvailable);
             ResourcesBonus reward = rewardsAvailable.get(selected);
             incomeContext.setIncome(reward.getResources());
-            /*Remove temporarily the reward already choosed*/
+            //Remove temporarily the reward already choosed
             rewardsAvailable.remove(selected);
-            used++;
+            used++;*/
         }
     }
 }

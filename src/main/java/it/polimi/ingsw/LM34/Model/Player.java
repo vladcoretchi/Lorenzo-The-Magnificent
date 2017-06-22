@@ -7,9 +7,9 @@ import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
-
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Giulio Comi on 03/05/2017.
@@ -28,15 +28,15 @@ public class Player implements Serializable {
 
     public Player(String name, PawnColor pawnColor, PersonalBoard personalBoard) {
         this.playerName = name;
-        this.pawnColor= pawnColor;
-        this.personalBoard= personalBoard;
-        resources = new Resources();
-        councilPrivileges = 0;
+        this.pawnColor = pawnColor;
+        this.personalBoard = personalBoard;
+        this.resources = new Resources();
+        this.councilPrivileges = 0;
 
-        familyMembers= new ArrayList<FamilyMember>();
+        this.familyMembers = new ArrayList<FamilyMember>();
 
         for ( DiceColor diceColor : DiceColor.values())
-            familyMembers.add(new FamilyMember(pawnColor, diceColor));
+            this.familyMembers.add(new FamilyMember(pawnColor, diceColor));
     }
 
     public String getPlayerName() {
@@ -49,7 +49,7 @@ public class Player implements Serializable {
     }
 
     public PawnColor getPawnColor() {
-        return pawnColor;
+        return this.pawnColor;
     }
 
     public void addResources(Resources res)    {
@@ -58,12 +58,12 @@ public class Player implements Serializable {
 
     public Resources getResources() { return this.resources; }
 
-    public ArrayList<FamilyMember> getFamilyMembers() {
+    public List<FamilyMember> getFamilyMembers() {
         return this.familyMembers;
     }
 
     public Integer getCouncilPrivileges() {
-        return councilPrivileges;
+        return this.councilPrivileges;
     }
 
     public void addCouncilPrivileges(Integer councilPrivileges) {
@@ -74,13 +74,13 @@ public class Player implements Serializable {
         this.resources.subResources(res);
     }
 
-    public ArrayList<ExcommunicationCard> getExcommunicationCards() {
+    public List<ExcommunicationCard> getExcommunicationCards() {
         return this.excommunicationCards;
     }
 
-    public ArrayList<LeaderCard> getActivatedLeadercards() {
-        ArrayList<LeaderCard> activatedLeaders = new ArrayList<>();
-        for(LeaderCard c : leadercards)
+    public List<LeaderCard> getActivatedLeaderCards() {
+        List<LeaderCard> activatedLeaders = new ArrayList<>();
+        for(LeaderCard c : this.leadercards)
             if (c.isActivatedByPlayer())
                 activatedLeaders.add(c);
 
@@ -92,15 +92,12 @@ public class Player implements Serializable {
     }
 
     public Boolean hasEnoughResources (Resources resourcesRequired) {
-        Resources resourcesAvailable =this.getResources();
+        Resources resourcesAvailable = this.getResources();
         for(ResourceType resType : ResourceType.values())
             if(!(resourcesAvailable.getResourceByType(resType) >= resourcesRequired.getResourceByType(resType)))
                 return false;
 
         return true;
     }
-
-
-
 
 }

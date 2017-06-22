@@ -1,11 +1,28 @@
 package it.polimi.ingsw.LM34.Network.Server.RMI;
 
+import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+import it.polimi.ingsw.LM34.Model.Dice;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
+import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClientInterface;
+import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.Network.Server.AbstractConnection;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by vladc on 5/29/2017.
@@ -18,26 +35,152 @@ public class RMIConnection extends AbstractConnection {
     }
 
     @Override
-    public Integer contextSelection(List<PlayerSelectableContexts> contexts) {
+    public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
         try {
-            return clientRMI.contextSelection(contexts);
+            this.clientRMI.setExcommunicationCards(excommunicationCards);
+        } catch(RemoteException e) {
+            return;
+        }
+    }
+
+    @Override
+    public void updateTowers(List<Tower> towers) {
+
+        try {
+            this.clientRMI.updateTowers(towers);
+        } catch(RemoteException e) {
+            return;
+        }
+    }
+
+    @Override
+    public void updateCouncilPalace(CouncilPalace councilPalace) {
+
+        try {
+            this.clientRMI.updateCouncilPalace(councilPalace);
+        } catch(RemoteException e) {
+            return;
+        }
+    }
+
+    @Override
+    public void updateMarket(Market market) {
+
+        try {
+            this.clientRMI.updateMarket(market);
+        } catch(RemoteException e) {
+            return;
+        }
+    }
+
+    @Override
+    public void updateProductionArea(WorkingArea productionArea) {
+        try {
+            this.clientRMI.updateProductionArea(productionArea);
+        } catch(RemoteException e) {
+            return;
+        }
+    }
+
+    @Override
+    public void updateHarvestArea(WorkingArea harvestArea) {
+
+        try {
+            this.clientRMI.updateHarvestArea(harvestArea);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            return;
+        }
+    }
+
+    @Override
+    public void updatePlayersData(List<Player> players) {
+
+        try {
+            this.clientRMI.updatePlayersData(players);
+        } catch (RemoteException e) {
+            return;
+        }
+    }
+
+    @Override
+    public void updateDiceValues(List<Dice> diceValues) {
+        try {
+            this.clientRMI.updateDiceValues(diceValues);
+        } catch(RemoteException e) {
+            return;
+        }
+    }
+
+    @Override
+    public PlayerAction turnMainAction(Optional<Boolean> lastActionValid) {
+        try {
+            return this.clientRMI.turnMainAction(lastActionValid.orElse(null));
+        } catch(RemoteException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public PlayerAction turnSecondaryAction(Optional<Boolean> lastActionValid) {
+        try {
+            return this.clientRMI.turnMainAction(lastActionValid.orElse(null));
+        } catch(RemoteException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
+        try {
+            return this.clientRMI.familyMemberSelection(familyMembers);
+        } catch(RemoteException e) {
             return -1;
         }
     }
 
     @Override
-    public Integer marketSlotSelection(Market market) {
+    public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
         try {
-            return clientRMI.marketSlotSelection(market);
-        } catch (RemoteException e) {
-            e.printStackTrace();
+            return this.clientRMI.servantsSelection(servantsAvailable, minimumServantsRequested);
+        } catch(RemoteException e) {
             return -1;
         }
     }
 
-    /*public void loginResult(Boolean result) {
-        clientRMI.loginResult(result);
-    }*/
+    @Override
+    public Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices) {
+        try {
+            return this.clientRMI.resourceExchangeSelection(choices);
+        } catch(RemoteException e) {
+            return -1;
+        }
+    }
+
+    @Override
+    public Integer leaderCardSelection(List<LeaderCard> leaderCards, LeaderCardsAction action) {
+        try {
+            return this.clientRMI.leaderCardSelection(leaderCards, action);
+        } catch(RemoteException e) {
+            return -1;
+        }
+    }
+
+    @Override
+    public Boolean churchSupport() {
+
+        try {
+            return this.clientRMI.churchSupport();
+        } catch (RemoteException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
+        try {
+            return this.clientRMI.selectCouncilPrivilegeBonus(availableBonuses);
+        } catch(RemoteException e) {
+            return -1;
+        }
+    }
 }

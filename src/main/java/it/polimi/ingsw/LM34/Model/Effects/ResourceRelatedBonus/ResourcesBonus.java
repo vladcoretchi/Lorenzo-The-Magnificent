@@ -6,6 +6,7 @@ import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Resources;
 
+import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -18,7 +19,7 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TOWERS_CONTEXT;
 
 /*Basic Instant effects are handled here*/
 //This represents also the excomunication malus on resources
-public class ResourcesBonus extends AbstractEffect implements Observer {
+public class ResourcesBonus extends AbstractEffect implements Observer, Serializable {
     private Resources resources;
     private Integer councilPrivilege;
     private Integer developmentCardsGoodsMultiplier;

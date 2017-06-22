@@ -5,7 +5,7 @@ package it.polimi.ingsw.LM34.Enums.Controller;
  */
 public enum ContextType {
     ACTION_SLOT_CONTEXT,
-    CURCH_REPORT_CONTEXT,
+    CHURCH_REPORT_CONTEXT,
     END_GAME_CONTEXT,
     HARVEST_AREA_CONTEXT,
     PRODUCTION_AREA_CONTEXT,

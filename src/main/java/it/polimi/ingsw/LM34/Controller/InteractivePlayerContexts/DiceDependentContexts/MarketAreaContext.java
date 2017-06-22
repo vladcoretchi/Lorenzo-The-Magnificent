@@ -6,8 +6,7 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Configurator;
-
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by GiulioComi on 24/05/2017.
@@ -18,10 +17,10 @@ public class MarketAreaContext extends AbstractGameContext implements DiceDepend
 
     private Boolean ban;
 
-
-public MarketAreaContext() {
-    contextType = ContextType.MARKET_AREA_CONTEXT;
-    market = Configurator.getMarket(); }
+    public MarketAreaContext() {
+        contextType = ContextType.MARKET_AREA_CONTEXT;
+        market = Configurator.getMarket();//this.gameManager.getPlayers().size());
+    }
 
     @Override
     public void interactWithPlayer() {
@@ -66,7 +65,7 @@ public MarketAreaContext() {
     }
 
     @Override
-    public ArrayList<ActionSlot> getActionSlots() {
+    public List<ActionSlot> getActionSlots() {
         return market.getActionSlots();
     }
 

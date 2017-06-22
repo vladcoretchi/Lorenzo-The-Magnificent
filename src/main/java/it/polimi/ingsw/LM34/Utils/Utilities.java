@@ -36,16 +36,10 @@ public final class Utilities {
         return sum;
     }
 
+    /**
+     * Sums 2 Integer values
+     */
     public static BiFunction<Integer, Integer, Integer> sumInteger = (val1, val2) -> val1 + val2;
-
-    /*Useful method helpful in counting end game total amount of resources*/
-    public static Integer getTotalAmount(Resources resources) {
-         Integer totalUnit = resources.getResourceByType(ResourceType.WOODS) +
-                 resources.getResourceByType(ResourceType.STONES) +
-                 resources.getResourceByType(ResourceType.COINS) +
-                 resources.getResourceByType(ResourceType.SERVANTS);
-         return totalUnit;
-    }
 
     /**
      * Split a string in substring with a maximum length
@@ -65,4 +59,12 @@ public final class Utilities {
         return result.toArray(new String[0]);
     }
 
+    /*Useful method helpful in counting end game total amount of resources*/
+    public static Integer getTotalAmount(Resources resources) {
+        Integer totalUnit = resources.getResourceByType(ResourceType.WOODS) +
+                resources.getResourceByType(ResourceType.STONES) +
+                resources.getResourceByType(ResourceType.COINS) +
+                resources.getResourceByType(ResourceType.SERVANTS);
+        return totalUnit;
+    }
 }

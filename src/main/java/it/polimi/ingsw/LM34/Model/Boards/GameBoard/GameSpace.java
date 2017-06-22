@@ -1,12 +1,14 @@
 package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by GiulioComi on 13/05/2017.
  */
-public abstract class GameSpace {
-    protected ArrayList<ActionSlot> actionSlots;
+public abstract class GameSpace implements Serializable {
+    protected List<ActionSlot> actionSlots;
 
     public void sweep() {
             for (ActionSlot as : actionSlots)
@@ -17,13 +19,13 @@ public abstract class GameSpace {
         actionSlots.add(as);
     }
 
-    public ArrayList<ActionSlot> getActionSlots() {
+    public List<ActionSlot> getActionSlots() {
         return this.actionSlots;
     }
 
 
-    public ArrayList<ActionSlot> getAvailableSlots() {
-        ArrayList<ActionSlot> availableSlots = new ArrayList<ActionSlot>();
+    public List<ActionSlot> getAvailableSlots() {
+        ArrayList<ActionSlot> availableSlots = new ArrayList<>();
         for (ActionSlot as : actionSlots)
             if(as.isEmpty())
                 availableSlots.add(as);

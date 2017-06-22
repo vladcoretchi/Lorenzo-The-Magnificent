@@ -22,43 +22,43 @@ public class Resources implements Serializable {
     public Resources(Integer coins, Integer woods, Integer stones, Integer servants, Integer militaryPoints, Integer faithPoints, Integer victoryPoints) {
         resourcesMap = new EnumMap<>(ResourceType.class);
 
-        if(coins > 0)
+        if(coins != 0)
             this.resourcesMap.put(ResourceType.COINS, coins);
-        if(woods > 0)
+        if(woods != 0)
             this.resourcesMap.put(ResourceType.WOODS, woods);
-        if(stones > 0)
+        if(stones != 0)
             this.resourcesMap.put(ResourceType.STONES, stones);
-        if(servants > 0)
+        if(servants != 0)
             this.resourcesMap.put(ResourceType.SERVANTS, servants);
-        if(militaryPoints > 0)
+        if(militaryPoints != 0)
             this.resourcesMap.put(ResourceType.MILITARY_POINTS, militaryPoints);
-        if(faithPoints > 0)
+        if(faithPoints != 0)
             this.resourcesMap.put(ResourceType.FAITH_POINTS, faithPoints);
-        if(victoryPoints > 0)
+        if(victoryPoints != 0)
             this.resourcesMap.put(ResourceType.VICTORY_POINTS, victoryPoints);
     }
 
     public Resources(Integer coins, Integer woods, Integer stones, Integer servants) {
         resourcesMap = new EnumMap<>(ResourceType.class);
 
-        if(coins > 0)
+        if(coins != 0)
             this.resourcesMap.put(ResourceType.COINS, coins);
-        if(woods > 0)
+        if(woods != 0)
             this.resourcesMap.put(ResourceType.WOODS, woods);
-        if(stones > 0)
+        if(stones != 0)
             this.resourcesMap.put(ResourceType.STONES, stones);
-        if(servants > 0)
+        if(servants != 0)
             this.resourcesMap.put(ResourceType.SERVANTS, servants);
     }
 
     public Resources(Integer militaryPoints, Integer faithPoints, Integer victoryPoints) {
         resourcesMap = new EnumMap<>(ResourceType.class);
 
-        if(militaryPoints > 0)
+        if(militaryPoints != 0)
             this.resourcesMap.put(ResourceType.MILITARY_POINTS, militaryPoints);
-        if(faithPoints > 0)
+        if(faithPoints != 0)
             this.resourcesMap.put(ResourceType.FAITH_POINTS, faithPoints);
-        if(victoryPoints > 0)
+        if(victoryPoints != 0)
             this.resourcesMap.put(ResourceType.VICTORY_POINTS, victoryPoints);
     }
 

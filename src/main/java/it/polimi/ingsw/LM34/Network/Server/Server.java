@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Server;
 
+import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Network.GameRoom;
 import it.polimi.ingsw.LM34.Network.Server.RMI.RMIServer;
 import it.polimi.ingsw.LM34.Network.Server.Socket.SocketServer;
@@ -46,7 +47,23 @@ public class Server {
 
     public static boolean login(String username, String password) {
         //TODO: actual login / registration
-        return true;
+
+        Boolean found = false;
+        for (int i = 0; !found && i < gameRooms.size(); i++) {
+            String[] gameRoomPlayers = gameRooms.get(i).getPlayers();
+            for (int j = 0; !found && j < gameRoomPlayers.length; j++) {
+                if (username == gameRoomPlayers[j])
+                    found = true;
+            }
+        }
+        if (!found) {
+            String[] gameRoomPlayers = waitingRoom.getPlayers();
+            for (int j = 0; !found && j < gameRoomPlayers.length; j++) {
+                if (gameRoomPlayers[j].equals(username))
+                    found = true;
+            }
+        }
+        return !found;
     }
 
     public static GameRoom addPlayerToGameRoom(String username, ServerNetworkController networkController) {

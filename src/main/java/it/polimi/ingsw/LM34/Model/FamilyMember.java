@@ -2,7 +2,6 @@ package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
-
 import java.io.Serializable;
 
 /**
@@ -13,8 +12,6 @@ public class FamilyMember implements Serializable, Cloneable {
     private DiceColor diceColor;
     private Integer value;
     private boolean isUsed;
-    //TODO: find another way different to get a reference of the player from the family members
-    private Player playerOwner;
 
 
     //constructor used only at the beginning of the game during setup up
@@ -22,7 +19,6 @@ public class FamilyMember implements Serializable, Cloneable {
     public FamilyMember(PawnColor pawnColor, DiceColor diceColor) {
         this.pawnColor = pawnColor;
         this.diceColor = diceColor;
-        this.playerOwner = playerOwner;
         this.isUsed = false;
     }
 
@@ -70,7 +66,4 @@ public class FamilyMember implements Serializable, Cloneable {
 
     public DiceColor getDiceColorAssociated() { return this.diceColor; }
 
-    public Player getPlayer() {
-        return playerOwner;
-    }
 }

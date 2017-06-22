@@ -1,19 +1,23 @@
 package it.polimi.ingsw.LM34.Network.Server;
 
+import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
+import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
+import it.polimi.ingsw.LM34.Model.Dice;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.GameRoom;
+import it.polimi.ingsw.LM34.Network.PlayerAction;
 import org.apache.commons.lang3.tuple.Pair;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by vladc on 5/28/2017.
@@ -27,58 +31,70 @@ public class ServerNetworkController {
         this.gameRoom = Server.addPlayerToGameRoom(connection.getUsername(), this);
     }
 
-    public Integer contextSelection(List<PlayerSelectableContexts> contexts) {
-        return serverConnection.contextSelection(contexts);
+
+    public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
+        this.serverConnection.setExcommunicationCards(excommunicationCards);
     }
 
-    public Integer marketSlotSelection(Market market) {
-        return serverConnection.marketSlotSelection(market);
+    public void updateTowers(List<Tower> towers) {
+        this.serverConnection.updateTowers(towers);
     }
 
-    public Integer actionSlotSelection(ArrayList<ActionSlot> actionSlots) {
-        //TODO return serverConnection.actionSlotSelection(actionSlots);
-        return 0;
+    public void updateCouncilPalace(CouncilPalace councilPalace){
+        this.serverConnection.updateCouncilPalace(councilPalace);
     }
 
-    public Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> resForResBonus) {
-        //TODO: return option choosed return serverConnection.actionSlotSelection(resForRes, resForPriv);
-        return 0;
+    public void updateMarket(Market market) {
+        this.serverConnection.updateMarket(market);
     }
 
-    //TODO: replay is yes or no from client
-    public Boolean curchReportDecision() {
-        return true; //TODO: implement this in UI
+    public void updateProductionArea(WorkingArea productionArea) {
+        this.serverConnection.updateProductionArea(productionArea);
     }
 
-    public Integer copyLeaderSelection(List<LeaderCard> allLeadersActivatedByOthers) {
-        return 0; //TODO
+    public void updateHarvestArea(WorkingArea harvestArea) {
+        this.serverConnection.updateHarvestArea(harvestArea);
     }
 
-    public Integer privilegeRewardSelection(List<ResourcesBonus> rewardsForPrivilege) {
-        return 0; //TODO
+    public void updatePlayersData(List<Player> players) {
+        this.serverConnection.updatePlayersData(players);
     }
 
-    /**
-     *Presentation to players of final points earned by each player
-     * @param victoryPointsToPlayers that the UI would represents as a ranking
-     */
-    public void endGameResults(HashMap<Player, Integer> victoryPointsToPlayers) {
-        //TODO
+    public void updateDiceValues(List<Dice> diceValues) {
+        this.serverConnection.updateDiceValues(diceValues);
     }
 
-    public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
-        return 0; //TODO
+
+    public PlayerAction turnMainAction(Optional<Boolean> lastActionValid) {
+        return this.serverConnection.turnMainAction(lastActionValid);
     }
 
-    public Integer leaderSelection(List<LeaderCard> leaderCards) {
-        return 0; //TODO
+    public PlayerAction turnSecondaryAction(Optional<Boolean> lastActionValid) {
+        return  this.serverConnection.turnSecondaryAction(lastActionValid);
     }
+
 
     public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
-        return 0; //TODO
+        return this.serverConnection.familyMemberSelection(familyMembers);
     }
 
-    public Integer servantsSelection(Integer servantsOwned) {
-        return 0; //TODO
+    public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
+        return this.serverConnection.servantsSelection(servantsAvailable, minimumServantsRequested);
+    }
+
+    public Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices) {
+        return this.serverConnection.resourceExchangeSelection(choices);
+    }
+
+    public Integer leaderCardSelection(List<LeaderCard> leaderCards, LeaderCardsAction action) {
+        return this.serverConnection.leaderCardSelection(leaderCards, action);
+    }
+
+    public Boolean churchSupport() {
+        return this.serverConnection.churchSupport();
+    }
+
+    public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
+        return this.serverConnection.selectCouncilPrivilegeBonus(availableBonuses);
     }
 }

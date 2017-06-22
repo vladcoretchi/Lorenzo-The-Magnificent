@@ -34,10 +34,6 @@ public interface UIInterface {
     void loginResult(Boolean result);
 
 
-    /*void updateGameData(List<Tower> towers, CouncilPalace councilPalace, Market market,
-                        WorkingArea productionArea, WorkingArea harvestArea,
-                        Map<String, Resources> playersResources, List<Dice> dicesValues);*/
-
     void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards);
     void updateTowers(List<Tower> towers);
     void updateCouncilPalace(CouncilPalace councilPalace);
@@ -46,7 +42,7 @@ public interface UIInterface {
     void updateHarvestArea(WorkingArea harvestArea);
     void updatePlayersData(List<Player> players);
     void updateDiceValues(List<Dice> dicesValues);
-    void endGame(List<Player> players);
+
 
     PlayerAction turnMainAction(Optional<Boolean> lastActionValid);
 
@@ -66,9 +62,5 @@ public interface UIInterface {
     Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses);
 
 
-
-
-
-   // void buyCard(); //Send by UI to server
-   // void cardBought(); //Called by server
+    void endGame(List<Player> players);
 }

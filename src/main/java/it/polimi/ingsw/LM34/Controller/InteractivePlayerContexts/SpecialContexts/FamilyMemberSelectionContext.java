@@ -4,8 +4,8 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Utils.Validator;
-
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by GiulioComi on 04/06/2017.
@@ -21,9 +21,9 @@ public class FamilyMemberSelectionContext extends AbstractGameContext {
     }
 
 
-    public FamilyMember familyMemberSelection(ArrayList<FamilyMember> pawnsCloned) {
+    public FamilyMember familyMemberSelection(List<FamilyMember> pawnsCloned) {
         FamilyMember selectedPawn = null;
-        ArrayList<FamilyMember> playerPawns = new ArrayList();
+        List<FamilyMember> playerPawns = new ArrayList();
         Integer selected = this.gameManager.getActivePlayerNetworkController().familyMemberSelection(pawnsCloned);
 
         try {

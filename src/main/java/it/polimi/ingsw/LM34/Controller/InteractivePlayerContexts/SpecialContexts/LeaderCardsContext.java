@@ -4,8 +4,6 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Utils.Validator;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,21 +63,21 @@ public LeaderCardsContext() {
         //create a list of leaders activated  by other players
         for(Player player : gameManager.getPlayers())
             if(player != currentPlayer) //one player cannot copy an ability of a leader he already has
-                allLeadersActivatedByOthers.addAll(player.getActivatedLeadercards());
+                allLeadersActivatedByOthers.addAll(player.getActivatedLeaderCards());
 
-        Integer leaderToCopy = gameManager.getActivePlayerNetworkController().copyLeaderSelection(allLeadersActivatedByOthers);
+        /*Integer leaderToCopy = gameManager.getActivePlayerNetworkController().copyLeaderSelection(allLeadersActivatedByOthers);
 
 
         try {
             Validator.checkValidity(leaderToCopy.toString(),allLeadersActivatedByOthers);
             LeaderCard selectedLeader = allLeadersActivatedByOthers.get(leaderToCopy);
-            //selectedLeader.setIsActivatedByPlayer(); //TODO: evaluate if the card should be stored in the player
+            selectedLeader.setIsActivatedByPlayer(); //TODO: evaluate if the card should be stored in the player
             selectedLeader.getBonus().applyEffect(this);
         }
-        /*If input mismatch expected informations... the player is able to try again*/
+        //If input mismatch expected informations... the player is able to try again
         catch(IncorrectInputException ide){
             copyOtherLeaderAbility(currentPlayer);
-        }
+        }*/
         //TODO: hen let the current player choose which one activate
 
     }

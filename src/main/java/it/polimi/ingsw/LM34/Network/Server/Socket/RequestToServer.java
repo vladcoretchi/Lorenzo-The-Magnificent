@@ -25,18 +25,6 @@ public enum RequestToServer {
             }
         }
     };
-    /*CONTEXT_SELECTION {
-        @Override
-        void readAndHandle(SocketConnection connection) {
-            try {
-                Integer selection = connection.getInputStream().readInt();
-
-                System.out.println(selection);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    };*/
 
     abstract void readAndHandle(SocketConnection connection);
 }

@@ -2,10 +2,10 @@ package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CouncilPalace extends GameSpace {
+public class CouncilPalace extends GameSpace implements Serializable {
     private ArrayList<FamilyMember> occupyingPawns; //FamilyMembers in the palace
     private ActionSlot actionSlot;
     //The CouncilPalace is a special case among the board classes...

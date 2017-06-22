@@ -4,7 +4,7 @@ import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentCo
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.HarvestAreaContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.MarketAreaContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ProductionAreaContext;
-import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.CurchReportContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.ChurchReportContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.TurnContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.EndGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
@@ -25,12 +25,8 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.GameRoom;
 import it.polimi.ingsw.LM34.Network.Server.ServerNetworkController;
 import it.polimi.ingsw.LM34.Utils.Configurator;
-
 import java.util.*;
-
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.CURCH_REPORT_CONTEXT;
-
-//import it.polimi.ingsw.LM34.Utils.Configurator;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
 
 /**
  * Created by GiulioComi on 05/05/2017.
@@ -52,28 +48,20 @@ public class GameManager {
     private List<Tower> towers;
     private WorkingArea harvestArea;
     private WorkingArea productionArea;
-    /*FaithPath*/
-    private Map<Integer, Integer> faithPath = new HashMap<Integer, Integer>();
-
-    HashMap<Player, Integer> victoryPointsByPlayer = new HashMap<Player, Integer>();
 
     /*DECKS*/
-    public  List<TerritoryCard> territoryCardDeck = new ArrayList<>();
-    private DevelopmentCardDeck<CharacterCard> characterCardDeck = new DevelopmentCardDeck<CharacterCard>();
-    private DevelopmentCardDeck<VentureCard> ventureCardDeck = new DevelopmentCardDeck<VentureCard>();
-    private DevelopmentCardDeck<BuildingCard> buildingCardDeck = new DevelopmentCardDeck<BuildingCard>();
+    private DevelopmentCardDeck<TerritoryCard> territoryCardDeck;
+    private DevelopmentCardDeck<CharacterCard> characterCardDeck;
+    private DevelopmentCardDeck<VentureCard> ventureCardDeck;
+    private DevelopmentCardDeck<BuildingCard> buildingCardDeck;
     private List<LeaderCard> leaderCardsDeck;
     private List<ExcommunicationCard> excommunicationCards;
 
     /*GAME CONTEXTS*/
-    protected static ArrayList<AbstractGameContext> contexts;
+    protected Map<ContextType, AbstractGameContext> contexts;
+
     private TurnContext turnContext = new TurnContext();
-    private CurchReportContext curchContext;
-    private AbstractGameContext currentContext;
     private CouncilPalaceContext palaceContext;
-    private MarketAreaContext marketContext;
-    private ProductionAreaContext productionContext;
-    private HarvestAreaContext harvestContext;
 
     /*CONSTRUCTOR*/
     public GameManager(GameRoom gameRoom, List<String> players) {
@@ -91,9 +79,10 @@ public class GameManager {
         this.turn = 0; //when the current player places his pawn
 
         //TODO: sync the loading so that none of the methods below is called before configs.json file has been parsed
-        //prepareGameSpaces();
-       // prepareDecks();
-       // drwaExcommunicationCards();
+        setUpGameSpaces();
+        setUpDecks();
+        replaceCards();
+        drawExcommunicationCards();
 
         //TODO: initialize players
         Collections.shuffle(players); //randomly set the initial play order
@@ -110,57 +99,49 @@ public class GameManager {
         return this.gameRoom.getPlayerNetworkController(player.getPlayerName());
     }
 
-    private void drwaExcommunicationCards() {
-        List<ExcommunicationCard> exCards = getExcommunictionCards(excommunicationCards);
-        for (ExcommunicationCard card : exCards)
-            curchContext.addExcommunicationCard(card);
+    private void drawExcommunicationCards() {
+        List<ExcommunicationCard> exCards = getExcommunicationCards(excommunicationCards);
+        ChurchReportContext churchContext = (ChurchReportContext) getContextByType(CHURCH_REPORT_CONTEXT);
+        exCards.forEach(churchContext::addExcommunicationCard);
     }
 
     public void startGame() {
-        //TODO
-        turnContext.initContext(); //first player start first round of the game
+        players.forEach(player -> this.getPlayerNetworkController(player).updatePlayersData(this.players));
+        ((TurnContext) getContextByType(TURN_CONTEXT)).initContext(); //first player start first round of the game
     }
 
     /**
      * Sets up the game spaces before game begins
      */
-    public void prepareGameSpaces() {
-
-        market = Configurator.getMarket();
-        towers = Configurator.getTowers();
-        harvestArea = Configurator.getHarvestArea();
-        productionArea = Configurator.getProductionArea();
-        //TODO: prepare faithPath, etc
-    }
-
-    //TODO: chain together remotePlayer (client) and the player
-    public void addPlayer(Player player) {
-        players.add(player);
+    public void setUpGameSpaces() {
+        this.market = Configurator.getMarket();//this.players.size());
+        this.towers = Configurator.getTowers();//this.players.size());
+        this.harvestArea = Configurator.getHarvestArea();//this.players.size());
+        this.productionArea = Configurator.getProductionArea();//this.players.size());
     }
 
     /**
      * Enter the EndGameContext during which final points are calculated and ranking is showed
      */
     public void endGame() {
-        EndGameContext endGameContext = (EndGameContext) getContextByType(ContextType.END_GAME_CONTEXT);
+        EndGameContext endGameContext = (EndGameContext) getContextByType(END_GAME_CONTEXT);
         endGameContext.interactWithPlayer();
     }
 
     /**
      * Prepare decks at the start of the game
      */
-    public void prepareDecks() {
-
-        //territoryCardDeck = (DevelopmentCardDeck<TerritoryCard>) Configurator.prepareDevelopmentDeck();
-        buildingCardDeck = (DevelopmentCardDeck<BuildingCard>) Configurator.prepareDevelopmentDeck();
-        characterCardDeck = (DevelopmentCardDeck<CharacterCard>) Configurator.prepareDevelopmentDeck();
-        ventureCardDeck = (DevelopmentCardDeck<VentureCard>) Configurator.prepareDevelopmentDeck();
-        Configurator.prepareLeaderAndExcommunicationDecks(leaderCardsDeck, excommunicationCards);
-        Configurator.orderExcommunicatioCardByPeriod(excommunicationCards);
+    public void setUpDecks() {
+        this.territoryCardDeck = Configurator.getTerritoryCards();
+        this.buildingCardDeck = Configurator.getBuildingCards();
+        this.characterCardDeck = Configurator.getCharactersCards();
+        this.ventureCardDeck = Configurator.getVentureCards();
+        this.leaderCardsDeck = Configurator.getLeaderCards(this.players.size());
+        this.excommunicationCards = Configurator.getExcommunicationTiles();
     }
 
     public void nextRound() { //round = half period
-        ArrayList<AbstractEffect> playerObservers = new ArrayList<>();
+        List<AbstractEffect> playerObservers = new ArrayList<>();
 
         round++;
 
@@ -169,26 +150,20 @@ public class GameManager {
         sweepActionSlots();  //sweeps all action and tower slots from pawns and cards
         replaceCards();      //Four development cards per type are moved from the decks into the towerslots
 
-        /**
-         * At the beginning of the round re apply all the once per round observers of the players
-         */
+        /* At the beginning of the round re apply all the once per round observers of the player */
         /*for (Player player : players) {
             playerObservers = player.getObservers();
             for (AbstractEffect observer : playerObservers)
                 if (observer.isOncePerRound())
                     observer.subscribeObserverToContext(contexts);
-
         }*/
-        if (round % 2 == 0) {
-            /**
-             * Now it is Curch Report time
-             */
-            CurchReportContext curchContext = (CurchReportContext) getContextByType(CURCH_REPORT_CONTEXT);
 
-            /**
-             * CurchReportContext interact with a player at a time, based on turn order
-             */
-            players.forEach(player -> curchContext.interactWithPlayer(player));
+        if (round % 2 == 0) {
+            /* Now it is Curch Report time */
+            ChurchReportContext churchContext = (ChurchReportContext) getContextByType(CHURCH_REPORT_CONTEXT);
+
+            /* ChurchReportContext interact with a player at a time, based on turn order */
+            players.forEach(player -> churchContext.interactWithPlayer(player));
 
             nextPeriod();
         }
@@ -196,8 +171,7 @@ public class GameManager {
     }
 
     public void nextTurn() {
-        if (turn >= players.size()-1) { //all players have placed 1 pawn
-            System.out.println("Turni finiti");
+        if (turn >= players.size() - 1) { //all players have placed 1 pawn
             nextPhase();
             turn = 0;
         } else {
@@ -209,7 +183,6 @@ public class GameManager {
     public void nextPeriod() {
         period++;
 
-
         if(period > Configurator.TOTAL_PERIODS)
             //enter the endGame context in which final points are calculated
             endGame();
@@ -218,64 +191,52 @@ public class GameManager {
 
         nextTurn();
         //TODO
-
     }
 
-
     public void nextPhase() {
-        /**
-         * If all players have placed all of their pawns go to the next round
-         */
+        /*If all players have placed all of their pawns go to the next round*/
         if(phase >= (players.size() * players.get(1).getFamilyMembers().size())) //TODO: refactor
             nextRound();
         else
             phase++;
-
-        /**
-         *@param player Now is the turn of the next player to place his family member
-         */
-
-
     }
 
-    /**
-     * New cards are placed in the towers at the beginning of the new round
-     */
+    /* New cards are placed in the towers at the beginning of the new round */
     public void replaceCards() {
-
-        //placeNewRoundCards(towers, territoryCardDeck);
-        placeNewRoundCards(towers, buildingCardDeck);
-        placeNewRoundCards(towers, characterCardDeck);
-        placeNewRoundCards(towers, ventureCardDeck);
+        changeCards(towers, territoryCardDeck);
+        changeCards(towers, buildingCardDeck);
+        changeCards(towers, characterCardDeck);
+        changeCards(towers, ventureCardDeck);
     }
 
     /**
      * Free all the action slots from the pawns and card stored during the previous round
      */
     public void sweepActionSlots() {
+        towers.forEach(Tower::sweep);
 
-        for (Tower tower : towers)
-            tower.sweep();
-
-
-        //TODO: transfer areas variable from gamemanager to related contexts...
-        marketContext.sweep();
-        palaceContext.sweep();
-        productionContext.sweep();
-        harvestContext.sweep();
+        //TODO: transfer areas variable from game manager to related contexts...
+        ((MarketAreaContext) getContextByType(ContextType.MARKET_AREA_CONTEXT)).sweep();
+        ((CouncilPalaceContext) getContextByType(ContextType.COUNCIL_PALACE_CONTEXT)).sweep();
+        ((ProductionAreaContext) getContextByType(ContextType.PRODUCTION_AREA_CONTEXT)).sweep();
+        ((HarvestAreaContext) getContextByType(ContextType.HARVEST_AREA_CONTEXT)).sweep();
     }
 
     public void rollDices() {
-        for (Dice dice : dices) dice.rollDice();
+        dices.forEach(Dice::rollDice);
     }
 
     /**
      * provide the players the initial amount of resources
      */
     public void setupPlayersResources() {
-        Integer incrementalCoins = Configurator.BASE_COINS;
-        for (Player player : players) {
-            player.addResources(new Resources(incrementalCoins++, 2, 2, 3));
+        for (int i = 0; i < players.size(); i++) {
+            players.get(i).addResources(new Resources(
+                Configurator.BASE_COINS + i * Configurator.COINS_INCREMENT_PLAYER_ORDER,
+                Configurator.BASE_WOODS + i * Configurator.WOODS_INCREMENT_PLAYER_ORDER,
+                Configurator.BASE_STONES + i * Configurator.STONES_INCREMENT_PLAYER_ORDER,
+                Configurator.BASE_SERVANTS + i * Configurator.SERVANTS_INCREMENT_PLAYER_ORDER
+            ));
         }
     }
 
@@ -283,50 +244,33 @@ public class GameManager {
      * Instantiate all the game contexts at the start of the game
      */
     public void setupGameContexts() {
-
-        contexts = new ArrayList<>();
+        contexts = new EnumMap<>(ContextType.class);
         for (ContextType context : ContextType.values())
             try {
-            contexts.add(ContextFactory.getContext(context));
-            } catch (NoSuchContextException e) {
-                e.printStackTrace();
-            }
+                contexts.put(context, ContextFactory.getContext(context));
+            } catch(NoSuchContextException e) { }
 
+        contexts.forEach((type, context) -> context.setGameManager(this));
 
-        TurnContext turnContext = (TurnContext) getContextByType(ContextType.TURN_CONTEXT);
-        palaceContext = (CouncilPalaceContext) getContextByType(ContextType.COUNCIL_PALACE_CONTEXT);
-        marketContext = (MarketAreaContext) getContextByType(ContextType.MARKET_AREA_CONTEXT);
-        productionContext = (ProductionAreaContext) getContextByType(ContextType.PRODUCTION_AREA_CONTEXT);
-        harvestContext = (HarvestAreaContext) getContextByType(ContextType.HARVEST_AREA_CONTEXT);
+        /*turnContext = (TurnContext) getContextByType(ContextType.TURN_CONTEXT);
+        palaceContext = (CouncilPalaceContext) getContextByType(ContextType.COUNCIL_PALACE_CONTEXT);*/
     }
 
-
     public AbstractGameContext getContextByType(ContextType contextType) {
-        //TODO: refactor this loop
-        for (AbstractGameContext context : contexts)
-            if (context.getType() == contextType)
-                return context;
-
-        return null;
+        return this.contexts.getOrDefault(contextType, null);
     }
 
     public AbstractGameContext getContextByType(PlayerSelectableContexts contextType) {
-        //TODO: refactor this loop
-        for (AbstractGameContext context : contexts)
-            if (context.getType().equals(contextType))
-                return context;
-
-        return null;
+        return contexts.getOrDefault(contextType, null);
     }
 
     //TODO: refactor
     public List<Player>  setNewTurnOrder() {
-
         List<Player> oldPlayersOrder = players;
         List<Player> newPlayersOrder = new ArrayList<>();
-        ArrayList<FamilyMember> membersInOrder = palaceContext.getCouncilPalace().getOccupyingPawns();
+        List<FamilyMember> membersInOrder = palaceContext.getCouncilPalace().getOccupyingPawns();
 
-        /*First remove all multipe pawns associated to the same player*/
+        /*First remove all multiple pawns associated to the same player*/
         /*These inner loops do not add temporal complexity because pawns' count is negligible*/
         for(FamilyMember fm1 : membersInOrder)
             for(FamilyMember fm2 : membersInOrder)
@@ -342,14 +286,8 @@ public class GameManager {
                     oldPlayersOrder.remove(player);
                 }
         }
-        /**
-         *@param remainingPlayers that did not placed their familyMembers in councilPalace
-         */
         newPlayersOrder.addAll(oldPlayersOrder);
 
-        /**
-         * @return this is the new players order for the next round
-         */
         return newPlayersOrder;
     }
 
@@ -358,8 +296,7 @@ public class GameManager {
      * @param towers from which choose the right tower by development card type
      * @param developmentDeck from which to extract and place in the tower the cards for the new round
      */
-    public void placeNewRoundCards(List<Tower> towers, DevelopmentCardDeck<?> developmentDeck) {
-
+    public void changeCards(List<Tower> towers, DevelopmentCardDeck<?> developmentDeck) {
         Tower tower = new Tower();
         Iterator iterator  = developmentDeck.iterator();
         AbstractDevelopmentCard card;
@@ -371,22 +308,10 @@ public class GameManager {
 
         //...and now place every card in the deck until the tower's slots are full
         Integer cardStored = 0;
-        while (iterator.hasNext() && cardStored< Configurator.CARD_PER_ROUND) {
+        while (iterator.hasNext() && cardStored < Configurator.CARD_PER_ROUND) {
             card = (AbstractDevelopmentCard) iterator.next();
             tower.addCard(card);
         }
-
-    }
-    /**
-     * @param player on which to control the amount of resources he has available
-     * @param resourcesRequired to activate the exchange bonus
-     * @see it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesExchangeBonus
-     * @return if the effect is activable or not
-     */
-
-    /*Called by Game Manager only at the beginning of the game*/
-    public void setContexts(ArrayList<AbstractGameContext> contexts) {
-        this.contexts = contexts;
     }
 
     /**
@@ -394,65 +319,39 @@ public class GameManager {
      * @param cards excommunication deck from which to extract one card by period
      * @return the 3 card choosed
      */
-    public static List<ExcommunicationCard> getExcommunictionCards(List<ExcommunicationCard> cards) {
-        List<ExcommunicationCard> exCardChoosed = new ArrayList<>();
+    public static List<ExcommunicationCard> getExcommunicationCards(List<ExcommunicationCard> cards) {
+        //TODO: consider doing this in the configurator
+        List<ExcommunicationCard> selectedCards = new ArrayList<>();
+        //TODO: wrong!!
         Integer period = 1;
         for(ExcommunicationCard card : cards)
             if(card.getPeriod() == period) {
-                exCardChoosed.add(card);
+                selectedCards.add(card);
                 period++;
             }
-        return exCardChoosed; //return the 3 cards, one by period
+        return selectedCards; //return the 3 cards, one by period
     }
 
-    //TODO: this is just for testing purpose
-    public ArrayList<AbstractGameContext> getContexts() {
-        return contexts;
-    }
-
-
-    public TurnContext getTurnContext() {
-        return this.turnContext;
-    }
-    //TODO: this is just for testing purpose
-    public List<Player> getPlayers() {
-        return players;
-    }
-
-
-    //TODO: remove this testing main
-    public void run() {
-
-        /*GameManager gameManager = new GameManager();
-        gameManager.setupGameContexts();*/
-        List<TerritoryCard> territoryCards = new ArrayList<>();
-
-        this.getTurnContext().setGameManager(this);
-        this.territoryCardDeck = territoryCards;
-        this.startGame();
-    }
-
-
-    //TODO:
+    //TODO
+    //if timeout while user selects the card -> an arbitrary card is selected automatically
     public void bonusTileSelectionPhase() {
-        ArrayList<BonusTile> bonusTiles = new ArrayList<>();
+        List<BonusTile> bonusTiles = new ArrayList<>();
         //TODO: load from configurator
-        for (Player p : players) {
+        /*for (Player p : players) {
             Integer selected = getPlayerNetworkController(p).bonusTileSelection(bonusTiles);
             p.getPersonalBoard().setPersonalBonusTile(bonusTiles.get(selected));
             bonusTiles.remove(selected);
-        }
+    }*/
     }
 
     /**
      * To each player presents 4 leader at each step, from which he chooses one
      */
-
-    //TODO: se scatta timeout(stesso gestito dalla gameroom)
     //TODO: implement the steps defined in the rules to manage how leaders selection works
+    //if timeout while user selects the card -> an arbitrary card is selected automatically
     public void leaderSelectionPhase() {
         //the leadercards are only 4*#players
-        leaderCardsDeck = (ArrayList) leaderCardsDeck.subList(0, Configurator.MAX_LEADER_PER_PLAYER * players.size());
+        leaderCardsDeck = leaderCardsDeck.subList(0, Configurator.MAX_LEADER_PER_PLAYER * players.size());
 
         for (Integer i = 0; i < Configurator.MAX_LEADER_PER_PLAYER; i++) {
             for (Player p : players) {
@@ -462,13 +361,32 @@ public class GameManager {
         }
     }
 
-
     public Integer getPeriod() {
         return period;
     }
 
     public Player getCurrentPlayer() {
         return this.players.get(this.turn);
+    }
+
+    public List<Player> getPlayers() {
+        return this.players;
+    }
+
+    public List<Tower> getTowers() {
+        return this.towers;
+    }
+
+    public Market getMarket() {
+        return this.market;
+    }
+
+    public WorkingArea getProductionArea() {
+        return this.productionArea;
+    }
+
+    public WorkingArea getHarvestArea() {
+        return  this.harvestArea;
     }
 }
 

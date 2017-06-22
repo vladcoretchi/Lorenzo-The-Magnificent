@@ -29,6 +29,10 @@ public class GameRoom {
         this.timeoutThread = null;
     }
 
+    public String[] getPlayers() {
+        return this.players.keySet().toArray(new String[]{});
+    }
+
     public void addPlayer(String username, ServerNetworkController networkController) {
 
         if (this.timeoutThread != null) {

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Network;
 
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
-
 import java.io.Serializable;
 
 /**

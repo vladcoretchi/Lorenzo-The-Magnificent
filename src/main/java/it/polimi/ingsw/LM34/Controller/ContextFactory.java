@@ -20,8 +20,8 @@ public final class ContextFactory {
                 return new LeaderCardsContext();
             case ACTION_SLOT_CONTEXT:
                 return new ActionSlotContext();
-            case CURCH_REPORT_CONTEXT:
-                return new CurchReportContext();
+            case CHURCH_REPORT_CONTEXT:
+                return new ChurchReportContext();
             case END_GAME_CONTEXT:
                 return new EndGameContext();
             case HARVEST_AREA_CONTEXT:

@@ -5,7 +5,7 @@ import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.BuildingCard;
 import it.polimi.ingsw.LM34.Model.Cards.TerritoryCard;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 //TODO: REFACTOR THIS CLASS
 /*this class has the aim to aggregate what resources and cards the player have collected*/
-public class PersonalBoard {
+public class PersonalBoard implements Serializable {
     //cards
     private List<AbstractDevelopmentCard> territories = new ArrayList<AbstractDevelopmentCard>();
     private List<AbstractDevelopmentCard> characters = new ArrayList<AbstractDevelopmentCard>();

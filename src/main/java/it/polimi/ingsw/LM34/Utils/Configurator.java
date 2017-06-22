@@ -147,7 +147,7 @@ public final class Configurator {
                     bonus = new ActionSlotLimitBypass();
 
                 if (jsonBonus.optJSONObject("churchSupportBonus") != null)
-                    bonus = new ChurchSupportBonus(getResourcesBonusFromJson(jsonBonus.getJSONObject("churchSupportBonus")).getResources());
+                    bonus = new ChurchSupportBonus(getResourcesBonusFromJson(jsonBonus.getJSONObject("churchSupportBonus")));
 
                 if (jsonBonus.optJSONObject("resourcesBonus") != null)
                     bonus = getResourcesBonusFromJson(jsonBonus.getJSONObject("resourcesBonus"));

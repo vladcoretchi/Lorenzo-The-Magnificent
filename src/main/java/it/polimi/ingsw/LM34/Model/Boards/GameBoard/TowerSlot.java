@@ -2,13 +2,14 @@ package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import java.io.Serializable;
 
 /**
  * Created by Julius on 04/05/2017.
  */
 
 //general slot of the tower
-public class TowerSlot extends ActionSlot {
+public class TowerSlot extends ActionSlot implements Serializable {
 
     private AbstractDevelopmentCard cardStored;
     private Integer level;

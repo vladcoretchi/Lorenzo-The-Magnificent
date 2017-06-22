@@ -7,10 +7,10 @@ import it.polimi.ingsw.LM34.Model.Cards.VentureCard;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Utilities;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by GiulioComi on 15/05/2017.
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class EndGameContext  extends AbstractGameContext {
     List<Player> players;
-    HashMap<Player, Integer> victoryPointsToPlayers;
+    Map<Player, Integer> victoryPointsToPlayers;
 
     //TODO: all excommunication III period penalties are applied here as observers
 
@@ -43,7 +43,7 @@ public class EndGameContext  extends AbstractGameContext {
     /**
      * @return the hashmap with a correlation between players and their points earned by cards
      */
-    public HashMap<Player, Integer> onEndGameCalculatePointsByDevelopmentCardsOwned(HashMap<Player, Integer> victoryPointsByPlayer) {
+    public Map<Player, Integer> onEndGameCalculatePointsByDevelopmentCardsOwned(Map<Player, Integer> victoryPointsByPlayer) {
         //TODO
         return victoryPointsByPlayer;
     }
@@ -51,10 +51,10 @@ public class EndGameContext  extends AbstractGameContext {
     /**
      * @return the hashmap with a correlation between players and their points earned by venture cards
      */
-    public HashMap<Player, Integer> onEndCalculateVictoryPointsPerPlayerByVentureCards(HashMap<Player, Integer> victoryPointsToPlayers) {
+    public Map<Player, Integer> onEndCalculateVictoryPointsPerPlayerByVentureCards(Map<Player, Integer> victoryPointsToPlayers) {
 
         Integer totalVictoryPointsByVentureCardReward = 0;
-        ArrayList<AbstractDevelopmentCard> tempPlayerVentureCards = new ArrayList<AbstractDevelopmentCard>();
+        ArrayList<AbstractDevelopmentCard> tempPlayerVentureCards = new ArrayList<>();
         //for each player we calculate the sum of the victory points rewards provided by his venture cards stored in the personal board
 
             for (Player p : players) {
@@ -81,7 +81,7 @@ public class EndGameContext  extends AbstractGameContext {
     /**
      * @return the hashmap with a correlation between players and their points earned by number of resources
      */
-    public HashMap<Player, Integer> onEndCalculateVictoryPointsPerPlayerByResources(HashMap<Player, Integer> victoryPointsToPlayers) {
+    public Map<Player, Integer> onEndCalculateVictoryPointsPerPlayerByResources(Map<Player, Integer> victoryPointsToPlayers) {
 
         Integer totalVictoryPointsByResources = 0;
         //for each player we calculate the sum of the victory points rewards provided by his resources
@@ -97,13 +97,13 @@ public class EndGameContext  extends AbstractGameContext {
     }
 
 
-    public void interactWithPlayer(ArrayList<Player> players) {
+    public void interactWithPlayer(List<Player> players) {
         setChanged();
         notifyObservers();
 
-        onEndCalculateVictoryPointsPerPlayerByVentureCards(victoryPointsToPlayers);
+        /*onEndCalculateVictoryPointsPerPlayerByVentureCards(victoryPointsToPlayers);
         onEndCalculateVictoryPointsPerPlayerByResources(victoryPointsToPlayers);
-        players.forEach(p -> gameManager.getPlayerNetworkController(p).endGameResults(victoryPointsToPlayers));
+        players.forEach(p -> gameManager.getPlayerNetworkController(p).endGameResults(victoryPointsToPlayers));*/
         //TODO: show calculations and ranks
     }
 

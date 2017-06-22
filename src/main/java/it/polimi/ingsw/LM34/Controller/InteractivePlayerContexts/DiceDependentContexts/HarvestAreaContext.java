@@ -9,8 +9,7 @@ import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Configurator;
-
-import java.util.ArrayList;
+import java.util.List;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
 
@@ -24,7 +23,7 @@ public class HarvestAreaContext extends AbstractGameContext implements DiceDepen
 
     public HarvestAreaContext() {
         contextType = HARVEST_AREA_CONTEXT;
-        harvestArea = Configurator.getHarvestArea();
+        harvestArea = Configurator.getHarvestArea();//this.gameManager.getPlayers().size());
     }
 
     @Override
@@ -72,7 +71,7 @@ public class HarvestAreaContext extends AbstractGameContext implements DiceDepen
     }
 
     @Override
-    public ArrayList<ActionSlot> getActionSlots() {
+    public List<ActionSlot> getActionSlots() {
         return harvestArea.getActionSlots();
     }
 

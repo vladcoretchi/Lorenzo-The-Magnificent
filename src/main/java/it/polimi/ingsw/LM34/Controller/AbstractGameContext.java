@@ -3,40 +3,44 @@ package it.polimi.ingsw.LM34.Controller;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Model.Player;
-
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 /**
  * Created by GiulioComi on 17/05/2017.
  */
 public abstract class AbstractGameContext extends Observable  {
-    /*Reference Game manager*/
-    protected GameManager gameManager;
-    /*All observers subscribed to the context*/
-    protected ArrayList<AbstractGameContext> contextsToSubscribeTo;
     protected ContextType contextType;
 
+    /* Reference Game manager */
+    protected GameManager gameManager;
+
+    /* All observers subscribed to the context */
+    protected List<AbstractGameContext> contextsToSubscribeTo;
+
     /**
-     * @param player that is playing his turn and changes context as he pleases
+     * method used to send requests to the client, receive the selected actions and do stuff
      */
     public abstract void interactWithPlayer();
 
     /**
-     This list is asked by contexts in order to now to which context subscribe the effects once they are activated
+     * This list is asked by contexts in order to know to which context subscribe the effects once they are activated
      */
-    public ArrayList<AbstractGameContext> getContextsToSubscribeTo() {
+    public List<AbstractGameContext> getContextsToSubscribeTo() {
         return this.contextsToSubscribeTo;
     }
 
 
+    /**
+     * @return Context's type
+     */
     public final ContextType getType() {
         return this.contextType;
     }
 
 
     /**
-     *Kind of bridge beetwen contexts and effects, still valid widely
+     * Kind of bridge between contexts and effects, still valid widely
      * @param contextType
      * @return the reference to the context for which effects are interested in
      */

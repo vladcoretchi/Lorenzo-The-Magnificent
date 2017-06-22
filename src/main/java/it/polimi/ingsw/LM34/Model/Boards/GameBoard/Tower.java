@@ -3,7 +3,7 @@ package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,14 +11,14 @@ import java.util.List;
 //LET US USE A MATRIX FOR THE TOWER (ROWS (LEVELS)=4, COLOUMNS (TYPE OF CARD STORED)= 4)
 //TODO: HASHMAP?
 //the tower has been designed as a kind of matrix in which are stored card in the slots based on the card type and slot level
-public class Tower extends GameSpace {
+public class Tower extends GameSpace implements Serializable {
 
     //TODO: adjust this in order to know what kind of card are stored in this tower
     //TODO: add a CardColorEnum in towers?
-    DevelopmentCardColor cardColor;
+    private DevelopmentCardColor cardColor;
     private Integer level;
     private Integer coloumn;
-    public List<TowerSlot>  slots;
+    private ArrayList<TowerSlot>  slots;
 
     public Tower (DevelopmentCardColor cardColor) {
         this.cardColor = cardColor;
@@ -88,10 +88,7 @@ public class Tower extends GameSpace {
 
     public List<AbstractDevelopmentCard> getCardsStored() {
         List<AbstractDevelopmentCard> cardsStoredInTower = new ArrayList<>();
-        level = 0;
-        while (this.hasNextLevel()) {
-            cardsStoredInTower.add(this.slots.get(level).getCardStored());
-        }
+        this.slots.forEach(slot -> cardsStoredInTower.add(slot.getCardStored()));
         return cardsStoredInTower;
     }
 

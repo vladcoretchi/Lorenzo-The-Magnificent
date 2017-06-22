@@ -7,8 +7,8 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Configurator;
-
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by GiulioComi on 16/05/2017.
@@ -26,7 +26,7 @@ public class ProductionAreaContext extends AbstractGameContext implements DiceDe
     /*CONSTRUCTOR*/
     public ProductionAreaContext() {
         contextType = ContextType.PRODUCTION_AREA_CONTEXT;
-        Configurator.getProductionArea();
+        Configurator.getProductionArea();//this.gameManager.getPlayers().size());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ProductionAreaContext extends AbstractGameContext implements DiceDe
 
 
     @Override
-    public ArrayList<ActionSlot> getActionSlots() {
+    public List<ActionSlot> getActionSlots() {
         return productionArea.getActionSlots();
     }
 
