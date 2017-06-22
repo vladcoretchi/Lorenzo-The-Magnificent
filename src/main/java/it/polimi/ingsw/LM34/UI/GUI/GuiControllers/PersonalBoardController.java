@@ -1,145 +1,127 @@
 package it.polimi.ingsw.LM34.UI.GUI.GuiControllers;
 
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
-import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
-import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.UI.GUI.GuiViews.DialogInterface;
+import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Dialog;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.util.*;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.Optional;
 
-import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.*;
+public class PersonalBoardController extends Application implements DialogInterface {
+    private Parent root;
+    private PersonalBoard playerPersonalBoard;
 
-/**
- * Created by GiulioComi on 07/06/2017.
- */
-public class PersonalBoardController {
-    Parent root;
+    @FXML
+    private Group personalBoardCards;
 
-    HashMap<String, Integer> map = new HashMap<>();
-    List<AbstractDevelopmentCard> list = new ArrayList<AbstractDevelopmentCard>();
-    @FXML private HBox territories;
-    @FXML private HBox characters;
-    @FXML private HBox ventures;
-    @FXML private HBox buildings;
-    @FXML private HBox activatedLeaders;
+    public void show() {
+        try {this.start(new Stage());}
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
-    PersonalBoard personalBoard;
-
-    public void start(Stage primaryStage) throws Exception {
-        root = FXMLLoader.load(getClass().getClassLoader().getResource("views/personalBoard.fxml"));
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        double width = gd.getDisplayMode().getWidth();
-        double height = gd.getDisplayMode().getHeight();
-        primaryStage.setMaxWidth(width);
-        primaryStage.setMaxHeight(height);
-
+    @Override
+    public void start(Stage stage) throws Exception {
+        root = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource("views/personalBoard.fxml"));
+        Stage primaryStage = stage;
+        stage.setResizable(false);
+        stage.setFullScreen(false);
+        primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
+        primaryStage.setTitle("PersonalBoard - Lorenzo il Magnifico by CranioCreations");
+        primaryStage.setScene(new Scene(root, primaryStage.getWidth(), primaryStage.getHeight()));
+        primaryStage.setResizable(false);
         primaryStage.show();
+        updatePersonalBoard(playerPersonalBoard);
+        primaryStage.setOnHidden(e -> primaryStage.close());
+
     }
 
-    /*Constructor*/
-    public PersonalBoardController() {
-        personalBoard = new PersonalBoard();
+    @Override
+    public void setStyle(Dialog dialog) {
+
     }
 
-    public void control() {
-        List<AbstractDevelopmentCard> paramCards = new ArrayList<>();
-        //TODO
-        Player player = new Player("player1", PawnColor.BLUE, new PersonalBoard());
+    public void updatePersonalBoard(PersonalBoard playerPersonalBoard) {
+        Integer PERSONAL_BOARD_BUILDING_SLOTS = 6; //min 0 max 20
+        Integer ACTUALLY_PLAYER_CHARACTER_CARDS = 6; //min 0 max 20
+        Integer PERSONAL_BOARD_TERRITORIES_SLOT = 6; //min 0 max 20
+        Integer ACTUALLY_PLAYER_VENTURE_CARDS = 6; //min 0 max 20
+        Integer ACTUALLY_PLAYER_LEADER_CARDS = 5; //min 0 max 5
 
-        Optional<List<AbstractDevelopmentCard>> territoryCards = personalBoard.getDevelopmentCardsByType(GREEN);
-        Optional<List<AbstractDevelopmentCard>> charactersCards = personalBoard.getDevelopmentCardsByType(BLUE);
-        Optional<List<AbstractDevelopmentCard>> venturesCards = personalBoard.getDevelopmentCardsByType(PURPLE);
-        Optional<List<AbstractDevelopmentCard>> buildingsCards = personalBoard.getDevelopmentCardsByType(YELLOW);
-        List<LeaderCard> leaderCards = player.getActivatedLeadercards();
+        ImageView imageView;
 
-        territoryCards.ifPresent(cards -> loadDevelopmentCardsOnPersonalBoard(cards));
-        charactersCards.ifPresent(cards -> loadDevelopmentCardsOnPersonalBoard(cards));
-        buildingsCards.ifPresent(cards -> loadDevelopmentCardsOnPersonalBoard(cards));
-        venturesCards.ifPresent(cards -> loadDevelopmentCardsOnPersonalBoard(cards));
-        loadActivatedLeadersOnPersonalBoard(leaderCards);
-
-        Stream<AbstractDevelopmentCard> stream = territoryCards.orElse(Collections.emptyList()).stream();
+        /*List<AbstractDevelopmentCard> yellowCards =  playerPersonalBoard.getDevelopmentCardsByType(DevelopmentCardColor.YELLOW).get();
+        List<AbstractDevelopmentCard> greenCards = playerPersonalBoard.getDevelopmentCardsByType(DevelopmentCardColor.GREEN).get();
+        List<AbstractDevelopmentCard> purpleCards = playerPersonalBoard.getDevelopmentCardsByType(DevelopmentCardColor.PURPLE).get();
+        List<AbstractDevelopmentCard> blueCards = playerPersonalBoard.getDevelopmentCardsByType(DevelopmentCardColor.BLUE).get();*/
 
 
-         /*stream.forEach(card -> loadCardOnPersonalBoard(card));
-          ObservableList observableList = FXCollections.observableList(list);
-          observableList.addListener(new ListChangeListener() {
-              @Override
-              public void onChanged(Change change) {
-                  System.out.println("map changed");
-              }
-          });*/
-        //observableList.add(stream.)
+        //for (Integer i = 0; i < yellowCards.size(); i++)
 
-          /*stream.forEach(card -> loadCardOnPersonalBoard(card));
-          map.put("chiave", 1);
-          ObservableMap observableMap = FXCollections.observableMap(map);
-          observableMap.addListener(new MapChangeListener() {
-              @Override
-              public void onChanged(Change change) {
-                  System.out.println("map changed");
-              }
-          });
-         observableMap.put("chiave2",3);*/
-    }
+        for(Integer i = 0; i < PERSONAL_BOARD_BUILDING_SLOTS; i++) {
 
-    private void loadActivatedLeadersOnPersonalBoard(List<LeaderCard> leaderCards) {
-        ImageView tempImage = new ImageView();
-        if (leaderCards.size() > 0) {
-            for (LeaderCard card : leaderCards) {
-                tempImage = new ImageView();
-                tempImage.setFitHeight(200.0);
-                tempImage.setFitWidth(100.0);
-                tempImage.setImage(new javafx.scene.image.Image(Thread.currentThread()
-                        .getContextClassLoader().getResource("images/leaderCards/" + card.getName() + ".png").toExternalForm()));
-                tempImage.setStyle("-fx-background-color: transparent;");
+            imageView = ((ImageView) root.lookup("#personalBoard_YELLOWCard"+ i.toString()));
 
-                activatedLeaders.getChildren().add(tempImage);
-            }
+            imageView.setImage(new Image(Thread.currentThread()
+                     .getContextClassLoader().getResource("images/developmentCards/buildings/Bank.png")
+                     .toExternalForm()));
+
+            imageView.setVisible(true);
         }
-    }
 
-    //TODO
-    public void loadDevelopmentCardsOnPersonalBoard(List<AbstractDevelopmentCard> cardsOwned) {
-        DevelopmentCardColor color = cardsOwned.get(0).getColor();
-        String type = color.getDevType();
-        ImageView tempImage = new ImageView();
+        for(Integer i = 0; i < PERSONAL_BOARD_TERRITORIES_SLOT; i++) {
+            imageView = ((ImageView) root.lookup("#personalBoard_GREENCard"+ i.toString()));
 
-        for (AbstractDevelopmentCard card : cardsOwned) {
-            tempImage = new ImageView();
-            tempImage.setFitHeight(200.0);
-            tempImage.setFitWidth(100.0);
-            tempImage.setImage(new javafx.scene.image.Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/developmentCards/" + type + "/" + card.getName() + ".png").toExternalForm()));
-            tempImage.setStyle("-fx-background-color: transparent;");
+            imageView.setImage(new Image(Thread.currentThread()
+                    .getContextClassLoader().getResource("images/developmentCards/territories/Castle.png")
+                    .toExternalForm()));
 
-            getHBoxByType(color).getChildren().add(tempImage);
+            imageView.setVisible(true);
         }
-    }
 
-    public static void main(String[] args) {
-        PersonalBoardController controller = new PersonalBoardController();
-        //controller.control();
-    }
+        for(Integer i = 0; i < ACTUALLY_PLAYER_VENTURE_CARDS; i++) {
+            imageView = ((ImageView) root.lookup("#personalBoard_PURPLECard"+ i.toString()));
 
-    public HBox getHBoxByType(DevelopmentCardColor color) {
-        switch(color) {
-            case GREEN: return territories;
-            case BLUE: return characters;
-            case YELLOW: return buildings;
-            case PURPLE: return ventures;
-            default: return null; //TODO
+            imageView.setImage(new Image(Thread.currentThread()
+                    .getContextClassLoader().getResource("images/developmentCards/ventures/Building the Bastions.png")
+                    .toExternalForm()));
+
+            imageView.setVisible(true);
         }
+
+        for(Integer i = 0; i < ACTUALLY_PLAYER_CHARACTER_CARDS; i++) {
+            imageView = ((ImageView) root.lookup("#personalBoard_BLUECard"+ i.toString()));
+
+            imageView.setImage(new Image(Thread.currentThread()
+                    .getContextClassLoader().getResource("images/developmentCards/characters/Abbess.png")
+                    .toExternalForm()));
+
+            imageView.setVisible(true);
+        }
+
+        for(Integer i = 0; i < ACTUALLY_PLAYER_LEADER_CARDS; i++) {
+            imageView = ((ImageView) root.lookup("#personalBoard_LeaderCard"+ i.toString()));
+
+            imageView.setImage(new Image(Thread.currentThread()
+                    .getContextClassLoader().getResource("images/leaderCards/Bartolomeo Colleoni.png")
+                    .toExternalForm()));
+
+            imageView.setVisible(true);
+        }
+
     }
+
 }
+
