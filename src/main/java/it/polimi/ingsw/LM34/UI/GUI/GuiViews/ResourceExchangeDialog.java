@@ -39,7 +39,7 @@ public class ResourceExchangeDialog implements DialogInterface {
         ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
         //setStyle(dialog);
         dialog.setTitle("Resource Exchange");
-        dialog.setGraphic(new ImageView(Thread.currentThread().getContextClassLoader().getResource("images/servants.png").toExternalForm()));
+        dialog.setGraphic(new ImageView(Thread.currentThread().getContextClassLoader().getResource("images/resources/SERVANTS.png").toExternalForm()));
         dialog.setContentText("Choose one of the options:");
         dialog.setResizable(true);
 

@@ -1,5 +1,4 @@
 {
-  "url": "http://www.jsoneditoronline.org/?id=c9dd5d7e34c49414db2023da2f0731f8",
   "configuration": {
     "server": {
       "timeout": 120
@@ -3150,7 +3149,7 @@
             }
           },
           "bonus": {
-            "copyOtherLeaderCardBonus": true
+            "copyOtherLeader": true
           },
           "oncePerRound": false
         },
@@ -3229,7 +3228,7 @@
             }
           },
           "bonus": {
-            "noMilitaryPointsRequirementForTerritoryCards": true
+            "noMilitaryPointsRequirementForTerritory": true
           },
           "oncePerRound": false
         },

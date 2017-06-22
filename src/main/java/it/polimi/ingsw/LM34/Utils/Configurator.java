@@ -60,7 +60,6 @@ public final class Configurator {
     public static final Integer BASE_SERVANTS = 2; //#servants given to first player at game start
     public static final Integer SERVANTS_INCREMENT_PLAYER_ORDER = 0;
 
-
     private static Market market;
     private static CouncilPalace palace;
     private static List<Tower> towers;
@@ -96,7 +95,7 @@ public final class Configurator {
         print(WAITING_ROOM_TIMEOUT.toString());
 
         setupLeaderCards(jsonObject.optJSONObject("cards").optJSONArray("leaderCards"));
-        /*setupGame(jsonObject.getJSONObject("game"));
+        setupGame(jsonObject.getJSONObject("game"));
         setupPersonalTiles(jsonObject);
         setupMarket(jsonObject.optJSONObject("actionSlots").optJSONArray("market"));
         setupProductionArea(jsonObject.optJSONObject("actionSlots").optJSONArray("productionArea"));
@@ -104,7 +103,7 @@ public final class Configurator {
         setupCouncilPalace(jsonObject.optJSONObject("actionSlots").optJSONObject("councilPalace"));
         setupTowers(jsonObject.optJSONObject("actionSlots").optJSONArray("towers"));
         setupDevelopmentCards(jsonObject.optJSONObject("cards"));
-        setupExcommunicationTiles(jsonObject.optJSONObject("cards").optJSONArray("excommunicationTiles"));*/
+        setupExcommunicationTiles(jsonObject.optJSONObject("cards").optJSONArray("excommunicationTiles"));
     }
 
     private static void setupLeaderCards(JSONArray jsonLeaderCards) {
@@ -155,13 +154,13 @@ public final class Configurator {
                 if (jsonBonus.optInt("developmentCardsGoodsMultiplier") > 0)
                     bonus = new ResourcesBonus(jsonBonus.getInt("developmentCardsGoodsMultiplier"));
 
-                if (jsonBonus.optString("noMilitaryPointsRequirementForTerritory") != null)
+                if (!jsonBonus.optString("noMilitaryPointsRequirementForTerritory").isEmpty())
                     bonus = new NoMilitaryRequirementsForTerritory();
 
-                if (jsonBonus.optString("copyOtherLeader") != null)
+                if (!jsonBonus.optString("copyOtherLeader").isEmpty())
                     bonus = new CopyOtherLeader();
 
-                if (jsonBonus.optString("noOccupiedTowerTax") != null)
+                if (!jsonBonus.optString("noOccupiedTowerTax").isEmpty())
                     bonus = new NoOccupiedTowerTax();
 
                 Integer diceValue = 0;
@@ -394,7 +393,6 @@ public final class Configurator {
         for(int i = 0; i < jsonArray.length(); i++) {
             cards.add(getBuildingCardFromJson(jsonArray.optJSONObject(i)));
         }
-
         return cards;
     }
 
@@ -454,7 +452,6 @@ public final class Configurator {
         for(int i = 0; i < jsonArray.length(); i++) {
             cards.add(getVentureCardFromJson(jsonArray.optJSONObject(i)));
         }
-
         return cards;
     }
 
@@ -474,7 +471,6 @@ public final class Configurator {
             if(jsonObject.optJSONObject("requirements").optJSONObject("MILITARY_POINTS") != null) {
                 militaryPointsRequired = jsonObject.optJSONObject("requirements").optJSONObject("MILITARY_POINTS").optInt("militaryPointsRequired");
                 militaryPointsSubtraction = jsonObject.optJSONObject("requirements").optJSONObject("MILITARY_POINTS").optInt("militaryPointsSubtraction");
-
             }
 
             /***********WORKING AREA VALUE EFFECT********/
@@ -566,7 +562,7 @@ public final class Configurator {
         Integer number = tile.getInt("number");
         Integer period = tile.getInt("period");
         JSONObject jsonPenalty = tile.optJSONObject("penalty");
-        AbstractEffect penalty = null;
+        AbstractEffect penalty = new ResourcesBonus(new Resources(), 0);
 
         /******RESOURCE INCOME PENALTY******/
         if(jsonPenalty.optJSONObject("resourcesIncomePenalty") != null) {
@@ -668,13 +664,12 @@ public final class Configurator {
                 penalty = new VictoryPointsPenalty(victoryPoints, resourcesReward);
             }
 
-            if(jsonVictoryPenalty.optString("buildingCardsResources") != null) {
+            if(!jsonVictoryPenalty.optString("buildingCardsResources").isEmpty()) {
                 resourcesReward = new Resources(0,1,1,0);
 
                 penalty = new VictoryPointsPenalty(victoryPoints, resourcesReward);
              }
         }
-
         return new ExcommunicationCard(number, period, penalty);
     }
 
@@ -683,7 +678,6 @@ public final class Configurator {
         for(int i = 0; i < jsonArray.length(); i++) {
             cards.add(getCharacterCardFromJson(jsonArray.optJSONObject(i)));
         }
-
         return cards;
     }
 
@@ -739,7 +733,7 @@ public final class Configurator {
             String stringColor = new String();
             if (jsonInstantBonus != null)
                 if (jsonInstantBonus.optJSONObject("resourcesPerItemBonus") != null) {
-                    if (jsonInstantBonus.optJSONObject("resourcesPerItemBonus").optString("developmentCardColor") != null) {
+                    if (!jsonInstantBonus.optJSONObject("resourcesPerItemBonus").optString("developmentCardColor").isEmpty()) {
                         Resources resReqForItemBonus = new Resources();
 
                         if (!stringColor.isEmpty()) {
@@ -847,12 +841,14 @@ public final class Configurator {
     //MAIN WITH THE PURPOSE TO VERIFY THE CORRECT LOADING OF MODEL OBJECTS FROM FILE
     public static void main(String[] args) {
         Configurator.loadConfigs();
-
-
-
-
+        leaderCards.forEach(l -> {
+            print(l.getName());
+            print(l.getBonus());
+            print(l.getRequirements());
+        });
     }
-    private static void print(Object s) {
+    //TODO: remove before production
+    public static void print(Object s) {
         System.out.println(s.toString());
     }
 }

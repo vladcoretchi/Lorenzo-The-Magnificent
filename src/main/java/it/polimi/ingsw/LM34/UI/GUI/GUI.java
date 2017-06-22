@@ -19,7 +19,6 @@ import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
-import it.polimi.ingsw.LM34.UI.GUI.GuiControllers.PersonalBoardController;
 import it.polimi.ingsw.LM34.UI.GUI.GuiViews.*;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import it.polimi.ingsw.LM34.Utils.Configurator;
@@ -39,18 +38,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.*;
+import static it.polimi.ingsw.LM34.Enums.Model.PawnColor.BLUE;
 import static java.lang.Character.getNumericValue;
 
 /**
@@ -59,7 +57,7 @@ import static java.lang.Character.getNumericValue;
 public class GUI extends Application implements UIInterface {
     private AbstractClient networkClient;
     private ClientNetworkController networkController;
-    private PersonalBoardController personalBoardController;
+    private PersonalBoardView personalBoardView;
 
     private Parent root;
     private Stage primaryStage;
@@ -116,6 +114,27 @@ public class GUI extends Application implements UIInterface {
         //endGame();
         //familyMemberSelection();*/
 
+
+        /*List<Resources> resList = new ArrayList<>();
+        resList.add(tempRes);
+        resList.add(new Resources(3,2,1,0));
+        new UseCouncilPrivilegeDialog().interactWithPlayer(resList);*/
+
+        /*Player giacomo = new Player("giacomo", BLUE, new PersonalBoard());
+        giacomo.addResources(new Resources(4,5,1,2));
+        Player antonio = new Player("antonio", PawnColor.RED, new PersonalBoard());
+        antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
+        List<Player> players = new ArrayList<>();
+        players.add(giacomo); players.add(antonio);
+        updatePlayersData(players);
+
+        Dice orange = new Dice(ORANGE); orange.rollDice();
+        Dice black = new Dice(BLACK); orange.rollDice();
+        Dice white = new Dice(WHITE); orange.rollDice();
+        List<Dice> dices = new ArrayList<>();
+        dices.add(orange); dices.add(black); dices.add(white);
+        updateDiceValues(dices);
+
         List<Pair<Resources, ResourcesBonus>> listPairExchange = new ArrayList<>();
         Resources tempRes = new Resources(1,2,9,0);
         ResourcesBonus tempResBon = new ResourcesBonus(new Resources(), 3);
@@ -131,18 +150,26 @@ public class GUI extends Application implements UIInterface {
         resList.add(new Resources(3,2,1,0));
         new UseCouncilPrivilegeDialog().interactWithPlayer(resList);*/
 
-        /*Player giacomo = new Player("giacomo", BLUE, new PersonalBoard());
+        Player giacomo = new Player("giacomo", BLUE, new PersonalBoard());
         giacomo.addResources(new Resources(4,5,1,2));
         Player antonio = new Player("antonio", PawnColor.RED, new PersonalBoard());
         antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
         List<Player> players = new ArrayList<>();
-        players.add(giacomo); players.add(antonio);*/
-        /*Dice orange = new Dice(ORANGE); orange.rollDice();
+        players.add(giacomo); players.add(antonio);
+        Dice orange = new Dice(ORANGE); orange.rollDice();
         Dice black = new Dice(BLACK); orange.rollDice();
         Dice white = new Dice(WHITE); orange.rollDice();
         List<Dice> dices = new ArrayList<>();
         dices.add(orange); dices.add(black); dices.add(white);
-        updateDiceValues(dices);*/
+        updateDiceValues(dices);
+        List<LeaderCard> leaders = new ArrayList<>();
+        leaders.add(new LeaderCard("Sisto IV", null,null, true));
+        leaders.add(new LeaderCard("Pico Della Mirandola", null,null, true));
+        leaders.add(new LeaderCard("Giovanni Dalle Bande Nere", null,null, true));
+        leaders.add(new LeaderCard("Lucrezia Borgia", null,null, true));
+        leaders.add(new LeaderCard("Sandro Botticelli", null,null, true));
+
+        new LeaderCardsView(leaders).start(primaryStage);
     }
 
     @Override
@@ -212,12 +239,13 @@ public class GUI extends Application implements UIInterface {
             Integer indexCard = 0;
             for (AbstractDevelopmentCard card : tower.getCardsStored()) {
                 ImageView imageView = ((ImageView) root.lookup("#tower" + tower.getCardColor().toString() + "_level" + indexCard));
-                if (card != null) {
+                if(card != null) {
                     String devType = tower.getCardColor().getDevType();
                     imageView.setImage(new Image(Thread.currentThread()
                             .getContextClassLoader().getResource("images/developmentCards/" + devType + card.getName() + ".png")
                             .toExternalForm()));
-                } else {
+                }
+                else {
                     imageView.setImage(new Image(Thread.currentThread()
                             .getContextClassLoader().getResource("images/transparent.png")
                             .toExternalForm()));
@@ -235,10 +263,10 @@ public class GUI extends Application implements UIInterface {
         this.palace = councilPalace;
         StackPane palacePane = (StackPane) root.lookup("#councilPalace");
         ImageView imageView;
-        if (councilPalace.getOccupyingPawns().size() <= 0)
+        if(councilPalace.getOccupyingPawns().size() <= 0)
             palacePane.getChildren().removeAll(palacePane.getChildren());
         else
-            for (FamilyMember pawn : councilPalace.getOccupyingPawns()) {
+            for(FamilyMember pawn : councilPalace.getOccupyingPawns()) {
                 imageView = new ImageView(new Image(Thread.currentThread().getContextClassLoader().getResource("images/pawns" + pawn.getFamilyMemberColor() + ".png").toExternalForm()));
                 imageView.setTranslateX(20);
                 palacePane.getChildren().add(imageView);
@@ -266,7 +294,7 @@ public class GUI extends Application implements UIInterface {
         this.productionArea = productionArea;
         FamilyMember pawnInSingleSlot = productionArea.getSingleSlot().getFamilyMember();
         ImageView imageSingle = ((ImageView) root.lookup("#productionArea" + 0));
-        if (pawnInSingleSlot != null) {
+        if(pawnInSingleSlot != null) {
             imageSingle.setImage(new Image(Thread.currentThread()
                     .getContextClassLoader().getResource("images/pawns/" + pawnInSingleSlot.getFamilyMemberColor() + ".png")
                     .toExternalForm()));
@@ -277,9 +305,9 @@ public class GUI extends Application implements UIInterface {
 
         List<FamilyMember> pawnsInAdvancedSlot = new ArrayList<>();
         productionArea.getAdvancedSlots().forEach(s -> pawnsInAdvancedSlot.add(s.getFamilyMember()));
-        StackPane advancedSlot = (StackPane) root.lookup("#productionArea" + 1);
+        StackPane advancedSlot = (StackPane) root.lookup("#productionArea" +1);
         ImageView imageAdvanced;
-        if (pawnsInAdvancedSlot.size() <= 0)
+        if(pawnsInAdvancedSlot.size() <= 0)
             advancedSlot.getChildren().removeAll(advancedSlot.getChildren());
         else {
             for (Integer i = 0; i < pawnsInAdvancedSlot.size(); i++) {
@@ -299,7 +327,7 @@ public class GUI extends Application implements UIInterface {
         this.harvestArea = harvestArea;
         FamilyMember pawnInSingleSlot = harvestArea.getSingleSlot().getFamilyMember();
         ImageView imageSingle = ((ImageView) root.lookup("#harvestArea" + 0));
-        if (pawnInSingleSlot != null) {
+        if(pawnInSingleSlot != null) {
             imageSingle.setImage(new Image(Thread.currentThread()
                     .getContextClassLoader().getResource("images/pawns/" + pawnInSingleSlot.getFamilyMemberColor() + ".png")
                     .toExternalForm()));
@@ -313,7 +341,7 @@ public class GUI extends Application implements UIInterface {
         StackPane advancedSlot = (StackPane) root.lookup("#harvestArea" + 1);
         ImageView imageAdvanced;
 
-        if (pawnsInAdvancedSlot.size() <= 0)
+        if(pawnsInAdvancedSlot.size() <= 0)
             advancedSlot.getChildren().removeAll(advancedSlot.getChildren());
         else {
             for (Integer i = 0; i < pawnsInAdvancedSlot.size(); i++) {
@@ -364,7 +392,7 @@ public class GUI extends Application implements UIInterface {
     public void updateDiceValues(List<Dice> dicesValues) {
         Text diceSlot = new Text();
 
-        for (Dice dice : dicesValues) {
+        for(Dice dice : dicesValues) {
             diceSlot = (Text) root.lookup("#diceSlot" + dice.getColor());
             diceSlot.setText(dice.getValue().toString());
         }
@@ -418,7 +446,7 @@ public class GUI extends Application implements UIInterface {
     }
 
     public void doLogin() {
-        if (rmiChoice.isSelected() && !socketChoice.isSelected())
+        if(rmiChoice.isSelected() && !socketChoice.isSelected())
             this.networkClient = new RMIClient(SERVER_IP, RMI_PORT, this);
         else
             this.networkClient = new SocketClient(SERVER_IP, SOCKET_PORT, this);
@@ -450,7 +478,7 @@ public class GUI extends Application implements UIInterface {
         List<Node> nodes = towers.getChildren();
         for (Node node : nodes)
             if (node.getId() == source) {
-                //TODO: set image of the pawn getting it from Resource/images/..
+            //TODO: set image of the pawn getting it from Resource/images/..
                 //((ImageView) node).setImage(....getResource("images/pawns/"+ choosedPawn +".png");
             }
     }
@@ -476,27 +504,23 @@ public class GUI extends Application implements UIInterface {
         }
         /*Get the towerSlot that generated the event*/
         try {
-            for (Tower tower : towersSpaces)
-                if (tower.getCardColor().toString().equalsIgnoreCase(color)) {
-                    slotsInTower = (ArrayList<TowerSlot>) tower.getTowerSlots();
-                    for (TowerSlot slot : slotsInTower)
-                        if (slot.getLevel() == level)
-                            towerSlot = slot;
-                }
+            for(Tower tower : towersSpaces)
+            if(tower.getCardColor().toString().equalsIgnoreCase(color)) {
+                slotsInTower = (ArrayList<TowerSlot>) tower.getTowerSlots();
+                for (TowerSlot slot : slotsInTower)
+                    if (slot.getLevel() == level)
+                        towerSlot = slot;
+            }
 
             new PopupSlotBonus(event, towerSlot.getResourcesReward()).start(primaryStage);
-        } catch (Exception e) {
-            System.out.println("Finchè il server non passa le torri riempite, il PopupSlot non andrà");
-        }
+        } catch(Exception e) { System.out.println("Finchè il server non passa le torri riempite, il PopupSlot non andrà"); }
     }
 
     @FXML
     public void popupPalaceBonus(MouseEvent event) {
         try {
             new PopupSlotBonus(event, palace.getReward()).start(primaryStage);
-        } catch (Exception e) {
-            System.out.println("Finchè il server non passa le torri riempite, il PopupSlot non andrà");
-        }
+        } catch(Exception e) { System.out.println("Finchè il server non passa le torri riempite, il PopupSlot non andrà"); }
     }
 
     @FXML
@@ -528,28 +552,40 @@ public class GUI extends Application implements UIInterface {
     @FXML
     public void buyCard(MouseEvent event) {
         Image image;
-        Object source = event.getSource();
-        ImageView imageView = (ImageView) source;
+            Object source = event.getSource();
+           ImageView imageView = (ImageView) source;
         imageView.setImage(new Image(Thread.currentThread()
                 .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
     }
 
     //TODO: remove just after tests
-    public static void main(String[] args) {
+    public static void main(String [] args) {
         GUI gui = new GUI();
         gui.show();
     }
 
-    public void managePersonalBoard(MouseEvent event) {
-       Object source = event.getSource();
-       String id = ((Control) source).getId();
-       Integer numberOfPlayerPersonalBoard = getNumericValue(id.charAt(id.length()-1));
-       if(numberOfPlayerPersonalBoard > 0 && numberOfPlayerPersonalBoard <= 5) {
-           this.personalBoardController = new PersonalBoardController();
-           this.personalBoardController.show();
-           return;
-       }
+            //#############################################################################################################################
 
-   }
+    //test setVisible of personalBoard
+
+    @FXML private ScrollPane personalBoard;
+
+    //TODO: use real number of current player
+    Integer numberOfCurrentPlayers = 5;
+    public void managePersonalBoard(MouseEvent event) {
+        Object source = event.getSource();
+        String id = ((Control)source).getId();
+        Integer numberOfPlayerPersonalBoard = getNumericValue(id.charAt(id.length() - 1));
+
+        if(numberOfPlayerPersonalBoard > 0 && numberOfPlayerPersonalBoard <= numberOfCurrentPlayers) {
+            System.out.println("this is player " + numberOfPlayerPersonalBoard.toString() + " personalBoard");
+            personalBoard.setVisible(true);
+            return;
+        }
+        personalBoard.setVisible(false);
+
+    }
+
+    //#############################################################################################################################
 
 }

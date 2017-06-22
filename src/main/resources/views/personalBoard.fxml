@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
 <!--<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox prefHeight="400.0" prefWidth="250.0">
@@ -80,9 +77,12 @@
    </children>
 </AnchorPane>-->
 
+<!-- layoutY="247" layoutX="206" prefWidth="881.5" prefHeight="501" stylesheets="@../css/personalBoard.css" -->
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.Group?> <!-- layoutY="247" layoutX="206" prefWidth="881.5" prefHeight="501" stylesheets="@../css/personalBoard.css" -->
-<AnchorPane minWidth="-Infinity" minHeight="-Infinity" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="970" prefHeight="1235.8" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.LM34.UI.GUI.GuiControllers.PersonalBoardController">
+<?import javafx.scene.Group?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane minWidth="-Infinity" minHeight="-Infinity" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="970" prefHeight="1235.8" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.LM34.UI.GUI.GuiViews.PersonalBoardView">
     <children>
         <ScrollPane vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED" minWidth="-Infinity" minHeight="-Infinity" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="970" prefHeight="1235.8" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <Group fx:id="personalBoardCards">

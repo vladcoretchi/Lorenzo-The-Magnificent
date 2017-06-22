@@ -1,8 +1,5 @@
 package it.polimi.ingsw.LM34.Utils;
 
-/**
- * Created by GiulioComi on 30/05/2017.
- */
 
 import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;

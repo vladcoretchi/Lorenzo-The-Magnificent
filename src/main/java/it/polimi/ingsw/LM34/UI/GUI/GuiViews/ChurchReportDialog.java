@@ -18,10 +18,9 @@ public class ChurchReportDialog implements DialogInterface {
 
     public Boolean interactWithPlayer() {
         Boolean result;
-        Alert excommunicationChoice = new Alert(Alert.AlertType.NONE, "Curch Report",ButtonType.OK, ButtonType.NO);
-        excommunicationChoice.setTitle("Confirmation Dialog");
-        excommunicationChoice.setHeaderText("This is a Custom Confirmation Dialog");
-        excommunicationChoice.setContentText("We override the style classes of the dialog");
+        Alert excommunicationChoice = new Alert(Alert.AlertType.NONE, "Curch Support",ButtonType.OK, ButtonType.NO);
+        excommunicationChoice.setTitle("Church Support");
+        excommunicationChoice.setHeaderText("Church Support Decision");
         excommunicationChoice.setContentText("Would you like to be excommunicated?");
         //DialogPane dialogPane = excommunicationChoice.getDialogPane();
         //dialogPane.getStylesheets().add(ChurchReportDialog.class.getResource("/css/curchReportDialog.css").toExternalForm());
