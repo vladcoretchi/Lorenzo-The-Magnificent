@@ -95,7 +95,8 @@ public final class Configurator {
         WAITING_ROOM_TIMEOUT = jsonObject.getJSONObject("server").getInt("timeout");
         print(WAITING_ROOM_TIMEOUT.toString());
 
-        setupGame(jsonObject.getJSONObject("game"));
+        setupLeaderCards(jsonObject.optJSONObject("cards").optJSONArray("leaderCards"));
+        /*setupGame(jsonObject.getJSONObject("game"));
         setupPersonalTiles(jsonObject);
         setupMarket(jsonObject.optJSONObject("actionSlots").optJSONArray("market"));
         setupProductionArea(jsonObject.optJSONObject("actionSlots").optJSONArray("productionArea"));
@@ -103,8 +104,7 @@ public final class Configurator {
         setupCouncilPalace(jsonObject.optJSONObject("actionSlots").optJSONObject("councilPalace"));
         setupTowers(jsonObject.optJSONObject("actionSlots").optJSONArray("towers"));
         setupDevelopmentCards(jsonObject.optJSONObject("cards"));
-        setupLeaderCards(jsonObject.optJSONObject("cards").optJSONArray("leaderCards"));
-        setupExcommunicationTiles(jsonObject.optJSONObject("cards").optJSONArray("excommunicationTiles"));
+        setupExcommunicationTiles(jsonObject.optJSONObject("cards").optJSONArray("excommunicationTiles"));*/
     }
 
     private static void setupLeaderCards(JSONArray jsonLeaderCards) {
@@ -117,90 +117,97 @@ public final class Configurator {
         Map<DevelopmentCardColor, Integer> cardRequirements = new HashMap<>();
 
         /**Prepare each LeaderCard**/
-        for(Integer index = 0; index < jsonLeaderCards.length(); index++) {
-            JSONArray cardsReq = jsonLeaderCards.getJSONObject(index).getJSONObject("leaderRequirements").getJSONArray("cardRequirements");
+        for (Integer index = 0; index < jsonLeaderCards.length(); index++) {
             name = jsonLeaderCards.getJSONObject(index).getString("leaderName");
             oncePerRound = jsonLeaderCards.getJSONObject(index).getBoolean("oncePerRound");
+            JSONArray cardsReq = new JSONArray();
 
-            /**Retrieve the quantity of specific card colors the player needs to have for activate the leader**/
-            for (Integer k = 0; k < cardsReq.length(); k++) {
-                if(cardsReq.getJSONObject(k).getString("developmentCardColor") != null) {
-                cardRequirements.put(getCardTypeFromJson(cardsReq.getJSONObject(k).getString("developmentCardColor")),
-                                    cardsReq.getJSONObject(k).getInt("number"));
+            if(jsonLeaderCards.getJSONObject(index).getJSONObject("leaderRequirements").optJSONArray("cardRequirements") != null) {
+                cardsReq = jsonLeaderCards.getJSONObject(index).getJSONObject("leaderRequirements").getJSONArray("cardRequirements");
+
+
+                /**Retrieve the quantity of specific card colors the player needs to have for activate the leader**/
+                for (Integer k = 0; k < cardsReq.length(); k++) {
+                    if (!cardsReq.getJSONObject(k).getString("developmentCardColor").isEmpty()) {
+                        cardRequirements.put(getCardTypeFromJson(cardsReq.getJSONObject(k).getString("developmentCardColor")),
+                                cardsReq.getJSONObject(k).getInt("number"));
+                    }
                 }
 
+                /**Extract the Requirements for activating the leader**/
+                if (jsonLeaderCards.getJSONObject(index).getJSONObject("leaderRequirements").optJSONObject("resourcesRequirements") != null)
+                    resRequirements = getResourcesBonusFromJson(jsonLeaderCards.getJSONObject(index).optJSONObject("leaderRequirements").getJSONObject("resourcesRequirements")).getResources();
             }
-            /**Extract the Requirements for activating the leader**/
-            if(jsonLeaderCards.getJSONObject(index).getJSONObject("leaderRequirements").getJSONObject("resources") != null)
-                resRequirements = getResourcesBonusFromJson(cardsReq.getJSONObject(index).getJSONObject("leaderRequirements")).getResources();
-
             /**Store the bonus in the LeaderCard*/
             JSONObject jsonBonus;
-            if(jsonLeaderCards.getJSONObject(index).getJSONObject("bonus") != null) {
+            if (jsonLeaderCards.optJSONObject(index).getJSONObject("bonus") != null) {
                 jsonBonus = jsonLeaderCards.getJSONObject(index).getJSONObject("bonus");
 
-            if(jsonBonus.getJSONObject("actionSlotLimitBypass") != null)
-                bonus = new ActionSlotLimitBypass();
+                if (jsonBonus.optJSONObject("actionSlotLimitBypass") != null)
+                    bonus = new ActionSlotLimitBypass();
 
-            if(jsonBonus.getJSONObject("churchSupportBonus") != null)
-                bonus = new ChurchSupportBonus(getResourcesBonusFromJson(jsonBonus.getJSONObject("churchSupportBonus")).getResources());
+                if (jsonBonus.optJSONObject("churchSupportBonus") != null)
+                    bonus = new ChurchSupportBonus(getResourcesBonusFromJson(jsonBonus.getJSONObject("churchSupportBonus")).getResources());
 
-            if(jsonBonus.getJSONObject("resourcesBonus") != null)
-                bonus = getResourcesBonusFromJson(jsonBonus.getJSONObject("resourcesBonus"));
+                if (jsonBonus.optJSONObject("resourcesBonus") != null)
+                    bonus = getResourcesBonusFromJson(jsonBonus.getJSONObject("resourcesBonus"));
 
-            if(jsonBonus.getInt("developmentCardsGoodsMultiplier") > 0)
-                bonus = new ResourcesBonus(jsonBonus.getInt("developmentCardsGoodsMultiplier"));
+                if (jsonBonus.optInt("developmentCardsGoodsMultiplier") > 0)
+                    bonus = new ResourcesBonus(jsonBonus.getInt("developmentCardsGoodsMultiplier"));
 
-            if(jsonBonus.getString("noMilitaryPointsRequirementForTerritory")!= null)
-                bonus = new NoMilitaryRequirementsForTerritory();
+                if (jsonBonus.optString("noMilitaryPointsRequirementForTerritory") != null)
+                    bonus = new NoMilitaryRequirementsForTerritory();
 
-            if(jsonBonus.getString("copyOtherLeader")!= null)
-                bonus = new CopyOtherLeader();
+                if (jsonBonus.optString("copyOtherLeader") != null)
+                    bonus = new CopyOtherLeader();
 
-            if(jsonBonus.getString("noOccupiedTowerTax")!= null)
-                bonus = new NoOccupiedTowerTax();
+                if (jsonBonus.optString("noOccupiedTowerTax") != null)
+                    bonus = new NoOccupiedTowerTax();
 
-            Integer diceValue = 0;
-            String areaType;
-            ContextType workingAreaType;
+                Integer diceValue = 0;
+                String areaType;
+                ContextType workingAreaType;
 
-            if(jsonBonus.getString("workingAreaValueEffect")!= null) {
-                diceValue = jsonBonus.optJSONObject("workingAreaValueEffect").getInt("diceValue");
-                areaType = jsonBonus.optJSONObject("workingAreaValueEffect").optString("workingAreaType");
-                if (areaType.equalsIgnoreCase("PRODUCTION"))
-                    workingAreaType = ContextType.PRODUCTION_AREA_CONTEXT;
-                else
-                    workingAreaType = ContextType.HARVEST_AREA_CONTEXT;
+                if (!jsonBonus.optString("workingAreaValueEffect").isEmpty()) {
+                    diceValue = jsonBonus.optJSONObject("workingAreaValueEffect").optInt("diceValue");
+                    areaType = jsonBonus.optJSONObject("workingAreaValueEffect").optString("workingAreaType");
+                    if (areaType.equalsIgnoreCase("PRODUCTION"))
+                        workingAreaType = ContextType.PRODUCTION_AREA_CONTEXT;
+                    else
+                        workingAreaType = ContextType.HARVEST_AREA_CONTEXT;
 
-                bonus = new WorkingAreaValueEffect(workingAreaType, diceValue, false);
-            }
-
-            //**Family Member Value Effect**/
-            JSONArray familyEffects = new JSONArray();
-            List<DiceColor> diceColors = new ArrayList<>();
-            Integer diceTempValue = 0;
-            Boolean relative = false;
-            if(jsonBonus.getJSONArray("familyMemberValueEffect") != null) {
-                familyEffects = jsonBonus.getJSONArray("familyMemberValueEffect");
-                for (Integer j = 0; j < jsonBonus.getJSONArray("familyMemberValueEffect").length(); j++) {
-                    diceColors.add(getDiceColorFromJson(familyEffects.getJSONObject(j).getString("diceColor")));
-                    diceTempValue = familyEffects.getJSONObject(j).getInt("diceValue");
-                    relative = familyEffects.getJSONObject(j).getBoolean("relative");
+                    bonus = new WorkingAreaValueEffect(workingAreaType, diceValue, false);
                 }
 
-                bonus = new FamilyMemberValueEffect(diceColors, diceTempValue, relative);
+                /**Family Member Value Effect**/
+                JSONArray familyEffects = new JSONArray();
+                List<DiceColor> diceColors = new ArrayList<>();
+                Integer diceTempValue = 0;
+                Boolean relative = false;
+                if (jsonBonus.optJSONArray("familyMemberValueEffect") != null) {
+                    familyEffects = jsonBonus.getJSONArray("familyMemberValueEffect");
+                    for (Integer j = 0; j < jsonBonus.getJSONArray("familyMemberValueEffect").length(); j++) {
+                        diceColors.add(getDiceColorFromJson(familyEffects.getJSONObject(j).getString("diceColor")));
+                        diceTempValue = familyEffects.getJSONObject(j).getInt("diceValue");
+                        relative = familyEffects.getJSONObject(j).optBoolean("relative");
+                    }
+
+                    bonus = new FamilyMemberValueEffect(diceColors, diceTempValue, relative);
+                }
+
+                /**Development Card Acquire Effect**/
+                JSONObject cardAquire = new JSONObject();
+                DevelopmentCardColor cardColor;
+                Resources cardDiscount = new Resources();
+                if (jsonBonus.optJSONArray("developmentCardAcquireEffect") != null) {
+                    cardAquire = jsonBonus.getJSONObject("developmentCardAcquireEffect");
+                    cardColor = getCardTypeFromJson(cardAquire.getString("developmentCardColor"));
+                    cardDiscount = getResourcesBonusFromJson(cardAquire.getJSONObject("requirementsDiscount")).getResources();
+                }
             }
-            //TODO: developmentCardAcquireEffect
-
-            }
-
-
-
-
-            leaderCards.add(new LeaderCard(name, new LeaderRequirements(resRequirements, cardRequirements) , bonus, oncePerRound));
+                leaderCards.add(new LeaderCard(name, new LeaderRequirements(resRequirements, cardRequirements), bonus, oncePerRound));
         }
     }
-
     private static DiceColor getDiceColorFromJson(String diceColor) {
         for(DiceColor color : DiceColor.values())
             if(color.toString().equalsIgnoreCase(diceColor))
@@ -839,6 +846,9 @@ public final class Configurator {
 
     //MAIN WITH THE PURPOSE TO VERIFY THE CORRECT LOADING OF MODEL OBJECTS FROM FILE
     public static void main(String[] args) {
+        Configurator.loadConfigs();
+
+
 
 
     }
