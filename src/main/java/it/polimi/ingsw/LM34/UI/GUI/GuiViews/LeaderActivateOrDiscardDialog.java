@@ -1,5 +1,7 @@
 package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
+import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Utils.Configurator;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -18,8 +20,8 @@ public LeaderActivateOrDiscardDialog(String leaderName) {
 
     public String interactWithPlayer() {
         String decision;
-        ButtonType activate = new ButtonType("Activate");
-        ButtonType discard = new ButtonType("Discard");
+        ButtonType activate = new ButtonType(LeaderCardsAction.PLAY.toString());
+        ButtonType discard = new ButtonType(LeaderCardsAction.DISCARD.toString());
         Alert actionChoice = new Alert(Alert.AlertType.NONE, "Activate or Discard Leader", activate, discard);
         actionChoice.setTitle("Leader Action Dialog");
         actionChoice.setHeaderText("Activate or Discard");
@@ -27,10 +29,11 @@ public LeaderActivateOrDiscardDialog(String leaderName) {
         Optional<ButtonType> choice = actionChoice.showAndWait();
 
         if(choice.get() == activate)
-            decision = activate.toString();
+            decision = activate.getText().toString();
         else
-            decision = discard.toString();
+            decision = discard.getText().toString();
 
+        Configurator.print(decision);
         return decision;
     }
 

@@ -30,11 +30,12 @@ public class LeaderCardsView implements DialogInterface {
     }
 
     public void start(Stage primaryStage) throws Exception {
-
+        Stage stage = new Stage();
         HBox leaderList = new HBox();
         leaderList.setSpacing(10);
         leaderList.setStyle("-fx-background-color: transparent;");
         ImageView tempImage = new ImageView();
+        String decision;
 
         for (LeaderCard leader : leadersOwned) {
          /*---ADD AS IMAGE---*/
@@ -47,7 +48,9 @@ public class LeaderCardsView implements DialogInterface {
                 tempImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                       new LeaderActivateOrDiscardDialog(leader.getName()).interactWithPlayer();
+                        new LeaderActivateOrDiscardDialog(leader.getName()).interactWithPlayer();
+
+                        stage.close();
                     }
                 });
 
@@ -56,7 +59,6 @@ public class LeaderCardsView implements DialogInterface {
         }
 
        /****Prepare the stage and scene****/
-        Stage stage = new Stage();
         Scene scene = new Scene(leaderList);
         scene.setFill(Color.TRANSPARENT);
         stage.initModality(Modality.NONE);

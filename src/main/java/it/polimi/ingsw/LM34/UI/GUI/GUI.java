@@ -423,7 +423,7 @@ public class GUI extends Application implements UIInterface {
         return new ResourceExchangeDialog().interactWithPlayer(choices);
     }
 
-    //TODO
+    //TODO: return pair<leaderName, actionType?
     @Override
     public Integer leaderCardSelection(List<LeaderCard> leaderCards, LeaderCardsAction action) {
         return null;
