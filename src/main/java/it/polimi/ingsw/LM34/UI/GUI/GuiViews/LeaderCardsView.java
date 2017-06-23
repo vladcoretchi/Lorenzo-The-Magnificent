@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
+import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -20,12 +21,11 @@ import java.util.List;
  * Created by GiulioComi on 07/06/2017.
  */
 public class LeaderCardsView implements DialogInterface {
-    //TODO: discard
-
-    //activate card
+    String decision;
     List<LeaderCard> leadersOwned;
 
     public LeaderCardsView(List<LeaderCard> leadersOwned) {
+        decision = new String();
         this.leadersOwned = leadersOwned;
     }
 
@@ -35,7 +35,6 @@ public class LeaderCardsView implements DialogInterface {
         leaderList.setSpacing(10);
         leaderList.setStyle("-fx-background-color: transparent;");
         ImageView tempImage = new ImageView();
-        String decision;
 
         for (LeaderCard leader : leadersOwned) {
          /*---ADD AS IMAGE---*/
@@ -48,7 +47,7 @@ public class LeaderCardsView implements DialogInterface {
                 tempImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        new LeaderActivateOrDiscardDialog(leader.getName()).interactWithPlayer();
+                        getResult(leader.getName());
 
                         stage.close();
                     }
@@ -66,12 +65,20 @@ public class LeaderCardsView implements DialogInterface {
         stage.initOwner(primaryStage);
         stage.setFullScreen(false);
         stage.setScene(scene);
-
         stage.show();
     }
 
     @Override
     public void setStyle(Dialog dialog) {
 
+    }
+
+    public LeaderCardsAction getResult(String leaderName) {
+        decision = new LeaderActivateOrDiscardDialog(leaderName).interactWithPlayer();
+
+        if (LeaderCardsAction.PLAY.toString().equalsIgnoreCase(decision))
+            return LeaderCardsAction.PLAY;
+        else
+            return LeaderCardsAction.DISCARD;
     }
 }

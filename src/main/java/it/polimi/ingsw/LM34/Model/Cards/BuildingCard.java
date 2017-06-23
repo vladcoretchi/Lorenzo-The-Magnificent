@@ -44,6 +44,4 @@ public class BuildingCard extends AbstractDevelopmentCard {
     public String getName() {
         return name;
     }
-
-
 }

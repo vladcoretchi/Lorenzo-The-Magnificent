@@ -2,10 +2,12 @@ package it.polimi.ingsw.LM34.UI.CLI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Enums.UI.NetworkType;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Dice;
@@ -19,6 +21,7 @@ import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.UI.UIInterface;
+import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 import it.polimi.ingsw.LM34.Utils.Validator;
 import org.apache.commons.lang3.tuple.Pair;
@@ -34,6 +37,15 @@ import static it.polimi.ingsw.LM34.UI.CLI.CLIStuff.*;
 public class CLI implements UIInterface {
     private AbstractClient networkClient;
     private ClientNetworkController networkController;
+
+    private List<Tower> towersSpaces;
+    private WorkingArea productionArea;
+    private WorkingArea harvestArea;
+    private Market market;
+    private CouncilPalace palace;
+    private List<ExcommunicationCard> excommunicationCards;
+    private List<Player> players;
+    private List<Dice> dices;
 
     private Integer selectionMenu(List<?> data, Optional<String> backString, Optional<String> message, Optional<String> errorMessage) {
         Integer userSelection;
@@ -100,47 +112,64 @@ public class CLI implements UIInterface {
 
     @Override
     public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
-
+        this.excommunicationCards = excommunicationCards;
     }
 
     @Override
     public void updateTowers(List<Tower> towers) {
-
+        this.towersSpaces = towers;
     }
 
     @Override
     public void updateCouncilPalace(CouncilPalace councilPalace) {
-
+        this.palace = councilPalace;
     }
 
     @Override
     public void updateMarket(Market market) {
-
+        this.market = market;
     }
 
     @Override
     public void updateProductionArea(WorkingArea productionArea) {
+        this.productionArea = productionArea;
 
     }
 
     @Override
     public void updateHarvestArea(WorkingArea harvestArea) {
-
+        this.harvestArea = harvestArea;
     }
 
     @Override
     public void updatePlayersData(List<Player> players) {
-
+        players = new ArrayList<>();
+        this.players = players;
     }
 
     @Override
     public void updateDiceValues(List<Dice> dicesValues) {
-
+        this.dices = dicesValues;
     }
 
     @Override
     public void endGame(List<Player> players) {
+        Integer maxVictoryPointsScored = 0;
+        Integer playerPoints = 0;
+        String winnerName= new String();
+        players.forEach(player -> {
+            System.out.println(player.getPlayerName() + " has totalized " + player.getResources().getResourceByType(ResourceType.VICTORY_POINTS) + " victory points.");
+        });
 
+        for(Player player : players) {
+            playerPoints = player.getResources().getResourceByType(ResourceType.VICTORY_POINTS);
+            if (playerPoints > maxVictoryPointsScored) {
+                maxVictoryPointsScored = playerPoints;
+                winnerName = player.getPlayerName();
+
+            }
+        }
+        System.out.println("And... the winner is " + winnerName);
     }
 
     @Override
@@ -261,9 +290,20 @@ public class CLI implements UIInterface {
         printFormat("|%1$s|\n", String.join("|", Collections.nCopies(slotsResources.size(), "__________")));
 
         //TODO: print dice value requirements
-        //TODO: player input
 
-        return 0;
+        String input = new String();
+        Integer choice = 0;
+
+        try {
+            input = readUserInput.nextLine();
+            choice = Integer.parseInt(input);
+            Validator.checkValidity(choice.toString());
+        }
+        catch (Exception e) {
+            marketSlotSelection(market);
+        }
+
+        return choice;
 
         /*Integer playerChosenFamilyMember;
         Integer playerChosenFamilyMemberValue;
@@ -435,8 +475,8 @@ public class CLI implements UIInterface {
      * @return which bonus the player has chosen
      */
     public Integer councilPalace(Player player) {
-
-        Integer selectedFamilyMember;
+        String input = new String();
+        Integer selectedFamilyMember = 0;
         Integer chosenFamilyMemberValue;
         Integer servantsAvailable = player.getResources().getResourceByType(ResourceType.SERVANTS);
         Integer usedServants;
@@ -445,10 +485,13 @@ public class CLI implements UIInterface {
 
         do {
             CLIStuff.printToConsole.println("which family member do you wish to use? ");
-            selectedFamilyMember = readUserInput.nextInt();
+            player.getFamilyMembers().forEach(f -> System.out.println(f.getDiceColorAssociated()));
 
+            input = readUserInput.nextLine();
             try {
-                Validator.checkValidity(selectedFamilyMember.toString());
+                Validator.checkValidity(input);
+                selectedFamilyMember = Integer.parseInt(input);
+                Validator.checkValidity(selectedFamilyMember.toString(), player.getFamilyMembers());
                 validUserInput = true;
             }
             catch (IncorrectInputException ex) {
@@ -459,15 +502,14 @@ public class CLI implements UIInterface {
 
             chosenFamilyMemberValue = player.getFamilyMembers().get(selectedFamilyMember).getValue();
 
-            if(chosenFamilyMemberValue < 1) {
+            //if(chosenFamilyMemberValue < 1) {
 
                 usedServants = servantsSelection(servantsAvailable, 1);
 
-            }
 
         //print councilPalace
 
-            validUserInput = false;
+            /*validUserInput = false;
 
             do {
                 CLIStuff.printToConsole.println("which CouncilPrivilege bonus do you wish to take? ");
@@ -483,7 +525,7 @@ public class CLI implements UIInterface {
             }
             while(!validUserInput);
 
-        return selectedCouncilPrivilegeBonus;
+        return selectedCouncilPrivilegeBonus;*/
 
     }
 
@@ -535,7 +577,6 @@ public class CLI implements UIInterface {
         towerAndItsFloor = tower.toString() + ":" + floor.toString();
 
         return towerAndItsFloor;
-
     }
 
     /**
@@ -546,42 +587,114 @@ public class CLI implements UIInterface {
      */
     @Override
     public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
-
-        Integer usedServants;
+        String input = new String();
+        Integer usedServants = 0;
 
         do {
-
             CLIStuff.printToConsole.println("to complete this action, you need at least " + minimumServantsRequested.toString() + "servants, and max " + servantsAvailable.toString() + " servants ");
             CLIStuff.printToConsole.println("how many servants do you want to use? ");
-            usedServants = readUserInput.nextInt();
+
+            try {
+                input = readUserInput.nextLine();
+                usedServants = Integer.parseInt(input);
+                Validator.checkValidity(usedServants.toString());
+            } catch (Exception e) {
+                servantsSelection(servantsAvailable, minimumServantsRequested);
+            }
         }
-        while(((usedServants + servantsAvailable) < minimumServantsRequested) || usedServants > servantsAvailable);
+        while((usedServants < minimumServantsRequested) || usedServants > servantsAvailable);
 
+        Configurator.print("used servants" + usedServants);
         return usedServants;
-
     }
 
     @Override
     public Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices) {
-        return null;
+        String input = new String();
+        Integer choice = 0;
+        choices.forEach(c -> {
+            System.out.println("Resources required: " + c.getLeft().getResources().toString() + "---> Resources provided:" + c.getRight().getResources().getResources().toString() + ", CouncilPrivilege provided: " + c.getRight().getCouncilPrivilege());
+        });
+
+        try {
+            input = readUserInput.nextLine();
+            choice = Integer.parseInt(input);
+            Validator.checkValidity(choice.toString());
+        }
+        catch (Exception e) {
+            resourceExchangeSelection(choices);
+        }
+
+        return choice;
     }
 
     @Override
     public Integer leaderCardSelection(List<LeaderCard> leaderCards, LeaderCardsAction action) {
-        return null;
+        LeaderCardsAction actionChoiced;
+        String input = new String();
+        Integer choice = 0;
+
+        System.out.println("Choice to Play or Discard Leader");
+        input = readUserInput.nextLine();
+        //TODO: complete this
+        if(input.equalsIgnoreCase(LeaderCardsAction.PLAY.toString()))
+            actionChoiced = LeaderCardsAction.PLAY;
+        else if (input.equalsIgnoreCase(LeaderCardsAction.DISCARD.toString()))
+        actionChoiced = LeaderCardsAction.DISCARD;
+        else
+            leaderCardSelection(leaderCards, action);
+
+        leaderCards.forEach(l -> System.out.println("Leader name: " + l.getName()));
+
+        try {
+            input = readUserInput.nextLine();
+            choice = Integer.parseInt(input);
+            Validator.checkValidity(choice.toString());
+        }
+        catch (Exception e) {
+            leaderCardSelection(leaderCards, action);
+        }
+
+        return choice;
     }
 
     @Override
     public Boolean churchSupport() {
-        return null;
+        String input = new String();
+        Boolean choice = false;
+        System.out.println("Do you want to Support the Church?");
+
+        input = readUserInput.nextLine();
+
+        if(input.equalsIgnoreCase("true"))
+            choice = true;
+        else if (input.equalsIgnoreCase("false"))
+            choice = false;
+        else
+            churchSupport();
+
+        return choice;
     }
 
     @Override
     public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
-        return null;
+        String input = new String();
+        Integer choice = 0;
+        System.out.println("Choose the reward you desire:");
+        availableBonuses.forEach(b -> System.out.println(b.getResources()));
+        try {
+            input = readUserInput.nextLine();
+            choice = Integer.parseInt(input);
+            Validator.checkValidity(choice.toString());
+        }
+        catch (Exception e) {
+            selectCouncilPrivilegeBonus(availableBonuses);
+        }
+
+        return choice;
     }
 
-    public void printTowers(ArrayList<Tower> towers) {
+    public void printTowers(List<Tower> towers) {
 
         String cardName = "support to the pope";
         Integer valueOfInstantResourceBonus = 1; //to be determine according to tower`s floor
@@ -602,9 +715,31 @@ public class CLI implements UIInterface {
      * this method will be called when the console will print gameBoard on screen
      */
     public void printGameBoard() {
-        //TODO
+        //TODO: remove
     }
 
-
-
+    public static void main (String[] args) {
+        Configurator.loadConfigs();
+        List<Tower> towers = Configurator.getTowers();
+        Market market = Configurator.getMarket();
+        CLI cli = new CLI();
+        cli.market = market;
+        //cli.printTowers(towers);
+        //cli.marketSlotSelection(market);
+        //cli.selectCouncilPrivilegeBonus(Configurator.getCouncilPrivilegeRewards());
+        /*List<Pair<Resources, ResourcesBonus>> resExc = new ArrayList<>();
+        resExc.add(new ImmutablePair(new Resources(3,4,3,9), new ResourcesBonus(new Resources(3,3,3,2), 3)));
+        //cli.resourceExchangeSelection(resExc);*/
+        //cli.leaderCardSelection(Configurator.getLeaderCards(4), LeaderCardsAction.DISCARD);
+        //cli.churchSupport();
+        //cli.servantsSelection(4,2);
+        /*List<Player> players = new ArrayList<>();
+        Player giacomo = new Player("giacomo", BLUE, new PersonalBoard());
+        giacomo.addResources(new Resources(4,5,1,2));*/
+        Player antonio = new Player("antonio", PawnColor.RED, new PersonalBoard());
+        antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
+        /*players.add(giacomo); players.add(antonio);*/
+        //cli.endGame(players);
+        cli.councilPalace(antonio);
+    }
 }

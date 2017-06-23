@@ -20,7 +20,6 @@ public class PersonalBoardView extends Application implements DialogInterface {
     @FXML
     private Group personalBoardCards;
 
-
     public PersonalBoardView(Player player) {
         this.playerPersonalBoard = player.getPersonalBoard();
     }
@@ -121,8 +120,6 @@ public class PersonalBoardView extends Application implements DialogInterface {
 
             imageView.setVisible(true);
         }
-
     }
-
 }
 

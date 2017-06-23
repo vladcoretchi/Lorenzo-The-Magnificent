@@ -92,7 +92,6 @@ public final class Configurator {
 
         /****GameRoom Timeout****/
         WAITING_ROOM_TIMEOUT = jsonObject.getJSONObject("server").getInt("timeout");
-        print(WAITING_ROOM_TIMEOUT.toString());
 
         setupLeaderCards(jsonObject.optJSONObject("cards").optJSONArray("leaderCards"));
         setupGame(jsonObject.getJSONObject("game"));
@@ -812,6 +811,10 @@ public final class Configurator {
     public static DevelopmentCardDeck<BuildingCard> getBuildingCards() {
         return new DevelopmentCardDeck<>(buildingCards);
     }
+
+    public static List<BuildingCard> getBuildingCardsList() {
+        return buildingCards;
+    }
     public static DevelopmentCardDeck<CharacterCard> getCharactersCards() {
         return new DevelopmentCardDeck<>(characterCards);
     }
@@ -836,6 +839,11 @@ public final class Configurator {
 
     public static WorkingArea getProductionArea() {
         return productionArea;
+    }
+
+
+    public static List<Resources> getCouncilPrivilegeRewards() {
+        return councilPrivilegeRewards;
     }
 
     //MAIN WITH THE PURPOSE TO VERIFY THE CORRECT LOADING OF MODEL OBJECTS FROM FILE

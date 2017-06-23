@@ -58,9 +58,13 @@ public final class Validator {
 
     /*Validate Number type inputs*/
     public static final void checkValidity(String input) throws IncorrectInputException {
-        if(Integer.parseInt(input) < 0)
+        try {
+            Integer.parseInt(input);
+        } catch(Exception e) {
             throw new IncorrectInputException();
+        }
     }
+
 
     /*Validate Number type inputs*/
     public static final void checkValidity(Integer input, Integer max) throws IncorrectInputException {

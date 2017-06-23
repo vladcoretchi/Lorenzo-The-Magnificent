@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 //TODO: apply Singleton design pattern
 public class Market extends GameSpace implements Serializable {
-    private ArrayList<ActionSlot> marketSlots;
+    public ArrayList<ActionSlot> marketSlots;
 
     /*costructor called only at the beginning of the game
     this class has been implemented so that action slots are only set at the beginning of the game by the controller
@@ -39,6 +39,5 @@ public class Market extends GameSpace implements Serializable {
     public ArrayList<ActionSlot> getMarketSlots() {
         return this.marketSlots;
     }
-
 }
 			
