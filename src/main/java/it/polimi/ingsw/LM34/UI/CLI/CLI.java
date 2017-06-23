@@ -509,7 +509,7 @@ public class CLI implements UIInterface {
 
         //print councilPalace
 
-            /*validUserInput = false;
+            validUserInput = false;
 
             do {
                 CLIStuff.printToConsole.println("which CouncilPrivilege bonus do you wish to take? ");
@@ -525,7 +525,7 @@ public class CLI implements UIInterface {
             }
             while(!validUserInput);
 
-        return selectedCouncilPrivilegeBonus;*/
+        return selectedCouncilPrivilegeBonus;
 
     }
 
