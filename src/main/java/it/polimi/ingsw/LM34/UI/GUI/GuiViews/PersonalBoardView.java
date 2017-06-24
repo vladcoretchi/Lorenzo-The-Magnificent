@@ -1,7 +1,11 @@
 package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
+import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.UI.GUI.GuiViews.DialogInterface;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,21 +17,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.util.List;
+import java.util.Optional;
+
 public class PersonalBoardView extends Application implements DialogInterface {
     private Parent root;
     private PersonalBoard playerPersonalBoard;
+    private Player temporaryGuiPlayer;
 
     @FXML
     private Group personalBoardCards;
 
-    public PersonalBoardView(Player player) {
-        this.playerPersonalBoard = player.getPersonalBoard();
-    }
-
     public void show() {
-        try {
-            this.start(new Stage());
-        } catch (Exception ex) {
+        try {this.start(new Stage());}
+        catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -39,11 +42,11 @@ public class PersonalBoardView extends Application implements DialogInterface {
         stage.setResizable(false);
         stage.setFullScreen(false);
         primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
-        primaryStage.setTitle("PersonalBoard - Lorenzo il Magnifico by CranioCreations");
+        primaryStage.setTitle("PersonalBoard - "+ temporaryGuiPlayer.getPlayerName());
         primaryStage.setScene(new Scene(root, primaryStage.getWidth(), primaryStage.getHeight()));
         primaryStage.setResizable(false);
         primaryStage.show();
-        updatePersonalBoard(playerPersonalBoard);
+        updatePersonalBoard();
         primaryStage.setOnHidden(e -> primaryStage.close());
 
     }
@@ -53,7 +56,7 @@ public class PersonalBoardView extends Application implements DialogInterface {
 
     }
 
-    public void updatePersonalBoard(PersonalBoard playerPersonalBoard) {
+    public void updatePersonalBoard() {
         Integer PERSONAL_BOARD_BUILDING_SLOTS = 6; //min 0 max 20
         Integer ACTUALLY_PLAYER_CHARACTER_CARDS = 6; //min 0 max 20
         Integer PERSONAL_BOARD_TERRITORIES_SLOT = 6; //min 0 max 20
@@ -120,6 +123,19 @@ public class PersonalBoardView extends Application implements DialogInterface {
 
             imageView.setVisible(true);
         }
+
     }
+
+    public PersonalBoardView(Player playerReceived) {
+        temporaryGuiPlayer = new Player(playerReceived.getPlayerName(), playerReceived.getPawnColor(), playerReceived.getPersonalBoard());
+    }
+
+    /**
+     * only for personalBoard.fxml
+     */
+    public PersonalBoardView() {
+
+    }
+
 }
 

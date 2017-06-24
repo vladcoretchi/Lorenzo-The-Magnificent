@@ -24,6 +24,7 @@ import it.polimi.ingsw.LM34.UI.UIInterface;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 import javafx.application.Application;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -91,13 +92,26 @@ public class GUI extends Application implements UIInterface {
     private Group slots;
     @FXML
     private VBox playersInfoList;
+    @FXML
+    private Label player1;
+    @FXML
+    private Label player2;
+    @FXML
+    private Label player3;
+    @FXML
+    private Label player4;
+    @FXML
+    private Label player5;
+
+    List<Label> playersName = new ArrayList<>();
+    ArrayList<Player> players = new ArrayList<>();
 
     List<Tower> towersSpaces;
     WorkingArea productionArea;
     WorkingArea harvestArea;
     Market market;
     CouncilPalace palace;
-    List<Player> players;
+    //List<Player> players;
     String tempLeaderName;
 
 
@@ -146,13 +160,6 @@ public class GUI extends Application implements UIInterface {
         resList.add(new Resources(3,2,1,0));
         new UseCouncilPrivilegeDialog().interactWithPlayer(resList);*/
 
-        Player giacomo = new Player("giacomo", BLUE, new PersonalBoard());
-        giacomo.addResources(new Resources(4,5,1,2));
-        Player antonio = new Player("antonio", PawnColor.RED, new PersonalBoard());
-        antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
-        players = new ArrayList<>();
-        players.add(giacomo); players.add(antonio);
-        updatePlayersData(players);
         Dice orange = new Dice(ORANGE); orange.rollDice();
         Dice black = new Dice(BLACK); orange.rollDice();
         Dice white = new Dice(WHITE); orange.rollDice();
@@ -166,7 +173,8 @@ public class GUI extends Application implements UIInterface {
         leaders.add(new LeaderCard("Lucrezia Borgia", null,null, true));
         leaders.add(new LeaderCard("Sandro Botticelli", null,null, true));
 
-        new LeaderCardsView(this, leaders).start(primaryStage);
+        //new LeaderCardsView(leaders).start(primaryStage);
+
     }
 
     @Override
@@ -452,6 +460,7 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public void show() {
+
         loginMenu();
     }
 
@@ -574,34 +583,37 @@ public class GUI extends Application implements UIInterface {
         gui.show();
     }
 
-            //#############################################################################################################################
-
-    //test setVisible of personalBoard
-
-
-
-    /*public void managePersonalBoard(MouseEvent event) throws InvalidCardType {
-        Object source = event.getSource();
-        String id = ((Control) source).getId();
-        Integer numberOfPlayerPersonalBoard = getNumericValue(id.charAt(id.length()-1));
-        if(numberOfPlayerPersonalBoard > 0 && numberOfPlayerPersonalBoard <= 5) {
-            players.get(0).getPersonalBoard().addCard(new BuildingCard("Bank", 2, 1, null, null, null));
-            PersonalBoardView personalBoardView = new PersonalBoardView(players.get(0));
-            this.personalBoardView = personalBoardView;
-            this.personalBoardView.show();
-            return;
-        }
-
-    }*/
     public void managePersonalBoard(MouseEvent event) {
         Object source = event.getSource();
         String id = ((Control) source).getId();
         Integer numberOfPlayerPersonalBoard = getNumericValue(id.charAt(id.length()-1));
+
+        playersName.add(player1); playersName.add(player2); playersName.add(player3); playersName.add(player4); playersName.add(player5);
+
+        Player giacomo = new Player("giacomo", BLUE, new PersonalBoard());
+        giacomo.addResources(new Resources(4,5,1,2));
+        Player antonio = new Player("antonio", PawnColor.RED, new PersonalBoard());
+        antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
+        Player aldo = new Player("aldo", BLUE, new PersonalBoard());
+        giacomo.addResources(new Resources(4,5,1,2));
+        Player giovanni = new Player("giovanni", PawnColor.RED, new PersonalBoard());
+        antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
+        Player chiara = new Player("chiara", PawnColor.RED, new PersonalBoard());
+        antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
+
+        players.add(giacomo); players.add(antonio); players.add(aldo); players.add(giovanni); players.add(chiara);
+
+        for(Integer i = 0; i < 5; i++) {
+            playersName.get(i).setText(players.get(i).getPlayerName());
+        }
+
+
         if(numberOfPlayerPersonalBoard > 0 && numberOfPlayerPersonalBoard <= 5) {
-            this.personalBoardView = new PersonalBoardView(players.get(0));
+            this.personalBoardView = new PersonalBoardView(players.get(numberOfPlayerPersonalBoard-1));
             this.personalBoardView.show();
             return;
         }
+        //personalBoard.setVisible(false);
 
     }
 

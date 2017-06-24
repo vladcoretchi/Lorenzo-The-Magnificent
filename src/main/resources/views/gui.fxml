@@ -197,7 +197,7 @@
         <Pane fx:id="commands" prefHeight="230.0" style="-fx-border-color: #1d1d1d" GridPane.columnIndex="1" GridPane.rowIndex="0">
         </Pane>
 
-        <ScrollPane prefHeight="1250" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.rowIndex="0">
+        <ScrollPane prefHeight="1250" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.rowIndex="0" prefWidth="1000" GridPane.fillWidth="1331.37">
             <VBox id="playersInfoList" prefHeight="1000.0">
             <children>
                 <Pane fx:id="playerInfo1" visible="true" prefHeight="230.0" style="-fx-border-color: #1d1d1d; -fx-background-color: rgba(16,34,100,0.57)">
