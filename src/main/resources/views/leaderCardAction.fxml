@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane prefHeight="147.0" prefWidth="316.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.LM34.UI.GUI.GuiControllers.LeaderCardsController">
-   <children>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.*?>
+<AnchorPane fx:id="pane" prefHeight="147.0" prefWidth="316.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.LM34.UI.GUI.GuiViews.LeaderCardsView">
+    <children>
 
-   </children>
+        <GridPane prefHeight="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+            <children>
+                <RadioButton fx:id="play" mnemonicParsing="false" text="PLAY" toggleGroup="$LeaderAction" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <toggleGroup>
+                    <ToggleGroup fx:id="LeaderAction" />
+                </toggleGroup></RadioButton>
+                <RadioButton fx:id="discard" layoutX="234.0" layoutY="4.0" mnemonicParsing="false" selected="true" text="DISCARD" toggleGroup="$LeaderAction" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <RadioButton fx:id="copy" layoutX="121.0" layoutY="4.0"  toggleGroup="$LeaderAction" mnemonicParsing="false" text="COPY"  AnchorPane.rightAnchor="144.0" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                <HBox fx:id="leaderList" AnchorPane.bottomAnchor="0.0" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="3" />
+            </children>
+
+            <columnConstraints>
+                <ColumnConstraints />
+                <ColumnConstraints />
+                <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
+        </GridPane>
+     </children>
 </AnchorPane>

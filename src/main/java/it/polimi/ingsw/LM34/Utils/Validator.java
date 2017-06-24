@@ -6,6 +6,7 @@ import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Network.GameRoom;
 
@@ -119,4 +120,11 @@ public final class Validator {
 
     }
 
+    public static void checkLeaderValidity(List<LeaderCard> leaderCards, String choice) throws IncorrectInputException {
+        for(LeaderCard l : leaderCards)
+            if(l.getName().equalsIgnoreCase(choice))
+                return;
+
+        throw new IncorrectInputException();
+    }
 }

@@ -24,6 +24,7 @@ import it.polimi.ingsw.LM34.UI.UIInterface;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 import it.polimi.ingsw.LM34.Utils.Validator;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
@@ -629,9 +630,10 @@ public class CLI implements UIInterface {
     }
 
     @Override
-    public Integer leaderCardSelection(List<LeaderCard> leaderCards, LeaderCardsAction action) {
+    public Pair<String, LeaderCardsAction>  leaderCardSelection(List<LeaderCard> leaderCards) {
         LeaderCardsAction actionChoiced;
         String input = new String();
+        Pair<String, LeaderCardsAction> pair;
         Integer choice = 0;
 
         System.out.println("Choice to Play or Discard Leader");
@@ -642,20 +644,19 @@ public class CLI implements UIInterface {
         else if (input.equalsIgnoreCase(LeaderCardsAction.DISCARD.toString()))
         actionChoiced = LeaderCardsAction.DISCARD;
         else
-            leaderCardSelection(leaderCards, action);
+            leaderCardSelection(leaderCards);
 
         leaderCards.forEach(l -> System.out.println("Leader name: " + l.getName()));
 
         try {
             input = readUserInput.nextLine();
-            choice = Integer.parseInt(input);
-            Validator.checkValidity(choice.toString());
+            Validator.checkLeaderValidity(leaderCards, input);
         }
         catch (Exception e) {
-            leaderCardSelection(leaderCards, action);
+            leaderCardSelection(leaderCards);
         }
 
-        return choice;
+        return new ImmutablePair(leaderCards, input);
     }
 
     @Override

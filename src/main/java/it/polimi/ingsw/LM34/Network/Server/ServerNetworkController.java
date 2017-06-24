@@ -1,9 +1,10 @@
 package it.polimi.ingsw.LM34.Network.Server;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
-import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Dice;
@@ -14,8 +15,7 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.GameRoom;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import org.apache.commons.lang3.tuple.Pair;
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -86,8 +86,8 @@ public class ServerNetworkController {
         return this.serverConnection.resourceExchangeSelection(choices);
     }
 
-    public Integer leaderCardSelection(List<LeaderCard> leaderCards, LeaderCardsAction action) {
-        return this.serverConnection.leaderCardSelection(leaderCards, action);
+    public Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards) {
+        return this.serverConnection.leaderCardSelection(leaderCards);
     }
 
     public Boolean churchSupport() {

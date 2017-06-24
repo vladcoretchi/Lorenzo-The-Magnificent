@@ -12,12 +12,10 @@ import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by vladc on 5/28/2017.
@@ -225,7 +223,7 @@ public enum RequestToClient {
                 List<LeaderCard> leaderCards = (List<LeaderCard>) socketConnection.getInputStream().readObject();
                 LeaderCardsAction action = (LeaderCardsAction) socketConnection.getInputStream().readObject();
 
-                socketConnection.getOutputStream().writeInt(socketConnection.leaderCardSelection(leaderCards, action));
+                socketConnection.getOutputStream().writeObject(socketConnection.leaderCardSelection(leaderCards));
                 socketConnection.getOutputStream().flush();
             } catch (IOException e) {
                 e.printStackTrace();

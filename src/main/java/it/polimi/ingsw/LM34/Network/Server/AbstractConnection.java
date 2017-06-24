@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Server;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -63,7 +62,7 @@ public abstract class AbstractConnection {
 
     public abstract Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices);
 
-    public abstract Integer leaderCardSelection(List<LeaderCard> leaderCards, LeaderCardsAction action);
+    public abstract Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards);
 
     public abstract Boolean churchSupport();
 

@@ -33,7 +33,6 @@ public interface UIInterface {
 
     void loginResult(Boolean result);
 
-
     void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards);
     void updateTowers(List<Tower> towers);
     void updateCouncilPalace(CouncilPalace councilPalace);
@@ -43,11 +42,9 @@ public interface UIInterface {
     void updatePlayersData(List<Player> players);
     void updateDiceValues(List<Dice> dicesValues);
 
-
     PlayerAction turnMainAction(Optional<Boolean> lastActionValid);
 
     PlayerAction turnSecondaryAction(Optional<Boolean> lastActionValid);
-
 
     Integer familyMemberSelection(List<FamilyMember> familyMembers);
 
@@ -55,12 +52,11 @@ public interface UIInterface {
 
     Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices);
 
-    Integer leaderCardSelection(List<LeaderCard> leaderCards, LeaderCardsAction action);
+    Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards);
 
     Boolean churchSupport();
 
     Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses);
-
 
     void endGame(List<Player> players);
 }

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Client.RMI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -18,7 +17,6 @@ import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.Network.Server.RMI.RMIServerInterface;
 import it.polimi.ingsw.LM34.UI.UIInterface;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.rmi.NotBoundException;
@@ -26,7 +24,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -125,8 +122,8 @@ public class RMIClient extends AbstractClient implements RMIClientInterface {
     }
 
     @Override
-    public Integer leaderCardSelection(List<LeaderCard> leaderCards, LeaderCardsAction action) {
-        return this.networkController.leaderCardSelection(leaderCards, action);
+    public Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards) {
+        return this.networkController.leaderCardSelection(leaderCards);
     }
 
     @Override
