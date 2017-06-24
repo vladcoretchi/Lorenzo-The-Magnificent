@@ -30,7 +30,10 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Control;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -39,6 +42,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
@@ -66,6 +70,12 @@ public class GUI extends Application implements UIInterface {
     private Scene guiScene;
 
     @FXML
+    private RadioButton play;
+    @FXML
+    private RadioButton discard;
+    @FXML
+    private RadioButton copy;
+    @FXML
     private TextField username;
     @FXML
     private TextField password;
@@ -87,6 +97,9 @@ public class GUI extends Application implements UIInterface {
     WorkingArea harvestArea;
     Market market;
     CouncilPalace palace;
+    List<Player> players;
+    String tempLeaderName;
+
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -114,36 +127,19 @@ public class GUI extends Application implements UIInterface {
         //endGame();
         //familyMemberSelection();*/
 
-
         /*List<Resources> resList = new ArrayList<>();
         resList.add(tempRes);
         resList.add(new Resources(3,2,1,0));
         new UseCouncilPrivilegeDialog().interactWithPlayer(resList);*/
 
-        /*Player giacomo = new Player("giacomo", BLUE, new PersonalBoard());
-        giacomo.addResources(new Resources(4,5,1,2));
-        Player antonio = new Player("antonio", PawnColor.RED, new PersonalBoard());
-        antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
-        List<Player> players = new ArrayList<>();
-        players.add(giacomo); players.add(antonio);
-        updatePlayersData(players);
-
-        Dice orange = new Dice(ORANGE); orange.rollDice();
-        Dice black = new Dice(BLACK); orange.rollDice();
-        Dice white = new Dice(WHITE); orange.rollDice();
-        List<Dice> dices = new ArrayList<>();
-        dices.add(orange); dices.add(black); dices.add(white);
-        updateDiceValues(dices);
-
-        List<Pair<Resources, ResourcesBonus>> listPairExchange = new ArrayList<>();
+        /*List<Pair<Resources, ResourcesBonus>> listPairExchange = new ArrayList<>();
         Resources tempRes = new Resources(1,2,9,0);
         ResourcesBonus tempResBon = new ResourcesBonus(new Resources(), 3);
         Resources tempRes2 = new Resources(0,0,72,5);
         ResourcesBonus tempResBon2 = new ResourcesBonus(new Resources(3,2,1,4), 1);
         listPairExchange.add(new ImmutablePair<>(tempRes, tempResBon));
         listPairExchange.add(new ImmutablePair<>(tempRes2, tempResBon2));
-        Integer result = new ResourceExchangeDialog().interactWithPlayer(listPairExchange);
-        System.out.println("Risultato scelto: "+ result);
+        Integer result = new ResourceExchangeDialog().interactWithPlayer(listPairExchange);*/
 
         /*List<Resources> resList = new ArrayList<>();
         resList.add(tempRes);
@@ -154,8 +150,9 @@ public class GUI extends Application implements UIInterface {
         giacomo.addResources(new Resources(4,5,1,2));
         Player antonio = new Player("antonio", PawnColor.RED, new PersonalBoard());
         antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
-        List<Player> players = new ArrayList<>();
+        players = new ArrayList<>();
         players.add(giacomo); players.add(antonio);
+        updatePlayersData(players);
         Dice orange = new Dice(ORANGE); orange.rollDice();
         Dice black = new Dice(BLACK); orange.rollDice();
         Dice white = new Dice(WHITE); orange.rollDice();
@@ -169,7 +166,7 @@ public class GUI extends Application implements UIInterface {
         leaders.add(new LeaderCard("Lucrezia Borgia", null,null, true));
         leaders.add(new LeaderCard("Sandro Botticelli", null,null, true));
 
-        new LeaderCardsView(leaders).start(primaryStage);
+        new LeaderCardsView(this, leaders).start(primaryStage);
     }
 
     @Override
@@ -425,8 +422,22 @@ public class GUI extends Application implements UIInterface {
 
     //TODO: return pair<leaderName, actionType?
     @Override
-    public Integer leaderCardSelection(List<LeaderCard> leaderCards, LeaderCardsAction action) {
-        return null;
+    public Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards) {
+        LeaderCardsView leaderView = new LeaderCardsView(this,leaderCards);
+        leaderView.show();
+        //TODO: Vlad fai future task che attende che fa return e attende che il valore sia settato
+        for(LeaderCard l : leaderCards)
+            //check if tempLeaderName is updated
+            if(tempLeaderName.equalsIgnoreCase(l.getName())) {
+                if (play.isSelected())
+                    return new ImmutablePair(tempLeaderName, LeaderCardsAction.PLAY);
+                else if (copy.isSelected())
+                    return new ImmutablePair(tempLeaderName, LeaderCardsAction.COPY);
+                else //the "discard" radioButton is selected by default
+                    return new ImmutablePair(tempLeaderName, LeaderCardsAction.DISCARD);
+            }
+            //TODO: da sistemare...
+        return new ImmutablePair(tempLeaderName, LeaderCardsAction.DISCARD);
     }
 
     @Override
@@ -441,12 +452,11 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public void show() {
-
         loginMenu();
     }
 
     public void doLogin() {
-        if(rmiChoice.isSelected() && !socketChoice.isSelected())
+        if(rmiChoice.isSelected())
             this.networkClient = new RMIClient(SERVER_IP, RMI_PORT, this);
         else
             this.networkClient = new SocketClient(SERVER_IP, SOCKET_PORT, this);
@@ -568,24 +578,37 @@ public class GUI extends Application implements UIInterface {
 
     //test setVisible of personalBoard
 
-    @FXML private ScrollPane personalBoard;
 
-    //TODO: use real number of current player
-    Integer numberOfCurrentPlayers = 5;
-    public void managePersonalBoard(MouseEvent event) {
+
+    /*public void managePersonalBoard(MouseEvent event) throws InvalidCardType {
         Object source = event.getSource();
-        String id = ((Control)source).getId();
-        Integer numberOfPlayerPersonalBoard = getNumericValue(id.charAt(id.length() - 1));
-
-        if(numberOfPlayerPersonalBoard > 0 && numberOfPlayerPersonalBoard <= numberOfCurrentPlayers) {
-            System.out.println("this is player " + numberOfPlayerPersonalBoard.toString() + " personalBoard");
-            personalBoard.setVisible(true);
+        String id = ((Control) source).getId();
+        Integer numberOfPlayerPersonalBoard = getNumericValue(id.charAt(id.length()-1));
+        if(numberOfPlayerPersonalBoard > 0 && numberOfPlayerPersonalBoard <= 5) {
+            players.get(0).getPersonalBoard().addCard(new BuildingCard("Bank", 2, 1, null, null, null));
+            PersonalBoardView personalBoardView = new PersonalBoardView(players.get(0));
+            this.personalBoardView = personalBoardView;
+            this.personalBoardView.show();
             return;
         }
-        personalBoard.setVisible(false);
+
+    }*/
+    public void managePersonalBoard(MouseEvent event) {
+        Object source = event.getSource();
+        String id = ((Control) source).getId();
+        Integer numberOfPlayerPersonalBoard = getNumericValue(id.charAt(id.length()-1));
+        if(numberOfPlayerPersonalBoard > 0 && numberOfPlayerPersonalBoard <= 5) {
+            this.personalBoardView = new PersonalBoardView(players.get(0));
+            this.personalBoardView.show();
+            return;
+        }
 
     }
 
+
+    public void passLeaderChoosed(String leaderName) {
+        this.tempLeaderName = leaderName;
+    }
     //#############################################################################################################################
 
 }

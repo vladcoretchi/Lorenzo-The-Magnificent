@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Client;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -15,13 +14,10 @@ import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import javafx.application.Platform;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
@@ -101,8 +97,8 @@ public class ClientNetworkController {
         return RunLaterTask(uiTask);
     }
 
-    public Integer leaderCardSelection(List<LeaderCard> leaderCards, LeaderCardsAction action) {
-        FutureTask<Integer> uiTask = new FutureTask<>(() -> this.clientConnection.getUI().leaderCardSelection(leaderCards, action));
+    public Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards) {
+        FutureTask<Pair<String, LeaderCardsAction>> uiTask = new FutureTask<>(() -> this.clientConnection.getUI().leaderCardSelection(leaderCards));
         return RunLaterTask(uiTask);
     }
 

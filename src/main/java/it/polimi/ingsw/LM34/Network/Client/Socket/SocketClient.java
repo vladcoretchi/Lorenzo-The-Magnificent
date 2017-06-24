@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Client.Socket;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -22,7 +21,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -164,8 +162,8 @@ public class SocketClient extends AbstractClient {
     }
 
     @Override
-    public Integer leaderCardSelection(List<LeaderCard> leaderCards, LeaderCardsAction action) {
-        return this.networkController.leaderCardSelection(leaderCards, action);
+    public Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards) {
+        return this.networkController.leaderCardSelection(leaderCards);
     }
 
     @Override

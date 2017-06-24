@@ -2,7 +2,11 @@ package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+import it.polimi.ingsw.LM34.UI.GUI.GUI;
+import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Dialog;
 import javafx.scene.image.Image;
@@ -20,50 +24,62 @@ import java.util.List;
 /**
  * Created by GiulioComi on 07/06/2017.
  */
-public class LeaderCardsView implements DialogInterface {
+public class LeaderCardsView extends Application implements DialogInterface {
     String decision;
     List<LeaderCard> leadersOwned;
+    GUI gui;
 
-    public LeaderCardsView(List<LeaderCard> leadersOwned) {
+    private Parent root;
+
+    public LeaderCardsView() {}
+
+    public LeaderCardsView(GUI gui, List<LeaderCard> leadersOwned) {
         decision = new String();
         this.leadersOwned = leadersOwned;
+        this.gui = gui;
+    }
+
+    public void show() {
+        launch();
     }
 
     public void start(Stage primaryStage) throws Exception {
+        root = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource("views/leaderCardAction.fxml"));
+
         Stage stage = new Stage();
-        HBox leaderList = new HBox();
-        leaderList.setSpacing(10);
-        leaderList.setStyle("-fx-background-color: transparent;");
         ImageView tempImage = new ImageView();
+        HBox hboxLeaders = (HBox) root.lookup("#leaderList");
 
         for (LeaderCard leader : leadersOwned) {
          /*---ADD AS IMAGE---*/
                 tempImage = new ImageView();
-                tempImage.setFitHeight(300.0);
-                tempImage.setFitWidth(200.0);
+                tempImage.setFitHeight(220.0);
+                tempImage.setFitWidth(130.0);
                 tempImage.setImage(new Image(Thread.currentThread()
                         .getContextClassLoader().getResource("images/leaderCards/" + leader.getName() + ".png").toExternalForm()));
                 tempImage.setStyle("-fx-background-color: transparent;");
                 tempImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        getResult(leader.getName());
-
+                       gui.passLeaderChoosed(leader.getName());
                         stage.close();
                     }
                 });
 
-                leaderList.getChildren().add(tempImage);
-                leaderList.setHgrow(tempImage, Priority.ALWAYS);
+            hboxLeaders.getChildren().add(tempImage);
+                hboxLeaders.setHgrow(tempImage, Priority.ALWAYS);
+
         }
 
        /****Prepare the stage and scene****/
-        Scene scene = new Scene(leaderList);
+        Scene scene = new Scene(root);
+        stage.setTitle("Leader Action Selection");
         scene.setFill(Color.TRANSPARENT);
-        stage.initModality(Modality.NONE);
-        stage.initStyle(StageStyle.TRANSPARENT);
-        stage.initOwner(primaryStage);
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initStyle(StageStyle.DECORATED);
+        //stage.initOwner(primaryStage);
         stage.setFullScreen(false);
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Tower extends GameSpace implements Serializable {
     }
 
     public boolean hasNextLevel() {
-        return level<=slots.size();
+        return level < slots.size();
     }
 
     /**

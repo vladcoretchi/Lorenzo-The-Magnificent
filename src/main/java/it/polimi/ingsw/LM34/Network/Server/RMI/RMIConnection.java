@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Server.RMI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -16,11 +15,9 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClientInterface;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.Network.Server.AbstractConnection;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -157,11 +154,11 @@ public class RMIConnection extends AbstractConnection {
     }
 
     @Override
-    public Integer leaderCardSelection(List<LeaderCard> leaderCards, LeaderCardsAction action) {
+    public Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards) {
         try {
-            return this.clientRMI.leaderCardSelection(leaderCards, action);
+            return this.clientRMI.leaderCardSelection(leaderCards);
         } catch(RemoteException e) {
-            return -1;
+            return null;
         }
     }
 

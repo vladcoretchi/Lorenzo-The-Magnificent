@@ -1,8 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Server.Socket;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
-import it.polimi.ingsw.LM34.Exceptions.CLI.PlayerException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -21,7 +19,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -268,14 +265,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     }
 
     @Override
-    public Integer leaderCardSelection(List<LeaderCard> leaderCards, LeaderCardsAction action) {
+    public Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards) {
         try {
             this.outStream.writeUTF(RequestToClient.LEADER_CARD_SELECTION.name());
             this.outStream.writeObject(leaderCards);
-            this.outStream.writeObject(action);
             this.outStream.flush();
-            return this.inStream.readInt();
-        } catch (IOException e) {
+            return (Pair<String, LeaderCardsAction>)this.inStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }
