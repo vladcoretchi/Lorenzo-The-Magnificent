@@ -1,13 +1,15 @@
 package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Optional;
 
 /**
  * Created by GiulioComi on 11/05/2017.
  */
-public class LeaderRequirements {
+public class LeaderRequirements implements Serializable {
     Resources resourcesRequirements;
 
     /**
@@ -33,10 +35,10 @@ public class LeaderRequirements {
     }
 
     public Optional<Resources> getResourcesRequirements() {
-        return this.resourcesRequirements == null ? Optional.empty() : Optional.of(this.resourcesRequirements);
+        return Optional.ofNullable(this.resourcesRequirements);
     }
 
     public Optional<Map<DevelopmentCardColor, Integer>> getCardRequirements() {
-        return this.cardRequirements == null ? Optional.empty() : Optional.of(this.cardRequirements);
+        return Optional.ofNullable(this.cardRequirements);
     }
 }

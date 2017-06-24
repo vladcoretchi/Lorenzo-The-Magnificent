@@ -42,7 +42,7 @@ public class ProductionAreaContext extends AbstractGameContext implements DiceDe
 
         //TODO: now values of dices are increased
         FamilyMember memberChoosed = gameManager.getCurrentPlayer().getFamilyMembers().get(1);
-        FamilyMember tempMemberChoosed = memberChoosed.clone();
+        FamilyMember tempMemberChoosed = memberChoosed.copy();
         //TODO: here we pass the family member chosed (only one)
         setChanged();
         notifyObservers(tempMemberChoosed);  //observers do a setValue on it

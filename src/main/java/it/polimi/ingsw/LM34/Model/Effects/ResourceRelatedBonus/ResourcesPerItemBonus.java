@@ -18,23 +18,21 @@ import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.MILITARY_POINTS;
  * Created by vladc on 5/13/2017.
  */
 public class ResourcesPerItemBonus extends AbstractEffect {
-    private Player player;
     private Resources bonusResources;
     private DevelopmentCardColor cardColor; //"nobile, araldo, cortigiana,governatore, zecca, teatro, esattoria,arco di triongo"
     private Integer militaryPointsRequired; //for "generale" card
 
     public ResourcesPerItemBonus(Resources bonusResources, DevelopmentCardColor cardColor) {
         this.bonusResources = bonusResources;
-        this.cardColor = cardColor; //"nobile, araldo, cortigiana,governatore, zecca, teatro, esattoria,arco di triongo"
-        this.militaryPointsRequired = militaryPointsRequired; //"generale" card
+        this.cardColor = cardColor;
+        this.militaryPointsRequired = null;
     }
 
     /*Constructor for "generale" card*/
     public ResourcesPerItemBonus(Resources bonusResources, Integer militaryPointsRequired) {
-        this.player = player;
         this.bonusResources = bonusResources;
-        this.cardColor = null; //"nobile, araldo, cortigiana,governatore, zecca, teatro, esattoria,arco di triongo"
-        this.militaryPointsRequired = militaryPointsRequired; //"generale" card
+        this.cardColor = null;
+        this.militaryPointsRequired = militaryPointsRequired;
     }
 
 
@@ -46,6 +44,7 @@ public class ResourcesPerItemBonus extends AbstractEffect {
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
+        Player player = callerContext.getCurrentPlayer();
         Integer cardTypeOwnedNum = 0;
         ResourceIncomeContext incomeContext;
         incomeContext = ((ResourceIncomeContext)callerContext.getContextByType(RESOURCE_INCOME_CONTEXT));

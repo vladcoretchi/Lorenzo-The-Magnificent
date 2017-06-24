@@ -2,42 +2,48 @@ package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Utils.Copyable;
+
 import java.io.Serializable;
 
 /**
  * Created by Giulio Comi on 02/04/2017.
  */
-public class FamilyMember implements Serializable, Cloneable {
+public class FamilyMember implements Serializable, Copyable {
     private final PawnColor pawnColor;
     private DiceColor diceColor;
     private Integer value;
     private boolean isUsed;
 
-
     //constructor used only at the beginning of the game during setup up
-
     public FamilyMember(PawnColor pawnColor, DiceColor diceColor) {
         this.pawnColor = pawnColor;
         this.diceColor = diceColor;
         this.isUsed = false;
     }
 
-    //TODO
     @Override
-    public FamilyMember clone() {
-        try {
-            return (FamilyMember) super.clone();
-        } catch(Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+    public FamilyMember copy() {
+        FamilyMember familyMember = new FamilyMember(this.pawnColor, this.diceColor);
+        familyMember.setValue(this.value);
+        if(this.isUsed)
+            familyMember.placePawn();
+        else
+            familyMember.freePawn();
 
+        return familyMember;
+    }
 
     //used to verify if a action is allowed based on the corresponding dice value
     public Integer getValue() {
         return this.value;
     }
+
+    public PawnColor getFamilyMemberColor() {
+        return this.pawnColor;
+    }
+
+    public DiceColor getDiceColorAssociated() { return this.diceColor; }
 
     //the controller updates the family member values as soon as the corresponding dice is rolled at the beginning of each turn
     public void setValue(Integer diceValue) {
@@ -58,12 +64,5 @@ public class FamilyMember implements Serializable, Cloneable {
     public boolean isUsed() {
         return this.isUsed;
     }
-
-    public PawnColor getFamilyMemberColor() {
-        return this.pawnColor;
-    }
-
-
-    public DiceColor getDiceColorAssociated() { return this.diceColor; }
 
 }

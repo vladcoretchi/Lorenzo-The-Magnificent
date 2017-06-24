@@ -26,13 +26,10 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.USE_COUNCIL_PRIV
 public class ResourcesExchangeBonus extends AbstractEffect {
     private List<Pair<Resources, ResourcesBonus>> resourceExchange;
 
-
     public ResourcesExchangeBonus(List<Pair<Resources, ResourcesBonus>> resourceExchange) {
         //contextToBeSubscribedTo.add(ContextType.RESOURCE_EXCHANGE_CONTEXT);
         this.resourceExchange = resourceExchange;
     }
-
-
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
@@ -44,7 +41,6 @@ public class ResourcesExchangeBonus extends AbstractEffect {
 
     }
 
-
     public void activateResourcesExchange(AbstractGameContext callerContext, FamilyMember familyMember) {
         Player player = callerContext.getCurrentPlayer();
 
@@ -53,11 +49,13 @@ public class ResourcesExchangeBonus extends AbstractEffect {
             if (player.hasEnoughResources(pair.getLeft())) {
                 /*retrieve from player the resources he needs to pay*/
                 player.subResources(pair.getLeft());
+                
                 /*activate the card permanent effect providing the player with the resources desired*/
                 ((ResourceIncomeContext)callerContext.getContextByType(RESOURCE_INCOME_CONTEXT)).setIncome(pair.getRight().getResources());
-                player.addCouncilPrivileges(pair.getRight().getCouncilPrivilege());
-                ((UseCouncilPrivilegeContext)callerContext.getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer();
 
+                UseCouncilPrivilegeContext councilPrivilegeContext = (UseCouncilPrivilegeContext)callerContext.getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT);
+                councilPrivilegeContext.initContext(pair.getRight().getCouncilPrivilege());
+                councilPrivilegeContext.interactWithPlayer();
             }
         }
     }

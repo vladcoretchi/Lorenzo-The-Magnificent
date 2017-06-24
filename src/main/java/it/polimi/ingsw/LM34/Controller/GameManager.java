@@ -78,6 +78,8 @@ public class GameManager {
         this.phase = 1; //when all players have placed 1 of their pawn
         this.turn = 0; //when the current player places his pawn
 
+        setupGameContexts();
+
         //TODO: sync the loading so that none of the methods below is called before configs.json file has been parsed
         setUpGameSpaces();
         setUpDecks();
@@ -87,8 +89,6 @@ public class GameManager {
         //TODO: initialize players
         Collections.shuffle(players); //randomly set the initial play order
         setupPlayersResources();
-
-        setupGameContexts();
     }
 
     public ServerNetworkController getActivePlayerNetworkController() {
@@ -248,12 +248,9 @@ public class GameManager {
         for (ContextType context : ContextType.values())
             try {
                 contexts.put(context, ContextFactory.getContext(context));
-            } catch(NoSuchContextException e) { }
+            } catch(NoSuchContextException e) {}
 
         contexts.forEach((type, context) -> context.setGameManager(this));
-
-        /*turnContext = (TurnContext) getContextByType(ContextType.TURN_CONTEXT);
-        palaceContext = (CouncilPalaceContext) getContextByType(ContextType.COUNCIL_PALACE_CONTEXT);*/
     }
 
     public AbstractGameContext getContextByType(ContextType contextType) {
@@ -297,9 +294,8 @@ public class GameManager {
      * @param developmentDeck from which to extract and place in the tower the cards for the new round
      */
     public void changeCards(List<Tower> towers, DevelopmentCardDeck<?> developmentDeck) {
-        Tower tower = new Tower();
-        Iterator iterator  = developmentDeck.iterator();
-        AbstractDevelopmentCard card;
+        Tower tower = null;
+        Iterator iterator = developmentDeck.iterator();
 
         //select the right tower...
         for (Tower t : towers)
@@ -307,11 +303,9 @@ public class GameManager {
                 tower = t;
 
         //...and now place every card in the deck until the tower's slots are full
-        Integer cardStored = 0;
-        while (iterator.hasNext() && cardStored < Configurator.CARD_PER_ROUND) {
-            card = (AbstractDevelopmentCard) iterator.next();
-            tower.addCard(card);
-        }
+        tower.sweep();
+        while (iterator.hasNext() && tower.getCardsStored().size() < Configurator.CARD_PER_ROUND)
+            tower.addCard((AbstractDevelopmentCard) iterator.next());
     }
 
     /**

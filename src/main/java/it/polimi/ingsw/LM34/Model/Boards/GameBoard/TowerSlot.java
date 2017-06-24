@@ -29,9 +29,8 @@ public class TowerSlot extends ActionSlot implements Serializable {
         return this.cardStored;
     }
 
-    @Override
-    public boolean isEmpty() {
-        return (this.cardStored == null); //card already taken by a player
+    public boolean hasCard() {
+        return (this.cardStored == null);
     }
 
     public void sweepTowerSlot() {

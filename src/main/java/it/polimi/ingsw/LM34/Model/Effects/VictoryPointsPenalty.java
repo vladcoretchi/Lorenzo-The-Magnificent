@@ -6,6 +6,7 @@ import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Optional;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.END_GAME_CONTEXT;
 
@@ -18,30 +19,29 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
     private Resources resources;
     private Resources playerGoods;
     private DevelopmentCardColor cardColor;
-    Resources buildingCardsResources;
-
+    private Resources buildingCardsResources;
 
     public VictoryPointsPenalty(Integer victoryPoints, Resources playerGoods) {
         this.victoryPoints = victoryPoints;
-        this.resources = null;
+        this.resources = new Resources();
         this.playerGoods = playerGoods;
-        this.buildingCardsResources = null;
+        this.buildingCardsResources = new Resources();
         this.cardColor = null;
     }
 
     public VictoryPointsPenalty(Integer victoryPoints, Resources resources, Resources buildingCardsResources) {
         this.victoryPoints = victoryPoints;
         this.resources = resources;
-        this.playerGoods = null;
+        this.playerGoods = new Resources();
         this.buildingCardsResources = buildingCardsResources;
         this.cardColor = null;
     }
 
     public VictoryPointsPenalty(DevelopmentCardColor cardColor) {
-        this.victoryPoints = null;
-        this.resources = null;
-        this.playerGoods = null;
-        this.buildingCardsResources = null;
+        this.victoryPoints = 0;
+        this.resources = new Resources();
+        this.playerGoods = new Resources();
+        this.buildingCardsResources = new Resources();
         this.cardColor = cardColor;
     }
 
@@ -61,8 +61,8 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
         return this.buildingCardsResources;
     }
 
-    public DevelopmentCardColor getCardColor() {
-        return this.cardColor;
+    public Optional<DevelopmentCardColor> getCardColor() {
+        return Optional.ofNullable(this.cardColor);
     }
 
     @Override

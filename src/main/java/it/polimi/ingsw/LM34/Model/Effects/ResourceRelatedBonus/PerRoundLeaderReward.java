@@ -7,6 +7,7 @@ import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Optional;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TURN_CONTEXT;
 
@@ -22,21 +23,16 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
     private WorkingAreaValueEffect workingAreaValueEffect; //"francesco sforza, leonardo da vinci"
 
     public PerRoundLeaderReward(Resources resources, Integer councilPrivilege) {
-        /*this.observableContexts = new ArrayList<>();
-        this.observableContexts.add(TURN_CONTEXT);*/
         this.resources = resources;
         this.councilPrivilege = councilPrivilege;
+        this.workingAreaValueEffect = null;
     }
 
     //TODO: "francesco sforza, leonardo da vinci"
     public PerRoundLeaderReward(WorkingAreaValueEffect valueEffect) {
+        this.resources = new Resources();
+        this.councilPrivilege = 0;
         this.workingAreaValueEffect = valueEffect;
-    }
-
-    public PerRoundLeaderReward() {
-        resources = null;
-        councilPrivilege = null;
-        workingAreaValueEffect = null;
     }
 
     public Resources getResources() {
@@ -47,8 +43,8 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
         return this.councilPrivilege;
     }
 
-    public WorkingAreaValueEffect getWorkingAreaValueEffect() {
-        return this.workingAreaValueEffect;
+    public Optional<WorkingAreaValueEffect> getWorkingAreaValueEffect() {
+        return Optional.ofNullable(this.workingAreaValueEffect);
     }
 
     @Override

@@ -22,12 +22,9 @@ public class DevelopmentCardDeck<T extends AbstractDevelopmentCard> implements  
         //get the development card color type by extracting this info from the first card of the deck
     }
 
-    public DevelopmentCardDeck() {
-        this.developmentDeck = null;
-    }
-
     public DevelopmentCardDeck(List<T> cardList) {
         this.developmentDeck = cardList;
+        this.cardColor = cardList.get(0).getColor();
     }
 
 
@@ -37,8 +34,7 @@ public class DevelopmentCardDeck<T extends AbstractDevelopmentCard> implements  
     }
 
     public void setupDevelopmentCardDeck() {
-
-        Collections.shuffle(developmentDeck);
+        //Collections.shuffle(developmentDeck);
         orderDevelopmentCardByPeriod();
     }
 

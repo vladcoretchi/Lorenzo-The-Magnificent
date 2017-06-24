@@ -23,27 +23,26 @@ public class UseCouncilPrivilegeContext extends AbstractGameContext {
         contextType = ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT;
     }
 
-    public void initContext(Player player) {
-        numberOfCouncilePrivileges = player.getCouncilPrivileges();
+    public void initContext(Integer councilPrivileges) {
+        this.numberOfCouncilePrivileges = councilPrivileges;
     }
-
-
 
     //TODO: before calling this without having councilPrivileges, it is better to check from caller contexts
     @Override
     public void interactWithPlayer() {
-        List<ResourcesBonus> rewardsAvailable = this.rewardsForPrivilege;
-        ResourceIncomeContext incomeContext = (ResourceIncomeContext)gameManager.getContextByType(RESOURCE_INCOME_CONTEXT);
-        numberOfCouncilePrivileges = gameManager.getCurrentPlayer().getCouncilPrivileges();
+        if(this.numberOfCouncilePrivileges > 0) {
+            List<ResourcesBonus> rewardsAvailable = this.rewardsForPrivilege;
+            ResourceIncomeContext incomeContext = (ResourceIncomeContext) gameManager.getContextByType(RESOURCE_INCOME_CONTEXT);
 
-        Integer used =0;
-        while(used < numberOfCouncilePrivileges) {
-            /*Integer selected = gameManager.getActivePlayerNetworkController().privilegeRewardSelection(rewardsAvailable);
-            ResourcesBonus reward = rewardsAvailable.get(selected);
-            incomeContext.setIncome(reward.getResources());
-            //Remove temporarily the reward already choosed
-            rewardsAvailable.remove(selected);
-            used++;*/
+            Integer used = 0;
+            while (used < numberOfCouncilePrivileges) {
+                /*Integer selected = gameManager.getActivePlayerNetworkController().privilegeRewardSelection(rewardsAvailable);
+                ResourcesBonus reward = rewardsAvailable.get(selected);
+                incomeContext.setIncome(reward.getResources());
+                //Remove temporarily the reward already choosed
+                rewardsAvailable.remove(selected);
+                used++;*/
+            }
         }
     }
 }

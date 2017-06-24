@@ -130,17 +130,4 @@ public class TurnContext extends AbstractGameContext {
         turnContext.trial(player);*/
 
     }
-
-    //TODO: a testing method
-    private void trial(Player player) {
-        PerRoundLeaderReward perRoundLeaderReward = new PerRoundLeaderReward();
-        perRoundLeaderReward.applyEffect(this);
-        MarketBan marketBan = new MarketBan();
-        marketBan.applyEffect(this);
-        //this.addObserver(marketBan);
-        MarketAreaContext marketAreaContext = (MarketAreaContext) gameManager.getContextByType(ContextType.MARKET_AREA_CONTEXT);
-        marketAreaContext.interactWithPlayer();
-
-    }
-
 }
