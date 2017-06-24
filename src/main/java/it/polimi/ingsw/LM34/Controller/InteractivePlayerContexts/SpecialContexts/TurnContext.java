@@ -2,23 +2,16 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContext
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.GameManager;
-import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.MarketAreaContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
-import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.MarketBan;
-import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.PerRoundLeaderReward;
-import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.GameRoom;
 import it.polimi.ingsw.LM34.Utils.Configurator;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Created by GiulioComi on 18/05/2017.
@@ -52,7 +45,6 @@ public class TurnContext extends AbstractGameContext {
             if (!observer.isOncePerRound())
                 observer.subscribeObserverToContext(contexts);
             notifyObservers(player); //for PerRoundLeaderReward*/
-
         System.out.println("Now is player: "+gameManager.getCurrentPlayer().getPawnColor()+" turn");
         interactWithPlayer();
     }
@@ -70,13 +62,9 @@ public class TurnContext extends AbstractGameContext {
         Player currentPlayer = this.gameManager.getCurrentPlayer();
 
         this.gameManager.getPlayerNetworkController(currentPlayer).updateTowers(this.gameManager.getTowers());
+        //this.gameManager.getPlayerNetworkController(currentPlayer).updateMarket(this.gameManager.getMarket());
 
-        List<Pair<Resources, ResourcesBonus>> choices = new ArrayList<>();
-        choices.add(new ImmutablePair<>(new Resources(1,2,3,4), new ResourcesBonus(new Resources(1,0,2,1), 5)));
-        choices.add(new ImmutablePair<>(new Resources(4,3,0,1), new ResourcesBonus(new Resources(0,1,0,3), 2)));
-        Integer selection = this.gameManager.getPlayerNetworkController(currentPlayer).resourceExchangeSelection(choices);
-
-        Integer servants = this.gameManager.getPlayerNetworkController(currentPlayer).servantsSelection(2, 6);
+        this.gameManager.getPlayerNetworkController(currentPlayer).leaderCardSelection(Configurator.getLeaderCards(2));
 
         //this.gameManager.getPlayerNetworkController(currentPlayer).updateMarket(this.gameManager.getMarket());
         //this.gameManager.getPlayerNetworkController(currentPlayer).updateProductionArea(this.gameManager.getProductionArea());

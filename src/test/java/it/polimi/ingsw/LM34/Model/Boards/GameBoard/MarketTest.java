@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class MarketTest {
 
@@ -26,19 +26,19 @@ public class MarketTest {
         as.add(0, actionSlot);
         as.add(1, actionSlot);
         as.add(2, actionSlot);
-        Market market = new Market(as);
+        market = new Market(as);
     }
 
     @Test(expected = NoSuchAvailableSlotException.class)
-    public void insertFamilyMembertest() throws OccupiedSlotException, NoSuchAvailableSlotException {
+    public void insertFamilyMemberTest() throws OccupiedSlotException, NoSuchAvailableSlotException {
 
         market.insertFamilyMember(resourcesBonus, fm);
     }
 
     @Test
-    public void sizetest() {
+    public void sizeTest() {
 
-        assertTrue(market.getSize() == 0);
+        assertTrue(market.getSize() == 3);
     }
 
 }

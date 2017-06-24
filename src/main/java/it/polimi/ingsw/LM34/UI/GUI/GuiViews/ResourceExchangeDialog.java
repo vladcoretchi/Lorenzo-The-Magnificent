@@ -26,10 +26,10 @@ public class ResourceExchangeDialog implements DialogInterface {
         List<String> choices = new ArrayList<>();
 
         for (Pair<Resources, ResourcesBonus> pair : resourcesExchange) {
-            ArrayList<String> required = new ArrayList<>();
+            List<String> required = new ArrayList<>();
             pair.getLeft().getResources().forEach((type, value) -> required.add(String.format("%1$s(%2$d)", type.toString(), value)));
 
-            ArrayList<String> reward = new ArrayList<>();
+            List<String> reward = new ArrayList<>();
             pair.getRight().getResources().getResources().forEach((type, value) -> reward.add(String.format("%1$s(%2$d)", type.toString(), value)));
             reward.add(String.format("COUNCIL_PRIVILEGES(%1$d)", pair.getRight().getCouncilPrivilege()));
 
@@ -39,8 +39,10 @@ public class ResourceExchangeDialog implements DialogInterface {
         ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
         //setStyle(dialog);
         dialog.setTitle("Resource Exchange");
+        dialog.setHeight(600.0);
+        dialog.setWidth(400.0);
         dialog.setGraphic(new ImageView(Thread.currentThread().getContextClassLoader().getResource("images/resources/SERVANTS.png").toExternalForm()));
-        dialog.setContentText("Choose one of the options:");
+        dialog.setContentText("Choose the Leader and the Option to perform:");
         dialog.setResizable(true);
 
         Optional<String> result = dialog.showAndWait();

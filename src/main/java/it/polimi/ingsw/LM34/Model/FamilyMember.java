@@ -25,7 +25,7 @@ public class FamilyMember implements Serializable, Copyable {
     @Override
     public FamilyMember copy() {
         FamilyMember familyMember = new FamilyMember(this.pawnColor, this.diceColor);
-        familyMember.setValue(this.value);
+        familyMember.setValue(this.value.intValue());
         if(this.isUsed)
             familyMember.placePawn();
         else

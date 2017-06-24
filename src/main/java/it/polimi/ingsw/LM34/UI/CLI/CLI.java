@@ -24,9 +24,14 @@ import it.polimi.ingsw.LM34.UI.UIInterface;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 import it.polimi.ingsw.LM34.Utils.Validator;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.*;
 
 import static it.polimi.ingsw.LM34.UI.CLI.CLIStuff.*;
@@ -159,7 +164,8 @@ public class CLI implements UIInterface {
         Integer playerPoints = 0;
         String winnerName= new String();
         players.forEach(player -> {
-            System.out.println(player.getPlayerName() + " has totalized " + player.getResources().getResourceByType(ResourceType.VICTORY_POINTS) + " victory points.");
+            printFormat("%1$s has totalized %2$s victory points", player.getPlayerName(),
+                    player.getResources().getResourceByType(ResourceType.VICTORY_POINTS));
         });
 
         for(Player player : players) {
@@ -170,7 +176,7 @@ public class CLI implements UIInterface {
 
             }
         }
-        System.out.println("And... the winner is " + winnerName);
+        printFormat("And... the winner is %1$s",winnerName);
     }
 
     @Override
@@ -475,7 +481,7 @@ public class CLI implements UIInterface {
      * @param player all player`s information
      * @return which bonus the player has chosen
      */
-    public Integer councilPalace(Player player) {
+    public Integer councilPalaceSlotSelection(Player player) {
         String input = new String();
         Integer selectedFamilyMember = 0;
         Integer chosenFamilyMemberValue;
@@ -484,31 +490,85 @@ public class CLI implements UIInterface {
         Integer selectedCouncilPrivilegeBonus = 0;
         Boolean validUserInput = false;
 
-        do {
-            CLIStuff.printToConsole.println("which family member do you wish to use? ");
-            player.getFamilyMembers().forEach(f -> System.out.println(f.getDiceColorAssociated()));
 
-            input = readUserInput.nextLine();
-            try {
-                Validator.checkValidity(input);
-                selectedFamilyMember = Integer.parseInt(input);
-                Validator.checkValidity(selectedFamilyMember.toString(), player.getFamilyMembers());
-                validUserInput = true;
-            }
-            catch (IncorrectInputException ex) {
-                CLIStuff.printToConsole.println("please select a valid family member");
-            }
+        CLIStuff.printToConsole.println("which family member do you wish to use? ");
+        player.getFamilyMembers().forEach(f -> printFormat("%1$s\n", f.getDiceColorAssociated()));
+
+        input = readUserInput.nextLine();
+        try {
+            Validator.checkValidity(input);
+            selectedFamilyMember = Integer.parseInt(input);
+            Validator.checkValidity(selectedFamilyMember.toString(), player.getFamilyMembers());
         }
-        while (!validUserInput);
+        catch (IncorrectInputException ex) {
+            CLIStuff.printToConsole.println("please select a valid family member");
+            councilPalaceSlotSelection(player);
+        }
 
-            chosenFamilyMemberValue = player.getFamilyMembers().get(selectedFamilyMember).getValue();
+        chosenFamilyMemberValue = player.getFamilyMembers().get(selectedFamilyMember).getValue();
 
-            //if(chosenFamilyMemberValue < 1) {
+        usedServants = servantsSelection(servantsAvailable, 1);
 
-                usedServants = servantsSelection(servantsAvailable, 1);
+        List<List<Map.Entry<String,Integer>>> slotsResources = new ArrayList<>();
+            ActionSlot as = this.palace.getActionSlot();
+            Map res = new HashMap<>();
+            Resources resources = as.getResourcesReward().getResources();
+            resources.getResources().forEach((ResourceType rt, Integer val) -> res.put(rt.toString(), val));
+            if (as.getResourcesReward().getCouncilPrivilege() > 0)
+                res.put("COUNCIL PRIVILEGES", as.getResourcesReward().getCouncilPrivilege());
+            slotsResources.add(new ArrayList<>(res.entrySet()));
+
+        Integer resourcesLines = 0;
+        for (List sr : slotsResources) {
+            if (sr.size() > resourcesLines)
+                resourcesLines = sr.size();
+        }
+
+        printFormat(" %1$s \n", String.join(" ", Collections.nCopies(slotsResources.size(), "__________")));
+        printFormat("|%1$s|\n", String.join("|", Collections.nCopies(slotsResources.size(), "          ")));
+
+        for (int i = 0; i < resourcesLines; i++) {
+            String s;
+
+            /*print resource value and get resources' splitted string*/
+            s = "|";
+            List<String[]> splittedStrings = new ArrayList<>();
+            Integer resourceNameLines = 0;
+            for (List<Map.Entry<String,Integer>> sr : slotsResources) {
+                List<String> slotResource = new ArrayList<>();
+                if (i < sr.size()) {
+                    s = String.format("%1$s%2$-10s|", s, sr.get(i).getValue());
+                    String splittedResourceName[] = Utilities.splitStringByLength(sr.get(i).getKey(), 10);
+                    splittedStrings.add(splittedResourceName);
+                    if (splittedResourceName.length > resourceNameLines)
+                        resourceNameLines = splittedResourceName.length;
+                }
+                else {
+                    s = String.format("%1$s%2$10s|", s, "");
+                    splittedStrings.add(new String[0]);
+                }
+            }
+            printLine(s);
+
+            /*print resources names*/
+            for (int j = 0; j < resourceNameLines; j++) {
+                s = "|";
+                for (String name[] : splittedStrings) {
+                    if (j < name.length)
+                        s = String.format("%1$s%2$-10s|", s, name[j]);
+                    else
+                        s = String.format("%1$s%2$10s|", s, "");
+                }
+                printLine(s);
+            }
+
+            /*print empty line*/
+            printFormat("|%1$s|\n", String.join("|", Collections.nCopies(slotsResources.size(), "          ")));
+        }
+
+        printFormat("|%1$s|\n", String.join("|", Collections.nCopies(slotsResources.size(), "__________")));
 
 
-        //print councilPalace
 
             validUserInput = false;
 
@@ -591,21 +651,18 @@ public class CLI implements UIInterface {
         String input = new String();
         Integer usedServants = 0;
 
-        do {
             CLIStuff.printToConsole.println("to complete this action, you need at least " + minimumServantsRequested.toString() + "servants, and max " + servantsAvailable.toString() + " servants ");
             CLIStuff.printToConsole.println("how many servants do you want to use? ");
 
             try {
                 input = readUserInput.nextLine();
                 usedServants = Integer.parseInt(input);
-                Validator.checkValidity(usedServants.toString());
             } catch (Exception e) {
                 servantsSelection(servantsAvailable, minimumServantsRequested);
             }
-        }
-        while((usedServants < minimumServantsRequested) || usedServants > servantsAvailable);
 
-        Configurator.print("used servants" + usedServants);
+
+        printFormat("used servants %1$s\n",usedServants);
         return usedServants;
     }
 
@@ -614,7 +671,8 @@ public class CLI implements UIInterface {
         String input = new String();
         Integer choice = 0;
         choices.forEach(c -> {
-            System.out.println("Resources required: " + c.getLeft().getResources().toString() + "---> Resources provided:" + c.getRight().getResources().getResources().toString() + ", CouncilPrivilege provided: " + c.getRight().getCouncilPrivilege());
+            printFormat("resources required: %1$s ---> Resources provided: %2$s, CouncilPrivileges provided: %3$d",
+                    c.getLeft().getResources().toString(), c.getRight().getResources().getResources().toString(), c.getRight().getCouncilPrivilege());
         });
 
         try {
@@ -636,7 +694,7 @@ public class CLI implements UIInterface {
         Pair<String, LeaderCardsAction> pair;
         Integer choice = 0;
 
-        System.out.println("Choice to Play or Discard Leader");
+        printFormat("Choice to Play or Discard Leader");
         input = readUserInput.nextLine();
         //TODO: complete this
         if(input.equalsIgnoreCase(LeaderCardsAction.PLAY.toString()))
@@ -646,7 +704,7 @@ public class CLI implements UIInterface {
         else
             leaderCardSelection(leaderCards);
 
-        leaderCards.forEach(l -> System.out.println("Leader name: " + l.getName()));
+        leaderCards.forEach(l -> printFormat("Leader name: %1$s" ,l.getName()));
 
         try {
             input = readUserInput.nextLine();
@@ -663,13 +721,13 @@ public class CLI implements UIInterface {
     public Boolean churchSupport() {
         String input = new String();
         Boolean choice = false;
-        System.out.println("Do you want to Support the Church?");
+        printFormat("Do you want to Support the Church (Yes or No)?");
 
         input = readUserInput.nextLine();
 
-        if(input.equalsIgnoreCase("true"))
+        if(input.equalsIgnoreCase("yes"))
             choice = true;
-        else if (input.equalsIgnoreCase("false"))
+        else if (input.equalsIgnoreCase("no"))
             choice = false;
         else
             churchSupport();
@@ -681,8 +739,8 @@ public class CLI implements UIInterface {
     public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
         String input = new String();
         Integer choice = 0;
-        System.out.println("Choose the reward you desire:");
-        availableBonuses.forEach(b -> System.out.println(b.getResources()));
+        printFormat("Choose the reward you desire:");
+        availableBonuses.forEach(b -> printFormat("%1$s", b.getResources()));
         try {
             input = readUserInput.nextLine();
             choice = Integer.parseInt(input);
@@ -724,13 +782,13 @@ public class CLI implements UIInterface {
         List<Tower> towers = Configurator.getTowers();
         Market market = Configurator.getMarket();
         CLI cli = new CLI();
-        cli.market = market;
+        //cli.market = market;
         //cli.printTowers(towers);
         //cli.marketSlotSelection(market);
         //cli.selectCouncilPrivilegeBonus(Configurator.getCouncilPrivilegeRewards());
-        /*List<Pair<Resources, ResourcesBonus>> resExc = new ArrayList<>();
-        resExc.add(new ImmutablePair(new Resources(3,4,3,9), new ResourcesBonus(new Resources(3,3,3,2), 3)));
-        //cli.resourceExchangeSelection(resExc);*/
+        //List<Pair<Resources, ResourcesBonus>> resExc = new ArrayList<>();
+        //resExc.add(new ImmutablePair(new Resources(3,4,3,9), new ResourcesBonus(new Resources(3,3,3,2), 3)));
+        //cli.resourceExchangeSelection(resExc);
         //cli.leaderCardSelection(Configurator.getLeaderCards(4), LeaderCardsAction.DISCARD);
         //cli.churchSupport();
         //cli.servantsSelection(4,2);
@@ -738,9 +796,47 @@ public class CLI implements UIInterface {
         Player giacomo = new Player("giacomo", BLUE, new PersonalBoard());
         giacomo.addResources(new Resources(4,5,1,2));*/
         Player antonio = new Player("antonio", PawnColor.RED, new PersonalBoard());
-        antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
+       //antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
         /*players.add(giacomo); players.add(antonio);*/
         //cli.endGame(players);
-        cli.councilPalace(antonio);
+        Configurator.loadConfigs();
+        cli.updateCouncilPalace(new CouncilPalace(new ActionSlot(true, 1, new ResourcesBonus(
+                    new Resources(0,2,3,1),2))));
+        cli.councilPalaceSlotSelection(antonio);
+
+        List<String> command = new ArrayList<String>();
+        OsTypeFinder.OSType osType = OsTypeFinder.getOperatingSystemType();
+        System.out.println("OS: " + osType);
+        String shell;
+        if(osType.toString().equals("Windows")) {
+            command.add("cmd.exe");
+            command.add("/c");
+        } else {
+            shell = "/bin/bash";
+            command.add(shell);
+        }
+        command.add("echo 'ciao' >> files.txt");
+        File file = new File("files.txt");
+
+        OutputStream outputStream = null;
+        InputStream inputStream = null;
+        InputStream errorStream = null;
+        try {
+            ProcessBuilder processBuilder = new ProcessBuilder(command);
+            Process process = processBuilder.start();
+
+            outputStream = process.getOutputStream();
+            inputStream = process.getInputStream();
+            errorStream = process.getErrorStream();
+            outputStream.write(2);
+            outputStream.flush();
+
+            System.out.println("Process InputStream: " + IOUtils.toString(inputStream, "utf-8"));
+            System.out.println("Process ErrorStream: " + IOUtils.toString(errorStream, "utf-8"));
+
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+    }
+
 }

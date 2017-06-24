@@ -36,7 +36,11 @@ public class ClientNetworkController {
     }
 
     public void loginResult(Boolean result) {
-        Platform.runLater(() -> this.clientConnection.getUI().loginResult(result));
+        FutureTask uiTask = new FutureTask(() -> {
+            this.clientConnection.getUI().loginResult(result);
+            return null;
+        });
+        Platform.runLater(uiTask);
     }
 
     public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {

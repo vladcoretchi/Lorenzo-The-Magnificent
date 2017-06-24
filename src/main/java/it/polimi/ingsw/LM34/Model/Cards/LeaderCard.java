@@ -35,8 +35,7 @@ import java.io.Serializable;
     }
 
     public Boolean isOncePerRound() { return this.oncePerRound; }
-
-
+    
     public void setIsActivatedByPlayer() {
         this.isActivatedByPlayer = true;
     }

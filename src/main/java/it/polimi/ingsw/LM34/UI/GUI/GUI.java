@@ -5,7 +5,6 @@ import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
-import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
@@ -23,15 +22,15 @@ import it.polimi.ingsw.LM34.UI.GUI.GuiViews.*;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 import javafx.application.Application;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -43,7 +42,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
@@ -53,8 +51,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.*;
-import static it.polimi.ingsw.LM34.Enums.Model.PawnColor.BLUE;
-import static java.lang.Character.getNumericValue;
 
 /**
  * Created by vladc on 6/6/2017.
@@ -71,12 +67,6 @@ public class GUI extends Application implements UIInterface {
     private Scene guiScene;
 
     @FXML
-    private RadioButton play;
-    @FXML
-    private RadioButton discard;
-    @FXML
-    private RadioButton copy;
-    @FXML
     private TextField username;
     @FXML
     private TextField password;
@@ -90,29 +80,13 @@ public class GUI extends Application implements UIInterface {
     private Group towers;
     @FXML
     private Group slots;
-    @FXML
-    private VBox playersInfoList;
-    @FXML
-    private Label player1;
-    @FXML
-    private Label player2;
-    @FXML
-    private Label player3;
-    @FXML
-    private Label player4;
-    @FXML
-    private Label player5;
 
-    List<Label> playersName = new ArrayList<>();
-    ArrayList<Player> players = new ArrayList<>();
-
+    List<Player> players;
     List<Tower> towersSpaces;
     WorkingArea productionArea;
     WorkingArea harvestArea;
     Market market;
     CouncilPalace palace;
-    //List<Player> players;
-    String tempLeaderName;
 
 
     @Override
@@ -160,18 +134,22 @@ public class GUI extends Application implements UIInterface {
         resList.add(new Resources(3,2,1,0));
         new UseCouncilPrivilegeDialog().interactWithPlayer(resList);*/
 
+        /*List<LeaderCard> leaders = new ArrayList<>();
+        leaders.add(new LeaderCard("Sisto IV", null,null, true));
+        leaders.add(new LeaderCard("Pico Della Mirandola", null,null, true));
+        leaders.add(new LeaderCard("Giovanni Dalle Bande Nere", null,null, true));
+        leaders.add(new LeaderCard("Lucrezia Borgia", null,null, true));
+        leaders.add(new LeaderCard("Sandro Botticelli", null,null, true));
+        leaderCardSelection(leaders);*/
+
+
         Dice orange = new Dice(ORANGE); orange.rollDice();
         Dice black = new Dice(BLACK); orange.rollDice();
         Dice white = new Dice(WHITE); orange.rollDice();
         List<Dice> dices = new ArrayList<>();
         dices.add(orange); dices.add(black); dices.add(white);
         updateDiceValues(dices);
-        List<LeaderCard> leaders = new ArrayList<>();
-        leaders.add(new LeaderCard("Sisto IV", null,null, true));
-        leaders.add(new LeaderCard("Pico Della Mirandola", null,null, true));
-        leaders.add(new LeaderCard("Giovanni Dalle Bande Nere", null,null, true));
-        leaders.add(new LeaderCard("Lucrezia Borgia", null,null, true));
-        leaders.add(new LeaderCard("Sandro Botticelli", null,null, true));
+
 
         //new LeaderCardsView(leaders).start(primaryStage);
 
@@ -280,6 +258,7 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public void updateMarket(Market market) {
+        this.market = market;
         PawnColor pawnColor;
         Integer index = 0;
         List<ActionSlot> marketSlots = market.getMarketSlots();
@@ -373,6 +352,9 @@ public class GUI extends Application implements UIInterface {
             playerInfo = (Pane) root.lookup("#playerInfo" + numPlayer);
             playerInfo.setBackground(new Background(new BackgroundFill(Color.valueOf(player.getPawnColor().toString()), CornerRadii.EMPTY, Insets.EMPTY)));
             playerInfo.setVisible(true);
+
+            playerInfo.setOnMouseClicked(new PlayerClickEvent(player));
+
             playerName = (Label) root.lookup("#player" + numPlayer);
             playerName.setText(player.getPlayerName());
             for (ResourceType resType : ResourceType.values()) {
@@ -390,6 +372,11 @@ public class GUI extends Application implements UIInterface {
                 value.setEffect(borderGlow);
             }
             numPlayer++;
+        }
+
+        for(; numPlayer < 5; numPlayer++) {
+            playerInfo = (Pane) root.lookup("#playerInfo" + numPlayer);
+            playerInfo.setVisible(false);
         }
     }
 
@@ -428,24 +415,12 @@ public class GUI extends Application implements UIInterface {
         return new ResourceExchangeDialog().interactWithPlayer(choices);
     }
 
-    //TODO: return pair<leaderName, actionType?
     @Override
     public Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards) {
-        LeaderCardsView leaderView = new LeaderCardsView(this,leaderCards);
-        leaderView.show();
-        //TODO: Vlad fai future task che attende che fa return e attende che il valore sia settato
-        for(LeaderCard l : leaderCards)
-            //check if tempLeaderName is updated
-            if(tempLeaderName.equalsIgnoreCase(l.getName())) {
-                if (play.isSelected())
-                    return new ImmutablePair(tempLeaderName, LeaderCardsAction.PLAY);
-                else if (copy.isSelected())
-                    return new ImmutablePair(tempLeaderName, LeaderCardsAction.COPY);
-                else //the "discard" radioButton is selected by default
-                    return new ImmutablePair(tempLeaderName, LeaderCardsAction.DISCARD);
-            }
-            //TODO: da sistemare...
-        return new ImmutablePair(tempLeaderName, LeaderCardsAction.DISCARD);
+        LeaderCardsView leaderView = new LeaderCardsView();
+        Pair<String, LeaderCardsAction> toReturn = leaderView.interactWithPlayer(leaderCards);
+        Configurator.print(toReturn);
+        return toReturn;
     }
 
     @Override
@@ -583,44 +558,19 @@ public class GUI extends Application implements UIInterface {
         gui.show();
     }
 
-    public void managePersonalBoard(MouseEvent event) {
-        Object source = event.getSource();
-        String id = ((Control) source).getId();
-        Integer numberOfPlayerPersonalBoard = getNumericValue(id.charAt(id.length()-1));
+    private class PlayerClickEvent implements EventHandler<Event> {
+        private Player player;
 
-        playersName.add(player1); playersName.add(player2); playersName.add(player3); playersName.add(player4); playersName.add(player5);
-
-        Player giacomo = new Player("giacomo", BLUE, new PersonalBoard());
-        giacomo.addResources(new Resources(4,5,1,2));
-        Player antonio = new Player("antonio", PawnColor.RED, new PersonalBoard());
-        antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
-        Player aldo = new Player("aldo", BLUE, new PersonalBoard());
-        giacomo.addResources(new Resources(4,5,1,2));
-        Player giovanni = new Player("giovanni", PawnColor.RED, new PersonalBoard());
-        antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
-        Player chiara = new Player("chiara", PawnColor.RED, new PersonalBoard());
-        antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
-
-        players.add(giacomo); players.add(antonio); players.add(aldo); players.add(giovanni); players.add(chiara);
-
-        for(Integer i = 0; i < 5; i++) {
-            playersName.get(i).setText(players.get(i).getPlayerName());
+        public PlayerClickEvent(Player player) {
+            this.player = player;
         }
 
-
-        if(numberOfPlayerPersonalBoard > 0 && numberOfPlayerPersonalBoard <= 5) {
-            this.personalBoardView = new PersonalBoardView(players.get(numberOfPlayerPersonalBoard-1));
-            this.personalBoardView.show();
-            return;
+        @Override
+        public void handle(Event event) {
+            try {
+                PersonalBoardView personalBoardView = new PersonalBoardView(player);
+                personalBoardView.start(primaryStage);
+            } catch(Exception e) {e.printStackTrace();}
         }
-        //personalBoard.setVisible(false);
-
     }
-
-
-    public void passLeaderChoosed(String leaderName) {
-        this.tempLeaderName = leaderName;
-    }
-    //#############################################################################################################################
-
 }

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.LM34.Network.Client.Socket;
 
-import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -221,7 +220,6 @@ public enum RequestToClient {
         void readAndHandle(SocketClient socketConnection) {
             try {
                 List<LeaderCard> leaderCards = (List<LeaderCard>) socketConnection.getInputStream().readObject();
-                LeaderCardsAction action = (LeaderCardsAction) socketConnection.getInputStream().readObject();
 
                 socketConnection.getOutputStream().writeObject(socketConnection.leaderCardSelection(leaderCards));
                 socketConnection.getOutputStream().flush();

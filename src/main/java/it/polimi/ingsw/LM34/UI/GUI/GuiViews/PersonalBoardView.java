@@ -1,11 +1,9 @@
 package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
-import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.UI.GUI.GuiViews.DialogInterface;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,38 +15,38 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class PersonalBoardView extends Application implements DialogInterface {
     private Parent root;
-    private PersonalBoard playerPersonalBoard;
-    private Player temporaryGuiPlayer;
+    private Player player;
 
     @FXML
     private Group personalBoardCards;
 
-    public void show() {
-        try {this.start(new Stage());}
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
+    public PersonalBoardView() {}
+
+    public PersonalBoardView(Player playerReceived) {
+        this.player = playerReceived;
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage primaryStage) throws Exception {
         root = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource("views/personalBoard.fxml"));
-        Stage primaryStage = stage;
+
+
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
         stage.setResizable(false);
         stage.setFullScreen(false);
-        primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
-        primaryStage.setTitle("PersonalBoard - "+ temporaryGuiPlayer.getPlayerName());
-        primaryStage.setScene(new Scene(root, primaryStage.getWidth(), primaryStage.getHeight()));
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        stage.initOwner(primaryStage);
+        stage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
+        stage.setTitle("PersonalBoard - "+ this.player.getPlayerName());
+        stage.setResizable(false);
+        stage.show();
         updatePersonalBoard();
-        primaryStage.setOnHidden(e -> primaryStage.close());
-
+        stage.setOnHidden(e -> stage.close());
     }
 
     @Override
@@ -57,85 +55,38 @@ public class PersonalBoardView extends Application implements DialogInterface {
     }
 
     public void updatePersonalBoard() {
-        Integer PERSONAL_BOARD_BUILDING_SLOTS = 6; //min 0 max 20
-        Integer ACTUALLY_PLAYER_CHARACTER_CARDS = 6; //min 0 max 20
-        Integer PERSONAL_BOARD_TERRITORIES_SLOT = 6; //min 0 max 20
-        Integer ACTUALLY_PLAYER_VENTURE_CARDS = 6; //min 0 max 20
-        Integer ACTUALLY_PLAYER_LEADER_CARDS = 5; //min 0 max 5
-
         ImageView imageView;
 
-        /*List<AbstractDevelopmentCard> yellowCards =  playerPersonalBoard.getDevelopmentCardsByType(DevelopmentCardColor.YELLOW).get();
-        List<AbstractDevelopmentCard> greenCards = playerPersonalBoard.getDevelopmentCardsByType(DevelopmentCardColor.GREEN).get();
-        List<AbstractDevelopmentCard> purpleCards = playerPersonalBoard.getDevelopmentCardsByType(DevelopmentCardColor.PURPLE).get();
-        List<AbstractDevelopmentCard> blueCards = playerPersonalBoard.getDevelopmentCardsByType(DevelopmentCardColor.BLUE).get();*/
+        List<AbstractDevelopmentCard> playerCards = new ArrayList<>();
+        if(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.YELLOW).isPresent())
+            playerCards.addAll(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.YELLOW).get());
+        if(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.GREEN).isPresent())
+            playerCards.addAll(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.GREEN).get());
+        if(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.BLUE).isPresent())
+            playerCards.addAll(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.BLUE).get());
+        if(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.PURPLE).isPresent())
+            playerCards.addAll(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.PURPLE).get());
 
-
-        //for (Integer i = 0; i < yellowCards.size(); i++)
-
-        for(Integer i = 0; i < PERSONAL_BOARD_BUILDING_SLOTS; i++) {
-
-            imageView = ((ImageView) root.lookup("#personalBoard_YELLOWCard"+ i.toString()));
-
-            imageView.setImage(new Image(Thread.currentThread()
-                     .getContextClassLoader().getResource("images/developmentCards/buildings/Bank.png")
-                     .toExternalForm()));
-
-            imageView.setVisible(true);
-        }
-
-        for(Integer i = 0; i < PERSONAL_BOARD_TERRITORIES_SLOT; i++) {
-            imageView = ((ImageView) root.lookup("#personalBoard_GREENCard"+ i.toString()));
+        for (int i = 0; i < playerCards.size(); i++) {
+            imageView = ((ImageView) root.lookup(String.format("#personalBoard_%1$sCard%2$d", playerCards.get(i).getColor().toString(), i)));
 
             imageView.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/developmentCards/territories/Castle.png")
+                    .getContextClassLoader().getResource(String.format("images/developmentCards/%1$s/%2$s.png", playerCards.get(i).getColor().getDevType(), playerCards.get(i).getName()))
                     .toExternalForm()));
 
             imageView.setVisible(true);
         }
 
-        for(Integer i = 0; i < ACTUALLY_PLAYER_VENTURE_CARDS; i++) {
-            imageView = ((ImageView) root.lookup("#personalBoard_PURPLECard"+ i.toString()));
+        List<LeaderCard> leaderCards = this.player.getActivatedLeaderCards();
+        for (Integer i = 0; i < leaderCards.size(); i++) {
+            imageView = ((ImageView) root.lookup("#personalBoard_LeaderCard" + i.toString()));
 
             imageView.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/developmentCards/ventures/Building the Bastions.png")
+                    .getContextClassLoader().getResource(String.format("images/leaderCards/%1$s.png", leaderCards.get(i).getName()))
                     .toExternalForm()));
 
             imageView.setVisible(true);
         }
-
-        for(Integer i = 0; i < ACTUALLY_PLAYER_CHARACTER_CARDS; i++) {
-            imageView = ((ImageView) root.lookup("#personalBoard_BLUECard"+ i.toString()));
-
-            imageView.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/developmentCards/characters/Abbess.png")
-                    .toExternalForm()));
-
-            imageView.setVisible(true);
-        }
-
-        for(Integer i = 0; i < ACTUALLY_PLAYER_LEADER_CARDS; i++) {
-            imageView = ((ImageView) root.lookup("#personalBoard_LeaderCard"+ i.toString()));
-
-            imageView.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/leaderCards/Bartolomeo Colleoni.png")
-                    .toExternalForm()));
-
-            imageView.setVisible(true);
-        }
-
     }
-
-    public PersonalBoardView(Player playerReceived) {
-        temporaryGuiPlayer = new Player(playerReceived.getPlayerName(), playerReceived.getPawnColor(), playerReceived.getPersonalBoard());
-    }
-
-    /**
-     * only for personalBoard.fxml
-     */
-    public PersonalBoardView() {
-
-    }
-
 }
 

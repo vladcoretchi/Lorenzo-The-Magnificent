@@ -202,7 +202,7 @@
             <children>
                 <Pane fx:id="playerInfo1" visible="true" prefHeight="230.0" style="-fx-border-color: #1d1d1d; -fx-background-color: rgba(16,34,100,0.57)">
                     <children>
-                        <Label fx:id="player1" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player1" onMouseClicked="#managePersonalBoard">
+                        <Label fx:id="player1" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player1">
                          <font>
                             <Font size="17.0" />
                          </font></Label>
@@ -300,7 +300,7 @@
             </Pane>
             <Pane fx:id="playerInfo2" visible="true" prefHeight="230.0" style="-fx-border-color: #1d1d1d; -fx-background-color: rgba(53,100,18,0.57)">
                 <children>
-                    <Label fx:id="player2" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player2" onMouseClicked="#managePersonalBoard">
+                    <Label fx:id="player2" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player2">
                         <font>
                             <Font size="17.0" />
                         </font></Label>
@@ -398,7 +398,7 @@
             </Pane>
             <Pane fx:id="playerInfo3" visible="true" prefHeight="230.0" style="-fx-border-color: #1d1d1d; -fx-background-color: rgba(255,34,0,0.5)">
                 <children>
-                    <Label fx:id="player3" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player3" onMouseClicked="#managePersonalBoard">
+                    <Label fx:id="player3" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player3">
                         <font>
                             <Font size="17.0" />
                         </font></Label>
@@ -496,7 +496,7 @@
             </Pane>
             <Pane fx:id="playerInfo4" visible="true" prefHeight="230.0" style="-fx-border-color: #1d1d1d; -fx-background-color: rgba(255,255,80,0.51)">
                 <children>
-                    <Label fx:id="player4" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player4" onMouseClicked="#managePersonalBoard">
+                    <Label fx:id="player4" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player4">
                         <font>
                             <Font size="17.0" />
                         </font></Label>
@@ -594,7 +594,7 @@
             </Pane>
             <Pane fx:id="playerInfo5" visible="true" prefHeight="230.0" style="-fx-border-color: #1d1d1d; -fx-background-color: rgba(180,15,255,0.5)">
                 <children>
-                    <Label fx:id="player5" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player5" onMouseClicked="#managePersonalBoard">
+                    <Label fx:id="player5" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player5">
                         <font>
                             <Font size="17.0" />
                         </font></Label>
