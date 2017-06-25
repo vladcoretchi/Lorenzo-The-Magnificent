@@ -390,13 +390,15 @@
             "FAITH_POINTS": 0,
             "VICTORY_POINTS": 0
           }
-        },
+        }
+      ],
+      "councilPalace": [
         {
-          "singlePawnSlot": true,
+          "singlePawnSlot": false,
           "diceValue": 1,
-          "councilPrivilege": 0,
+          "councilPrivilege": 1,
           "resources": {
-            "COINS": 0,
+            "COINS": 1,
             "WOODS": 0,
             "STONES": 0,
             "SERVANTS": 0,
@@ -406,11 +408,11 @@
           }
         },
         {
-          "singlePawnSlot": true,
-          "diceValue": 3,
-          "councilPrivilege": 0,
+          "singlePawnSlot": false,
+          "diceValue": 1,
+          "councilPrivilege": 1,
           "resources": {
-            "COINS": 0,
+            "COINS": 1,
             "WOODS": 0,
             "STONES": 0,
             "SERVANTS": 0,
@@ -420,48 +422,202 @@
           }
         },
         {
-          "singlePawnSlot": true,
-          "diceValue": 5,
-          "councilPrivilege": 0,
+          "singlePawnSlot": false,
+          "diceValue": 1,
+          "councilPrivilege": 1,
           "resources": {
-            "COINS": 0,
+            "COINS": 1,
             "WOODS": 0,
             "STONES": 0,
-            "SERVANTS": 1,
+            "SERVANTS": 0,
             "MILITARY_POINTS": 0,
             "FAITH_POINTS": 0,
             "VICTORY_POINTS": 0
           }
         },
         {
-          "singlePawnSlot": true,
-          "diceValue": 7,
-          "councilPrivilege": 0,
+          "singlePawnSlot": false,
+          "diceValue": 1,
+          "councilPrivilege": 1,
           "resources": {
-            "COINS": 0,
+            "COINS": 1,
             "WOODS": 0,
             "STONES": 0,
-            "SERVANTS": 2,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        {
+          "singlePawnSlot": false,
+          "diceValue": 1,
+          "councilPrivilege": 1,
+          "resources": {
+            "COINS": 1,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        {
+          "singlePawnSlot": false,
+          "diceValue": 1,
+          "councilPrivilege": 1,
+          "resources": {
+            "COINS": 1,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        {
+          "singlePawnSlot": false,
+          "diceValue": 1,
+          "councilPrivilege": 1,
+          "resources": {
+            "COINS": 1,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        {
+          "singlePawnSlot": false,
+          "diceValue": 1,
+          "councilPrivilege": 1,
+          "resources": {
+            "COINS": 1,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        {
+          "singlePawnSlot": false,
+          "diceValue": 1,
+          "councilPrivilege": 1,
+          "resources": {
+            "COINS": 1,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        {
+          "singlePawnSlot": false,
+          "diceValue": 1,
+          "councilPrivilege": 1,
+          "resources": {
+            "COINS": 1,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        {
+          "singlePawnSlot": false,
+          "diceValue": 1,
+          "councilPrivilege": 1,
+          "resources": {
+            "COINS": 1,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        {
+          "singlePawnSlot": false,
+          "diceValue": 1,
+          "councilPrivilege": 1,
+          "resources": {
+            "COINS": 1,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        {
+          "singlePawnSlot": false,
+          "diceValue": 1,
+          "councilPrivilege": 1,
+          "resources": {
+            "COINS": 1,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        {
+          "singlePawnSlot": false,
+          "diceValue": 1,
+          "councilPrivilege": 1,
+          "resources": {
+            "COINS": 1,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        {
+          "singlePawnSlot": false,
+          "diceValue": 1,
+          "councilPrivilege": 1,
+          "resources": {
+            "COINS": 1,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        {
+          "singlePawnSlot": false,
+          "diceValue": 1,
+          "councilPrivilege": 1,
+          "resources": {
+            "COINS": 1,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
             "MILITARY_POINTS": 0,
             "FAITH_POINTS": 0,
             "VICTORY_POINTS": 0
           }
         }
       ],
-      "councilPalace": {
-        "singlePawnSlot": false,
-        "diceValue": 1,
-        "councilPrivilege": 1,
-        "resources": {
-          "COINS": 1,
-          "WOODS": 0,
-          "STONES": 0,
-          "SERVANTS": 0,
-          "MILITARY_POINTS": 0,
-          "FAITH_POINTS": 0,
-          "VICTORY_POINTS": 0
-        }
-      },
       "market": [
         {
           "singlePawnSlot": true,

@@ -60,7 +60,7 @@ public class LeaderCardsView implements DialogInterface {
 
         if (choice.get().equals(activate))
             action = LeaderCardsAction.PLAY;
-        else if (choice.get().equals(activate))
+        else if (choice.get().equals(copy))
             action = LeaderCardsAction.COPY;
         else
             action = LeaderCardsAction.DISCARD;

@@ -32,7 +32,7 @@ public class ActionSlot implements Serializable {
     }
 
     public void insertFamilyMember(FamilyMember fm) throws OccupiedSlotException {
-        if(familyMember != null)
+        if(familyMember == null)
             this.familyMember = fm;
         else
             throw new OccupiedSlotException();

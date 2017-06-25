@@ -8,7 +8,6 @@ import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.COUNCIL_PALACE_CONTEXT;
@@ -59,9 +58,7 @@ public class CouncilPalaceContext extends AbstractGameContext implements DiceDep
 
     @Override
     public List<ActionSlot> getActionSlots() {
-        List<ActionSlot> actionSlots = new ArrayList<>();
-        actionSlots.add(councilPalace.getActionSlot());
-        return actionSlots;
+        return councilPalace.getActionSlots();
     }
 
     @Override

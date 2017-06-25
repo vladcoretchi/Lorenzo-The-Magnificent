@@ -278,7 +278,7 @@ public class GUI extends Application implements UIInterface {
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
             PawnColor pawnColor;
             Integer index;
-            List<ActionSlot> marketSlots = this.market.getMarketSlots();
+            List<ActionSlot> marketSlots = this.market.getActionSlots();
             for (index = 0; index < marketSlots.size(); index++) {
                 ImageView imageView = ((ImageView) root.lookup("#marketActionSlot" + index));
                 if (marketSlots.get(index).getFamilyMember().getFamilyMemberColor() != null) {
@@ -557,7 +557,7 @@ public class GUI extends Application implements UIInterface {
     @FXML
     public void popupPalaceBonus(MouseEvent event) {
         try {
-            new PopupSlotBonus(event, palace.getReward()).start(primaryStage);
+            new PopupSlotBonus(event, palace.getActionSlots().get(0).getResourcesReward()).start(primaryStage);
         } catch(Exception e) { System.out.println("Finchè il server non passa le torri riempite, il PopupSlot non andrà"); }
     }
 
@@ -574,7 +574,7 @@ public class GUI extends Application implements UIInterface {
             marketSlotID = Integer.parseInt(matchedLevel.group());
         }
         /*Get the actionSlot that generated the event*/
-        actionSlot = market.getMarketSlots().get(marketSlotID);
+        actionSlot = market.getActionSlots().get(marketSlotID);
         try {
             new PopupSlotBonus(event, actionSlot.getResourcesReward()).start(primaryStage);
         } catch (Exception e) {

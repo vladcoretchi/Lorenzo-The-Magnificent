@@ -1,7 +1,5 @@
 package it.polimi.ingsw.LM34.Controller;
 
-import com.sun.org.apache.regexp.internal.RE;
-import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
@@ -15,12 +13,11 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 import org.junit.Test;
 
-import java.lang.reflect.AccessibleObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.LM34.Utils.Configurator.getTerritoryCards;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class GameManagerTest {
 
@@ -38,8 +35,8 @@ public class GameManagerTest {
         //Market market = Configurator.getMarket();
         actionSlots.add(actionSlot);
         Market market = new Market(actionSlots);
-        assertTrue(market.getMarketSlots().get(0).isSinglePawnSlot());
-        assertTrue(market.getMarketSlots().get(0).getDiceValue()==3);
+        assertTrue(market.getActionSlots().get(0).isSinglePawnSlot());
+        assertTrue(market.getActionSlots().get(0).getDiceValue()==3);
 
     }
 

@@ -2,7 +2,6 @@ package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
-import it.polimi.ingsw.LM34.Exceptions.Model.NoSuchAvailableSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
@@ -29,10 +28,10 @@ public class MarketTest {
         market = new Market(as);
     }
 
-    @Test(expected = NoSuchAvailableSlotException.class)
-    public void insertFamilyMemberTest() throws OccupiedSlotException, NoSuchAvailableSlotException {
+    @Test(expected = OccupiedSlotException.class)
+    public void insertFamilyMemberTest() throws OccupiedSlotException {
 
-        market.insertFamilyMember(resourcesBonus, fm);
+        market.insertFamilyMember(1, fm);
     }
 
     @Test

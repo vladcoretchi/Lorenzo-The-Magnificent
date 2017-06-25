@@ -27,7 +27,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.BLUE;
 import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.MULTICOLOR;
@@ -99,7 +102,7 @@ public final class Configurator {
         setupMarket(jsonObject.optJSONObject("actionSlots").optJSONArray("market"));
         setupProductionArea(jsonObject.optJSONObject("actionSlots").optJSONArray("productionArea"));
         setupHarvestArea(jsonObject.optJSONObject("actionSlots").optJSONArray("harvestArea"));
-        setupCouncilPalace(jsonObject.optJSONObject("actionSlots").optJSONObject("councilPalace"));
+        setupCouncilPalace(jsonObject.optJSONObject("actionSlots").optJSONArray("councilPalace"));
         setupTowers(jsonObject.optJSONObject("actionSlots").optJSONArray("towers"));
         setupDevelopmentCards(jsonObject.optJSONObject("cards"));
         setupExcommunicationTiles(jsonObject.optJSONObject("cards").optJSONArray("excommunicationTiles"));
@@ -306,9 +309,9 @@ public final class Configurator {
                 for (; index < MAX_TOWER_LEVELS * iteration; index++) {
                     tower.getTowerSlots().add(getTowerSlotFromJson(jsonTowersSlots.optJSONObject(index)));
                 }
+                iteration++;
+                towers.add(tower);
             }
-            iteration++;
-            towers.add(tower);
         }
     }
 
@@ -325,7 +328,7 @@ public final class Configurator {
     private static void setupMarket(JSONArray market_array) {
         market = new Market(new ArrayList<>());
         for (int i = 0; i < market_array.length(); i++) {
-            market.getMarketSlots().add(getActionSlotFromJson(market_array.optJSONObject(i)));
+            market.getActionSlots().add(getActionSlotFromJson(market_array.optJSONObject(i)));
         }
     }
 
@@ -539,8 +542,11 @@ public final class Configurator {
         harvestArea = new WorkingArea(singleSlot, advancedSlots);
     }
 
-    private static void setupCouncilPalace(JSONObject councilPalaceJson) {
-       palace = new CouncilPalace(getActionSlotFromJson(councilPalaceJson));
+    private static void setupCouncilPalace(JSONArray councilPalaceJson) {
+        palace = new CouncilPalace(new ArrayList<>());
+        for (int i = 0; i < councilPalaceJson.length(); i++) {
+            palace.getActionSlots().add(getActionSlotFromJson(councilPalaceJson.optJSONObject(i)));
+        }
     }
 
     private static ExcommunicationCard getExcommunicationCardFromJson(JSONObject tile) {
