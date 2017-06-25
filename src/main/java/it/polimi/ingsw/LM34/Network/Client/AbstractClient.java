@@ -15,8 +15,8 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import org.apache.commons.lang3.tuple.Pair;
-
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by vladc on 5/23/2017.
@@ -35,29 +35,67 @@ public abstract class AbstractClient {
 
     public abstract void login(String username, String password);
 
-    public abstract void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards);
-    public abstract void updateTowers(List<Tower> towers);
-    public abstract void updateCouncilPalace(CouncilPalace councilPalace);
-    public abstract void updateMarket(Market market);
-    public abstract void updateProductionArea(WorkingArea productionArea);
-    public abstract void updateHarvestArea(WorkingArea harvestArea);
-    public abstract void updatePlayersData(List<Player> players);
-    public abstract void updateDiceValues(List<Dice> diceValues);
+    public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
+        this.networkController.setExcommunicationCards(excommunicationCards);
+    }
 
-    public abstract PlayerAction turnMainAction(Boolean lastActionValid);
+    public void updateTowers(List<Tower> towers) {
+        this.networkController.updateTowers(towers);
+    }
 
-    public abstract PlayerAction turnSecondaryAction(Boolean lastActionValid);
+    public void updateCouncilPalace(CouncilPalace councilPalace) {
+        this.networkController.updateCouncilPalace(councilPalace);
+    }
 
+    public void updateMarket(Market market) {
+        this.networkController.updateMarket(market);
+    }
 
-    public abstract Integer familyMemberSelection(List<FamilyMember> familyMembers);
+    public void updateProductionArea(WorkingArea productionArea) {
+        this.networkController.updateProductionArea(productionArea);
+    }
 
-    public abstract Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested);
+    public void updateHarvestArea(WorkingArea harvestArea) {
+        this.networkController.updateHarvestArea(harvestArea);
+    }
 
-    public abstract Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices);
+    public void updatePlayersData(List<Player> players) {
+        this.networkController.updatePlayersData(players);
+    }
 
-    public abstract Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards);
+    public void updateDiceValues(List<Dice> diceValues) {
+        this.networkController.updateDiceValues(diceValues);
+    }
 
-    public abstract Boolean churchSupport();
+    public PlayerAction turnMainAction(Boolean lastActionValid) {
+        return this.networkController.turnMainAction(Optional.ofNullable(lastActionValid));
+    }
 
-    public abstract Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses);
+    public PlayerAction turnSecondaryAction(Boolean lastActionValid) {
+        return this.networkController.turnSecondaryAction(Optional.ofNullable(lastActionValid));
+    }
+
+    public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
+        return this.networkController.familyMemberSelection(familyMembers);
+    }
+
+    public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
+        return this.networkController.servantsSelection(servantsAvailable, minimumServantsRequested);
+    }
+
+    public Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices) {
+        return this.networkController.resourceExchangeSelection(choices);
+    }
+
+    public Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards) {
+        return this.networkController.leaderCardSelection(leaderCards);
+    }
+
+    public Boolean churchSupport() {
+        return this.networkController.churchSupport();
+    }
+
+    public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
+        return this.networkController.selectCouncilPrivilegeBonus(availableBonuses);
+    }
 }

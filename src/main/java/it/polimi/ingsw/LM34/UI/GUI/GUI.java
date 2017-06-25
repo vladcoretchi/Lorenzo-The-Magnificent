@@ -22,6 +22,7 @@ import it.polimi.ingsw.LM34.UI.GUI.GuiViews.*;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -47,6 +48,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -81,12 +84,13 @@ public class GUI extends Application implements UIInterface {
     @FXML
     private Group slots;
 
-    List<Player> players;
-    List<Tower> towersSpaces;
-    WorkingArea productionArea;
-    WorkingArea harvestArea;
-    Market market;
-    CouncilPalace palace;
+    private List<Player> players;
+    private List<ExcommunicationCard> excommunicationCards;
+    private List<Tower> towersSpaces;
+    private WorkingArea productionArea;
+    private WorkingArea harvestArea;
+    private Market market;
+    private CouncilPalace palace;
 
 
     @Override
@@ -192,250 +196,290 @@ public class GUI extends Application implements UIInterface {
     @Override
     public void loginResult(Boolean result) {
         if (result) {
-            try {
-                username.getScene().getWindow().hide();
+            FutureTask<Void> uiTask = new FutureTask<>(() -> {
+                this.username.getScene().getWindow().hide();
                 this.start(new Stage());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                return null;
+            });
+            Platform.runLater(uiTask);
         }
     }
 
     @Override
     public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
-        ImageView imageView = new ImageView();
-        for (Integer index = 1; index <= Configurator.TOTAL_PERIODS; index++) {
-            imageView = ((ImageView) root.lookup("#excommunicationCard" + excommunicationCards.get(index).getPeriod()));
-            imageView.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/excommunicationTiles/excomm_" + index + "_" + excommunicationCards.get(index).getNumber() + ".png")
-                    .toExternalForm()));
-        }
+        this.excommunicationCards = excommunicationCards;
+
+        FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            ImageView imageView;
+            for (Integer index = 1; index <= Configurator.TOTAL_PERIODS; index++) {
+                imageView = ((ImageView) root.lookup("#excommunicationCard" + this.excommunicationCards.get(index).getPeriod()));
+                imageView.setImage(new Image(Thread.currentThread()
+                        .getContextClassLoader().getResource("images/excommunicationTiles/excomm_" + index + "_" + this.excommunicationCards.get(index).getNumber() + ".png")
+                        .toExternalForm()));
+            }
+            return null;
+        });
+        Platform.runLater(uiTask);
     }
 
     @Override
     public void updateTowers(List<Tower> towers) {
-        ArrayList<AbstractDevelopmentCard> tempCardsStored = new ArrayList<>();
-        towersSpaces = towers;
+        this.towersSpaces = towers;
 
-        for (Tower tower : towers) {
-            /***Load cards***/
-            Integer indexCard = 0;
-            for (AbstractDevelopmentCard card : tower.getCardsStored()) {
-                ImageView imageView = ((ImageView) root.lookup("#tower" + tower.getCardColor().toString() + "_level" + indexCard));
-                if(card != null) {
-                    String devType = tower.getCardColor().getDevType();
-                    imageView.setImage(new Image(Thread.currentThread()
-                            .getContextClassLoader().getResource("images/developmentCards/" + devType + card.getName() + ".png")
-                            .toExternalForm()));
+        FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            for (Tower tower : this.towersSpaces) {
+                /***Load cards***/
+                Integer indexCard = 0;
+                for (AbstractDevelopmentCard card : tower.getCardsStored()) {
+                    ImageView imageView = ((ImageView) root.lookup("#tower" + tower.getCardColor().toString() + "_level" + indexCard));
+                    if(card != null) {
+                        String devType = tower.getCardColor().getDevType();
+                        imageView.setImage(new Image(Thread.currentThread()
+                                .getContextClassLoader().getResource("images/developmentCards/" + devType + card.getName() + ".png")
+                                .toExternalForm()));
+                    }
+                    else {
+                        imageView.setImage(new Image(Thread.currentThread()
+                                .getContextClassLoader().getResource("images/transparent.png")
+                                .toExternalForm()));
+                    }
+                    indexCard++;
                 }
-                else {
-                    imageView.setImage(new Image(Thread.currentThread()
-                            .getContextClassLoader().getResource("images/transparent.png")
-                            .toExternalForm()));
-                }
-                indexCard++;
             }
-
-            /***Load slots***/
-            towersSpaces = towers;
-        }
+            return null;
+        });
+        Platform.runLater(uiTask);
     }
 
     @Override
     public void updateCouncilPalace(CouncilPalace councilPalace) {
         this.palace = councilPalace;
-        StackPane palacePane = (StackPane) root.lookup("#councilPalace");
-        ImageView imageView;
-        if(councilPalace.getOccupyingPawns().size() <= 0)
-            palacePane.getChildren().removeAll(palacePane.getChildren());
-        else
-            for(FamilyMember pawn : councilPalace.getOccupyingPawns()) {
-                imageView = new ImageView(new Image(Thread.currentThread().getContextClassLoader().getResource("images/pawns" + pawn.getFamilyMemberColor() + ".png").toExternalForm()));
-                imageView.setTranslateX(20);
-                palacePane.getChildren().add(imageView);
-            }
+
+        FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            StackPane palacePane = (StackPane) root.lookup("#councilPalace");
+            ImageView imageView;
+            if(this.palace.getOccupyingPawns().size() <= 0)
+                palacePane.getChildren().removeAll(palacePane.getChildren());
+            else
+                for(FamilyMember pawn : this.palace.getOccupyingPawns()) {
+                    imageView = new ImageView(new Image(Thread.currentThread().getContextClassLoader().getResource("images/pawns" + pawn.getFamilyMemberColor() + ".png").toExternalForm()));
+                    imageView.setTranslateX(20);
+                    palacePane.getChildren().add(imageView);
+                }
+            return null;
+        });
+        Platform.runLater(uiTask);
     }
 
     @Override
     public void updateMarket(Market market) {
         this.market = market;
-        PawnColor pawnColor;
-        Integer index = 0;
-        List<ActionSlot> marketSlots = market.getMarketSlots();
-        for (index = 0; index < marketSlots.size(); index++) {
-            ImageView imageView = ((ImageView) root.lookup("#marketActionSlot" + index));
-            if (marketSlots.get(index).getFamilyMember().getFamilyMemberColor() != null) {
-                pawnColor = marketSlots.get(index).getFamilyMember().getFamilyMemberColor();
-                imageView.setImage(new Image(Thread.currentThread()
-                        .getContextClassLoader().getResource("images/pawns/" + pawnColor.toString() + ".png").toExternalForm()));
-            } else
-                imageView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
-        }
+
+        FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            PawnColor pawnColor;
+            Integer index;
+            List<ActionSlot> marketSlots = this.market.getMarketSlots();
+            for (index = 0; index < marketSlots.size(); index++) {
+                ImageView imageView = ((ImageView) root.lookup("#marketActionSlot" + index));
+                if (marketSlots.get(index).getFamilyMember().getFamilyMemberColor() != null) {
+                    pawnColor = marketSlots.get(index).getFamilyMember().getFamilyMemberColor();
+                    imageView.setImage(new Image(Thread.currentThread()
+                            .getContextClassLoader().getResource("images/pawns/" + pawnColor.toString() + ".png").toExternalForm()));
+                } else
+                    imageView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
+            }
+            return null;
+        });
+        Platform.runLater(uiTask);
     }
 
     @Override
     public void updateProductionArea(WorkingArea productionArea) {
         this.productionArea = productionArea;
-        FamilyMember pawnInSingleSlot = productionArea.getSingleSlot().getFamilyMember();
-        ImageView imageSingle = ((ImageView) root.lookup("#productionArea" + 0));
-        if(pawnInSingleSlot != null) {
-            imageSingle.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/pawns/" + pawnInSingleSlot.getFamilyMemberColor() + ".png")
-                    .toExternalForm()));
-        } else
-            imageSingle.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/transparent.png")
-                    .toExternalForm()));
 
-        List<FamilyMember> pawnsInAdvancedSlot = new ArrayList<>();
-        productionArea.getAdvancedSlots().forEach(s -> pawnsInAdvancedSlot.add(s.getFamilyMember()));
-        StackPane advancedSlot = (StackPane) root.lookup("#productionArea" +1);
-        ImageView imageAdvanced;
-        if(pawnsInAdvancedSlot.size() <= 0)
-            advancedSlot.getChildren().removeAll(advancedSlot.getChildren());
-        else {
-            for (Integer i = 0; i < pawnsInAdvancedSlot.size(); i++) {
-                imageAdvanced = new ImageView();
-                imageAdvanced.setImage(new Image(Thread.currentThread()
-                        .getContextClassLoader().getResource("images/pawns/" + pawnsInAdvancedSlot.get(i).getFamilyMemberColor() + ".png")
+        FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            FamilyMember pawnInSingleSlot = this.productionArea.getSingleSlot().getFamilyMember();
+            ImageView imageSingle = ((ImageView) root.lookup("#productionArea" + 0));
+            if(pawnInSingleSlot != null) {
+                imageSingle.setImage(new Image(Thread.currentThread()
+                        .getContextClassLoader().getResource("images/pawns/" + pawnInSingleSlot.getFamilyMemberColor() + ".png")
                         .toExternalForm()));
-                imageAdvanced.setTranslateX(20);
+            } else
+                imageSingle.setImage(new Image(Thread.currentThread()
+                        .getContextClassLoader().getResource("images/transparent.png")
+                        .toExternalForm()));
 
-                advancedSlot.getChildren().add(imageAdvanced);
+            List<FamilyMember> pawnsInAdvancedSlot = new ArrayList<>();
+            this.productionArea.getAdvancedSlots().forEach(s -> pawnsInAdvancedSlot.add(s.getFamilyMember()));
+            StackPane advancedSlot = (StackPane) root.lookup("#productionArea" +1);
+            ImageView imageAdvanced;
+            if(pawnsInAdvancedSlot.size() <= 0)
+                advancedSlot.getChildren().removeAll(advancedSlot.getChildren());
+            else {
+                for (Integer i = 0; i < pawnsInAdvancedSlot.size(); i++) {
+                    imageAdvanced = new ImageView();
+                    imageAdvanced.setImage(new Image(Thread.currentThread()
+                            .getContextClassLoader().getResource("images/pawns/" + pawnsInAdvancedSlot.get(i).getFamilyMemberColor() + ".png")
+                            .toExternalForm()));
+                    imageAdvanced.setTranslateX(20);
+
+                    advancedSlot.getChildren().add(imageAdvanced);
+                }
             }
-        }
+            return null;
+        });
+        Platform.runLater(uiTask);
     }
 
     @Override
     public void updateHarvestArea(WorkingArea harvestArea) {
         this.harvestArea = harvestArea;
-        FamilyMember pawnInSingleSlot = harvestArea.getSingleSlot().getFamilyMember();
-        ImageView imageSingle = ((ImageView) root.lookup("#harvestArea" + 0));
-        if(pawnInSingleSlot != null) {
-            imageSingle.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/pawns/" + pawnInSingleSlot.getFamilyMemberColor() + ".png")
-                    .toExternalForm()));
-        } else
-            imageSingle.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource("images/transparentSlot.png")
-                    .toExternalForm()));
 
-        List<FamilyMember> pawnsInAdvancedSlot = new ArrayList<>();
-        harvestArea.getAdvancedSlots().forEach(s -> pawnsInAdvancedSlot.add(s.getFamilyMember()));
-        StackPane advancedSlot = (StackPane) root.lookup("#harvestArea" + 1);
-        ImageView imageAdvanced;
-
-        if(pawnsInAdvancedSlot.size() <= 0)
-            advancedSlot.getChildren().removeAll(advancedSlot.getChildren());
-        else {
-            for (Integer i = 0; i < pawnsInAdvancedSlot.size(); i++) {
-                imageAdvanced = new ImageView();
-                imageAdvanced.setImage(new Image(Thread.currentThread()
-                        .getContextClassLoader().getResource("images/pawns/" + pawnsInAdvancedSlot.get(i).getFamilyMemberColor() + ".png")
+        FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            FamilyMember pawnInSingleSlot = this.harvestArea.getSingleSlot().getFamilyMember();
+            ImageView imageSingle = ((ImageView) root.lookup("#harvestArea" + 0));
+            if(pawnInSingleSlot != null) {
+                imageSingle.setImage(new Image(Thread.currentThread()
+                        .getContextClassLoader().getResource("images/pawns/" + pawnInSingleSlot.getFamilyMemberColor() + ".png")
                         .toExternalForm()));
-                imageAdvanced.setTranslateX(20);
+            } else
+                imageSingle.setImage(new Image(Thread.currentThread()
+                        .getContextClassLoader().getResource("images/transparentSlot.png")
+                        .toExternalForm()));
 
-                advancedSlot.getChildren().add(imageAdvanced);
+            List<FamilyMember> pawnsInAdvancedSlot = new ArrayList<>();
+            this.harvestArea.getAdvancedSlots().forEach(s -> pawnsInAdvancedSlot.add(s.getFamilyMember()));
+            StackPane advancedSlot = (StackPane) root.lookup("#harvestArea" + 1);
+            ImageView imageAdvanced;
+
+            if(pawnsInAdvancedSlot.size() <= 0)
+                advancedSlot.getChildren().removeAll(advancedSlot.getChildren());
+            else {
+                for (Integer i = 0; i < pawnsInAdvancedSlot.size(); i++) {
+                    imageAdvanced = new ImageView();
+                    imageAdvanced.setImage(new Image(Thread.currentThread()
+                            .getContextClassLoader().getResource("images/pawns/" + pawnsInAdvancedSlot.get(i).getFamilyMemberColor() + ".png")
+                            .toExternalForm()));
+                    imageAdvanced.setTranslateX(20);
+
+                    advancedSlot.getChildren().add(imageAdvanced);
+                }
             }
-        }
+            return null;
+        });
+        Platform.runLater(uiTask);
     }
 
     @Override
     public void updatePlayersData(List<Player> players) {
-        Pane playerInfo = new Pane();
-        Label playerName = new Label();
-        Text value = new Text();
-        DropShadow borderGlow;
-        Integer numPlayer = 1;
+        this.players = players;
 
-        for (Player player : players) {
-            playerInfo = (Pane) root.lookup("#playerInfo" + numPlayer);
-            playerInfo.setBackground(new Background(new BackgroundFill(Color.valueOf(player.getPawnColor().toString()), CornerRadii.EMPTY, Insets.EMPTY)));
-            playerInfo.setVisible(true);
+        FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            Pane playerInfo;
+            Label playerName;
+            Text value;
+            DropShadow borderGlow;
+            Integer numPlayer = 1;
 
-            playerInfo.setOnMouseClicked(new PlayerClickEvent(player));
+            for (Player player : this.players) {
+                playerInfo = (Pane) root.lookup("#playerInfo" + numPlayer);
+                playerInfo.setBackground(new Background(new BackgroundFill(Color.valueOf(player.getPawnColor().toString()), CornerRadii.EMPTY, Insets.EMPTY)));
+                playerInfo.setVisible(true);
 
-            playerName = (Label) root.lookup("#player" + numPlayer);
-            playerName.setText(player.getPlayerName());
-            for (ResourceType resType : ResourceType.values()) {
-                value = (Text) root.lookup("#" + resType.toString() + "_player" + numPlayer + "_value");
-                value.setText(player.getResources().getResourceByType(resType).toString());
+                playerInfo.setOnMouseClicked(new PlayerClickEvent(player));
 
-                borderGlow = new DropShadow();
-                borderGlow.setOffsetY(0f);
-                borderGlow.setOffsetX(0f);
-                borderGlow.setSpread(0.4);
-                borderGlow.setRadius(25.0);
-                borderGlow.setColor(Color.WHITE);
-                borderGlow.setWidth(35);
-                borderGlow.setHeight(35);
-                value.setEffect(borderGlow);
+                playerName = (Label) root.lookup("#player" + numPlayer);
+                playerName.setText(player.getPlayerName());
+                for (ResourceType resType : ResourceType.values()) {
+                    value = (Text) root.lookup("#" + resType.toString() + "_player" + numPlayer + "_value");
+                    value.setText(player.getResources().getResourceByType(resType).toString());
+
+                    borderGlow = new DropShadow();
+                    borderGlow.setOffsetY(0f);
+                    borderGlow.setOffsetX(0f);
+                    borderGlow.setSpread(0.4);
+                    borderGlow.setRadius(25.0);
+                    borderGlow.setColor(Color.WHITE);
+                    borderGlow.setWidth(35);
+                    borderGlow.setHeight(35);
+                    value.setEffect(borderGlow);
+                }
+                numPlayer++;
             }
-            numPlayer++;
-        }
 
-        for(; numPlayer < 5; numPlayer++) {
-            playerInfo = (Pane) root.lookup("#playerInfo" + numPlayer);
-            playerInfo.setVisible(false);
-        }
+            for(; numPlayer < 5; numPlayer++) {
+                playerInfo = (Pane) root.lookup("#playerInfo" + numPlayer);
+                playerInfo.setVisible(false);
+            }
+            return null;
+        });
+        Platform.runLater(uiTask);
     }
 
     @Override
     public void updateDiceValues(List<Dice> dicesValues) {
-        Text diceSlot = new Text();
-
-        for(Dice dice : dicesValues) {
-            diceSlot = (Text) root.lookup("#diceSlot" + dice.getColor());
-            diceSlot.setText(dice.getValue().toString());
-        }
+        FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            Text diceSlot;
+            for(Dice dice : dicesValues) {
+                diceSlot = (Text) root.lookup("#diceSlot" + dice.getColor());
+                diceSlot.setText(dice.getValue().toString());
+            }
+            return null;
+        });
+        Platform.runLater(uiTask);
     }
 
     @Override
     public PlayerAction turnMainAction(Optional<Boolean> lastActionValid) {
-        return null;
+        FutureTask<PlayerAction> uiTask = new FutureTask<>(() -> null);
+        return RunLaterTask(uiTask);
     }
 
     @Override
     public PlayerAction turnSecondaryAction(Optional<Boolean> lastActionValid) {
-        return null;
+        FutureTask<PlayerAction> uiTask = new FutureTask<>(() -> null);
+        return RunLaterTask(uiTask);
     }
 
     @Override
     public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
-        return new FamilyMemberSelectDialog().interactWithPlayer(familyMembers);
+        FutureTask<Integer> uiTask = new FutureTask<>(() -> new FamilyMemberSelectDialog().interactWithPlayer(familyMembers));
+        return RunLaterTask(uiTask);
     }
 
     @Override
     public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
-        return new UseServantsDialog().interactWithPlayer(servantsAvailable, minimumServantsRequested);
+        FutureTask<Integer> uiTask = new FutureTask<>(() -> new UseServantsDialog().interactWithPlayer(servantsAvailable, minimumServantsRequested));
+        return RunLaterTask(uiTask);
     }
 
     @Override
     public Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices) {
-        return new ResourceExchangeDialog().interactWithPlayer(choices);
+        FutureTask<Integer> uiTask = new FutureTask<>(() -> new ResourceExchangeDialog().interactWithPlayer(choices));
+        return RunLaterTask(uiTask);
     }
 
     @Override
     public Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards) {
-        LeaderCardsView leaderView = new LeaderCardsView();
-        Pair<String, LeaderCardsAction> toReturn = leaderView.interactWithPlayer(leaderCards);
-        Configurator.print(toReturn);
-        return toReturn;
+        FutureTask<Pair<String, LeaderCardsAction>> uiTask = new FutureTask<>(() -> new LeaderCardsView().interactWithPlayer(leaderCards));
+        return RunLaterTask(uiTask);
     }
 
     @Override
     public Boolean churchSupport() {
-        return new ChurchReportDialog().interactWithPlayer();
+        FutureTask<Boolean> uiTask = new FutureTask<>(() -> new ChurchReportDialog().interactWithPlayer());
+        return RunLaterTask(uiTask);
     }
 
     @Override
     public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
-        return new UseCouncilPrivilegeDialog().interactWithPlayer(availableBonuses);
+        FutureTask<Integer> uiTask = new FutureTask<>(() -> new UseCouncilPrivilegeDialog().interactWithPlayer(availableBonuses));
+        return RunLaterTask(uiTask);
     }
 
     @Override
     public void show() {
-
+        Platform.setImplicitExit(true);
         loginMenu();
     }
 
@@ -571,6 +615,15 @@ public class GUI extends Application implements UIInterface {
                 PersonalBoardView personalBoardView = new PersonalBoardView(player);
                 personalBoardView.start(primaryStage);
             } catch(Exception e) {e.printStackTrace();}
+        }
+    }
+
+    private <T> T RunLaterTask(FutureTask<T> uiTask) {
+        Platform.runLater(uiTask);
+        try{
+            return uiTask.get();
+        } catch(ExecutionException | InterruptedException e) {
+            return null;
         }
     }
 }

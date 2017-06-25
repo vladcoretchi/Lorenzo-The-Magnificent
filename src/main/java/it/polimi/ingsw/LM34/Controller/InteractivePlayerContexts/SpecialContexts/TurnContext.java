@@ -3,12 +3,14 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContext
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Network.GameRoom;
 import it.polimi.ingsw.LM34.Utils.Configurator;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +66,7 @@ public class TurnContext extends AbstractGameContext {
         this.gameManager.getPlayerNetworkController(currentPlayer).updateTowers(this.gameManager.getTowers());
         //this.gameManager.getPlayerNetworkController(currentPlayer).updateMarket(this.gameManager.getMarket());
 
-        this.gameManager.getPlayerNetworkController(currentPlayer).leaderCardSelection(Configurator.getLeaderCards(2));
+        Pair<String, LeaderCardsAction> lc = this.gameManager.getPlayerNetworkController(currentPlayer).leaderCardSelection(Configurator.getLeaderCards(2));
 
         //this.gameManager.getPlayerNetworkController(currentPlayer).updateMarket(this.gameManager.getMarket());
         //this.gameManager.getPlayerNetworkController(currentPlayer).updateProductionArea(this.gameManager.getProductionArea());
