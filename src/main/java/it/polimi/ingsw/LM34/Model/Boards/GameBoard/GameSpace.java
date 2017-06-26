@@ -10,6 +10,10 @@ import java.util.List;
 public abstract class GameSpace implements Serializable {
     protected List<ActionSlot> actionSlots;
 
+    public GameSpace() {
+        actionSlots = new ArrayList<>();
+    }
+
     public void sweep() {
             for (ActionSlot as : actionSlots)
                 as.sweep();
@@ -22,7 +26,6 @@ public abstract class GameSpace implements Serializable {
     public List<ActionSlot> getActionSlots() {
         return this.actionSlots;
     }
-
 
     public List<ActionSlot> getAvailableSlots() {
         ArrayList<ActionSlot> availableSlots = new ArrayList<>();

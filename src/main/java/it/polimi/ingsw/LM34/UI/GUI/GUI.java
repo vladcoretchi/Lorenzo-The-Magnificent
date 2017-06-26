@@ -92,7 +92,6 @@ public class GUI extends Application implements UIInterface {
     private Market market;
     private CouncilPalace palace;
 
-
     @Override
     public void start(Stage stage) throws Exception {
         root = FXMLLoader.load(getClass().getClassLoader().getResource("views/gui.fxml"));
@@ -153,8 +152,7 @@ public class GUI extends Application implements UIInterface {
         List<Dice> dices = new ArrayList<>();
         dices.add(orange); dices.add(black); dices.add(white);
         updateDiceValues(dices);
-
-
+        
         //new LeaderCardsView(leaders).start(primaryStage);
 
     }
@@ -166,6 +164,16 @@ public class GUI extends Application implements UIInterface {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void endTurn() {
+       new EndTurnPopup().interactWithPlayer();
+    }
+
+    @Override
+    public void disconnectionWarning() {
+        new DisconnectionWarning().interactWithPlayer();
     }
 
     /*TODO: public void leaderCardAction() {

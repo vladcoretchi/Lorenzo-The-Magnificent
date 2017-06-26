@@ -2,6 +2,7 @@ package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+
 import java.io.Serializable;
 
 /**
@@ -30,7 +31,7 @@ public class TowerSlot extends ActionSlot implements Serializable {
     }
 
     public boolean hasCard() {
-        return (this.cardStored == null);
+        return (this.cardStored != null);
     }
 
     public void sweepTowerSlot() {

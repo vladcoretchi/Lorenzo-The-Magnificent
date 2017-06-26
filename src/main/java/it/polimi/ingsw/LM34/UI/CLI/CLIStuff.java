@@ -156,6 +156,25 @@ public final class CLIStuff {
         }
     }
 
+    public static final void printPlayer(PawnColor pawnColor, String name) {
+        switch(pawnColor) {
+            case GREEN:
+                printToConsole.print(CLIStuff.PAWN_GREEN_COLOR + " "  + name + " " + CLIStuff.RESET_COLOR + "   ");
+                break;
+            case RED:
+                printToConsole.print(CLIStuff.PAWN_RED_COLOR + " " + name + " " + CLIStuff.RESET_COLOR + "   ");
+                break;
+            case YELLOW:
+                printToConsole.print(CLIStuff.PAWN_YELLOW_COLOR + " " + name + " " + CLIStuff.RESET_COLOR + "   ");
+                break;
+            case BLUE:
+                printToConsole.print(CLIStuff.PAWN_BLUE_COLOR + " " + name + " "  + CLIStuff.RESET_COLOR + "   ");
+                break;
+            default:
+                printError("Invalid pawn color");
+        }
+    }
+
    /* public static final void printCardSplittedNames(DevelopmentCardColor color, List<String> names) {
         Integer maxWordLength = 12;
         Integer maxWordsInName = 0;

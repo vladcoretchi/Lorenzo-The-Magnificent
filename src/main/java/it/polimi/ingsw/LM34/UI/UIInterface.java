@@ -59,4 +59,8 @@ public interface UIInterface {
     Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses);
 
     void endGame(List<Player> players);
+
+    void endTurn();
+
+    void disconnectionWarning();
 }

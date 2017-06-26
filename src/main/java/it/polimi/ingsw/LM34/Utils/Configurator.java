@@ -830,7 +830,6 @@ public final class Configurator {
         return productionArea;
     }
 
-
     public static List<Resources> getCouncilPrivilegeRewards() {
         return councilPrivilegeRewards;
     }

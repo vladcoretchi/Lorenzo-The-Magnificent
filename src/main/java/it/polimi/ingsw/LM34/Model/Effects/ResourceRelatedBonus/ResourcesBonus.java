@@ -10,7 +10,6 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Optional;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TOWERS_CONTEXT;
 
@@ -80,5 +79,4 @@ public class ResourcesBonus extends AbstractEffect implements Observer, Serializ
         councilPrivilegeContext.initContext(councilPrivilege);
         councilPrivilegeContext.interactWithPlayer();
     }
-
 }

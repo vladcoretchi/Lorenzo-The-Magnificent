@@ -1,9 +1,9 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,11 +33,6 @@ public LeaderCardsContext() {
         //TODO: check if the player can activate a leader, then register it to the right observer
         /*CopyOtherLeader is activated here*/
         setChanged(); notifyObservers(gameManager.getCurrentPlayer());
-
-
-
-
-
 
         /* Discard leader cards*/
         totalLeadersDiscarded = 2;
@@ -81,6 +76,4 @@ public LeaderCardsContext() {
         //TODO: hen let the current player choose which one activate
 
     }
-
-
 }

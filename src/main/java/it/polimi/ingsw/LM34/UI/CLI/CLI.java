@@ -2,10 +2,7 @@ package it.polimi.ingsw.LM34.UI.CLI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
-import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
-import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
-import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
-import it.polimi.ingsw.LM34.Enums.Model.WorkingAreaType;
+import it.polimi.ingsw.LM34.Enums.Model.*;
 import it.polimi.ingsw.LM34.Enums.UI.NetworkType;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
@@ -51,13 +48,17 @@ public class CLI implements UIInterface {
     private List<ExcommunicationCard> excommunicationCards;
     private List<Player> players;
     private List<Dice> dices;
-
+    private List<PlayerSelectableContexts> selectableContexts;
 
     public CLI() {
         dices = new ArrayList<>();
         players= new ArrayList<>();
         excommunicationCards = new ArrayList<>();
         towers = new ArrayList<>();
+        selectableContexts = new ArrayList<>();
+        for(PlayerSelectableContexts c : PlayerSelectableContexts.values())
+            selectableContexts.add(c);
+
     }
     private Integer selectionMenu(List<?> data, Optional<String> backString, Optional<String> message, Optional<String> errorMessage) {
         List<String> selectableContexts = new ArrayList<>();
@@ -65,11 +66,8 @@ public class CLI implements UIInterface {
         Integer choice = 0;
         String input;
 
-        CLIStuff.printToConsole.println("Choose the context you would like to enter");
-        for(PlayerSelectableContexts context : PlayerSelectableContexts.values())
-            selectableContexts.add(context.toString());
-
-        selectableContexts.forEach(s -> printFormat(s.toString()));
+        /*CLIStuff.printToConsole.println("Choose the context you would like to enter");
+        selectableContexts.forEach(s -> printFormat(s.toString()));*/
 
         do {
             input = readUserInput.nextLine();
@@ -229,6 +227,7 @@ public class CLI implements UIInterface {
         String input;
 
          do {
+             familyMembers.forEach(fm -> printFormat("%1$s: %2$d\n", fm.getDiceColorAssociated(), fm.getValue()));
             CLIStuff.printToConsole.println("which family member do you wish to use? ");
             input = readUserInput.nextLine();
 
@@ -443,7 +442,6 @@ public class CLI implements UIInterface {
         }
 
         printFormat("|%1$s|\n", String.join("|", Collections.nCopies(slotsResources.size(), "__________")));
-
     }
 
     /**
@@ -508,16 +506,18 @@ public class CLI implements UIInterface {
         String input = new String();
         Integer usedServants = 0;
 
-            printFormat("to complete this action, you need at least %1$d servants, and max %2$d servants\n",minimumServantsRequested, servantsAvailable);
-            CLIStuff.printToConsole.println("How many servants do you wish to use?");
+        printFormat("to complete this action, you need at least %1$d servants (you have %2$d servants)\n",minimumServantsRequested, servantsAvailable);
+        CLIStuff.printToConsole.println("How many servants do you wish to use?");
 
-            try {
-                input = readUserInput.nextLine();
-                usedServants = Integer.parseInt(input);
-            } catch (Exception e) {
-                printError("Incorrect number of servants");
-                servantsSelection(servantsAvailable, minimumServantsRequested);
-            }
+        try {
+            input = readUserInput.nextLine();
+            if(input.isEmpty())
+                contextSelection(selectableContexts);
+            usedServants = Integer.parseInt(input);
+        } catch (Exception e) {
+            printError("Incorrect number of servants");
+            servantsSelection(servantsAvailable, minimumServantsRequested);
+        }
 
         return usedServants;
     }
@@ -698,7 +698,7 @@ public class CLI implements UIInterface {
                     }
                     printLine(s);
                 }
-                
+
             /*print empty line*/
                 printFormat("|%1$s|\n", String.join("|", Collections.nCopies(slotsResources.size(), "          ")));
             }
@@ -770,5 +770,43 @@ public class CLI implements UIInterface {
         cli.councilPalaceSelection();
         cli.setExcommunicationCards(Configurator.getExcommunicationTiles());
         //cli.showExcommunicationCards();
+        cli.endTurn();
+        cli.disconnectionWarning();
+    }
+
+    public void showPlayersInfo() {
+        CLIStuff.printToConsole.println("Here are the infos about all players in game");
+        players.forEach(p -> {
+                printPlayer(p.getPawnColor(),p.getPlayerName().toString());
+                p.getActivatedLeaderCards().forEach(c -> printFormat("%1$s ", c.getName().toString()));
+                printLine("");
+                Resources res = p.getResources();
+                for(ResourceType t : ResourceType.values())
+                    printFormat("%1$s : %2$s", t.toString(), res.getResourceByType(t).toString());
+                p.getExcommunicationCards().forEach(e -> printFormat("%1$s : %2$s", e.getPeriod(),
+                                                            e.getPenalty().getClass().getSimpleName()));
+
+                printFormat("The Personal Board of player %1$s\n", p.getPlayerName().toString());
+                PersonalBoard pb = p.getPersonalBoard();
+                for(DevelopmentCardColor color : DevelopmentCardColor.values()) {
+                    printTowerTypeColor(color);
+                    pb.getDevelopmentCardsByType(color).get().forEach(c -> printFormat("%1$s ", c.getName()));
+                    printLine("");
+                }
+        }
+        );
+    }
+
+    public void showDiceValues() {
+        dices.forEach(d -> printFormat("%1$s value: %2$d ", d.getColor().toString(), d.getValue()));
+    }
+
+    public void endTurn() {
+        CLIStuff.printYellow("Your turn has ended\n");
+    }
+
+    @Override
+    public void disconnectionWarning() {
+        CLIStuff.printYellow("You are not connected to the game\n");
     }
 }
