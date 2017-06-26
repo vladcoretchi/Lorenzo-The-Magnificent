@@ -40,6 +40,7 @@ public final class Utilities {
      * Sums 2 Integer values
      */
     public static BiFunction<Integer, Integer, Integer> sumInteger = (val1, val2) -> val1 + val2;
+    public static BiFunction<Integer, Integer, Integer> subInteger = (val1, val2) -> val1 - val2;
 
     /**
      * Split a string in substring with a maximum length

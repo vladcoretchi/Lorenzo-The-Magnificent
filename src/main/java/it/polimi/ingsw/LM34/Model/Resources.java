@@ -88,6 +88,15 @@ public class Resources implements Serializable {
             this.resourcesMap.remove(resourceType);
     }
 
+    public void modifyResourceByTypeSub(ResourceType resourceType, Integer quantity) {
+        if (resourceType == null || quantity == null)
+            throw new NullPointerException();
+
+        this.resourcesMap.merge(resourceType, quantity, Utilities.subInteger);
+        if (this.resourcesMap.get(resourceType) == 0)
+            this.resourcesMap.remove(resourceType);
+    }
+
     //this method also handles subtraction as negative number of resourcesMap
     public void sumResources (Resources res) {
         if (res == null)
@@ -100,7 +109,7 @@ public class Resources implements Serializable {
         if (res == null)
             throw new NullPointerException();
 
-        res.getResources().forEach(this::modifyResourceByType);
+        res.getResources().forEach(this::modifyResourceByTypeSub);
     }
 
     public void multiplyResources (Integer multiplier) {

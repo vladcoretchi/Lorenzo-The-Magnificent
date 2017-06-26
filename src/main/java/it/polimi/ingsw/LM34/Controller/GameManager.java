@@ -99,7 +99,7 @@ public class GameManager {
         return this.gameRoom.getPlayerNetworkController(player.getPlayerName());
     }
 
-    private void drawExcommunicationCards() {
+    public void drawExcommunicationCards() {
         List<ExcommunicationCard> exCards = getExcommunicationCards(excommunicationCards);
         ChurchReportContext churchContext = (ChurchReportContext) getContextByType(CHURCH_REPORT_CONTEXT);
         exCards.forEach(churchContext::addExcommunicationCard);

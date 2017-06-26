@@ -2,42 +2,25 @@ package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
-import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
-import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class MarketTest {
 
-    private Market market;
-    private ResourcesBonus resourcesBonus = new ResourcesBonus(5);
-    private FamilyMember fm = new FamilyMember(PawnColor.RED, DiceColor.BLACK);
-
-    @Before
-    public void setUp() {
-        ArrayList<ActionSlot> as = new ArrayList<>();
-        ActionSlot actionSlot = new ActionSlot(true, 3, resourcesBonus);
-        as.add(0, actionSlot);
-        as.add(1, actionSlot);
-        as.add(2, actionSlot);
-        market = new Market(as);
-    }
-
-    @Test(expected = OccupiedSlotException.class)
-    public void insertFamilyMemberTest() throws OccupiedSlotException {
-
-        market.insertFamilyMember(1, fm);
-    }
-
     @Test
-    public void sizeTest() {
-
-        assertTrue(market.getSize() == 3);
+    public void insertFamilyMember() throws Exception {
+        Integer slotIndex = 0;
+        FamilyMember familyMember = new FamilyMember(PawnColor.GREEN, DiceColor.BLACK);
+        List<ActionSlot> actionSlots = new ArrayList<>();
+        ActionSlot actionSlot = new ActionSlot();
+        actionSlots.add(actionSlot); //null familyMember, unless insertFamilymember will fail
+        Market market = new Market(actionSlots);
+        market.insertFamilyMember(slotIndex, familyMember);
     }
 
 }

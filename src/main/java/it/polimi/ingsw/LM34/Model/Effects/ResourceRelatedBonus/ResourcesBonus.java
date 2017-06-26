@@ -10,6 +10,7 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Vector;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TOWERS_CONTEXT;
 
@@ -57,7 +58,7 @@ public class ResourcesBonus extends AbstractEffect implements Observer, Serializ
 
     @Override
     public void update(Observable o, Object arg) {
-        AbstractGameContext callerContext = (AbstractGameContext) o;
+        AbstractGameContext callerContext = (AbstractGameContext) o; //can`t do it, because Observable isn`t a subclass of AbstractGameContext
         ResourceIncomeContext incomeContext = (ResourceIncomeContext) callerContext.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT);
         incomeContext.setIncome(resources);
 
@@ -79,4 +80,5 @@ public class ResourcesBonus extends AbstractEffect implements Observer, Serializ
         councilPrivilegeContext.initContext(councilPrivilege);
         councilPrivilegeContext.interactWithPlayer();
     }
+
 }

@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by GiulioComi on 20/05/2017.
  */
-public class DevelopmentCardDeck<T extends AbstractDevelopmentCard> implements  Iterable<T> {
+public class DevelopmentCardDeck<T extends AbstractDevelopmentCard> implements Iterable<T> {
 
     //TODO: get deck loaded from Configurator at the preparation of the game
     private List<T> developmentDeck = new ArrayList<>();

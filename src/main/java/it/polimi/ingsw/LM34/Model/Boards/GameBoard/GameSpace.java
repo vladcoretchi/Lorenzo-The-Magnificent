@@ -8,7 +8,7 @@ import java.util.List;
  * Created by GiulioComi on 13/05/2017.
  */
 public abstract class GameSpace implements Serializable {
-    protected List<ActionSlot> actionSlots;
+    protected List<ActionSlot> actionSlots = new ArrayList<>();
 
     public GameSpace() {
         actionSlots = new ArrayList<>();

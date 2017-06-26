@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class PersonalBoardTest {
 
-     Resources cardResourcesRequired = new Resources();
+    Resources cardResourcesRequired = new Resources();
      AbstractDevelopmentCard card = new FillAbstractDevelopmentCard();
 
     @Test

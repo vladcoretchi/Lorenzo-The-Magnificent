@@ -152,7 +152,7 @@ public class GUI extends Application implements UIInterface {
         List<Dice> dices = new ArrayList<>();
         dices.add(orange); dices.add(black); dices.add(white);
         updateDiceValues(dices);
-        
+
         //new LeaderCardsView(leaders).start(primaryStage);
 
     }
