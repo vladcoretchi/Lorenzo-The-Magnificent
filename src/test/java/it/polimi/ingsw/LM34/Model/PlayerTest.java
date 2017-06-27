@@ -1,7 +1,9 @@
 package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import org.junit.Test;
 
@@ -14,6 +16,9 @@ public class PlayerTest {
 
     @Test
     public void hasEnoughResources() throws Exception {
+        Player player = new Player("aldo", PawnColor.GREEN, new PersonalBoard());
+
+        assertTrue(player.getResources().getResourceByType(ResourceType.SERVANTS) == 0);
     }
 
     @Test
@@ -32,7 +37,7 @@ public class PlayerTest {
     @Test
     public void SubResources() {
         Resources res = new Resources(2,2,2,2,2,2,2);
-        Resources minus = new Resources(1,1,1,1,1,1,1);
+        Resources minus = new Resources(-1,-1,-1,-1,-1,-1,-1);
         res.subResources(minus);
         assertEquals("Coins: expected 1", 1, res.getResourceByType(ResourceType.COINS).intValue());
         assertEquals("Woods: expected 1", 1, res.getResourceByType(ResourceType.WOODS).intValue());

@@ -13,9 +13,6 @@ import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by robertodorata on 5/25/17.
- */
 public class ResourcesPerItemBonusTest {
 
     @Rule
