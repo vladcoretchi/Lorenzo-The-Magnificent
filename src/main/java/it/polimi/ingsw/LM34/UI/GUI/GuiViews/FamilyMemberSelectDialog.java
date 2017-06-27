@@ -12,8 +12,6 @@ import java.util.Optional;
 
 public class FamilyMemberSelectDialog implements DialogInterface {
 
-    public FamilyMemberSelectDialog() {}
-
     public Integer interactWithPlayer(List<FamilyMember> membersAvailable) {
         String choosed;
         ArrayList<String> members = new ArrayList<>();

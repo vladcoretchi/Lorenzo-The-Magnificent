@@ -16,8 +16,6 @@ import java.util.Optional;
  */
 public class ResourceExchangeDialog implements DialogInterface {
 
-    public ResourceExchangeDialog() {}
-
     public Integer interactWithPlayer(List<Pair<Resources,ResourcesBonus>> resourcesExchange) {
         List<String> choices = new ArrayList<>();
 

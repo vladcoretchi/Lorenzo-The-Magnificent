@@ -31,8 +31,7 @@ public class SocketClient extends AbstractClient {
             inputListener = new ClientInputListener();
             inputListener.start();
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e);
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
         }
     }
 
@@ -59,6 +58,7 @@ public class SocketClient extends AbstractClient {
 
                     RequestToClient.valueOf(request).readAndHandle(SocketClient.this);
                 } catch (IOException e) {
+                    getUI().disconnectionWarning();
                     LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e);
                     this.terminate();
                 }

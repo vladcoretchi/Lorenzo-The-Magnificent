@@ -29,7 +29,7 @@ public final class Validator {
             checkValidity(inputValue, data);
             return inputValue;
         } catch (Exception e) {
-            LOGGER.log(Level.INFO, "Input corrupted");
+            LOGGER.log(Level.INFO, "Invalid input");
             throw new IncorrectInputException();
         }
     }
@@ -59,7 +59,6 @@ public final class Validator {
             throw new IncorrectInputException();
         }
     }
-
 
     /*Validate Number type inputs*/
     public static final void checkValidity(Integer input, Integer max) throws IncorrectInputException {

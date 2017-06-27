@@ -12,9 +12,7 @@ public final class CLIStuff {
     public static final String INCORRECT_INPUT = "Incorrect input";
     public static final Scanner readUserInput = new Scanner(System.in);
     public static final PrintWriter printToConsole = new PrintWriter(System.out, true);
-
-
-    private CLIStuff() {}
+    private static final String invalidPawnColor = "Invalid pawn color";
     /**
      * to print colored message to console, will be used ANSI escape code
      * https://en.wikipedia.org/wiki/ANSI_escape_code
@@ -72,20 +70,23 @@ public final class CLIStuff {
     private static final String RESET_COLOR = ESCAPE_SEQUENCE + RESET_COLOR_TO_DEFAULT;
 
     private static final String SPLASH_SCREEN =
-        " __       ______   .______    _______ .__   __.  ______    ______     __   __\n" +
-        "|  |     /  __  \\  |   _  \\  |   ____||  \\ |  | |      /  /  __  \\   |  | |  |\n" +
-        "|  |    |  |  |  | |  |_)  | |  |__   |   \\|  | `--/  /  |  |  |  |  |  | |  |\n" +
-        "|  |    |  |  |  | |      /  |   __|  |  . `  |   /  /   |  |  |  |  |  | |  |\n" +
-        "|  `---.|  `--'  | |  |\\  \\-.|  |____ |  |\\   |  /  /---.|  `--'  |  |  | |  `---.\n" +
-        "|______| \\______/  | _| `.__||_______||__| \\__| /_______| \\______/   |__| |______|\n" +
-        "\n" +
-        ".___  ___.      ___       _______ .__   __.  __   _______  __    ______   ______\n" +
-        "|   \\/   |     /   \\     /  _____||  \\ |  | |  | |   ____||  |  /      | /  __  \\\n" +
-        "|  \\  /  |    /  ^  \\   |  |  __  |   \\|  | |  | |  |__   |  | |  ,----'|  |  |  |\n" +
-        "|  |\\/|  |   /  /_\\  \\  |  | |_ | |  . `  | |  | |   __|  |  | |  |     |  |  |  |\n" +
-        "|  |  |  |  /  _____  \\ |  |__| | |  |\\   | |  | |  |     |  | |  `----.|  `--'  |\n" +
-        "|__|  |__| /__/     \\__\\ \\______| |__| \\__| |__| |__|     |__|  \\______| \\______/\n" +
-        "                                                                                   ";
+            " __       ______   .______    _______ .__   __.  ______    ______     __   __\n" +
+                    "|  |     /  __  \\  |   _  \\  |   ____||  \\ |  | |      /  /  __  \\   |  | |  |\n" +
+                    "|  |    |  |  |  | |  |_)  | |  |__   |   \\|  | `--/  /  |  |  |  |  |  | |  |\n" +
+                    "|  |    |  |  |  | |      /  |   __|  |  . `  |   /  /   |  |  |  |  |  | |  |\n" +
+                    "|  `---.|  `--'  | |  |\\  \\-.|  |____ |  |\\   |  /  /---.|  `--'  |  |  | |  `---.\n" +
+                    "|______| \\______/  | _| `.__||_______||__| \\__| /_______| \\______/   |__| |______|\n" +
+                    "\n" +
+                    ".___  ___.      ___       _______ .__   __.  __   _______  __    ______   ______\n" +
+                    "|   \\/   |     /   \\     /  _____||  \\ |  | |  | |   ____||  |  /      | /  __  \\\n" +
+                    "|  \\  /  |    /  ^  \\   |  |  __  |   \\|  | |  | |  |__   |  | |  ,----'|  |  |  |\n" +
+                    "|  |\\/|  |   /  /_\\  \\  |  | |_ | |  . `  | |  | |   __|  |  | |  |     |  |  |  |\n" +
+                    "|  |  |  |  /  _____  \\ |  |__| | |  |\\   | |  | |  |     |  | |  `----.|  `--'  |\n" +
+                    "|__|  |__| /__/     \\__\\ \\______| |__| \\__| |__| |__|     |__|  \\______| \\______/\n" +
+                    "                                                                                   ";
+
+    private CLIStuff() {}
+
 
     public static final void printSplashScreen() {
         printLine(SPLASH_SCREEN);
@@ -103,7 +104,7 @@ public final class CLIStuff {
         printToConsole.format(format, args);
     }
 
-    private static final void printGreen(String message) {
+    public static final void printGreen(String message) {
         printToConsole.print(CLIStuff.GREEN_MESSAGE_COLOR + message + CLIStuff.RESET_COLOR);
     }
 
@@ -111,7 +112,7 @@ public final class CLIStuff {
         printToConsole.print(YELLOW_MESSAGE_COLOR + message + RESET_COLOR);
     }
 
-    private static final void printBlue(String message) {
+    public static final void printBlue(String message) {
         printToConsole.print(BLUE_MESSAGE_COLOR + message + RESET_COLOR);
     }
 
@@ -176,7 +177,26 @@ public final class CLIStuff {
                 printToConsole.print(CLIStuff.PAWN_BLUE_COLOR + " " + name + " "  + CLIStuff.RESET_COLOR + "   ");
                 break;
             default:
-                printError("Invalid pawn color");
+                printError(invalidPawnColor);
+        }
+    }
+
+    public static final void printPlayerName(String turnPhrase, PawnColor color) {
+        switch (color) {
+            case GREEN:
+                printGreen(turnPhrase);
+                break;
+            case BLUE:
+                printBlue(turnPhrase);
+                break;
+            case YELLOW:
+                printYellow(turnPhrase);
+                break;
+            case RED:
+                printError(turnPhrase);
+                break;
+            default:
+                printError(invalidPawnColor);
         }
     }
 }

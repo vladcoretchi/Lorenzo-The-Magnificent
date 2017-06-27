@@ -9,10 +9,6 @@ import java.util.Optional;
 
 public class ChurchReportDialog implements DialogInterface {
 
-    public ChurchReportDialog() {
-
-    }
-
     public Boolean interactWithPlayer() {
         Boolean result;
         Alert excommunicationChoice = new Alert(Alert.AlertType.NONE, "Curch Support",ButtonType.OK, ButtonType.NO);

@@ -66,8 +66,6 @@ public class GUI extends Application implements UIInterface {
     private Parent root;
     private Stage primaryStage;
     private LoginDialog loginDialog;
-    private PopupSlotBonus popupSlotBonus;
-    private Scene guiScene;
 
     @FXML
     private TextField username;
@@ -97,54 +95,7 @@ public class GUI extends Application implements UIInterface {
         root = FXMLLoader.load(getClass().getClassLoader().getResource("views/gui.fxml"));
 
         this.primaryStage = new Stage();
-        //primaryStage.initStyle(StageStyle.UNDECORATED);
         prepareWindow();
-        /*----------GAME SETUPS----------*/
-        //loadFaithPath(); //TODO
-        //leaderCardAction(); //TODO
-
-        /*----------TURN SETUPS--------*/
-        //updatePlayersInfo();
-        //updateDiceValues();
-
-        /*----------ROUND SETUPS--------*/
-        //sweepSlots();
-
-        /*----------DIALOGS--------*/
-        //servantsSelection(5,1);
-        //churchReportDecision(4,2);
-        //leaderCardAction(); //TODO
-        //addPlayersInfo(root); //TODO
-        //endGame();
-        //familyMemberSelection();*/
-
-        /*List<Resources> resList = new ArrayList<>();
-        resList.add(tempRes);
-        resList.add(new Resources(3,2,1,0));
-        new UseCouncilPrivilegeDialog().interactWithPlayer(resList);*/
-
-        /*List<Pair<Resources, ResourcesBonus>> listPairExchange = new ArrayList<>();
-        Resources tempRes = new Resources(1,2,9,0);
-        ResourcesBonus tempResBon = new ResourcesBonus(new Resources(), 3);
-        Resources tempRes2 = new Resources(0,0,72,5);
-        ResourcesBonus tempResBon2 = new ResourcesBonus(new Resources(3,2,1,4), 1);
-        listPairExchange.add(new ImmutablePair<>(tempRes, tempResBon));
-        listPairExchange.add(new ImmutablePair<>(tempRes2, tempResBon2));
-        Integer result = new ResourceExchangeDialog().interactWithPlayer(listPairExchange);*/
-
-        /*List<Resources> resList = new ArrayList<>();
-        resList.add(tempRes);
-        resList.add(new Resources(3,2,1,0));
-        new UseCouncilPrivilegeDialog().interactWithPlayer(resList);*/
-
-        /*List<LeaderCard> leaders = new ArrayList<>();
-        leaders.add(new LeaderCard("Sisto IV", null,null, true));
-        leaders.add(new LeaderCard("Pico Della Mirandola", null,null, true));
-        leaders.add(new LeaderCard("Giovanni Dalle Bande Nere", null,null, true));
-        leaders.add(new LeaderCard("Lucrezia Borgia", null,null, true));
-        leaders.add(new LeaderCard("Sandro Botticelli", null,null, true));
-        leaderCardSelection(leaders);*/
-
 
         Dice orange = new Dice(ORANGE); orange.rollDice();
         Dice black = new Dice(BLACK); orange.rollDice();
@@ -189,14 +140,31 @@ public class GUI extends Application implements UIInterface {
         return RunLaterTask(uiTask);
     }
 
+    @Override
+    public void infoNewPlayerTurn(String playerName, PawnColor playerColor) {
+        String phrase = "It's " + playerName + "'s turn\n";
+        Platform.runLater(()-> new PlayersInformativeDialog().interactWithPlayer(phrase, playerColor));
+    }
+
+    @Override
+    public void infoDisconnectedPlayer(String playerName, PawnColor playerColor) {
+        String phrase = playerName + "has disconnected\n";
+        Platform.runLater(()-> new PlayersInformativeDialog().interactWithPlayer(phrase, playerColor));
+    }
+
+    @Override
+    public void infoReconnectedPlayer(String playerName, PawnColor playerColor) {
+        String phrase = playerName + "has reconnected\n";
+        Platform.runLater(()-> new PlayersInformativeDialog().interactWithPlayer(phrase, playerColor));
+    }
+
     private void prepareWindow() {
 
         primaryStage.setWidth(800);
         primaryStage.setHeight(600);
         primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
         primaryStage.setTitle("Lorenzo il Magnifico by CranioCreations");
-        guiScene = new Scene(root, primaryStage.getWidth(), primaryStage.getHeight());
-        primaryStage.setScene(guiScene);
+        primaryStage.setScene(new Scene(root, primaryStage.getWidth(), primaryStage.getHeight()));
         primaryStage.setFullScreen(false);
         primaryStage.setResizable(true);
         primaryStage.show();
@@ -267,7 +235,7 @@ public class GUI extends Application implements UIInterface {
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
             StackPane palacePane = (StackPane) root.lookup("#councilPalace");
             ImageView imageView;
-            if(this.palace.getOccupyingPawns().size() <= 0)
+            if(!this.palace.getOccupyingPawns().isEmpty())
                 palacePane.getChildren().removeAll(palacePane.getChildren());
             else
                 for(FamilyMember pawn : this.palace.getOccupyingPawns()) {
@@ -320,9 +288,9 @@ public class GUI extends Application implements UIInterface {
 
             List<FamilyMember> pawnsInAdvancedSlot = new ArrayList<>();
             this.productionArea.getAdvancedSlots().forEach(s -> pawnsInAdvancedSlot.add(s.getFamilyMember()));
-            StackPane advancedSlot = (StackPane) root.lookup("#productionArea" +1);
+            StackPane advancedSlot = (StackPane) root.lookup("#productionArea" + 1);
             ImageView imageAdvanced;
-            if(pawnsInAdvancedSlot.size() <= 0)
+            if(!pawnsInAdvancedSlot.isEmpty())
                 advancedSlot.getChildren().removeAll(advancedSlot.getChildren());
             else {
                 for (Integer i = 0; i < pawnsInAdvancedSlot.size(); i++) {
@@ -382,6 +350,7 @@ public class GUI extends Application implements UIInterface {
     @Override
     public void updatePlayersData(List<Player> players) {
         this.players = players;
+
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
             Pane playerInfo;
             Label playerName;
@@ -392,7 +361,6 @@ public class GUI extends Application implements UIInterface {
             for (Player player : this.players) {
                 playerInfo = (Pane) root.lookup("#playerInfo" + numPlayer);
                 playerInfo.setBackground(new Background(new BackgroundFill(Color.valueOf(player.getPawnColor().toString()), CornerRadii.EMPTY, Insets.EMPTY)));
-                playerInfo.setManaged(true);
                 playerInfo.setVisible(true);
 
                 playerInfo.setOnMouseClicked(new PlayerClickEvent(player));
@@ -604,11 +572,6 @@ public class GUI extends Application implements UIInterface {
                 .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
     }
 
-    public static void main(String [] args) {
-        GUI gui = new GUI();
-        gui.show();
-    }
-
     private class PlayerClickEvent implements EventHandler<Event> {
         private Player player;
 
@@ -621,19 +584,19 @@ public class GUI extends Application implements UIInterface {
             try {
                 personalBoardView = new PersonalBoardView(player);
                 personalBoardView.start(primaryStage);
-            } catch(Exception e) {
-                LOGGER.log(Level.WARNING, "Error in handling events from GUI");
-                e.printStackTrace();}
+            } catch (Exception e) {
+                LOGGER.log(Level.WARNING, "Error in handling events from GUI", e.getStackTrace());
+            }
         }
     }
+        private <T> T RunLaterTask(FutureTask<T> uiTask) {
+            Platform.runLater(uiTask);
+            try {
+                return uiTask.get();
+            } catch (ExecutionException | InterruptedException e) {
+                LOGGER.log(Level.FINEST, "Error in creating the popupBonus");
+                return null;
+            }
+        }
 
-    private <T> T RunLaterTask(FutureTask<T> uiTask) {
-        Platform.runLater(uiTask);
-        try{
-            return uiTask.get();
-        } catch(ExecutionException | InterruptedException e) {
-            LOGGER.log(Level.FINEST, "Error in creating the popupBonus");
-            return null;
-        }
-    }
 }

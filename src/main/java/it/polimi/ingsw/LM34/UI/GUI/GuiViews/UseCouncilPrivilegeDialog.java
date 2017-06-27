@@ -1,6 +1,5 @@
 package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
-import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Resources;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.image.ImageView;
@@ -18,14 +17,13 @@ public class UseCouncilPrivilegeDialog {
         //TODO
         availableBonuses.forEach(resources -> {
             Integer index = 0;
-            Integer value = 0;
+            List<String> reward = new ArrayList<>();
 
-            for(ResourceType type : ResourceType.values()) {
-            value = availableBonuses.get(index).getResourceByType(type);
-            if(availableBonuses.get(index).getResourceByType(type) > 0)
-                choices.add(type.toString() + " :" + value);
+            resources.getResources().forEach((type, value) ->
+                            reward.add(String.format("%1$s(%2$d)", type.toString(), value)));
+
+            choices.add(index + " )" + reward);
             index++;
-        }
         });
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>("0", choices);
@@ -36,6 +34,6 @@ public class UseCouncilPrivilegeDialog {
 
         result = dialog.showAndWait();
 
-        return Integer.parseInt(result.get());
+        return Integer.parseInt(result.get().substring(0,1));
     }
 }

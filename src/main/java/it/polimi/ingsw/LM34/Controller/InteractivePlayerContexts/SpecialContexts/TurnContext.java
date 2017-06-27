@@ -44,7 +44,6 @@ public class TurnContext extends AbstractGameContext {
             if (!observer.isOncePerRound())
                 observer.subscribeObserverToContext(contexts);
             notifyObservers(player); //for PerRoundLeaderReward*/
-        System.out.println("Now is player: "+gameManager.getCurrentPlayer().getPawnColor()+" turn");
         interactWithPlayer();
     }
 

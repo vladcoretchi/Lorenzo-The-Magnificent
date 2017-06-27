@@ -2,8 +2,6 @@ package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
@@ -19,16 +17,12 @@ import java.util.Optional;
 public class LeaderCardsView implements DialogInterface {
     String decision;
     List<LeaderCard> leadersOwned;
-    private Parent root;
-    private FXMLLoader loader;
-
-    public LeaderCardsView() {}
 
     public Pair<String, LeaderCardsAction> interactWithPlayer(List<LeaderCard> leadersOwned) {
         final ChoiceDialog dialog = new ChoiceDialog();
         dialog.setTitle("Leaders Available");
 
-        ImageView tempImage = new ImageView();
+        ImageView tempImage;
 
         for (LeaderCard leader : leadersOwned) {
          /*---ADD AS IMAGE---*/
@@ -45,6 +39,7 @@ public class LeaderCardsView implements DialogInterface {
         }
 
         Optional<ImageView> result = dialog.showAndWait();
+        dialog.getDialogPane().setMinHeight(800.0);
         String  leaderChoosed = result.orElse(new ImageView()).getId();
         LeaderCardsAction action = LeaderCardsAction.DISCARD;
         ButtonType activate = new ButtonType(LeaderCardsAction.PLAY.toString());
@@ -55,12 +50,13 @@ public class LeaderCardsView implements DialogInterface {
 
         Optional<ButtonType> choice = actionChoice.showAndWait();
 
-        if (choice.get().equals(activate))
-            action = LeaderCardsAction.PLAY;
-        else if (choice.get().equals(copy))
-            action = LeaderCardsAction.COPY;
-        else
-            action = LeaderCardsAction.DISCARD;
+        if (choice.isPresent())
+            if(choice.get().equals(activate))
+                action = LeaderCardsAction.PLAY;
+            else if (choice.get().equals(copy))
+                action = LeaderCardsAction.COPY;
+            else
+                action = LeaderCardsAction.DISCARD;
 
         return new ImmutablePair(leaderChoosed, action);
     }

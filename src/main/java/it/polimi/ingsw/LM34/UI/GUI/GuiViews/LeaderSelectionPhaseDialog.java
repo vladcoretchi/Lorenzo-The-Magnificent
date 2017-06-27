@@ -10,8 +10,6 @@ import java.util.Optional;
 public class LeaderSelectionPhaseDialog {
     List<LeaderCard> leaderCards;
 
-    public LeaderSelectionPhaseDialog() {}
-
     public Integer interactWithPlayer(List<LeaderCard> leaderCards) {
         List<String> choices = new ArrayList<>();
 

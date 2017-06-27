@@ -103,8 +103,8 @@ public final class Configurator {
     private static final String MILITARY_POINTS_JSONSTRING = "MILITARY_POINTS";
     private static final String REQUIREMENTS_JSONSTRING = "requirements";
     private static final String INSTANT_BONUS_JSONSTRING = "instantBonus";
-    private static final String PRODUCTION_JSONSTRING = "PRODUCTION";
-    private static final String HARVEST_JSONSTRING = "HARVEST";
+    private static final String PRODUCTION_JSONSTRING = "production";
+    private static final String HARVEST_JSONSTRING = "harvest";
 
     private Configurator() {}
 
@@ -117,8 +117,7 @@ public final class Configurator {
             String jsonString  = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
             jsonObject = new JSONObject(jsonString).optJSONObject("configuration");
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Cannot load file from configs.json");
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Cannot load file from configs.json",  e.getStackTrace());
         }
 
         /****GameRoom Timeout****/

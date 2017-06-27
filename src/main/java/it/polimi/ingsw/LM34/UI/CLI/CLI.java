@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.UI.CLI;
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Enums.Model.WorkingAreaType;
 import it.polimi.ingsw.LM34.Enums.UI.NetworkType;
@@ -10,10 +11,8 @@ import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
-import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
-import it.polimi.ingsw.LM34.Model.Cards.TerritoryCard;
 import it.polimi.ingsw.LM34.Model.Dice;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
@@ -25,7 +24,6 @@ import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.UI.UIInterface;
-import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 import it.polimi.ingsw.LM34.Utils.Validator;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -66,45 +64,24 @@ public class CLI implements UIInterface {
 
     }
     private Integer selectionMenu(List<?> data, Optional<String> backString, Optional<String> message, Optional<String> errorMessage) {
-        List<String> selectableContexts = new ArrayList<>();
-        Boolean validUserInput = false;
-        Integer choice = 0;
-        String input;
-
-        CLIStuff.printToConsole.println("Choose the context you would like to enter");
-        selectableContexts.forEach(s -> printFormat(s.toString()));
-
-        do {
-            input = readUserInput.nextLine();
-            try {
-                Validator.checkValidity(input, selectableContexts);
-                validUserInput = true;
-                choice = Integer.parseInt(input);
-            }  catch (Exception e) {
-                LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
-                printError("Incorrect value");
-            }
-        }
-        while(!validUserInput);
-
-        //TODO
-        /*backString.ifPresent((str) -> printFormat("%1$d) %2$s\n", 0, str));
+        backString.ifPresent((str) -> printFormat("%1$d) %2$s\n", 0, str));
         for (int i = 0; i < data.size(); i++) {
             printFormat("%1$d) %2$s\n", i+1, data.get(i).toString());
         }
 
         message.ifPresent((str) -> printLine(str));
-        String userSelectionString = readUserInput.nextLine();
+        Integer selectedValue;
         try {
-            userSelection = Validator.checkValidity(userSelectionString, data);
+            selectedValue = Integer.parseInt(readUserInput.nextLine());
+            Validator.checkValidity(--selectedValue, data);
         }
         catch (IncorrectInputException ex) {
+            LOGGER.log(Level.INFO, getClass().getSimpleName(), ex.getStackTrace());
             errorMessage.ifPresent((str) -> printError(str));
-            userSelection = selectionMenu(data, backString, message, errorMessage);
+            selectedValue = selectionMenu(data, backString, message, errorMessage);
         }
 
-        return --userSelection;*/
-        return null; //TODO
+        return selectedValue;
     }
 
     public void show() {
@@ -193,7 +170,7 @@ public class CLI implements UIInterface {
     @Override
     public void endGame(List<Player> players) {
         Integer maxVictoryPointsScored = 0;
-        Integer playerPoints = 0;
+        Integer playerPoints;
         String winnerName= new String();
 
         /***Shows the points scored by all players***/
@@ -213,7 +190,6 @@ public class CLI implements UIInterface {
         printFormat("And... the winner is %1$s\n",winnerName);
     }
 
-    //TODO
     @Override
     public PlayerAction turnMainAction(Optional<Boolean> lastActionValid) {
         //TODO: return
@@ -350,7 +326,6 @@ public class CLI implements UIInterface {
      * this method will be called when player will enter into Council Palace
      */
     public void councilPalaceSelection() {
-        Boolean decision;
         String input;
         Boolean validUserInput = false;
 
@@ -359,23 +334,20 @@ public class CLI implements UIInterface {
         slots = palace.getActionSlots();
         printSlots(slots);
 
-        do {
-            CLIStuff.printToConsole.println("Do you want to place one of your pawns in the Council Palace?");
-            input = readUserInput.nextLine();
 
-            if (input.equalsIgnoreCase("yes")) {
-                decision = true;
-                validUserInput = true;
-                //TODO: send to server councilPalaceSelection if true
-            } else if (input.equalsIgnoreCase("no")) {
-                decision = false;
+        CLIStuff.printToConsole.println("Do you want to place one of your pawns in the Council Palace?");
+        input = readUserInput.nextLine();
+
+        if (input.equalsIgnoreCase("yes")) {
             validUserInput = true;
-            //TODO: go back to menu selection
-            }else {
-                printError("Invalid choice");
-                councilPalaceSelection();
-            }
-            } while(!validUserInput);
+            //TODO: send to server councilPalaceSelection if true
+        } else if (input.equalsIgnoreCase("no")) {
+            validUserInput = true;
+        //TODO: go back to menu selection
+        }else {
+            printError("Invalid choice");
+            councilPalaceSelection();
+        }
     }
 
     private void printSlots(List<ActionSlot> slots) {
@@ -499,7 +471,8 @@ public class CLI implements UIInterface {
 
          // decrement tower and floor because user's choice is between 1 and 4, but server's range is between 0 and 3
 
-        tower--; floor--;
+        tower--;
+        floor--;
 
         towerAndItsFloor = towers.get(tower).getCardColor().toString() + floor.toString(); //TODO: verify the convention works
 
@@ -549,6 +522,7 @@ public class CLI implements UIInterface {
             Validator.checkValidity(choice.toString());
         }
         catch (Exception e) {
+            LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
             printError("The resources exchange choosed is not valid");
             resourceExchangeSelection(choices);
         }
@@ -581,6 +555,7 @@ public class CLI implements UIInterface {
             Validator.checkLeaderValidity(leadersOwned, input);
         }
         catch (IncorrectInputException e) {
+            LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
             printError("The leader choosed is not valid");
             leaderCardSelection(leadersOwned);
         }
@@ -619,6 +594,7 @@ public class CLI implements UIInterface {
             Validator.checkValidity(choice.toString());
         }
         catch (Exception e) {
+            LOGGER.log(Level.INFO, "Incorrect input", e);
             printError("The selected reward is not valid");
             selectCouncilPrivilegeBonus(availableBonuses);
         }
@@ -713,23 +689,7 @@ public class CLI implements UIInterface {
     }
 
     public void showExcommunicationCards() {
-        excommunicationCards.forEach(ex -> printFormat("Period %1$d, Penalty %2$s\n", ex.getPeriod(),ex.getPenalty().getClass().getSimpleName().toString()));
-    }
-
-    public static void main (String[] args) {
-        Configurator.loadConfigs();
-        List<Tower> towers = Configurator.getTowers();
-        AbstractDevelopmentCard card = new TerritoryCard("Support to the Pope", 1, 2, null, null);
-        AbstractDevelopmentCard card1 = new TerritoryCard("General", 1, 2, null, null);
-        AbstractDevelopmentCard card2 = new TerritoryCard("Repair the Church", 1, 2, null, null);
-        AbstractDevelopmentCard card3 = new TerritoryCard("Citadel", 1, 2, null, null);
-        towers.get(0).getTowerSlots().get(0).setCardStored(card);
-        towers.get(0).getTowerSlots().get(1).setCardStored(card1);
-        towers.get(0).getTowerSlots().get(2).setCardStored(card2);
-        towers.get(0).getTowerSlots().get(3).setCardStored(card3);
-        Market market = Configurator.getMarket();
-        CLI cli = new CLI();
-        cli.market = market;
+        excommunicationCards.forEach(ex -> printFormat("Period %1$d, Penalty %2$s\n", ex.getPeriod(),ex.getPenalty().getClass().getSimpleName()));
     }
 
     public void showPlayersInfo() {
@@ -792,6 +752,7 @@ public class CLI implements UIInterface {
                 validUserInput = true;
             }
             catch (IncorrectInputException e) {
+                LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
                 printError(INCORRECT_INPUT);
             }
         } while(!validUserInput);
@@ -822,6 +783,7 @@ public class CLI implements UIInterface {
                 validUserInput = true;
             }
             catch (IncorrectInputException e) {
+                LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
                 printError(INCORRECT_INPUT);
             }
         } while(!validUserInput);
@@ -829,4 +791,20 @@ public class CLI implements UIInterface {
         return leaderSelected;
     }
 
+    @Override
+    public void infoNewPlayerTurn(String playerName, PawnColor playerColor) {
+        String phrase = "It's " + playerName + "'s turn\n";
+        printPlayerName(phrase, playerColor);
+    }
+
+    @Override
+    public void infoDisconnectedPlayer(String playerName, PawnColor playerColor) {
+        String phrase = playerName + "has disconnected\n";
+        printPlayerName(phrase, playerColor);
+    }
+
+    public void infoReconnectedPlayer(String playerName, PawnColor playerColor) {
+        String phrase = playerName + "has reconnected\n";
+        printPlayerName(phrase, playerColor);
+    }
 }

@@ -24,8 +24,7 @@ public class RMIServer implements RMIServerInterface {
             try {
                 registry = LocateRegistry.getRegistry(port);
             } catch (RemoteException ee) {
-                LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
-                ee.printStackTrace();
+                LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
             }
         }
 
@@ -36,8 +35,7 @@ public class RMIServer implements RMIServerInterface {
 
                 rmiConnections = new ArrayList<>();
             } catch (RemoteException e) {
-                LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
-                e.printStackTrace();
+                LOGGER.log(Level.WARNING, getClass().getSimpleName(),  e.getStackTrace());
             }
         }
     }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.UI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -24,14 +25,13 @@ import java.util.Optional;
  * this abstract class represent all prototype of cli methods, and will be implemented in {@link CLI}
  */
 public interface UIInterface {
+
     String SERVER_IP = "localhost";
     Integer SOCKET_PORT = 20001;
     Integer RMI_PORT = 20002;
 
     void show();
-
     void loginMenu();
-
     void loginResult(Boolean result);
 
     void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards);
@@ -44,28 +44,21 @@ public interface UIInterface {
     void updateDiceValues(List<Dice> dicesValues);
 
     PlayerAction turnMainAction(Optional<Boolean> lastActionValid);
-
     PlayerAction turnSecondaryAction(Optional<Boolean> lastActionValid);
 
     Integer familyMemberSelection(List<FamilyMember> familyMembers);
-
     Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested);
-
     Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices);
-
     Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards);
-
     Boolean churchSupport();
-
+    Integer bonusTileSelection(List<BonusTile> bonusTiles);
+    Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards);
     Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses);
-
     void endGame(List<Player> players);
 
     void endTurn();
-
     void disconnectionWarning();
-
-    Integer bonusTileSelection(List<BonusTile> bonusTiles);
-
-    Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards);
+    void infoNewPlayerTurn(String playerName, PawnColor playerColor);
+    void infoDisconnectedPlayer(String playerName, PawnColor playerColor);
+    void infoReconnectedPlayer(String playerName, PawnColor playerColor);
 }

@@ -10,8 +10,6 @@ import java.util.Optional;
 public class BonusTileDialog {
     List<BonusTile> availableTiles;
 
-    public BonusTileDialog() {}
-
     public Integer interactWithPlayer(List<BonusTile> bonusTiles) {
         List<String> choices = new ArrayList<>();
 

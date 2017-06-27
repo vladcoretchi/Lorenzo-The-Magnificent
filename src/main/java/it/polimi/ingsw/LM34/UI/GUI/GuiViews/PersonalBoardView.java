@@ -25,8 +25,6 @@ public class PersonalBoardView extends Application implements DialogInterface {
     @FXML
     private Group personalBoardCards;
 
-    public PersonalBoardView() {}
-
     public PersonalBoardView(Player playerReceived) {
         this.player = playerReceived;
     }
@@ -58,14 +56,10 @@ public class PersonalBoardView extends Application implements DialogInterface {
         ImageView imageView;
 
         List<AbstractDevelopmentCard> playerCards = new ArrayList<>();
-        if(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.YELLOW).isPresent())
-            playerCards.addAll(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.YELLOW).get());
-        if(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.GREEN).isPresent())
-            playerCards.addAll(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.GREEN).get());
-        if(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.BLUE).isPresent())
-            playerCards.addAll(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.BLUE).get());
-        if(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.PURPLE).isPresent())
-            playerCards.addAll(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.PURPLE).get());
+            playerCards.addAll(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.YELLOW).orElseGet(null));
+            playerCards.addAll(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.GREEN).orElseGet(null));
+            playerCards.addAll(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.BLUE).orElseGet(null));
+            playerCards.addAll(this.player.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.PURPLE).orElseGet(null));
 
         for (int i = 0; i < playerCards.size(); i++) {
             imageView = ((ImageView) root.lookup(String.format("#personalBoard_%1$sCard%2$d", playerCards.get(i).getColor().toString(), i)));

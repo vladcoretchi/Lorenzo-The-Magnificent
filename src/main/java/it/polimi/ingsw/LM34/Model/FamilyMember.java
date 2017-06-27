@@ -7,7 +7,7 @@ import it.polimi.ingsw.LM34.Utils.Copyable;
 import java.io.Serializable;
 
 public class FamilyMember implements Serializable, Copyable {
-    private final PawnColor pawnColor;
+    private PawnColor pawnColor;
     private DiceColor diceColor;
     private Integer value;
     private boolean isUsed;

@@ -27,6 +27,7 @@ public class PopupSlotBonus {
     Parent root;
     Event generatingEvent;
     private ResourcesBonus resourcesReward;
+    private static final String style = "-fx-background-color: transparent;";
 
     public PopupSlotBonus(MouseEvent generatingEvent, ResourcesBonus resourcesReward) {
         this.coordinateX = generatingEvent.getScreenX() + 10;
@@ -40,21 +41,21 @@ public class PopupSlotBonus {
         VBox rewardList = new VBox();
         DropShadow borderGlow;
         rewardList.setSpacing(10);
-        rewardList.setStyle("-fx-background-color: transparent;");
+        rewardList.setStyle(style);
         ImageView tempImage = new ImageView();
         Text value = new Text();
-        value.setStyle("-fx-background-color: transparent;");
-        StackPane pane = new StackPane();
+        value.setStyle(style);
+        StackPane pane;
 
         for (ResourceType resType : ResourceType.values())
              /*---ADD AS IMAGE AND VALUE THE RESOURCES AND POINTS---*/
              if (resourcesReward.getResources().getResourceByType(resType) > 0) {
                 pane = new StackPane();
-                pane.setStyle("-fx-background-color: transparent;");
+                pane.setStyle(style);
                 pane.setAlignment(Pos.TOP_CENTER);
 
                 value = new Text(resourcesReward.getResources().getResourceByType(resType).toString());
-                value.setStyle("-fx-background-color: transparent;");
+                value.setStyle(style);
                 value.setFont(Font.font("Verdana", 30));
                 value.setFill(Color.BLACK);
                 borderGlow= new DropShadow();
@@ -71,7 +72,7 @@ public class PopupSlotBonus {
                 tempImage.setFitWidth(50.0);
                 tempImage.setImage(new Image(Thread.currentThread()
                         .getContextClassLoader().getResource("images/resources/" + resType.toString() + ".png").toExternalForm()));
-                tempImage.setStyle("-fx-background-color: transparent;");
+                tempImage.setStyle(style);
 
                 pane.getChildren().add(tempImage);
                 pane.getChildren().add(value);
@@ -81,7 +82,7 @@ public class PopupSlotBonus {
         /*---ADD AS IMAGE AND VALUE THE COUNCIL PRIVILEGES---*/
         pane = new StackPane();
         value = new Text(resourcesReward.getCouncilPrivilege().toString());
-        value.setStyle("-fx-background-color: transparent;");
+        value.setStyle(style);
         value.setFont(Font.font("Verdana", 30));
         value.setFill(Color.BLACK);
         borderGlow= new DropShadow();
@@ -98,7 +99,7 @@ public class PopupSlotBonus {
         tempImage.setFitWidth(50.0);
         tempImage.setImage(new Image(Thread.currentThread()
                 .getContextClassLoader().getResource("images/resources/" + "COUNCIL_PRIVILEGE" + ".png").toExternalForm()));
-        tempImage.setStyle("-fx-background-color: transparent;");
+        tempImage.setStyle(style);
 
         pane.getChildren().add(tempImage);
         pane.getChildren().add(value);
