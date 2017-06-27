@@ -8,6 +8,9 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class RMIServer implements RMIServerInterface {
     private static Registry registry;
@@ -21,6 +24,7 @@ public class RMIServer implements RMIServerInterface {
             try {
                 registry = LocateRegistry.getRegistry(port);
             } catch (RemoteException ee) {
+                LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
                 ee.printStackTrace();
             }
         }
@@ -32,6 +36,7 @@ public class RMIServer implements RMIServerInterface {
 
                 rmiConnections = new ArrayList<>();
             } catch (RemoteException e) {
+                LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
                 e.printStackTrace();
             }
         }

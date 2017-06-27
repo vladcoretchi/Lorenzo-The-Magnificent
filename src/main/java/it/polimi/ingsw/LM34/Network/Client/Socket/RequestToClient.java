@@ -15,6 +15,9 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 /**
  * Created by vladc on 5/28/2017.
@@ -29,6 +32,7 @@ public enum RequestToClient {
 
                 socketConnection.getNetworkController().loginResult(loginResult);
             } catch (IOException e) {
+                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e);
                 e.printStackTrace();
             }
         }
@@ -41,8 +45,10 @@ public enum RequestToClient {
 
                 socketConnection.setExcommunicationCards(excommunicationCards);
             } catch (IOException e) {
+                LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
                 e.printStackTrace();
             }
         }

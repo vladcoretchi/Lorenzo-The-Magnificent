@@ -7,14 +7,14 @@ import java.util.Map;
 import java.util.Optional;
 
 public class LeaderRequirements implements Serializable {
-    Resources resourcesRequirements;
+    private Resources resourcesRequirements;
+    private Map<DevelopmentCardColor, Integer> cardRequirements;
 
     /**
      * Defines the number of card per type that the user must have to activate the leader card.
      * If cardRequirements contains a MULTICOLOR card color,
      * the user must have n cards of a single type regardless of what type it is
      */
-    Map<DevelopmentCardColor, Integer> cardRequirements;
 
     public LeaderRequirements(Resources resourcesRequirements, Map<DevelopmentCardColor, Integer> cardRequirements) {
         this.resourcesRequirements = resourcesRequirements;

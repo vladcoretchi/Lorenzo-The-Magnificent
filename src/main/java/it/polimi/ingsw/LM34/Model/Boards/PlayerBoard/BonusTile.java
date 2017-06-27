@@ -2,7 +2,9 @@ package it.polimi.ingsw.LM34.Model.Boards.PlayerBoard;
 
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 
-public class BonusTile {
+import java.io.Serializable;
+
+public class BonusTile implements Serializable {
 private ResourcesBonus productionBonus;
 private ResourcesBonus harvestBonus;
 private Integer harvDiceValue;

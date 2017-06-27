@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +17,8 @@ import java.util.regex.Pattern;
  * @author vladc
  */
 public final class Utilities {
+    public final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
     private Utilities() {}
 
     /**
@@ -62,10 +65,9 @@ public final class Utilities {
 
     /*Useful method helpful in counting end game total amount of resources*/
     public static Integer getTotalAmount(Resources resources) {
-        Integer totalUnit = resources.getResourceByType(ResourceType.WOODS) +
-                resources.getResourceByType(ResourceType.STONES) +
-                resources.getResourceByType(ResourceType.COINS) +
-                resources.getResourceByType(ResourceType.SERVANTS);
-        return totalUnit;
+        return resources.getResourceByType(ResourceType.WOODS) +
+               resources.getResourceByType(ResourceType.STONES) +
+               resources.getResourceByType(ResourceType.COINS) +
+               resources.getResourceByType(ResourceType.SERVANTS);
     }
 }

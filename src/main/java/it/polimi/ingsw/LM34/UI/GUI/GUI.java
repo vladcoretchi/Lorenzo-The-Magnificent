@@ -51,10 +51,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.*;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class GUI extends Application implements UIInterface {
     private AbstractClient networkClient;
@@ -160,6 +162,7 @@ public class GUI extends Application implements UIInterface {
         try {
             new EndGameDialog(players).start(new Stage());
         } catch (Exception e) {
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
             e.printStackTrace();
         }
     }
@@ -512,18 +515,15 @@ public class GUI extends Application implements UIInterface {
 
         ArrayList<FamilyMember> membersAvailable = new ArrayList<>();
 
-        //TODO: get the list from the model instantiated in the client or sent by the controller
-
         String source = event.getPickResult().getIntersectedNode().getId();
         FamilyMemberSelectDialog dialog = new FamilyMemberSelectDialog();
 
-        //TODO: the server confirm that the move is valid before removing the card from the towers
 
         List<Node> nodes = towers.getChildren();
         for (Node node : nodes)
             if (node.getId() == source) {
-            //TODO: set image of the pawn getting it from Resource/images/..
-                //((ImageView) node).setImage(....getResource("images/pawns/"+ choosedPawn +".png");
+                ((ImageView) node).setImage(new Image(Thread.currentThread()
+                        .getContextClassLoader().getResource("images/pawns/choosedPawn.png").toExternalForm()));
             }
     }
 
@@ -548,29 +548,32 @@ public class GUI extends Application implements UIInterface {
         }
         /*Get the towerSlot that generated the event*/
         try {
-            for(Tower tower : towersSpaces)
-            if(tower.getCardColor().toString().equalsIgnoreCase(color)) {
-                slotsInTower = (ArrayList<TowerSlot>) tower.getTowerSlots();
-                for (TowerSlot slot : slotsInTower)
-                    if (slot.getLevel() == level)
-                        towerSlot = slot;
-            }
+            for (Tower tower : towersSpaces)
+                if (tower.getCardColor().toString().equalsIgnoreCase(color)) {
+                    slotsInTower = (ArrayList<TowerSlot>) tower.getTowerSlots();
+                    for (TowerSlot slot : slotsInTower)
+                        if (slot.getLevel() == level)
+                            towerSlot = slot;
+                }
 
             new PopupSlotBonus(event, towerSlot.getResourcesReward()).start(primaryStage);
-        } catch(Exception e) { System.out.println("Finchè il server non passa le torri riempite, il PopupSlot non andrà"); }
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Error in creating the popupBonus");
+        }
     }
 
     @FXML
     public void popupPalaceBonus(MouseEvent event) {
         try {
             new PopupSlotBonus(event, palace.getActionSlots().get(0).getResourcesReward()).start(primaryStage);
-        } catch(Exception e) { System.out.println("Finchè il server non passa le torri riempite, il PopupSlot non andrà"); }
+        } catch(Exception e) {
+            LOGGER.log(Level.WARNING, "Error in creating the popupBonus");
+        }
     }
 
     @FXML
     public void popupMarketBonus(MouseEvent event) {
-        ActionSlot actionSlot = null;
-        String color = new String();
+        ActionSlot actionSlot;
         Integer marketSlotID = 0;
         String id = ((ImageView) event.getSource()).getId();
         /*Extract slot info*/
@@ -584,7 +587,7 @@ public class GUI extends Application implements UIInterface {
         try {
             new PopupSlotBonus(event, actionSlot.getResourcesReward()).start(primaryStage);
         } catch (Exception e) {
-            System.out.println("Finchè il server non passa le torri riempite, il PopupSlot non andrà");
+            LOGGER.log(Level.WARNING, "Error in creating the popupBonus");
         }
     }
 
@@ -592,7 +595,6 @@ public class GUI extends Application implements UIInterface {
         //TODO
     }
 
-    //TODO: keep this?
     @FXML
     public void buyCard(MouseEvent event) {
         Image image;
@@ -602,7 +604,6 @@ public class GUI extends Application implements UIInterface {
                 .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
     }
 
-    //TODO: remove just after tests
     public static void main(String [] args) {
         GUI gui = new GUI();
         gui.show();
@@ -618,9 +619,11 @@ public class GUI extends Application implements UIInterface {
         @Override
         public void handle(Event event) {
             try {
-                PersonalBoardView personalBoardView = new PersonalBoardView(player);
+                personalBoardView = new PersonalBoardView(player);
                 personalBoardView.start(primaryStage);
-            } catch(Exception e) {e.printStackTrace();}
+            } catch(Exception e) {
+                LOGGER.log(Level.WARNING, "Error in handling events from GUI");
+                e.printStackTrace();}
         }
     }
 
@@ -629,6 +632,7 @@ public class GUI extends Application implements UIInterface {
         try{
             return uiTask.get();
         } catch(ExecutionException | InterruptedException e) {
+            LOGGER.log(Level.FINEST, "Error in creating the popupBonus");
             return null;
         }
     }

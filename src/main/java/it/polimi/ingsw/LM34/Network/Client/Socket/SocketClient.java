@@ -7,6 +7,9 @@ import it.polimi.ingsw.LM34.UI.UIInterface;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class SocketClient extends AbstractClient {
     private static ClientInputListener inputListener;
@@ -28,6 +31,7 @@ public class SocketClient extends AbstractClient {
             inputListener = new ClientInputListener();
             inputListener.start();
         } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e);
             e.printStackTrace();
         }
     }
@@ -55,6 +59,7 @@ public class SocketClient extends AbstractClient {
 
                     RequestToClient.valueOf(request).readAndHandle(SocketClient.this);
                 } catch (IOException e) {
+                    LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e);
                     this.terminate();
                 }
             }
@@ -73,6 +78,7 @@ public class SocketClient extends AbstractClient {
             this.outStream.writeUTF(password);
             this.outStream.flush();
         } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e);
             e.printStackTrace();
         }
     }

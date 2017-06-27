@@ -2,6 +2,9 @@ package it.polimi.ingsw.LM34.UI.CLI;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class IgnoreInput implements Runnable{
 
@@ -18,7 +21,7 @@ public class IgnoreInput implements Runnable{
                 in.read();
             }
             catch (IOException e) {
-
+                LOGGER.log(Level.INFO, "Error in ignoring unexpected input");
             }
         }
     }

@@ -737,20 +737,34 @@
         }
       ]
     },
-    "personalTiles": {
-      "standardTile": {
-        "production": {
+    "personalTiles": [
+      {
+        "harvest": {
           "diceValue": 1,
           "resources": {
-            "COINS": 2,
-            "WOODS": 0,
-            "STONES": 0,
+            "COINS": 0,
+            "WOODS": 1,
+            "STONES": 1,
             "SERVANTS": 0,
             "MILITARY_POINTS": 1,
             "FAITH_POINTS": 0,
             "VICTORY_POINTS": 0
           }
         },
+        "production": {
+          "diceValue": 1,
+          "resources": {
+            "COINS": 1,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 2,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        }
+      },
+      {
         "harvest": {
           "diceValue": 1,
           "resources": {
@@ -762,115 +776,73 @@
             "FAITH_POINTS": 0,
             "VICTORY_POINTS": 0
           }
+        },
+        "production": {
+          "diceValue": 1,
+          "resources": {
+            "COINS": 0,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 1,
+            "MILITARY_POINTS": 2,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
         }
       },
-      "advancedTiles": [
-        {
-          "harvest": {
-            "diceValue": 1,
-            "resources": {
-              "COINS": 0,
-              "WOODS": 1,
-              "STONES": 1,
-              "SERVANTS": 0,
-              "MILITARY_POINTS": 1,
-              "FAITH_POINTS": 0,
-              "VICTORY_POINTS": 0
-            }
-          },
-          "production": {
-            "diceValue": 1,
-            "resources": {
-              "COINS": 1,
-              "WOODS": 0,
-              "STONES": 0,
-              "SERVANTS": 2,
-              "MILITARY_POINTS": 0,
-              "FAITH_POINTS": 0,
-              "VICTORY_POINTS": 0
-            }
+      {
+        "harvest": {
+          "diceValue": 1,
+          "resources": {
+            "COINS": 0,
+            "WOODS": 1,
+            "STONES": 1,
+            "SERVANTS": 1,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
           }
         },
-        {
-          "harvest": {
-            "diceValue": 1,
-            "resources": {
-              "COINS": 1,
-              "WOODS": 1,
-              "STONES": 1,
-              "SERVANTS": 0,
-              "MILITARY_POINTS": 0,
-              "FAITH_POINTS": 0,
-              "VICTORY_POINTS": 0
-            }
-          },
-          "production": {
-            "diceValue": 1,
-            "resources": {
-              "COINS": 0,
-              "WOODS": 0,
-              "STONES": 0,
-              "SERVANTS": 1,
-              "MILITARY_POINTS": 2,
-              "FAITH_POINTS": 0,
-              "VICTORY_POINTS": 0
-            }
-          }
-        },
-        {
-          "harvest": {
-            "diceValue": 1,
-            "resources": {
-              "COINS": 0,
-              "WOODS": 1,
-              "STONES": 1,
-              "SERVANTS": 1,
-              "MILITARY_POINTS": 0,
-              "FAITH_POINTS": 0,
-              "VICTORY_POINTS": 0
-            }
-          },
-          "production": {
-            "diceValue": 1,
-            "resources": {
-              "COINS": 1,
-              "WOODS": 0,
-              "STONES": 0,
-              "SERVANTS": 0,
-              "MILITARY_POINTS": 2,
-              "FAITH_POINTS": 0,
-              "VICTORY_POINTS": 0
-            }
-          }
-        },
-        {
-          "harvest": {
-            "diceValue": 1,
-            "resources": {
-              "COINS": 0,
-              "WOODS": 1,
-              "STONES": 1,
-              "SERVANTS": 0,
-              "MILITARY_POINTS": 1,
-              "FAITH_POINTS": 0,
-              "VICTORY_POINTS": 0
-            }
-          },
-          "production": {
-            "diceValue": 1,
-            "resources": {
-              "COINS": 2,
-              "WOODS": 0,
-              "STONES": 0,
-              "SERVANTS": 1,
-              "MILITARY_POINTS": 0,
-              "FAITH_POINTS": 0,
-              "VICTORY_POINTS": 0
-            }
+        "production": {
+          "diceValue": 1,
+          "resources": {
+            "COINS": 1,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 2,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
           }
         }
-      ]
-    },
+      },
+      {
+        "harvest": {
+          "diceValue": 1,
+          "resources": {
+            "COINS": 0,
+            "WOODS": 1,
+            "STONES": 1,
+            "SERVANTS": 0,
+            "MILITARY_POINTS": 1,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        },
+        "production": {
+          "diceValue": 1,
+          "resources": {
+            "COINS": 2,
+            "WOODS": 0,
+            "STONES": 0,
+            "SERVANTS": 1,
+            "MILITARY_POINTS": 0,
+            "FAITH_POINTS": 0,
+            "VICTORY_POINTS": 0
+          }
+        }
+      }
+    ],
     "cards": {
       "territories": [
         {

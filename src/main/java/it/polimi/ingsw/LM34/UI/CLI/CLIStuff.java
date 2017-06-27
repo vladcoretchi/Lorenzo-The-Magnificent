@@ -9,10 +9,12 @@ import java.util.Scanner;
 
 public final class CLIStuff {
     public static final IgnoreInput ignoreInput = new IgnoreInput();
-
+    public static final String INCORRECT_INPUT = "Incorrect input";
     public static final Scanner readUserInput = new Scanner(System.in);
     public static final PrintWriter printToConsole = new PrintWriter(System.out, true);
 
+
+    private CLIStuff() {}
     /**
      * to print colored message to console, will be used ANSI escape code
      * https://en.wikipedia.org/wiki/ANSI_escape_code
@@ -69,8 +71,6 @@ public final class CLIStuff {
      */
     private static final String RESET_COLOR = ESCAPE_SEQUENCE + RESET_COLOR_TO_DEFAULT;
 
-    private static final String DIVIDER = "========================================================================";
-
     private static final String SPLASH_SCREEN =
         " __       ______   .______    _______ .__   __.  ______    ______     __   __\n" +
         "|  |     /  __  \\  |   _  \\  |   ____||  \\ |  | |      /  /  __  \\   |  | |  |\n" +
@@ -108,23 +108,31 @@ public final class CLIStuff {
     }
 
     public static final void printYellow(String message) {
-        printToConsole.print(CLIStuff.YELLOW_MESSAGE_COLOR + message + CLIStuff.RESET_COLOR);
+        printToConsole.print(YELLOW_MESSAGE_COLOR + message + RESET_COLOR);
     }
 
     private static final void printBlue(String message) {
-        printToConsole.print(CLIStuff.BLUE_MESSAGE_COLOR + message + CLIStuff.RESET_COLOR);
+        printToConsole.print(BLUE_MESSAGE_COLOR + message + RESET_COLOR);
     }
 
     private static final void printPurple(String message) {
-        printToConsole.print(CLIStuff.PURPLE_MESSAGE_COLOR + message + CLIStuff.RESET_COLOR);
+        printToConsole.print(PURPLE_MESSAGE_COLOR + message + RESET_COLOR);
     }
 
     public static final void printTowerTypeColor(DevelopmentCardColor color) {
         switch(color) {
-            case GREEN: printGreen(DevelopmentCardColor.GREEN.getDevType()+"\n"); break;
-            case BLUE: printBlue(DevelopmentCardColor.BLUE.getDevType()+"\n"); break;
-            case YELLOW: printYellow(DevelopmentCardColor.YELLOW.getDevType()+"\n"); break;
-            case PURPLE: printPurple(DevelopmentCardColor.PURPLE.getDevType()+"\n"); break;
+            case GREEN:
+                printGreen(DevelopmentCardColor.GREEN.getDevType()+"\n");
+                break;
+            case BLUE:
+                printBlue(DevelopmentCardColor.BLUE.getDevType()+"\n");
+                break;
+            case YELLOW:
+                printYellow(DevelopmentCardColor.YELLOW.getDevType()+"\n");
+                break;
+            case PURPLE:
+                printPurple(DevelopmentCardColor.PURPLE.getDevType()+"\n");
+                break;
             default:
                     printError("Invalid development card color");
         }
@@ -171,50 +179,4 @@ public final class CLIStuff {
                 printError("Invalid pawn color");
         }
     }
-
-   /* public static final void printCardSplittedNames(DevelopmentCardColor color, List<String> names) {
-        Integer maxWordLength = 12;
-        Integer maxWordsInName = 0;
-        String regex = "\\s";
-        String line;
-        String separator;
-        List<List<String>> splitted = new ArrayList<>();
-
-        separator = String.join("", Collections.nCopies(maxWordLength, " "));
-
-            for(String n : names) {
-                splitted.add(Arrays.asList(n.split(regex)));
-            }
-
-        for(List splittedName : splitted)
-            if(splittedName.size() > maxWordsInName)
-                maxWordsInName = splittedName.size();
-
-        StringBuilder concatName = new StringBuilder();
-
-        for (Integer col = 0; col < splitted.size(); col++) {
-            for(Integer row = 0; row < maxWordsInName; row++){
-            concatName.append(splitted.get(row).get(col)
-                    + separator.substring(0, maxWordLength - splitted.get(row).get(col).length()));
-            }
-            printLine(concatName.toString());
-        }
-       /* for(String portion : splitted)
-            switch (color) {
-                case GREEN:
-                    printGreen(portion + "\n");
-                    break;
-                case BLUE:
-                    printBlue(portion + "\n");
-                    break;
-                case YELLOW:
-                    printYellow(portion + "\n");
-                    break;
-                case PURPLE:
-                    printPurple(portion + "\n");
-                    break;
-                default:
-                    printError("Invalid development card color");
-            }
-    }*/
 }

@@ -20,6 +20,9 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class RMIConnection extends AbstractConnection {
     private RMIClientInterface clientRMI;
@@ -43,6 +46,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             this.clientRMI.updateTowers(towers);
         } catch(RemoteException e) {
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
             return;
         }
     }
@@ -53,7 +57,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             this.clientRMI.updateCouncilPalace(councilPalace);
         } catch(RemoteException e) {
-            return;
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
         }
     }
 
@@ -63,7 +67,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             this.clientRMI.updateMarket(market);
         } catch(RemoteException e) {
-            return;
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
         }
     }
 
@@ -72,7 +76,8 @@ public class RMIConnection extends AbstractConnection {
         try {
             this.clientRMI.updateProductionArea(productionArea);
         } catch(RemoteException e) {
-            return;
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+
         }
     }
 
@@ -82,7 +87,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             this.clientRMI.updateHarvestArea(harvestArea);
         } catch (RemoteException e) {
-            return;
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
         }
     }
 
@@ -92,7 +97,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             this.clientRMI.updatePlayersData(players);
         } catch (RemoteException e) {
-            return;
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
         }
     }
 
@@ -101,7 +106,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             this.clientRMI.updateDiceValues(diceValues);
         } catch(RemoteException e) {
-            return;
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
         }
     }
 
@@ -110,6 +115,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             return this.clientRMI.turnMainAction(lastActionValid.orElse(null));
         } catch(RemoteException e) {
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
             return null;
         }
     }
@@ -119,6 +125,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             return this.clientRMI.turnMainAction(lastActionValid.orElse(null));
         } catch(RemoteException e) {
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
             return null;
         }
     }
@@ -128,6 +135,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             return this.clientRMI.familyMemberSelection(familyMembers);
         } catch(RemoteException e) {
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(),e);
             return -1;
         }
     }
@@ -137,6 +145,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             return this.clientRMI.servantsSelection(servantsAvailable, minimumServantsRequested);
         } catch(RemoteException e) {
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
             return -1;
         }
     }
@@ -146,6 +155,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             return this.clientRMI.resourceExchangeSelection(choices);
         } catch(RemoteException e) {
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
             return -1;
         }
     }
@@ -155,6 +165,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             return this.clientRMI.leaderCardSelection(leaderCards);
         } catch(RemoteException e) {
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
             return null;
         }
     }
@@ -165,7 +176,8 @@ public class RMIConnection extends AbstractConnection {
         try {
             return this.clientRMI.churchSupport();
         } catch (RemoteException e) {
-            return null;
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            return false;
         }
     }
 
@@ -174,6 +186,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             return this.clientRMI.selectCouncilPrivilegeBonus(availableBonuses);
         } catch(RemoteException e) {
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
             return -1;
         }
     }

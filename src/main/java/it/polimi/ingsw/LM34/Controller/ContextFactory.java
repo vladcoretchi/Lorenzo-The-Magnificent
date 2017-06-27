@@ -12,6 +12,8 @@ import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
  */
 public final class ContextFactory {
 
+    private ContextFactory() {}
+
     public  static AbstractGameContext getContext(ContextType contextType) throws NoSuchContextException {
         switch (contextType) {
             case LEADER_CARDS_CONTEXT:

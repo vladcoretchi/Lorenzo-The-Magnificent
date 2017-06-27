@@ -7,6 +7,9 @@ import it.polimi.ingsw.LM34.Utils.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 /*Called by DiceDependentContext classes*/
 public class FamilyMemberSelectionContext extends AbstractGameContext {
@@ -33,6 +36,7 @@ public class FamilyMemberSelectionContext extends AbstractGameContext {
         }
         /*If input mismatches expected informations... the player is able to try again*/
         catch(IncorrectInputException ide){
+            LOGGER.log(Level.INFO, "Invalid input");
             familyMemberSelection(pawnsCloned);
         }
       //TODO: handle if player has not enough dice value...

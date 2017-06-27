@@ -10,6 +10,9 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class RMIClient extends AbstractClient implements RMIClientInterface {
     private RMIServerInterface server;
@@ -23,6 +26,7 @@ public class RMIClient extends AbstractClient implements RMIClientInterface {
             this.networkController = new ClientNetworkController(this);
             this.ui = ui;
         } catch (RemoteException | NotBoundException e) {
+            LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e);
             e.printStackTrace();
         }
     }
@@ -33,6 +37,7 @@ public class RMIClient extends AbstractClient implements RMIClientInterface {
             Boolean loginResult = server.login(username, password, this);
             this.networkController.loginResult(loginResult);
         } catch (RemoteException e) {
+            LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e);
             e.printStackTrace();
         }
     }

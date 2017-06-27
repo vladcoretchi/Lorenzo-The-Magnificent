@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class GameRoom {
     private GameManager gameManager;
@@ -79,6 +82,7 @@ public class GameRoom {
                 if (!Thread.currentThread().isInterrupted())
                     GameRoom.this.start();
             } catch (InterruptedException e) {
+                LOGGER.log(Level.INFO, "Timeout");
                 Thread.currentThread().interrupt();
             }
         }

@@ -5,6 +5,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public final class SocketServer {
     private static ServerSocket serverSocket;
@@ -18,6 +21,7 @@ public final class SocketServer {
             this.socketCnnections = new ArrayList<>();
             this.connectionsHandler.start();
         } catch(IOException ex) {
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), ex);
             this.terminate();
         }
     }
@@ -39,6 +43,7 @@ public final class SocketServer {
                     SocketConnection connection = new SocketConnection(socket);
                     new Thread(connection).start();
                 } catch(IOException e) {
+                    LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
                     this.terminate();
                 }
             }

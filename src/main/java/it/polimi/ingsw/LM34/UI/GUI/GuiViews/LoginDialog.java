@@ -9,6 +9,10 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
+
 public class LoginDialog extends Application implements DialogInterface {
 
     public void show() {
@@ -37,7 +41,7 @@ public class LoginDialog extends Application implements DialogInterface {
             System.out.println("si");
         }
         catch (NullPointerException ex) {
-            System.out.println("no");
+            LOGGER.log(Level.INFO, "Cannot set css style to dialog");
         }
     }
 }

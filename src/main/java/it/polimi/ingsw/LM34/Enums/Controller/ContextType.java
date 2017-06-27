@@ -16,10 +16,4 @@ public enum ContextType {
     COUNCIL_PALACE_CONTEXT,
     FAMILY_MEMBER_SELECTION_CONTEXT,
     TURN_CONTEXT;
-
-
-    /*Method used to allow a corrispondence between ContexType and PlayerSelectableContexts*/
-    public final Boolean equals(PlayerSelectableContexts context) {
-        return this.toString() == context.toString();
-    }
 }

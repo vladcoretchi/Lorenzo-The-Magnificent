@@ -27,8 +27,10 @@ import it.polimi.ingsw.LM34.Network.Server.ServerNetworkController;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 
 import java.util.*;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class GameManager {
     private GameRoom gameRoom;
@@ -247,7 +249,10 @@ public class GameManager {
         for (ContextType context : ContextType.values())
             try {
                 contexts.put(context, ContextFactory.getContext(context));
-            } catch(NoSuchContextException e) {}
+            } catch(NoSuchContextException e) {
+                LOGGER.log(Level.SEVERE, "Cannot set one of the contexts");
+            }
+
 
         contexts.forEach((type, context) -> context.setGameManager(this));
     }
@@ -302,7 +307,8 @@ public class GameManager {
                 tower = t;
 
         //...and now place every card in the deck until the tower's slots are full
-        tower.sweep();
+        if(tower != null)
+            tower.sweep();
         while (iterator.hasNext() && tower.getCardsStored().size() < Configurator.CARD_PER_ROUND)
             tower.addCard((AbstractDevelopmentCard) iterator.next());
     }
@@ -328,13 +334,13 @@ public class GameManager {
     //TODO
     //if timeout while user selects the card -> an arbitrary card is selected automatically
     public void bonusTileSelectionPhase() {
-        List<BonusTile> bonusTiles = new ArrayList<>();
-        //TODO: load from configurator
-        /*for (Player p : players) {
-            Integer selected = getPlayerNetworkController(p).bonusTileSelection(bonusTiles);
+        List<BonusTile> bonusTiles;
+        bonusTiles = Configurator.getBonusTiles();
+        for (Player p : players) {
+            /*Integer selected = getPlayerNetworkController(p).bonusTileSelection(bonusTiles);
             p.getPersonalBoard().setPersonalBonusTile(bonusTiles.get(selected));
-            bonusTiles.remove(selected);
-    }*/
+            bonusTiles.remove(selected);*/
+    }
     }
 
     /**
