@@ -10,7 +10,7 @@ import java.util.List;
 
 /*Called by DiceDependentContext classes*/
 public class FamilyMemberSelectionContext extends AbstractGameContext {
-    private Integer tempValue;
+    private Integer tempValue = 0; //if we not initialized tempValue to 0, when we will try to run increaseTempValue we will get NullPointerException
 
     @Override
     public void interactWithPlayer() {
