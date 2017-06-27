@@ -1,6 +1,5 @@
 package it.polimi.ingsw.LM34.Utils;
 
-import com.sun.org.apache.xerces.internal.xs.datatypes.ObjectList;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import org.junit.Test;
