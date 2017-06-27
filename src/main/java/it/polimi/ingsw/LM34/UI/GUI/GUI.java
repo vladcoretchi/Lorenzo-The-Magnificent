@@ -382,7 +382,6 @@ public class GUI extends Application implements UIInterface {
     @Override
     public void updatePlayersData(List<Player> players) {
         this.players = players;
-
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
             Pane playerInfo;
             Label playerName;
@@ -393,6 +392,7 @@ public class GUI extends Application implements UIInterface {
             for (Player player : this.players) {
                 playerInfo = (Pane) root.lookup("#playerInfo" + numPlayer);
                 playerInfo.setBackground(new Background(new BackgroundFill(Color.valueOf(player.getPawnColor().toString()), CornerRadii.EMPTY, Insets.EMPTY)));
+                playerInfo.setManaged(true);
                 playerInfo.setVisible(true);
 
                 playerInfo.setOnMouseClicked(new PlayerClickEvent(player));

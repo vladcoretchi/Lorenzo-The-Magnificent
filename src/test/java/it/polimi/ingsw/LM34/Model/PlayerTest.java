@@ -22,9 +22,11 @@ public class PlayerTest {
     }
 
     @Test
-    public void AddResources() {
+    public void addResources() {
+        Player player = new Player("aldo", PawnColor.GREEN, new PersonalBoard());
         Resources res = new Resources(1,1,1,1,1,1,1);
-        res.sumResources(res);
+        player.addResources(res);
+        res.sumResources(player.getResources());
         assertEquals("Coins: expected 2", 2, res.getResourceByType(ResourceType.COINS).intValue());
         assertEquals("Woods: expected 2", 2, res.getResourceByType(ResourceType.WOODS).intValue());
         assertEquals("Stones: expected 2", 2, res.getResourceByType(ResourceType.STONES).intValue());
@@ -36,9 +38,11 @@ public class PlayerTest {
 
     @Test
     public void SubResources() {
+        Player player = new Player("aldo", PawnColor.GREEN, new PersonalBoard());
         Resources res = new Resources(2,2,2,2,2,2,2);
         Resources minus = new Resources(-1,-1,-1,-1,-1,-1,-1);
-        res.subResources(minus);
+        player.subResources(minus);
+        res.subResources(player.getResources());
         assertEquals("Coins: expected 1", 1, res.getResourceByType(ResourceType.COINS).intValue());
         assertEquals("Woods: expected 1", 1, res.getResourceByType(ResourceType.WOODS).intValue());
         assertEquals("Stones: expected 1", 1, res.getResourceByType(ResourceType.STONES).intValue());

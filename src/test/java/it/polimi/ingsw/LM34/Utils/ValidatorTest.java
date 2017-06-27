@@ -1,7 +1,10 @@
 package it.polimi.ingsw.LM34.Utils;
 
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+import it.polimi.ingsw.LM34.Model.Player;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -14,7 +17,7 @@ public class ValidatorTest {
 
     @Test(expected = IncorrectInputException.class)
     public void checkValidity() throws IncorrectInputException {
-        List<?> data = Arrays.<Object>asList("aldo", "giovanni", "giacomo"); //list<?> means List<? extends Object>
+        List<?> data = Arrays.<Object>asList("aldo", "giovanni", "giacomo");
         String input = "this string will not being parsed into Integer";
 
         Validator.checkValidity(input, data);
@@ -22,7 +25,7 @@ public class ValidatorTest {
 
     @Test
     public void checkValidity2() throws Exception {
-        List<?> data = Arrays.<Object>asList("aldo", "giovanni", "giacomo");
+        List<?> data = Arrays.<Object>asList(PawnColor.BLUE, PawnColor.GREEN, PawnColor.RED);
         String inputInString = "3";
 
         Integer inputInInteger = Integer.parseInt(inputInString);
@@ -33,7 +36,10 @@ public class ValidatorTest {
 
     @Test
     public void checkValidity3() throws Exception {
-        List<?> data = Arrays.<Object>asList("aldo", "giovanni", "giacomo");
+        Player player = new Player("luca", PawnColor.GREEN, new PersonalBoard());
+        Player player2 = new Player("rolando", PawnColor.GREEN, new PersonalBoard());
+        Player player3 = new Player("alessandro", PawnColor.GREEN, new PersonalBoard());
+        List<?> data = Arrays.<Object>asList(player, player2, player3);
         Integer input = 3;
 
         Validator.checkValidity(input, data);
@@ -99,12 +105,6 @@ public class ValidatorTest {
         towerSlots.add(new TowerSlot(null,2,2,2));
         towerSlots.add(new TowerSlot(null,3,3,3));
         towerSlots.add(new TowerSlot(null,4,4,4));*/
-
-        /*AREATYPE*/
-
-        /*BONUSTILE*/ //TODO: let the player choose one from the list provided at the beginning
-
-        /*LEADERCARDS*/ //TODO: let the player choose one at each step from the list provided at the beginning
 
 
 
