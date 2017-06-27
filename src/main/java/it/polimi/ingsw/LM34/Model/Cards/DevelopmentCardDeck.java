@@ -4,14 +4,10 @@ import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by GiulioComi on 20/05/2017.
- */
-public class DevelopmentCardDeck<T extends AbstractDevelopmentCard> implements Iterable<T> {
+public class DevelopmentCardDeck<T extends AbstractDevelopmentCard> implements  Iterable<T> {
 
     //TODO: get deck loaded from Configurator at the preparation of the game
     private List<T> developmentDeck = new ArrayList<>();
@@ -53,6 +49,4 @@ public class DevelopmentCardDeck<T extends AbstractDevelopmentCard> implements I
     public DevelopmentCardColor getCardColor() {
         return this.cardColor;
     }
-
-
 }

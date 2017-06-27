@@ -7,9 +7,6 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by GiulioComi on 04/05/2017.
- */
 public abstract class AbstractDevelopmentCard implements Serializable {
 
     protected String name;

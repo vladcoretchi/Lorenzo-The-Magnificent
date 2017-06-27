@@ -9,11 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
 
-/**
- * Created by GiulioComi on 07/05/2017.
- */
 public class GameRoom {
     private GameManager gameManager;
     private Map<String, ServerNetworkController> players;

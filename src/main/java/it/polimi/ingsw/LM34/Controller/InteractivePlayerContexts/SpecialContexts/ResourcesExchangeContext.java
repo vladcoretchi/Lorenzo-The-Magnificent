@@ -15,10 +15,6 @@ import java.util.List;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
 
 /**
- * Created by GiulioComi on 23/05/2017.
- */
-
-/**
  *Building permanent effects make the player access
  *this contexts so that he can chooses what option he want to activate
  */

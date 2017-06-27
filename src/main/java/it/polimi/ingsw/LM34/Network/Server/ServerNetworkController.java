@@ -19,9 +19,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by vladc on 5/28/2017.
- */
 public class ServerNetworkController {
     private AbstractConnection serverConnection;
     private GameRoom gameRoom;

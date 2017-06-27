@@ -9,27 +9,18 @@ import java.util.Observer;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TOWERS_CONTEXT;
 
-/**
- * Created by GiulioComi on 21/06/2017.
- */
 public class NoOccupiedTowerTax extends AbstractEffect implements Observer {
 
-    public NoOccupiedTowerTax() {
-
-    }
+    public NoOccupiedTowerTax() {}
     @Override
     public void update(Observable o, Object arg) {
     //TODO
-    TowersContext context = (TowersContext) o;
+        TowersContext context = (TowersContext) o;
 
     }
-
-    //towers
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
         callerContext.getContextByType(TOWERS_CONTEXT);
     }
-
-
 }

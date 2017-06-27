@@ -5,9 +5,6 @@ import it.polimi.ingsw.LM34.Model.LeaderRequirements;
 
 import java.io.Serializable;
 
-/**
- * Created by Julius on 03/05/2017.
- */
     public class LeaderCard implements Serializable {
     private String leaderName;
     private LeaderRequirements requirements;
@@ -43,5 +40,4 @@ import java.io.Serializable;
     public Boolean isActivatedByPlayer() {
         return this.isActivatedByPlayer;
     }
-
 }

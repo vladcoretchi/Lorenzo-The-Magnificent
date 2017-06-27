@@ -4,12 +4,10 @@ import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Server.Socket.RequestToServer;
 import it.polimi.ingsw.LM34.UI.UIInterface;
+
 import java.io.*;
 import java.net.Socket;
 
-/**
- * Created by vladc on 5/25/2017.
- */
 public class SocketClient extends AbstractClient {
     private static ClientInputListener inputListener;
 

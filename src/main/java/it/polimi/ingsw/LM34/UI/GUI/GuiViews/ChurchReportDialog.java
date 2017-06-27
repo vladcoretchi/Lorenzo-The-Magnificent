@@ -7,9 +7,6 @@ import javafx.scene.control.DialogPane;
 
 import java.util.Optional;
 
-/**
- * Created by GiulioComi on 07/06/2017.
- */
 public class ChurchReportDialog implements DialogInterface {
 
     public ChurchReportDialog() {

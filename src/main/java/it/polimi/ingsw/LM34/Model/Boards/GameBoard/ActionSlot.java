@@ -7,9 +7,6 @@ import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.io.Serializable;
 
-/**
- * Created by Giulio Comi on 03/05/2017.
- */
 //TODO: evaluate to apply a factory pattern
 
 public class ActionSlot implements Serializable {

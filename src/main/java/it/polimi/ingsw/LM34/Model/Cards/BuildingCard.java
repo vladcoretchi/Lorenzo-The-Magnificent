@@ -6,9 +6,6 @@ import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.List;
 
-/**
- * Created by GiulioComi on 04/05/2017.
- */
 public class BuildingCard extends AbstractDevelopmentCard {
 
     private Integer diceValueToProduct;

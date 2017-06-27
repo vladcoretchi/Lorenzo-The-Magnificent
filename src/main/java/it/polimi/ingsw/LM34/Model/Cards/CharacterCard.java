@@ -6,12 +6,8 @@ import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.List;
 
-/**
- * Created by GiulioComi on 04/05/2017.
- */
 public class CharacterCard extends AbstractDevelopmentCard {
     private Integer coinsRequired;
-
 
     public CharacterCard(String name, Integer period, Integer coinsRequired, List<AbstractEffect> instantBonus, AbstractEffect permanentBonus)  {
         this.coinsRequired = coinsRequired;
@@ -45,5 +41,4 @@ public class CharacterCard extends AbstractDevelopmentCard {
     public List<AbstractEffect> getInstantBonus() {
         return this.instantBonus;
     }
-
 }

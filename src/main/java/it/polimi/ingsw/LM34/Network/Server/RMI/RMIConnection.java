@@ -21,9 +21,6 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by vladc on 5/29/2017.
- */
 public class RMIConnection extends AbstractConnection {
     private RMIClientInterface clientRMI;
 

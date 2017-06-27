@@ -16,9 +16,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by GiulioComi on 07/06/2017.
- */
 public class LeaderCardsView implements DialogInterface {
     String decision;
     List<LeaderCard> leadersOwned;

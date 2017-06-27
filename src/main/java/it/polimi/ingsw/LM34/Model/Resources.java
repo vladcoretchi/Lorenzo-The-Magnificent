@@ -2,19 +2,16 @@ package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Utils.Utilities;
+
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 
-/**
- * Created by Giulio Comi on 03/04/2017.
- */
 public class Resources implements Serializable {
     private static final long serialVersionUID = 8305447519327637463L;
 
     private Map<ResourceType, Integer> resourcesMap;
 
-    //constructor for initializing all values to 0 (this comes handy in some situation)
     public Resources() {
         resourcesMap = new EnumMap<>(ResourceType.class);
     }
@@ -109,7 +106,7 @@ public class Resources implements Serializable {
         if (res == null)
             throw new NullPointerException();
 
-        res.getResources().forEach(this::modifyResourceByTypeSub);
+        res.getResources().forEach(this::modifyResourceByType);
     }
 
     public void multiplyResources (Integer multiplier) {

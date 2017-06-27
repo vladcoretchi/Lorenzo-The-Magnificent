@@ -8,9 +8,6 @@ import java.util.Observer;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.MARKET_AREA_CONTEXT;
 
-/**
- * Created by GiulioComi on 16/05/2017.
- */
 public class MarketBan extends AbstractEffect implements Observer {
 
 public MarketBan() {}

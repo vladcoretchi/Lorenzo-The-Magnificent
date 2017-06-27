@@ -10,14 +10,8 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Vector;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TOWERS_CONTEXT;
-
-
-/**
- * Created by vladc on 5/13/2017.
- */
 
 /*Basic Instant effects are handled here*/
 //This represents also the excomunication malus on resources
@@ -58,7 +52,7 @@ public class ResourcesBonus extends AbstractEffect implements Observer, Serializ
 
     @Override
     public void update(Observable o, Object arg) {
-        AbstractGameContext callerContext = (AbstractGameContext) o; //can`t do it, because Observable isn`t a subclass of AbstractGameContext
+        AbstractGameContext callerContext = (AbstractGameContext) o;
         ResourceIncomeContext incomeContext = (ResourceIncomeContext) callerContext.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT);
         incomeContext.setIncome(resources);
 
@@ -67,8 +61,6 @@ public class ResourcesBonus extends AbstractEffect implements Observer, Serializ
         //resource income context
 
     }
-
-
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
@@ -80,5 +72,4 @@ public class ResourcesBonus extends AbstractEffect implements Observer, Serializ
         councilPrivilegeContext.initContext(councilPrivilege);
         councilPrivilegeContext.interactWithPlayer();
     }
-
 }

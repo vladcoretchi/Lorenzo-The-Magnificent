@@ -3,12 +3,10 @@ package it.polimi.ingsw.LM34.Controller;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Model.Player;
+
 import java.util.List;
 import java.util.Observable;
 
-/**
- * Created by GiulioComi on 17/05/2017.
- */
 public abstract class AbstractGameContext extends Observable  {
     protected ContextType contextType;
 

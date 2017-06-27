@@ -19,9 +19,6 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-/**
- * Created by vladc on 5/30/2017.
- */
 public interface RMIClientInterface extends Remote {
 
     void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) throws  RemoteException;

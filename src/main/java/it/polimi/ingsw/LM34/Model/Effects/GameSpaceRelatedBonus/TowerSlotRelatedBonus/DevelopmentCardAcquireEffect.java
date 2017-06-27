@@ -10,16 +10,11 @@ import it.polimi.ingsw.LM34.Model.Player;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- * Created by vladc on 5/13/2017.
- */
-
 public class DevelopmentCardAcquireEffect extends AbstractEffect implements Observer {
     private DevelopmentCardColor color;
     private Integer value;
-    private ResourcesBonus requirementsDiscount; //TODO
+    private ResourcesBonus requirementsDiscount;
 
-    //TODO: pico della mirandola, filippo brunelleschi
     /**
      * applied only if value is not null
      * if true - the value is applied when the user goes on a tower action space.
@@ -58,14 +53,7 @@ public class DevelopmentCardAcquireEffect extends AbstractEffect implements Obse
     public void update(Observable o, Object arg) {
         Player player = (Player) arg;
         //get dice select by player, add value bonus and discounts
-        //TODO
     }
-
-
-    //TODO: reset to the value before this context started
-
-
-//towers
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
@@ -79,7 +67,4 @@ public class DevelopmentCardAcquireEffect extends AbstractEffect implements Obse
         towerContext.interactWithPlayer();
         towerContext.deleteObserver(this);
     }
-
-
-
 }

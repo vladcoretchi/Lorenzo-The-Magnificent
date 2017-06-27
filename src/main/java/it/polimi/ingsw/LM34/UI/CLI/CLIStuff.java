@@ -7,9 +7,6 @@ import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-/**
- * Created by vladc on 5/27/2017.
- */
 public final class CLIStuff {
     public static final IgnoreInput ignoreInput = new IgnoreInput();
 

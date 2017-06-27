@@ -15,9 +15,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by GiulioComi on 18/05/2017.
- */
 public class TurnContext extends AbstractGameContext {
     List<PlayerSelectableContexts> accessibleContexts = new ArrayList<>();
 

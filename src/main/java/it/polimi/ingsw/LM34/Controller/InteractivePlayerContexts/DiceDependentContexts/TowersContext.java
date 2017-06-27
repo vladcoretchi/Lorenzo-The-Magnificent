@@ -19,9 +19,6 @@ import java.util.List;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
 
-/**
- * Created by GiulioComi on 18/05/2017.
- */
 public class TowersContext extends AbstractGameContext implements  DiceDependentContextsInterface {
     //TODO: use a temporary dice value instead of modifying the real dice value stored in the game manager
     //TODO: handle Filippo Brunelleschi, Cesare Borgia

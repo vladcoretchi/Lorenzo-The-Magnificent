@@ -6,9 +6,6 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * Created by GiulioComi on 11/05/2017.
- */
 public class LeaderRequirements implements Serializable {
     Resources resourcesRequirements;
 

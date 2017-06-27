@@ -14,9 +14,6 @@ import java.util.Optional;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.MILITARY_POINTS;
 
-/**
- * Created by vladc on 5/13/2017.
- */
 public class ResourcesPerItemBonus extends AbstractEffect {
     private Resources bonusResources;
     private DevelopmentCardColor cardColor; //"nobile, araldo, cortigiana,governatore, zecca, teatro, esattoria,arco di triongo"
@@ -35,12 +32,10 @@ public class ResourcesPerItemBonus extends AbstractEffect {
         this.militaryPointsRequired = militaryPointsRequired;
     }
 
-
     /**
      * Only for building cards permanent bonuses
      * @param contexts
      */
-
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {

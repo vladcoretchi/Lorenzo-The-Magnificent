@@ -22,9 +22,6 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by vladc on 5/23/2017.
- */
 public class SocketConnection extends AbstractConnection implements Runnable {
     private static boolean serverStatus;
     private boolean runListener;

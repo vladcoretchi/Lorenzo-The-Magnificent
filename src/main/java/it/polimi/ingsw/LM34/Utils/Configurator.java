@@ -38,7 +38,6 @@ import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.COINS;
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.MILITARY_POINTS;
 
 /**
- * Created by GiulioComi on 07/05/2017.
  * config parameters loaded from file as static variables
  */
 public final class Configurator {
@@ -81,7 +80,7 @@ public final class Configurator {
     private static Map<Integer, Integer> endingGameTerritoriesVictoryPoints;
     private static Integer resourcesForVictoryPoints;
     private static List<BonusTile> advancedPersonalTiles;
-    private static BonusTile standardPersonalTile;
+    //private static BonusTile standardPersonalTile;
 
     public static void loadConfigs() {
         JSONObject jsonObject = null;
@@ -236,7 +235,7 @@ public final class Configurator {
      */
     private static void setupPersonalTiles(JSONObject jsonObject) {
         JSONObject jsonPersonalTiles = jsonObject.getJSONObject("personalTiles");
-        JSONObject jsonStandardTile = jsonPersonalTiles.getJSONObject("standardTile");
+        /*JSONObject jsonStandardTile = jsonPersonalTiles.getJSONObject("standardTile");
 
         Integer standardProductionDiceValue = jsonStandardTile.getJSONObject("production").getInt("diceValue");
         ResourcesBonus standProdReward = getResourcesBonusFromJson(jsonStandardTile.getJSONObject("production"));
@@ -244,6 +243,7 @@ public final class Configurator {
         ResourcesBonus standHarvReward = getResourcesBonusFromJson(jsonStandardTile.getJSONObject("harvest"));
 
         standardPersonalTile = new BonusTile(standardHarvestDiceValue, standardProductionDiceValue, standProdReward, standHarvReward);
+        */
 
         Integer  advancedProductionDiceValue;
         ResourcesBonus advProdReward = new ResourcesBonus(new Resources(), 0);
@@ -846,5 +846,9 @@ public final class Configurator {
     //TODO: remove before production
     public static void print(Object s) {
         System.out.println(s.toString());
+    }
+
+    public static List<BonusTile> getBonusTiles() {
+        return advancedPersonalTiles;
     }
 }

@@ -9,13 +9,11 @@ import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Configurator;
+
 import java.util.List;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
 
-/**
- * Created by GiulioComi on 16/05/2017.
- */
 public class HarvestAreaContext extends AbstractGameContext implements DiceDependentContextsInterface {
     private Integer tempValue;
     private WorkingArea harvestArea;

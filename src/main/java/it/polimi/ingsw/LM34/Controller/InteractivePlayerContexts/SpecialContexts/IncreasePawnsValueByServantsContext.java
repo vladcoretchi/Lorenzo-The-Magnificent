@@ -4,11 +4,9 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughValueException;
 import it.polimi.ingsw.LM34.Model.Player;
+
 import java.util.Observable;
 
-/**
- * Created by GiulioComi on 18/05/2017.
- */
 public class IncreasePawnsValueByServantsContext extends AbstractGameContext {
     private Integer servantsConsumed;
 

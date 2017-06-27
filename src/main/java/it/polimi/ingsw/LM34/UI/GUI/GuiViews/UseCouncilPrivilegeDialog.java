@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by GiulioComi on 07/06/2017.
- */
 public class UseCouncilPrivilegeDialog {
 
     public Integer interactWithPlayer(List<Resources> availableBonuses) {

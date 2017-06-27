@@ -6,13 +6,11 @@ import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Giulio Comi on 03/05/2017.
- */
 public class Player implements Serializable {
     private final String playerName;
     private final PawnColor pawnColor; //COLOR OF THE PAWN ASSOCIATED TO THE PLAYER
@@ -88,5 +86,4 @@ public class Player implements Serializable {
 
         return true;
     }
-
 }

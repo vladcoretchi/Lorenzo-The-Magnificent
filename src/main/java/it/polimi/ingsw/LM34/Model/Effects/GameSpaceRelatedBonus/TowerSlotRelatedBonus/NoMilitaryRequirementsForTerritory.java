@@ -9,24 +9,15 @@ import java.util.Observer;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TOWERS_CONTEXT;
 
-/**
- * Created by GiulioComi on 18/05/2017.
- */
-//"cesare borgia"
 public class NoMilitaryRequirementsForTerritory extends AbstractEffect implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         //TODO: skip control on how many military points the player has if cesare borgia is activated
         TowersContext context = (TowersContext) o;
-
     }
-
-  //towers
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
         callerContext.getContextByType(TOWERS_CONTEXT);
     }
-
-
 }

@@ -7,10 +7,6 @@ import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.List;
 
-/**
- * Created by GiulioComi on 05/05/2017.
- */
-
 public class TerritoryCard extends AbstractDevelopmentCard {
     private DevelopmentCardColor color= DevelopmentCardColor.GREEN;
     private String name;
@@ -28,7 +24,6 @@ public class TerritoryCard extends AbstractDevelopmentCard {
         this.instantBonus = instantBonus;
     }
 
-
     @Override
     public String getName() {
         return name;
@@ -38,7 +33,6 @@ public class TerritoryCard extends AbstractDevelopmentCard {
     public Integer getPeriod() {
         return this.period;
     }
-
 
     /**
      *
@@ -55,5 +49,4 @@ public class TerritoryCard extends AbstractDevelopmentCard {
     public Integer getDiceValueToHarvest() {
         return diceValueToHarvest;
     }
-
 }

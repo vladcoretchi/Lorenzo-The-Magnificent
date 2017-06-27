@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by GiulioComi on 10/06/2017.
- */
 public class FamilyMemberSelectDialog implements DialogInterface {
 
     public FamilyMemberSelectDialog() {}

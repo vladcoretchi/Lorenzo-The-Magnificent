@@ -18,9 +18,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by vladc on 5/23/2017.
- */
 public abstract class AbstractConnection {
     protected ServerNetworkController networkController;
     protected String username;

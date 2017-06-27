@@ -9,9 +9,6 @@ import java.util.Observer;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;
 
-/**
- * Created by GiulioComi on 18/05/2017.
- */
 public class HalveServantsValue extends AbstractEffect implements Observer {
 
     public HalveServantsValue() {}
@@ -19,7 +16,6 @@ public class HalveServantsValue extends AbstractEffect implements Observer {
     public void update(Observable o, Object arg) {
         Player player = (Player) arg;
 
-        //TODO: halve the servants value during "IncreasePawnsValueByServantsContext"
     }
 
     @Override

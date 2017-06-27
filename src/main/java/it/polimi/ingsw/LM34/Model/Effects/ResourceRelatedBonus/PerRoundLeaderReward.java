@@ -11,11 +11,6 @@ import java.util.Optional;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TURN_CONTEXT;
 
-/**
- * Created by GiulioComi on 18/05/2017.
- */
-
-
 //TODO: remember to activate these rewards in the controller at the beginning of the phase of each player
 public class PerRoundLeaderReward extends AbstractEffect implements Observer {
     private Resources resources;
@@ -28,7 +23,6 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
         this.workingAreaValueEffect = null;
     }
 
-    //TODO: "francesco sforza, leonardo da vinci"
     public PerRoundLeaderReward(WorkingAreaValueEffect valueEffect) {
         this.resources = new Resources();
         this.councilPrivilege = 0;
@@ -56,15 +50,12 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
         }*/
     }
 
-
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
         callerContext.getContextByType(TURN_CONTEXT).addObserver(this);
 
         System.out.println("mi sono iscritto al contesto");
         /*VOID*/
-
-
     }
 
 
@@ -72,5 +63,4 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
     public boolean isOncePerRound() {
         return true; //all these leader bonuses are activable once per round
     }
-
 }

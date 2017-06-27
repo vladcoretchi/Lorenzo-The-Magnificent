@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.Utils;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Resources;
 import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -12,7 +13,6 @@ import java.util.regex.Pattern;
 /**
  * Utilities class
  * Contains generic methods that can be used everywhere
- *
  * @author vladc
  */
 public final class Utilities {

@@ -5,6 +5,7 @@ import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
@@ -55,9 +56,6 @@ import java.util.regex.Pattern;
 
 import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.*;
 
-/**
- * Created by vladc on 6/6/2017.
- */
 public class GUI extends Application implements UIInterface {
     private AbstractClient networkClient;
     private ClientNetworkController networkController;
@@ -176,17 +174,17 @@ public class GUI extends Application implements UIInterface {
         new DisconnectionWarning().interactWithPlayer();
     }
 
-    /*TODO: public void leaderCardAction() {
-        try {
-            Parent root2 = FXMLLoader.load(getClass().getClassLoader().getResource("views/leaderCardAction.fxml"));
-            primaryStage.setScene(new Scene(
-                    root2, 500, 400));
-            primaryStage.show();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
+    @Override
+    public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
+        FutureTask<Integer> uiTask = new FutureTask<>(() ->  new BonusTileDialog().interactWithPlayer(bonusTiles));
+        return RunLaterTask(uiTask);
+    }
+
+    @Override
+    public Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards) {
+        FutureTask<Integer> uiTask = new FutureTask<>(() ->  new LeaderSelectionPhaseDialog().interactWithPlayer(leaderCards));
+        return RunLaterTask(uiTask);
+    }
 
     private void prepareWindow() {
 

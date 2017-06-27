@@ -6,6 +6,7 @@ import it.polimi.ingsw.LM34.Enums.Model.*;
 import it.polimi.ingsw.LM34.Enums.UI.NetworkType;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
@@ -807,6 +808,67 @@ public class CLI implements UIInterface {
 
     @Override
     public void disconnectionWarning() {
-        CLIStuff.printYellow("You are not connected to the game\n");
+        CLIStuff.printError("You are not connected to the game\n");
     }
+
+    @Override
+    public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
+        String input = new String();
+        Integer bonusTileSelected = 0;
+        Boolean validUserInput = false;
+
+        CLIStuff.printToConsole.println("Choose the bonus tile you desire to have");
+
+        bonusTiles.forEach(bt -> {
+            printToConsole.println("This bonus tile gives:");
+            printFormat("For harvest area %1$s", bt.getHarvestBonus().getResources().toString());
+            printFormat("For production area %1$s", bt.getHarvestBonus().getResources().toString());
+        });
+
+        do {
+            input = readUserInput.nextLine();
+
+            try {
+                Validator.checkValidity(input, bonusTiles);
+                bonusTileSelected = Integer.parseInt(input);
+                validUserInput = true;
+            }
+            catch (IncorrectInputException e) {
+                printError("Incorrect input");
+            }
+        } while(!validUserInput);
+
+        return bonusTileSelected;
+    }
+
+    @Override
+    public Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards) {
+        String input = new String();
+        Integer leaderSelected = 0;
+        Boolean validUserInput = false;
+
+        CLIStuff.printToConsole.println("Choose the leader you desire to have at your service");
+
+        leaderCards.forEach(lc -> {
+            printToConsole.println("This leader has the following characteristics:");
+            printFormat("Requirements: %1$s", lc.getRequirements().getResourcesRequirements().get().getResources().toString());
+            printFormat("Bonus Type: %1$s", lc.getBonus().getClass().getSimpleName());
+        });
+
+        do {
+            input = readUserInput.nextLine();
+
+            try {
+                Validator.checkValidity(input, leaderCards);
+                leaderSelected = Integer.parseInt(input);
+                validUserInput = true;
+            }
+            catch (IncorrectInputException e) {
+                printError("Incorrect input");
+            }
+        } while(!validUserInput);
+
+        return leaderSelected;
+    }
+
 }

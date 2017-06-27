@@ -6,9 +6,6 @@ import it.polimi.ingsw.LM34.Model.FamilyMember;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by Giulio Comi on 03/05/2017.
- */
 //TODO: apply Singleton design pattern
 public class Market extends GameSpace implements Serializable {
 

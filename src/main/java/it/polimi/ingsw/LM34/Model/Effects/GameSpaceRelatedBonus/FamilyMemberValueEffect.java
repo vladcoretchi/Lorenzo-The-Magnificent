@@ -14,13 +14,10 @@ import java.util.Observer;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
 
 /**
- * Created by vladc on 5/13/2017.
- *
  * This class aggregates instant and permanent effects from different development card types, leader cards and
  * excomunication tiles, all of which are related to the context where a player places a family member in a game space so that
  * the dice values associated to his pawns has to be incremented or decreased by the effects of the cards mentioned above
  */
-
 
 public class FamilyMemberValueEffect extends AbstractEffect implements Observer {
 
@@ -30,9 +27,6 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
      */
     private List<DiceColor> diceColor; //keep track on what dice the effect is applied to
     private ContextType contextType;
-
-    //TODO: handle federico da montefeltro
-
 
     private Integer value;
 
@@ -72,7 +66,6 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
         });
     }
 
-
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
         callerContext.getContextByType(MARKET_AREA_CONTEXT).addObserver(this);
@@ -81,5 +74,4 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
         callerContext.getContextByType(HARVEST_AREA_CONTEXT).addObserver(this);
         callerContext.getContextByType(COUNCIL_PALACE_CONTEXT).addObserver(this);
     }
-
 }

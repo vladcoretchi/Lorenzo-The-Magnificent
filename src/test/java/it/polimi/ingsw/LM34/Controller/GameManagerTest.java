@@ -1,53 +1,64 @@
 package it.polimi.ingsw.LM34.Controller;
 
-import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
+import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
-import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
-import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardDeck;
+import it.polimi.ingsw.LM34.Model.Cards.TerritoryCard;
 import it.polimi.ingsw.LM34.Model.Dice;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
-import it.polimi.ingsw.LM34.Model.FamilyMember;
-import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
-import it.polimi.ingsw.LM34.Network.GameRoom;
-import it.polimi.ingsw.LM34.Network.PlayerAction;
-import it.polimi.ingsw.LM34.Network.Server.AbstractConnection;
-import it.polimi.ingsw.LM34.Network.Server.Server;
-import it.polimi.ingsw.LM34.Network.Server.ServerNetworkController;
-import org.apache.commons.lang3.tuple.Pair;
+import it.polimi.ingsw.LM34.Utils.Configurator;
 import org.junit.Test;
 
-import java.lang.reflect.AccessibleObject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class GameManagerTest {
 
-    @Test
-    public void drawExcommunicationCard() {
-        Server server = Server.getInstance();
+    private Market market;
+    private List<Tower> towers;
+    private WorkingArea harvestArea;
+    private WorkingArea productionArea;
+    private Resources resources = new Resources(3,3,3,3,3,3,3);
+    private ResourcesBonus resourcesBonus = new ResourcesBonus(3);
+    private ActionSlot actionSlot = new ActionSlot(true, 3, resourcesBonus);
+    private ArrayList<ActionSlot> actionSlots = new ArrayList<>();
 
-    }
     @Test
     public void setUpGameSpaces() throws Exception {
-    }
+        //Market market = Configurator.getMarket();
+        actionSlots.add(actionSlot);
+        Market market = new Market(actionSlots);
+        assertTrue(market.getActionSlots().get(0).isSinglePawnSlot());
+        assertTrue(market.getActionSlots().get(0).getDiceValue()==3);
 
-    @Test
-    public void endGame() throws Exception {
     }
 
     @Test
     public void setUpDecks() throws Exception {
+        DevelopmentCardDeck<TerritoryCard> territoryCardDeck = Configurator.getTerritoryCards();
+
+        assertNull(territoryCardDeck.getCardColor());
     }
 
     @Test
     public void nextRound() throws Exception {
+        Dice dice1 = new Dice(DiceColor.BLACK);
+        List<Dice> dices = new ArrayList<>();
+
+        dices.add(dice1);
+
+        dices.forEach(Dice::rollDice);
+
+        assertTrue(dices.get(0).getValue()<=6 && dices.get(0).getValue()>=1);
+
+        assertTrue(dices.get(0).getColor()==DiceColor.BLACK);
     }
 
     @Test
@@ -92,93 +103,6 @@ public class GameManagerTest {
 
     @Test
     public void leaderSelectionPhase() throws Exception {
-    }
-
-    private class TestAbstractConnection extends AbstractConnection {
-        public void TestAbstractConnecton() {
-            this.username = "aldo";
-            this.networkController = new ServerNetworkController(this);
-        }
-
-        @Override
-        public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
-
-        }
-
-        @Override
-        public void updateTowers(List<Tower> towers) {
-
-        }
-
-        @Override
-        public void updateCouncilPalace(CouncilPalace councilPalace) {
-
-        }
-
-        @Override
-        public void updateMarket(Market market) {
-
-        }
-
-        @Override
-        public void updateProductionArea(WorkingArea productionArea) {
-
-        }
-
-        @Override
-        public void updateHarvestArea(WorkingArea harvestArea) {
-
-        }
-
-        @Override
-        public void updatePlayersData(List<Player> players) {
-
-        }
-
-        @Override
-        public void updateDiceValues(List<Dice> diceValues) {
-
-        }
-
-        @Override
-        public PlayerAction turnMainAction(Optional<Boolean> lastActionValid) {
-            return null;
-        }
-
-        @Override
-        public PlayerAction turnSecondaryAction(Optional<Boolean> lastActionValid) {
-            return null;
-        }
-
-        @Override
-        public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
-            return null;
-        }
-
-        @Override
-        public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
-            return null;
-        }
-
-        @Override
-        public Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices) {
-            return null;
-        }
-
-        @Override
-        public Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards) {
-            return null;
-        }
-
-        @Override
-        public Boolean churchSupport() {
-            return null;
-        }
-
-        @Override
-        public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
-            return null;
-        }
     }
 
 }

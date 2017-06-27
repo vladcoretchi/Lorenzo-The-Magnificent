@@ -17,12 +17,9 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT;
 
 /**
- * Created by vladc on 5/13/2017.
- *
  * This class handles the multiple choice that some BuildingCards' permanent bonus offers
  */
 
-//TODO: think of a way to have two alternatives for the special building cards
 public class ResourcesExchangeBonus extends AbstractEffect {
     private List<Pair<Resources, ResourcesBonus>> resourceExchange;
 
@@ -38,7 +35,6 @@ public class ResourcesExchangeBonus extends AbstractEffect {
         resourceExchangeContext= (ResourcesExchangeContext) callerContext.getContextByType(ContextType.RESOURCE_EXCHANGE_CONTEXT);
         resourceExchangeContext.setBonuses(player, resourceExchange);
         resourceExchangeContext.interactWithPlayer();
-
     }
 
     public void activateResourcesExchange(AbstractGameContext callerContext, FamilyMember familyMember) {

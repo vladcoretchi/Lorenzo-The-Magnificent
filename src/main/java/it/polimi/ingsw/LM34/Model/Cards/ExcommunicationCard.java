@@ -2,9 +2,6 @@ package it.polimi.ingsw.LM34.Model.Cards;
 
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 
-/**
- * Created by GiulioComi on 04/05/2017.
- */
 public class ExcommunicationCard {
     private Integer number;
     private Integer period;

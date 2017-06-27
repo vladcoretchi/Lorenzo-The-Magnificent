@@ -8,11 +8,6 @@ import java.util.Observer;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.ACTION_SLOT_CONTEXT;
 
-/**
- * Created by GiulioComi on 16/05/2017.
- */
-
-/*"ludovico ariosto"*/
 public class ActionSlotLimitBypass extends AbstractEffect implements Observer {
 
     @Override
@@ -20,7 +15,6 @@ public class ActionSlotLimitBypass extends AbstractEffect implements Observer {
         
     }
 
-    //TODO
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
         callerContext.getContextByType(ACTION_SLOT_CONTEXT).addObserver(this);
@@ -33,6 +27,4 @@ public class ActionSlotLimitBypass extends AbstractEffect implements Observer {
             callerContext.getContextByType(COUNCIL_PALACE_CONTEXT).addObserver(this);
         }*/
     }
-
-
 }

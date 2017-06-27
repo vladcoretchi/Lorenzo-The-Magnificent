@@ -2,9 +2,6 @@ package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
 import javafx.scene.control.Alert;
 
-/**
- * Created by GiulioComi on 26/06/2017.
- */
 public class DisconnectionWarning {
 
     public void interactWithPlayer() {

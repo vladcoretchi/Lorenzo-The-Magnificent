@@ -7,12 +7,9 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Configurator;
-import java.util.ArrayList;
+
 import java.util.List;
 
-/**
- * Created by GiulioComi on 16/05/2017.
- */
 public class ProductionAreaContext extends AbstractGameContext implements DiceDependentContextsInterface {
     private FamilyMember memberChoosed;
     private Integer tempValue;

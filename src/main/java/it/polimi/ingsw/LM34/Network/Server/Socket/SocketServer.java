@@ -6,9 +6,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by vladc on 5/23/2017.
- */
 public final class SocketServer {
     private static ServerSocket serverSocket;
     private static Thread connectionsHandler;

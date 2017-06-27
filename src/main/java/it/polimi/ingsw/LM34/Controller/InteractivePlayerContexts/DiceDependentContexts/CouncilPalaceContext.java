@@ -13,9 +13,6 @@ import java.util.List;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.COUNCIL_PALACE_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
 
-/**
- * Created by GiulioComi on 24/05/2017.
- */
 public class CouncilPalaceContext extends AbstractGameContext implements DiceDependentContextsInterface {
     private CouncilPalace councilPalace;
     private ResourcesBonus reward; //The council privilege

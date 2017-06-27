@@ -8,12 +8,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- * Created by vladc on 5/14/2017.
- */
 public class TowerSlotPenalty extends AbstractEffect implements Observer {
     private List<Integer> noResourcesFromTowerLevels; //handles card "predicatore"
-
 
     /**
      *
@@ -24,13 +20,9 @@ public class TowerSlotPenalty extends AbstractEffect implements Observer {
 
     }
 
-
-
     public List<Integer> getBannedRewardTowerLevels() {
         return this.noResourcesFromTowerLevels;
     }
-
-
 
     @Override
     public void update(Observable o, Object arg) {
@@ -42,9 +34,6 @@ public class TowerSlotPenalty extends AbstractEffect implements Observer {
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
-
     }
-
-
 }
 

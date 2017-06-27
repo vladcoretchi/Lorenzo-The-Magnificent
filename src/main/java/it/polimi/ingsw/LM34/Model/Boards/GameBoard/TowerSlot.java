@@ -5,16 +5,11 @@ import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 
 import java.io.Serializable;
 
-/**
- * Created by Julius on 04/05/2017.
- */
-
 //general slot of the tower
 public class TowerSlot extends ActionSlot implements Serializable {
 
     private AbstractDevelopmentCard cardStored;
     private Integer level;
-
 
     public TowerSlot(Boolean isSingle, Integer diceValueRequired, ResourcesBonus reward) {
         singlePawnSlot = isSingle;
@@ -42,7 +37,6 @@ public class TowerSlot extends ActionSlot implements Serializable {
     public Integer getLevel() {
         return level;
     }
-
 }
 
 

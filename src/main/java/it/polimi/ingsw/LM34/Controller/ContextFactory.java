@@ -8,8 +8,6 @@ import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 
 /**
- * Created by GiulioComi on 17/05/2017.
- *
  * A Factory pattern that creates the contexts at the beginning of the game
  */
 public final class ContextFactory {

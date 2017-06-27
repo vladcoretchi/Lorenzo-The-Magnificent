@@ -4,14 +4,11 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
-import it.polimi.ingsw.LM34.Model.Player;
+
 import java.util.List;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
 
-/**
- * Created by GiulioComi on 23/05/2017.
- */
 public class UseCouncilPrivilegeContext extends AbstractGameContext {
     private Integer numberOfCouncilePrivileges = 0;
     private ContextType type;

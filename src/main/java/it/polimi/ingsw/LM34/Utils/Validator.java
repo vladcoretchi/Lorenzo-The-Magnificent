@@ -15,11 +15,6 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Created by GiulioComi on 30/5/2017.
- */
-
-
-/**
  * This static class is unbelievable useful for validate data inserted by player both client and server side
  * Client side is used as a preliminary approach to avoid malicious input
  *Server side is adopted broadly by all contexts that calls the overloaded methods they need

@@ -4,9 +4,6 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 
 import java.io.Serializable;
 
-/**
- * Created by vladc on 5/13/2017.
- */
 public abstract class AbstractEffect implements Serializable {
     //protected ArrayList<ContextType> observableContexts;
     /**
@@ -16,7 +13,6 @@ public abstract class AbstractEffect implements Serializable {
     public boolean isOncePerRound() {
         return false;
     }
-
 
     //public ArrayList<ContextType> getContextToBeSubscribedTo() {return observableContexts;}
 

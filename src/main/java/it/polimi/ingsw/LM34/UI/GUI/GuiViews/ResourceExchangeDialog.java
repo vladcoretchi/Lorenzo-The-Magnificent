@@ -1,9 +1,5 @@
 package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
-/**
- * Created by GiulioComi on 07/06/2017.
- */
-
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Resources;
 import javafx.scene.control.ChoiceDialog;

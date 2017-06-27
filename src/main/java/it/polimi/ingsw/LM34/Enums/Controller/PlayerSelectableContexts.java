@@ -1,8 +1,5 @@
 package it.polimi.ingsw.LM34.Enums.Controller;
 
-/**
- * Created by GiulioComi on 30/05/2017.
- */
 public enum PlayerSelectableContexts {
     MARKET_AREA_CONTEXT("Market"),
     PRODUCTION_AREA_CONTEXT("Production Area"),

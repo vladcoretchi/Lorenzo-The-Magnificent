@@ -6,9 +6,6 @@ import it.polimi.ingsw.LM34.Utils.Copyable;
 
 import java.io.Serializable;
 
-/**
- * Created by Giulio Comi on 02/04/2017.
- */
 public class FamilyMember implements Serializable, Copyable {
     private final PawnColor pawnColor;
     private DiceColor diceColor;
@@ -64,5 +61,4 @@ public class FamilyMember implements Serializable, Copyable {
     public boolean isUsed() {
         return this.isUsed;
     }
-
 }

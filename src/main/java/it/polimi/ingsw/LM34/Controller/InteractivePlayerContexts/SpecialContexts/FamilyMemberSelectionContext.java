@@ -4,12 +4,9 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Utils.Validator;
+
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by GiulioComi on 04/06/2017.
- */
 
 /*Called by DiceDependentContext classes*/
 public class FamilyMemberSelectionContext extends AbstractGameContext {

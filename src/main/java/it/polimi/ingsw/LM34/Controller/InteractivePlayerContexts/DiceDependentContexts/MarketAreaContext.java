@@ -6,11 +6,9 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Configurator;
+
 import java.util.List;
 
-/**
- * Created by GiulioComi on 24/05/2017.
- */
 public class MarketAreaContext extends AbstractGameContext implements DiceDependentContextsInterface {
     private Market market;
     private Integer tempValue;

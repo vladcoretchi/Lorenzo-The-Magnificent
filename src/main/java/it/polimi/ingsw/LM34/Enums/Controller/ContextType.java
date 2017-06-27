@@ -1,8 +1,5 @@
 package it.polimi.ingsw.LM34.Enums.Controller;
 
-/**
- * Created by GiulioComi on 17/05/2017.
- */
 public enum ContextType {
     ACTION_SLOT_CONTEXT,
     CHURCH_REPORT_CONTEXT,

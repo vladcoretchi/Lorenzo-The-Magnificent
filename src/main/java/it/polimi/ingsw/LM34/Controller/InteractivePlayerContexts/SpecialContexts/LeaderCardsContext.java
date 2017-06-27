@@ -10,10 +10,6 @@ import java.util.List;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_CARDS_CONTEXT;
 
 /**
- * Created by GiulioComi on 25/05/2017.
- */
-
-/**
  * In this context the player can discard a leader in favor of a privilege or activate his ability
  * In the latter case, all requirements of the leader to activate are verified
  */

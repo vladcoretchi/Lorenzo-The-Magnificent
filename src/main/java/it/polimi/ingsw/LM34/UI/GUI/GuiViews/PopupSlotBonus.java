@@ -21,10 +21,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-
-/**
- * Created by GiulioComi on 11/06/2017.
- */
 public class PopupSlotBonus {
     Double coordinateX;
     Double coordinateY;

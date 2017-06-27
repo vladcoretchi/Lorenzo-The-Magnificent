@@ -9,9 +9,6 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-/**
- * Created by GiulioComi on 08/06/2017.
- */
 public class LoginDialog extends Application implements DialogInterface {
 
     public void show() {

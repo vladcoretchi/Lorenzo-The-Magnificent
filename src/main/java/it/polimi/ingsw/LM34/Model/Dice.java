@@ -1,18 +1,15 @@
 package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
+
 import java.io.Serializable;
 import java.util.Random;
 
-/**
- * Created by Giulio Comi on 5/2/2017.
- */
 public class Dice implements Serializable {
     private Random rand = new Random();
     private final DiceColor color;
     private Integer value = rand.nextInt(6) + 1;
 
-    //Constructor
     public Dice(DiceColor color) {
         this.color = color;
     }
@@ -32,5 +29,4 @@ public class Dice implements Serializable {
     public void rollDice(){
         this.value = rand.nextInt(6) + 1;
     }
-
 }

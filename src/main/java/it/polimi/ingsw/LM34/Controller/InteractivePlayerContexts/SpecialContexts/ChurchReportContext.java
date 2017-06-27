@@ -3,15 +3,14 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContext
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Player;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.CHURCH_REPORT_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.FAITH_POINTS;
 import static it.polimi.ingsw.LM34.Utils.Configurator.MIN_FAITHS_POINTS;
 
-/**
- * Created by GiulioComi on 16/05/2017.
- */
 public class ChurchReportContext extends AbstractGameContext {
     private List<ExcommunicationCard> excommunicationCards; //added by the GameManager at game startup
 

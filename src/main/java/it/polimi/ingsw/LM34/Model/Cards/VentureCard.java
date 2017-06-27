@@ -6,9 +6,6 @@ import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.List;
 
-/**
- * Created by GiulioComi on 04/05/2017.
- */
 public class VentureCard extends AbstractDevelopmentCard {
     private Integer endingVictoryPointsReward;
     private Integer militaryPointsRequired;
@@ -42,5 +39,4 @@ public class VentureCard extends AbstractDevelopmentCard {
     public Integer getEndingVictoryPointsReward() {
         return this.endingVictoryPointsReward;
     }
-
 }

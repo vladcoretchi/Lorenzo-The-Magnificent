@@ -14,12 +14,10 @@ import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import org.apache.commons.lang3.tuple.Pair;
+
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by vladc on 5/29/2017.
- */
 public class ClientNetworkController {
     private AbstractClient clientConnection;
 

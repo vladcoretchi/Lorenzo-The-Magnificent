@@ -1,6 +1,5 @@
 package it.polimi.ingsw.LM34.Network.Server;
 
-import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Network.GameRoom;
 import it.polimi.ingsw.LM34.Network.Server.RMI.RMIServer;
 import it.polimi.ingsw.LM34.Network.Server.Socket.SocketServer;
@@ -9,9 +8,6 @@ import it.polimi.ingsw.LM34.Utils.Configurator;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by vladc on 5/23/2017.
- */
 public class Server {
     private static final Integer SOCKET_PORT = 20001;
     private static final Integer RMI_PORT = 20002;

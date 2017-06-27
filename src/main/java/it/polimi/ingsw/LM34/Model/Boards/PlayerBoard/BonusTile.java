@@ -2,10 +2,6 @@ package it.polimi.ingsw.LM34.Model.Boards.PlayerBoard;
 
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 
-/**
- * Created by Giulio Comi on 03/05/2017.
- */
-
 public class BonusTile {
 private ResourcesBonus productionBonus;
 private ResourcesBonus harvestBonus;

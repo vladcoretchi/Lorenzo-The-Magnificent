@@ -1,7 +1,5 @@
 package it.polimi.ingsw.LM34.Network.Server.RMI;
 
-import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
-import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClientInterface;
 
 import java.rmi.RemoteException;
@@ -11,9 +9,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by vladc on 5/23/2017.
- */
 public class RMIServer implements RMIServerInterface {
     private static Registry registry;
     private List<RMIConnection> rmiConnections;
