@@ -194,12 +194,16 @@
         </Group>
     </ScrollPane>
 
-        <!--<Pane fx:id="commands" prefHeight="230.0" style="-fx-border-color: #1d1d1d" GridPane.columnIndex="1" GridPane.rowIndex="0">
-        </Pane>-->
-
         <ScrollPane GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.rowIndex="0">
             <VBox id="playersInfoList">
-            <children>
+                <children>
+
+                    <Pane fx:id="leaderCardsActions" prefHeight="100.0" prefWidth="150" style="-fx-background-color: rgba(255,118,121,0.24)">
+                        <children>
+                            <Button fx:id="leaderCardActions" prefWidth="150" prefHeight="50" layoutX="40" layoutY="15" text="Leader Cards" onAction="#showLeaderCardsActions" style="-fx-border-color: #61a2b1; -fx-text-fill: crimson; -fx-background-color: rgba(100,0,0,0.27);"></Button>
+                        </children>
+                    </Pane>
+
                 <Pane managed="false" fx:id="playerInfo1" visible="false" style="-fx-border-color: #1d1d1d;">
                     <children>
                         <Label fx:id="player1" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player1">

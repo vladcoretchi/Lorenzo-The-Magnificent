@@ -362,6 +362,7 @@ public class GUI extends Application implements UIInterface {
                 playerInfo = (Pane) root.lookup("#playerInfo" + numPlayer);
                 playerInfo.setBackground(new Background(new BackgroundFill(Color.valueOf(player.getPawnColor().toString()), CornerRadii.EMPTY, Insets.EMPTY)));
                 playerInfo.setVisible(true);
+                playerInfo.setManaged(true);
 
                 playerInfo.setOnMouseClicked(new PlayerClickEvent(player));
 
@@ -384,10 +385,10 @@ public class GUI extends Application implements UIInterface {
                 numPlayer++;
             }
 
-            for(; numPlayer < 5; numPlayer++) {
+            /*for(; numPlayer < 5; numPlayer++) {
                 playerInfo = (Pane) root.lookup("#playerInfo" + numPlayer);
                 playerInfo.setVisible(false);
-            }
+            }*/
             return null;
         });
         Platform.runLater(uiTask);
@@ -598,5 +599,17 @@ public class GUI extends Application implements UIInterface {
                 return null;
             }
         }
+
+    @FXML
+    public void showLeaderCardsActions() {
+        LeaderCardsView leaderCardsView = new LeaderCardsView();
+        List<LeaderCard> leaderCards = new ArrayList<>();
+        LeaderCard leaderCard = new LeaderCard("Lorenzo de Medici", null, null, true);
+        LeaderCard leaderCard1 = new LeaderCard("Cesare Borgia", null, null, true);
+        leaderCards.add(leaderCard);
+        leaderCards.add(leaderCard1);
+        leaderCardsView.interactWithPlayer(leaderCards);
+
+    }
 
 }

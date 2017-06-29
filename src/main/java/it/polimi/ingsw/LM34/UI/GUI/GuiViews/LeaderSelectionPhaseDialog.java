@@ -25,6 +25,8 @@ public class LeaderSelectionPhaseDialog {
         dialog.setWidth(800.0);
         dialog.setContentText("Choose the the leader card you desire to have at your service");
         dialog.setResizable(true);
+        dialog.getDialogPane().getStylesheets().add(
+                getClass().getResource("/css/leaderSelectionPhaseDialog.css").toExternalForm());
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {

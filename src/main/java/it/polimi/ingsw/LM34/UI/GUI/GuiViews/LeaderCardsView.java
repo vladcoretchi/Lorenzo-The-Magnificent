@@ -21,6 +21,11 @@ public class LeaderCardsView implements DialogInterface {
     public Pair<String, LeaderCardsAction> interactWithPlayer(List<LeaderCard> leadersOwned) {
         final ChoiceDialog dialog = new ChoiceDialog();
         dialog.setTitle("Leaders Available");
+        dialog.setHeaderText("leaderCard choice");
+        dialog.setContentText("which leader do you wish to use? ");
+        dialog.getDialogPane().setPrefHeight(370);
+        dialog.getDialogPane().getStylesheets().add(
+                getClass().getResource("/css/leaderDialog.css").toExternalForm());
 
         ImageView tempImage;
 
