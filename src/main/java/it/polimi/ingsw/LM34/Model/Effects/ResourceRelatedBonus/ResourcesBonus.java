@@ -56,10 +56,6 @@ public class ResourcesBonus extends AbstractEffect implements Observer, Serializ
         ResourceIncomeContext incomeContext = (ResourceIncomeContext) callerContext.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT);
         incomeContext.setIncome(resources);
 
-        //TODO
-         /*santa rita*/
-        //resource income context
-
     }
 
     @Override

@@ -4,17 +4,11 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.util.logging.Level;
-
-import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
-
-public class LoginDialog extends Application implements DialogInterface {
+public class LoginDialog extends Application {
 
     public void show() {
         launch();
@@ -33,17 +27,5 @@ public class LoginDialog extends Application implements DialogInterface {
         primaryStage.show();
         primaryStage.setOnHidden(e -> primaryStage.close());
 
-    }
-
-    @Override
-    public void setStyle(Dialog dialog) {
-        DialogPane dialogPane = dialog.getDialogPane();
-        try {
-            dialogPane.getStylesheets().add(LoginDialog.class.getResource("/css/login.css").toExternalForm());
-            System.out.println("si");
-        }
-        catch (NullPointerException ex) {
-            LOGGER.log(Level.INFO, "Cannot set css style to dialog");
-        }
     }
 }

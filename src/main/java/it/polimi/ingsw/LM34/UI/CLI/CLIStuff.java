@@ -12,7 +12,7 @@ public final class CLIStuff {
     public static final String INCORRECT_INPUT = "Incorrect input";
     public static final Scanner readUserInput = new Scanner(System.in);
     public static final PrintWriter printToConsole = new PrintWriter(System.out, true);
-    private static final String invalidPawnColor = "Invalid pawn color";
+    private static final String INVALID_PAWN_COLOR = "Invalid pawn color";
     /**
      * to print colored message to console, will be used ANSI escape code
      * https://en.wikipedia.org/wiki/ANSI_escape_code
@@ -63,6 +63,7 @@ public final class CLIStuff {
     private static final String PAWN_BLUE_COLOR = ESCAPE_SEQUENCE + PAWN_BLUE;
     private static final String PAWN_YELLOW_COLOR = ESCAPE_SEQUENCE + PAWN_YELLOW;
     private static final String PAWN_RED_COLOR = ESCAPE_SEQUENCE + PAWN_RED;
+    private static final String RED_MESSAGE_COLOR = ESCAPE_SEQUENCE + RED;
 
     /**
      * reset all following message's color to default
@@ -106,6 +107,10 @@ public final class CLIStuff {
 
     public static final void printGreen(String message) {
         printToConsole.print(CLIStuff.GREEN_MESSAGE_COLOR + message + CLIStuff.RESET_COLOR);
+    }
+
+    public static final void printRed(String message) {
+        printToConsole.print(CLIStuff.RED_MESSAGE_COLOR + message + CLIStuff.RESET_COLOR);
     }
 
     public static final void printYellow(String message) {
@@ -177,7 +182,7 @@ public final class CLIStuff {
                 printToConsole.print(CLIStuff.PAWN_BLUE_COLOR + " " + name + " "  + CLIStuff.RESET_COLOR + "   ");
                 break;
             default:
-                printError(invalidPawnColor);
+                printError(INVALID_PAWN_COLOR);
         }
     }
 
@@ -193,10 +198,10 @@ public final class CLIStuff {
                 printYellow(turnPhrase);
                 break;
             case RED:
-                printError(turnPhrase);
+                printRed(turnPhrase);
                 break;
             default:
-                printError(invalidPawnColor);
+                printError(INVALID_PAWN_COLOR);
         }
     }
 }

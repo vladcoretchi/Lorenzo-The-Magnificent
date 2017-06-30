@@ -1,7 +1,9 @@
 package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
+import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
 
 import java.io.Serializable;
 
@@ -32,6 +34,13 @@ public class TowerSlot extends ActionSlot implements Serializable {
     public void sweepTowerSlot() {
         super.sweep();
         this.cardStored = null;
+    }
+
+    public void insertFamilyMember(FamilyMember fm) throws OccupiedSlotException {
+        if(familyMember == null)
+            this.familyMember = fm;
+        else
+            throw new OccupiedSlotException();
     }
 
     public Integer getLevel() {

@@ -7,12 +7,10 @@ import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.io.Serializable;
 
-//TODO: evaluate to apply a factory pattern
 
 public class ActionSlot implements Serializable {
     protected FamilyMember familyMember; //the pawn inside the action slot
     protected ResourcesBonus resources; //the bonus the slot provides
-    //TODO: evaluate if diceValue should be considered at this level or in market, towers, etc.
     protected Integer diceValue;
     protected boolean singlePawnSlot;
 
@@ -43,7 +41,6 @@ public class ActionSlot implements Serializable {
     public ResourcesBonus getResourcesReward() {
         return this.resources;
     }
-
 
     //free the slot from the pawn at the end of a turn
     public void sweep() {

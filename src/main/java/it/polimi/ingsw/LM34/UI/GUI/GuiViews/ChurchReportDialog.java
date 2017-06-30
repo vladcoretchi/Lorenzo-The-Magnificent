@@ -2,12 +2,10 @@ package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
 
 import java.util.Optional;
 
-public class ChurchReportDialog implements DialogInterface {
+public class ChurchReportDialog {
 
     public Boolean interactWithPlayer() {
         Boolean result;
@@ -26,15 +24,4 @@ public class ChurchReportDialog implements DialogInterface {
 
         return result;
     }
-
-    @Override
-    public void setStyle(Dialog excommunicationChoice) {
-        DialogPane dialogPane = excommunicationChoice.getDialogPane();
-        dialogPane.getStylesheets().add(
-                getClass().getResource("css/curchReportDialog.css").toExternalForm());
-        dialogPane.getStyleClass().add("curchReportDialog");
-    }
-
-
-
 }

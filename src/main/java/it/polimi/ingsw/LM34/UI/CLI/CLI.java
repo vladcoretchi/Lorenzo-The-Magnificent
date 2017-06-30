@@ -24,6 +24,7 @@ import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.UI.UIInterface;
+import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 import it.polimi.ingsw.LM34.Utils.Validator;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -32,6 +33,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.*;
 import java.util.logging.Level;
 
+import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.ORANGE;
 import static it.polimi.ingsw.LM34.UI.CLI.CLIStuff.*;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
@@ -76,7 +78,7 @@ public class CLI implements UIInterface {
             Validator.checkValidity(--selectedValue, data);
         }
         catch (IncorrectInputException ex) {
-            LOGGER.log(Level.INFO, getClass().getSimpleName(), ex.getStackTrace());
+            LOGGER.info(ex.toString());
             errorMessage.ifPresent((str) -> printError(str));
             selectedValue = selectionMenu(data, backString, message, errorMessage);
         }
@@ -84,6 +86,7 @@ public class CLI implements UIInterface {
         return selectedValue;
     }
 
+    @Override
     public void show() {
         NetworkType connectionTypeChoice = connectionTypeSelection();
         if(connectionTypeChoice == NetworkType.RMI) {
@@ -117,6 +120,7 @@ public class CLI implements UIInterface {
      * Receives the login operation result
      * @param result login result
      */
+    @Override
     public void loginResult(Boolean result) {
         if (result)
             printLine("Access granted!");
@@ -130,38 +134,30 @@ public class CLI implements UIInterface {
     public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
         this.excommunicationCards = excommunicationCards;
     }
-
     @Override
     public void updateTowers(List<Tower> towers) {
         this.towers = towers;
     }
-
     @Override
     public void updateCouncilPalace(CouncilPalace councilPalace) {
         this.palace = councilPalace;
     }
-
     @Override
     public void updateMarket(Market market) {
         this.market = market;
     }
-
     @Override
     public void updateProductionArea(WorkingArea productionArea) {
         this.productionArea = productionArea;
-
     }
-
     @Override
     public void updateHarvestArea(WorkingArea harvestArea) {
         this.harvestArea = harvestArea;
     }
-
     @Override
     public void updatePlayersData(List<Player> players) {
         this.players = players;
     }
-
     @Override
     public void updateDiceValues(List<Dice> dicesValues) {
         this.dices = dicesValues;
@@ -174,9 +170,10 @@ public class CLI implements UIInterface {
         String winnerName= new String();
 
         /***Shows the points scored by all players***/
-        players.forEach(player ->
-            printFormat("%1$s has scored %2$s victory points", player.getPlayerName(),
-                    player.getResources().getResourceByType(ResourceType.VICTORY_POINTS))
+        players.forEach(player -> {
+                    printPlayerName(player.getPlayerName(), player.getPawnColor());
+                    printFormat(" has scored %1$s victory points\n", player.getResources().getResourceByType(ResourceType.VICTORY_POINTS));
+                }
         );
 
         /***And now declare the winner***/
@@ -272,7 +269,7 @@ public class CLI implements UIInterface {
                 selectedSlot = Integer.parseInt(input);
             }
             catch (IncorrectInputException e) {
-                LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
+                //LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
                 printError(INCORRECT_INPUT);
             }
         } while(!validUserInput);
@@ -327,27 +324,26 @@ public class CLI implements UIInterface {
      */
     public void councilPalaceSelection() {
         String input;
-        Boolean validUserInput = false;
-
         /***SHOW COUNCIL PALACE***/
-        List<ActionSlot> slots = new ArrayList<>();
-        slots = palace.getActionSlots();
-        printSlots(slots);
+        printCouncilPalace(palace.getActionSlot(), palace.getOccupyingPawns());
 
-
-        CLIStuff.printToConsole.println("Do you want to place one of your pawns in the Council Palace?");
+        printToConsole.println("\nDo you want to place one of your pawns in the Council Palace?");
         input = readUserInput.nextLine();
 
-        if (input.equalsIgnoreCase("yes")) {
-            validUserInput = true;
+        if ("yes".equalsIgnoreCase(input)) {
             //TODO: send to server councilPalaceSelection if true
-        } else if (input.equalsIgnoreCase("no")) {
-            validUserInput = true;
+        } else if ("no".equalsIgnoreCase(input)) {
         //TODO: go back to menu selection
         }else {
             printError("Invalid choice");
             councilPalaceSelection();
         }
+    }
+
+    private void printCouncilPalace(ActionSlot actionSlot, List<FamilyMember> occupyingPawns) {
+        printFormat("Council Palace resources: %1$s CouncilPrivileges: %2$s\n", actionSlot.getResourcesReward().getResources().getResources(),
+                                        actionSlot.getResourcesReward().getCouncilPrivilege());
+        occupyingPawns.forEach(p -> printPawn(p.getFamilyMemberColor(), p.getDiceColorAssociated()));
     }
 
     private void printSlots(List<ActionSlot> slots) {
@@ -358,7 +354,8 @@ public class CLI implements UIInterface {
         slots.forEach((ActionSlot as) -> {
             diceValues.add(as.getDiceValue());
             /***PAWN COLOR INSERTED IN SLOT***/
-            pawnsInserted.add(as.getFamilyMember());
+            if(as.getFamilyMember() != null)
+                pawnsInserted.add(as.getFamilyMember());
             Map res = new HashMap<>();
             Resources resources = as.getResourcesReward().getResources();
             resources.getResources().forEach((ResourceType rt, Integer val) -> res.put(rt.toString(), val));
@@ -438,7 +435,7 @@ public class CLI implements UIInterface {
         /***SHOW THE TOWERS***/
         printTowers(towers);
 
-        /***Let the player choice the tower and the level***/
+        /***Let the player choose the tower***/
         do {
            CLIStuff.printToConsole.println("In which tower do you wish to bring your family member? ");
            tower = readUserInput.nextInt();
@@ -455,6 +452,7 @@ public class CLI implements UIInterface {
 
         validUserInput = false;
 
+        /***Let the player choose the level***/
         do {
             CLIStuff.printToConsole.println("in which tower's floor do you wish to put your family member? ");
             floor = readUserInput.nextInt();
@@ -470,7 +468,6 @@ public class CLI implements UIInterface {
         } while (!validUserInput);
 
          // decrement tower and floor because user's choice is between 1 and 4, but server's range is between 0 and 3
-
         tower--;
         floor--;
 
@@ -488,24 +485,24 @@ public class CLI implements UIInterface {
     @Override
     public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
         String input;
-        Integer usedServants = 0;
+        Integer usedServants;
 
-        printFormat("to complete this action, you need at least %1$d servants (you have %2$d servants)\n",minimumServantsRequested, servantsAvailable);
+        printFormat("to complete this action, you need at least %1$d servants (you have %2$d servants)\n", minimumServantsRequested, servantsAvailable);
         CLIStuff.printToConsole.println("How many servants do you wish to use?");
 
         try {
             input = readUserInput.nextLine();
-            if(input.isEmpty())
-                contextSelection(selectableContexts);
             usedServants = Integer.parseInt(input);
-        } catch (Exception e) {
-            LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
+            Validator.checkValidity(usedServants, servantsAvailable);
+            return usedServants;
+        } catch (IncorrectInputException | NumberFormatException e) {
+            //LOGGER.info("");
             printError("Incorrect number of servants");
             servantsSelection(servantsAvailable, minimumServantsRequested);
+            return 0;
         }
-
-        return usedServants;
     }
+
 
     @Override
     public Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices) {
@@ -518,11 +515,11 @@ public class CLI implements UIInterface {
 
         try {
             input = readUserInput.nextLine();
+            Validator.checkValidity(input, choices);
             choice = Integer.parseInt(input);
-            Validator.checkValidity(choice.toString());
         }
         catch (Exception e) {
-            LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
+            //LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
             printError("The resources exchange choosed is not valid");
             resourceExchangeSelection(choices);
         }
@@ -532,7 +529,7 @@ public class CLI implements UIInterface {
 
     @Override
     public Pair<String, LeaderCardsAction>  leaderCardSelection(List<LeaderCard> leadersOwned) {
-        LeaderCardsAction actionChoiced;
+        LeaderCardsAction actionChoiced = LeaderCardsAction.DISCARD;
         String input;
 
         printFormat("Choose to Play, Copy or Discard Leader\n");
@@ -552,20 +549,20 @@ public class CLI implements UIInterface {
 
         try {
             input = readUserInput.nextLine();
-            Validator.checkLeaderValidity(leadersOwned, input);
+            Validator.checkValidity(input, leadersOwned);
         }
         catch (IncorrectInputException e) {
-            LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
+            //LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
             printError("The leader choosed is not valid");
             leaderCardSelection(leadersOwned);
         }
 
-        return new ImmutablePair(leadersOwned, input);
+        return new ImmutablePair(input, actionChoiced);
     }
 
     @Override
     public Boolean churchSupport() {
-        String input = new String();
+        String input;
         Boolean choice = false;
         printFormat("Do you want to Support the Church (Yes or No)?\n");
 
@@ -583,22 +580,29 @@ public class CLI implements UIInterface {
     }
 
     @Override
+    public void churchSupportReport(String churchResult, PawnColor pawnColor) {
+        printPlayerName(churchResult +"\n", pawnColor);
+
+    }
+
+    @Override
     public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
         String input;
-        Integer choice = 0;
+        Integer choice;
         printFormat("Choose the reward you desire:\n");
         availableBonuses.forEach(b -> printFormat("%1$s\n", b.getResources()));
         try {
             input = readUserInput.nextLine();
+            Validator.checkValidity(input, availableBonuses);
             choice = Integer.parseInt(input);
-            Validator.checkValidity(choice.toString());
+            return choice;
         }
         catch (Exception e) {
-            LOGGER.log(Level.INFO, "Incorrect input", e);
+            //LOGGER.log(Level.INFO, "Incorrect input", e);
             printError("The selected reward is not valid");
             selectCouncilPrivilegeBonus(availableBonuses);
+            return 0;
         }
-        return choice;
     }
 
     public void printTowers(List<Tower> towers) {
@@ -613,8 +617,10 @@ public class CLI implements UIInterface {
                 /***DICE VALUE***/
                 diceValues.add(as.getDiceValue());
                 /***PAWN COLOR INSERTED IN SLOT***/
-                pawnsInserted.add(as.getFamilyMember());
-                cardNames.add(as.getCardStored().getName());
+                if(as.getFamilyMember() != null)
+                    pawnsInserted.add(as.getFamilyMember());
+                if(as.getCardStored() != null)
+                    cardNames.add(as.getCardStored().getName());
                 Resources resources = as.getResourcesReward().getResources();
                 resources.getResources().forEach((ResourceType rt, Integer val) -> res.put(rt.toString(), val));
                 if (as.getResourcesReward().getCouncilPrivilege() > 0)
@@ -628,11 +634,7 @@ public class CLI implements UIInterface {
                     resourcesLines = sr.size();
             }
 
-            //List<String> cards = new ArrayList<>();
-
             printTowerTypeColor(tower.getCardColor());
-
-            //tower.getTowerSlots().forEach(t -> cards.add(t.getCardStored().getName()));
 
             printLine("");
             for(Integer diceValue : diceValues)
@@ -640,7 +642,8 @@ public class CLI implements UIInterface {
             printLine("");
 
             for(FamilyMember pawn : pawnsInserted)
-                printPawn(pawn.getFamilyMemberColor(), pawn.getDiceColorAssociated());
+                if(pawn != null)
+                    printPawn(pawn.getFamilyMemberColor(), pawn.getDiceColorAssociated());
 
             //printCardSplittedNames(tower.getCardColor(), cards);
 
@@ -656,7 +659,7 @@ public class CLI implements UIInterface {
                 for (List<Map.Entry<String,Integer>> sr : slotsResources) {
                     if (i < sr.size()) {
                         s = String.format("%1$s%2$-10s|", s, sr.get(i).getValue());
-                        String splittedResourceName[] = Utilities.splitStringByLength(sr.get(i).getKey(), 10);
+                        String[] splittedResourceName = Utilities.splitStringByLength(sr.get(i).getKey(), 10);
                         splittedStrings.add(splittedResourceName);
                         if (splittedResourceName.length > resourceNameLines)
                             resourceNameLines = splittedResourceName.length;
@@ -766,7 +769,7 @@ public class CLI implements UIInterface {
         Integer leaderSelected = 0;
         Boolean validUserInput = false;
 
-        CLIStuff.printToConsole.println("Choose the leader you desire to have at your service");
+        printToConsole.println("Choose the leader you desire to have at your service");
 
         leaderCards.forEach(lc -> {
             printToConsole.println("This leader has the following characteristics:");
@@ -782,7 +785,7 @@ public class CLI implements UIInterface {
                 leaderSelected = Integer.parseInt(input);
                 validUserInput = true;
             }
-            catch (IncorrectInputException e) {
+            catch (IncorrectInputException | NumberFormatException e) {
                 LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
                 printError(INCORRECT_INPUT);
             }
@@ -799,12 +802,36 @@ public class CLI implements UIInterface {
 
     @Override
     public void infoDisconnectedPlayer(String playerName, PawnColor playerColor) {
-        String phrase = playerName + "has disconnected\n";
+        String phrase = playerName + " has disconnected\n";
         printPlayerName(phrase, playerColor);
     }
 
+    @Override
     public void infoReconnectedPlayer(String playerName, PawnColor playerColor) {
-        String phrase = playerName + "has reconnected\n";
+        String phrase = playerName + " has reconnected\n";
         printPlayerName(phrase, playerColor);
+    }
+
+    public static void main (String[] args) {
+        Configurator.loadConfigs();
+        Market market = Configurator.getMarket();
+        CLI cli = new CLI();
+        cli.market = market;
+        cli.towers = Configurator.getTowers();
+        try {
+            cli.towers.get(1).getTowerSlots().get(0).insertFamilyMember(new FamilyMember(PawnColor.RED, ORANGE));
+            /*cli.market.insertFamilyMember(0, new FamilyMember(PawnColor.BLUE, DiceColor.ORANGE));
+            cli.market.insertFamilyMember(1, new FamilyMember(PawnColor.GREEN, DiceColor.BLACK));
+            cli.market.insertFamilyMember(2, new FamilyMember(PawnColor.RED, DiceColor.WHITE));
+            cli.market.insertFamilyMember(3, new FamilyMember(PawnColor.YELLOW, DiceColor.ORANGE));*/
+        } catch (Exception e) {e.printStackTrace(); }
+        cli.marketSlotSelection();
+        cli.printTowers(cli.towers);
+        List<Player> players = new ArrayList<>();
+        Player giacomo = new Player("giacomo", PawnColor.BLUE, new PersonalBoard());
+        giacomo.addResources(new Resources(4,5,1,2));
+        Player antonio = new Player("antonio", PawnColor.RED, new PersonalBoard());
+        players.add(giacomo); players.add(antonio);
+        antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
     }
 }

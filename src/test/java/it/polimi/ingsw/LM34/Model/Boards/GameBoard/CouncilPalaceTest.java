@@ -5,10 +5,9 @@ import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Resources;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class CouncilPalaceTest {
 
@@ -17,10 +16,8 @@ public class CouncilPalaceTest {
         List<FamilyMember> occupyingPawns;
         Resources resources = new Resources(1,1,1,1,1,1,1);
         ResourcesBonus resourcesBonus = new ResourcesBonus(resources, 3);
-        ActionSlot actionSlot = new ActionSlot(true, 3, resourcesBonus);
-        List<ActionSlot> palaceSlots = new ArrayList<>();
-        palaceSlots.add(actionSlot);
-        CouncilPalace councilPalace = new CouncilPalace(palaceSlots);
+        ActionSlot palaceSlot = new ActionSlot(true, 3, resourcesBonus);
+        CouncilPalace councilPalace = new CouncilPalace(palaceSlot);
 
         councilPalace.sweepPalace();
 

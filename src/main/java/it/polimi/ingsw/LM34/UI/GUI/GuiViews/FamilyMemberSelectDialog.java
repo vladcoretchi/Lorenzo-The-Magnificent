@@ -3,14 +3,13 @@ package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Dialog;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class FamilyMemberSelectDialog implements DialogInterface {
+public class FamilyMemberSelectDialog {
 
     public Integer interactWithPlayer(List<FamilyMember> membersAvailable) {
         String choosed;
@@ -29,10 +28,5 @@ public class FamilyMemberSelectDialog implements DialogInterface {
         }
         else
             return 0;
-    }
-
-    @Override
-    public void setStyle(Dialog dialog) {
-
     }
 }

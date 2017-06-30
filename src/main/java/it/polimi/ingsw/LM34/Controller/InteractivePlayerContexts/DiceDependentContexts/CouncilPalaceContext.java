@@ -8,12 +8,10 @@ import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 
-import java.util.List;
-
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.COUNCIL_PALACE_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
 
-public class CouncilPalaceContext extends AbstractGameContext implements DiceDependentContextsInterface {
+public class CouncilPalaceContext extends AbstractGameContext {
     private CouncilPalace councilPalace;
     private ResourcesBonus reward; //The council privilege
     private Integer councilPrivileges;
@@ -47,22 +45,17 @@ public class CouncilPalaceContext extends AbstractGameContext implements DiceDep
     }
 
 
-
-    @Override
     public void sweep() {
         councilPalace.sweepPalace();
     }
 
-    @Override
-    public List<ActionSlot> getActionSlots() {
-        return councilPalace.getActionSlots();
+    public ActionSlot getActionSlot() {
+        return councilPalace.getActionSlot();
     }
 
-    @Override
     public void finalizeRewardAttribution(Player player) {
 
     }
-
 
     public CouncilPalace getCouncilPalace() {
         return councilPalace;

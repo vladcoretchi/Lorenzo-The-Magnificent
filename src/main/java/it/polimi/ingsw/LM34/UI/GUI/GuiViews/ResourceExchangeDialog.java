@@ -3,7 +3,6 @@ package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Resources;
 import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Dialog;
 import javafx.scene.image.ImageView;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -14,7 +13,7 @@ import java.util.Optional;
 /**
  * Provide the user a way to choose what alternative of buildingCard permanent bonus he desires
  */
-public class ResourceExchangeDialog implements DialogInterface {
+public class ResourceExchangeDialog {
 
     public Integer interactWithPlayer(List<Pair<Resources,ResourcesBonus>> resourcesExchange) {
         List<String> choices = new ArrayList<>();
@@ -50,13 +49,5 @@ public class ResourceExchangeDialog implements DialogInterface {
             }
         }
         return 0;
-    }
-
-    @Override
-    public void setStyle(Dialog dialog) {
-       dialog.getDialogPane().getStylesheets().add(
-               getClass().getClassLoader().getResource("css/resourceExchangeDialog.css").toExternalForm());
-        dialog.getDialogPane().getStyleClass().add("css/resourceExchangeDialog.css");
-
     }
 }

@@ -362,7 +362,6 @@ public class GUI extends Application implements UIInterface {
                 playerInfo = (Pane) root.lookup("#playerInfo" + numPlayer);
                 playerInfo.setBackground(new Background(new BackgroundFill(Color.valueOf(player.getPawnColor().toString()), CornerRadii.EMPTY, Insets.EMPTY)));
                 playerInfo.setVisible(true);
-                playerInfo.setManaged(true);
 
                 playerInfo.setOnMouseClicked(new PlayerClickEvent(player));
 
@@ -385,10 +384,10 @@ public class GUI extends Application implements UIInterface {
                 numPlayer++;
             }
 
-            /*for(; numPlayer < 5; numPlayer++) {
+            for(; numPlayer < 5; numPlayer++) {
                 playerInfo = (Pane) root.lookup("#playerInfo" + numPlayer);
                 playerInfo.setVisible(false);
-            }*/
+            }
             return null;
         });
         Platform.runLater(uiTask);
@@ -447,6 +446,11 @@ public class GUI extends Application implements UIInterface {
     public Boolean churchSupport() {
         FutureTask<Boolean> uiTask = new FutureTask<>(() -> new ChurchReportDialog().interactWithPlayer());
         return RunLaterTask(uiTask);
+    }
+
+    @Override
+    public void churchSupportReport(String churchResult, PawnColor pawnColor) {
+        new PlayersInformativeDialog().interactWithPlayer(churchResult, pawnColor);
     }
 
     @Override
@@ -534,7 +538,7 @@ public class GUI extends Application implements UIInterface {
     @FXML
     public void popupPalaceBonus(MouseEvent event) {
         try {
-            new PopupSlotBonus(event, palace.getActionSlots().get(0).getResourcesReward()).start(primaryStage);
+            new PopupSlotBonus(event, palace.getActionSlot().getResourcesReward()).start(primaryStage);
         } catch(Exception e) {
             LOGGER.log(Level.WARNING, "Error in creating the popupBonus");
         }
@@ -602,14 +606,12 @@ public class GUI extends Application implements UIInterface {
 
     @FXML
     public void showLeaderCardsActions() {
+        //TODO: will this call mainaction?
         LeaderCardsView leaderCardsView = new LeaderCardsView();
         List<LeaderCard> leaderCards = new ArrayList<>();
         LeaderCard leaderCard = new LeaderCard("Lorenzo de Medici", null, null, true);
         LeaderCard leaderCard1 = new LeaderCard("Cesare Borgia", null, null, true);
         leaderCards.add(leaderCard);
         leaderCards.add(leaderCard1);
-        leaderCardsView.interactWithPlayer(leaderCards);
-
     }
-
 }

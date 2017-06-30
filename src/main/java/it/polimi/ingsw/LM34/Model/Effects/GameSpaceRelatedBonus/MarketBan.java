@@ -19,6 +19,5 @@ public MarketBan() {}
 
     @Override
     public void update(Observable o, Object arg) {
-    //TODO
     }
 }

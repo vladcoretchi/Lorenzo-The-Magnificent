@@ -14,7 +14,6 @@ public class NoOccupiedTowerTax extends AbstractEffect implements Observer {
     public NoOccupiedTowerTax() {}
     @Override
     public void update(Observable o, Object arg) {
-    //TODO
         TowersContext context = (TowersContext) o;
 
     }

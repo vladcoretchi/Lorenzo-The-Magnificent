@@ -60,7 +60,6 @@ public class DevelopmentCardAcquireEffect extends AbstractEffect implements Obse
         AbstractGameContext towerContext = callerContext.getContextByType(ContextType.TOWERS_CONTEXT);
         towerContext.addObserver(this);
 
-        //TODO:blablabla verifare pico della mirandola soddisfatto assieme
         if(requirementsDiscount != null)
             towerContext.addObserver(this.requirementsDiscount);
 

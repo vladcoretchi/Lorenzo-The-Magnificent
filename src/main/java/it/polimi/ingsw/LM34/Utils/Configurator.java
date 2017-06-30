@@ -28,10 +28,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.MULTICOLOR;
@@ -130,7 +127,7 @@ public final class Configurator {
         setupMarket(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONArray("market"));
         setupProductionArea(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONArray("productionArea"));
         setupHarvestArea(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONArray("harvestArea"));
-        setupCouncilPalace(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONArray("councilPalace"));
+        setupCouncilPalace(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONObject("councilPalace"));
         setupTowers(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONArray("towers"));
         setupDevelopmentCards(jsonObject.optJSONObject(CARDS_JSONSTRING));
         setupExcommunicationTiles(jsonObject.optJSONObject(CARDS_JSONSTRING).optJSONArray("excommunicationTiles"));
@@ -229,11 +226,14 @@ public final class Configurator {
                     cardAcquire = jsonBonus.getJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING);
                     DevelopmentCardColor cardColor = getCardTypeFromJson(cardAcquire.getString(DEVELOPMENT_CARD_COLOR_JSONSTRING));
                     Resources cardDiscount = getResourcesBonusFromJson(cardAcquire.getJSONObject(REQUIREMENTS_DISCOUNT_JSONSTRING)).getResources();
+                    ResourcesBonus discount = new ResourcesBonus(cardDiscount, 0);
+                    bonus = new DevelopmentCardAcquireEffect(cardColor, diceValue, false, discount);
                 }
             }
             leaderCards.add(new LeaderCard(name, new LeaderRequirements(resRequirements, cardRequirements), bonus, oncePerRound));
         }
     }
+
     private static DiceColor getDiceColorFromJson(String diceColor) {
         for(DiceColor color : DiceColor.values())
             if(color.toString().equalsIgnoreCase(diceColor))
@@ -522,9 +522,19 @@ public final class Configurator {
         return new VentureCard(name, period, militaryPointsRequired, militaryPointsSubtraction, resourcesRequired,  instantBonus, endingVictoryPointsReward);
     }
 
+    /**
+     * @param numPlayers that will play the game
+     * @return the exact number of leaders the game needs (4 per player)
+     */
     public static List<LeaderCard> getLeaderCards(Integer numPlayers) {
-        return leaderCards;
+        Collections.shuffle(leaderCards);
+        List<LeaderCard> leadersForPlaying = new ArrayList<>();
+        for(Integer index = 0; index < numPlayers; index++)
+            leadersForPlaying.add(leaderCards.get(index));
+
+        return leadersForPlaying;
     }
+
     public static List<ExcommunicationCard> getExcommunicationTiles() {
         return excommunicationTiles;
     }
@@ -556,11 +566,8 @@ public final class Configurator {
         harvestArea = new WorkingArea(singleSlot, advancedSlots);
     }
 
-    private static void setupCouncilPalace(JSONArray councilPalaceJson) {
-        palace = new CouncilPalace(new ArrayList<>());
-        for (int i = 0; i < councilPalaceJson.length(); i++) {
-            palace.getActionSlots().add(getActionSlotFromJson(councilPalaceJson.optJSONObject(i)));
-        }
+    private static void setupCouncilPalace(JSONObject councilPalaceJson) {
+        palace = new CouncilPalace(getActionSlotFromJson(councilPalaceJson));
     }
 
     private static ExcommunicationCard getExcommunicationCardFromJson(JSONObject tile) {

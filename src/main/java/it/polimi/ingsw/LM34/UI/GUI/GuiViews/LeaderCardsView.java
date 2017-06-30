@@ -5,7 +5,6 @@ import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Dialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -14,7 +13,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.List;
 import java.util.Optional;
 
-public class LeaderCardsView implements DialogInterface {
+public class LeaderCardsView {
     String decision;
     List<LeaderCard> leadersOwned;
 
@@ -64,10 +63,5 @@ public class LeaderCardsView implements DialogInterface {
                 action = LeaderCardsAction.DISCARD;
 
         return new ImmutablePair(leaderChoosed, action);
-    }
-
-    @Override
-    public void setStyle(Dialog dialog) {
-
     }
 }

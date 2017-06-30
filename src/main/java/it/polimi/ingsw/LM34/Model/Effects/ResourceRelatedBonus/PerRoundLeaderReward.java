@@ -58,7 +58,6 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
         /*VOID*/
     }
 
-
     @Override
     public boolean isOncePerRound() {
         return true; //all these leader bonuses are activable once per round

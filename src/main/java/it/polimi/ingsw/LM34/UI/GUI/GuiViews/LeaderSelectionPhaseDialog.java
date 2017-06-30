@@ -19,7 +19,6 @@ public class LeaderSelectionPhaseDialog {
         });
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
-        //setStyle(dialog);
         dialog.setTitle("Leader Selection Phase");
         dialog.setHeight(600.0);
         dialog.setWidth(800.0);

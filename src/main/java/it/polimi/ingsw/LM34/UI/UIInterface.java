@@ -34,6 +34,9 @@ public interface UIInterface {
     void loginMenu();
     void loginResult(Boolean result);
 
+    PlayerAction turnMainAction(Optional<Boolean> lastActionValid);
+    PlayerAction turnSecondaryAction(Optional<Boolean> lastActionValid);
+
     void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards);
     void updateTowers(List<Tower> towers);
     void updateCouncilPalace(CouncilPalace councilPalace);
@@ -43,17 +46,15 @@ public interface UIInterface {
     void updatePlayersData(List<Player> players);
     void updateDiceValues(List<Dice> dicesValues);
 
-    PlayerAction turnMainAction(Optional<Boolean> lastActionValid);
-    PlayerAction turnSecondaryAction(Optional<Boolean> lastActionValid);
-
+    Integer bonusTileSelection(List<BonusTile> bonusTiles);
+    Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards);
     Integer familyMemberSelection(List<FamilyMember> familyMembers);
     Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested);
     Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices);
     Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards);
-    Boolean churchSupport();
-    Integer bonusTileSelection(List<BonusTile> bonusTiles);
-    Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards);
     Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses);
+    Boolean churchSupport();
+    void churchSupportReport(String churchResult, PawnColor playerColor);
     void endGame(List<Player> players);
 
     void endTurn();

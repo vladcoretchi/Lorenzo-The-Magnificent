@@ -13,7 +13,6 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Dialog;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -25,14 +24,14 @@ import java.util.List;
 /**
  * Show end game results of players
  */
-public class EndGameDialog implements DialogInterface {
+public class EndGameDialog {
     List<Player> players;
+    @FXML
+    private BarChart<String, Number> chart;
 
     public EndGameDialog(List<Player> players) {
         this.players = players;
     }
-    @FXML
-    private BarChart<String, Number> chart;
 
     public void start(Stage primaryStage) throws Exception {
 
@@ -73,7 +72,6 @@ public class EndGameDialog implements DialogInterface {
         stage.setFullScreen(false);
         Scene scene = new Scene(pointsChart);
         scene.getStylesheets().add(EndGameDialog.class.getResource("/css/endGameDialog.css").toExternalForm());
-        //scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
 
         pointsChart.setOnKeyPressed(new EventHandler<KeyEvent>()  {
@@ -95,8 +93,4 @@ public class EndGameDialog implements DialogInterface {
         stage.show();
     }
 
-    @Override
-    public void setStyle(Dialog dialog) {
-
-    }
 }

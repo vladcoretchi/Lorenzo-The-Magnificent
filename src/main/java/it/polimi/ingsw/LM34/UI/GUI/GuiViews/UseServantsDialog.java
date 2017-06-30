@@ -1,14 +1,13 @@
 package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
 import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Dialog;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UseServantsDialog implements DialogInterface {
+public class UseServantsDialog {
 
     public UseServantsDialog() {}
 
@@ -26,11 +25,6 @@ public class UseServantsDialog implements DialogInterface {
         Optional<String> result = dialog.showAndWait();
 
         return Integer.parseInt(result.isPresent() ? result.get() : "0");
-    }
-
-    @Override
-    public void setStyle(Dialog dialog) {
-
     }
 }
 
