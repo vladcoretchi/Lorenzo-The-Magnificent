@@ -58,7 +58,7 @@ public class PopupSlotBonus {
                 value.setStyle(style);
                 value.setFont(Font.font("Verdana", 30));
                 value.setFill(Color.BLACK);
-                borderGlow= new DropShadow();
+                borderGlow = new DropShadow();
                 borderGlow.setOffsetY(0f);
                 borderGlow.setOffsetX(0f);
                 borderGlow.setSpread(0.4);

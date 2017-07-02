@@ -8,8 +8,8 @@
     <children>
         <ScrollPane vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED" minWidth="-Infinity" minHeight="-Infinity" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="970" prefHeight="1235.8" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <Group fx:id="personalBoardCards">
-                 <ImageView fitWidth="970" fitHeight="1235.8" style="-fx-background-repeat: repeat">
-                    <Image url="@../images/personalBoard/PersonalBoardBackground.png"></Image>
+                 <ImageView fitWidth="970" fitHeight="1235.8">
+                    <Image url="@../images/backgrounds/PersonalBoardBackground.jpg"></Image>
                 </ImageView>
 
                 <ImageView fx:id="personalTile" fitWidth="100" fitHeight="658.08" layoutX="20" layoutY="20">

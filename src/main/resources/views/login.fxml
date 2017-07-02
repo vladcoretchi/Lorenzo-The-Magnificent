@@ -7,16 +7,20 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<AnchorPane fx:id="login" maxHeight="339.0" maxWidth="422.0" prefHeight="256.0" prefWidth="377.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.LM34.UI.GUI.GUI">
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.text.Text?>
+<AnchorPane fx:id="login" maxHeight="256.0" maxWidth="377.0" prefHeight="256.0" prefWidth="377.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.LM34.UI.GUI.GUI">
     <children>
         <Pane minWidth="-Infinity" minHeight="-Infinity" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="970" prefHeight="1235.8" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <ImageView fitHeight="399.0" fitWidth="422.0">
-                <Image url="@../images/login/loginBackground.png" />
+                <Image url="@../images/login/loginBackground.jpg" />
             </ImageView>
             <Label layoutX="32.0" layoutY="58.0" text="Username:" style="-fx-font-size: 16; -fx-text-fill: black" />
             <Label layoutX="32.0" layoutY="98.0" text="Password:" style="-fx-font-size: 16; -fx-text-fill: black"/>
-            <TextField fx:id="username" layoutX="120.0" layoutY="55.0" />
-            <PasswordField fx:id="password" layoutX="120.0" layoutY="95.0" />
+            <TextField fx:id="username" layoutX="120.0" layoutY="55.0" promptText="insert your username"/>
+            <PasswordField fx:id="password" layoutX="120.0" layoutY="95.0" promptText="insert your password"/>
+            <Label fx:id="playerLoginError" prefWidth="377" layoutX="10" layoutY="320" visible="false" style="-fx-text-fill: #fdf8ff; -fx-font-size: 16; -fx-background-color: rgba(183,0,0,0.61); -fx-padding: 10px; -fx-fill-width: true; -fx-alignment: center; -fx-text-alignment: center" />
+
             <Button layoutX="167.0" layoutY="279.0" mnemonicParsing="false" onMouseClicked="#doLogin" text="Login" style="-fx-font-size: 14; -fx-text-fill: white; -fx-background-color: #C77550"/>
             <RadioButton fx:id="socketChoice" layoutX="247.0" layoutY="179.0" mnemonicParsing="false" selected="true" text="Socket" style="-fx-font-size: 14; -fx-text-fill: derive(blanchedalmond, 30%)">
                 <toggleGroup>

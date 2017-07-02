@@ -2,6 +2,7 @@ package it.polimi.ingsw.LM34.UI.GUI;
 
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
@@ -46,18 +47,23 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.BLACK;
+import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.ORANGE;
+import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.WHITE;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class GUI extends Application implements UIInterface {
@@ -73,6 +79,9 @@ public class GUI extends Application implements UIInterface {
     private TextField username;
     @FXML
     private TextField password;
+    @FXML
+    private Label playerLoginError;
+
     @FXML
     private RadioButton rmiChoice;
     @FXML
@@ -94,11 +103,37 @@ public class GUI extends Application implements UIInterface {
     private Map<Integer, Integer> faithPath;
     private Map<Integer, Integer> mapCharactersToVictoryPoints;
     private Map<Integer, Integer> mapTerritoriesToVictoryPoints;
+    private Optional<PlayerSelectableContexts> selectedContext;
 
     @Override
     public void start(Stage stage) throws Exception {
         root = FXMLLoader.load(getClass().getClassLoader().getResource("views/gui.fxml"));
+        this.primaryStage = new Stage();
         prepareWindow();
+
+        //test all dialogs, that will be removed after tests
+        List<BonusTile> bonusTiles = new ArrayList<>();
+        Configurator.loadConfigs();
+        bonusTiles = Configurator.getBonusTiles();
+        BonusTileDialog bonusTileDialog = new BonusTileDialog();
+        //bonusTileDialog.interactWithPlayer(bonusTiles);
+        ChurchReportDialog churchReportDialog = new ChurchReportDialog();
+        churchReportDialog.interactWithPlayer();
+        //
+
+        Dice orange = new Dice(ORANGE); orange.rollDice();
+        Dice black = new Dice(BLACK); orange.rollDice();
+        Dice white = new Dice(WHITE); orange.rollDice();
+        List<Dice> dices = new ArrayList<>();
+        dices.add(orange); dices.add(black); dices.add(white);
+        updateDiceValues(dices);
+
+        this.selectedContext = Optional.empty();
+
+        primaryStage.setOnCloseRequest(event -> stop(event));
+
+        //new LeaderCardsView(leaders).start(primaryStage);
+
     }
 
     /**
@@ -176,6 +211,16 @@ public class GUI extends Application implements UIInterface {
                 this.start(new Stage());
                 return null;
             });
+
+            Platform.runLater(uiTask);
+        }
+        else {
+            FutureTask<Void> uiTask = new FutureTask<>(() -> {
+                playerLoginError.setText("invalid username or password");
+                playerLoginError.setVisible(true);
+                return null;
+            });
+
             Platform.runLater(uiTask);
         }
     }
@@ -381,6 +426,7 @@ public class GUI extends Application implements UIInterface {
                 playerInfo = (Pane) root.lookup("#playerInfo" + numPlayer);
                 playerInfo.setBackground(new Background(new BackgroundFill(Color.valueOf(player.getPawnColor().toString()), CornerRadii.EMPTY, Insets.EMPTY)));
                 playerInfo.setVisible(true);
+                playerInfo.setManaged(true);
 
                 playerInfo.setOnMouseClicked(new PlayerClickEvent(player));
 
@@ -403,10 +449,10 @@ public class GUI extends Application implements UIInterface {
                 numPlayer++;
             }
 
-            for(; numPlayer < 5; numPlayer++) {
+           /* for(; numPlayer < 5; numPlayer++) {
                 playerInfo = (Pane) root.lookup("#playerInfo" + numPlayer);
                 playerInfo.setVisible(false);
-            }
+            }*/
             return null;
         });
         Platform.runLater(uiTask);
@@ -468,13 +514,29 @@ public class GUI extends Application implements UIInterface {
     }
 
     public void doLogin() {
-        if(rmiChoice.isSelected())
-            this.networkClient = new RMIClient(SERVER_IP, RMI_PORT, this);
-        else
-            this.networkClient = new SocketClient(SERVER_IP, SOCKET_PORT, this);
+        playerLoginError.setVisible(false);
 
-        this.networkController = this.networkClient.getNetworkController();
-        this.networkClient.login(username.getText(), password.getText());
+        String playerUsername = username.getText();
+        String playerPassword = password.getText();
+
+        if(playerUsername.equals("") || playerPassword.equals("")) {
+
+            playerLoginError.setText("username and password fields\ncannot be left blank");
+
+            playerLoginError.setVisible(true);
+        }
+
+        else {
+
+            if (rmiChoice.isSelected())
+                this.networkClient = new RMIClient(SERVER_IP, RMI_PORT, this);
+            else
+                this.networkClient = new SocketClient(SERVER_IP, SOCKET_PORT, this);
+
+            this.networkController = this.networkClient.getNetworkController();
+
+            this.networkClient.login(playerUsername, playerPassword);
+        }
     }
 
     @Override
@@ -663,6 +725,9 @@ public class GUI extends Application implements UIInterface {
 
     @FXML
     public void showLeaderCardsActions() {
+        //TODO: will this call mainaction?
+        this.selectedContext = Optional.of(PlayerSelectableContexts.LEADER_ACTIVATE_OR_DISCARD_CONTEXT);
+
         LeaderCardsView leaderCardsView = new LeaderCardsView();
         List<LeaderCard> leaderCards = new ArrayList<>();
         LeaderCard leaderCard = new LeaderCard("Lorenzo de Medici", null, null, true);
@@ -670,6 +735,21 @@ public class GUI extends Application implements UIInterface {
         leaderCards.add(leaderCard);
         leaderCards.add(leaderCard1);
     }
+
+    /**
+     * this function will interrupt all Threads and will close the application
+     * @param event this event will be managed when the exit button will be clicked
+     */
+
+    public void stop(WindowEvent event) {
+        primaryStage.setOnCloseRequest(event1 -> Platform.exit());
+        System.exit(0);
+        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+        for (Thread thread : threadSet) {
+            thread.interrupt();
+        }
+    }
+
 
     public static void main(String [] args) {
         GUI gui = new GUI();

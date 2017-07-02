@@ -1,7 +1,10 @@
 package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
+import it.polimi.ingsw.LM34.Utils.Configurator;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,16 +18,23 @@ public class BonusTileDialog {
 
         bonusTiles.forEach(bt -> {
             choices.add("HarvestArea " + bt.getHarvestBonus().getResources().getResources()
-                    + "ProductionArea " + bt.getHarvestBonus().getResources().getResources());
+                    + "\nProductionArea " + bt.getHarvestBonus().getResources().getResources());
         });
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
-        //setStyle(dialog);
         dialog.setTitle("BonusTile Selection");
         dialog.setHeight(600.0);
         dialog.setWidth(800.0);
         dialog.setContentText("Choose the the bonus tile you desire");
-        dialog.setResizable(true);
+        dialog.setResizable(false);
+        dialog.getDialogPane().getStylesheets().add(
+                getClass().getResource("/css/bonusTileDialog.css").toExternalForm());
+        dialog.getDialogPane().getStyleClass().add("bonusTile");
+        Image image = new Image(Thread.currentThread().getContextClassLoader().getResource("images/personalBoard/personalTiles/basicPersonalTile.png").toExternalForm());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(541.8);
+        imageView.setFitHeight(88.5);
+        dialog.setGraphic(imageView);
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {

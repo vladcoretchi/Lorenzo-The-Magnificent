@@ -20,12 +20,18 @@ public class LeaderCardsView {
     public Pair<String, LeaderCardsAction> interactWithPlayer(List<LeaderCard> leadersOwned) {
         final ChoiceDialog dialog = new ChoiceDialog();
         dialog.setTitle("Leaders Available");
-        dialog.setHeaderText("leaderCard choice");
+        dialog.setHeaderText("Leader Card choice");
         dialog.setContentText("which leader do you wish to use? ");
-        dialog.getDialogPane().setPrefHeight(370);
+        dialog.getDialogPane().setPrefHeight(405);
+        dialog.setResizable(false);
         dialog.getDialogPane().getStylesheets().add(
                 getClass().getResource("/css/leaderDialog.css").toExternalForm());
-
+        dialog.getDialogPane().getStyleClass().add("leaderCard");
+        Image image = new Image(Thread.currentThread().getContextClassLoader().getResource("images/Icon.png").toExternalForm());
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(85.2);
+        imageView.setFitHeight(85.2);
+        dialog.setGraphic(imageView);
         ImageView tempImage;
 
         for (LeaderCard leader : leadersOwned) {
@@ -39,19 +45,19 @@ public class LeaderCardsView {
             tempImage.setStyle("-fx-background-color: transparent;");
 
             dialog.getItems().add(tempImage);
-            dialog.setResizable(true);
         }
 
         Optional<ImageView> result = dialog.showAndWait();
         dialog.getDialogPane().setMinHeight(800.0);
-        String  leaderChoosed = result.orElse(new ImageView()).getId();
+        String leaderChoosed = result.orElse(new ImageView()).getId();
         LeaderCardsAction action = LeaderCardsAction.DISCARD;
         ButtonType activate = new ButtonType(LeaderCardsAction.PLAY.toString());
         ButtonType discard = new ButtonType(LeaderCardsAction.DISCARD.toString());
         ButtonType copy = new ButtonType(LeaderCardsAction.COPY.toString());
-        Alert actionChoice = new Alert(Alert.AlertType.NONE, "Activate, Copy or Discard Leader", activate, discard, copy);
+        Alert actionChoice = new Alert(Alert.AlertType.NONE, "Activate, Copy or Discard "+leaderChoosed, activate, discard, copy);
         actionChoice.setTitle("Leader Action Dialog");
-
+        actionChoice.getDialogPane().getStylesheets().add(
+                getClass().getResource("/css/leaderDialog.css").toExternalForm());
         Optional<ButtonType> choice = actionChoice.showAndWait();
 
         if (choice.isPresent())

@@ -21,6 +21,10 @@ public class UseServantsDialog {
         dialog.setGraphic(new ImageView(Thread.currentThread().getContextClassLoader().getResource("images/servants.png").toExternalForm()));
         dialog.setHeaderText("Increase family member value by using servants");
         dialog.setContentText("Choose number of servants:");
+        dialog.getDialogPane().getStylesheets().add(
+                getClass().getResource("/css/servantsDialog.css").toExternalForm());
+        dialog.getDialogPane().getStyleClass().add("servant");
+        ImageView tempImage;
 
         Optional<String> result = dialog.showAndWait();
 

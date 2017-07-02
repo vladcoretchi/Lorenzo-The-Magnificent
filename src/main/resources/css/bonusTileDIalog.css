@@ -1,3 +1,7 @@
+.root {
+    -fx-background-color: rgba(177,180,179,0.63)
+}
+
 .choice-box {
     -fx-background-color: rgba(107,110,109,0.74);
     -fx-text-fill: #914800;
@@ -8,7 +12,7 @@
     -fx-background-color: rgba(136,139,138,0.74);
 }
 
-.leaderCard > *.header-panel {
+.bonusTile > *.header-panel {
     -fx-background-color: rgba(136,139,138,0.74);
 }
 
@@ -16,11 +20,11 @@
     -fx-background-color: #1d1d1d;
 }
 
-.leaderCard > *.button-bar {
+.bonusTile > *.button-bar {
     -fx-background-color: #444746;
 }
 
-.leaderCard > .button {
+.bonusTile > .button {
     -fx-background-color: rgba(183,87,72,0.5);
 }
 
