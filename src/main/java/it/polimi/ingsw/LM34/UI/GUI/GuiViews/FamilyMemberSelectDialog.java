@@ -24,8 +24,10 @@ public class FamilyMemberSelectDialog {
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>(DiceColor.NEUTRAL.toString(), members);
         dialog.setTitle("Family Member Selection");
-        dialog.setGraphic(new ImageView(Thread.currentThread().getContextClassLoader().getResource("images/servants.png").toExternalForm()));
-
+        dialog.setGraphic(new ImageView(Thread.currentThread().getContextClassLoader().getResource("images/resources/SERVANTS.png").toExternalForm()));
+        dialog.getDialogPane().getStylesheets().add(
+                getClass().getResource("/css/dialogStyle.css").toExternalForm());
+        dialog.getDialogPane().getStyleClass().add("dialogClass");
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
             return Integer.parseInt(result.get());

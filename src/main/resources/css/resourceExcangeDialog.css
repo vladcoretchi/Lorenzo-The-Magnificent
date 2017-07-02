@@ -1,0 +1,26 @@
+.choice-box {
+    -fx-background-color: rgba(107,110,109,0.74);
+    -fx-text-fill: #914800;
+    -fx-effect: dropshadow(gaussian, fuchsia, 10, 1.0, 100, 100);
+}
+
+.header {
+    -fx-background-color: rgba(136,139,138,0.74);
+}
+
+.resourceExcange > *.header-panel {
+    -fx-background-color: rgba(136,139,138,0.74);
+}
+
+.choice-box > .button-bar > .container {
+    -fx-background-color: #1d1d1d;
+}
+
+.resourceExcange > *.button-bar {
+    -fx-background-color: #444746;
+}
+
+.resourceExcange > .button {
+    -fx-background-color: rgba(183,87,72,0.5);
+}
+

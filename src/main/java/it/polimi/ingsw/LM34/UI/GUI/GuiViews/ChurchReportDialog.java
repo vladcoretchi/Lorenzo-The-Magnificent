@@ -20,8 +20,8 @@ public class ChurchReportDialog {
         excommunicationChoice.setHeaderText("Church Support Decision");
         excommunicationChoice.setContentText("Would you like to be excommunicated?");
         excommunicationChoice.getDialogPane().getStylesheets().add(
-                getClass().getResource("/css/churchReportDialog.css").toExternalForm());
-        excommunicationChoice.getDialogPane().getStyleClass().add("churchReport");
+                getClass().getResource("/css/dialogStyle.css").toExternalForm());
+        excommunicationChoice.getDialogPane().getStyleClass().add("dialogClass");
         Image image = new Image(Thread.currentThread().getContextClassLoader().getResource("images/resources/FAITH_POINTS.png").toExternalForm());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(85.2);

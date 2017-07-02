@@ -22,7 +22,10 @@ public class UseServantsDialog {
         dialog.setHeaderText("Increase family member value by using servants");
         dialog.setContentText("Choose number of servants:");
         dialog.getDialogPane().getStylesheets().add(
-                getClass().getResource("/css/servantsDialog.css").toExternalForm());
+                getClass().getResource("/css/dialogStyle.css").toExternalForm());
+        dialog.getDialogPane().getStyleClass().add("dialogClass");
+        ImageView tempImage;
+                getClass().getResource("/css/servantsDialog.css").toExternalForm();
         dialog.getDialogPane().getStyleClass().add("servant");
 
         Optional<String> result = dialog.showAndWait();

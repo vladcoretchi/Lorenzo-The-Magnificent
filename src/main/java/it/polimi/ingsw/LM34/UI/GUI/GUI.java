@@ -1,8 +1,11 @@
 package it.polimi.ingsw.LM34.UI.GUI;
 
 
+import com.sun.org.apache.regexp.internal.RE;
+import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
+import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
@@ -57,6 +60,9 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.BLACK;
+import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.ORANGE;
+import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.WHITE;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class GUI extends Application implements UIInterface {
@@ -100,6 +106,48 @@ public class GUI extends Application implements UIInterface {
         this.primaryStage = new Stage();
         prepareWindow();
         updateCouncilPalace(Configurator.getPalace());
+
+        //test all dialogs, that will be removed after tests
+
+        List<BonusTile> bonusTiles = new ArrayList<>(); //leaderActionDialog ancora non va
+        Configurator.loadConfigs();
+        bonusTiles = Configurator.getBonusTiles();
+        BonusTileDialog bonusTileDialog = new BonusTileDialog();
+        bonusTileDialog.interactWithPlayer(bonusTiles);
+        ChurchReportDialog churchReportDialog = new ChurchReportDialog();
+        churchReportDialog.interactWithPlayer();
+        EndTurnPopup endTurnPopup = new EndTurnPopup();
+        endTurnPopup.interactWithPlayer();
+        FamilyMemberSelectDialog familyMemberSelectDialog = new FamilyMemberSelectDialog();
+        FamilyMember familyMember = new FamilyMember(PawnColor.GREEN, BLACK);
+        FamilyMember familyMember1 = new FamilyMember(PawnColor.RED, WHITE);
+        List<FamilyMember> familyMembers = new ArrayList<>();
+        familyMembers.add(familyMember);
+        familyMembers.add(familyMember1);
+        familyMemberSelectDialog.interactWithPlayer(familyMembers);
+        GameInformationDialog gameInformationDialog = new GameInformationDialog();
+        gameInformationDialog.interactWithPlayer(GameInformationType.INFO_DISCONNECTED_PLAYER, "rossi", PawnColor.BLUE);
+        UseCouncilPrivilegeDialog useCouncilPrivilegeDialog = new UseCouncilPrivilegeDialog();
+        Resources resources = new Resources(1,1,1,1,1,1,1);
+        List<Resources> resourcesAvailable = new ArrayList<>();
+        resourcesAvailable.add(resources);
+        useCouncilPrivilegeDialog.interactWithPlayer(resourcesAvailable);
+
+        //
+
+        Dice orange = new Dice(ORANGE); orange.rollDice();
+        Dice black = new Dice(BLACK); orange.rollDice();
+        Dice white = new Dice(WHITE); orange.rollDice();
+        List<Dice> dices = new ArrayList<>();
+        dices.add(orange); dices.add(black); dices.add(white);
+        updateDiceValues(dices);
+
+        this.selectedContext = Optional.empty();
+
+        primaryStage.setOnCloseRequest(event -> stop(event));
+
+        //new LeaderCardsView(leaders).start(primaryStage);
+
     }
 
     /**

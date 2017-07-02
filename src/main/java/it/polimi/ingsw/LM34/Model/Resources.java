@@ -132,7 +132,10 @@ public class Resources implements Serializable {
         if (multiplier == null)
             throw new NullPointerException();
 
-        this.resourcesMap.forEach((type, value) -> value *= multiplier);
+        for(ResourceType type : ResourceType.values())
+            if(this.resourcesMap.containsKey(type)) {
+                this.resourcesMap.merge(type, multiplier, Utilities.multiplyInteger);
+            }
     }
 
     public Boolean hasEnough(Resources res) {

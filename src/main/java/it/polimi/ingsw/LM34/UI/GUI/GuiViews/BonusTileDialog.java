@@ -31,8 +31,8 @@ public class BonusTileDialog {
         dialog.setContentText("Choose the the bonus tile you desire");
         dialog.setResizable(false);
         dialog.getDialogPane().getStylesheets().add(
-                getClass().getResource("/css/bonusTileDialog.css").toExternalForm());
-        dialog.getDialogPane().getStyleClass().add("bonusTile");
+                getClass().getResource("/css/dialogStyle.css").toExternalForm());
+        dialog.getDialogPane().getStyleClass().add("dialogClass");
         Image image = new Image(Thread.currentThread().getContextClassLoader().getResource("images/personalBoard/personalTiles/basicPersonalTile.png").toExternalForm());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(541.8);

@@ -36,6 +36,9 @@ public class ResourceExchangeDialog {
         dialog.setGraphic(new ImageView(Thread.currentThread().getContextClassLoader().getResource("images/resources/SERVANTS.png").toExternalForm()));
         dialog.setContentText("Choose the Leader and the Option to perform:");
         dialog.setResizable(true);
+        dialog.getDialogPane().getStylesheets().add(
+                getClass().getResource("/css/resourceExcangeDialog.css").toExternalForm());
+        dialog.getDialogPane().getStyleClass().add("resourceExcange");
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {

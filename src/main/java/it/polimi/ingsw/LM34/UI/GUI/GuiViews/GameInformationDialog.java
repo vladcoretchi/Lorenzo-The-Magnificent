@@ -20,6 +20,9 @@ public class GameInformationDialog {
         alert.setHeaderText(playerName + " " + type.toString());
         ImageView imageView = new ImageView(Thread.currentThread().getContextClassLoader().
                 getResource("images/pawns/" + playerColor.toString() +".png").toExternalForm());
+        alert.getDialogPane().getStylesheets().add(
+                getClass().getResource("/css/dialogStyle.css").toExternalForm());
+        alert.getDialogPane().getStyleClass().add("dialogClass");
 
         alert.setGraphic(imageView);
 

@@ -30,7 +30,8 @@ public class LeaderSelectionPhaseDialog {
         dialog.setContentText("Choose the the leader card you desire to have at your service");
         dialog.setResizable(true);
         dialog.getDialogPane().getStylesheets().add(
-                getClass().getResource("/css/leaderSelectionPhaseDialog.css").toExternalForm());
+                getClass().getResource("/css/dialogStyle.css").toExternalForm());
+        dialog.getDialogPane().getStyleClass().add("dialogClass");
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {

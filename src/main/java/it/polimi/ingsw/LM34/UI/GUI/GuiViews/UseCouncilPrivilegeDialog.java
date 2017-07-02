@@ -22,7 +22,7 @@ public class UseCouncilPrivilegeDialog {
             resources.getResources().forEach((type, value) ->
                             reward.add(String.format("%1$s(%2$d)", type.toString(), value)));
 
-            choices.add(index + " )" + reward);
+            choices.add(index + ") " + reward);
             index++;
         });
 
@@ -31,6 +31,9 @@ public class UseCouncilPrivilegeDialog {
         dialog.setGraphic(new ImageView(Thread.currentThread().getContextClassLoader().getResource("images/resources/COUNCIL_PRIVILEGE.png").toExternalForm()));
         dialog.setHeaderText("Use privilege:");
         dialog.setContentText("Choose type of reward:");
+        dialog.getDialogPane().getStylesheets().add(
+                getClass().getResource("/css/dialogStyle.css").toExternalForm());
+        dialog.getDialogPane().getStyleClass().add("dialogClass");
 
         result = dialog.showAndWait();
 

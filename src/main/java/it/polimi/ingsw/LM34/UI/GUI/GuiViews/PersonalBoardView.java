@@ -36,7 +36,7 @@ public class PersonalBoardView extends Application {
         stage.setResizable(false);
         stage.setFullScreen(false);
         stage.initOwner(primaryStage);
-        stage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/Icon.png").toExternalForm()));
+        stage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
         stage.setTitle("PersonalBoard - "+ this.player.getPlayerName());
         stage.setResizable(false);
         stage.show();

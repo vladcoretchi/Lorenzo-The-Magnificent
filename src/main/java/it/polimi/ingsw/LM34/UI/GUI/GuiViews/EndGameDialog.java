@@ -83,13 +83,6 @@ public class EndGameDialog {
             }
         });
 
-        pointsChart.setOnMouseExited(new EventHandler<MouseEvent>()  {
-
-            public void handle(MouseEvent m) {
-                stage.close();
-            }
-        });
-
         stage.show();
     }
 

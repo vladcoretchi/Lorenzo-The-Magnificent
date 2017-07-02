@@ -43,7 +43,16 @@ public final class Utilities {
      * Sums 2 Integer values
      */
     public static final BiFunction<Integer, Integer, Integer> sumInteger = (val1, val2) -> val1 + val2;
+
+    /**
+     * Subtracts 2 Integer values
+     */
     public static final BiFunction<Integer, Integer, Integer> subInteger = (val1, val2) -> val1 - val2;
+
+    /**
+     * Multiplies 2 Integer values
+     */
+    public static final BiFunction<Integer, Integer, Integer> multiplyInteger = (val1, val2) -> val1 * val2;
 
     /**
      * Split a string in substring with a maximum length

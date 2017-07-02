@@ -32,9 +32,9 @@ public class LeaderCardsView {
         dialog.getDialogPane().setPrefHeight(405);
         dialog.setResizable(false);
         dialog.getDialogPane().getStylesheets().add(
-                getClass().getResource("/css/leaderDialog.css").toExternalForm());
-        dialog.getDialogPane().getStyleClass().add("leaderCard");
-        Image image = new Image(Thread.currentThread().getContextClassLoader().getResource("images/Icon.png").toExternalForm());
+                getClass().getResource("/css/dialogStyle.css").toExternalForm());
+        dialog.getDialogPane().getStyleClass().add("dialogClass");
+        Image image = new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm());
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(85.2);
         imageView.setFitHeight(85.2);
@@ -64,7 +64,8 @@ public class LeaderCardsView {
         Alert actionChoice = new Alert(Alert.AlertType.NONE, "Activate, Copy or Discard "+leaderChoosed, activate, discard, copy);
         actionChoice.setTitle("Leader Action Dialog");
         actionChoice.getDialogPane().getStylesheets().add(
-                getClass().getResource("/css/leaderDialog.css").toExternalForm());
+                getClass().getResource("/css/dialogStyle.css").toExternalForm());
+        actionChoice.getDialogPane().getStyleClass().add("dialogClass");
         Optional<ButtonType> choice = actionChoice.showAndWait();
 
         if (choice.isPresent())
