@@ -5,6 +5,7 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Dice;
@@ -95,5 +96,13 @@ public abstract class AbstractClient {
 
     public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
         return this.networkController.selectCouncilPrivilegeBonus(availableBonuses);
+    }
+
+    public Integer bonusTileSelection(List<BonusTile> availableBonusTiles) {
+        return this.networkController.bonusTileSelection(availableBonusTiles);
+    }
+
+    public Integer leaderCardSelectionPhase(List<LeaderCard> availableLeaderCardss) {
+        return this.networkController.leaderCardSelectionPhase(availableLeaderCardss);
     }
 }

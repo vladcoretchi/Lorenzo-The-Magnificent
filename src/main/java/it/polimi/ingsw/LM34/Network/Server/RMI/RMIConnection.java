@@ -5,6 +5,7 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Dice;
@@ -185,6 +186,26 @@ public class RMIConnection extends AbstractConnection {
     public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
         try {
             return this.clientRMI.selectCouncilPrivilegeBonus(availableBonuses);
+        } catch(RemoteException e) {
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            return -1;
+        }
+    }
+
+    @Override
+    public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
+        try {
+            return this.clientRMI.bonusTileSelection(bonusTiles);
+        } catch(RemoteException e) {
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            return -1;
+        }
+    }
+
+    @Override
+    public Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards) {
+        try {
+            return this.clientRMI.leaderCardSelectionPhase(leaderCards);
         } catch(RemoteException e) {
             LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
             return -1;

@@ -51,6 +51,7 @@ public class CLI implements UIInterface {
     private Market market;
     private CouncilPalace palace;
     private Map<Integer, Integer> faithPath;
+    private Map<Integer, Integer> mapMilitaryPointsForTerritories;
     private Map<Integer, Integer> mapCharactersToVictoryPoints;
     private Map<Integer, Integer> mapTerritoriesToVictoryPoints;
     private List<ExcommunicationCard> excommunicationCards;
@@ -883,6 +884,12 @@ public class CLI implements UIInterface {
         this.mapTerritoriesToVictoryPoints = mapTerritoriesToVictoryPoints;
     }
 
+    @Override
+    public void loadMapMilitaryPointsForTerritories(Map<Integer, Integer> mapMilitaryPointsForTerritories) {
+        mapMilitaryPointsForTerritories = mapMilitaryPointsForTerritories;
+
+    }
+
     /**
      * Store the info from the server about this game object
      */
@@ -924,6 +931,12 @@ public class CLI implements UIInterface {
     public void showFaithPath() {
         printToConsole.println("Here is the mapping between the position on the faithPath and victory points provided at Church Support");
         faithPath.forEach((pos, points) -> printToConsole.println(pos + ":" + points));
+    }
+
+    @Override
+    public void showMilitaryPointsForTerritories() {
+        printToConsole.println("Here is the mapping between the number of territories and the military points required to get another territory card");
+        mapMilitaryPointsForTerritories.forEach((pos, points) -> printToConsole.println(pos + ":" + points));
     }
 
     /**

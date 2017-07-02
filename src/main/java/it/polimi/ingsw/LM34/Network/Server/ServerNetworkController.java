@@ -5,6 +5,7 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Dice;
@@ -87,11 +88,19 @@ public class ServerNetworkController {
         return this.serverConnection.leaderCardSelection(leaderCards);
     }
 
+    public Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards) {
+        return this.serverConnection.leaderCardSelectionPhase(leaderCards);
+    }
+
     public Boolean churchSupport() {
         return this.serverConnection.churchSupport();
     }
 
     public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
         return this.serverConnection.selectCouncilPrivilegeBonus(availableBonuses);
+    }
+
+    public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
+        return this.serverConnection.bonusTileSelection(bonusTiles);
     }
 }

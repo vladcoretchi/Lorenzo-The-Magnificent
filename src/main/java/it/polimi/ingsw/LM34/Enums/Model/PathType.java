@@ -1,0 +1,8 @@
+package it.polimi.ingsw.LM34.Enums.Model;
+
+public enum PathType {
+    FAITH_PATH,
+    MILITARY_POINTS_FOR_TERRITORIES,
+    ENDING_GAME_CHARACTERS_VICTORY_POINTS,
+    ENDING_GAME_TERRITORIES_VICTORY_POINTS;
+}

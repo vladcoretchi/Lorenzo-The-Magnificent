@@ -328,6 +328,10 @@ public final class Configurator {
         excommunicationTiles = new ArrayList<>();
         for(Integer index = 0; index < jsonArray.length(); index++)
             excommunicationTiles.add(getExcommunicationCardFromJson(jsonArray.optJSONObject(index)));
+        /**
+         * Now keep only the 3 excommunication cards that the {@link it.polimi.ingsw.LM34.Controller.GameManager} needs
+         */
+        orderExcommunicatioCardByPeriod();
     }
 
     /**
@@ -592,14 +596,14 @@ public final class Configurator {
         return excommunicationTiles;
     }
 
-    public static void orderExcommunicatioCardByPeriod(List<ExcommunicationCard> exc) {
+    public static void orderExcommunicatioCardByPeriod() {
         List<ExcommunicationCard> temp = new ArrayList();
 
         for (Integer period = 1; period <= Configurator.TOTAL_PERIODS; period++)
-            for (ExcommunicationCard e : exc)
+            for (ExcommunicationCard e : excommunicationTiles)
                 if (e.getPeriod() == period)
                     temp.add(e);
-        exc = temp;
+        excommunicationTiles = temp;
     }
 
     private static void setupProductionArea(JSONArray productionSlotsJson) {

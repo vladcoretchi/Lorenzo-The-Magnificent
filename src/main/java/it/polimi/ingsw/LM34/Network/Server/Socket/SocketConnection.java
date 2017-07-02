@@ -5,6 +5,7 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Dice;
@@ -241,6 +242,20 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     }
 
     @Override
+    public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
+        try {
+            this.outStream.writeUTF(RequestToClient.BONUS_TILE_SELECTION.name());
+            this.outStream.writeObject(bonusTiles);
+            this.outStream.flush();
+            return this.inStream.readInt();
+        } catch (IOException e) {
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
         try {
             this.outStream.writeUTF(RequestToClient.SERVANTS_SELECTION.name());
@@ -297,6 +312,20 @@ public class SocketConnection extends AbstractConnection implements Runnable {
         try {
             this.outStream.writeUTF(RequestToClient.COUNCIL_PRIVILEGE_BONUS_SELECTION.name());
             this.outStream.writeObject(availableBonuses);
+            this.outStream.flush();
+            return this.inStream.readInt();
+        } catch (IOException e) {
+            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards) {
+        try {
+            this.outStream.writeUTF(RequestToClient.LEADER_CARD_SELECTION_PHASE.name());
+            this.outStream.writeObject(leaderCards);
             this.outStream.flush();
             return this.inStream.readInt();
         } catch (IOException e) {

@@ -56,6 +56,7 @@ public interface UIInterface {
      * @param game states
      */
     void loadMapTerritoriesToVictoryPoints(Map<Integer, Integer> mapTerritoriesToVictoryPoints);
+    void loadMapMilitaryPointsForTerritories(Map<Integer, Integer> mapVictoryPointsForTerritories);
     void loadMapCharactersToVictoryPoints(Map<Integer, Integer> mapCharactersToVictoryPoints);
     void loadExcommunicationCards(List<ExcommunicationCard> excommunicationCards);
     void loadFaithPath(Map<Integer, Integer> faithPath);
@@ -75,6 +76,7 @@ public interface UIInterface {
     void showMapCharactersToVictoryPoints();
     void showMapTerritoriesToVictoryPoints();
     void showFaithPath();
+    void showMilitaryPointsForTerritories();
 
 
     /**

@@ -5,6 +5,7 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Dice;
@@ -45,4 +46,8 @@ public interface RMIClientInterface extends Remote {
     Boolean churchSupport() throws  RemoteException;
 
     Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) throws  RemoteException;
+
+    Integer bonusTileSelection(List<BonusTile> availableBonusTiles) throws  RemoteException;
+
+    Integer leaderCardSelectionPhase(List<LeaderCard> availableLeaderCards) throws  RemoteException;
 }

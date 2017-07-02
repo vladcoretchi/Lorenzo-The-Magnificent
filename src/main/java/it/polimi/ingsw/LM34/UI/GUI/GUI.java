@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.UI.GUI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
+import it.polimi.ingsw.LM34.Enums.Model.PathType;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
@@ -57,7 +58,6 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.*;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class GUI extends Application implements UIInterface {
@@ -86,6 +86,7 @@ public class GUI extends Application implements UIInterface {
     private Market market;
     private CouncilPalace palace;
     private Map<Integer, Integer> faithPath;
+    private Map<Integer, Integer> mapMilitaryPointsForTerritories;
     private Map<Integer, Integer> mapCharactersToVictoryPoints;
     private Map<Integer, Integer> mapTerritoriesToVictoryPoints;
     private Optional<PlayerSelectableContexts> selectedContext;
@@ -100,48 +101,11 @@ public class GUI extends Application implements UIInterface {
         root = FXMLLoader.load(getClass().getClassLoader().getResource("views/gui.fxml"));
         this.primaryStage = new Stage();
         prepareWindow();
-        updateCouncilPalace(Configurator.getPalace());
 
-        //test all dialogs, that will be removed after tests
-
-        List<BonusTile> bonusTiles = new ArrayList<>(); //leaderActionDialog ancora non va
-        Configurator.loadConfigs();
-        bonusTiles = Configurator.getBonusTiles();
-        BonusTileDialog bonusTileDialog = new BonusTileDialog();
-        bonusTileDialog.interactWithPlayer(bonusTiles);
-        ChurchReportDialog churchReportDialog = new ChurchReportDialog();
-        churchReportDialog.interactWithPlayer();
-        EndTurnPopup endTurnPopup = new EndTurnPopup();
-        endTurnPopup.interactWithPlayer();
-        FamilyMemberSelectDialog familyMemberSelectDialog = new FamilyMemberSelectDialog();
-        FamilyMember familyMember = new FamilyMember(PawnColor.GREEN, BLACK);
-        FamilyMember familyMember1 = new FamilyMember(PawnColor.RED, WHITE);
-        List<FamilyMember> familyMembers = new ArrayList<>();
-        familyMembers.add(familyMember);
-        familyMembers.add(familyMember1);
-        familyMemberSelectDialog.interactWithPlayer(familyMembers);
-        GameInformationDialog gameInformationDialog = new GameInformationDialog();
-        gameInformationDialog.interactWithPlayer(GameInformationType.INFO_DISCONNECTED_PLAYER, "rossi", PawnColor.BLUE);
-        UseCouncilPrivilegeDialog useCouncilPrivilegeDialog = new UseCouncilPrivilegeDialog();
-        Resources resources = new Resources(1,1,1,1,1,1,1);
-        List<Resources> resourcesAvailable = new ArrayList<>();
-        resourcesAvailable.add(resources);
-        useCouncilPrivilegeDialog.interactWithPlayer(resourcesAvailable);
-
-        //
-
-        Dice orange = new Dice(ORANGE); orange.rollDice();
-        Dice black = new Dice(BLACK); orange.rollDice();
-        Dice white = new Dice(WHITE); orange.rollDice();
-        List<Dice> dices = new ArrayList<>();
-        dices.add(orange); dices.add(black); dices.add(white);
-        updateDiceValues(dices);
+        faithPath = Configurator.getFaithPath();
+        showFaithPath();
 
         this.selectedContext = Optional.empty();
-
-        primaryStage.setOnCloseRequest(event -> stop(event));
-
-        //new LeaderCardsView(leaders).start(primaryStage);
 
     }
 
@@ -226,6 +190,7 @@ public class GUI extends Application implements UIInterface {
         primaryStage.setScene(new Scene(root, primaryStage.getWidth(), primaryStage.getHeight()));
         primaryStage.setFullScreen(false);
         primaryStage.setResizable(true);
+        primaryStage.setOnCloseRequest(event -> stop(event));
         primaryStage.show();
     }
 
@@ -636,17 +601,22 @@ public class GUI extends Application implements UIInterface {
     }
     @Override
     public void showMapCharactersToVictoryPoints() {
-        //TODO
+        new PathTypesVisualizationDialog().interactWithPlayer(PathType.ENDING_GAME_CHARACTERS_VICTORY_POINTS, mapCharactersToVictoryPoints);
     }
 
     @Override
     public void showMapTerritoriesToVictoryPoints() {
-        //TODO
+        new PathTypesVisualizationDialog().interactWithPlayer(PathType.ENDING_GAME_TERRITORIES_VICTORY_POINTS, mapTerritoriesToVictoryPoints);
     }
 
     @Override
     public void showFaithPath() {
-        //TODO
+        new PathTypesVisualizationDialog().interactWithPlayer(PathType.FAITH_PATH, faithPath);
+    }
+
+    @Override
+    public void showMilitaryPointsForTerritories() {
+        new PathTypesVisualizationDialog().interactWithPlayer(PathType.MILITARY_POINTS_FOR_TERRITORIES, mapMilitaryPointsForTerritories);
     }
 
     @Override
@@ -664,6 +634,11 @@ public class GUI extends Application implements UIInterface {
     @Override
     public void loadMapTerritoriesToVictoryPoints(Map<Integer, Integer> mapTerritoriesToVictoryPoints) {
         this.mapTerritoriesToVictoryPoints = mapTerritoriesToVictoryPoints;
+    }
+
+    @Override
+    public void loadMapMilitaryPointsForTerritories(Map<Integer, Integer> mapVictoryPointsForTerritories) {
+        this.mapMilitaryPointsForTerritories = mapVictoryPointsForTerritories;
     }
 
     @Override
@@ -849,5 +824,11 @@ public class GUI extends Application implements UIInterface {
         for (Thread thread : threadSet) {
             thread.interrupt();
         }
+    }
+
+    public static void main (String[] args) {
+        GUI gui = new GUI();
+        Configurator.loadConfigs();
+        gui.launch();
     }
 }

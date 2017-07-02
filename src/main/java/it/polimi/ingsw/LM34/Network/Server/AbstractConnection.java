@@ -5,6 +5,7 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Dice;
@@ -63,4 +64,9 @@ public abstract class AbstractConnection {
     public abstract Boolean churchSupport();
 
     public abstract Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses);
+
+    public abstract Integer bonusTileSelection(List<BonusTile> bonusTiles);
+
+    public abstract Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards);
+
 }

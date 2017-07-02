@@ -133,11 +133,8 @@
             </ImageView>
 
             <!--council palace-->
-            <StackPane minHeight="200" minWidth="500" layoutX="795" layoutY="1070"  fx:id="councilPalace" onMouseClicked="#placePawn">
-                <ImageView fx:id="councilPalaceSlot" fitHeight="100" fitWidth="500" layoutX="395" layoutY="1070" style="-fx-background-color: transparent">
-                    <Image url="@../images/Icon.png" />
-            <StackPane fx:id="councilPalace" onMouseClicked="#placePawn">
-                <ImageView fitHeight="100" fitWidth="100" layoutX="795" layoutY="1070" style="-fx-background-color: red">
+            <StackPane fx:id="councilPalace" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus">
+                <ImageView fitHeight="100" fitWidth="100" layoutX="795" layoutY="1070" style="-fx-background-color: transparent">
                     <Image url="@../images/transparentSlot.png" />
                 </ImageView>
             </StackPane>

@@ -4,6 +4,7 @@ import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Dice;
@@ -240,6 +241,36 @@ public enum RequestToClient {
                 socketConnection.getOutputStream().writeBoolean(socketConnection.churchSupport());
                 socketConnection.getOutputStream().flush();
             } catch (IOException e) {
+                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            }
+        }
+    },
+    BONUS_TILE_SELECTION {
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+                List<BonusTile> availableBonusTiles = (List<BonusTile>) socketConnection.getInputStream().readObject();
+
+                socketConnection.getOutputStream().writeInt(socketConnection.bonusTileSelection(availableBonusTiles));
+                socketConnection.getOutputStream().flush();
+            } catch (IOException e) {
+                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            } catch (ClassNotFoundException e) {
+                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            }
+        }
+    },
+    LEADER_CARD_SELECTION_PHASE {
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+                List<LeaderCard> availableLeaderCards = (List<LeaderCard>) socketConnection.getInputStream().readObject();
+
+                socketConnection.getOutputStream().writeInt(socketConnection.leaderCardSelectionPhase(availableLeaderCards));
+                socketConnection.getOutputStream().flush();
+            } catch (IOException e) {
+                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            } catch (ClassNotFoundException e) {
                 LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
             }
         }

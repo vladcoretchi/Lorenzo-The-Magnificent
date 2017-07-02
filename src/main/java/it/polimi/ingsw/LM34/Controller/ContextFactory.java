@@ -13,8 +13,13 @@ import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
  */
 public final class ContextFactory {
 
-    private ContextFactory() {}
+    private ContextFactory() {/*This constructor his private in order to avoid that this Class is instantiated*/}
 
+    /**
+     * @param contextType {@link ContextType Enum} by which instantiate the corresponding object
+     * @return the appropriate {@link AbstractGameContext}
+     * @throws NoSuchContextException
+     */
     public static AbstractGameContext getContext(ContextType contextType) throws NoSuchContextException {
         switch (contextType) {
             case LEADER_CARDS_CONTEXT:
