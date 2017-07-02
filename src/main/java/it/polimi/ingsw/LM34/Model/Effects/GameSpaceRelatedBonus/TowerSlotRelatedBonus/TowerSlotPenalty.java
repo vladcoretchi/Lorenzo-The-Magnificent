@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.ACTION_SLOT_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TOWERS_CONTEXT;
 
 public class TowerSlotPenalty extends AbstractEffect implements Observer {
@@ -30,7 +29,7 @@ public class TowerSlotPenalty extends AbstractEffect implements Observer {
     public void update(Observable o, Object arg) {
         TowersContext callerContext = (TowersContext) arg;
         if(this.noResourcesFromTowerLevels.contains(callerContext.getSlotDiceValue()))
-            callerContext.setSlotRewardPenalty();
+            callerContext.setSlotsRewardPenalty();
     }
 
 //towers

@@ -3,8 +3,7 @@ package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus;
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.*;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
@@ -67,7 +66,7 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
         else //TODO
             try {
                 callerContext.getContextByType(influenceableContext).interactWithPlayer();
-            } catch (IncorrectInputException | MarketBanException | OccupiedSlotException | NotEnoughResourcesException ex) {
+            } catch (IncorrectInputException | MarketBanException | OccupiedSlotException | NotEnoughResourcesException | NotEnoughMilitaryPoints | CardTypeNumLimitReachedException | InvalidLeaderCardAction ex) {
                 LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             }
     }

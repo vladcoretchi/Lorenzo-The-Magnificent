@@ -2,8 +2,7 @@ package it.polimi.ingsw.LM34.Controller;
 
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
-import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.*;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -28,7 +27,10 @@ public abstract class AbstractGameContext extends Observable  {
             IncorrectInputException,
             MarketBanException,
             OccupiedSlotException,
-            NotEnoughResourcesException;
+            NotEnoughResourcesException,
+            NotEnoughMilitaryPoints,
+            InvalidLeaderCardAction,
+            CardTypeNumLimitReachedException;
 
     /**
      * @return Context's type

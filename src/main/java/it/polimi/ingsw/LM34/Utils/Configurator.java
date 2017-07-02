@@ -39,10 +39,9 @@ import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
  */
 public final class Configurator {
     /*CONVENTION GAME_CODES*/
-    private static final Integer BACK_OR_PASS = -1;
     public static Integer WAITING_ROOM_TIMEOUT;
     public static final Integer WAITING_ROOM_PLAYERS_THRESHOLD = 2;
-    public static final Integer PLAYER_MOVE_TIMEOUT = 2000;
+    public static final Integer PLAYER_MOVE_TIMEOUT = 120000;
     public static final Integer MAX_TOWER_LEVELS = 4;
     public static final Integer MAX_LEADER_PER_PLAYER = 4;
     public static final Integer MAX_PLAYERS = 4;
@@ -58,6 +57,8 @@ public final class Configurator {
     public static final Integer BASE_SERVANTS = 2; //#servants given to first player at game start
     public static final Integer SERVANTS_INCREMENT_PLAYER_ORDER = 0;
     public static final Resources TOWER_OCCUPIED_COST = new Resources(3, 0, 0, 0);
+    public static final Integer MAX_ACQUIRABLE_CARDS_PER_TYPE = 6;
+    public static final Integer COUNCIL_PRIVILEGES_FOR_DISCARDED_LEADER_CARD = 1;
 
     private static Market market;
     private static CouncilPalace palace;
@@ -114,24 +115,24 @@ public final class Configurator {
             String jsonString  = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
             jsonObject = new JSONObject(jsonString).optJSONObject("configuration");
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Cannot load file from configs.json",  e.getStackTrace());
-            LOGGER.log(Level.SEVERE, "Cannot load file from configs.json",  e.getStackTrace());
+            LOGGER.log(Level.SEVERE, "Cannot load file from configs.json", e);
         }
 
         /****GameRoom Timeout****/
-        if(jsonObject != null)
-        WAITING_ROOM_TIMEOUT = jsonObject.getJSONObject("server").getInt("timeout");
+        if(jsonObject != null) {
+            WAITING_ROOM_TIMEOUT = jsonObject.getJSONObject("server").getInt("timeout");
 
-        setupLeaderCards(jsonObject.optJSONObject(CARDS_JSONSTRING).optJSONArray("leaderCards"));
-        setupGame(jsonObject.getJSONObject("game"));
-        setupPersonalTiles(jsonObject);
-        setupMarket(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONArray("market"));
-        setupProductionArea(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONArray("productionArea"));
-        setupHarvestArea(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONArray("harvestArea"));
-        setupCouncilPalace(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONObject("councilPalace"));
-        setupTowers(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONArray("towers"));
-        setupDevelopmentCards(jsonObject.optJSONObject(CARDS_JSONSTRING));
-        setupExcommunicationTiles(jsonObject.optJSONObject(CARDS_JSONSTRING).optJSONArray("excommunicationTiles"));
+            setupLeaderCards(jsonObject.optJSONObject(CARDS_JSONSTRING).optJSONArray("leaderCards"));
+            setupGame(jsonObject.getJSONObject("game"));
+            setupPersonalTiles(jsonObject);
+            setupMarket(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONArray("market"));
+            setupProductionArea(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONArray("productionArea"));
+            setupHarvestArea(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONArray("harvestArea"));
+            setupCouncilPalace(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONObject("councilPalace"));
+            setupTowers(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONArray("towers"));
+            setupDevelopmentCards(jsonObject.optJSONObject(CARDS_JSONSTRING));
+            setupExcommunicationTiles(jsonObject.optJSONObject(CARDS_JSONSTRING).optJSONArray("excommunicationTiles"));
+        }
     }
 
     private static void setupLeaderCards(JSONArray jsonLeaderCards) {
@@ -140,7 +141,7 @@ public final class Configurator {
         AbstractEffect bonus = new ResourcesBonus(new Resources(), 0);
         Boolean oncePerRound;
         Resources resRequirements = new Resources();
-        Map<DevelopmentCardColor, Integer> cardRequirements = new HashMap<>();
+        Map<DevelopmentCardColor, Integer> cardRequirements = new EnumMap<>(DevelopmentCardColor.class);
 
         /**Prepare each LeaderCard**/
         for (Integer index = 0; index < jsonLeaderCards.length(); index++) {
@@ -270,7 +271,7 @@ public final class Configurator {
         Integer advancedHarvestDiceValue;
         ResourcesBonus advHarvReward;
         JSONArray jsonAdvancedTiles = jsonObject.getJSONArray("personalTiles");
-        advancedPersonalTiles = new ArrayList();
+        advancedPersonalTiles = new ArrayList<>();
 
         for(Integer index = 0; index < jsonAdvancedTiles.length(); index++) {
             advancedProductionDiceValue = jsonAdvancedTiles.getJSONObject(index).getJSONObject(PRODUCTION_JSONSTRING).getInt(DICE_VALUE_JSONSTRING);
@@ -293,7 +294,7 @@ public final class Configurator {
         for(Integer index = 0; index < jsonPrivilegeArray.length(); index++)
             councilPrivilegeRewards.add(getResourcesBonusFromJson(jsonPrivilegeArray.getJSONObject(index)).getResources());
 
-        /****Fait Path****/
+        /****Faith Path****/
         faithPath = new HashMap<>();
         JSONArray jsonPathArray = jsonObject.getJSONObject(FINAL_VICTORY_POINTS_JSONSTRING).getJSONArray("faithPath");
         for(Integer index = 0; index < jsonPathArray.length(); index++)
@@ -342,7 +343,6 @@ public final class Configurator {
         Integer iteration = 1;
         towers = new ArrayList<>();
         List<TowerSlot> tempSlotsOfTower;
-        Tower tower;
         for(DevelopmentCardColor type : DevelopmentCardColor.values()) {
             if (type != MULTICOLOR) {
                 tempSlotsOfTower = new ArrayList<>();
@@ -389,25 +389,25 @@ public final class Configurator {
         Collections.shuffle(buildingCards);
         Collections.shuffle(ventureCards);
         Collections.shuffle(characterCards);
-        orderDevelopmentCardByPeriod(territoryCards);
-        orderDevelopmentCardByPeriod(buildingCards);
-        orderDevelopmentCardByPeriod(characterCards);
-        orderDevelopmentCardByPeriod(ventureCards);
+        territoryCards = orderDevelopmentCardByPeriod(territoryCards);
+        buildingCards = orderDevelopmentCardByPeriod(buildingCards);
+        characterCards = orderDevelopmentCardByPeriod(characterCards);
+        ventureCards = orderDevelopmentCardByPeriod(ventureCards);
     }
 
     /**
      * Order the cards by period in the deck before the game starts
      * @param deck to order for period
      */
-    public static void orderDevelopmentCardByPeriod(List<? extends AbstractDevelopmentCard> deck) {
-        List<AbstractDevelopmentCard> orderedDeck = new ArrayList<>();
+    public static <T extends AbstractDevelopmentCard> List<T> orderDevelopmentCardByPeriod(List<T> deck) {
+        List<T> orderedDeck = new ArrayList<>();
 
         for (Integer period = 1; period <= Configurator.TOTAL_PERIODS; period++)
-            for(AbstractDevelopmentCard card : deck)
+            for(T card : deck)
                 if (card.getPeriod() == period)
                     orderedDeck.add(card);
 
-        deck = orderedDeck;
+        return orderedDeck;
     }
 
     private static ActionSlot getActionSlotFromJson(JSONObject jsonObject) {
@@ -421,7 +421,7 @@ public final class Configurator {
     }
 
     private static ResourcesBonus getResourcesBonusFromJson(JSONObject jsonResourcesBonus) {
-        Map<ResourceType, Integer> resourcesMap = new HashMap<>();
+        Map<ResourceType, Integer> resourcesMap = new EnumMap<>(ResourceType.class);
         Integer councilPrivileges;
         JSONObject jsonResources;
         Integer value;
@@ -476,7 +476,7 @@ public final class Configurator {
         Resources resourcesRequired = getResourcesBonusFromJson(jsonObject.optJSONObject(REQUIREMENTS_JSONSTRING)).getResources();
         AbstractEffect permanentBonus = new ResourcesBonus(new Resources(0,0,0,0), 0);
         List<AbstractEffect> instantResources = new ArrayList<>();
-        String color = new String();
+        String color = "";
         Resources bonusResources;
 
         if (jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING).optJSONObject(RESOURCES_BONUS_JSONSTRING) != null)
@@ -514,13 +514,13 @@ public final class Configurator {
                     resToDiscard = getResourcesBonusFromJson(resourcesExchangeBonus.optJSONObject(i).optJSONObject("resourcesDiscard")).getResources();
                     resToGain = getResourcesBonusFromJson(resourcesExchangeBonus.optJSONObject(i).optJSONObject("resourcesGain"));
                 }
-            resExchanges.add(new ImmutablePair(resToDiscard, resToGain));
+            resExchanges.add(new ImmutablePair<>(resToDiscard, resToGain));
             }
         }
         return new BuildingCard(name, diceValueToProduct, period, resourcesRequired, instantResources, permanentBonus);
     }
 
-    public static List<VentureCard> getVentureCardsFromJson(JSONArray jsonArray) {
+    private static List<VentureCard> getVentureCardsFromJson(JSONArray jsonArray) {
         List<VentureCard> cards = new ArrayList<>();
         for(int i = 0; i < jsonArray.length(); i++) {
             cards.add(getVentureCardFromJson(jsonArray.optJSONObject(i)));
@@ -565,7 +565,6 @@ public final class Configurator {
             /***********DEVELOPMENT CARD ACQUIRE EFFECT********/
             String cardColor;
             DevelopmentCardColor color = null;
-            diceValue = 0; //reset dice value if it has been incremented by working area value effect
             if (jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING).optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING) != null) {
                 diceValue = jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING).optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING).getInt(DICE_VALUE_JSONSTRING);
                 cardColor = jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING).optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING).getString(DEVELOPMENT_CARD_COLOR_JSONSTRING);
@@ -661,8 +660,8 @@ public final class Configurator {
         List<DiceColor> diceColors = new ArrayList<>();
         Boolean isRelative;
         Integer diceValue;
-        if(jsonPenalty.optJSONArray("familyMemberValueEffect") != null) {
-            familyMemberValueEffect = jsonPenalty.optJSONArray("familyMemberValueEffect");
+        if(jsonPenalty.optJSONArray(FAMILY_MEMBER_VALUE_EFFECT_JSONSTRING) != null) {
+            familyMemberValueEffect = jsonPenalty.optJSONArray(FAMILY_MEMBER_VALUE_EFFECT_JSONSTRING);
             for (Integer index = 0; index < familyMemberValueEffect.length(); index++) {
                 tempJson = familyMemberValueEffect.optJSONObject(index);
                 tempStringColor = tempJson.getString("diceColor");
@@ -796,12 +795,10 @@ public final class Configurator {
             /*----ResourcePerItemBonus----*/
             Resources bonusResources = new Resources();
             DevelopmentCardColor cardType = null;
-            String stringColor = new String();
+            String stringColor = "";
             if (jsonInstantBonus != null)
                 if (jsonInstantBonus.optJSONObject(RESOURCES_PER_ITEM_BONUS_JSONSTRING) != null) {
                     if (!jsonInstantBonus.optJSONObject(RESOURCES_PER_ITEM_BONUS_JSONSTRING).optString(DEVELOPMENT_CARD_COLOR_JSONSTRING).isEmpty()) {
-                        Resources resReqForItemBonus = new Resources();
-
                         if (!stringColor.isEmpty()) {
                             bonusResources = getResourcesBonusFromJson((jsonInstantBonus).optJSONObject(RESOURCES_PER_ITEM_BONUS_JSONSTRING))
                                     .getResources();
@@ -925,7 +922,11 @@ public final class Configurator {
         return endingGameTerritoriesVictoryPoints;
     }
 
-    public Map<Integer, Integer> getMilitaryPointsForTerritories() {
-        return this.militaryPointsForTerritories;
+    public static Integer getResourcesForVictoryPoints() {
+        return resourcesForVictoryPoints;
+    }
+
+    public static Map<Integer, Integer> getMilitaryPointsForTerritories() {
+        return militaryPointsForTerritories;
     }
 }

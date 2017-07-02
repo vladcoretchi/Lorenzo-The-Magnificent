@@ -1,15 +1,19 @@
 package it.polimi.ingsw.LM34.Model;
 
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
+import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 
 import java.io.Serializable;
+import java.lang.management.OperatingSystemMXBean;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Player implements Serializable {
     private final String playerName;
@@ -72,6 +76,35 @@ public class Player implements Serializable {
     }
 
     /**
+     * @return the leaders still to be activated or discarded by the player
+     */
+    public List<LeaderCard> getPendingLeaderCards() {
+        List<LeaderCard> leaders = new ArrayList<>();
+        this.leaderCards.forEach(card -> {
+            if(!card.isActivatedByPlayer())
+                leaders.add(card);
+        });
+
+        return leaders;
+    }
+
+    /**
+     * Removes a leader card from the list
+     * @param card card to remove
+     */
+    public void discardLeaderCard(LeaderCard card) {
+        this.leaderCards.remove(card);
+    }
+
+    /**
+     * Adds a card to the list (used when a user copies another user's leader card)
+     * @param card card to add
+     */
+    public void addLeaderCard(LeaderCard card) {
+        this.leaderCards.add(card);
+    }
+
+    /**
      * Adds 2 {@link Resources}
      * @param the {@link Resources} to add
      */
@@ -99,11 +132,17 @@ public class Player implements Serializable {
      * @return if the player could perform the action
      */
     public Boolean hasEnoughResources (Resources resourcesRequired) {
-        Resources resourcesAvailable = this.getResources();
-        for(ResourceType resType : ResourceType.values())
-            if(resourcesAvailable.getResourceByType(resType) < resourcesRequired.getResourceByType(resType))
-                return false;
+        return this.resources.hasEnough(resourcesRequired);
+    }
 
-        return true;
+    /**
+     *
+     * @param cardType type of the card to verify
+     * @param num number of cards that the user should have
+     * @return if the user has a defined number (or more) of cards of a type
+     */
+    public Boolean hasEnoughCardsOfType(DevelopmentCardColor cardType, Integer num) {
+        Optional<List<AbstractDevelopmentCard>> cards = this.getPersonalBoard().getDevelopmentCardsByType(cardType);
+        return (cards.isPresent() && cards.get().size() >= num);
     }
 }

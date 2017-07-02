@@ -13,10 +13,8 @@ public class CopyOtherLeader extends AbstractEffect implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-       LeaderCardsContext callerContext = (LeaderCardsContext) o;
-       Player player = (Player) arg;
-
-       callerContext.copyOtherLeaderAbility(player);
+       LeaderCardsContext callerContext = (LeaderCardsContext) arg;
+       callerContext.copyOtherLeaderAbility();
     }
 
     @Override

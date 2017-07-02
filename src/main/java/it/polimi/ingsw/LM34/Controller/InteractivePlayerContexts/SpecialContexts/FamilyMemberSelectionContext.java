@@ -23,7 +23,7 @@ public class FamilyMemberSelectionContext extends AbstractGameContext {
     }
 
     @Override
-    public FamilyMember interactWithPlayer(Object... args) throws IncorrectInputException, MarketBanException, OccupiedSlotException, NotEnoughResourcesException {
+    public FamilyMember interactWithPlayer(Object... args) throws IncorrectInputException {
         Integer minValueRequested;
         Boolean servantsRequestAnyway;
         try {
@@ -49,7 +49,7 @@ public class FamilyMemberSelectionContext extends AbstractGameContext {
             throw new IncorrectInputException();
 
         if(servantsRequestAnyway || this.familyMemberValue < minValueRequested)
-            familyMember.setValue((Integer) getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT).
+            familyMember.setValue(((IncreasePawnsValueByServantsContext) getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT)).
                     interactWithPlayer(minValueRequested - this.familyMemberValue) + this.familyMemberValue);
 
         return familyMember;

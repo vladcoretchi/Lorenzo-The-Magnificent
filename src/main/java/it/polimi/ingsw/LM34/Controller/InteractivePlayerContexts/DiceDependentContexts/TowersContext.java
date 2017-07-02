@@ -1,9 +1,11 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.CardTypeNumLimitReachedException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughMilitaryPoints;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
@@ -17,6 +19,8 @@ import it.polimi.ingsw.LM34.Utils.Configurator;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.FAMILY_MEMBER_SELECTION_CONTEXT;
@@ -24,19 +28,19 @@ import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.*;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class TowersContext extends AbstractGameContext {
-    //TODO: handle Cesare Borgia
-
-    private Boolean slotRewardPenalty;
+    private Boolean slotsRewardPenalty;
     private Boolean noOccupiedTowerTax;
-    private Integer slotDiceValue;
+    private Boolean ignoreMilitaryPointsRequirements;
     private DevelopmentCardColor towerColor;
+    private Integer slotDiceValue;
 
     public TowersContext() {
         this.contextType = ContextType.TOWERS_CONTEXT;
     }
 
     @Override
-    public Void interactWithPlayer(Object... args) throws IncorrectInputException, MarketBanException, OccupiedSlotException, NotEnoughResourcesException {
+    public Void interactWithPlayer(Object... args)
+            throws IncorrectInputException, OccupiedSlotException, NotEnoughResourcesException, NotEnoughMilitaryPoints, CardTypeNumLimitReachedException {
         Pair<Integer, Integer> slotSelection;
         try {
             Pair<?, ?> slotArg = (Pair<?, ?>) args[0];
@@ -52,15 +56,23 @@ public class TowersContext extends AbstractGameContext {
         if(!slot.isEmpty())
             throw new OccupiedSlotException();
 
-        this.slotDiceValue = slot.getDiceValue();
+        AbstractDevelopmentCard card = slot.getCardStored();
+        if(this.getCurrentPlayer().hasEnoughCardsOfType(card.getColor(), Configurator.MAX_ACQUIRABLE_CARDS_PER_TYPE))
+            throw new CardTypeNumLimitReachedException();
+
         this.towerColor = selectedTower.getCardColor();
-        this.slotRewardPenalty = false;
+        this.slotDiceValue = slot.getDiceValue();
+        this.slotsRewardPenalty = false;
         this.noOccupiedTowerTax = false;
+        this.ignoreMilitaryPointsRequirements = false;
 
         setChanged();
         notifyObservers(this);
 
-        AbstractDevelopmentCard card = slot.getCardStored();
+        Optional<List<AbstractDevelopmentCard>> currentPlayerTerritoryCards = this.getCurrentPlayer().getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.GREEN);
+        if(this.towerColor == DevelopmentCardColor.GREEN && !this.ignoreMilitaryPointsRequirements && currentPlayerTerritoryCards.isPresent() &&
+                Configurator.getMilitaryPointsForTerritories().get(currentPlayerTerritoryCards.get().size()) > this.getCurrentPlayer().getResources().getResourceByType(MILITARY_POINTS))
+            throw new NotEnoughMilitaryPoints();
 
         Resources requirements = new Resources(card.getResourcesRequired().getResourceByType(COINS),
                 card.getResourcesRequired().getResourceByType(WOODS),
@@ -76,7 +88,7 @@ public class TowersContext extends AbstractGameContext {
         if(!this.gameManager.getCurrentPlayer().hasEnoughResources(requirements))
             throw new NotEnoughResourcesException();
 
-        FamilyMember selectedFamilyMember = (FamilyMember) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT).interactWithPlayer(this.slotDiceValue, false, this.contextType);
+        FamilyMember selectedFamilyMember = ((FamilyMemberSelectionContext) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT)).interactWithPlayer(slot.getDiceValue(), false, this.contextType);
 
         try {
             slot.insertFamilyMember(selectedFamilyMember);
@@ -85,12 +97,13 @@ public class TowersContext extends AbstractGameContext {
             this.gameManager.getCurrentPlayer().getPersonalBoard().addCard(card);
             slot.sweepTowerSlot();
 
+            //TODO: add military points choice for venture cards
             this.gameManager.getCurrentPlayer().subResources(requirements);
 
             card.getInstantBonus().forEach(effect -> effect.applyEffect(this));
             card.getPermanentBonus().applyEffect(this);
 
-            if(!this.slotRewardPenalty)
+            if(!this.slotsRewardPenalty)
                 slot.getResourcesReward().applyEffect(this);
         } catch(InvalidCardType | OccupiedSlotException ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
@@ -107,15 +120,16 @@ public class TowersContext extends AbstractGameContext {
         return this.slotDiceValue;
     }
 
-    public void changeSlotDiceValue(Integer value, Boolean relative) {
-        this.slotDiceValue = relative ? this.slotDiceValue + value : value;
-    }
-
-    public void setSlotRewardPenalty() {
-        this.slotRewardPenalty = true;
+    public void setSlotsRewardPenalty() {
+        this.slotsRewardPenalty = true;
     }
 
     public void avoidOccupiedTowerTax() {
         this.noOccupiedTowerTax = true;
+    }
+
+    public void ignoreMilitaryPointsRequirementsForTerritoryCards() {
+        if(this.towerColor == DevelopmentCardColor.GREEN)
+            this.ignoreMilitaryPointsRequirements = true;
     }
 }

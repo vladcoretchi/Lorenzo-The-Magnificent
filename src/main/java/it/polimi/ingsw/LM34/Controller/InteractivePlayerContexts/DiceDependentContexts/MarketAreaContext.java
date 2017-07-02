@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
@@ -26,7 +27,7 @@ public class MarketAreaContext extends AbstractGameContext {
     }
 
     @Override
-    public Void interactWithPlayer(Object... args) throws IncorrectInputException, MarketBanException, OccupiedSlotException, NotEnoughResourcesException {
+    public Void interactWithPlayer(Object... args) throws IncorrectInputException, MarketBanException, OccupiedSlotException {
         this.ban = false;
         setChanged();
         notifyObservers(this);
@@ -47,7 +48,7 @@ public class MarketAreaContext extends AbstractGameContext {
         ActionSlotContext actionSlotContext = (ActionSlotContext) getContextByType(ACTION_SLOT_CONTEXT);
         Boolean canPlace = actionSlotContext.interactWithPlayer(this, selectedSlot);
         if (canPlace) {
-            FamilyMember selectedFamilyMember = (FamilyMember) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT).interactWithPlayer(slot.getDiceValue(), false, this.contextType);
+            FamilyMember selectedFamilyMember = ((FamilyMemberSelectionContext) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT)).interactWithPlayer(slot.getDiceValue(), false, this.contextType);
 
             if (actionSlotContext.getIgnoreOccupiedSlot())
                 slot.insertFamilyMemberIgnoringSlotLimit(selectedFamilyMember);

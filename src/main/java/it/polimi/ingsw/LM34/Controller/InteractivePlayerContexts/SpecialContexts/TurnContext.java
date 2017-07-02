@@ -3,13 +3,15 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContext
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Exceptions.Controller.*;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.Utils.Validator;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.logging.Level;
 
@@ -36,13 +38,11 @@ public class TurnContext extends AbstractGameContext {
         setChanged();
         notifyObservers(this); //for SkipTurn observer
 
-        if(this.skipTurn) {
-            //TODO: clean this
-        /*List<AbstractEffect> observers = this.getCurrentPlayer().getObservers();
-        for (AbstractEffect observer : observers)
-            if (!observer.isOncePerRound())
-                observer.subscribeObserverToContext(contexts);
-            notifyObservers(player); //for PerRoundLeaderReward*/
+        if(!this.skipTurn) {
+            this.getCurrentPlayer().getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.BLUE).ifPresent(cards ->
+                cards.forEach(card -> card.getPermanentBonus().applyEffect(this)));
+
+            this.getCurrentPlayer().getActivatedLeaderCards().forEach(card -> card.getBonus().applyEffect(this));
 
             ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();
             interactWithPlayer();
@@ -63,8 +63,8 @@ public class TurnContext extends AbstractGameContext {
             Validator.checkPlayerActionValidity(action);
 
             AbstractGameContext actionContext = getContextByType(action.getContext());
-            actionContext.interactWithPlayer();
-        } catch (IncorrectInputException | OccupiedSlotException | MarketBanException | NotEnoughResourcesException ex) {
+            actionContext.interactWithPlayer(action.getAction());
+        } catch (IncorrectInputException | OccupiedSlotException | MarketBanException | NotEnoughResourcesException | NotEnoughMilitaryPoints | CardTypeNumLimitReachedException | InvalidLeaderCardAction ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             playerAction(Optional.of(ex));
         }

@@ -1,14 +1,29 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Exceptions.Controller.InvalidLeaderCardAction;
+import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardDeck;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Utils.Configurator;
+import it.polimi.ingsw.LM34.Utils.Validator;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_CARDS_CONTEXT;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 /**
  * In this context the player can discard a leader in favor of a privilege or activate his ability
@@ -23,57 +38,82 @@ public LeaderCardsContext() {
 }
 
     @Override
-    public Void interactWithPlayer(Object... args) throws IncorrectInputException {
+    public Void interactWithPlayer(Object... args) throws IncorrectInputException, InvalidLeaderCardAction {
+        Pair<Integer, LeaderCardsAction> leaderCardAction;
+        try {
+            Pair<?, ?> actionArg = (Pair<?, ?>) args[0];
+            leaderCardAction = new ImmutablePair<>((Integer) actionArg.getLeft(), (LeaderCardsAction) actionArg.getRight());
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            throw new IncorrectInputException();
+        }
 
-        totalLeadersDiscarded = 0; //default value at the start of this context
-        /*Activate leader cards*/
+        Validator.checkValidity(leaderCardAction.getLeft(), this.getCurrentPlayer().getActivatedLeaderCards());
 
-        //TODO: check if the player can activate a leader, then register it to the right observer
-        /*CopyOtherLeader is activated here*/
-        setChanged(); notifyObservers(gameManager.getCurrentPlayer());
+        LeaderCard selectedCard = this.getCurrentPlayer().getPendingLeaderCards().get(leaderCardAction.getLeft());
 
-        /* Discard leader cards*/
-        totalLeadersDiscarded = 2;
-        System.out.println("carte scartate "+ totalLeadersDiscarded);
-        setChanged();
-        notifyObservers(totalLeadersDiscarded);
-
-        System.out.println("Ora siamo nel leader discard context con carte scartate "+totalLeadersDiscarded);
-        //TODO: handle the player discards and count how many councilPrivileges he deserves (totalleaders = ...)
-        //for(Integer i = 0; i<totalLeadersDiscarded; i++)
-           // getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT).interactWithPlayer(player);
-        //TODO: let the player activate a player, verify if requirements are met
+        switch (leaderCardAction.getRight()) {
+            case PLAY:
+                playLeaderCard(selectedCard);
+                break;
+            case DISCARD:
+                discardLeaderCard(selectedCard);
+                break;
+            default:
+                throw new InvalidLeaderCardAction();
+        }
+        this.getCurrentPlayer().discardLeaderCard(selectedCard);
 
         return null;
     }
 
+
+    private void playLeaderCard(LeaderCard card) {
+        //TODO: handle multiple requirements choice
+        Optional<Resources> resourcesRequirements = card.getRequirements().getResourcesRequirements();
+        Optional<Map<DevelopmentCardColor, Integer>> cardsRequirements = card.getRequirements().getCardRequirements();
+        if(resourcesRequirements.isPresent() || cardsRequirements.isPresent()) {
+
+            if(resourcesRequirements.isPresent())
+                this.gameManager.getCurrentPlayer().subResources(resourcesRequirements.get());
+
+            card.activate();
+            card.getBonus().applyEffect(this);
+
+            setChanged();
+            notifyObservers(this);
+        }
+    }
+
+    private void discardLeaderCard(LeaderCard card) {
+        try {
+            ((UseCouncilPrivilegeContext) this.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(Configurator.COUNCIL_PRIVILEGES_FOR_DISCARDED_LEADER_CARD);
+        } catch(IncorrectInputException ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+        }
+    }
+
     /**
-     * An interactive method that unblocks to the player the ability to clone another leader
-     * @param currentPlayer
+     * An interactive method that unlocks to the player the ability to clone another leader
      */
     /*Called by CopyOtherLeader observer*/
-    public void copyOtherLeaderAbility(Player currentPlayer) {
-        List<LeaderCard> allLeadersActivatedByOthers = new ArrayList<>();
+    public void copyOtherLeaderAbility() {
+        List<LeaderCard> activatedLeaderCards = new ArrayList<>();
 
-        //create a list of leaders activated  by other players
-        for(Player player : gameManager.getPlayers())
-            if(player != currentPlayer) //one player cannot copy an ability of a leader he already has
-                allLeadersActivatedByOthers.addAll(player.getActivatedLeaderCards());
+        for(Player player : this.gameManager.getPlayers())
+            if(player != this.getCurrentPlayer())
+                activatedLeaderCards.addAll(player.getActivatedLeaderCards());
 
         /*Integer leaderToCopy = gameManager.getActivePlayerNetworkController().copyLeaderSelection(allLeadersActivatedByOthers);
 
-
         try {
-            Validator.checkValidity(leaderToCopy.toString(),allLeadersActivatedByOthers);
-            LeaderCard selectedLeader = allLeadersActivatedByOthers.get(leaderToCopy);
-            selectedLeader.setIsActivatedByPlayer(); //TODO: evaluate if the card should be stored in the player
+            Validator.checkValidity(leaderToCopy, activatedLeaderCards);
+            LeaderCard selectedLeader = activatedLeaderCards.get(leaderToCopy);
+            this.getCurrentPlayer().addLeaderCard(selectedLeader);
+            selectedLeader.activate();
             selectedLeader.getBonus().applyEffect(this);
-        }
-        //If input mismatch expected informations... the player is able to try again
-        catch(IncorrectInputException ide){
-            copyOtherLeaderAbility(currentPlayer);
+        } catch(IncorrectInputException ide){
+            copyOtherLeaderAbility();
         }*/
-        //TODO: hen let the current player choose which one activate
-
     }
 }

@@ -4,7 +4,9 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.TowersContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Exceptions.Controller.CardTypeNumLimitReachedException;
 import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughMilitaryPoints;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
@@ -74,7 +76,7 @@ public class DevelopmentCardAcquireEffect extends AbstractEffect implements Obse
 
         try {
             towerContext.interactWithPlayer();
-        } catch(IncorrectInputException | OccupiedSlotException | MarketBanException | NotEnoughResourcesException ex) {
+        } catch(IncorrectInputException | NotEnoughMilitaryPoints | OccupiedSlotException | NotEnoughResourcesException | CardTypeNumLimitReachedException ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
         }
         towerContext.deleteObserver(this);
