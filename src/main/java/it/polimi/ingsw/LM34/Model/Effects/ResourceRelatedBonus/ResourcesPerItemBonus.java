@@ -17,42 +17,44 @@ import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.MILITARY_POINTS;
 public class ResourcesPerItemBonus extends AbstractEffect {
     private Resources bonusResources;
     private DevelopmentCardColor cardColor; //"nobile, araldo, cortigiana,governatore, zecca, teatro, esattoria,arco di triongo"
-    private Integer militaryPointsRequired; //for "generale" card
+    private Integer militaryPoints; //for "generale" card
 
     public ResourcesPerItemBonus(Resources bonusResources, DevelopmentCardColor cardColor) {
         this.bonusResources = bonusResources;
         this.cardColor = cardColor;
-        this.militaryPointsRequired = null;
+        this.militaryPoints = null;
     }
 
     /*Constructor for "generale" card*/
     public ResourcesPerItemBonus(Resources bonusResources, Integer militaryPointsRequired) {
         this.bonusResources = bonusResources;
         this.cardColor = null;
-        this.militaryPointsRequired = militaryPointsRequired;
+        this.militaryPoints = militaryPointsRequired;
     }
 
     /**
      * Only for building cards permanent bonuses
-     * @param contexts
+     * @param callerContext caller context
      */
-
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
-        Player player = callerContext.getCurrentPlayer();
-        Integer cardTypeOwnedNum = 0;
-        ResourceIncomeContext incomeContext;
-        incomeContext = ((ResourceIncomeContext)callerContext.getContextByType(RESOURCE_INCOME_CONTEXT));
-        if(militaryPointsRequired > 0) {
-            bonusResources.multiplyResources(player.getResources().getResourceByType(MILITARY_POINTS) / militaryPointsRequired);
-            incomeContext.setIncome(bonusResources);
-        }
+        if(this.bonusResources != null) {
+            Player player = callerContext.getCurrentPlayer();
+            Integer cardTypeOwnedNum = 0;
+            ResourceIncomeContext incomeContext;
+            incomeContext = ((ResourceIncomeContext) callerContext.getContextByType(RESOURCE_INCOME_CONTEXT));
 
-        Optional<List<AbstractDevelopmentCard>> cards = player.getPersonalBoard().getDevelopmentCardsByType(cardColor);
-        cards.ifPresent(cardsList -> {
-            bonusResources.multiplyResources(cardsList.size());
-            incomeContext.setIncome(bonusResources);
-        });
+            if (this.militaryPoints != null && this.militaryPoints > 0) {
+                bonusResources.multiplyResources(player.getResources().getResourceByType(MILITARY_POINTS) / militaryPoints);
+                incomeContext.setIncome(bonusResources);
+            } else if(this.cardColor != null) {
+                Optional<List<AbstractDevelopmentCard>> cards = player.getPersonalBoard().getDevelopmentCardsByType(cardColor);
+                cards.ifPresent(cardsList -> {
+                    bonusResources.multiplyResources(cardsList.size());
+                    incomeContext.setIncome(bonusResources);
+                });
+            }
+        }
     }
 }
 

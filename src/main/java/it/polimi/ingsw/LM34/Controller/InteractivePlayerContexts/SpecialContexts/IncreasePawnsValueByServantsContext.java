@@ -1,49 +1,40 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughValueException;
-import it.polimi.ingsw.LM34.Model.Player;
-
-import java.util.Observable;
+import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Utils.Validator;
+import java.util.logging.Level;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class IncreasePawnsValueByServantsContext extends AbstractGameContext {
-    private Integer servantsConsumed;
+    private Integer servantsRequested;
 
     public IncreasePawnsValueByServantsContext() {
-        contextType = ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;
-        servantsConsumed = 0;
+        contextType = INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;
     }
 
     @Override
-    public void interactWithPlayer() {
+    public Integer interactWithPlayer(Object... args) throws IncorrectInputException {
+        try {
+            this.servantsRequested = (Integer) args[0];
+        } catch(Exception ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            throw new IncorrectInputException();
+        }
 
+        setChanged();
+        notifyObservers(this);
+
+        Integer availableServants = this.gameManager.getCurrentPlayer().getResources().getResourceByType(ResourceType.SERVANTS);
+        Integer selectedServants = this.gameManager.getActivePlayerNetworkController().servantsSelection(availableServants, this.servantsRequested);
+        Validator.checkValidity(selectedServants, availableServants, this.servantsRequested);
+
+        return selectedServants;
     }
 
-    public void interactWithPlayer(Observable o, Player player) throws NotEnoughValueException {
-        servantsConsumed = 0;
-
-        //TODO: let the player choose the servants to sacrifice... servantsConsumed = ...
-        /*Integer servantsOwned = player.getResources().getResourceByType(ResourceType.SERVANTS);
-        Integer servantsConsumed = gameManager.getActivePlayerNetworkController().servantsSelection(servantsOwned);
-
-        setChanged(); notifyObservers();  //Notify the excommunication observer that halves servants value*/
-
-        ((FamilyMemberSelectionContext)o).increaseTempValue(servantsConsumed);
-
-
-
+    public void duplicateServantsRequirements() {
+        this.servantsRequested *= 2;
     }
-
-
-
-    /**
-     * Called by the excommunication effect that halves servants values
-     */
-    public void halvesServantsValue() {
-        servantsConsumed /= 2;
-    }
-
-
-
 }

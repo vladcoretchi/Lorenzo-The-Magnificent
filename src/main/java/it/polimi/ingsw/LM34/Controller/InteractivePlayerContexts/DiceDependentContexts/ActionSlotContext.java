@@ -1,28 +1,54 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
+
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class ActionSlotContext extends AbstractGameContext {
-    //TODO: Ludovico Ariosto changes a boolean here so that the player can add his pawn despite of action slot limits
-    //handle a particular excommunication card
+    private AbstractGameContext referenceContext;
+    private Boolean ignoreSlotLimit;
 
     public ActionSlotContext() {
-        contextType = ContextType.ACTION_SLOT_CONTEXT;
+        this.contextType = ACTION_SLOT_CONTEXT;
+        this.ignoreSlotLimit = false;
     }
 
     @Override
-    public void interactWithPlayer() {
-        //TODO: implement what player can do here and modify the model in this controller class
-        //handle "federico da montefeltro"
-        setChanged();
-        notifyObservers();
-        //actionSlot.setSingleSlot(false);
-        //TODO: player choices pawn to place and the slot
-        //if(actionSlot.getSingleSlot()) ...
+    public Boolean interactWithPlayer(Object... args) throws IncorrectInputException {
+        ActionSlot slot;
+        try {
+            this.referenceContext = (AbstractGameContext) args[0];
+            slot = (ActionSlot) args[1];
+        } catch(Exception ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            throw new IncorrectInputException();
+        }
+        this.ignoreSlotLimit = false;
 
+        setChanged();
+        notifyObservers(this);
+
+        return slot.isEmpty() || this.ignoreSlotLimit;
     }
 
+    public AbstractGameContext getReferenceContext() {
+        return this.referenceContext;
+    }
+
+    public Boolean getIgnoreOccupiedSlot() {
+        return this.ignoreSlotLimit;
+    }
+
+    public void ignoreSlotLimit() {
+        this.ignoreSlotLimit = true;
+    }
 }
 
 

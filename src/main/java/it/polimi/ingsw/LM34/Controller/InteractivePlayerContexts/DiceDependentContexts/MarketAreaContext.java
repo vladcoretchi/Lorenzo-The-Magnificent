@@ -1,77 +1,68 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
+import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
+import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
-import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Utils.Configurator;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
 
-import java.util.List;
+import java.util.logging.Level;
 
-public class MarketAreaContext extends AbstractGameContext implements DiceDependentContextsInterface {
-    private Market market;
-    private Integer tempValue;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
+public class MarketAreaContext extends AbstractGameContext {
     private Boolean ban;
 
     public MarketAreaContext() {
-        contextType = ContextType.MARKET_AREA_CONTEXT;
-        market = Configurator.getMarket();//this.gameManager.getPlayers().size());
+        this.contextType = MARKET_AREA_CONTEXT;
+        this.ban = false;
     }
 
     @Override
-    public void interactWithPlayer() {
-        System.out.println("siamo in market area context");
+    public Void interactWithPlayer(Object... args) throws IncorrectInputException, MarketBanException, OccupiedSlotException, NotEnoughResourcesException {
+        this.ban = false;
+        setChanged();
+        notifyObservers(this);
 
+        if (this.ban)
+            throw new MarketBanException();
 
-        /*First ActionSlot Choice*/
-
-
-        //Integer diceValueToHave = actionslot.getDiceValue();
-        /*Then FamilyMember Choice*/
-        /*FamilyMember selectedPawn = ((FamilyMemberSelectionContext)getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT))
-                                    .familyMemberSelection(diceValueToHave, player);*/
-
-
-
-
-
-        /*if(!ban) { //the ban is set if the player got the related excommunication card
-
-            //the player chooses the family member to place and where to place it
-            //if(fm.getValue() >= market.getDiceValue())
-            //try {
-            // market.insertFamilyMember(fm);
-            //marketSlot.getReward().applyEffect(player);
-            //} catch(...) {
-            //say that slot occupied and remake the player do his choices
-            ResourceIncomeContext incomeContext = (ResourceIncomeContext) gameManager.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT);
-            incomeContext.handleResources(player, new Resources(2, 4, 5, 5));
+        Integer selectedSlot;
+        try {
+            selectedSlot = (Integer) args[0];
+        } catch(Exception ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            throw new IncorrectInputException();
         }
-        else {
-            //TODO: inform player of the ban
-            gameManager.getContextByType(TURN_CONTEXT).interactWithPlayer(player);
-        }*/
+
+        ActionSlot slot = this.gameManager.getMarket().getActionSlots().get(selectedSlot);
+
+        ActionSlotContext actionSlotContext = (ActionSlotContext) getContextByType(ACTION_SLOT_CONTEXT);
+        Boolean canPlace = actionSlotContext.interactWithPlayer(this, selectedSlot);
+        if (canPlace) {
+            FamilyMember selectedFamilyMember = (FamilyMember) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT).interactWithPlayer(slot.getDiceValue(), false, this.contextType);
+
+            if (actionSlotContext.getIgnoreOccupiedSlot())
+                slot.insertFamilyMemberIgnoringSlotLimit(selectedFamilyMember);
+            else
+                slot.insertFamilyMember(selectedFamilyMember);
+            selectedFamilyMember.placePawn();
+
+            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).setIncome(slot.getResourcesReward().getResources());
+            ((UseCouncilPrivilegeContext) getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(slot.getResourcesReward().getCouncilPrivilege());
+        }
+
+        return null;
     }
 
-
-
-    @Override
-    public void sweep() {
-        market.sweep();
+    public void setBan() {
+        this.ban = true;
     }
-
-    @Override
-    public List<ActionSlot> getActionSlots() {
-        return market.getActionSlots();
-    }
-
-    @Override
-    public void finalizeRewardAttribution(Player player) {
-
-    }
-
-    public void setBan() { this.ban = true; }
-
 }

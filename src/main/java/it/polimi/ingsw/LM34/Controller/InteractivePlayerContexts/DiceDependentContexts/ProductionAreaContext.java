@@ -1,66 +1,70 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
+import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+import it.polimi.ingsw.LM34.Model.Cards.BuildingCard;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
-import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Utils.Configurator;
 
-import java.util.List;
+import java.util.logging.Level;
 
-public class ProductionAreaContext extends AbstractGameContext implements DiceDependentContextsInterface {
-    private FamilyMember memberChoosed;
-    private Integer tempValue;
-    private WorkingArea productionArea;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.YELLOW;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
-    public void initContext(Player player) {
-        setChanged();
-        notifyObservers(player.getFamilyMembers());
-    }
+public class ProductionAreaContext extends AbstractGameContext {
+    private Integer slotDiceValue;
 
-    /*CONSTRUCTOR*/
     public ProductionAreaContext() {
-        contextType = ContextType.PRODUCTION_AREA_CONTEXT;
-        Configurator.getProductionArea();//this.gameManager.getPlayers().size());
+        this.contextType = PRODUCTION_AREA_CONTEXT;
+        this.slotDiceValue = 0;
     }
 
     @Override
-    public void interactWithPlayer() {
+    public Void interactWithPlayer(Object... args) throws IncorrectInputException, MarketBanException, OccupiedSlotException, NotEnoughResourcesException {
+        Integer selectedSlot;
+        try {
+            selectedSlot = (Integer) args[0];
+        } catch(Exception ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            throw new IncorrectInputException();
+        }
 
-        //TODO: the player chooses the slot to occupy (highlight the difference beetwen single slot and advanced slot)
+        this.slotDiceValue = this.gameManager.getProductionArea().getActionSlots().get(selectedSlot).getDiceValue();
 
-
-
-        //TODO: now values of dices are increased
-        gameManager.getContextByType(ContextType.ACTION_SLOT_CONTEXT).interactWithPlayer();
-        //TODO: player chooses the familymember
-
-        //TODO: now values of dices are increased
-        FamilyMember memberChoosed = gameManager.getCurrentPlayer().getFamilyMembers().get(1);
-        FamilyMember tempMemberChoosed = memberChoosed.copy();
-        //TODO: here we pass the family member chosed (only one)
         setChanged();
-        notifyObservers(tempMemberChoosed);  //observers do a setValue on it
-        tempMemberChoosed.getValue();
+        notifyObservers(this);
+
+        ActionSlotContext actionSlotContext = (ActionSlotContext) getContextByType(ACTION_SLOT_CONTEXT);
+        Boolean canPlace = actionSlotContext.interactWithPlayer(this, selectedSlot);
+        if (canPlace) {
+            FamilyMember selectedFamilyMember = (FamilyMember) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT).interactWithPlayer(this.slotDiceValue, true, this.contextType);
+
+            if (actionSlotContext.getIgnoreOccupiedSlot())
+                this.gameManager.getProductionArea().getActionSlots().get(selectedSlot).insertFamilyMemberIgnoringSlotLimit(selectedFamilyMember);
+            else
+                this.gameManager.getProductionArea().getActionSlots().get(selectedSlot).insertFamilyMember(selectedFamilyMember);
+            selectedFamilyMember.placePawn();
+
+            this.gameManager.getCurrentPlayer().getPersonalBoard().getDevelopmentCardsByType(YELLOW).ifPresent(list ->
+            list.forEach(card -> {
+                if (((BuildingCard) card).getDiceValueToProduct() <= selectedFamilyMember.getValue())
+                    card.getPermanentBonus().applyEffect(this);
+                })
+            );
+        }
+
+
+
+        return null;
     }
 
-
-    @Override
-    public List<ActionSlot> getActionSlots() {
-        return productionArea.getActionSlots();
+    public void changeSlotDiceValue(Integer value, Boolean relative) {
+        this.slotDiceValue = relative ? this.slotDiceValue + value : value;
     }
-
-    @Override
-    public void finalizeRewardAttribution(Player player) {
-
-    }
-
-    @Override
-    public void sweep() {
-        productionArea.sweep();
-    }
-
-
 }

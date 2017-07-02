@@ -3,43 +3,59 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContext
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Utils.Validator;
 
 import java.util.List;
+import java.util.logging.Level;
 
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class UseCouncilPrivilegeContext extends AbstractGameContext {
-    private Integer numberOfCouncilePrivileges = 0;
-    private ContextType type;
-    private List<ResourcesBonus> rewardsForPrivilege;
+    private List<Resources> rewardsForPrivilege;
 
     public UseCouncilPrivilegeContext() {
-        //TODO: load bonus for privileges from configurator... rewardsForPrivilege = Configurator.getPalace();
-        numberOfCouncilePrivileges = 0;
-        contextType = ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT;
+        this.contextType = USE_COUNCIL_PRIVILEGE_CONTEXT;
+        this.rewardsForPrivilege = null;
     }
 
-    public void initContext(Integer councilPrivileges) {
-        this.numberOfCouncilePrivileges = councilPrivileges;
+    public void setRewards(List<Resources> rewards) {
+        this.rewardsForPrivilege = rewards;
     }
 
-    //TODO: before calling this without having councilPrivileges, it is better to check from caller contexts
     @Override
-    public void interactWithPlayer() {
-        if(this.numberOfCouncilePrivileges > 0) {
-            List<ResourcesBonus> rewardsAvailable = this.rewardsForPrivilege;
-            ResourceIncomeContext incomeContext = (ResourceIncomeContext) gameManager.getContextByType(RESOURCE_INCOME_CONTEXT);
+    public Void interactWithPlayer(Object... args) throws IncorrectInputException {
+        Integer numberOfCouncilPrivileges;
+        try {
+            numberOfCouncilPrivileges = (Integer) args[0];
+        } catch(Exception ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            throw new IncorrectInputException();
+        }
 
-            Integer used = 0;
-            while (used < numberOfCouncilePrivileges) {
-                /*Integer selected = gameManager.getActivePlayerNetworkController().privilegeRewardSelection(rewardsAvailable);
-                ResourcesBonus reward = rewardsAvailable.get(selected);
-                incomeContext.setIncome(reward.getResources());
-                //Remove temporarily the reward already choosed
-                rewardsAvailable.remove(selected);
-                used++;*/
-            }
+        ResourceIncomeContext incomeContext = (ResourceIncomeContext) gameManager.getContextByType(RESOURCE_INCOME_CONTEXT);
+        List<Resources> rewardsAvailable = this.rewardsForPrivilege;
+
+        for (int i = 0; i < numberOfCouncilPrivileges; i++) {
+            Integer choice = councilPrivilegeRewardSelection(rewardsAvailable);
+            incomeContext.setIncome(rewardsAvailable.get(choice));
+            rewardsAvailable.remove(choice.intValue());
+        }
+
+        return null;
+    }
+
+    private Integer councilPrivilegeRewardSelection(List<Resources> rewardsAvailable) {
+        Integer choice = this.gameManager.getActivePlayerNetworkController().selectCouncilPrivilegeBonus(rewardsAvailable);
+        try {
+            Validator.checkValidity(choice, rewardsAvailable);
+            return choice;
+        } catch(IncorrectInputException ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            return councilPrivilegeRewardSelection(rewardsAvailable);
         }
     }
 }

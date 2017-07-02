@@ -291,10 +291,10 @@ public class GUI extends Application implements UIInterface {
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
             StackPane palacePane = (StackPane) root.lookup("#councilPalace");
             ImageView imageView;
-            if(!this.palace.getOccupyingPawns().isEmpty())
+            if(!this.palace.getActionSlot().getFamilyMembers().isEmpty())
                 palacePane.getChildren().removeAll(palacePane.getChildren());
             else
-                for(FamilyMember pawn : this.palace.getOccupyingPawns()) {
+                for(FamilyMember pawn : this.palace.getActionSlot().getFamilyMembers()) {
                     imageView = new ImageView(new Image(Thread.currentThread().getContextClassLoader().getResource("images/pawns" + pawn.getFamilyMemberColor() + ".png").toExternalForm()));
                     imageView.setTranslateX(20);
                     palacePane.getChildren().add(imageView);
@@ -321,8 +321,9 @@ public class GUI extends Application implements UIInterface {
             for (index = 0; index < marketSlots.size(); index++) {
                 ImageView slotView = ((ImageView) root.lookup("#marketActionSlot" + index));
                 slotView.setOnMouseEntered(new SlotMouseEvent(marketSlots.get(index).getResourcesReward()));
-                if (marketSlots.get(index).getFamilyMember().getFamilyMemberColor() != null) {
-                    pawnColor = marketSlots.get(index).getFamilyMember().getFamilyMemberColor();
+                //TODO: handle multiple family members
+                if (marketSlots.get(index).getFamilyMembers().get(0).getFamilyMemberColor() != null) {
+                    pawnColor = marketSlots.get(index).getFamilyMembers().get(0).getFamilyMemberColor();
                     slotView.setImage(new Image(Thread.currentThread()
                             .getContextClassLoader().getResource("images/pawns/" + pawnColor.toString() + ".png").toExternalForm()));
                 } else
@@ -337,9 +338,10 @@ public class GUI extends Application implements UIInterface {
     @Override
     public void updateProductionArea(WorkingArea productionArea) {
         this.productionArea = productionArea;
+        //TODO: handle multiple family members
 
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
-            FamilyMember pawnInSingleSlot = this.productionArea.getSingleSlot().getFamilyMember();
+            FamilyMember pawnInSingleSlot = this.productionArea.getSingleSlot().getFamilyMembers().get(0);
             ImageView imageSingle = ((ImageView) root.lookup("#productionArea" + 0));
             if(pawnInSingleSlot != null) {
                 imageSingle.setImage(new Image(Thread.currentThread()
@@ -351,7 +353,7 @@ public class GUI extends Application implements UIInterface {
                         .toExternalForm()));
 
             List<FamilyMember> pawnsInAdvancedSlot = new ArrayList<>();
-            this.productionArea.getAdvancedSlots().forEach(s -> pawnsInAdvancedSlot.add(s.getFamilyMember()));
+            this.productionArea.getAdvancedSlots().forEach(s -> pawnsInAdvancedSlot.add(s.getFamilyMembers().get(0)));
             StackPane advancedSlot = (StackPane) root.lookup("#productionArea" + 1);
             ImageView imageAdvanced;
             if(!pawnsInAdvancedSlot.isEmpty())
@@ -375,9 +377,10 @@ public class GUI extends Application implements UIInterface {
     @Override
     public void updateHarvestArea(WorkingArea harvestArea) {
         this.harvestArea = harvestArea;
+        //TODO: handle multiple family members
 
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
-            FamilyMember pawnInSingleSlot = this.harvestArea.getSingleSlot().getFamilyMember();
+            FamilyMember pawnInSingleSlot = this.harvestArea.getSingleSlot().getFamilyMembers().get(0);
             ImageView imageSingle = ((ImageView) root.lookup("#harvestArea" + 0));
             if(pawnInSingleSlot != null) {
                 imageSingle.setImage(new Image(Thread.currentThread()
@@ -389,7 +392,7 @@ public class GUI extends Application implements UIInterface {
                         .toExternalForm()));
 
             List<FamilyMember> pawnsInAdvancedSlot = new ArrayList<>();
-            this.harvestArea.getAdvancedSlots().forEach(s -> pawnsInAdvancedSlot.add(s.getFamilyMember()));
+            this.harvestArea.getAdvancedSlots().forEach(s -> pawnsInAdvancedSlot.add(s.getFamilyMembers().get(0)));
             StackPane advancedSlot = (StackPane) root.lookup("#harvestArea" + 1);
             ImageView imageAdvanced;
 

@@ -15,16 +15,6 @@ import java.util.Observable;
 import static org.junit.Assert.*;
 
 public class ResourcesBonusTest {
-    @Test
-    public void sumResourcesBonus() throws Exception {
-        Resources resources = new Resources(1,1,1,1,1,1,1);
-        ResourcesBonus resourcesBonus = new ResourcesBonus(resources, 3);
-
-        resourcesBonus.sumResourcesBonus(resourcesBonus);
-
-        assertTrue(resourcesBonus.getResources().equals(resources));
-        assertEquals(6, resourcesBonus.getCouncilPrivilege().longValue());
-    }
 
     @Test
     public void update() throws Exception {
@@ -46,13 +36,6 @@ public class ResourcesBonusTest {
         players.add("aldo");
         players.add("giovanni");
         players.add("giacomo");
-        AbstractGameContext abstractGameContext = new AbstractGameContext() {
-
-            @Override
-            public void interactWithPlayer() {
-
-            }
-        };
 
 //        abstractGameContext.setGameManager(new GameManager(new GameRoom(), players));
 

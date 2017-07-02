@@ -2,9 +2,10 @@ package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Utils.Utilities;
-
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.EnumMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class Resources implements Serializable {
@@ -76,7 +77,7 @@ public class Resources implements Serializable {
     }
 
     //allows both addition and subtraction of quantity
-    public void modifyResourceByType(ResourceType resourceType, Integer quantity) {
+    public void sumResourceType(ResourceType resourceType, Integer quantity) {
         if (resourceType == null || quantity == null)
             throw new NullPointerException();
 
@@ -85,7 +86,7 @@ public class Resources implements Serializable {
             this.resourcesMap.remove(resourceType);
     }
 
-    public void modifyResourceByTypeSub(ResourceType resourceType, Integer quantity) {
+    public void subResourceType(ResourceType resourceType, Integer quantity) {
         if (resourceType == null || quantity == null)
             throw new NullPointerException();
 
@@ -99,14 +100,14 @@ public class Resources implements Serializable {
         if (res == null)
             throw new NullPointerException();
 
-        res.getResources().forEach(this::modifyResourceByType);
+        res.getResources().forEach(this::sumResourceType);
     }
 
     public void subResources (Resources res) {
         if (res == null)
             throw new NullPointerException();
 
-        res.getResources().forEach(this::modifyResourceByType);
+        res.getResources().forEach(this::sumResourceType);
     }
 
     public void multiplyResources (Integer multiplier) {
@@ -114,5 +115,16 @@ public class Resources implements Serializable {
             throw new NullPointerException();
 
         this.resourcesMap.forEach((type, value) -> value *= multiplier);
+    }
+
+    public Boolean hasEnough(Resources res) {
+        Iterator it = res.getResources().entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<?, ?> entry = (Map.Entry<?, ?>) it.next();
+            if(this.getResourceByType((ResourceType) entry.getKey()) < (Integer) entry.getValue())
+                return false;
+        }
+
+        return true;
     }
 }

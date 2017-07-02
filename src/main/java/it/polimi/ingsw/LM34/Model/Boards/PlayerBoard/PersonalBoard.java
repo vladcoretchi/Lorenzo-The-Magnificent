@@ -14,12 +14,20 @@ import java.util.Optional;
 /*this class has the aim to aggregate what resources and cards the player have collected*/
 public class PersonalBoard implements Serializable {
     //cards
-    private List<AbstractDevelopmentCard> territories = new ArrayList<AbstractDevelopmentCard>();
-    private List<AbstractDevelopmentCard> characters = new ArrayList<AbstractDevelopmentCard>();
-    private List<AbstractDevelopmentCard> ventures = new ArrayList<AbstractDevelopmentCard>();
-    private List<AbstractDevelopmentCard> buildings = new ArrayList<AbstractDevelopmentCard>();
+    private List<AbstractDevelopmentCard> territories;
+    private List<AbstractDevelopmentCard> characters;
+    private List<AbstractDevelopmentCard> ventures;
+    private List<AbstractDevelopmentCard> buildings;
     //bonus tile
     private BonusTile personalBonusTile;
+
+    public PersonalBoard() {
+        this.territories = new ArrayList<>();
+        this.characters = new ArrayList<>();
+        this.ventures = new ArrayList<>();
+        this.buildings = new ArrayList<>();
+        this.personalBonusTile = null;
+    }
 
     public void addCard(AbstractDevelopmentCard card) throws InvalidCardType {
         switch (card.getColor()) {

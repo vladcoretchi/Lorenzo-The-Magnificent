@@ -3,7 +3,6 @@ package it.polimi.ingsw.LM34.Model;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Utils.Copyable;
-
 import java.io.Serializable;
 
 public class FamilyMember implements Serializable, Copyable {

@@ -6,52 +6,51 @@ import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ActionSlot implements Serializable {
-    protected FamilyMember familyMember; //the pawn inside the action slot
-    protected ResourcesBonus resources; //the bonus the slot provides
-    protected Integer diceValue;
-    protected boolean singlePawnSlot;
+    private List<FamilyMember> familyMembers; //the pawns inside the action slot
+    private ResourcesBonus resources; //the bonus the slot provides
+    private Integer diceValue;
+    private Boolean singlePawnSlot;
 
-    public ActionSlot() {
-        resources = new ResourcesBonus(new Resources(), 0);
-    }
-    //from the configuration file the game controller loads the rewards in each action slot
-    //the slots instantiated are then passed to market, council and working areas in groups
-    //set methods are not meant to be provided because the action slot bonus does not change during the game
-    public ActionSlot(boolean singlePawnSlot,Integer diceValue, ResourcesBonus resources) {
+    public ActionSlot(boolean singlePawnSlot, Integer diceValue, ResourcesBonus resources) {
         this.diceValue = diceValue;
         this.resources = resources;
         this.singlePawnSlot = singlePawnSlot;
+        this.familyMembers = new ArrayList<>();
     }
 
     public void insertFamilyMember(FamilyMember fm) throws OccupiedSlotException {
-        if(familyMember == null)
-            this.familyMember = fm;
+        if(this.familyMembers.size() == 0)
+            this.familyMembers.add(fm);
         else
             throw new OccupiedSlotException();
     }
 
-    public boolean isEmpty() {
-        return (familyMember == null) ? true : false;
+    public void insertFamilyMemberIgnoringSlotLimit(FamilyMember fm) {
+        this.familyMembers.add(fm);
     }
 
-    //inform the player about the bonus that the slot provides to him
+    public boolean isEmpty() {
+        return this.familyMembers.isEmpty();
+    }
+
     public ResourcesBonus getResourcesReward() {
         return this.resources;
     }
 
-    //free the slot from the pawn at the end of a turn
     public void sweep() {
-        this.familyMember = null;
+        this.familyMembers.clear();
     }
 
     public Integer getDiceValue() { return this.diceValue; }
 
-    public boolean isSinglePawnSlot() { return this.singlePawnSlot; }
+    public Boolean isSinglePawnSlot() { return this.singlePawnSlot; }
 
-    public FamilyMember getFamilyMember() {
-        return this.familyMember;
+    public List<FamilyMember> getFamilyMembers() {
+        return this.familyMembers;
     }
 }

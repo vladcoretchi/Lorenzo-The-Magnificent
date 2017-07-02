@@ -5,6 +5,7 @@ import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -12,46 +13,37 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 /**
  * This class handles the multiple choice that some BuildingCards' permanent bonus offers
  */
-
 public class ResourcesExchangeBonus extends AbstractEffect {
     private List<Pair<Resources, ResourcesBonus>> resourceExchange;
 
     public ResourcesExchangeBonus(List<Pair<Resources, ResourcesBonus>> resourceExchange) {
-        //contextToBeSubscribedTo.add(ContextType.RESOURCE_EXCHANGE_CONTEXT);
         this.resourceExchange = resourceExchange;
     }
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
         Player player = callerContext.getCurrentPlayer();
-        ResourcesExchangeContext resourceExchangeContext;
-        resourceExchangeContext= (ResourcesExchangeContext) callerContext.getContextByType(ContextType.RESOURCE_EXCHANGE_CONTEXT);
-        resourceExchangeContext.setBonuses(player, resourceExchange);
-        resourceExchangeContext.interactWithPlayer();
-    }
+        Boolean hasResources = false;
 
-    public void activateResourcesExchange(AbstractGameContext callerContext, FamilyMember familyMember) {
-        Player player = callerContext.getCurrentPlayer();
+        for (Pair<Resources, ResourcesBonus> pair : resourceExchange)
+            if(player.hasEnoughResources(pair.getLeft()))
+                hasResources = true;
 
-        for (Pair<Resources, ResourcesBonus> pair : resourceExchange) {
-            /*check if the player has enough resources to activate the card permanent effect*/
-            if (player.hasEnoughResources(pair.getLeft())) {
-                /*retrieve from player the resources he needs to pay*/
-                player.subResources(pair.getLeft());
-                
-                /*activate the card permanent effect providing the player with the resources desired*/
-                ((ResourceIncomeContext)callerContext.getContextByType(RESOURCE_INCOME_CONTEXT)).setIncome(pair.getRight().getResources());
-
-                UseCouncilPrivilegeContext councilPrivilegeContext = (UseCouncilPrivilegeContext)callerContext.getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT);
-                councilPrivilegeContext.initContext(pair.getRight().getCouncilPrivilege());
-                councilPrivilegeContext.interactWithPlayer();
+        if(hasResources) {
+            ResourcesExchangeContext resourceExchangeContext = (ResourcesExchangeContext) callerContext.getContextByType(ContextType.RESOURCE_EXCHANGE_CONTEXT);
+            try {
+                resourceExchangeContext.interactWithPlayer(resourceExchange);
+            } catch (IncorrectInputException ex) {
+                LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             }
         }
     }

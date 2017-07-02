@@ -1,14 +1,22 @@
 package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.TowersContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
+import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class DevelopmentCardAcquireEffect extends AbstractEffect implements Observer {
     private DevelopmentCardColor color;
@@ -51,19 +59,24 @@ public class DevelopmentCardAcquireEffect extends AbstractEffect implements Obse
 
     @Override
     public void update(Observable o, Object arg) {
-        Player player = (Player) arg;
-        //get dice select by player, add value bonus and discounts
+
     }
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
-        AbstractGameContext towerContext = callerContext.getContextByType(ContextType.TOWERS_CONTEXT);
+        //TODO
+        TowersContext towerContext = (TowersContext) callerContext.getContextByType(ContextType.TOWERS_CONTEXT);
         towerContext.addObserver(this);
 
         if(requirementsDiscount != null)
             towerContext.addObserver(this.requirementsDiscount);
 
-        towerContext.interactWithPlayer();
+
+        try {
+            towerContext.interactWithPlayer();
+        } catch(IncorrectInputException | OccupiedSlotException | MarketBanException | NotEnoughResourcesException ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+        }
         towerContext.deleteObserver(this);
     }
 }

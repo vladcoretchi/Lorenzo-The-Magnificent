@@ -2,21 +2,36 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContext
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.GameManager;
+import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
+import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Network.GameRoom;
+import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.Utils.Configurator;
+import it.polimi.ingsw.LM34.Utils.Validator;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class TurnContext extends AbstractGameContext {
-    List<PlayerSelectableContexts> accessibleContexts = new ArrayList<>();
+    private Boolean skipTurn;
 
     /**
      * Constructor called only at the game setup
@@ -31,89 +46,55 @@ public class TurnContext extends AbstractGameContext {
      * NOTE: OncePerRound observers are excluded
      */
     public void initContext() {
-        this.accessibleContexts.clear();
-        for(PlayerSelectableContexts p : PlayerSelectableContexts.values())
-            this.accessibleContexts.add(p);
-
-        /* To make the player skip his turn */
+        this.skipTurn = false;
         setChanged();
         notifyObservers(this); //for SkipTurn observer
 
+        if(this.skipTurn) {
         /*List<AbstractEffect> observers = this.getCurrentPlayer().getObservers();
         for (AbstractEffect observer : observers)
             if (!observer.isOncePerRound())
                 observer.subscribeObserverToContext(contexts);
             notifyObservers(player); //for PerRoundLeaderReward*/
-        interactWithPlayer();
+
+            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();
+            interactWithPlayer();
+        }
+
+        endContext();
     }
 
     @Override
-    public void interactWithPlayer() {
-        Boolean correctRequest = false;
+    public Void interactWithPlayer(Object... args) {
+        playerAction(Optional.empty());
+        return null;
+    }
 
-        setChanged();
-        notifyObservers();
+    private void playerAction(Optional<Exception> error) {
+        PlayerAction action = this.gameManager.getPlayerNetworkController(this.gameManager.getCurrentPlayer()).turnMainAction(error);
+        try {
+            Validator.checkPlayerActionValidity(action);
 
-        /* Provide to the players all the info for the contexts of the game he can enter freely */
-        PlayerSelectableContexts selectedContext = null;
-
-        Player currentPlayer = this.gameManager.getCurrentPlayer();
-
-        this.gameManager.getPlayerNetworkController(currentPlayer).updateTowers(this.gameManager.getTowers());
-        //this.gameManager.getPlayerNetworkController(currentPlayer).updateMarket(this.gameManager.getMarket());
-
-        Pair<String, LeaderCardsAction> lc = this.gameManager.getPlayerNetworkController(currentPlayer).leaderCardSelection(Configurator.getLeaderCards(2));
-
-        //this.gameManager.getPlayerNetworkController(currentPlayer).updateMarket(this.gameManager.getMarket());
-        //this.gameManager.getPlayerNetworkController(currentPlayer).updateProductionArea(this.gameManager.getProductionArea());
-        //this.gameManager.getPlayerNetworkController(currentPlayer).updateHarvestArea(this.gameManager.getHarvestArea());
+            AbstractGameContext actionContext = getContextByType(action.getContext());
+            actionContext.interactWithPlayer();
+        } catch (IncorrectInputException | OccupiedSlotException | MarketBanException | NotEnoughResourcesException ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            playerAction(Optional.of(ex));
+        }
     }
 
     /**
-     * Deactivates all bonus observers of the player that has played
+     * Deactivates all bonus observers of the player that finished the turn
      */
     public void endContext() {
-        //TODO: unsubscribe player observer at the end of the turn
-        //gameManager.getContexts().forEach((c) -> c.deleteObservers());
-        gameManager.nextTurn();
+        for (ContextType ct : ContextType.values())
+            if(this.getContextByType(ct) != null)
+                this.getContextByType(ct).deleteObservers();
 
+        this.gameManager.nextTurn();
     }
 
-
-
-
-    public void contextSelection(Player player) {
-
-        /*Integer selected = this.gameManager.getActivePlayerNetworkController().contextSelection(accessibleContexts);
-
-        try {
-            Validator.checkValidity(selected.toString(), accessibleContexts);
-            PlayerSelectableContexts selectedContext = accessibleContexts.get(selected);
-            getContextByType(selectedContext).interactWithPlayer();
-        }
-        catch(IncorrectInputException ide){
-            //If input mismatch expected informations... the player is able to try again
-            contextSelection(player);
-         }*/
-    }
-
-
-
-    /*Testing purpose main*/
-    public static void main (String[] args) {
-        ArrayList<Player> players = new ArrayList<>();
-        Player player = new Player("cicoio", PawnColor.RED, new PersonalBoard());
-        Configurator.loadConfigs();
-        ArrayList<String> playersName = new ArrayList<>();
-        playersName.add("pippo");
-        GameManager gameManager = new GameManager(new GameRoom(),playersName);
-        gameManager.setupGameContexts();
-        AbstractGameContext context = gameManager.getContextByType(PlayerSelectableContexts.HARVEST_AREA_CONTEXT);
-        System.out.println(context.getType().toString());
-        /*gameManager.setupGameContexts();
-        TurnContext turnContext = (TurnContext) gameManager.getContextByType(ContextType.TURN_CONTEXT);
-        turnContext.setGameManager(gameManager);
-        turnContext.trial(player);*/
-
+    public void skipTurn() {
+        this.skipTurn = true;
     }
 }

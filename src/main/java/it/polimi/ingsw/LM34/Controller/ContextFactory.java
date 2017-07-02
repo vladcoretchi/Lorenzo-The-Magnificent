@@ -6,6 +6,10 @@ import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.EndGameContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
+import it.polimi.ingsw.LM34.Model.Resources;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A Factory pattern that creates the contexts at the beginning of the game
@@ -14,7 +18,7 @@ public final class ContextFactory {
 
     private ContextFactory() {}
 
-    public  static AbstractGameContext getContext(ContextType contextType) throws NoSuchContextException {
+    public static AbstractGameContext getContext(ContextType contextType) throws NoSuchContextException {
         switch (contextType) {
             case LEADER_CARDS_CONTEXT:
                 return new LeaderCardsContext();

@@ -1,101 +1,123 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NoResourcesException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
+import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlot;
+import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Utils.Configurator;
+import it.polimi.ingsw.LM34.Model.Resources;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import java.util.logging.Level;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.*;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
-import java.util.ArrayList;
-import java.util.List;
+public class TowersContext extends AbstractGameContext {
+    //TODO: handle Cesare Borgia
 
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
-
-public class TowersContext extends AbstractGameContext implements  DiceDependentContextsInterface {
-    //TODO: use a temporary dice value instead of modifying the real dice value stored in the game manager
-    //TODO: handle Filippo Brunelleschi, Cesare Borgia
-    private Boolean hasPenalty; //"predicatore"
-    private List<FamilyMember> familyMembers;
-    private Integer tempValue;
-    private List<Tower> towers;
-
+    private Boolean slotRewardPenalty;
+    private Boolean noOccupiedTowerTax;
+    private Integer slotDiceValue;
+    private DevelopmentCardColor towerColor;
 
     public TowersContext() {
-        contextType = ContextType.TOWERS_CONTEXT;
-        towers = Configurator.getTowers();
+        this.contextType = ContextType.TOWERS_CONTEXT;
     }
 
-
     @Override
-    public void interactWithPlayer() {
-        familyMembers = gameManager.getCurrentPlayer().getFamilyMembers();
+    public Void interactWithPlayer(Object... args) throws IncorrectInputException, MarketBanException, OccupiedSlotException, NotEnoughResourcesException {
+        Pair<Integer, Integer> slotSelection;
+        try {
+            Pair<?, ?> slotArg = (Pair<?, ?>) args[0];
+            slotSelection = new ImmutablePair<>((Integer) slotArg.getLeft(), (Integer) slotArg.getRight());
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            throw new IncorrectInputException();
+        }
 
-        FamilyMember familyMemberChoosed;
-        getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT).interactWithPlayer();
-        //TODO: player chooses tower...
-        //TODO: TOWER OF TERRITORY CARDS
-        Tower towerSelected = towers.get(DevelopmentCardColor.GREEN.ordinal());
+        Tower selectedTower = this.gameManager.getTowers().get(slotSelection.getLeft());
+        TowerSlot slot = selectedTower.getTowerSlots().get(slotSelection.getRight());
 
-        //if player choose a territory card... let's calculate if he has enough military points, or
-        //skip this step if cesare borgia is activated
-        //TODO: card choosed
-        notifyObservers("cesare borgia, activate yourself");
+        if(!slot.isEmpty())
+            throw new OccupiedSlotException();
+
+        this.slotDiceValue = slot.getDiceValue();
+        this.towerColor = selectedTower.getCardColor();
+        this.slotRewardPenalty = false;
+        this.noOccupiedTowerTax = false;
+
         setChanged();
-        //notifyObservers(familyMemberChoosed);
-        //TODO
-        /*
-        buyCard(); tower slot selected*/
-        //card.getInstantBonus().applyEffect();
-        //card.getPermanentBonus().applyEffect();
-        Integer levelSelected = 0; //TODO
-        towerSelected.getTowerSlots().get(levelSelected).getResourcesReward().applyEffect(this);
+        notifyObservers(this);
 
-        finalizeRewardAttribution();
+        AbstractDevelopmentCard card = slot.getCardStored();
 
-    }
+        Resources requirements = new Resources(card.getResourcesRequired().getResourceByType(COINS),
+                card.getResourcesRequired().getResourceByType(WOODS),
+                card.getResourcesRequired().getResourceByType(STONES),
+                card.getResourcesRequired().getResourceByType(SERVANTS),
+                card.getResourcesRequired().getResourceByType(MILITARY_POINTS),
+                card.getResourcesRequired().getResourceByType(FAITH_POINTS),
+                card.getResourcesRequired().getResourceByType(VICTORY_POINTS));
 
-    public void setHasPenalty(Boolean hasPenalty) {
-        this.hasPenalty = hasPenalty; //set by "predicatore"
-    }
+        if(!this.noOccupiedTowerTax)
+            requirements.sumResources(new Resources(3,0,0,0)); //TODO: add to Configurator
 
+        if(!this.gameManager.getCurrentPlayer().hasEnoughResources(requirements))
+            throw new NotEnoughResourcesException();
 
+        FamilyMember selectedFamilyMember = (FamilyMember) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT).interactWithPlayer(this.slotDiceValue, false, this.contextType);
 
-    @Override
-    public void sweep() {
-        towers.forEach(tower -> tower.sweep());
-    }
+        try {
+            slot.insertFamilyMember(selectedFamilyMember);
+            selectedFamilyMember.placePawn();
 
-    //TODO: complete this, Vlad ;D
-    public void buyCard(Player player, TowerSlot slot) throws InvalidCardType, NoResourcesException {
-        player.subResources(slot.getCardStored().getResourcesRequired());
-        /*setChanged();
-        notifyObservers();*/
-        player.getPersonalBoard().addCard(slot.getCardStored());
-    }
+            this.gameManager.getCurrentPlayer().getPersonalBoard().addCard(card);
+            slot.sweepTowerSlot();
 
+            this.gameManager.getCurrentPlayer().subResources(requirements);
 
-  @Override
-    public ArrayList<ActionSlot> getActionSlots() {
+            card.getInstantBonus().forEach(effect -> effect.applyEffect(this));
+            card.getPermanentBonus().applyEffect(this);
+
+            if(!this.slotRewardPenalty)
+                slot.getResourcesReward().applyEffect(this);
+        } catch(InvalidCardType | OccupiedSlotException ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+        }
+
         return null;
     }
 
-    @Override
-    public void finalizeRewardAttribution(Player player) {
-        //TODO
+    public DevelopmentCardColor getTowerColor() {
+        return this.towerColor;
     }
 
-
-    public void finalizeRewardAttribution() {
-        ((ResourceIncomeContext)gameManager.getContextByType(RESOURCE_INCOME_CONTEXT)).finalizeIncome();
+    public Integer getSlotDiceValue() {
+        return this.slotDiceValue;
     }
 
+    public void changeSlotDiceValue(Integer value, Boolean relative) {
+        this.slotDiceValue = relative ? this.slotDiceValue + value : value;
+    }
 
+    public void setSlotRewardPenalty() {
+        this.slotRewardPenalty = true;
+    }
+
+    public void avoidOccupiedTowerTax() {
+        this.noOccupiedTowerTax = true;
+    }
 }

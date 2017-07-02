@@ -2,6 +2,10 @@ package it.polimi.ingsw.LM34.Utils;
 
 
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Network.GameRoom;
+import it.polimi.ingsw.LM34.Network.PlayerAction;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -58,6 +62,25 @@ public final class Validator {
     /*Validate Number type inputs*/
     public static final void checkValidity(Integer input, Integer max) throws IncorrectInputException {
         if(input < 0 || input > max)
+            throw new IncorrectInputException();
+    }
+
+    /*Validate Number type inputs*/
+    public static final void checkValidity(Integer input, Integer min, Integer max) throws IncorrectInputException {
+        if(input < min || input > max)
+            throw new IncorrectInputException();
+    }
+
+    public static void checkLeaderValidity(List<LeaderCard> leaderCards, String choice) throws IncorrectInputException {
+        for(LeaderCard l : leaderCards)
+            if(l.getName().equalsIgnoreCase(choice))
+                return;
+
+        throw new IncorrectInputException();
+    }
+
+    public static void checkPlayerActionValidity(PlayerAction action) throws IncorrectInputException {
+        if (action == null || action.getContext() == null || action.getAction() == null)
             throw new IncorrectInputException();
     }
 }

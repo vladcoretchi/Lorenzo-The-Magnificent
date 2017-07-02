@@ -1,16 +1,13 @@
 package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
-import it.polimi.ingsw.LM34.Model.FamilyMember;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
 
 /**
@@ -57,21 +54,12 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
 
     @Override
     public void update(Observable o, Object arg) {
-        List<FamilyMember> familyMembers = (ArrayList<FamilyMember>) arg;
-        //increase the values of the family members in this context
-        familyMembers.forEach(member -> {
-            for(DiceColor c : diceColor)
-                if (member.getDiceColorAssociated() == c)
-                    member.setValue(this.value + (this.relative ? member.getValue() : 0));
-        });
+        FamilyMemberSelectionContext callerContext = (FamilyMemberSelectionContext) arg;
+        callerContext.changeFamilyMemberValue(this.value, this.relative);
     }
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
-        callerContext.getContextByType(MARKET_AREA_CONTEXT).addObserver(this);
-        callerContext.getContextByType(TOWERS_CONTEXT).addObserver(this);
-        callerContext.getContextByType(PRODUCTION_AREA_CONTEXT).addObserver(this);
-        callerContext.getContextByType(HARVEST_AREA_CONTEXT).addObserver(this);
-        callerContext.getContextByType(COUNCIL_PALACE_CONTEXT).addObserver(this);
+        callerContext.getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT).addObserver(this);
     }
 }

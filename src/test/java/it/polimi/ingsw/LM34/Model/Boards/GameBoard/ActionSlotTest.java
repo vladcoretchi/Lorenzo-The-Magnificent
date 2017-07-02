@@ -34,11 +34,9 @@ public class ActionSlotTest {
 
         try {
             actionSlot.insertFamilyMember(familyMember);
-            assertTrue(actionSlot.getFamilyMember() == null);
+            assertTrue(actionSlot.getFamilyMembers().get(0) == null);
         }
-
         catch (OccupiedSlotException ex) {
-
             fail("insertFamilyMember, when received a null familyMember, should not throw exception");
         }
 

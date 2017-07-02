@@ -8,27 +8,23 @@ import java.util.Observer;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TURN_CONTEXT;
 
-public class SkipFirstTurn extends AbstractEffect implements Observer {
+public class SkipFirstTurn extends AbstractOncePerRoundEffect implements Observer {
 
     public SkipFirstTurn() {}
 
     @Override
     public void update(Observable o, Object arg) {
-        if(arg instanceof TurnContext) {
+        if(!this.used) {
             TurnContext turnContext = (TurnContext) arg;
-            turnContext.endContext();
-            turnContext.deleteObserver(this);
+            turnContext.skipTurn();
+            this.used = true;
         }
-
-        /**
-         * Unregister this observer because it is applicable once per round; it will be reactivated next round in the phase context
-         */
-        //Utilities.getContextByType(contexts, ContextType.TURN_CONTEXT).deleteObserver(this);
     }
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
-        callerContext.getContextByType(TURN_CONTEXT).addObserver(this);
+        if(!this.used)
+            callerContext.getContextByType(TURN_CONTEXT).addObserver(this);
     }
 
     @Override

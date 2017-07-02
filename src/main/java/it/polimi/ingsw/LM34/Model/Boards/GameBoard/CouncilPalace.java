@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 
 import java.io.Serializable;
@@ -8,31 +9,30 @@ import java.util.List;
 
 public class CouncilPalace implements Serializable {
     ActionSlot palaceSlot;
-    private List<FamilyMember> occupyingPawns; //FamilyMembers in the palace
-    //The CouncilPalace is a special case among the board classes...
-    // In fact, it does not need ActionSlots from a design point of view
-    //which makes its implementation more straightforward
 
     public CouncilPalace(ActionSlot palaceSlot) {
-        occupyingPawns = new ArrayList<FamilyMember>();
         this.palaceSlot = palaceSlot;
     }
 
     public void sweepPalace() {
-        occupyingPawns.clear();
-    }
-
-    //return the order of the players in the next turn
-    public List<FamilyMember> getOccupyingPawns() {
-        return this.occupyingPawns;
+        this.palaceSlot.sweep();
     }
 
     public ActionSlot getActionSlot() {
         return palaceSlot;
     }
 
-    public void addPawn(FamilyMember fm) {
-        occupyingPawns.add(fm);
+    public void addFamilyMember(FamilyMember fm) {
+        this.palaceSlot.insertFamilyMemberIgnoringSlotLimit(fm);
+    }
+
+    public List<PawnColor> getPlayersOrder() {
+        List<PawnColor> returnList = new ArrayList<>();
+        this.palaceSlot.getFamilyMembers().forEach((fm) -> {
+            if(!returnList.contains(fm.getFamilyMemberColor()))
+                returnList.add(PawnColor.valueOf(fm.getFamilyMemberColor().name()));
+        });
+        return  returnList;
     }
 }
 

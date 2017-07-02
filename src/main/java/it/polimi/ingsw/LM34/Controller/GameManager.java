@@ -6,11 +6,13 @@ import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentCo
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ProductionAreaContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.ChurchReportContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.TurnContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.EndGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
@@ -47,6 +49,7 @@ public class GameManager {
     /*GAMEBOARD COMPONENTS*/
     private Market market;
     private List<Tower> towers;
+    private CouncilPalace councilPalace;
     private WorkingArea harvestArea;
     private WorkingArea productionArea;
 
@@ -101,9 +104,9 @@ public class GameManager {
     }
 
     public void drawExcommunicationCards() {
-        List<ExcommunicationCard> exCards = getExcommunicationCards(excommunicationCards);
+        /*List<ExcommunicationCard> exCards = getExcommunicationCards(excommunicationCards);
         ChurchReportContext churchContext = (ChurchReportContext) getContextByType(CHURCH_REPORT_CONTEXT);
-        exCards.forEach(churchContext::addExcommunicationCard);
+        exCards.forEach(churchContext::addExcommunicationCard);*/
     }
 
     public void startGame() {
@@ -115,10 +118,11 @@ public class GameManager {
      * Sets up the game spaces before game begins
      */
     public void setUpGameSpaces() {
-        this.market = Configurator.getMarket();//this.players.size());
-        this.towers = Configurator.getTowers();//this.players.size());
-        this.harvestArea = Configurator.getHarvestArea();//this.players.size());
-        this.productionArea = Configurator.getProductionArea();//this.players.size());
+        this.market = Configurator.getMarket();
+        this.towers = Configurator.getTowers();
+        this.councilPalace = Configurator.getPalace();
+        this.harvestArea = Configurator.getHarvestArea();
+        this.productionArea = Configurator.getProductionArea();
     }
 
     /**
@@ -164,7 +168,7 @@ public class GameManager {
             ChurchReportContext churchContext = (ChurchReportContext) getContextByType(CHURCH_REPORT_CONTEXT);
 
             /* ChurchReportContext interact with a player at a time, based on turn order */
-            players.forEach(player -> churchContext.interactWithPlayer(player));
+            players.forEach(churchContext::interactWithPlayer);
 
             nextPeriod();
         }
@@ -177,7 +181,7 @@ public class GameManager {
             turn = 0;
         } else {
             turn++;
-            turnContext.initContext();
+            ((TurnContext) getContextByType(TURN_CONTEXT)).initContext();
         }
     }
 
@@ -214,13 +218,11 @@ public class GameManager {
      * Free all the action slots from the pawns and card stored during the previous round
      */
     public void sweepActionSlots() {
-        towers.forEach(Tower::sweep);
-
-        //TODO: transfer areas variable from game manager to related contexts...
-        ((MarketAreaContext) getContextByType(ContextType.MARKET_AREA_CONTEXT)).sweep();
-        ((CouncilPalaceContext) getContextByType(ContextType.COUNCIL_PALACE_CONTEXT)).sweep();
-        ((ProductionAreaContext) getContextByType(ContextType.PRODUCTION_AREA_CONTEXT)).sweep();
-        ((HarvestAreaContext) getContextByType(ContextType.HARVEST_AREA_CONTEXT)).sweep();
+        this.towers.forEach(Tower::sweep);
+        //((CouncilPalaceContext) getContextByType(ContextType.COUNCIL_PALACE_CONTEXT)).getCouncilPalace().sweep();
+        this.market.sweep();
+        this.productionArea.sweep();
+        this.harvestArea.sweep();
     }
 
     public void rollDices() {
@@ -253,7 +255,7 @@ public class GameManager {
                 LOGGER.log(Level.SEVERE, "Cannot set one of the contexts");
             }
 
-
+        ((UseCouncilPrivilegeContext) contexts.get(USE_COUNCIL_PRIVILEGE_CONTEXT)).setRewards(Configurator.getCouncilPrivilegeRewards());
         contexts.forEach((type, context) -> context.setGameManager(this));
     }
 
@@ -269,7 +271,7 @@ public class GameManager {
     public List<Player>  setNewTurnOrder() {
         List<Player> oldPlayersOrder = players;
         List<Player> newPlayersOrder = new ArrayList<>();
-        List<FamilyMember> membersInOrder = palaceContext.getCouncilPalace().getOccupyingPawns();
+        List<FamilyMember> membersInOrder = this.councilPalace.getActionSlot().getFamilyMembers();
 
         /*First remove all multiple pawns associated to the same player*/
         /*These inner loops do not add temporal complexity because pawns' count is negligible*/
@@ -385,7 +387,15 @@ public class GameManager {
     }
 
     public WorkingArea getHarvestArea() {
-        return  this.harvestArea;
+        return this.harvestArea;
+    }
+
+    public CouncilPalace getCouncilPalace() {
+        return this.councilPalace;
+    }
+
+    public List<ExcommunicationCard> getExcommunicationCards() {
+        return this.excommunicationCards;
     }
 }
 

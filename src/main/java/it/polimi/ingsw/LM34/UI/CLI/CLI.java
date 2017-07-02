@@ -330,7 +330,7 @@ public class CLI implements UIInterface {
     public void councilPalaceSelection() {
         String input;
         /***SHOW COUNCIL PALACE***/
-        printCouncilPalace(palace.getActionSlot(), palace.getOccupyingPawns());
+        printCouncilPalace(palace.getActionSlot(), palace.getActionSlot().getFamilyMembers());
 
         printToConsole.println("\nDo you want to place one of your pawns in the Council Palace?");
         input = readUserInput.nextLine();
@@ -359,8 +359,8 @@ public class CLI implements UIInterface {
         slots.forEach((ActionSlot as) -> {
             diceValues.add(as.getDiceValue());
             /***PAWN COLOR INSERTED IN SLOT***/
-            if(as.getFamilyMember() != null)
-                pawnsInserted.add(as.getFamilyMember());
+            if(as.getFamilyMembers() != null && as.getFamilyMembers().size() > 0)
+                pawnsInserted.add(as.getFamilyMembers().get(0)); //TODO: handle multiple family members
             Map res = new HashMap<>();
             Resources resources = as.getResourcesReward().getResources();
             resources.getResources().forEach((ResourceType rt, Integer val) -> res.put(rt.toString(), val));
@@ -615,8 +615,8 @@ public class CLI implements UIInterface {
                 /***DICE VALUE***/
                 diceValues.add(as.getDiceValue());
                 /***PAWN COLOR INSERTED IN SLOT***/
-                if(as.getFamilyMember() != null)
-                    pawnsInserted.add(as.getFamilyMember());
+                if(as.getFamilyMembers() != null && as.getFamilyMembers().size() > 0)
+                    pawnsInserted.add(as.getFamilyMembers().get(0)); //TODO: handle multiple family members
                 if(as.getCardStored() != null)
                     cardNames.add(as.getCardStored().getName());
                 Resources resources = as.getResourcesReward().getResources();

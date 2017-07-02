@@ -1,51 +1,65 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
+import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Utils.Validator;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.SERVANTS;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
-/*Called by DiceDependentContext classes*/
 public class FamilyMemberSelectionContext extends AbstractGameContext {
-    private Integer tempValue = 0; //if we not initialized tempValue to 0, when we will try to run increaseTempValue we will get NullPointerException
+    private Integer familyMemberValue;
+    private ContextType currentActionContext;
+
+    public FamilyMemberSelectionContext() {
+        this.contextType = FAMILY_MEMBER_SELECTION_CONTEXT;
+    }
 
     @Override
-    public void interactWithPlayer() {
-        /*VOID*/
-    }
-
-
-    public FamilyMember familyMemberSelection(List<FamilyMember> pawnsCloned) {
-        FamilyMember selectedPawn = null;
-        List<FamilyMember> playerPawns = new ArrayList();
-        Integer selected = this.gameManager.getActivePlayerNetworkController().familyMemberSelection(pawnsCloned);
-
+    public FamilyMember interactWithPlayer(Object... args) throws IncorrectInputException, MarketBanException, OccupiedSlotException, NotEnoughResourcesException {
+        Integer minValueRequested;
+        Boolean servantsRequestAnyway;
         try {
-            Validator.checkValidity(selected.toString(),playerPawns);
-            selectedPawn = playerPawns.get(selected);
-            tempValue = selectedPawn.getValue();
-
-                //gameManager.getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT).interactWithPlayer(player);
-
+            minValueRequested = (Integer) args[0];
+            servantsRequestAnyway = (Boolean) args[1];
+            this.currentActionContext = (ContextType) args[2];
+        } catch(Exception ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            throw new IncorrectInputException();
         }
-        /*If input mismatches expected informations... the player is able to try again*/
-        catch(IncorrectInputException ide){
-            LOGGER.log(Level.INFO, "Invalid input");
-            familyMemberSelection(pawnsCloned);
-        }
-      //TODO: handle if player has not enough dice value...
-        return selectedPawn;
+
+        List<FamilyMember> familyMembers = this.gameManager.getCurrentPlayer().getFamilyMembers();
+        Integer selectedFamilyMember = this.gameManager.getActivePlayerNetworkController().familyMemberSelection(familyMembers);
+        Validator.checkValidity(selectedFamilyMember, familyMembers);
+
+        FamilyMember familyMember = familyMembers.get(selectedFamilyMember);
+        this.familyMemberValue = familyMember.getValue();
+
+        setChanged();
+        notifyObservers(this);
+
+        if(this.gameManager.getCurrentPlayer().getResources().getResourceByType(SERVANTS) + this.familyMemberValue < minValueRequested)
+            throw new IncorrectInputException();
+
+        if(servantsRequestAnyway || this.familyMemberValue < minValueRequested)
+            familyMember.setValue((Integer) getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT).
+                    interactWithPlayer(minValueRequested - this.familyMemberValue) + this.familyMemberValue);
+
+        return familyMember;
     }
 
-
-    public void increaseTempValue(Integer servantsConsumed) {
-        tempValue += servantsConsumed;
+    public ContextType getCurrentActionContext() {
+        return this.currentActionContext;
     }
 
+    public void changeFamilyMemberValue(Integer value, Boolean relative) {
+        this.familyMemberValue = relative ? this.familyMemberValue + value : value;
+    }
 }

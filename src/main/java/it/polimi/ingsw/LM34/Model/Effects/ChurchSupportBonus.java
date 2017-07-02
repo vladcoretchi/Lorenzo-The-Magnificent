@@ -1,14 +1,19 @@
 package it.polimi.ingsw.LM34.Model.Effects;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.CHURCH_REPORT_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 /**
  * This class represents Sisto IV peculiar effect and registers itself to ChurchReportContext
@@ -21,15 +26,19 @@ public class ChurchSupportBonus extends AbstractEffect implements Observer {
     }
 
     public ResourcesBonus getResources() {
-        return resources;
+        return this.resources;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        AbstractGameContext callerContext = (AbstractGameContext) o;
-        Resources reward = new Resources(0,0,5);
-        Player player = (Player) arg;
-        player.getResources().sumResources(reward);
+        AbstractGameContext callerContext = (AbstractGameContext) arg;
+        callerContext.getCurrentPlayer().getResources().sumResources(this.resources.getResources());
+        if(this.resources.getCouncilPrivilege() > 0)
+            try {
+                ((UseCouncilPrivilegeContext) callerContext.getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(this.resources.getCouncilPrivilege());
+            } catch(IncorrectInputException ex) {
+                LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            }
     }
 
     @Override

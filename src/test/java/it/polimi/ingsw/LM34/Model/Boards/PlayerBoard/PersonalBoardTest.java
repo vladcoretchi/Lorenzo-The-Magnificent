@@ -2,18 +2,11 @@ package it.polimi.ingsw.LM34.Model.Boards.PlayerBoard;
 
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
-import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
-import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Resources;
-import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.Map;
 
 public class PersonalBoardTest {
 
@@ -23,9 +16,9 @@ public class PersonalBoardTest {
     @Test
     public void addCard() {
 
-        cardResourcesRequired.modifyResourceByType(ResourceType.COINS, 3);
-        cardResourcesRequired.modifyResourceByType(ResourceType.WOODS, 1);
-        cardResourcesRequired.modifyResourceByType(ResourceType.STONES, 3);
+        cardResourcesRequired.sumResourceType(ResourceType.COINS, 3);
+        cardResourcesRequired.sumResourceType(ResourceType.WOODS, 1);
+        cardResourcesRequired.sumResourceType(ResourceType.STONES, 3);
 
         PersonalBoard personalBoard = new PersonalBoard();
         try {

@@ -551,20 +551,19 @@ public final class Configurator {
     }
 
     private static void setupProductionArea(JSONArray productionSlotsJson) {
-        ActionSlot singleSlot = getActionSlotFromJson(productionSlotsJson.optJSONObject(0));
-        List<ActionSlot> advancedSlots = new ArrayList<>();
-        advancedSlots.add(getActionSlotFromJson(productionSlotsJson.optJSONObject(1)));
+        List<ActionSlot> productionSlots = new ArrayList<>();
+        for( int i = 0; i < productionSlotsJson.length(); i++)
+            productionSlots.add(getActionSlotFromJson(productionSlotsJson.optJSONObject(i)));
 
-        productionArea = new WorkingArea(singleSlot, advancedSlots);
+        productionArea = new WorkingArea(productionSlots);
     }
 
     private static void setupHarvestArea(JSONArray harvestSlotsJson) {
-        ActionSlot singleSlot = getActionSlotFromJson(harvestSlotsJson.optJSONObject(0));
-        List<ActionSlot> advancedSlots = new ArrayList<>();
-        for( int i = 1; i < harvestSlotsJson.length(); i++)
-            advancedSlots.add(getActionSlotFromJson(harvestSlotsJson.optJSONObject(i)));
+        List<ActionSlot> harvestSlots = new ArrayList<>();
+        for( int i = 0; i < harvestSlotsJson.length(); i++)
+            harvestSlots.add(getActionSlotFromJson(harvestSlotsJson.optJSONObject(i)));
 
-        harvestArea = new WorkingArea(singleSlot, advancedSlots);
+        harvestArea = new WorkingArea(harvestSlots);
     }
 
     private static void setupCouncilPalace(JSONObject councilPalaceJson) {

@@ -1,18 +1,25 @@
 package it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractOncePerRoundEffect;
 import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.WorkingAreaValueEffect;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TURN_CONTEXT;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 //TODO: remember to activate these rewards in the controller at the beginning of the phase of each player
-public class PerRoundLeaderReward extends AbstractEffect implements Observer {
+public class PerRoundLeaderReward extends AbstractOncePerRoundEffect implements Observer {
     private Resources resources;
     private Integer councilPrivilege;
     private WorkingAreaValueEffect workingAreaValueEffect; //"francesco sforza, leonardo da vinci"
@@ -24,17 +31,17 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
     }
 
     public PerRoundLeaderReward(WorkingAreaValueEffect valueEffect) {
-        this.resources = new Resources();
-        this.councilPrivilege = 0;
+        this.resources = null;
+        this.councilPrivilege = null;
         this.workingAreaValueEffect = valueEffect;
     }
 
-    public Resources getResources() {
-        return this.resources;
+    public Optional<Resources> getResources() {
+        return Optional.ofNullable(this.resources);
     }
 
-    public Integer getCouncilPrivilege() {
-        return this.councilPrivilege;
+    public Optional<Integer> getCouncilPrivilege() {
+        return Optional.ofNullable(this.councilPrivilege);
     }
 
     public Optional<WorkingAreaValueEffect> getWorkingAreaValueEffect() {
@@ -43,23 +50,35 @@ public class PerRoundLeaderReward extends AbstractEffect implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("Sono PerRoundLeaderReward e sono stato notificato");
+        AbstractGameContext callerContext = (AbstractGameContext) arg;
 
-          /*  ((ResourceIncomeContext)gameManager.getContextByType(RESOURCE_INCOME_CONTEXT)).handleResources(player, resources);
-            player.addCouncilPrivileges(councilPrivilege);
-        }*/
+        if(this.resources != null)
+            try {
+                ((ResourceIncomeContext) callerContext.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT)).interactWithPlayer(this.resources);
+            } catch(IncorrectInputException ex) {
+                LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            }
+
+        if(this.councilPrivilege != null && this.councilPrivilege > 0)
+            try {
+                ((UseCouncilPrivilegeContext) callerContext.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(councilPrivilege);
+            } catch(IncorrectInputException ex) {
+                LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            }
+
+        if(this.workingAreaValueEffect != null)
+            this.workingAreaValueEffect.applyEffect(callerContext);
+
+        this.used = true;
     }
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
         callerContext.getContextByType(TURN_CONTEXT).addObserver(this);
-
-        System.out.println("mi sono iscritto al contesto");
-        /*VOID*/
     }
 
     @Override
     public boolean isOncePerRound() {
-        return true; //all these leader bonuses are activable once per round
+        return true;
     }
 }

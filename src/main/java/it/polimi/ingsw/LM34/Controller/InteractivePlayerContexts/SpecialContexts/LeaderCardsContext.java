@@ -1,13 +1,12 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Player;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_CARDS_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
 
 /**
  * In this context the player can discard a leader in favor of a privilege or activate his ability
@@ -18,11 +17,18 @@ public class LeaderCardsContext extends AbstractGameContext {
     private String leaderToActivate; //TODO
 
 public LeaderCardsContext() {
-    contextType = LEADER_CARDS_CONTEXT;
+    this.contextType = LEADER_CARDS_CONTEXT;
 }
 
     @Override
-    public void interactWithPlayer() {
+    public Void interactWithPlayer(Object... args) throws IncorrectInputException {
+
+
+
+
+
+
+
         totalLeadersDiscarded = 0; //default value at the start of this context
         /*Activate leader cards*/
 
@@ -41,6 +47,8 @@ public LeaderCardsContext() {
         //for(Integer i = 0; i<totalLeadersDiscarded; i++)
            // getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT).interactWithPlayer(player);
         //TODO: let the player activate a player, verify if requirements are met
+
+        return null;
     }
 
     /**

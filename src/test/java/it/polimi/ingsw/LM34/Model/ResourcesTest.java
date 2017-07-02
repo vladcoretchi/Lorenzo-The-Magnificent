@@ -16,19 +16,19 @@ public class ResourcesTest {
     public void ModifyByType() {
         Resources resources = new Resources(1, 1, 1, 1, 1, 1, 1);
 
-        resources.modifyResourceByType(ResourceType.COINS, 1);
+        resources.sumResourceType(ResourceType.COINS, 1);
         assertEquals("Coins: expected 2", resources.getResourceByType(ResourceType.COINS).intValue(), 2);
-        resources.modifyResourceByType(ResourceType.WOODS, 2);
+        resources.sumResourceType(ResourceType.WOODS, 2);
         assertEquals("Woods: expected 3", resources.getResourceByType(ResourceType.WOODS).intValue(), 3);
-        resources.modifyResourceByType(ResourceType.STONES, 3);
+        resources.sumResourceType(ResourceType.STONES, 3);
         assertEquals("Stones: expected 4", resources.getResourceByType(ResourceType.STONES).intValue(), 4);
-        resources.modifyResourceByType(ResourceType.SERVANTS, -3);
+        resources.sumResourceType(ResourceType.SERVANTS, -3);
         assertEquals("Servants: expected -2", resources.getResourceByType(ResourceType.SERVANTS).intValue(), -2);
-        resources.modifyResourceByType(ResourceType.MILITARY_POINTS, 5);
+        resources.sumResourceType(ResourceType.MILITARY_POINTS, 5);
         assertEquals("MilitaryPoints: expected 6", resources.getResourceByType(ResourceType.MILITARY_POINTS).intValue(), 6);
-        resources.modifyResourceByType(ResourceType.FAITH_POINTS, -6);
+        resources.sumResourceType(ResourceType.FAITH_POINTS, -6);
         assertEquals("FaithPoints: expected -5", resources.getResourceByType(ResourceType.FAITH_POINTS).intValue(), -5);
-        resources.modifyResourceByType(ResourceType.VICTORY_POINTS, 15);
+        resources.sumResourceType(ResourceType.VICTORY_POINTS, 15);
         assertEquals("VictoryPoints: expected 16", resources.getResourceByType(ResourceType.VICTORY_POINTS).intValue(), 16);
     }
 
@@ -38,7 +38,7 @@ public class ResourcesTest {
 
         exception.expect(NullPointerException.class);
         exception.reportMissingExceptionWithMessage("NullPointerException was not thrown");
-        resources.modifyResourceByType(null, 2);
+        resources.sumResourceType(null, 2);
     }
 
     @Test
@@ -47,7 +47,7 @@ public class ResourcesTest {
 
         exception.expect(NullPointerException.class);
         exception.reportMissingExceptionWithMessage("NullPointerException was not thrown");
-        resources.modifyResourceByType(ResourceType.COINS, null);
+        resources.sumResourceType(ResourceType.COINS, null);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class ResourcesTest {
 
         exception.expect(NullPointerException.class);
         exception.reportMissingExceptionWithMessage("NullPointerException was not thrown");
-        resources.modifyResourceByType(null, null);
+        resources.sumResourceType(null, null);
     }
 
     @Test

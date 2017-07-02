@@ -2,6 +2,10 @@ package it.polimi.ingsw.LM34.Controller;
 
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
+import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
+import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Player;
 
 import java.util.List;
@@ -13,21 +17,14 @@ public abstract class AbstractGameContext extends Observable  {
     /* Reference Game manager */
     protected GameManager gameManager;
 
-    /* All observers subscribed to the context */
-    protected List<AbstractGameContext> contextsToSubscribeTo;
-
     /**
      * method used to send requests to the client, receive the selected actions and do stuff
      */
-    public abstract void interactWithPlayer();
-
-    /**
-     * This list is asked by contexts in order to know to which context subscribe the effects once they are activated
-     */
-    public List<AbstractGameContext> getContextsToSubscribeTo() {
-        return this.contextsToSubscribeTo;
-    }
-
+    public abstract Object interactWithPlayer(Object... args) throws
+            IncorrectInputException,
+            MarketBanException,
+            OccupiedSlotException,
+            NotEnoughResourcesException;
 
     /**
      * @return Context's type
@@ -36,22 +33,21 @@ public abstract class AbstractGameContext extends Observable  {
         return this.contextType;
     }
 
-
     /**
      * Kind of bridge between contexts and effects, still valid widely
      * @param contextType
      * @return the reference to the context for which effects are interested in
      */
     public  AbstractGameContext getContextByType(ContextType contextType) {
-        return gameManager.getContextByType(contextType);
+        return this.gameManager.getContextByType(contextType);
     }
 
     public  AbstractGameContext getContextByType(PlayerSelectableContexts contextType) {
-        return gameManager.getContextByType(contextType);
+        return this.gameManager.getContextByType(contextType);
     }
 
     public Player getCurrentPlayer() {
-        return gameManager.getCurrentPlayer();
+        return this.gameManager.getCurrentPlayer();
     }
 
     public final void setGameManager(GameManager gameManager) {

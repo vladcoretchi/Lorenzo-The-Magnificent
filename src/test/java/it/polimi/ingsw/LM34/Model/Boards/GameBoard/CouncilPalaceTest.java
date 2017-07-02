@@ -21,7 +21,7 @@ public class CouncilPalaceTest {
 
         councilPalace.sweepPalace();
 
-        assertEquals(0, councilPalace.getOccupyingPawns().size()); //size will be 0 before and after sweep, because getOccupyingPawns will never been initialized with any FamilyMember
+        assertEquals(0, councilPalace.getActionSlot().getFamilyMembers().size()); //size will be 0 before and after sweep, because getOccupyingPawns will never been initialized with any FamilyMember
     }
 
 }

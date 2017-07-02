@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.END_GAME_CONTEXT;
+
 public class EndGameContext  extends AbstractGameContext {
     List<Player> players;
     Map<Player, Integer> victoryPointsToPlayers;
@@ -21,14 +23,14 @@ public class EndGameContext  extends AbstractGameContext {
 
 
    public EndGameContext() {
-
-        contextType = ContextType.END_GAME_CONTEXT;
-        victoryPointsToPlayers = new HashMap<>();
+        this.contextType = END_GAME_CONTEXT;
     }
 
     @Override
-    public void interactWithPlayer() {
+    public Void interactWithPlayer(Object... args) {
         players = gameManager.getPlayers();
+
+        return null;
     }
 
     /**

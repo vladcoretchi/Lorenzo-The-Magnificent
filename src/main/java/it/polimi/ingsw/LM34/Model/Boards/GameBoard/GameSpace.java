@@ -5,32 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class GameSpace implements Serializable {
-    protected List<ActionSlot> actionSlots;
+    List<ActionSlot> actionSlots;
 
-    public GameSpace() {
-        actionSlots = new ArrayList<>();
+    GameSpace(List<ActionSlot> slots) {
+        this.actionSlots = slots;
     }
 
     public void sweep() {
-            for (ActionSlot as : actionSlots)
-                as.sweep();
-        }
-
-    public void addSlot(ActionSlot as) {
-        actionSlots.add(as);
+        this.actionSlots.forEach(ActionSlot::sweep);
     }
 
     public List<ActionSlot> getActionSlots() {
         return this.actionSlots;
     }
-
-    public List<ActionSlot> getAvailableSlots() {
-        ArrayList<ActionSlot> availableSlots = new ArrayList<>();
-        for (ActionSlot as : actionSlots)
-            if(as.isEmpty())
-                availableSlots.add(as);
-
-        return availableSlots;
-    }
-
 }
