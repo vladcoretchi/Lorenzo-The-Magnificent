@@ -10,8 +10,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class MarketTest {
 
     @Test
@@ -22,7 +20,7 @@ public class MarketTest {
         ActionSlot actionSlot = new ActionSlot(false, 2, new ResourcesBonus(new Resources(1,2,3,4), 5));
         actionSlots.add(actionSlot); //null familyMember, unless insertFamilymember will fail
         Market market = new Market(actionSlots);
-        market.insertFamilyMember(slotIndex, familyMember);
+        market.getActionSlots().get(slotIndex).insertFamilyMember(familyMember);
     }
 
 }

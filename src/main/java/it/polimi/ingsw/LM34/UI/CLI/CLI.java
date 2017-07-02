@@ -90,6 +90,9 @@ public class CLI implements UIInterface {
         return selectedValue;
     }
 
+    /**
+     * Let the player choose the connection type and the try to login
+     */
     @Override
     public void show() {
         NetworkType connectionTypeChoice = connectionTypeSelection();
@@ -168,6 +171,10 @@ public class CLI implements UIInterface {
         this.dices = dicesValues;
     }
 
+    /**
+     * Show the game results and declare the winner
+     * @param players in game
+     */
     @Override
     public void endGame(List<Player> players) {
         Integer maxVictoryPointsScored = 0;
@@ -204,6 +211,10 @@ public class CLI implements UIInterface {
         return null;
     }
 
+    /**
+     * @param familyMembers available to the player
+     * @return familyMember choosed from the player
+     */
     @Override
     public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
         Boolean validUserInput = false;
@@ -244,7 +255,7 @@ public class CLI implements UIInterface {
     }
 
     /**
-     * this method will be called when the user will choice about which context player wish to use
+     * this method will be called when the user will choice about which {@link it.polimi.ingsw.LM34.Controller.ContextFactory} player wish to use
      */
     //TODO
     public Integer contextSelection(List<PlayerSelectableContexts> allContext)  {
@@ -255,7 +266,7 @@ public class CLI implements UIInterface {
     }
 
     /**
-     * this method will be called when player will want to enter into market
+     * This method will be called when player will want to enter into the {@link Market}
      */
     public void marketSlotSelection() {
         String input;
@@ -282,6 +293,9 @@ public class CLI implements UIInterface {
        //TODO: send to server (market, selectedSlot)
     }
 
+    /**
+     * Provides the player the ability to select one of the two {@link WorkingAreaType} to enter
+     */
     public void workingAreaSlotSelection() {
         String input;
         Integer selectedSlot;
@@ -330,7 +344,7 @@ public class CLI implements UIInterface {
     public void councilPalaceSelection() {
         String input;
         /***SHOW COUNCIL PALACE***/
-        printCouncilPalace(palace.getActionSlot(), palace.getActionSlot().getFamilyMembers());
+        printCouncilPalace();
 
         printToConsole.println("\nDo you want to place one of your pawns in the Council Palace?");
         input = readUserInput.nextLine();
@@ -345,12 +359,23 @@ public class CLI implements UIInterface {
         }
     }
 
-    private void printCouncilPalace(ActionSlot actionSlot, List<FamilyMember> occupyingPawns) {
+    /**
+     * Shows the CouncilPalace state
+     */
+    private void printCouncilPalace() {
+        ActionSlot actionSlot = palace.getActionSlot();
+        List<FamilyMember> occupyingPawns = palace.getActionSlot().getFamilyMembers();
+
         printFormat("Council Palace resources: %1$s CouncilPrivileges: %2$s\n", actionSlot.getResourcesReward().getResources().getResources(),
                                         actionSlot.getResourcesReward().getCouncilPrivilege());
+
         occupyingPawns.forEach(p -> printPawn(p.getFamilyMemberColor(), p.getDiceColorAssociated()));
     }
 
+    /**
+     * Provides a graphic knowledge of the rewards each slots of a particular {@link GameSpace}
+     * @param slots
+     */
     private void printSlots(List<ActionSlot> slots) {
         List<List<Map.Entry<String,Integer>>> slotsResources = new ArrayList<>();
         List<FamilyMember> pawnsInserted = new ArrayList<>();
@@ -437,7 +462,7 @@ public class CLI implements UIInterface {
         Boolean validUserInput = false;
 
         /***SHOW THE TOWERS***/
-        printTowers(towers);
+        printTowers();
 
         /***Let the player choose the tower***/
         do {
@@ -507,7 +532,10 @@ public class CLI implements UIInterface {
         }
     }
 
-
+    /**
+     * @param choices available about resource exchange bonuses
+     * @return the reward opted by the player
+     */
     @Override
     public Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices) {
         String input;
@@ -531,6 +559,10 @@ public class CLI implements UIInterface {
         return choice;
     }
 
+    /**
+     * @param leadersOwned that the game consider the player to have available
+     * @return the leader choosed and the action to perform on him
+     */
     @Override
     public Pair<String, LeaderCardsAction>  leaderCardSelection(List<LeaderCard> leadersOwned) {
         LeaderCardsAction actionChoiced = LeaderCardsAction.DISCARD;
@@ -564,6 +596,10 @@ public class CLI implements UIInterface {
         return new ImmutablePair(input, actionChoiced);
     }
 
+    /**
+     * The Curch Report decision asked from the game to the player
+     * @return the decision of the player
+     */
     @Override
     public Boolean churchSupport() {
         String input;
@@ -583,6 +619,10 @@ public class CLI implements UIInterface {
         return choice;
     }
 
+    /**
+     * @param availableBonuses, set from the game
+     * @return the choice made by the player among the options in input
+     */
     @Override
     public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
         String input;
@@ -603,9 +643,12 @@ public class CLI implements UIInterface {
         }
     }
 
-    public void printTowers(List<Tower> towers) {
+    /**
+     *Prints all the towers and their tower slots showing info about cards stored and reward each slots provides
+     */
+    public void printTowers() {
 
-        for(Tower tower : towers) {
+        for(Tower tower : this.towers) {
             List<List<Map.Entry<String,Integer>>> slotsResources = new ArrayList<>();
             List<Integer> diceValues = new ArrayList<>();
             List<FamilyMember> pawnsInserted = new ArrayList<>();
@@ -688,52 +731,84 @@ public class CLI implements UIInterface {
           }
     }
 
-    public void showExcommunicationCards() {
+    /**
+     * Shows the excommunicationCards set at game startup
+     */
+    private void showExcommunicationCards() {
         excommunicationCards.forEach(ex -> printFormat("Period %1$d, Penalty %2$s\n", ex.getPeriod(),ex.getPenalty().getClass().getSimpleName()));
     }
 
-    public void showPlayersInfo() {
+    /**
+     * Shows all infos about each players in the game
+     */
+    private void showPlayersInfo() {
         CLIStuff.printToConsole.println("Here are the infos about all players in game");
         players.forEach(p -> {
-                printPlayer(p.getPawnColor(),p.getPlayerName());
-                p.getActivatedLeaderCards().forEach(c -> printFormat("%1$s ", c.getName()));
-                printLine("");
-                Resources res = p.getResources();
-                for(ResourceType t : ResourceType.values())
-                    printFormat("%1$s : %2$s", t.toString(), res.getResourceByType(t).toString());
-                p.getExcommunicationCards().forEach(e -> printFormat("%1$s : %2$s", e.getPeriod(),
-                                                            e.getPenalty().getClass().getSimpleName()));
 
-                printFormat("The Personal Board of player %1$s\n", p.getPlayerName());
-                PersonalBoard pb = p.getPersonalBoard();
-                for(DevelopmentCardColor color : DevelopmentCardColor.values()) {
-                    printTowerTypeColor(color);
-                    pb.getDevelopmentCardsByType(color).get().forEach(c -> printFormat("%1$s ", c.getName()));
-                    printLine("");
-                }
+            /**Leader the player has activated**/
+            printPlayer(p.getPawnColor(),p.getPlayerName());
+            p.getActivatedLeaderCards().forEach(c -> printFormat("Activated leaders: %1$s ", c.getName()));
+
+            /**Resources the player has**/
+            printLine("\nResources he has:");
+            Resources res = p.getResources();
+            for(ResourceType t : ResourceType.values())
+                printFormat("%1$s : %2$s", t.toString(), res.getResourceByType(t).toString());
+
+            /**Resources the player has**/
+            p.getExcommunicationCards().forEach(e -> printFormat("%1$s : %2$s", e.getPeriod(),
+                                                e.getPenalty().getClass().getSimpleName()));
+
+            /**The cards the players has bought during the game**/
+            printFormat("The Personal Board of player %1$s\n", p.getPlayerName());
+            PersonalBoard pb = p.getPersonalBoard();
+            for(DevelopmentCardColor color : DevelopmentCardColor.values()) {
+                printTowerTypeColor(color);
+                pb.getDevelopmentCardsByType(color).get().forEach(c -> printFormat("%1$s ", c.getName()));
+                printLine("");
+            }
         }
         );
     }
 
-    public void showDiceValues() {
+    /**
+     * Shows the values of the 3 dices in this round
+     */
+    private void showDiceValues() {
         dices.forEach(d -> printFormat("%1$s value: %2$d ", d.getColor().toString(), d.getValue()));
     }
 
+    /**
+     *Inform the player that his turn has ended (for timeout or his choice)
+     */
     @Override
     public void endTurn() {
         CLIStuff.printYellow("Your turn has ended\n");
     }
 
+    /**
+     * Inform the player that the server is not more reachable
+     */
     @Override
     public void disconnectionWarning() {
         CLIStuff.printError("You are not connected to the game\n");
     }
 
+    /**
+     * Shows multiple kind of info about players
+     * @param infoType information about a player {@link GameInformationType}
+     * @param playerName the associated player
+     * @param playerColor the color associated to the player to whom the info concerns
+     */
     @Override
     public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) {
         printPlayerName(playerName + "" + infoType.toString() +"\n", playerColor);
     }
 
+    /**
+     * @param bonusTiles that the players has the opportunity to choose one from
+     * @return the bonus tile the player wants to have during the game
+     */
     @Override
     public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
         String input;
@@ -765,6 +840,10 @@ public class CLI implements UIInterface {
         return bonusTileSelected;
     }
 
+    /**
+     * @param leaderCards that the players has the opportunity to choose one from
+     * @return the leader the player wants to have as one of his 4 leaders
+     */
     @Override
     public Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards) {
         String input;
@@ -796,40 +875,80 @@ public class CLI implements UIInterface {
         return leaderSelected;
     }
 
+    /**
+     * Store the info from the server about this game object
+     */
     @Override
     public void loadMapTerritoriesToVictoryPoints(Map<Integer, Integer> mapTerritoriesToVictoryPoints) {
         this.mapTerritoriesToVictoryPoints = mapTerritoriesToVictoryPoints;
     }
 
+    /**
+     * Store the info from the server about this game object
+     */
     @Override
     public void loadMapCharactersToVictoryPoints(Map<Integer, Integer> mapCharactersToVictoryPoints) {
         this.mapCharactersToVictoryPoints = mapCharactersToVictoryPoints;
     }
 
+    /**
+     * Store the info from the server about this game object
+     */
     @Override
     public void loadFaithPath(Map<Integer, Integer> faithPath) {
         this.faithPath = faithPath;
     }
 
-
+    /**
+     * Presents to the player the association between # of cards and victory points
+     */
     @Override
     public void showMapCharactersToVictoryPoints() {
         printToConsole.println("Here is the mapping between number of characters owned and victory points provided at endGame");
         mapTerritoriesToVictoryPoints.forEach((pos, points) -> printToConsole.println(pos + ":" + points));
     }
 
+    /**
+     * Presents to the player the association between # of cards and victory points
+     */
     @Override
     public void showMapTerritoriesToVictoryPoints() {
         printToConsole.println("Here is the mapping between number of territories owned and victory points provided at endGame");
         mapCharactersToVictoryPoints.forEach((pos, points) -> printToConsole.println(pos + ":" + points));
     }
 
+    /**
+     * Presents to the player the state of the FaithPath
+     */
     @Override
     public void showFaithPath() {
         printToConsole.println("Here is the mapping between the position on the faithPath and victory points provided at Church Support");
         faithPath.forEach((pos, points) -> printToConsole.println(pos + ":" + points));
     }
 
+    /**
+     * Presents to the player the state of the ProductionArea
+     */
+    private void showProductionArea() {
+        printToConsole.println("Production Area single slot:");
+        List<ActionSlot> tempSlots = new ArrayList<>();
+        tempSlots.add(productionArea.getSingleSlot());
+        printSlots(tempSlots);
+        printToConsole.println("Production Area advanced slots:");
+        printSlots(productionArea.getAdvancedSlots());
+    }
+
+    /**
+     * Presents to the player the state of the HarvestArea
+     */
+    private void showHarvestArea() {
+        printToConsole.println("Harvest Area single slot:");
+        List<ActionSlot> tempSlots = new ArrayList<>();
+        tempSlots.add(harvestArea.getSingleSlot());
+        printSlots(tempSlots);
+        printToConsole.println("Harvest Area advanced slots:");
+        printSlots(harvestArea.getAdvancedSlots());
+    }
 
     public static void main (String[] args) {
         Configurator.loadConfigs();
@@ -844,8 +963,9 @@ public class CLI implements UIInterface {
             cli.market.insertFamilyMember(2, new FamilyMember(PawnColor.RED, DiceColor.WHITE));
             cli.market.insertFamilyMember(3, new FamilyMember(PawnColor.YELLOW, DiceColor.ORANGE));*/
         } catch (Exception e) {e.printStackTrace(); }
+        cli.updateProductionArea(Configurator.getProductionArea());
         cli.marketSlotSelection();
-        cli.printTowers(cli.towers);
+        cli.printTowers();
         List<Player> players = new ArrayList<>();
         Player giacomo = new Player("giacomo", PawnColor.BLUE, new PersonalBoard());
         giacomo.addResources(new Resources(4,5,1,2));

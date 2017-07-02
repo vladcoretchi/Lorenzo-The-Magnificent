@@ -78,6 +78,7 @@ public class SocketClient extends AbstractClient {
             this.outStream.writeUTF(password);
             this.outStream.flush();
         } catch (IOException e) {
+            getUI().disconnectionWarning();
             LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e);
             e.printStackTrace();
         }

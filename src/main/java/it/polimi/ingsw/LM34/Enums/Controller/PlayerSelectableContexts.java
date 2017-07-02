@@ -1,5 +1,8 @@
 package it.polimi.ingsw.LM34.Enums.Controller;
 
+/**
+ * List of the context a player can choose to interact directly with
+ */
 public enum PlayerSelectableContexts {
     MARKET_AREA_CONTEXT("Market"),
     PRODUCTION_AREA_CONTEXT("Production Area"),
@@ -8,7 +11,6 @@ public enum PlayerSelectableContexts {
     HARVEST_AREA_CONTEXT("Harvest Area"),
     TOWERS_CONTEXT("Towers");
 
-    /*The contextName is used in CLI and GUI for showing a beautified and human friendly name of the contexts*/
     private String contextName;
 
     PlayerSelectableContexts(String contextName) {

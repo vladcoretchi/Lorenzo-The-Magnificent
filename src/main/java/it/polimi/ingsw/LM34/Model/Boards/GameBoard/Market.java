@@ -9,6 +9,11 @@ import java.util.List;
 //TODO: apply Singleton design pattern
 public class Market extends GameSpace implements Serializable {
 
+    /**
+     * costructor called only at the beginning of the game
+     *this class has been implemented so that action slots are only set at the beginning of the game by the controller
+     *after the {@link it.polimi.ingsw.LM34.Utils.Configurator} has load the configuration that have been chosen
+    */
     public Market(List<ActionSlot> actionSlots) {
         super(actionSlots);
     }

@@ -32,8 +32,19 @@ public interface UIInterface {
     Integer SOCKET_PORT = 20001;
     Integer RMI_PORT = 20002;
 
+    /**
+     * Start the UI
+     */
     void show();
+
+    /**
+     * Login Menu shown before starting to visualize the gameboard
+     */
     void loginMenu();
+
+    /**
+     * @param result true or false if the credentials are considered valid by the server
+     */
     void loginResult(Boolean result);
 
     PlayerAction turnMainAction(Optional<Exception> lastActionValid);
@@ -95,7 +106,7 @@ public interface UIInterface {
 
 
     /**
-     *
+     * Shows multiple kind of info about players
      * @param infoType information about a player {@link GameInformationType}
      * @param sentence the associated phrase to show to player
      * @param playerColor the color associated to the player to whom the info concerns

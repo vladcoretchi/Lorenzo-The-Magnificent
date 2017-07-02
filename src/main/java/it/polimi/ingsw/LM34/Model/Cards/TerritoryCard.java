@@ -3,12 +3,13 @@ package it.polimi.ingsw.LM34.Model.Cards;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Resources;
+
 import java.util.List;
 
 public class TerritoryCard extends AbstractDevelopmentCard {
     private Integer diceValueToHarvest;
 
-    public TerritoryCard(String territoryName, Integer diceValueToHarvest, Integer period, List<AbstractEffect> instantBonus, ResourcesBonus  permanentBonus) {
+    public TerritoryCard(String territoryName, Integer diceValueToHarvest, Integer period, List<AbstractEffect> instantBonus, ResourcesBonus permanentBonus) {
         this.name = territoryName;
         this.period = period;
         this.diceValueToHarvest = diceValueToHarvest;

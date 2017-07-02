@@ -9,6 +9,10 @@ import java.util.Optional;
 
 public class ChurchReportDialog {
 
+    /**
+     * The Curch Report decision asked from the game to the player
+     * @return the decision of the player
+     */
     public Boolean interactWithPlayer() {
         Boolean result;
         Alert excommunicationChoice = new Alert(Alert.AlertType.NONE, "Curch Support",ButtonType.OK, ButtonType.NO);

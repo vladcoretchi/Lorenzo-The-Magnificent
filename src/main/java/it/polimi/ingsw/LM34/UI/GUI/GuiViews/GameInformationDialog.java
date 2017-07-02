@@ -7,6 +7,12 @@ import javafx.scene.image.ImageView;
 
 public class GameInformationDialog {
 
+    /**
+     * Shows multiple kind of info about players
+     * @param infoType information about a player {@link GameInformationType}
+     * @param playerName the associated phrase to show to player
+     * @param playerColor the color associated to the player to whom the info concerns
+     */
     public void interactWithPlayer(GameInformationType type, String playerName, PawnColor playerColor) {
 
         Alert alert = new Alert(Alert.AlertType.WARNING);

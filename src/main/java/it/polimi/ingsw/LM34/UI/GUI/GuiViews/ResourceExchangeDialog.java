@@ -30,7 +30,6 @@ public class ResourceExchangeDialog {
         }
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
-        //setStyle(dialog);
         dialog.setTitle("Resource Exchange");
         dialog.setHeight(600.0);
         dialog.setWidth(400.0);

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Boards.PlayerBoard;
 
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+
 import java.io.Serializable;
 
 public class BonusTile implements Serializable {
@@ -9,11 +10,18 @@ public class BonusTile implements Serializable {
     private Integer harvDiceValue;
     private Integer prodDiceValue;
 
+    /**
+     * Constructor of the bonus tile
+     * @param harvestDiceValue
+     * @param productionDiceValue
+     * @param productionReward
+     * @param harvestReward
+     */
     public BonusTile(Integer harvDiceValue, Integer prodDiceValue, ResourcesBonus prodBonus, ResourcesBonus harvBonus) {
-	    this.productionBonus = prodBonus;
-	    this.harvestBonus = harvBonus;
-	    this.harvDiceValue = harvDiceValue;
-	    this.prodDiceValue = prodDiceValue;
+        this.productionBonus = prodBonus;
+        this.harvestBonus = harvBonus;
+        this.harvDiceValue = harvDiceValue;
+        this.prodDiceValue = prodDiceValue;
     }
 
     public Integer getHarvestDiceValue() {

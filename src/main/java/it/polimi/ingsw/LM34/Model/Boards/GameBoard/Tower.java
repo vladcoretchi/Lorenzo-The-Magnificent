@@ -2,6 +2,7 @@ package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,10 @@ public class Tower implements Serializable {
     private DevelopmentCardColor cardColor;
     private List<TowerSlot> slots;
 
+    /**
+     * @param cardColor of the tower
+     * @param slotsToLoad in the tower
+     */
     public Tower (DevelopmentCardColor cardColor, List<TowerSlot> slotsToLoad) {
         this.cardColor = cardColor;
         this.slots = slotsToLoad;
@@ -20,6 +25,10 @@ public class Tower implements Serializable {
      */
     public DevelopmentCardColor getCardColor() {return cardColor;}
 
+    /**
+     *
+     * @param card to be added to this tower based on the first available {@link TowerSlot}
+     */
     public void addCard (AbstractDevelopmentCard card) {
         for (int i = 0; i < this.slots.size(); i++)
             if (!this.slots.get(i).hasCard()) {
@@ -28,6 +37,9 @@ public class Tower implements Serializable {
             }
     }
 
+    /**
+     * Call to check if a column has already a familyMember inside so that a 3 coins penalty is activated
+     */
     public boolean isTowerEmpty() {
         for (int i = 0; i < this.slots.size(); i++)
             if(!this.slots.get(i).isEmpty())
@@ -36,6 +48,9 @@ public class Tower implements Serializable {
         return true;
     }
 
+    /**
+     * Sweep the tower at the end of a round
+     */
     public void sweep() {
         this.slots.forEach(TowerSlot::sweepTowerSlot);
     }
@@ -44,6 +59,9 @@ public class Tower implements Serializable {
         return this.cardColor;
     }
 
+    /**
+     * @return all the card stored in the tower
+     */
     public List<AbstractDevelopmentCard> getCardsStored() {
         List<AbstractDevelopmentCard> cardsStoredInTower = new ArrayList<>();
         this.slots.forEach(slot -> {

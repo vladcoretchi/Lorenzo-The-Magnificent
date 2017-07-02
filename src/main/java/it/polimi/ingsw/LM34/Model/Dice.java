@@ -1,13 +1,14 @@
 package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
+
 import java.io.Serializable;
 import java.util.Random;
 
 public class Dice implements Serializable {
     private Random rand = new Random();
     private final DiceColor color;
-    private Integer value = rand.nextInt(6) + 1;
+    private Integer value;
 
     public Dice(DiceColor color) {
         this.color = color;
@@ -18,7 +19,7 @@ public class Dice implements Serializable {
     }
 
     public Integer getValue() {
-        return this.value;
+        return value;
     }
 
     /**
@@ -26,6 +27,6 @@ public class Dice implements Serializable {
      *against passing the new value from outside this class
      */
     public void rollDice(){
-        this.value = this.rand.nextInt(6) + 1;
+        this.value = new Random().nextInt(6) + 1;
     }
 }

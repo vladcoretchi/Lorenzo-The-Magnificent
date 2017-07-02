@@ -3,12 +3,15 @@ package it.polimi.ingsw.LM34.Model.Cards;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Resources;
+
 import java.util.List;
 
 public class BuildingCard extends AbstractDevelopmentCard {
+
     private Integer diceValueToProduct;
 
-    public BuildingCard(String buildingName, Integer diceValueToProduct, Integer period, Resources resourcesRequired, List<AbstractEffect> instantBonus, AbstractEffect  permanentBonus) {
+    public BuildingCard(String buildingName, Integer diceValueToProduct, Integer period, Resources resourcesRequired,
+                        List<AbstractEffect> instantBonus, AbstractEffect permanentBonus) {
         this.resourceRequired = resourcesRequired;
         this.name = buildingName;
         this.period = period;
@@ -17,6 +20,8 @@ public class BuildingCard extends AbstractDevelopmentCard {
         this.instantBonus = instantBonus;
         this.color = DevelopmentCardColor.YELLOW;
     }
+
+
 
     public Integer getDiceValueToProduct() {
         return diceValueToProduct;

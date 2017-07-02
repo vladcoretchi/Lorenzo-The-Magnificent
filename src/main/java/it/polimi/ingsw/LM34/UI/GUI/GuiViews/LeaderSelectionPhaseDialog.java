@@ -7,9 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 public class LeaderSelectionPhaseDialog {
     List<LeaderCard> leaderCards;
 
+    /**
+     * @param leaderCards that the players has the opportunity to choose one from
+     * @return the leader the player wants to have as one of his 4 leaders
+     */
     public Integer interactWithPlayer(List<LeaderCard> leaderCards) {
         List<String> choices = new ArrayList<>();
 

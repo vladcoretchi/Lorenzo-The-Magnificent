@@ -1,9 +1,6 @@
 package it.polimi.ingsw.LM34.Controller;
 
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.CouncilPalaceContext;
-import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.HarvestAreaContext;
-import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.MarketAreaContext;
-import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ProductionAreaContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.ChurchReportContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.TurnContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
@@ -52,6 +49,7 @@ public class GameManager {
     private CouncilPalace councilPalace;
     private WorkingArea harvestArea;
     private WorkingArea productionArea;
+    private CouncilPalace palace;
 
     /*DECKS*/
     private DevelopmentCardDeck<TerritoryCard> territoryCardDeck;
@@ -397,6 +395,8 @@ public class GameManager {
     public List<ExcommunicationCard> getExcommunicationCards() {
         return this.excommunicationCards;
     }
+
+    public CouncilPalace getPalace() { return this.palace; }
 }
 
 

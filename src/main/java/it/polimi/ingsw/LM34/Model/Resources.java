@@ -2,8 +2,8 @@ package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Utils.Utilities;
+
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -17,7 +17,9 @@ public class Resources implements Serializable {
         resourcesMap = new EnumMap<>(ResourceType.class);
     }
 
-    public Resources(Integer coins, Integer woods, Integer stones, Integer servants, Integer militaryPoints, Integer faithPoints, Integer victoryPoints) {
+    public Resources(Integer coins, Integer woods, Integer stones, Integer servants,
+                     Integer militaryPoints, Integer faithPoints, Integer victoryPoints) {
+
         resourcesMap = new EnumMap<>(ResourceType.class);
 
         if(coins != 0)
@@ -36,6 +38,13 @@ public class Resources implements Serializable {
             this.resourcesMap.put(ResourceType.VICTORY_POINTS, victoryPoints);
     }
 
+    /**
+     * Constructor for the 4 type of material resources
+     * @param coins
+     * @param woods
+     * @param stones
+     * @param servants
+     */
     public Resources(Integer coins, Integer woods, Integer stones, Integer servants) {
         resourcesMap = new EnumMap<>(ResourceType.class);
 
@@ -49,6 +58,12 @@ public class Resources implements Serializable {
             this.resourcesMap.put(ResourceType.SERVANTS, servants);
     }
 
+    /**
+     * Constructor dedicated only to the points
+     * @param militaryPoints
+     * @param faithPoints
+     * @param victoryPoints
+     */
     public Resources(Integer militaryPoints, Integer faithPoints, Integer victoryPoints) {
         resourcesMap = new EnumMap<>(ResourceType.class);
 
@@ -95,7 +110,7 @@ public class Resources implements Serializable {
             this.resourcesMap.remove(resourceType);
     }
 
-    //this method also handles subtraction as negative number of resourcesMap
+    //this method handles addition of resourcesMap
     public void sumResources (Resources res) {
         if (res == null)
             throw new NullPointerException();
@@ -103,6 +118,8 @@ public class Resources implements Serializable {
         res.getResources().forEach(this::sumResourceType);
     }
 
+
+    //this method handles subtraction as negative number of resourcesMap
     public void subResources (Resources res) {
         if (res == null)
             throw new NullPointerException();
@@ -110,6 +127,7 @@ public class Resources implements Serializable {
         res.getResources().forEach(this::sumResourceType);
     }
 
+    //this method also handles the multiplication of resourcesMap
     public void multiplyResources (Integer multiplier) {
         if (multiplier == null)
             throw new NullPointerException();

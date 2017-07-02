@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+
 import java.io.Serializable;
 
 public class LeaderCard implements Serializable {
@@ -9,6 +10,11 @@ public class LeaderCard implements Serializable {
     private AbstractEffect bonus;
     private Boolean activated;
     private Boolean oncePerRound;
+
+    /**
+     * {@link it.polimi.ingsw.LM34.Model.Effects.CopyOtherLeader}
+     */
+    private Boolean isActivatedByPlayer;
 
     public LeaderCard(String leaderName, LeaderRequirements requirements, AbstractEffect bonus, Boolean oncePerRound) {
         this.leaderName= leaderName;

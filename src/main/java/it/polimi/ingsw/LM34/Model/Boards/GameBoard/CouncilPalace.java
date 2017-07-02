@@ -9,8 +9,13 @@ import java.util.List;
 
 public class CouncilPalace implements Serializable {
     ActionSlot palaceSlot;
+    /**
+     * Group of {@link FamilyMember} in the palace
+     */
+    private List<FamilyMember> occupyingPawns;
 
     public CouncilPalace(ActionSlot palaceSlot) {
+        occupyingPawns = new ArrayList<FamilyMember>();
         this.palaceSlot = palaceSlot;
     }
 

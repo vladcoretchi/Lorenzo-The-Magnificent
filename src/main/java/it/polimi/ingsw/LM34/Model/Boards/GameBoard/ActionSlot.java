@@ -3,7 +3,6 @@ package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
-import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,6 +22,9 @@ public class ActionSlot implements Serializable {
         this.familyMembers = new ArrayList<>();
     }
 
+    /**
+     * A player places the pawn in the slot that provides the reward he/she pleases, otherwise it throws an exception
+     */
     public void insertFamilyMember(FamilyMember fm) throws OccupiedSlotException {
         if(this.familyMembers.size() == 0)
             this.familyMembers.add(fm);

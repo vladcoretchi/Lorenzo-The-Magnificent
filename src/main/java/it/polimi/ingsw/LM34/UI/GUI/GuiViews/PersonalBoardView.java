@@ -1,6 +1,5 @@
 package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
-import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Utils.Configurator;
@@ -21,14 +20,12 @@ import java.util.List;
 public class PersonalBoardView extends Application {
     private Parent root;
     private Player player;
-
-    @FXML
-    private Group personalBoardCards;
+    @FXML private Group personalBoardCards;
 
     public PersonalBoardView(Player playerReceived) {
         this.player = playerReceived;
     }
-    public PersonalBoardView() {}
+    public PersonalBoardView() {/**Intentionally left void**/}
 
     @Override
     public void start(Stage primaryStage) throws Exception {

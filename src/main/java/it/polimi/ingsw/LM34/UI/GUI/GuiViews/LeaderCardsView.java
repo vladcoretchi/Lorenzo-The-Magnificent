@@ -13,10 +13,17 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Shows all the leaderCards available to the player
+ */
 public class LeaderCardsView {
     String decision;
     List<LeaderCard> leadersOwned;
 
+    /**
+     * @param leadersOwned that the game consider the player to have available
+     * @return the leader choosed and the action to perform on him
+     */
     public Pair<String, LeaderCardsAction> interactWithPlayer(List<LeaderCard> leadersOwned) {
         final ChoiceDialog dialog = new ChoiceDialog();
         dialog.setTitle("Leaders Available");

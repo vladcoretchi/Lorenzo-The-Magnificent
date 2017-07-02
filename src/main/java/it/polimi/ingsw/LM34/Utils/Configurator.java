@@ -16,7 +16,6 @@ import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelated
 import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus.TowerSlotPenalty;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesPerItemBonus;
-import it.polimi.ingsw.LM34.Model.Cards.LeaderRequirements;
 import it.polimi.ingsw.LM34.Model.Resources;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -32,7 +31,6 @@ import java.util.*;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.MULTICOLOR;
-import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.COINS;
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.MILITARY_POINTS;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
@@ -114,6 +112,7 @@ public final class Configurator {
             String jsonString  = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
             jsonObject = new JSONObject(jsonString).optJSONObject("configuration");
         } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Cannot load file from configs.json",  e.getStackTrace());
             LOGGER.log(Level.SEVERE, "Cannot load file from configs.json",  e.getStackTrace());
         }
 
@@ -347,11 +346,39 @@ public final class Configurator {
         }
     }
 
+    /**
+     * Load the cards from the JSON file {@see resources/configurations/config.json}, shuffle and order them
+     * @param decks
+     */
     private static void setupDevelopmentCards(JSONObject decks) {
         territoryCards = getTerritoryCardsFromJson(decks.optJSONArray("territories"));
         buildingCards = getBuildingCardsFromJson(decks.optJSONArray("buildings"));
         ventureCards = getVentureCardsFromJson(decks.optJSONArray("ventures"));
         characterCards = getCharacterCardsFromJson(decks.optJSONArray("characters"));
+
+        Collections.shuffle(territoryCards);
+        Collections.shuffle(buildingCards);
+        Collections.shuffle(ventureCards);
+        Collections.shuffle(characterCards);
+        orderDevelopmentCardByPeriod(territoryCards);
+        orderDevelopmentCardByPeriod(buildingCards);
+        orderDevelopmentCardByPeriod(characterCards);
+        orderDevelopmentCardByPeriod(ventureCards);
+    }
+
+    /**
+     * Order the cards by period in the deck before the game starts
+     * @param deck to order for period
+     */
+    public static void orderDevelopmentCardByPeriod(List<? extends AbstractDevelopmentCard> deck) {
+        List<AbstractDevelopmentCard> orderedDeck = new ArrayList<>();
+
+        for (Integer period = 1; period <= Configurator.TOTAL_PERIODS; period++)
+            for(AbstractDevelopmentCard card : deck)
+                if (card.getPeriod() == period)
+                    orderedDeck.add(card);
+
+        deck = orderedDeck;
     }
 
     private static ActionSlot getActionSlotFromJson(JSONObject jsonObject) {
@@ -810,7 +837,7 @@ public final class Configurator {
                     permanentBonus = new TowerSlotPenalty(towersLevels);
                 }
         }
-        return new CharacterCard(name, period, resourcesRequired.getResourceByType(COINS), instantBonus, permanentBonus);
+        return new CharacterCard(name, period, resourcesRequired, instantBonus, permanentBonus);
     }
 
     public static DevelopmentCardDeck<TerritoryCard> getTerritoryCards() {

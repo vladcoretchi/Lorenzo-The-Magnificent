@@ -1,5 +1,8 @@
 package it.polimi.ingsw.LM34.Enums.Controller;
 
+/**
+ * List of all contexts by which the game logic is constituted of
+ */
 public enum ContextType {
     ACTION_SLOT_CONTEXT,
     CHURCH_REPORT_CONTEXT,

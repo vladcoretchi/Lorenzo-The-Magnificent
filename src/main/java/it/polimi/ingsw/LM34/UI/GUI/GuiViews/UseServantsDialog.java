@@ -24,7 +24,6 @@ public class UseServantsDialog {
         dialog.getDialogPane().getStylesheets().add(
                 getClass().getResource("/css/servantsDialog.css").toExternalForm());
         dialog.getDialogPane().getStyleClass().add("servant");
-        ImageView tempImage;
 
         Optional<String> result = dialog.showAndWait();
 

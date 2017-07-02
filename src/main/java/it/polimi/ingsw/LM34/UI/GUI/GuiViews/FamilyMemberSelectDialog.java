@@ -11,6 +11,10 @@ import java.util.Optional;
 
 public class FamilyMemberSelectDialog {
 
+    /**
+     * @param familyMembers available to the player
+     * @return familyMember choosed from the player
+     */
     public Integer interactWithPlayer(List<FamilyMember> membersAvailable) {
         String choosed;
         ArrayList<String> members = new ArrayList<>();

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
-import it.polimi.ingsw.LM34.Utils.Configurator;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,6 +12,10 @@ import java.util.Optional;
 public class BonusTileDialog {
     List<BonusTile> availableTiles;
 
+    /**
+     * @param bonusTiles that the players has the opportunity to choose one from
+     * @return the bonus tile the player wants to have during the game
+     */
     public Integer interactWithPlayer(List<BonusTile> bonusTiles) {
         List<String> choices = new ArrayList<>();
 

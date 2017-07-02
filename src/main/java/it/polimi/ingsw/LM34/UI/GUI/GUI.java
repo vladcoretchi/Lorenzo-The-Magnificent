@@ -50,20 +50,13 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.BLACK;
-import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.ORANGE;
-import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.WHITE;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class GUI extends Application implements UIInterface {
@@ -74,25 +67,16 @@ public class GUI extends Application implements UIInterface {
     private Parent root;
     private Stage primaryStage;
     private LoginDialog loginDialog;
+    @FXML private TextField username;
+    @FXML private TextField password;
+    @FXML private Label playerLoginError;
+    @FXML private RadioButton rmiChoice;
+    @FXML private RadioButton socketChoice;
+    @FXML private AnchorPane login;
+    @FXML private Group towers;
+    @FXML private Group slots;
 
-    @FXML
-    private TextField username;
-    @FXML
-    private TextField password;
-    @FXML
-    private Label playerLoginError;
-
-    @FXML
-    private RadioButton rmiChoice;
-    @FXML
-    private RadioButton socketChoice;
-    @FXML
-    private AnchorPane login;
-    @FXML
-    private Group towers;
-    @FXML
-    private Group slots;
-
+    /**Game Objects**/
     private List<Player> players;
     private List<ExcommunicationCard> excommunicationCards;
     private List<Tower> towersSpaces;
@@ -105,35 +89,17 @@ public class GUI extends Application implements UIInterface {
     private Map<Integer, Integer> mapTerritoriesToVictoryPoints;
     private Optional<PlayerSelectableContexts> selectedContext;
 
+    /**
+     * Start the application
+     * @param stage
+     * @throws Exception if the JavaFx application cannot be instantiated
+     */
     @Override
     public void start(Stage stage) throws Exception {
         root = FXMLLoader.load(getClass().getClassLoader().getResource("views/gui.fxml"));
         this.primaryStage = new Stage();
         prepareWindow();
-
-        //test all dialogs, that will be removed after tests
-        List<BonusTile> bonusTiles = new ArrayList<>();
-        Configurator.loadConfigs();
-        bonusTiles = Configurator.getBonusTiles();
-        BonusTileDialog bonusTileDialog = new BonusTileDialog();
-        //bonusTileDialog.interactWithPlayer(bonusTiles);
-        ChurchReportDialog churchReportDialog = new ChurchReportDialog();
-        churchReportDialog.interactWithPlayer();
-        //
-
-        Dice orange = new Dice(ORANGE); orange.rollDice();
-        Dice black = new Dice(BLACK); orange.rollDice();
-        Dice white = new Dice(WHITE); orange.rollDice();
-        List<Dice> dices = new ArrayList<>();
-        dices.add(orange); dices.add(black); dices.add(white);
-        updateDiceValues(dices);
-
-        this.selectedContext = Optional.empty();
-
-        primaryStage.setOnCloseRequest(event -> stop(event));
-
-        //new LeaderCardsView(leaders).start(primaryStage);
-
+        updateCouncilPalace(Configurator.getPalace());
     }
 
     /**
@@ -170,6 +136,12 @@ public class GUI extends Application implements UIInterface {
         Platform.runLater(uiTask);
     }
 
+    /**
+     * Shows multiple kind of info about players
+     * @param infoType information about a player {@link GameInformationType}
+     * @param playerName the associated player
+     * @param playerColor the color associated to the player to whom the info concerns
+     */
     @Override
     public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) {
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
@@ -179,18 +151,29 @@ public class GUI extends Application implements UIInterface {
         Platform.runLater(uiTask);
     }
 
+    /**
+     * @param bonusTiles that the players has the opportunity to choose one from
+     * @return the bonus tile the player wants to have during the game
+     */
     @Override
     public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
         FutureTask<Integer> uiTask = new FutureTask<>(() ->  new BonusTileDialog().interactWithPlayer(bonusTiles));
         return RunLaterTask(uiTask);
     }
 
+    /**
+     * @param leaderCards that the players has the opportunity to choose one from
+     * @return the leader the player wants to have as one of his 4 leaders
+     */
     @Override
     public Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards) {
         FutureTask<Integer> uiTask = new FutureTask<>(() ->  new LeaderSelectionPhaseDialog().interactWithPlayer(leaderCards));
         return RunLaterTask(uiTask);
     }
 
+    /**
+     * Setups the application stage and scene before showing it
+     */
     private void prepareWindow() {
         this.primaryStage = new Stage();
         primaryStage.setWidth(800);
@@ -203,6 +186,10 @@ public class GUI extends Application implements UIInterface {
         primaryStage.show();
     }
 
+    /**
+     * Receives the login operation result
+     * @param result login result
+     */
     @Override
     public void loginResult(Boolean result) {
         if (result) {
@@ -242,6 +229,10 @@ public class GUI extends Application implements UIInterface {
         Platform.runLater(uiTask);
     }
 
+    /**
+     * Show the {@link TowerSlot} rewards and cards stored
+     * @param towers updated from the server
+     */
     @Override
     public void updateTowers(List<Tower> towers) {
         this.towersSpaces = new ArrayList<>();
@@ -310,6 +301,10 @@ public class GUI extends Application implements UIInterface {
         Platform.runLater(uiTask);
     }
 
+    /**
+     * Shows the rewards that each MarketSlots provides and the {@link FamilyMember} placed in them
+     * @param market updated from the server
+     */
     @Override
     public void updateMarket(Market market) {
         this.market = market;
@@ -321,20 +316,25 @@ public class GUI extends Application implements UIInterface {
             for (index = 0; index < marketSlots.size(); index++) {
                 ImageView slotView = ((ImageView) root.lookup("#marketActionSlot" + index));
                 slotView.setOnMouseEntered(new SlotMouseEvent(marketSlots.get(index).getResourcesReward()));
-                //TODO: handle multiple family members
-                if (marketSlots.get(index).getFamilyMembers().get(0).getFamilyMemberColor() != null) {
+                //TODO
+                if (marketSlots.get(index).getFamilyMembers() != null) {
                     pawnColor = marketSlots.get(index).getFamilyMembers().get(0).getFamilyMemberColor();
                     slotView.setImage(new Image(Thread.currentThread()
                             .getContextClassLoader().getResource("images/pawns/" + pawnColor.toString() + ".png").toExternalForm()));
                 } else
                     slotView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
-            }
+                }
 
             return null;
         });
         Platform.runLater(uiTask);
     }
 
+
+    /**
+     * Shows the {@link FamilyMember} placed in it
+     * @param productionArea updated from the server
+     */
     @Override
     public void updateProductionArea(WorkingArea productionArea) {
         this.productionArea = productionArea;
@@ -374,6 +374,10 @@ public class GUI extends Application implements UIInterface {
         Platform.runLater(uiTask);
     }
 
+    /**
+     * Shows the {@link FamilyMember} placed in it
+     * @param harvestArea updated from the server
+     */
     @Override
     public void updateHarvestArea(WorkingArea harvestArea) {
         this.harvestArea = harvestArea;
@@ -414,6 +418,10 @@ public class GUI extends Application implements UIInterface {
         Platform.runLater(uiTask);
     }
 
+    /**
+     *Shows the info about each player in game including name, color, cards, resources
+     * @param players informations updated from the server
+     */
     @Override
     public void updatePlayersData(List<Player> players) {
         this.players = players;
@@ -461,6 +469,10 @@ public class GUI extends Application implements UIInterface {
         Platform.runLater(uiTask);
     }
 
+    /**
+     * Show the values of the 3 dices in the current round
+     * @param dicesValues updated from the server
+     */
     @Override
     public void updateDiceValues(List<Dice> dicesValues) {
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
@@ -474,36 +486,62 @@ public class GUI extends Application implements UIInterface {
         Platform.runLater(uiTask);
     }
 
+    /**
+     * @param familyMembers available to the player
+     * @return familyMember choosed from the player
+     */
     @Override
     public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
         FutureTask<Integer> uiTask = new FutureTask<>(() -> new FamilyMemberSelectDialog().interactWithPlayer(familyMembers));
         return RunLaterTask(uiTask);
     }
 
+    /**
+     * this method will be called when user need to use some servants to improve his pawn's value
+     * @param servantsAvailable user's available servants
+     * @param minimumServantsRequested minimum number of servants to complete action
+     * @return how many servants user has decided to use
+     */
     @Override
     public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
         FutureTask<Integer> uiTask = new FutureTask<>(() -> new UseServantsDialog().interactWithPlayer(servantsAvailable, minimumServantsRequested));
         return RunLaterTask(uiTask);
     }
 
+    /**
+     * @param choices available about resource exchange bonuses
+     * @return the reward opted by the player
+     */
     @Override
     public Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices) {
         FutureTask<Integer> uiTask = new FutureTask<>(() -> new ResourceExchangeDialog().interactWithPlayer(choices));
         return RunLaterTask(uiTask);
     }
 
+    /**
+     * @param leadersOwned that the game consider the player to have available
+     * @return the leader choosed and the action to perform on him
+     */
     @Override
     public Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards) {
         FutureTask<Pair<String, LeaderCardsAction>> uiTask = new FutureTask<>(() -> new LeaderCardsView().interactWithPlayer(leaderCards));
         return RunLaterTask(uiTask);
     }
 
+    /**
+     * The Curch Report decision asked from the game to the player
+     * @return the decision of the player
+     */
     @Override
     public Boolean churchSupport() {
         FutureTask<Boolean> uiTask = new FutureTask<>(() -> new ChurchReportDialog().interactWithPlayer());
         return RunLaterTask(uiTask);
     }
 
+    /**
+     * @param availableBonuses, set from the game
+     * @return the choice made by the player among the options in input
+     */
     @Override
     public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
         FutureTask<Integer> uiTask = new FutureTask<>(() -> new UseCouncilPrivilegeDialog().interactWithPlayer(availableBonuses));
@@ -516,6 +554,9 @@ public class GUI extends Application implements UIInterface {
         loginMenu();
     }
 
+    /**
+     * Try to login to the server, if things goes wrong, show a message inside the {@link LoginDialog}
+     */
     public void doLogin() {
         playerLoginError.setVisible(false);
 
@@ -542,6 +583,9 @@ public class GUI extends Application implements UIInterface {
         }
     }
 
+    /**
+     * Login Menu shown before starting to visualize the gameboard
+     */
     @Override
     public void loginMenu() {
         this.loginDialog = new LoginDialog();
@@ -549,17 +593,17 @@ public class GUI extends Application implements UIInterface {
     }
     @Override
     public void showMapCharactersToVictoryPoints() {
-
+        //TODO
     }
 
     @Override
     public void showMapTerritoriesToVictoryPoints() {
-
+        //TODO
     }
 
     @Override
     public void showFaithPath() {
-
+        //TODO
     }
 
     @Override
@@ -681,6 +725,9 @@ public class GUI extends Application implements UIInterface {
                 .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
     }
 
+    /**
+     * Shows the personal board of the player label clicked
+     */
     private class PlayerClickEvent implements EventHandler<Event> {
         private Player player;
 
@@ -699,6 +746,9 @@ public class GUI extends Application implements UIInterface {
         }
     }
 
+    /**
+     * Each slot shows the reward it provides to the player when the MouseEvent is triggered
+     */
     private class SlotMouseEvent implements EventHandler<Event> {
         private ResourcesBonus reward;
 
@@ -716,6 +766,9 @@ public class GUI extends Application implements UIInterface {
         }
     }
 
+    /**
+     * @param uiTask to perform in a JavaFx thread
+     */
         private <T> T RunLaterTask(FutureTask<T> uiTask) {
             Platform.runLater(uiTask);
             try {
@@ -726,6 +779,9 @@ public class GUI extends Application implements UIInterface {
             }
         }
 
+    /**
+     * Notify the server that the player wants to access the leaders available and the action
+     */
     @FXML
     public void showLeaderCardsActions() {
         //TODO: will this call mainaction?
@@ -756,8 +812,8 @@ public class GUI extends Application implements UIInterface {
 
     public static void main(String [] args) {
         GUI gui = new GUI();
-        Configurator.loadConfigs();
-        gui.updateTowers(Configurator.getTowers());
+        //Configurator.loadConfigs();
+        //gui.launch();
         gui.show();
     }
 }

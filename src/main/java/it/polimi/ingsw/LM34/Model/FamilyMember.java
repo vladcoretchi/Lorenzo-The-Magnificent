@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.Model;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Utils.Copyable;
+
 import java.io.Serializable;
 
 public class FamilyMember implements Serializable, Copyable {
@@ -11,7 +12,7 @@ public class FamilyMember implements Serializable, Copyable {
     private Integer value;
     private boolean isUsed;
 
-    //constructor used only at the beginning of the game during setup up
+    /**constructor used only at the beginning of the game during setup up**/
     public FamilyMember(PawnColor pawnColor, DiceColor diceColor) {
         this.pawnColor = pawnColor;
         this.diceColor = diceColor;

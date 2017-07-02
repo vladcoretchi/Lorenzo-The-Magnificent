@@ -6,13 +6,10 @@ import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.EndGameContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
-import it.polimi.ingsw.LM34.Model.Resources;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A Factory pattern that creates the contexts at the beginning of the game
+ * {@link AbstractGameContext}
  */
 public final class ContextFactory {
 

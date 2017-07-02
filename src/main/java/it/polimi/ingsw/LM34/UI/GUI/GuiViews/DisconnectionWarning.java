@@ -4,6 +4,9 @@ import javafx.scene.control.Alert;
 
 public class DisconnectionWarning {
 
+    /**
+     * Inform the player that the server is not more reachable
+     */
     public void interactWithPlayer() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Network Disconnection");

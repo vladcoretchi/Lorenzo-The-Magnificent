@@ -7,6 +7,9 @@ import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+/**
+ * Collections of escaping characters for printing in colors, ad hoc methods and... LM34 "Lorenzo il Magnifico" splash screen
+ */
 public final class CLIStuff {
     public static final IgnoreInput ignoreInput = new IgnoreInput();
     public static final String INCORRECT_INPUT = "Incorrect input";

@@ -5,7 +5,6 @@ import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -22,13 +21,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class PopupSlotBonus {
+    private static final String style = "-fx-background-color: transparent;";
     Double coordinateX;
     Double coordinateY;
-    Parent root;
     Event generatingEvent;
     private ResourcesBonus resourcesReward;
-    private static final String style = "-fx-background-color: transparent;";
 
+    /**Constructor that requires info about the origin of the event generated**/
     public PopupSlotBonus(MouseEvent generatingEvent, ResourcesBonus resourcesReward) {
         this.coordinateX = generatingEvent.getScreenX() + 10;
         this.coordinateY = generatingEvent.getScreenY()+ 10;
@@ -37,15 +36,15 @@ public class PopupSlotBonus {
     }
 
     public void start(Stage primaryStage) throws Exception {
-
+        /*Gui components of this view*/
+        StackPane pane;
         VBox rewardList = new VBox();
-        DropShadow borderGlow;
         rewardList.setSpacing(10);
         rewardList.setStyle(style);
-        ImageView tempImage = new ImageView();
-        Text value = new Text();
-        value.setStyle(style);
-        StackPane pane;
+        ImageView tempImage;
+        Text value;
+        DropShadow borderGlow;
+
 
         for (ResourceType resType : ResourceType.values())
              /*---ADD AS IMAGE AND VALUE THE RESOURCES AND POINTS---*/
@@ -80,31 +79,33 @@ public class PopupSlotBonus {
                 rewardList.setVgrow(pane, Priority.ALWAYS);
             }
         /*---ADD AS IMAGE AND VALUE THE COUNCIL PRIVILEGES---*/
-        pane = new StackPane();
-        value = new Text(resourcesReward.getCouncilPrivilege().toString());
-        value.setStyle(style);
-        value.setFont(Font.font("Verdana", 30));
-        value.setFill(Color.BLACK);
-        borderGlow= new DropShadow();
-        borderGlow.setOffsetY(0f);
-        borderGlow.setOffsetX(0f);
-        borderGlow.setColor(Color.WHITE);
-        borderGlow.setWidth(20);
-        borderGlow.setSpread(0.5);
-        borderGlow.setRadius(5.0);
-        borderGlow.setHeight(20);
-        value.setEffect(borderGlow);
-        tempImage = new ImageView();
-        tempImage.setFitHeight(50.0);
-        tempImage.setFitWidth(50.0);
-        tempImage.setImage(new Image(Thread.currentThread()
-                .getContextClassLoader().getResource("images/resources/" + "COUNCIL_PRIVILEGE" + ".png").toExternalForm()));
-        tempImage.setStyle(style);
+        if(resourcesReward.getCouncilPrivilege().intValue() > 0) {
+            pane = new StackPane();
+            value = new Text(resourcesReward.getCouncilPrivilege().toString());
+            value.setStyle(style);
+            value.setFont(Font.font("Verdana", 30));
+            value.setFill(Color.BLACK);
+            borderGlow = new DropShadow();
+            borderGlow.setOffsetY(0f);
+            borderGlow.setOffsetX(0f);
+            borderGlow.setColor(Color.WHITE);
+            borderGlow.setWidth(20);
+            borderGlow.setSpread(0.5);
+            borderGlow.setRadius(5.0);
+            borderGlow.setHeight(20);
+            value.setEffect(borderGlow);
+            tempImage = new ImageView();
+            tempImage.setFitHeight(50.0);
+            tempImage.setFitWidth(50.0);
+            tempImage.setImage(new Image(Thread.currentThread()
+                    .getContextClassLoader().getResource("images/resources/" + "COUNCIL_PRIVILEGE" + ".png").toExternalForm()));
+            tempImage.setStyle(style);
 
-        pane.getChildren().add(tempImage);
-        pane.getChildren().add(value);
-        rewardList.getChildren().add(pane);
-        rewardList.setVgrow(pane, Priority.ALWAYS);
+            pane.getChildren().add(tempImage);
+            pane.getChildren().add(value);
+            rewardList.getChildren().add(pane);
+            rewardList.setVgrow(pane, Priority.ALWAYS);
+        }
 
        /*---Prepare the stage and scene*/
         Stage stage = new Stage();
@@ -118,7 +119,7 @@ public class PopupSlotBonus {
         stage.setFullScreen(false);
         stage.setScene(scene);
 
-        /*Set a listener on the imageViewSlot that generated this info popup in order to close this onMouseExited*/
+        /*Set a listener on the imageViewSlot that generated this info popup in order to close this at onMouseExited*/
         ImageView slotImage = (ImageView) generatingEvent.getSource();
         slotImage.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
