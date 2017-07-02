@@ -1,11 +1,8 @@
 package it.polimi.ingsw.LM34.UI.GUI;
 
 
-import com.sun.org.apache.regexp.internal.RE;
-import it.polimi.ingsw.LM34.Controller.GameManager;
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
-import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
@@ -60,9 +57,7 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.BLACK;
-import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.ORANGE;
-import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.WHITE;
+import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.*;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class GUI extends Application implements UIInterface {
@@ -847,7 +842,6 @@ public class GUI extends Application implements UIInterface {
      * this function will interrupt all Threads and will close the application
      * @param event this event will be managed when the exit button will be clicked
      */
-
     public void stop(WindowEvent event) {
         primaryStage.setOnCloseRequest(event1 -> Platform.exit());
         System.exit(0);
@@ -855,13 +849,5 @@ public class GUI extends Application implements UIInterface {
         for (Thread thread : threadSet) {
             thread.interrupt();
         }
-    }
-
-
-    public static void main(String [] args) {
-        GUI gui = new GUI();
-        //Configurator.loadConfigs();
-        //gui.launch();
-        gui.show();
     }
 }

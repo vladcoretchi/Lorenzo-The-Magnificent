@@ -4,9 +4,11 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Player;
+
 import java.util.ArrayList;
 import java.util.List;
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_CARDS_CONTEXT;
 
 /**
  * In this context the player can discard a leader in favor of a privilege or activate his ability
@@ -22,12 +24,6 @@ public LeaderCardsContext() {
 
     @Override
     public Void interactWithPlayer(Object... args) throws IncorrectInputException {
-
-
-
-
-
-
 
         totalLeadersDiscarded = 0; //default value at the start of this context
         /*Activate leader cards*/

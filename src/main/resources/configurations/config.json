@@ -8,6 +8,26 @@
       "periods": 3,
       "roundsPerPeriod": 2,
       "towerLevels": 4,
+      "militaryPointsForTerritories": [
+        {
+          "0": 0
+        },
+        {
+          "1": 0
+        },
+        {
+          "2": 3
+        },
+        {
+          "3": 7
+        },
+        {
+          "4": 12
+        },
+        {
+          "5": 18
+        }
+      ],
       "councilPrivilege": [
         {
           "resources": {

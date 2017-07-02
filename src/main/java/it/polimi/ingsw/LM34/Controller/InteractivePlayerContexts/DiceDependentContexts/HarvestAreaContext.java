@@ -1,26 +1,17 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext;
-import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
-import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
-import it.polimi.ingsw.LM34.Model.Cards.BuildingCard;
 import it.polimi.ingsw.LM34.Model.Cards.TerritoryCard;
-import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
-import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Utils.Configurator;
 
-import java.util.List;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
-import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.YELLOW;
+import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.GREEN;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class HarvestAreaContext extends AbstractGameContext {
@@ -57,7 +48,7 @@ public class HarvestAreaContext extends AbstractGameContext {
                 this.gameManager.getProductionArea().getActionSlots().get(selectedSlot).insertFamilyMember(selectedFamilyMember);
             selectedFamilyMember.placePawn();
 
-            this.gameManager.getCurrentPlayer().getPersonalBoard().getDevelopmentCardsByType(YELLOW).ifPresent(list ->
+            this.gameManager.getCurrentPlayer().getPersonalBoard().getDevelopmentCardsByType(GREEN).ifPresent(list ->
                 list.forEach(card -> {
                     if (((TerritoryCard) card).getDiceValueToHarvest() <= selectedFamilyMember.getValue())
                         card.getPermanentBonus().applyEffect(this);

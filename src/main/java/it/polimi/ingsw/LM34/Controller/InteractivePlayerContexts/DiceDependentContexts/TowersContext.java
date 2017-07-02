@@ -1,12 +1,9 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NoResourcesException;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
@@ -14,14 +11,15 @@ import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlot;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
-import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
-import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Utils.Configurator;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+
 import java.util.logging.Level;
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.FAMILY_MEMBER_SELECTION_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.*;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
@@ -73,7 +71,7 @@ public class TowersContext extends AbstractGameContext {
                 card.getResourcesRequired().getResourceByType(VICTORY_POINTS));
 
         if(!this.noOccupiedTowerTax)
-            requirements.sumResources(new Resources(3,0,0,0)); //TODO: add to Configurator
+            requirements.sumResources(Configurator.TOWER_OCCUPIED_COST);
 
         if(!this.gameManager.getCurrentPlayer().hasEnoughResources(requirements))
             throw new NotEnoughResourcesException();

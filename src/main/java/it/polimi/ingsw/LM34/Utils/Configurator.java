@@ -57,6 +57,7 @@ public final class Configurator {
     public static final Integer STONES_INCREMENT_PLAYER_ORDER = 0;
     public static final Integer BASE_SERVANTS = 2; //#servants given to first player at game start
     public static final Integer SERVANTS_INCREMENT_PLAYER_ORDER = 0;
+    public static final Resources TOWER_OCCUPIED_COST = new Resources(3, 0, 0, 0);
 
     private static Market market;
     private static CouncilPalace palace;
@@ -73,6 +74,7 @@ public final class Configurator {
     private static Map<Integer, Integer> faithPath;
     private static Map<Integer, Integer> endingGameCharactersVictoryPoints;
     private static Map<Integer, Integer> endingGameTerritoriesVictoryPoints;
+    private static Map<Integer,Integer> militaryPointsForTerritories;
     private static Integer resourcesForVictoryPoints;
     private static List<BonusTile> advancedPersonalTiles;
 
@@ -233,6 +235,11 @@ public final class Configurator {
         }
     }
 
+    /**
+     *
+     * @param diceColor string from which to extract dice colors
+     * @return
+     */
     private static DiceColor getDiceColorFromJson(String diceColor) {
         for(DiceColor color : DiceColor.values())
             if(color.toString().equalsIgnoreCase(diceColor))
@@ -275,6 +282,9 @@ public final class Configurator {
         }
     }
 
+    /**
+     * @param jsonObject from which to load game path, council privileges rewards and other games related configs
+     */
     private static void setupGame(JSONObject jsonObject) {
 
         /****Rewards given by council Privileges*/
@@ -303,14 +313,26 @@ public final class Configurator {
 
         /****Ending game victory points for the amount of resources specific****/
         resourcesForVictoryPoints = jsonObject.getJSONObject(FINAL_VICTORY_POINTS_JSONSTRING).getInt("resourcesForVictoryPoint");
+
+        /****Military Points for Territories****/
+        militaryPointsForTerritories = new HashMap<>();
+        JSONArray jsonMilitaryPointsForTerritoriesArray = jsonObject.getJSONArray("militaryPointsForTerritories");
+        for(Integer index = 0; index < jsonMilitaryPointsForTerritoriesArray.length(); index++)
+            militaryPointsForTerritories.put(index, jsonMilitaryPointsForTerritoriesArray.getJSONObject(index).getInt(index.toString()));
     }
 
+    /**
+     * @param jsonArray from which to load into objects the excommunication cards
+     */
     private static void setupExcommunicationTiles(JSONArray jsonArray) {
         excommunicationTiles = new ArrayList<>();
         for(Integer index = 0; index < jsonArray.length(); index++)
             excommunicationTiles.add(getExcommunicationCardFromJson(jsonArray.optJSONObject(index)));
     }
 
+    /**
+     * @param jsonTowersSlots from which to load the towerslot bonuses for the game
+     */
     private static void setupTowers(JSONArray jsonTowersSlots) {
         Integer index = 0;
         Integer iteration = 1;
@@ -339,6 +361,9 @@ public final class Configurator {
         return new TowerSlot(singlePawnSlot, diceValue, resourcesBonus);
     }
 
+    /**
+     * @param marketArray from which to extract the data about marketSlots
+     */
     private static void setupMarket(JSONArray marketArray) {
         market = new Market(new ArrayList<>());
         for (int i = 0; i < marketArray.length(); i++) {
@@ -894,5 +919,9 @@ public final class Configurator {
 
     public static Map<Integer, Integer> getMapTerritoriesToVictoryPoints() {
         return endingGameTerritoriesVictoryPoints;
+    }
+
+    public Map<Integer, Integer> getMilitaryPointsForTerritories() {
+        return this.militaryPointsForTerritories;
     }
 }
