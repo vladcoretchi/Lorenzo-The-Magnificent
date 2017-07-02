@@ -16,7 +16,6 @@ import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelated
 import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus.TowerSlotPenalty;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesPerItemBonus;
-import it.polimi.ingsw.LM34.Model.LeaderRequirements;
 import it.polimi.ingsw.LM34.Model.Resources;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -316,15 +315,16 @@ public final class Configurator {
         Integer index = 0;
         Integer iteration = 1;
         towers = new ArrayList<>();
+        List<TowerSlot> tempSlotsOfTower;
         Tower tower;
         for(DevelopmentCardColor type : DevelopmentCardColor.values()) {
             if (type != MULTICOLOR) {
-                tower = new Tower(type);
+                tempSlotsOfTower = new ArrayList<>();
                 for (; index < MAX_TOWER_LEVELS * iteration; index++) {
-                    tower.getTowerSlots().add(getTowerSlotFromJson(jsonTowersSlots.optJSONObject(index)));
+                    tempSlotsOfTower.add(getTowerSlotFromJson(jsonTowersSlots.optJSONObject(index)));
                 }
                 iteration++;
-                towers.add(tower);
+                towers.add(new Tower(type, tempSlotsOfTower));
             }
         }
     }
@@ -855,5 +855,17 @@ public final class Configurator {
 
     public static List<BonusTile> getBonusTiles() {
         return advancedPersonalTiles;
+    }
+
+    public static Map<Integer, Integer> getFaithPath() {
+        return faithPath;
+    }
+
+    public static Map<Integer, Integer> getMapCharactersToVictoryPoints() {
+        return endingGameCharactersVictoryPoints;
+    }
+
+    public static Map<Integer, Integer> getMapTerritoriesToVictoryPoints() {
+        return endingGameTerritoriesVictoryPoints;
     }
 }
