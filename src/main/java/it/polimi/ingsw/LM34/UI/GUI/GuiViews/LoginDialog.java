@@ -22,8 +22,8 @@ public class LoginDialog extends Application {
         primaryStage.setTitle("Login - Lorenzo il Magnifico [LM34]");
         primaryStage.setScene(new Scene(root, 400, 400));
         primaryStage.getScene().getStylesheets().add(LoginDialog.class.getResource("/css/login.css").toExternalForm());
+        primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.setResizable(false);
-        primaryStage.initStyle(StageStyle.UTILITY);
         primaryStage.show();
         primaryStage.setOnHidden(e -> primaryStage.close());
 

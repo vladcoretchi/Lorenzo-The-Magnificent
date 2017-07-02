@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Cards;
 
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
-import it.polimi.ingsw.LM34.Model.LeaderRequirements;
 
 import java.io.Serializable;
 

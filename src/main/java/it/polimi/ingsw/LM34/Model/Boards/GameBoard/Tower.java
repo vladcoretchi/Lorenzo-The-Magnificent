@@ -2,6 +2,7 @@ package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +11,9 @@ public class Tower extends GameSpace implements Serializable {
     private DevelopmentCardColor cardColor;
     private List<TowerSlot> slots;
 
-    public Tower (DevelopmentCardColor cardColor) {
+    public Tower (DevelopmentCardColor cardColor, List<TowerSlot> slotsToLoad) {
         this.cardColor = cardColor;
-        slots = new ArrayList<>();
+        slots = slotsToLoad;
     }
 
     /**
@@ -54,10 +55,6 @@ public class Tower extends GameSpace implements Serializable {
                 cardsStoredInTower.add(slot.getCardStored());
         });
         return cardsStoredInTower;
-    }
-
-    public void setSlots(List<TowerSlot> slotsToLoad) {
-        this.slots = slotsToLoad;
     }
 
     public List<TowerSlot> getTowerSlots() {

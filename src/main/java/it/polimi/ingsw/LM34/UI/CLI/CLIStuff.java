@@ -186,19 +186,19 @@ public final class CLIStuff {
         }
     }
 
-    public static final void printPlayerName(String turnPhrase, PawnColor color) {
+    public static final void printPlayerName(String phrase, PawnColor color) {
         switch (color) {
             case GREEN:
-                printGreen(turnPhrase);
+                printGreen(phrase);
                 break;
             case BLUE:
-                printBlue(turnPhrase);
+                printBlue(phrase);
                 break;
             case YELLOW:
-                printYellow(turnPhrase);
+                printYellow(phrase);
                 break;
             case RED:
-                printRed(turnPhrase);
+                printRed(phrase);
                 break;
             default:
                 printError(INVALID_PAWN_COLOR);

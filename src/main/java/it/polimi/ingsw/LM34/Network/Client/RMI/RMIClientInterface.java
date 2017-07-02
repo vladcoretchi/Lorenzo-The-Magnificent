@@ -30,10 +30,9 @@ public interface RMIClientInterface extends Remote {
     void updatePlayersData(List<Player> players) throws  RemoteException;
     void updateDiceValues(List<Dice> diceValues) throws  RemoteException;
 
-    PlayerAction turnMainAction(Boolean lastActionValid) throws  RemoteException;
+    PlayerAction turnMainAction(Exception lastActionValid) throws  RemoteException;
 
-    PlayerAction turnSecondaryAction(Boolean lastActionValid) throws  RemoteException;
-
+    PlayerAction turnSecondaryAction(Exception lastActionValid) throws  RemoteException;
 
     Integer familyMemberSelection(List<FamilyMember> familyMembers) throws  RemoteException;
 

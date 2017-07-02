@@ -65,11 +65,11 @@ public abstract class AbstractClient {
         this.networkController.updateDiceValues(diceValues);
     }
 
-    public PlayerAction turnMainAction(Boolean lastActionValid) {
+    public PlayerAction turnMainAction(Exception lastActionValid) {
         return this.networkController.turnMainAction(Optional.ofNullable(lastActionValid));
     }
 
-    public PlayerAction turnSecondaryAction(Boolean lastActionValid) {
+    public PlayerAction turnSecondaryAction(Exception lastActionValid) {
         return this.networkController.turnSecondaryAction(Optional.ofNullable(lastActionValid));
     }
 

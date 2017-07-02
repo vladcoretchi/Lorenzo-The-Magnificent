@@ -195,7 +195,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     }
 
     @Override
-    public PlayerAction turnMainAction(Optional<Boolean> lastActionValid) {
+    public PlayerAction turnMainAction(Optional<Exception> lastActionValid) {
         try {
             this.outStream.writeUTF(RequestToClient.TURN_MAIN_ACTION.name());
             this.outStream.writeObject(lastActionValid.orElse(null));
@@ -211,7 +211,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     }
 
     @Override
-    public PlayerAction turnSecondaryAction(Optional<Boolean> lastActionValid) {
+    public PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid) {
         try {
             this.outStream.writeUTF(RequestToClient.TURN_SECONDARY_ACTION.name());
             this.outStream.writeObject(lastActionValid.orElse(null));

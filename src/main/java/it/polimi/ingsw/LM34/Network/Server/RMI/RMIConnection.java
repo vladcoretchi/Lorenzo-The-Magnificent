@@ -111,7 +111,7 @@ public class RMIConnection extends AbstractConnection {
     }
 
     @Override
-    public PlayerAction turnMainAction(Optional<Boolean> lastActionValid) {
+    public PlayerAction turnMainAction(Optional<Exception> lastActionValid) {
         try {
             return this.clientRMI.turnMainAction(lastActionValid.orElse(null));
         } catch(RemoteException e) {
@@ -121,7 +121,7 @@ public class RMIConnection extends AbstractConnection {
     }
 
     @Override
-    public PlayerAction turnSecondaryAction(Optional<Boolean> lastActionValid) {
+    public PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid) {
         try {
             return this.clientRMI.turnMainAction(lastActionValid.orElse(null));
         } catch(RemoteException e) {

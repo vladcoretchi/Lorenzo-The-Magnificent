@@ -11,7 +11,6 @@ import java.io.Serializable;
 public class TowerSlot extends ActionSlot implements Serializable {
 
     private AbstractDevelopmentCard cardStored;
-    private Integer level;
 
     public TowerSlot(Boolean isSingle, Integer diceValueRequired, ResourcesBonus reward) {
         singlePawnSlot = isSingle;
@@ -41,10 +40,6 @@ public class TowerSlot extends ActionSlot implements Serializable {
             this.familyMember = fm;
         else
             throw new OccupiedSlotException();
-    }
-
-    public Integer getLevel() {
-        return level;
     }
 }
 

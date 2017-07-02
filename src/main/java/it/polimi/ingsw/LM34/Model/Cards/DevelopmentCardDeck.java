@@ -14,11 +14,11 @@ public class DevelopmentCardDeck<T extends AbstractDevelopmentCard> implements  
 
     public DevelopmentCardDeck(ArrayList<T> developmentCards) {
         this.developmentDeck = developmentCards;
-        //get the development card color type by extracting this info from the first card of the deck
     }
 
     public DevelopmentCardDeck(List<T> cardList) {
         this.developmentDeck = cardList;
+        //get the development card color type by extracting this info from the first card of the deck
         this.cardColor = cardList.get(0).getColor();
     }
 

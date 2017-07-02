@@ -6,6 +6,7 @@ import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Enums.Model.WorkingAreaType;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Enums.UI.NetworkType;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
@@ -33,7 +34,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.*;
 import java.util.logging.Level;
 
-import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.ORANGE;
 import static it.polimi.ingsw.LM34.UI.CLI.CLIStuff.*;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
@@ -50,10 +50,14 @@ public class CLI implements UIInterface {
     private WorkingArea harvestArea;
     private Market market;
     private CouncilPalace palace;
+    private Map<Integer, Integer> faithPath;
+    private Map<Integer, Integer> mapCharactersToVictoryPoints;
+    private Map<Integer, Integer> mapTerritoriesToVictoryPoints;
     private List<ExcommunicationCard> excommunicationCards;
     private List<Player> players;
     private List<Dice> dices;
     private List<PlayerSelectableContexts> selectableContexts;
+
 
     public CLI() {
         dices = new ArrayList<>();
@@ -131,9 +135,10 @@ public class CLI implements UIInterface {
     }
 
     @Override
-    public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
+    public void loadExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
         this.excommunicationCards = excommunicationCards;
     }
+
     @Override
     public void updateTowers(List<Tower> towers) {
         this.towers = towers;
@@ -188,14 +193,14 @@ public class CLI implements UIInterface {
     }
 
     @Override
-    public PlayerAction turnMainAction(Optional<Boolean> lastActionValid) {
+    public PlayerAction turnMainAction(Optional<Exception> lastActionValid) {
         //TODO: return
         return null;
     }
 
     //TODO
     @Override
-    public PlayerAction turnSecondaryAction(Optional<Boolean> lastActionValid) {
+    public PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid) {
         return null;
     }
 
@@ -370,12 +375,11 @@ public class CLI implements UIInterface {
                 resourcesLines = sr.size();
         }
 
-        for(Integer diceValue : diceValues)
-            printDiceValue(diceValue.toString());
+
+        diceValues.forEach(diceValue -> printDiceValue(diceValue.toString()));
         printLine("");
 
-        for(FamilyMember pawn : pawnsInserted)
-            printPawn(pawn.getFamilyMemberColor(), pawn.getDiceColorAssociated());
+        pawnsInserted.forEach((pawn) -> printPawn(pawn.getFamilyMemberColor(), pawn.getDiceColorAssociated()));
 
         printFormat(" \n%1$s \n", String.join(" ", Collections.nCopies(slotsResources.size(), "__________")));
         printFormat("|%1$s|\n", String.join("|", Collections.nCopies(slotsResources.size(), "          ")));
@@ -580,12 +584,6 @@ public class CLI implements UIInterface {
     }
 
     @Override
-    public void churchSupportReport(String churchResult, PawnColor pawnColor) {
-        printPlayerName(churchResult +"\n", pawnColor);
-
-    }
-
-    @Override
     public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
         String input;
         Integer choice;
@@ -637,8 +635,7 @@ public class CLI implements UIInterface {
             printTowerTypeColor(tower.getCardColor());
 
             printLine("");
-            for(Integer diceValue : diceValues)
-                printDiceValue(diceValue.toString());
+            diceValues.forEach(dv -> printDiceValue(dv.toString()));
             printLine("");
 
             for(FamilyMember pawn : pawnsInserted)
@@ -733,6 +730,11 @@ public class CLI implements UIInterface {
     }
 
     @Override
+    public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) {
+        printPlayerName(playerName + "" + infoType.toString() +"\n", playerColor);
+    }
+
+    @Override
     public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
         String input;
         Integer bonusTileSelected = 0;
@@ -795,22 +797,39 @@ public class CLI implements UIInterface {
     }
 
     @Override
-    public void infoNewPlayerTurn(String playerName, PawnColor playerColor) {
-        String phrase = "It's " + playerName + "'s turn\n";
-        printPlayerName(phrase, playerColor);
+    public void loadMapTerritoriesToVictoryPoints(Map<Integer, Integer> mapTerritoriesToVictoryPoints) {
+        this.mapTerritoriesToVictoryPoints = mapTerritoriesToVictoryPoints;
     }
 
     @Override
-    public void infoDisconnectedPlayer(String playerName, PawnColor playerColor) {
-        String phrase = playerName + " has disconnected\n";
-        printPlayerName(phrase, playerColor);
+    public void loadMapCharactersToVictoryPoints(Map<Integer, Integer> mapCharactersToVictoryPoints) {
+        this.mapCharactersToVictoryPoints = mapCharactersToVictoryPoints;
     }
 
     @Override
-    public void infoReconnectedPlayer(String playerName, PawnColor playerColor) {
-        String phrase = playerName + " has reconnected\n";
-        printPlayerName(phrase, playerColor);
+    public void loadFaithPath(Map<Integer, Integer> faithPath) {
+        this.faithPath = faithPath;
     }
+
+
+    @Override
+    public void showMapCharactersToVictoryPoints() {
+        printToConsole.println("Here is the mapping between number of characters owned and victory points provided at endGame");
+        mapTerritoriesToVictoryPoints.forEach((pos, points) -> printToConsole.println(pos + ":" + points));
+    }
+
+    @Override
+    public void showMapTerritoriesToVictoryPoints() {
+        printToConsole.println("Here is the mapping between number of territories owned and victory points provided at endGame");
+        mapCharactersToVictoryPoints.forEach((pos, points) -> printToConsole.println(pos + ":" + points));
+    }
+
+    @Override
+    public void showFaithPath() {
+        printToConsole.println("Here is the mapping between the position on the faithPath and victory points provided at Church Support");
+        faithPath.forEach((pos, points) -> printToConsole.println(pos + ":" + points));
+    }
+
 
     public static void main (String[] args) {
         Configurator.loadConfigs();
@@ -819,7 +838,7 @@ public class CLI implements UIInterface {
         cli.market = market;
         cli.towers = Configurator.getTowers();
         try {
-            cli.towers.get(1).getTowerSlots().get(0).insertFamilyMember(new FamilyMember(PawnColor.RED, ORANGE));
+            //cli.towers.get(1).getTowerSlots().get(0).insertFamilyMember(new FamilyMember(PawnColor.RED, ORANGE));
             /*cli.market.insertFamilyMember(0, new FamilyMember(PawnColor.BLUE, DiceColor.ORANGE));
             cli.market.insertFamilyMember(1, new FamilyMember(PawnColor.GREEN, DiceColor.BLACK));
             cli.market.insertFamilyMember(2, new FamilyMember(PawnColor.RED, DiceColor.WHITE));

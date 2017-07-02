@@ -39,7 +39,7 @@ public class ClientNetworkController {
     }
 
     public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
-        this.clientConnection.getUI().setExcommunicationCards(excommunicationCards);
+        this.clientConnection.getUI().loadExcommunicationCards(excommunicationCards);
     }
 
     public void updateTowers(List<Tower> towers) {
@@ -70,14 +70,13 @@ public class ClientNetworkController {
         this.clientConnection.getUI().updateDiceValues(diceValues);
     }
 
-    public PlayerAction turnMainAction(Optional<Boolean> lastActionValid) {
+    public PlayerAction turnMainAction(Optional<Exception> lastActionValid) {
         return this.clientConnection.getUI().turnMainAction(lastActionValid);
     }
 
-    public PlayerAction turnSecondaryAction(Optional<Boolean> lastActionValid) {
+    public PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid) {
         return this.clientConnection.getUI().turnSecondaryAction(lastActionValid);
     }
-
 
     public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
         return this.clientConnection.getUI().familyMemberSelection(familyMembers);

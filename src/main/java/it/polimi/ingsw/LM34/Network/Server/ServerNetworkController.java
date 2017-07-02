@@ -62,11 +62,11 @@ public class ServerNetworkController {
     }
 
 
-    public PlayerAction turnMainAction(Optional<Boolean> lastActionValid) {
+    public PlayerAction turnMainAction(Optional<Exception> lastActionValid) {
         return this.serverConnection.turnMainAction(lastActionValid);
     }
 
-    public PlayerAction turnSecondaryAction(Optional<Boolean> lastActionValid) {
+    public PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid) {
         return  this.serverConnection.turnSecondaryAction(lastActionValid);
     }
 

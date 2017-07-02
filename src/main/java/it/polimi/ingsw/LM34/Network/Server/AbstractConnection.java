@@ -48,10 +48,9 @@ public abstract class AbstractConnection {
     public abstract void updatePlayersData(List<Player> players);
     public abstract void updateDiceValues(List<Dice> diceValues);
 
-    public abstract PlayerAction turnMainAction(Optional<Boolean> lastActionValid);
+    public abstract PlayerAction turnMainAction(Optional<Exception> lastActionValid);
 
-    public abstract PlayerAction turnSecondaryAction(Optional<Boolean> lastActionValid);
-
+    public abstract PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid);
 
     public abstract Integer familyMemberSelection(List<FamilyMember> familyMembers);
 

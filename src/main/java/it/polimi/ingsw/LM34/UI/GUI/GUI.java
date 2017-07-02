@@ -4,6 +4,7 @@ package it.polimi.ingsw.LM34.UI.GUI;
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
@@ -19,6 +20,7 @@ import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
+import it.polimi.ingsw.LM34.UI.CLI.CLIStuff;
 import it.polimi.ingsw.LM34.UI.GUI.GuiViews.*;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import it.polimi.ingsw.LM34.Utils.Configurator;
@@ -48,6 +50,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -55,7 +58,6 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.*;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class GUI extends Application implements UIInterface {
@@ -89,25 +91,20 @@ public class GUI extends Application implements UIInterface {
     private WorkingArea harvestArea;
     private Market market;
     private CouncilPalace palace;
+    private Map<Integer, Integer> faithPath;
+    private Map<Integer, Integer> mapCharactersToVictoryPoints;
+    private Map<Integer, Integer> mapTerritoriesToVictoryPoints;
 
     @Override
     public void start(Stage stage) throws Exception {
         root = FXMLLoader.load(getClass().getClassLoader().getResource("views/gui.fxml"));
-
-        this.primaryStage = new Stage();
         prepareWindow();
-
-        Dice orange = new Dice(ORANGE); orange.rollDice();
-        Dice black = new Dice(BLACK); orange.rollDice();
-        Dice white = new Dice(WHITE); orange.rollDice();
-        List<Dice> dices = new ArrayList<>();
-        dices.add(orange); dices.add(black); dices.add(white);
-        updateDiceValues(dices);
-
-        //new LeaderCardsView(leaders).start(primaryStage);
-
     }
 
+    /**
+     * Show games results
+     * @param players in game
+     */
     @Override
     public void endGame(List<Player> players) {
         try {
@@ -118,14 +115,33 @@ public class GUI extends Application implements UIInterface {
         }
     }
 
+    /**
+     * Inform the player that is turn has ended
+     */
     @Override
     public void endTurn() {
        new EndTurnPopup().interactWithPlayer();
     }
 
+    /**
+     * Inform the player that he is no more connected to the game
+     */
     @Override
     public void disconnectionWarning() {
-        new DisconnectionWarning().interactWithPlayer();
+        FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            new DisconnectionWarning().interactWithPlayer();
+            return null;
+        });
+        Platform.runLater(uiTask);
+    }
+
+    @Override
+    public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) {
+        FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            new GameInformationDialog().interactWithPlayer(infoType, playerName, playerColor);
+            return null;
+        });
+        Platform.runLater(uiTask);
     }
 
     @Override
@@ -140,26 +156,8 @@ public class GUI extends Application implements UIInterface {
         return RunLaterTask(uiTask);
     }
 
-    @Override
-    public void infoNewPlayerTurn(String playerName, PawnColor playerColor) {
-        String phrase = "It's " + playerName + "'s turn\n";
-        Platform.runLater(()-> new PlayersInformativeDialog().interactWithPlayer(phrase, playerColor));
-    }
-
-    @Override
-    public void infoDisconnectedPlayer(String playerName, PawnColor playerColor) {
-        String phrase = playerName + "has disconnected\n";
-        Platform.runLater(()-> new PlayersInformativeDialog().interactWithPlayer(phrase, playerColor));
-    }
-
-    @Override
-    public void infoReconnectedPlayer(String playerName, PawnColor playerColor) {
-        String phrase = playerName + "has reconnected\n";
-        Platform.runLater(()-> new PlayersInformativeDialog().interactWithPlayer(phrase, playerColor));
-    }
-
     private void prepareWindow() {
-
+        this.primaryStage = new Stage();
         primaryStage.setWidth(800);
         primaryStage.setHeight(600);
         primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
@@ -183,7 +181,7 @@ public class GUI extends Application implements UIInterface {
     }
 
     @Override
-    public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
+    public void loadExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
         this.excommunicationCards = excommunicationCards;
 
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
@@ -201,27 +199,40 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public void updateTowers(List<Tower> towers) {
+        this.towersSpaces = new ArrayList<>();
         this.towersSpaces = towers;
 
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            ImageView cardView;
             for (Tower tower : this.towersSpaces) {
                 /***Load cards***/
                 Integer indexCard = 0;
                 for (AbstractDevelopmentCard card : tower.getCardsStored()) {
-                    ImageView imageView = ((ImageView) root.lookup("#tower" + tower.getCardColor().toString() + "_level" + indexCard));
-                    if(card != null) {
+                    cardView = ((ImageView) root.lookup("#tower" + tower.getCardColor().toString() + "_level" + indexCard));
+                    if (card != null) {
                         String devType = tower.getCardColor().getDevType();
-                        imageView.setImage(new Image(Thread.currentThread()
-                                .getContextClassLoader().getResource("images/developmentCards/" + devType + card.getName() + ".png")
+                        cardView.setImage(new Image(Thread.currentThread()
+                                .getContextClassLoader().getResource("images/developmentCards/" + devType + "/" + card.getName() + ".png")
                                 .toExternalForm()));
-                    }
-                    else {
-                        imageView.setImage(new Image(Thread.currentThread()
+                    } else {
+                        cardView.setImage(new Image(Thread.currentThread()
                                 .getContextClassLoader().getResource("images/transparent.png")
                                 .toExternalForm()));
                     }
                     indexCard++;
                 }
+                    List<TowerSlot> slotsInTower = new ArrayList<>();
+                    Integer level;
+                    ImageView slotView;
+                    for (Tower towerSpace : this.towersSpaces) {
+                        level = 0;
+                        String cardColor = towerSpace.getCardColor().toString();
+                        /***Load bonuses***/
+                        for (; level < Configurator.MAX_TOWER_LEVELS; level++) {
+                            slotView = ((ImageView) root.lookup("#tower" + cardColor + "bonus" + level));
+                            slotView.setOnMouseEntered(new SlotMouseEvent(towerSpace.getTowerSlots().get(level).getResourcesReward()));
+                        }
+                    }
             }
             return null;
         });
@@ -243,8 +254,14 @@ public class GUI extends Application implements UIInterface {
                     imageView.setTranslateX(20);
                     palacePane.getChildren().add(imageView);
                 }
+
+            ActionSlot palaceSlot;
+            palaceSlot = palace.getActionSlot();
+            palacePane.setOnMouseEntered(new SlotMouseEvent(palaceSlot.getResourcesReward()));
+
             return null;
         });
+
         Platform.runLater(uiTask);
     }
 
@@ -257,14 +274,16 @@ public class GUI extends Application implements UIInterface {
             Integer index;
             List<ActionSlot> marketSlots = this.market.getActionSlots();
             for (index = 0; index < marketSlots.size(); index++) {
-                ImageView imageView = ((ImageView) root.lookup("#marketActionSlot" + index));
+                ImageView slotView = ((ImageView) root.lookup("#marketActionSlot" + index));
+                slotView.setOnMouseEntered(new SlotMouseEvent(marketSlots.get(index).getResourcesReward()));
                 if (marketSlots.get(index).getFamilyMember().getFamilyMemberColor() != null) {
                     pawnColor = marketSlots.get(index).getFamilyMember().getFamilyMemberColor();
-                    imageView.setImage(new Image(Thread.currentThread()
+                    slotView.setImage(new Image(Thread.currentThread()
                             .getContextClassLoader().getResource("images/pawns/" + pawnColor.toString() + ".png").toExternalForm()));
                 } else
-                    imageView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
+                    slotView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
             }
+
             return null;
         });
         Platform.runLater(uiTask);
@@ -407,18 +426,6 @@ public class GUI extends Application implements UIInterface {
     }
 
     @Override
-    public PlayerAction turnMainAction(Optional<Boolean> lastActionValid) {
-        FutureTask<PlayerAction> uiTask = new FutureTask<>(() -> null);
-        return RunLaterTask(uiTask);
-    }
-
-    @Override
-    public PlayerAction turnSecondaryAction(Optional<Boolean> lastActionValid) {
-        FutureTask<PlayerAction> uiTask = new FutureTask<>(() -> null);
-        return RunLaterTask(uiTask);
-    }
-
-    @Override
     public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
         FutureTask<Integer> uiTask = new FutureTask<>(() -> new FamilyMemberSelectDialog().interactWithPlayer(familyMembers));
         return RunLaterTask(uiTask);
@@ -449,11 +456,6 @@ public class GUI extends Application implements UIInterface {
     }
 
     @Override
-    public void churchSupportReport(String churchResult, PawnColor pawnColor) {
-        new PlayersInformativeDialog().interactWithPlayer(churchResult, pawnColor);
-    }
-
-    @Override
     public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
         FutureTask<Integer> uiTask = new FutureTask<>(() -> new UseCouncilPrivilegeDialog().interactWithPlayer(availableBonuses));
         return RunLaterTask(uiTask);
@@ -480,6 +482,47 @@ public class GUI extends Application implements UIInterface {
         this.loginDialog = new LoginDialog();
         this.loginDialog.show();
     }
+    @Override
+    public void showMapCharactersToVictoryPoints() {
+
+    }
+
+    @Override
+    public void showMapTerritoriesToVictoryPoints() {
+
+    }
+
+    @Override
+    public void showFaithPath() {
+
+    }
+
+    @Override
+    public PlayerAction turnMainAction(Optional<Exception> lastActionValid) {
+        FutureTask<PlayerAction> uiTask = new FutureTask<>(() -> null);
+        return RunLaterTask(uiTask);
+    }
+
+    @Override
+    public PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid) {
+        FutureTask<PlayerAction> uiTask = new FutureTask<>(() -> null);
+        return RunLaterTask(uiTask);
+    }
+
+    @Override
+    public void loadMapTerritoriesToVictoryPoints(Map<Integer, Integer> mapTerritoriesToVictoryPoints) {
+        this.mapTerritoriesToVictoryPoints = mapTerritoriesToVictoryPoints;
+    }
+
+    @Override
+    public void loadMapCharactersToVictoryPoints(Map<Integer, Integer> mapCharactersToVictoryPoints) {
+        this.mapCharactersToVictoryPoints = mapCharactersToVictoryPoints;
+    }
+
+    @Override
+    public void loadFaithPath(Map<Integer, Integer> faithPath) {
+        this.faithPath = faithPath;
+    }
 
     //TODO
     @FXML
@@ -502,7 +545,6 @@ public class GUI extends Application implements UIInterface {
 
     @FXML
     public void popupTowerSlotBonus(MouseEvent event) {
-        TowerSlot towerSlot = null;
         List<TowerSlot> slotsInTower = new ArrayList<>();
         String color = new String();
         Integer level = 0;
@@ -521,17 +563,18 @@ public class GUI extends Application implements UIInterface {
         }
         /*Get the towerSlot that generated the event*/
         try {
-            for (Tower tower : towersSpaces)
+            CLIStuff.printToConsole.println(color);
+            for (Tower tower : this.towersSpaces) {
+                CLIStuff.printToConsole.println(color);
                 if (tower.getCardColor().toString().equalsIgnoreCase(color)) {
-                    slotsInTower = (ArrayList<TowerSlot>) tower.getTowerSlots();
-                    for (TowerSlot slot : slotsInTower)
-                        if (slot.getLevel() == level)
-                            towerSlot = slot;
+                    slotsInTower = tower.getTowerSlots();
+                    CLIStuff.printToConsole.println(slotsInTower);
+                    CLIStuff.printToConsole.println(level);
+                    new PopupSlotBonus(event, slotsInTower.get(level).getResourcesReward()).start(primaryStage);
                 }
-
-            new PopupSlotBonus(event, towerSlot.getResourcesReward()).start(primaryStage);
+            }
         } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Error in creating the popupBonus");
+            e.printStackTrace();
         }
     }
 
@@ -560,12 +603,8 @@ public class GUI extends Application implements UIInterface {
         try {
             new PopupSlotBonus(event, actionSlot.getResourcesReward()).start(primaryStage);
         } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Error in creating the popupBonus");
+            LOGGER.log(Level.WARNING, "popupMarket", e.getStackTrace());
         }
-    }
-
-    public void loadFaithPath() {
-        //TODO
     }
 
     @FXML
@@ -594,6 +633,24 @@ public class GUI extends Application implements UIInterface {
             }
         }
     }
+
+    private class SlotMouseEvent implements EventHandler<Event> {
+        private ResourcesBonus reward;
+
+        public SlotMouseEvent(ResourcesBonus reward) {
+            this.reward = reward;
+        }
+
+        @Override
+        public void handle(Event event) {
+            try {
+                new PopupSlotBonus((MouseEvent) event, reward).start(primaryStage);
+            } catch (Exception e) {
+                LOGGER.log(Level.WARNING, "Error in handling events from GUI", e.getStackTrace());
+            }
+        }
+    }
+
         private <T> T RunLaterTask(FutureTask<T> uiTask) {
             Platform.runLater(uiTask);
             try {
@@ -606,12 +663,18 @@ public class GUI extends Application implements UIInterface {
 
     @FXML
     public void showLeaderCardsActions() {
-        //TODO: will this call mainaction?
         LeaderCardsView leaderCardsView = new LeaderCardsView();
         List<LeaderCard> leaderCards = new ArrayList<>();
         LeaderCard leaderCard = new LeaderCard("Lorenzo de Medici", null, null, true);
         LeaderCard leaderCard1 = new LeaderCard("Cesare Borgia", null, null, true);
         leaderCards.add(leaderCard);
         leaderCards.add(leaderCard1);
+    }
+
+    public static void main(String [] args) {
+        GUI gui = new GUI();
+        Configurator.loadConfigs();
+        gui.updateTowers(Configurator.getTowers());
+        gui.show();
     }
 }

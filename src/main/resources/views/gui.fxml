@@ -83,16 +83,16 @@
             </ImageView>
 
             <!-- market area-->
-            <ImageView fx:id="marketActionSlot3" fitHeight="107.5" fitWidth="124.5" layoutX="1195" layoutY="1690" onMouseClicked="#placePawn" onMouseEntered="#popupMarketBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/coveringtile_1_back_.png" />
-            </ImageView>
-            <ImageView fx:id="marketActionSlot2" fitHeight="107.5" fitWidth="124.5" layoutX="1085" layoutY="1590" onMouseClicked="#placePawn" onMouseEntered="#popupMarketBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/coveringtile_1_back_.png" />
-            </ImageView>
-            <ImageView fx:id="marketActionSlot1" fitHeight="100" fitWidth="100" layoutX="950" layoutY="1565" onMouseClicked="#placePawn" onMouseEntered="#popupMarketBonus" style="-fx-background-color: transparent">
+            <ImageView fx:id="marketActionSlot3" fitHeight="107.5" fitWidth="124.5" layoutX="1195" layoutY="1690" onMouseClicked="#placePawn"  style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="marketActionSlot0" fitHeight="100" fitWidth="100" layoutX="800" layoutY="1565" onMouseClicked="#placePawn" onMouseEntered="#popupMarketBonus" style="-fx-background-color: transparent">
+            <ImageView fx:id="marketActionSlot2" fitHeight="107.5" fitWidth="124.5" layoutX="1085" layoutY="1590" onMouseClicked="#placePawn"  style="-fx-background-color: transparent">
+                <Image url="@../images/transparentSlot.png" />
+            </ImageView>
+            <ImageView fx:id="marketActionSlot1" fitHeight="100" fitWidth="100" layoutX="950" layoutY="1565" onMouseClicked="#placePawn"  style="-fx-background-color: transparent">
+                <Image url="@../images/transparentSlot.png" />
+            </ImageView>
+            <ImageView fx:id="marketActionSlot0" fitHeight="100" fitWidth="100" layoutX="800" layoutY="1565" onMouseClicked="#placePawn"  style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
 
@@ -133,62 +133,62 @@
             </ImageView>
 
             <!--council palace-->
-            <StackPane fx:id="councilPalace" onMouseClicked="#placePawn" onMouseEntered="#popupPalaceBonus">
+            <StackPane fx:id="councilPalace" onMouseClicked="#placePawn">
                 <ImageView fitHeight="100" fitWidth="100" layoutX="795" layoutY="1070" style="-fx-background-color: transparent">
                     <Image url="@../images/transparentSlot.png" />
                 </ImageView>
             </StackPane>
 
             <!--tower slots-->
-            <ImageView fx:id="towerGREENbonus3" fitHeight="30" fitWidth="30" layoutX="246" layoutY="115" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerGREENbonus3" fitHeight="30" fitWidth="30" layoutX="246" layoutY="115" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="towerGREENbonus2" fitHeight="30" fitWidth="30" layoutX="246" layoutY="380" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerGREENbonus2" fitHeight="30" fitWidth="30" layoutX="246" layoutY="380" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="towerGREENbonus1" fitHeight="30" fitWidth="30" layoutX="246" layoutY="642" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerGREENbonus1" fitHeight="30" fitWidth="30" layoutX="246" layoutY="642" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="towerGREENbonus0" fitHeight="30" fitWidth="30" layoutX="246" layoutY="902" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparentSlot.png" />
-            </ImageView>
-
-            <ImageView fx:id="towerBLUEbonus3" fitHeight="30" fitWidth="30" layoutX="566" layoutY="115" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparentSlot.png" />
-            </ImageView>
-            <ImageView fx:id="towerBLUEbonus2" fitHeight="30" fitWidth="30" layoutX="566" layoutY="380" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparentSlot.png" />
-            </ImageView>
-            <ImageView fx:id="towerBLUEbonus1" fitHeight="30" fitWidth="30" layoutX="566" layoutY="642" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus" style="-fx-background-color: transparent">
-                <Image url="@../images/transparentSlot.png" />
-            </ImageView>
-            <ImageView fx:id="towerBLUEbonus0" fitHeight="30" fitWidth="30" layoutX="566" layoutY="902" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerGREENbonus0" fitHeight="30" fitWidth="30" layoutX="246" layoutY="902" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
 
-            <ImageView fx:id="towerYELLOWbonus3" fitHeight="30" fitWidth="30" layoutX="891" layoutY="115" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerBLUEbonus3" fitHeight="30" fitWidth="30" layoutX="566" layoutY="115" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="towerYELLOWbonus2" fitHeight="30" fitWidth="30" layoutX="891" layoutY="380" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerBLUEbonus2" fitHeight="30" fitWidth="30" layoutX="566" layoutY="380" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="towerYELLOWbonus1" fitHeight="30" fitWidth="30" layoutX="891" layoutY="642" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerBLUEbonus1" fitHeight="30" fitWidth="30" layoutX="566" layoutY="642" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="towerYELLOWbonus0" fitHeight="30" fitWidth="30" layoutX="891" layoutY="902" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerBLUEbonus0" fitHeight="30" fitWidth="30" layoutX="566" layoutY="902" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
 
-            <ImageView fx:id="towerPURPLEbonus3" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="115" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOWbonus3" fitHeight="30" fitWidth="30" layoutX="891" layoutY="115" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="towerPURPLEbonus2" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="380" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOWbonus2" fitHeight="30" fitWidth="30" layoutX="891" layoutY="380" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="towerPURPLEbonus1" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="642" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOWbonus1" fitHeight="30" fitWidth="30" layoutX="891" layoutY="642" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="towerPURPLEbonus0" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="902" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus" style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOWbonus0" fitHeight="30" fitWidth="30" layoutX="891" layoutY="902" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
+                <Image url="@../images/transparentSlot.png" />
+            </ImageView>
+
+            <ImageView fx:id="towerPURPLEbonus3" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="115" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
+                <Image url="@../images/transparentSlot.png" />
+            </ImageView>
+            <ImageView fx:id="towerPURPLEbonus2" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="380" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
+                <Image url="@../images/transparentSlot.png" />
+            </ImageView>
+            <ImageView fx:id="towerPURPLEbonus1" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="642" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
+                <Image url="@../images/transparentSlot.png" />
+            </ImageView>
+            <ImageView fx:id="towerPURPLEbonus0" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="902" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
         </Group>

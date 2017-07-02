@@ -152,11 +152,11 @@ public enum RequestToClient {
         @Override
         void readAndHandle(SocketClient socketConnection) {
             try {
-                Boolean lastActionValid = socketConnection.getInputStream().readBoolean();
+                Exception lastActionValid = (Exception) socketConnection.getInputStream().readObject();
 
                 socketConnection.getOutputStream().writeObject(socketConnection.turnMainAction(lastActionValid));
                 socketConnection.getOutputStream().flush();
-            } catch (IOException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
             }
         }
@@ -165,11 +165,11 @@ public enum RequestToClient {
         @Override
         void readAndHandle(SocketClient socketConnection) {
             try {
-                Boolean lastActionValid = socketConnection.getInputStream().readBoolean();
+                Exception lastActionValid = (Exception) socketConnection.getInputStream().readObject();
 
                 socketConnection.getOutputStream().writeObject(socketConnection.turnSecondaryAction(lastActionValid));
                 socketConnection.getOutputStream().flush();
-            } catch (IOException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
             }
         }
