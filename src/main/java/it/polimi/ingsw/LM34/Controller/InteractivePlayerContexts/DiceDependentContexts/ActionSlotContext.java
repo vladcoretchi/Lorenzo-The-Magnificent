@@ -1,14 +1,12 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 
 import java.util.logging.Level;
 
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.ACTION_SLOT_CONTEXT;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class ActionSlotContext extends AbstractGameContext {

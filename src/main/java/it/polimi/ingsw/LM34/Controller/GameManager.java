@@ -169,7 +169,7 @@ public class GameManager {
     }
 
     public void nextRound() { //round = half period
-        List<AbstractEffect> playerObservers = new ArrayList<>();
+        List<AbstractEffect> playerObservers;
         round++;
 
 
@@ -262,7 +262,7 @@ public class GameManager {
             try {
                 contexts.put(context, ContextFactory.getContext(context));
             } catch(NoSuchContextException e) {
-                LOGGER.log(Level.SEVERE, "Cannot set one of the contexts");
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
 
         ((UseCouncilPrivilegeContext) contexts.get(USE_COUNCIL_PRIVILEGE_CONTEXT)).setRewards(Configurator.getCouncilPrivilegeRewards());
@@ -331,7 +331,6 @@ public class GameManager {
      * @return the 3 card choosed
      */
     public void setExcommunicationCards() {
-        List<ExcommunicationCard> selectedExcommunicationCards = new ArrayList<>();
         this.excommunicationCards = Configurator.getExcommunicationTiles();
     }
 

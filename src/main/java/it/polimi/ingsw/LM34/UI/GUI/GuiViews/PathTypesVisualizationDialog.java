@@ -17,7 +17,6 @@ public class PathTypesVisualizationDialog {
         alert.getDialogPane().getStylesheets().add(
                 getClass().getResource("/css/dialogStyle.css").toExternalForm());
         alert.getDialogPane().getStyleClass().add("dialogClass");
-        StringBuilder stringBuilder = new StringBuilder();
         List<String> list = new ArrayList<>();
         String unifiedString;
 

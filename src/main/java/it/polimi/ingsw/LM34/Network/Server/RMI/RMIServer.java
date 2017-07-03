@@ -21,10 +21,11 @@ public class RMIServer implements RMIServerInterface {
         try {
             registry = LocateRegistry.createRegistry(port);
         } catch (RemoteException e) {
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             try {
                 registry = LocateRegistry.getRegistry(port);
-            } catch (RemoteException ee) {
-                LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            } catch (RemoteException ex) {
+                LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             }
         }
 

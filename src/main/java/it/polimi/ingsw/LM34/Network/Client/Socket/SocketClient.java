@@ -80,7 +80,6 @@ public class SocketClient extends AbstractClient {
         } catch (IOException e) {
             getUI().disconnectionWarning();
             LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e);
-            e.printStackTrace();
         }
     }
 }

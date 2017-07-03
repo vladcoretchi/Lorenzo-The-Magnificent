@@ -2,15 +2,15 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContext
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
-import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Utils.Validator;
+
 import java.util.List;
 import java.util.logging.Level;
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.FAMILY_MEMBER_SELECTION_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.SERVANTS;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 

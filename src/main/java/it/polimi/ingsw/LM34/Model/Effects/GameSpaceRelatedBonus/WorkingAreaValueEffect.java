@@ -7,20 +7,13 @@ import it.polimi.ingsw.LM34.Exceptions.Controller.*;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
-import it.polimi.ingsw.LM34.Model.FamilyMember;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.FAMILY_MEMBER_SELECTION_CONTEXT;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
-
-/**
- * Created by vladc on 5/13/2017.
- */
 
 //TODO: evaluate to 'merge' in FamilyMemberValueEffect observer class
 

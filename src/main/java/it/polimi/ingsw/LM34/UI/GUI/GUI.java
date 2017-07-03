@@ -1,6 +1,5 @@
 package it.polimi.ingsw.LM34.UI.GUI;
 
-
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PathType;
@@ -22,7 +21,6 @@ import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
-import it.polimi.ingsw.LM34.UI.CLI.CLIStuff;
 import it.polimi.ingsw.LM34.UI.GUI.GuiViews.*;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import it.polimi.ingsw.LM34.Utils.Configurator;
@@ -55,16 +53,21 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import static it.polimi.ingsw.LM34.UI.UIConnectionInfo.*;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
+/**
+ * this class implements in graphic mode all method specified by {@link UIInterface}
+ */
 public class GUI extends Application implements UIInterface {
     private AbstractClient networkClient;
     private ClientNetworkController networkController;
     private PersonalBoardView personalBoardView;
 
+    /**
+     * Javafx Component Variables
+     */
     private Parent root;
     private Stage primaryStage;
     private LoginDialog loginDialog;
@@ -101,62 +104,12 @@ public class GUI extends Application implements UIInterface {
         root = FXMLLoader.load(getClass().getClassLoader().getResource("views/gui.fxml"));
         this.primaryStage = new Stage();
         prepareWindow();
-
-        faithPath = Configurator.getFaithPath();
-        showFaithPath();
-
+        alternativeRequirementsPayment();
         this.selectedContext = Optional.empty();
 
     }
 
-    /**
-     * Show games results
-     * @param players in game
-     */
-    @Override
-    public void endGame(List<Player> players) {
-        try {
-            new EndGameDialog(players).start(new Stage());
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
-            e.printStackTrace();
-        }
-    }
 
-    /**
-     * Inform the player that is turn has ended
-     */
-    @Override
-    public void endTurn() {
-       new EndTurnPopup().interactWithPlayer();
-    }
-
-    /**
-     * Inform the player that he is no more connected to the game
-     */
-    @Override
-    public void disconnectionWarning() {
-        FutureTask<Void> uiTask = new FutureTask<>(() -> {
-            new DisconnectionWarning().interactWithPlayer();
-            return null;
-        });
-        Platform.runLater(uiTask);
-    }
-
-    /**
-     * Shows multiple kind of info about players
-     * @param infoType information about a player {@link GameInformationType}
-     * @param playerName the associated player
-     * @param playerColor the color associated to the player to whom the info concerns
-     */
-    @Override
-    public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) {
-        FutureTask<Void> uiTask = new FutureTask<>(() -> {
-            new GameInformationDialog().interactWithPlayer(infoType, playerName, playerColor);
-            return null;
-        });
-        Platform.runLater(uiTask);
-    }
 
     /**
      * @param bonusTiles that the players has the opportunity to choose one from
@@ -227,7 +180,7 @@ public class GUI extends Application implements UIInterface {
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
             ImageView imageView;
             for (Integer index = 1; index <= Configurator.TOTAL_PERIODS; index++) {
-                imageView = ((ImageView) root.lookup("#excommunicationCard" + this.excommunicationCards.get(index).getPeriod()));
+                imageView = (ImageView) root.lookup("#excommunicationCard" + this.excommunicationCards.get(index).getPeriod());
                 imageView.setImage(new Image(Thread.currentThread()
                         .getContextClassLoader().getResource("images/excommunicationTiles/excomm_" + index + "_" + this.excommunicationCards.get(index).getNumber() + ".png")
                         .toExternalForm()));
@@ -252,7 +205,7 @@ public class GUI extends Application implements UIInterface {
                 /***Load cards***/
                 Integer indexCard = 0;
                 for (AbstractDevelopmentCard card : tower.getCardsStored()) {
-                    cardView = ((ImageView) root.lookup("#tower" + tower.getCardColor().toString() + "_level" + indexCard));
+                    cardView = (ImageView) root.lookup("#tower" + tower.getCardColor().toString() + "_level" + indexCard);
                     if (card != null) {
                         String devType = tower.getCardColor().getDevType();
                         cardView.setImage(new Image(Thread.currentThread()
@@ -265,7 +218,7 @@ public class GUI extends Application implements UIInterface {
                     }
                     indexCard++;
                 }
-                    List<TowerSlot> slotsInTower = new ArrayList<>();
+                    List<TowerSlot> slotsInTower;
                     Integer level;
                     ImageView slotView;
                     for (Tower towerSpace : this.towersSpaces) {
@@ -273,7 +226,7 @@ public class GUI extends Application implements UIInterface {
                         String cardColor = towerSpace.getCardColor().toString();
                         /***Load bonuses***/
                         for (; level < Configurator.MAX_TOWER_LEVELS; level++) {
-                            slotView = ((ImageView) root.lookup("#tower" + cardColor + "bonus" + level));
+                            slotView = (ImageView) root.lookup("#tower" + cardColor + "bonus" + level);
                             slotView.setOnMouseEntered(new SlotMouseEvent(towerSpace.getTowerSlots().get(level).getResourcesReward()));
                         }
                     }
@@ -322,7 +275,7 @@ public class GUI extends Application implements UIInterface {
             Integer index;
             List<ActionSlot> marketSlots = this.market.getActionSlots();
             for (index = 0; index < marketSlots.size(); index++) {
-                ImageView slotView = ((ImageView) root.lookup("#marketActionSlot" + index));
+                ImageView slotView = (ImageView) root.lookup("#marketActionSlot" + index);
                 slotView.setOnMouseEntered(new SlotMouseEvent(marketSlots.get(index).getResourcesReward()));
                 //TODO
                 if (marketSlots.get(index).getFamilyMembers() != null) {
@@ -338,7 +291,6 @@ public class GUI extends Application implements UIInterface {
         Platform.runLater(uiTask);
     }
 
-
     /**
      * Shows the {@link FamilyMember} placed in it
      * @param productionArea updated from the server
@@ -350,7 +302,7 @@ public class GUI extends Application implements UIInterface {
 
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
             FamilyMember pawnInSingleSlot = this.productionArea.getSingleSlot().getFamilyMembers().get(0);
-            ImageView imageSingle = ((ImageView) root.lookup("#productionArea" + 0));
+            ImageView imageSingle = (ImageView) root.lookup("#productionArea" + 0);
             if(pawnInSingleSlot != null) {
                 imageSingle.setImage(new Image(Thread.currentThread()
                         .getContextClassLoader().getResource("images/pawns/" + pawnInSingleSlot.getFamilyMemberColor() + ".png")
@@ -393,7 +345,7 @@ public class GUI extends Application implements UIInterface {
 
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
             FamilyMember pawnInSingleSlot = this.harvestArea.getSingleSlot().getFamilyMembers().get(0);
-            ImageView imageSingle = ((ImageView) root.lookup("#harvestArea" + 0));
+            ImageView imageSingle = (ImageView) root.lookup("#harvestArea" + 0);
             if(pawnInSingleSlot != null) {
                 imageSingle.setImage(new Image(Thread.currentThread()
                         .getContextClassLoader().getResource("images/pawns/" + pawnInSingleSlot.getFamilyMemberColor() + ".png")
@@ -408,7 +360,7 @@ public class GUI extends Application implements UIInterface {
             StackPane advancedSlot = (StackPane) root.lookup("#harvestArea" + 1);
             ImageView imageAdvanced;
 
-            if(pawnsInAdvancedSlot.size() <= 0)
+            if(pawnsInAdvancedSlot.isEmpty())
                 advancedSlot.getChildren().removeAll(advancedSlot.getChildren());
             else {
                 for (Integer i = 0; i < pawnsInAdvancedSlot.size(); i++) {
@@ -468,10 +420,6 @@ public class GUI extends Application implements UIInterface {
                 numPlayer++;
             }
 
-           /* for(; numPlayer < 5; numPlayer++) {
-                playerInfo = (Pane) root.lookup("#playerInfo" + numPlayer);
-                playerInfo.setVisible(false);
-            }*/
             return null;
         });
         Platform.runLater(uiTask);
@@ -563,7 +511,8 @@ public class GUI extends Application implements UIInterface {
     }
 
     /**
-     * Try to login to the server, if things goes wrong, show a message inside the {@link LoginDialog}
+     * Try to login to the server
+     * if things goes wrong show a message inside the {@link LoginDialog}
      */
     public void doLogin() {
         playerLoginError.setVisible(false);
@@ -571,7 +520,7 @@ public class GUI extends Application implements UIInterface {
         String playerUsername = username.getText();
         String playerPassword = password.getText();
 
-        if(playerUsername.equals("") || playerPassword.equals("")) {
+        if("".equals(playerUsername) || "".equals(playerPassword)) {
 
             playerLoginError.setText("username and password fields\ncannot be left blank");
 
@@ -631,6 +580,16 @@ public class GUI extends Application implements UIInterface {
         return RunLaterTask(uiTask);
     }
 
+    /**
+     * This class is called for the {@link it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard}
+     * that have as an alternative requirement option the payment of {@link ResourceType.MILITARY_POINTS}
+     */
+    @Override
+    public Boolean alternativeRequirementsPayment() {
+    FutureTask<Boolean> uiTask = new FutureTask<>(() -> new AlternativeRequirementPaymentDialog().interactWithPlayer());
+        return RunLaterTask(uiTask);
+    }
+
     @Override
     public void loadMapTerritoriesToVictoryPoints(Map<Integer, Integer> mapTerritoriesToVictoryPoints) {
         this.mapTerritoriesToVictoryPoints = mapTerritoriesToVictoryPoints;
@@ -656,10 +615,10 @@ public class GUI extends Application implements UIInterface {
     public void placePawn(MouseEvent event) {
         Image image;
 
-        ArrayList<FamilyMember> membersAvailable = new ArrayList<>();
+        ArrayList<FamilyMember> membersAvailable;
 
         String source = event.getPickResult().getIntersectedNode().getId();
-        FamilyMemberSelectDialog dialog = new FamilyMemberSelectDialog();
+        FamilyMemberSelectDialog dialog;
 
 
         List<Node> nodes = towers.getChildren();
@@ -671,70 +630,6 @@ public class GUI extends Application implements UIInterface {
     }
 
     @FXML
-    public void popupTowerSlotBonus(MouseEvent event) {
-        List<TowerSlot> slotsInTower = new ArrayList<>();
-        String color = new String();
-        Integer level = 0;
-        /*Extract tower info*/
-        String id = ((ImageView) event.getSource()).getId();
-        Pattern patternColor = Pattern.compile("[A-Z]+");
-        Matcher matchedColor = patternColor.matcher(id);
-        while (matchedColor.find()) {
-            color = matchedColor.group();
-        }
-        /*Extract level info*/
-        Pattern patternLevel = Pattern.compile("\\d");
-        Matcher matchedLevel = patternLevel.matcher(id);
-        while (matchedLevel.find()) {
-            level = Integer.parseInt(matchedLevel.group());
-        }
-        /*Get the towerSlot that generated the event*/
-        try {
-            CLIStuff.printToConsole.println(color);
-            for (Tower tower : this.towersSpaces) {
-                CLIStuff.printToConsole.println(color);
-                if (tower.getCardColor().toString().equalsIgnoreCase(color)) {
-                    slotsInTower = tower.getTowerSlots();
-                    CLIStuff.printToConsole.println(slotsInTower);
-                    CLIStuff.printToConsole.println(level);
-                    new PopupSlotBonus(event, slotsInTower.get(level).getResourcesReward()).start(primaryStage);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void popupPalaceBonus(MouseEvent event) {
-        try {
-            new PopupSlotBonus(event, palace.getActionSlot().getResourcesReward()).start(primaryStage);
-        } catch(Exception e) {
-            LOGGER.log(Level.WARNING, "Error in creating the popupBonus");
-        }
-    }
-
-    @FXML
-    public void popupMarketBonus(MouseEvent event) {
-        ActionSlot actionSlot;
-        Integer marketSlotID = 0;
-        String id = ((ImageView) event.getSource()).getId();
-        /*Extract slot info*/
-        Pattern patternLevel = Pattern.compile("\\d");
-        Matcher matchedLevel = patternLevel.matcher(id);
-        while (matchedLevel.find()) {
-            marketSlotID = Integer.parseInt(matchedLevel.group());
-        }
-        /*Get the actionSlot that generated the event*/
-        actionSlot = market.getActionSlots().get(marketSlotID);
-        try {
-            new PopupSlotBonus(event, actionSlot.getResourcesReward()).start(primaryStage);
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "popupMarket", e.getStackTrace());
-        }
-    }
-
-    @FXML
     public void buyCard(MouseEvent event) {
         Image image;
             Object source = event.getSource();
@@ -743,6 +638,53 @@ public class GUI extends Application implements UIInterface {
                 .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
     }
 
+    /**
+     * Show games results
+     * @param players in game
+     */
+    @Override
+    public void endGame(List<Player> players) {
+        try {
+            new EndGameDialog(players).start(new Stage());
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Inform the player that is turn has ended
+     */
+    @Override
+    public void endTurn() {
+        new EndTurnPopup().interactWithPlayer();
+    }
+
+    /**
+     * Inform the player that he is no more connected to the game
+     */
+    @Override
+    public void disconnectionWarning() {
+        FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            new DisconnectionWarning().interactWithPlayer();
+            return null;
+        });
+        Platform.runLater(uiTask);
+    }
+
+    /**
+     * Shows multiple kind of info about players
+     * @param infoType information about a player {@link GameInformationType}
+     * @param playerName the associated player
+     * @param playerColor the color associated to the player to whom the info concerns
+     */
+    @Override
+    public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) {
+        FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            new GameInformationDialog().interactWithPlayer(infoType, playerName, playerColor);
+            return null;
+        });
+        Platform.runLater(uiTask);
+    }
     /**
      * Shows the personal board of the player label clicked
      */
@@ -758,8 +700,14 @@ public class GUI extends Application implements UIInterface {
             try {
                 personalBoardView = new PersonalBoardView(player);
                 personalBoardView.start(primaryStage);
+                if(player.getPlayerName().equalsIgnoreCase(username.getText())) {
+                    showFaithPath();
+                    showMapCharactersToVictoryPoints();
+                    showMapTerritoriesToVictoryPoints();
+                    showMilitaryPointsForTerritories();
+                }
             } catch (Exception e) {
-                LOGGER.log(Level.WARNING, "Error in handling events from GUI", e.getStackTrace());
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     }
@@ -779,7 +727,7 @@ public class GUI extends Application implements UIInterface {
             try {
                 new PopupSlotBonus((MouseEvent) event, reward).start(primaryStage);
             } catch (Exception e) {
-                LOGGER.log(Level.WARNING, "Error in handling events from GUI", e.getStackTrace());
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     }
@@ -792,7 +740,7 @@ public class GUI extends Application implements UIInterface {
             try {
                 return uiTask.get();
             } catch (ExecutionException | InterruptedException e) {
-                LOGGER.log(Level.FINEST, "Error in creating the popupBonus");
+                LOGGER.log(Level.FINEST, e.getMessage(), e);
                 return null;
             }
         }
@@ -805,7 +753,7 @@ public class GUI extends Application implements UIInterface {
         //TODO: will this call mainaction?
         this.selectedContext = Optional.of(PlayerSelectableContexts.LEADER_ACTIVATE_OR_DISCARD_CONTEXT);
 
-        LeaderCardsView leaderCardsView = new LeaderCardsView();
+        LeaderCardsView leaderCardsView;
         List<LeaderCard> leaderCards = new ArrayList<>();
         LeaderCard leaderCard = new LeaderCard("Lorenzo de Medici", null, null, true);
         LeaderCard leaderCard1 = new LeaderCard("Cesare Borgia", null, null, true);
@@ -828,6 +776,7 @@ public class GUI extends Application implements UIInterface {
 
     public static void main (String[] args) {
         GUI gui = new GUI();
+        //gui.show();
         Configurator.loadConfigs();
         gui.launch();
     }

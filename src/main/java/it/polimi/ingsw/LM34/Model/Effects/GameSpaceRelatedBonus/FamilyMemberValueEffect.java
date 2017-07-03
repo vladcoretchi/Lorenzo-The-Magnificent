@@ -5,17 +5,18 @@ import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.FAMILY_MEMBER_SELECTION_CONTEXT;
 
 /**
  * This class aggregates instant and permanent effects from different development card types, leader cards and
  * excomunication tiles, all of which are related to the context where a player places a family member in a game space so that
  * the dice values associated to his pawns has to be incremented or decreased by the effects of the cards mentioned above
  */
-
 public class FamilyMemberValueEffect extends AbstractEffect implements Observer {
 
     /**

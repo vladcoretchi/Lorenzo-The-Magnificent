@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Enums.Controller;
 
 /**
- * List of all contexts by which the game logic is constituted of
+ * List of all {@link it.polimi.ingsw.LM34.Controller.AbstractGameContext s} by which the game logic is constituted of
  */
 public enum ContextType {
     ACTION_SLOT_CONTEXT,

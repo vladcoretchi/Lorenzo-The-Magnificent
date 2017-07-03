@@ -33,7 +33,7 @@ public enum RequestToClient {
 
                 socketConnection.getNetworkController().loginResult(loginResult);
             } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -44,10 +44,8 @@ public enum RequestToClient {
                 List<ExcommunicationCard> excommunicationCards = (List<ExcommunicationCard>) socketConnection.getInputStream().readObject();
 
                 socketConnection.setExcommunicationCards(excommunicationCards);
-            } catch (IOException e) {
-                LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
-            } catch (ClassNotFoundException e) {
-                LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -58,10 +56,8 @@ public enum RequestToClient {
                 List<Tower> towers = (List<Tower>) socketConnection.getInputStream().readObject();
 
                 socketConnection.updateTowers(towers);
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
-            } catch (ClassNotFoundException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -72,10 +68,8 @@ public enum RequestToClient {
                 CouncilPalace councilPalace = (CouncilPalace) socketConnection.getInputStream().readObject();
 
                 socketConnection.updateCouncilPalace(councilPalace);
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
-            } catch (ClassNotFoundException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -86,10 +80,8 @@ public enum RequestToClient {
                 Market market = (Market) socketConnection.getInputStream().readObject();
 
                 socketConnection.updateMarket(market);
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
-            } catch (ClassNotFoundException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -100,10 +92,8 @@ public enum RequestToClient {
                 WorkingArea productionArea = (WorkingArea) socketConnection.getInputStream().readObject();
 
                 socketConnection.updateProductionArea(productionArea);
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
-            } catch (ClassNotFoundException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -114,10 +104,8 @@ public enum RequestToClient {
                 WorkingArea harvestArea = (WorkingArea) socketConnection.getInputStream().readObject();
 
                 socketConnection.updateHarvestArea(harvestArea);
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
-            } catch (ClassNotFoundException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -128,10 +116,8 @@ public enum RequestToClient {
                 List<Player> players = (List<Player>) socketConnection.getInputStream().readObject();
 
                 socketConnection.updatePlayersData(players);
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
-            } catch (ClassNotFoundException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -142,10 +128,8 @@ public enum RequestToClient {
                 List<Dice> diceValues = (List<Dice>) socketConnection.getInputStream().readObject();
 
                 socketConnection.updateDiceValues(diceValues);
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
-            } catch (ClassNotFoundException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -158,7 +142,7 @@ public enum RequestToClient {
                 socketConnection.getOutputStream().writeObject(socketConnection.turnMainAction(lastActionValid));
                 socketConnection.getOutputStream().flush();
             } catch (IOException | ClassNotFoundException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -171,7 +155,7 @@ public enum RequestToClient {
                 socketConnection.getOutputStream().writeObject(socketConnection.turnSecondaryAction(lastActionValid));
                 socketConnection.getOutputStream().flush();
             } catch (IOException | ClassNotFoundException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -183,10 +167,8 @@ public enum RequestToClient {
 
                 socketConnection.getOutputStream().writeInt(socketConnection.familyMemberSelection(familyMembers));
                 socketConnection.getOutputStream().flush();
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
-            } catch (ClassNotFoundException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -200,7 +182,7 @@ public enum RequestToClient {
                 socketConnection.getOutputStream().writeInt(socketConnection.servantsSelection(servantsAvailable, minimumServantsRequested));
                 socketConnection.getOutputStream().flush();
             } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -212,10 +194,8 @@ public enum RequestToClient {
 
                 socketConnection.getOutputStream().writeInt(socketConnection.resourceExchangeSelection(choices));
                 socketConnection.getOutputStream().flush();
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
-            } catch (ClassNotFoundException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -227,10 +207,8 @@ public enum RequestToClient {
 
                 socketConnection.getOutputStream().writeObject(socketConnection.leaderCardSelection(leaderCards));
                 socketConnection.getOutputStream().flush();
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
-            } catch (ClassNotFoundException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -241,7 +219,7 @@ public enum RequestToClient {
                 socketConnection.getOutputStream().writeBoolean(socketConnection.churchSupport());
                 socketConnection.getOutputStream().flush();
             } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -253,10 +231,8 @@ public enum RequestToClient {
 
                 socketConnection.getOutputStream().writeInt(socketConnection.bonusTileSelection(availableBonusTiles));
                 socketConnection.getOutputStream().flush();
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
-            } catch (ClassNotFoundException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -268,10 +244,8 @@ public enum RequestToClient {
 
                 socketConnection.getOutputStream().writeInt(socketConnection.leaderCardSelectionPhase(availableLeaderCards));
                 socketConnection.getOutputStream().flush();
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
-            } catch (ClassNotFoundException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     },
@@ -283,10 +257,8 @@ public enum RequestToClient {
 
                 socketConnection.getOutputStream().writeInt(socketConnection.selectCouncilPrivilegeBonus(availableBonuses));
                 socketConnection.getOutputStream().flush();
-            } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
-            } catch (ClassNotFoundException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     };

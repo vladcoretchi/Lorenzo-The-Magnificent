@@ -22,7 +22,7 @@ public enum RequestToServer {
                 connection.getOutputStream().writeBoolean(connection.login(username, password));
                 connection.getOutputStream().flush();
             } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     };

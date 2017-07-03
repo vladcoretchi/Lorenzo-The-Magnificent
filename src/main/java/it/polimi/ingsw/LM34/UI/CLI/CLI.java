@@ -35,12 +35,12 @@ import java.util.*;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.UI.CLI.CLIStuff.*;
+import static it.polimi.ingsw.LM34.UI.UIConnectionInfo.*;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 /**
- * this class was built on {@link UIInterface}. It implement all method body that will be used to describe and manage Cli
+ * this class implements in console mode all method specified by {@link UIInterface}
  */
-
 public class CLI implements UIInterface {
     private AbstractClient networkClient;
     private ClientNetworkController networkController;
@@ -76,15 +76,15 @@ public class CLI implements UIInterface {
             printFormat("%1$d) %2$s\n", i+1, data.get(i).toString());
         }
 
-        message.ifPresent((str) -> printLine(str));
+        message.ifPresent(CLIStuff::printLine);
         Integer selectedValue;
         try {
             selectedValue = Integer.parseInt(readUserInput.nextLine());
             Validator.checkValidity(--selectedValue, data);
         }
         catch (IncorrectInputException ex) {
-            LOGGER.info(ex.toString());
-            errorMessage.ifPresent((str) -> printError(str));
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            errorMessage.ifPresent(CLIStuff::printError);
             selectedValue = selectionMenu(data, backString, message, errorMessage);
         }
 
@@ -180,7 +180,7 @@ public class CLI implements UIInterface {
     public void endGame(List<Player> players) {
         Integer maxVictoryPointsScored = 0;
         Integer playerPoints;
-        String winnerName= new String();
+        String winnerName = new String();
 
         /***Shows the points scored by all players***/
         players.forEach(player -> {
@@ -202,11 +202,10 @@ public class CLI implements UIInterface {
 
     @Override
     public PlayerAction turnMainAction(Optional<Exception> lastActionValid) {
-        //TODO: return
+        //TODO
         return null;
     }
 
-    //TODO
     @Override
     public PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid) {
         return null;
@@ -286,7 +285,7 @@ public class CLI implements UIInterface {
                 selectedSlot = Integer.parseInt(input);
             }
             catch (IncorrectInputException e) {
-                //LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
                 printError(INCORRECT_INPUT);
             }
         } while(!validUserInput);
@@ -355,7 +354,7 @@ public class CLI implements UIInterface {
         } else if ("no".equalsIgnoreCase(input)) {
         //TODO: go back to menu selection
         }else {
-            printError("Invalid choice");
+            printError(INCORRECT_INPUT);
             councilPalaceSelection();
         }
     }
@@ -385,7 +384,7 @@ public class CLI implements UIInterface {
         slots.forEach((ActionSlot as) -> {
             diceValues.add(as.getDiceValue());
             /***PAWN COLOR INSERTED IN SLOT***/
-            if(as.getFamilyMembers() != null && as.getFamilyMembers().size() > 0)
+            if(as.getFamilyMembers() != null && !as.getFamilyMembers().isEmpty())
                 pawnsInserted.add(as.getFamilyMembers().get(0)); //TODO: handle multiple family members
             Map res = new HashMap<>();
             Resources resources = as.getResourcesReward().getResources();
@@ -526,7 +525,7 @@ public class CLI implements UIInterface {
             Validator.checkValidity(usedServants, servantsAvailable);
             return usedServants;
         } catch (IncorrectInputException | NumberFormatException e) {
-            //LOGGER.info("");
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             printError("Incorrect number of servants");
             servantsSelection(servantsAvailable, minimumServantsRequested);
             return 0;
@@ -552,7 +551,7 @@ public class CLI implements UIInterface {
             choice = Integer.parseInt(input);
         }
         catch (Exception e) {
-            //LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             printError("The resources exchange choosed is not valid");
             resourceExchangeSelection(choices);
         }
@@ -589,7 +588,7 @@ public class CLI implements UIInterface {
             Validator.checkValidity(input, leadersOwned);
         }
         catch (IncorrectInputException e) {
-            //LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             printError("The leader choosed is not valid");
             leaderCardSelection(leadersOwned);
         }
@@ -609,13 +608,36 @@ public class CLI implements UIInterface {
 
         input = readUserInput.nextLine();
 
+        if("yes".equalsIgnoreCase(input))
+            choice = true;
+        else if ("no".equalsIgnoreCase(input))
+            choice = false;
+        else {
+            printError(INCORRECT_INPUT);
+            churchSupport();
+        }
+        return choice;
+    }
+
+    /**
+     * This class is called for the {@link it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard}
+     * that have as an alternative requirement option the payment of {@link ResourceType.MILITARY_POINTS}
+     */
+    @Override
+    public Boolean alternativeRequirementsPayment() {
+        String input;
+        Boolean choice = false;
+        printFormat("Do you want to pay military points for this card?\n");
+
+        input = readUserInput.nextLine();
+
         if(input.equalsIgnoreCase("yes"))
             choice = true;
         else if (input.equalsIgnoreCase("no"))
             choice = false;
         else {
-            printError("Invalid choice");
-            churchSupport();
+            printError(INCORRECT_INPUT);
+            alternativeRequirementsPayment();
         }
         return choice;
     }
@@ -637,7 +659,7 @@ public class CLI implements UIInterface {
             return choice;
         }
         catch (Exception e) {
-            //LOGGER.log(Level.INFO, "Incorrect input", e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             printError("The selected reward is not valid");
             selectCouncilPrivilegeBonus(availableBonuses);
             return 0;
@@ -660,7 +682,7 @@ public class CLI implements UIInterface {
                 diceValues.add(as.getDiceValue());
                 /***PAWN COLOR INSERTED IN SLOT***/
                 if(as.getFamilyMembers() != null && as.getFamilyMembers().size() > 0)
-                    pawnsInserted.add(as.getFamilyMembers().get(0)); //TODO: handle multiple family members
+                    pawnsInserted.add(as.getFamilyMembers().get(0));
                 if(as.getCardStored() != null)
                     cardNames.add(as.getCardStored().getName());
                 Resources resources = as.getResourcesReward().getResources();
@@ -886,7 +908,7 @@ public class CLI implements UIInterface {
 
     @Override
     public void loadMapMilitaryPointsForTerritories(Map<Integer, Integer> mapMilitaryPointsForTerritories) {
-        mapMilitaryPointsForTerritories = mapMilitaryPointsForTerritories;
+        this.mapMilitaryPointsForTerritories = mapMilitaryPointsForTerritories;
 
     }
 
@@ -975,7 +997,9 @@ public class CLI implements UIInterface {
             cli.market.insertFamilyMember(1, new FamilyMember(PawnColor.GREEN, DiceColor.BLACK));
             cli.market.insertFamilyMember(2, new FamilyMember(PawnColor.RED, DiceColor.WHITE));
             cli.market.insertFamilyMember(3, new FamilyMember(PawnColor.YELLOW, DiceColor.ORANGE));*/
-        } catch (Exception e) {e.printStackTrace(); }
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
+        }
         cli.updateProductionArea(Configurator.getProductionArea());
         cli.marketSlotSelection();
         cli.printTowers();
@@ -983,7 +1007,8 @@ public class CLI implements UIInterface {
         Player giacomo = new Player("giacomo", PawnColor.BLUE, new PersonalBoard());
         giacomo.addResources(new Resources(4,5,1,2));
         Player antonio = new Player("antonio", PawnColor.RED, new PersonalBoard());
-        players.add(giacomo); players.add(antonio);
+        players.add(giacomo);
+        players.add(antonio);
         antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
     }
 }

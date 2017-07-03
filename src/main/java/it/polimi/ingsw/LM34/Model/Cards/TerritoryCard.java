@@ -6,6 +6,8 @@ import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.List;
 
+import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.GREEN;
+
 public class TerritoryCard extends AbstractDevelopmentCard {
     private Integer diceValueToHarvest;
 
@@ -15,6 +17,7 @@ public class TerritoryCard extends AbstractDevelopmentCard {
         this.diceValueToHarvest = diceValueToHarvest;
         this.permanentBonus = permanentBonus;
         this.instantBonus = instantBonus;
+        this.color = GREEN;
         this.resourceRequired = new Resources(); //territories does not cost resources or points as said in the game rules
     }
 

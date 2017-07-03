@@ -17,11 +17,11 @@ public class GameClient {
         while(!userInputIsValid) {
             String viewChoice = viewSelection();
 
-            if (viewChoice.equalsIgnoreCase("cli")) {
+            if ("cli".equalsIgnoreCase(viewChoice)) {
                 ui = new CLI();
                 userInputIsValid = true;
             }
-            else if(viewChoice.equalsIgnoreCase("gui")) {
+            else if ("gui".equalsIgnoreCase(viewChoice)) {
                 ui = new GUI();
                 userInputIsValid = true;
             }

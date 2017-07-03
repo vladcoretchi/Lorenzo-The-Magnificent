@@ -3,8 +3,6 @@ package it.polimi.ingsw.LM34.Utils;
 
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
-import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Network.GameRoom;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 
 import java.util.List;
@@ -32,7 +30,7 @@ public final class Validator {
             checkValidity(inputValue, data);
             return inputValue;
         } catch (Exception e) {
-            LOGGER.log(Level.INFO, "Invalid input");
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             throw new IncorrectInputException();
         }
     }
@@ -54,7 +52,7 @@ public final class Validator {
         try {
             inputValue = Integer.parseInt(input);
         } catch(NumberFormatException e) {
-            LOGGER.log(Level.INFO, "Invalid input from client");
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             throw new IncorrectInputException();
         }
     }

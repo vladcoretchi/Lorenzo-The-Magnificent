@@ -1,7 +1,7 @@
 package it.polimi.ingsw.LM34.Enums.Model;
 
 /**
- * Colors associated to the different type of development cards
+ * Colors associated to the different type of {@link it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard s}
  */
 public enum DevelopmentCardColor {
     GREEN("territories"),

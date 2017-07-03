@@ -3,14 +3,12 @@ package it.polimi.ingsw.LM34.Model;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
-import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 
 import java.io.Serializable;
-import java.lang.management.OperatingSystemMXBean;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -63,7 +61,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * @return the leaders activated by the player
+     * @return the {@link LeaderCard s} activated by the player
      */
     public List<LeaderCard> getActivatedLeaderCards() {
         List<LeaderCard> activatedLeaders = new ArrayList<>();

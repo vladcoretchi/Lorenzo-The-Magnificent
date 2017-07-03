@@ -28,10 +28,6 @@ import java.util.Optional;
  */
 public interface UIInterface {
 
-    String SERVER_IP = "localhost";
-    Integer SOCKET_PORT = 20001;
-    Integer RMI_PORT = 20002;
-
     /**
      * Start the UI
      */
@@ -68,16 +64,15 @@ public interface UIInterface {
     void updatePlayersData(List<Player> players);
     void updateDiceValues(List<Dice> dicesValues);
 
-
     /**
-     * The following methods show to the player the association between number of cards/position
-     * and the victory points provided
+     * The following methods show to the player the association between number of
+     * {@link it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard s} or the position
+     * and the {@link it.polimi.ingsw.LM34.Enums.Model.ResourceType.VICTORY_POINTS} provided
      */
     void showMapCharactersToVictoryPoints();
     void showMapTerritoriesToVictoryPoints();
     void showFaithPath();
     void showMilitaryPointsForTerritories();
-
 
     /**
      * Propose to the player what he could do in a specific context and retrieve his choice
@@ -91,7 +86,7 @@ public interface UIInterface {
     Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices);
     Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards);
     Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses);
-
+    Boolean alternativeRequirementsPayment();
 
     /**
      * Ask each player about their decision at Church Reports
@@ -99,13 +94,11 @@ public interface UIInterface {
      */
     Boolean churchSupport();
 
-
     /**
      * Inform about the final victory points scored by all players and declare the winner
      * @param players in game
      */
     void endGame(List<Player> players);
-
 
     /**
      * Shows multiple kind of info about players
@@ -115,12 +108,10 @@ public interface UIInterface {
      */
     void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor);
 
-
     /**
      *Inform the player that his turn has ended (for timeout or his choice)
      */
     void endTurn();
-
 
     /**
      * Inform the player that the server is not more reachable

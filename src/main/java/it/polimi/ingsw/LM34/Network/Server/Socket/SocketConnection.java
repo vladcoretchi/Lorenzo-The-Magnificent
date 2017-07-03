@@ -112,8 +112,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.writeObject(excommunicationCards);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 
@@ -157,8 +156,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.writeObject(productionArea);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 
@@ -169,7 +167,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.writeObject(harvestArea);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 
@@ -180,7 +178,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.writeObject(players);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 
@@ -191,7 +189,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.writeObject(diceValues);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 
@@ -203,10 +201,10 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return (PlayerAction) this.inStream.readObject();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
         } catch (ClassNotFoundException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
         }
     }
@@ -219,10 +217,10 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return (PlayerAction) this.inStream.readObject();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
         } catch (ClassNotFoundException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
         }
     }
@@ -235,8 +233,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return this.inStream.readInt();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
         }
     }
@@ -249,8 +246,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return this.inStream.readInt();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
         }
     }
@@ -264,7 +260,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return this.inStream.readInt();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
         }
     }
@@ -277,7 +273,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return this.inStream.readInt();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
         }
     }
@@ -290,7 +286,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return (Pair<String, LeaderCardsAction>)this.inStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
         }
     }
@@ -302,7 +298,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return this.inStream.readBoolean();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
         }
     }
@@ -315,8 +311,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return this.inStream.readInt();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
         }
     }
@@ -329,8 +324,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return this.inStream.readInt();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
         }
     }
