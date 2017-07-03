@@ -26,10 +26,10 @@ public class ActionSlot implements Serializable {
      * A player places the pawn in the slot that provides the reward he/she pleases, otherwise it throws an exception
      */
     public void insertFamilyMember(FamilyMember fm) throws OccupiedSlotException {
-        if(this.familyMembers.isEmpty())
-            this.familyMembers.add(fm);
-        else
+        if(this.isSinglePawnSlot() && !this.familyMembers.isEmpty())
             throw new OccupiedSlotException();
+        else
+            this.familyMembers.add(fm);
     }
 
     public void insertFamilyMemberIgnoringSlotLimit(FamilyMember fm) {

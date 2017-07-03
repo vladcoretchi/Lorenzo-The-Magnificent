@@ -17,82 +17,63 @@
             </ImageView>
             <!-- tower 1-->
             <ImageView fx:id="towerGREEN_level3" fitHeight="239.008" fitWidth="155.232" layoutX="26" layoutY="10" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
-                <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
             <ImageView fx:id="towerGREEN_level2" fitHeight="239.008" fitWidth="155.232" layoutX="26" layoutY="272" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
-                <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
             <ImageView fx:id="towerGREEN_level1" fitHeight="239.008" fitWidth="155.232" layoutX="26" layoutY="534" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
-                <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
             <ImageView fx:id="towerGREEN_level0" fitHeight="239.008" fitWidth="155.232" layoutX="26" layoutY="798" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
-                <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
 
             <!-- tower 2-->
             <ImageView fx:id="towerBLUE_level3" fitHeight="239.008" fitWidth="155.232" layoutX="347" layoutY="10" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
-                <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
             <ImageView fx:id="towerBLUE_level2" fitHeight="239.008" fitWidth="155.232" layoutX="347" layoutY="272" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
-                <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
             <ImageView fx:id="towerBLUE_level1" fitHeight="239.008" fitWidth="155.232" layoutX="347" layoutY="534" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
-                <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
             <ImageView fx:id="towerBLUE_level0" fitHeight="239.008" fitWidth="155.232" layoutX="347" layoutY="798" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
-                <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
 
             <!-- tower 3 -->
             <ImageView fx:id="towerYELLOW_level3" fitHeight="239.008" fitWidth="155.232" layoutX="668" layoutY="10" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
-                <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
             <ImageView fx:id="towerYELLOW_level2" fitHeight="239.008" fitWidth="155.232" layoutX="668" layoutY="272" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
-                <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
             <ImageView fx:id="towerYELLOW_level1" fitHeight="239.008" fitWidth="155.232" layoutX="668" layoutY="534" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
-                <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
             <ImageView fx:id="towerYELLOW_level0" fitHeight="239.008" fitWidth="155.232" layoutX="668" layoutY="798" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
-                <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
 
             <!-- tower 4-->
             <ImageView fx:id="towerPURPLE_level3" fitHeight="239.008" fitWidth="155.232" layoutX="989" layoutY="10" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
-                <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
             <ImageView fx:id="towerPURPLE_level2" fitHeight="239.008" fitWidth="155.232" layoutX="989" layoutY="272" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
-                <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
             <ImageView fx:id="towerPURPLE_level1" fitHeight="239.008" fitWidth="155.232" layoutX="989" layoutY="534" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
-                <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
             <ImageView fx:id="towerPURPLE_level0" fitHeight="239.008" fitWidth="155.232" layoutX="989" layoutY="798" onMouseClicked="#buyCard" style="-fx-background-color: transparent">
-                <Image url="@../images/developmentCards/territories/Commercial Hub.png" />
             </ImageView>
 
             <!-- excommunication cards-->
             <ImageView fx:id="excommunicationCard1" fitHeight="211.0" fitWidth="114.0" layoutX="219.0" layoutY="1154.0" style="-fx-background-color: transparent">
-                <Image url="@../images/excommunicationTiles/excomm_1_7.png" />
             </ImageView>
             <ImageView fx:id="excommunicationCard2" fitHeight="201.92" fitWidth="103.68" layoutX="355" layoutY="1178" style="-fx-background-color: transparent">
-                <Image url="@../images/excommunicationTiles/excomm_2_7.png" />
             </ImageView>
             <ImageView fx:id="excommunicationCard3" fitHeight="202.0" fitWidth="111.0" layoutX="477.0" layoutY="1159.0" style="-fx-background-color: transparent">
-                <Image url="@../images/excommunicationTiles/excomm_3_7.png" />
             </ImageView>
 
             <!-- market area-->
-            <ImageView fx:id="marketActionSlot3" fitHeight="107.5" fitWidth="124.5" layoutX="1195" layoutY="1690" onMouseClicked="#placePawn"  style="-fx-background-color: transparent">
+            <ImageView fx:id="marketActionSlot3" fitHeight="100" fitWidth="100" layoutX="1195" layoutY="1690" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="marketActionSlot2" fitHeight="107.5" fitWidth="124.5" layoutX="1085" layoutY="1590" onMouseClicked="#placePawn"  style="-fx-background-color: transparent">
+            <ImageView fx:id="marketActionSlot2" fitHeight="100" fitWidth="100" layoutX="1085" layoutY="1590" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="marketActionSlot1" fitHeight="100" fitWidth="100" layoutX="950" layoutY="1565" onMouseClicked="#placePawn"  style="-fx-background-color: transparent">
+            <ImageView fx:id="marketActionSlot1" fitHeight="100" fitWidth="100" layoutX="950" layoutY="1565" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="marketActionSlot0" fitHeight="100" fitWidth="100" layoutX="800" layoutY="1565" onMouseClicked="#placePawn"  style="-fx-background-color: transparent">
+            <ImageView fx:id="marketActionSlot0" fitHeight="100" fitWidth="100" layoutX="800" layoutY="1565" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
 
@@ -113,30 +94,21 @@
                 </font>
             </Text>
 
-            <!--production and harvest area-->
-            <StackPane fx:id="productionArea1" onMouseClicked="#placePawn" >
-                <ImageView  fitHeight="114.0" fitWidth="323.0" layoutX="225" layoutY="1590" style="-fx-background-color: transparent">
-                    <Image url="@../images/coveringtile_2_back_.png" />
-                </ImageView>
-                </StackPane>
-            <StackPane fx:id="harvestArea1" onMouseClicked="#placePawn" >
-                <ImageView fitHeight="116.15" fitWidth="242.19" layoutX="225" layoutY="1760" style="-fx-background-color: transparent">
-                    <Image url="@../images/coveringtile_2_back_.png" />
-                </ImageView>
-            </StackPane>
-
+            <!--production area-->
             <ImageView fx:id="productionArea0" fitHeight="100" fitWidth="100" layoutX="26" layoutY="1595" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
+            <StackPane fx:id="productionArea1"  minHeight="114.0" minWidth="323.0" layoutX="190" layoutY="1590" style="-fx-background-color: transparent">
+            </StackPane>
+
+            <!--harvest area-->
+            <StackPane fx:id="harvestArea1" minHeight="114.0" minWidth="323.0" layoutX="190" layoutY="1760" style="-fx-background-color: transparent">
+            </StackPane>
             <ImageView fx:id="harvestArea0" fitHeight="100" fitWidth="100" layoutX="26" layoutY="1760" onMouseClicked="#placePawn" style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-
             <!--council palace-->
-            <StackPane fx:id="councilPalace" onMouseClicked="#placePawn" onMouseEntered="#popupTowerSlotBonus">
-                <ImageView fitHeight="100" fitWidth="100" layoutX="795" layoutY="1070" style="-fx-background-color: transparent">
-                    <Image url="@../images/transparentSlot.png" />
-                </ImageView>
+            <StackPane fx:id="councilPalace" minWidth="380.0" layoutX="710" layoutY="1080" minHeight="114.0" onMouseClicked="#placePawn">
             </StackPane>
 
             <!--tower slots-->
@@ -200,11 +172,11 @@
 
                     <Pane fx:id="leaderCardsActions" prefHeight="100.0" prefWidth="150" style="-fx-background-color: rgba(172,172,172,0.96)">
                         <children>
-                            <Button fx:id="leaderCardActions" prefWidth="150" prefHeight="50" layoutX="40" layoutY="15" text="Leader Cards" onAction="#showLeaderCardsActions" style="-fx-border-color: #61a2b1; -fx-text-fill: crimson; -fx-background-color: rgba(136,139,138,0.74);"></Button>
+                            <Button fx:id="leaderCardActions" layoutX="40" layoutY="15" onAction="#showLeaderCardsActions" prefHeight="50" prefWidth="150" style="-fx-border-color: #61a2b1; -fx-text-fill: crimson; -fx-background-color: rgba(136,139,138,0.74);" text="Leader Cards" />
                         </children>
                     </Pane>
 
-                <Pane managed="false" fx:id="playerInfo1" visible="false" style="-fx-border-color: #1d1d1d;">
+                <Pane fx:id="playerInfo1" managed="false" style="-fx-border-color: #1d1d1d;" visible="false">
                     <children>
                         <Label fx:id="player1" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player1">
                          <font>
@@ -302,7 +274,7 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane managed="false" fx:id="playerInfo2" visible="false" style="-fx-border-color: #1d1d1d;">
+            <Pane fx:id="playerInfo2" managed="false" style="-fx-border-color: #1d1d1d;" visible="false">
                 <children>
                     <Label fx:id="player2" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player2">
                         <font>
@@ -400,7 +372,7 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane managed="false" fx:id="playerInfo3" visible="false" style="-fx-border-color: #1d1d1d;">
+            <Pane fx:id="playerInfo3" managed="false" style="-fx-border-color: #1d1d1d;" visible="false">
                 <children>
                     <Label fx:id="player3" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player3">
                         <font>
@@ -498,7 +470,7 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane managed="false" fx:id="playerInfo4" visible="false" style="-fx-border-color: #1d1d1d;">
+            <Pane fx:id="playerInfo4" managed="false" style="-fx-border-color: #1d1d1d;" visible="false">
                 <children>
                     <Label fx:id="player4" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player4">
                         <font>
@@ -596,7 +568,7 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane managed="false" fx:id="playerInfo5" visible="false" style="-fx-border-color: #1d1d1d;">
+            <Pane fx:id="playerInfo5" managed="false" style="-fx-border-color: #1d1d1d;" visible="false">
                 <children>
                     <Label fx:id="player5" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player5">
                         <font>

@@ -2,6 +2,7 @@ package it.polimi.ingsw.LM34.UI.GUI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
+import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PathType;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
@@ -94,6 +95,10 @@ public class GUI extends Application implements UIInterface {
     private Map<Integer, Integer> mapTerritoriesToVictoryPoints;
     private Optional<PlayerSelectableContexts> selectedContext;
 
+    private static final String IMAGE_CARD_TRANSPARENT = "images/transparent.png";
+    private static final String IMAGE_SLOT_TRANSPARENT = "images/transparentSlot.png";
+    private static final String IMAGE_PAWNS_PATH = "images/pawns/";
+
     /**
      * Start the application
      * @param stage
@@ -104,12 +109,21 @@ public class GUI extends Application implements UIInterface {
         root = FXMLLoader.load(getClass().getClassLoader().getResource("views/gui.fxml"));
         this.primaryStage = new Stage();
         prepareWindow();
-        alternativeRequirementsPayment();
+
+        FamilyMember pawn = new FamilyMember(PawnColor.BLUE, DiceColor.ORANGE);
+        FamilyMember pawn2 = new FamilyMember(PawnColor.RED, DiceColor.ORANGE);
+        FamilyMember pawn3 = new FamilyMember(PawnColor.BLUE, DiceColor.ORANGE);
+        FamilyMember pawn4 = new FamilyMember(PawnColor.RED, DiceColor.ORANGE);
+        FamilyMember pawn5 = new FamilyMember(PawnColor.GREEN, DiceColor.ORANGE);
+
+        CouncilPalace councilPalace = Configurator.getPalace();
+        councilPalace.getActionSlot().insertFamilyMember(pawn);
+        councilPalace.getActionSlot().insertFamilyMember(pawn2);
+        councilPalace.getActionSlot().insertFamilyMember(pawn3);
+
+        updateCouncilPalace(councilPalace);
         this.selectedContext = Optional.empty();
-
     }
-
-
 
     /**
      * @param bonusTiles that the players has the opportunity to choose one from
@@ -181,9 +195,7 @@ public class GUI extends Application implements UIInterface {
             ImageView imageView;
             for (Integer index = 1; index <= Configurator.TOTAL_PERIODS; index++) {
                 imageView = (ImageView) root.lookup("#excommunicationCard" + this.excommunicationCards.get(index).getPeriod());
-                imageView.setImage(new Image(Thread.currentThread()
-                        .getContextClassLoader().getResource("images/excommunicationTiles/excomm_" + index + "_" + this.excommunicationCards.get(index).getNumber() + ".png")
-                        .toExternalForm()));
+                imageView = setImage("images/excommunicationTiles/excomm_" + index + "_" + this.excommunicationCards.get(index).getNumber() + ".png");
             }
             return null;
         });
@@ -208,16 +220,16 @@ public class GUI extends Application implements UIInterface {
                     cardView = (ImageView) root.lookup("#tower" + tower.getCardColor().toString() + "_level" + indexCard);
                     if (card != null) {
                         String devType = tower.getCardColor().getDevType();
-                        cardView.setImage(new Image(Thread.currentThread()
-                                .getContextClassLoader().getResource("images/developmentCards/" + devType + "/" + card.getName() + ".png")
-                                .toExternalForm()));
+                        cardView = setImage("images/developmentCards/" + devType + "/" + card.getName() + ".png");
                     } else {
-                        cardView.setImage(new Image(Thread.currentThread()
-                                .getContextClassLoader().getResource("images/transparent.png")
-                                .toExternalForm()));
+                        cardView = setImage(IMAGE_CARD_TRANSPARENT);
                     }
                     indexCard++;
                 }
+                /**
+                 * Register the slots to {@link MouseEvent} so that they will show the
+                 * {@link Resources} provided in a {@link PopupSlotBonus}
+                 */
                     List<TowerSlot> slotsInTower;
                     Integer level;
                     ImageView slotView;
@@ -241,24 +253,31 @@ public class GUI extends Application implements UIInterface {
         this.palace = councilPalace;
 
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            /**
+             * Fill the advanced {@link ActionSlot} with the pawns placed inside
+             */
             StackPane palacePane = (StackPane) root.lookup("#councilPalace");
-            ImageView imageView;
-            if(!this.palace.getActionSlot().getFamilyMembers().isEmpty())
-                palacePane.getChildren().removeAll(palacePane.getChildren());
-            else
-                for(FamilyMember pawn : this.palace.getActionSlot().getFamilyMembers()) {
-                    imageView = new ImageView(new Image(Thread.currentThread().getContextClassLoader().getResource("images/pawns" + pawn.getFamilyMemberColor() + ".png").toExternalForm()));
-                    imageView.setTranslateX(20);
-                    palacePane.getChildren().add(imageView);
-                }
-
-            ActionSlot palaceSlot;
-            palaceSlot = palace.getActionSlot();
+            HBox hSlots = new HBox();
+            hSlots.setSpacing(10);
+            ImageView image;
+            List<FamilyMember> pawnsInPalace = new ArrayList<>();
+            ActionSlot palaceSlot = palace.getActionSlot();
             palacePane.setOnMouseEntered(new SlotMouseEvent(palaceSlot.getResourcesReward()));
+            pawnsInPalace = palaceSlot.getFamilyMembers();
 
+            if (pawnsInPalace.isEmpty())
+                palacePane.getChildren().removeAll(palacePane.getChildren());
+            else {
+                for (Integer index = 0; index < pawnsInPalace.size(); index++) {
+                    image = new ImageView();
+                    image = setImage(IMAGE_PAWNS_PATH + pawnsInPalace.get(index).getFamilyMemberColor() + ".png");
+                    hSlots.getChildren().add(image);
+                    hSlots.setHgrow(image, Priority.ALWAYS);
+                }
+                palacePane.getChildren().add(hSlots);
+            }
             return null;
         });
-
         Platform.runLater(uiTask);
     }
 
@@ -272,13 +291,13 @@ public class GUI extends Application implements UIInterface {
 
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
             PawnColor pawnColor;
-            Integer index;
+
             List<ActionSlot> marketSlots = this.market.getActionSlots();
-            for (index = 0; index < marketSlots.size(); index++) {
-                ImageView slotView = (ImageView) root.lookup("#marketActionSlot" + index);
+            for (Integer index = 0; index < marketSlots.size(); index++) {
+                ImageView slotView = ((ImageView) root.lookup("#marketActionSlot" + index));
                 slotView.setOnMouseEntered(new SlotMouseEvent(marketSlots.get(index).getResourcesReward()));
-                //TODO
-                if (marketSlots.get(index).getFamilyMembers() != null) {
+
+                if (!marketSlots.get(index).getFamilyMembers().isEmpty()) {
                     pawnColor = marketSlots.get(index).getFamilyMembers().get(0).getFamilyMemberColor();
                     slotView.setImage(new Image(Thread.currentThread()
                             .getContextClassLoader().getResource("images/pawns/" + pawnColor.toString() + ".png").toExternalForm()));
@@ -298,38 +317,42 @@ public class GUI extends Application implements UIInterface {
     @Override
     public void updateProductionArea(WorkingArea productionArea) {
         this.productionArea = productionArea;
-        //TODO: handle multiple family members
 
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
-            FamilyMember pawnInSingleSlot = this.productionArea.getSingleSlot().getFamilyMembers().get(0);
-            ImageView imageSingle = (ImageView) root.lookup("#productionArea" + 0);
-            if(pawnInSingleSlot != null) {
-                imageSingle.setImage(new Image(Thread.currentThread()
-                        .getContextClassLoader().getResource("images/pawns/" + pawnInSingleSlot.getFamilyMemberColor() + ".png")
-                        .toExternalForm()));
-            } else
-                imageSingle.setImage(new Image(Thread.currentThread()
-                        .getContextClassLoader().getResource("images/transparent.png")
-                        .toExternalForm()));
+        /**
+         * Fill the single {@link ActionSlot} with the pawn placed inside
+         */
+        FamilyMember pawnInSingleSlot = this.productionArea.getSingleSlot().getFamilyMembers().get(0);
+        ImageView imageSingle = (ImageView) root.lookup("#productionArea" + 0);
+        if (pawnInSingleSlot != null) {
+            imageSingle.setImage(new Image(Thread.currentThread()
+                    .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + pawnInSingleSlot.getFamilyMemberColor() + ".png")
+                    .toExternalForm()));
+        } else
+            imageSingle = setImage(IMAGE_SLOT_TRANSPARENT);
 
-            List<FamilyMember> pawnsInAdvancedSlot = new ArrayList<>();
-            this.productionArea.getAdvancedSlots().forEach(s -> pawnsInAdvancedSlot.add(s.getFamilyMembers().get(0)));
-            StackPane advancedSlot = (StackPane) root.lookup("#productionArea" + 1);
-            ImageView imageAdvanced;
-            if(!pawnsInAdvancedSlot.isEmpty())
-                advancedSlot.getChildren().removeAll(advancedSlot.getChildren());
-            else {
-                for (Integer i = 0; i < pawnsInAdvancedSlot.size(); i++) {
-                    imageAdvanced = new ImageView();
-                    imageAdvanced.setImage(new Image(Thread.currentThread()
-                            .getContextClassLoader().getResource("images/pawns/" + pawnsInAdvancedSlot.get(i).getFamilyMemberColor() + ".png")
-                            .toExternalForm()));
-                    imageAdvanced.setTranslateX(20);
+        /**
+         * Fill the advanced {@link ActionSlot} with the pawns placed inside
+         */
+        StackPane advancedSlot = (StackPane) root.lookup("#productionArea" + 1);
+        HBox hSlots = new HBox();
+            hSlots.setSpacing(10);
+        ImageView image;
+        List<FamilyMember> pawnsInAdvancedSlot = new ArrayList<>();
+        pawnsInAdvancedSlot = this.productionArea.getAdvancedSlots().get(0).getFamilyMembers();
 
-                    advancedSlot.getChildren().add(imageAdvanced);
-                }
+        if (pawnsInAdvancedSlot.isEmpty())
+            advancedSlot.getChildren().removeAll(advancedSlot.getChildren());
+        else {
+            for (Integer index = 0; index < pawnsInAdvancedSlot.size(); index++) {
+                image = new ImageView();
+                image = setImage(IMAGE_PAWNS_PATH + pawnsInAdvancedSlot.get(index).getFamilyMemberColor() + ".png");
+                hSlots.getChildren().add(image);
+                hSlots.setHgrow(image, Priority.ALWAYS);
             }
-            return null;
+            advancedSlot.getChildren().add(hSlots);
+        }
+        return null;
         });
         Platform.runLater(uiTask);
     }
@@ -341,37 +364,40 @@ public class GUI extends Application implements UIInterface {
     @Override
     public void updateHarvestArea(WorkingArea harvestArea) {
         this.harvestArea = harvestArea;
-        //TODO: handle multiple family members
 
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            /**
+             * Fill the single {@link ActionSlot} with the pawn placed inside
+             */
             FamilyMember pawnInSingleSlot = this.harvestArea.getSingleSlot().getFamilyMembers().get(0);
             ImageView imageSingle = (ImageView) root.lookup("#harvestArea" + 0);
-            if(pawnInSingleSlot != null) {
+            if (pawnInSingleSlot != null) {
                 imageSingle.setImage(new Image(Thread.currentThread()
-                        .getContextClassLoader().getResource("images/pawns/" + pawnInSingleSlot.getFamilyMemberColor() + ".png")
+                        .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + pawnInSingleSlot.getFamilyMemberColor() + ".png")
                         .toExternalForm()));
             } else
-                imageSingle.setImage(new Image(Thread.currentThread()
-                        .getContextClassLoader().getResource("images/transparentSlot.png")
-                        .toExternalForm()));
+                imageSingle = setImage(IMAGE_SLOT_TRANSPARENT);
 
-            List<FamilyMember> pawnsInAdvancedSlot = new ArrayList<>();
-            this.harvestArea.getAdvancedSlots().forEach(s -> pawnsInAdvancedSlot.add(s.getFamilyMembers().get(0)));
+            /**
+             * Fill the advanced {@link ActionSlot} with the pawns placed inside
+             */
             StackPane advancedSlot = (StackPane) root.lookup("#harvestArea" + 1);
-            ImageView imageAdvanced;
+            HBox hSlots = new HBox();
+            hSlots.setSpacing(10);
+            ImageView image;
+            List<FamilyMember> pawnsInAdvancedSlot = new ArrayList<>();
+            pawnsInAdvancedSlot = this.harvestArea.getAdvancedSlots().get(0).getFamilyMembers();
 
-            if(pawnsInAdvancedSlot.isEmpty())
+            if (pawnsInAdvancedSlot.isEmpty())
                 advancedSlot.getChildren().removeAll(advancedSlot.getChildren());
             else {
-                for (Integer i = 0; i < pawnsInAdvancedSlot.size(); i++) {
-                    imageAdvanced = new ImageView();
-                    imageAdvanced.setImage(new Image(Thread.currentThread()
-                            .getContextClassLoader().getResource("images/pawns/" + pawnsInAdvancedSlot.get(i).getFamilyMemberColor() + ".png")
-                            .toExternalForm()));
-                    imageAdvanced.setTranslateX(20);
-
-                    advancedSlot.getChildren().add(imageAdvanced);
+                for (Integer index = 0; index < pawnsInAdvancedSlot.size(); index++) {
+                    image = new ImageView();
+                    image = setImage(IMAGE_PAWNS_PATH + pawnsInAdvancedSlot.get(index).getFamilyMemberColor() + ".png");
+                    hSlots.getChildren().add(image);
+                    hSlots.setHgrow(image, Priority.ALWAYS);
                 }
+                advancedSlot.getChildren().add(hSlots);
             }
             return null;
         });
@@ -625,7 +651,7 @@ public class GUI extends Application implements UIInterface {
         for (Node node : nodes)
             if (node.getId() == source) {
                 ((ImageView) node).setImage(new Image(Thread.currentThread()
-                        .getContextClassLoader().getResource("images/pawns/choosedPawn.png").toExternalForm()));
+                        .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + "choosedPawn.png").toExternalForm()));
             }
     }
 
@@ -634,8 +660,7 @@ public class GUI extends Application implements UIInterface {
         Image image;
             Object source = event.getSource();
            ImageView imageView = (ImageView) source;
-        imageView.setImage(new Image(Thread.currentThread()
-                .getContextClassLoader().getResource("images/transparent.png").toExternalForm()));
+        imageView = setImage(IMAGE_CARD_TRANSPARENT);
     }
 
     /**
@@ -767,11 +792,24 @@ public class GUI extends Application implements UIInterface {
      */
     public void stop(WindowEvent event) {
         primaryStage.setOnCloseRequest(event1 -> Platform.exit());
-        System.exit(0);
+        primaryStage.close();
         Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
         for (Thread thread : threadSet) {
             thread.interrupt();
         }
+    }
+
+    /**
+     * A useful method to save lines of code and increase readability and maintainability
+     * @param path to the image to load the rapresentation of the game compoment
+     * @return the {@link ImageView} that shows the image associated to the game component
+     */
+    private ImageView setImage(String path) {
+        ImageView image = new ImageView();
+        image.setImage(new Image(Thread.currentThread()
+                .getContextClassLoader().getResource(path)
+                .toExternalForm()));
+        return image;
     }
 
     public static void main (String[] args) {
@@ -780,4 +818,5 @@ public class GUI extends Application implements UIInterface {
         Configurator.loadConfigs();
         gui.launch();
     }
+
 }

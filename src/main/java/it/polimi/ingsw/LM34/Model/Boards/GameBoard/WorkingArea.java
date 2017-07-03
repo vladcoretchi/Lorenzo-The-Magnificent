@@ -10,11 +10,11 @@ public class WorkingArea extends GameSpace {
     }
 
     public ActionSlot getSingleSlot() {
-        return this.actionSlots.stream().filter(as -> !as.isSinglePawnSlot()).collect(Collectors.toList()).get(0);
+        return this.actionSlots.stream().filter(ActionSlot::isSinglePawnSlot).collect(Collectors.toList()).get(0);
     }
 
     public List<ActionSlot> getAdvancedSlots() {
-        return this.actionSlots.stream().filter(ActionSlot::isSinglePawnSlot).collect(Collectors.toList());
+        return this.actionSlots.stream().filter(as -> !as.isSinglePawnSlot()).collect(Collectors.toList());
     }
 }
 

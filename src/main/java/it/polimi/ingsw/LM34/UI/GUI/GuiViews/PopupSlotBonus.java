@@ -5,6 +5,7 @@ import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -57,14 +58,8 @@ public class PopupSlotBonus {
                 value.setStyle(style);
                 value.setFont(Font.font("Verdana", 30));
                 value.setFill(Color.BLACK);
-                borderGlow = new DropShadow();
-                borderGlow.setOffsetY(0f);
-                borderGlow.setOffsetX(0f);
-                borderGlow.setSpread(0.4);
-                borderGlow.setRadius(25.0);
-                borderGlow.setColor(Color.WHITE);
-                borderGlow.setWidth(12);
-                borderGlow.setHeight(12);
+                borderGlow = createEffect();
+
                 value.setEffect(borderGlow);
                 tempImage = new ImageView();
                 tempImage.setFitHeight(50.0);
@@ -85,14 +80,7 @@ public class PopupSlotBonus {
             value.setStyle(style);
             value.setFont(Font.font("Verdana", 30));
             value.setFill(Color.BLACK);
-            borderGlow = new DropShadow();
-            borderGlow.setOffsetY(0f);
-            borderGlow.setOffsetX(0f);
-            borderGlow.setColor(Color.WHITE);
-            borderGlow.setWidth(20);
-            borderGlow.setSpread(0.5);
-            borderGlow.setRadius(5.0);
-            borderGlow.setHeight(20);
+            borderGlow = createEffect();
             value.setEffect(borderGlow);
             tempImage = new ImageView();
             tempImage.setFitHeight(50.0);
@@ -120,7 +108,7 @@ public class PopupSlotBonus {
         stage.setScene(scene);
 
         /*Set a listener on the imageViewSlot that generated this info popup in order to close this at onMouseExited*/
-        ImageView slotImage = (ImageView) generatingEvent.getSource();
+        Node slotImage = (Node) generatingEvent.getSource();
         slotImage.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent m) {
@@ -129,5 +117,18 @@ public class PopupSlotBonus {
         });
 
         stage.show();
+    }
+
+    public DropShadow createEffect() {
+        DropShadow borderGlow = new DropShadow();
+        borderGlow.setOffsetY(0f);
+        borderGlow.setOffsetX(0f);
+        borderGlow.setSpread(0.4);
+        borderGlow.setRadius(25.0);
+        borderGlow.setColor(Color.WHITE);
+        borderGlow.setWidth(12);
+        borderGlow.setHeight(12);
+
+        return borderGlow;
     }
 }
