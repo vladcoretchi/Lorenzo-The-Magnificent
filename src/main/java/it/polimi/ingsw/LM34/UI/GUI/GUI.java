@@ -2,10 +2,7 @@ package it.polimi.ingsw.LM34.UI.GUI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
-import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
-import it.polimi.ingsw.LM34.Enums.Model.PathType;
-import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
-import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
+import it.polimi.ingsw.LM34.Enums.Model.*;
 import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
@@ -22,6 +19,8 @@ import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
+import it.polimi.ingsw.LM34.Network.SlotAction;
+import it.polimi.ingsw.LM34.Network.TowerSlotAction;
 import it.polimi.ingsw.LM34.UI.GUI.GuiViews.*;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import it.polimi.ingsw.LM34.Utils.Configurator;
@@ -54,7 +53,11 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import static it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts.*;
+import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.*;
 import static it.polimi.ingsw.LM34.UI.UIConnectionInfo.*;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
@@ -668,7 +671,7 @@ public class GUI extends Application implements UIInterface {
         this.faithPath = faithPath;
     }
 
-    //TODO: send to server the choice
+
     /**
      * Receive the action performed by the player and send the infos about the move to the server
      */
@@ -680,9 +683,61 @@ public class GUI extends Application implements UIInterface {
 
         @Override
         public void handle(Event event) {
+            PlayerAction playerAction;
+            /**
+             * Identify the {@link ImageView} or {@link StackPane} that generated the {@link MouseEvent}
+             */
             Node source = (Node) event.getSource();
             String slotId = source.getId();
             System.out.println(slotId);
+            if(slotId.contains("productionArea"))
+                playerAction = new PlayerAction(PRODUCTION_AREA_CONTEXT, new SlotAction(slotId.charAt(slotId.length()-1)));
+            else if(slotId.contains("harvestArea"))
+                playerAction = new PlayerAction(HARVEST_AREA_CONTEXT, new SlotAction(slotId.charAt(slotId.length()-1)));
+            else if(slotId.contains("councilPalace"))
+                playerAction = new PlayerAction(COUNCIL_PALACE_CONTEXT, null);
+            else if(slotId.contains("marketSlot"))
+                playerAction = new PlayerAction(MARKET_AREA_CONTEXT, new SlotAction(slotId.charAt(slotId.length()-1)));
+            else if(slotId.contains("tower")) {
+                /**
+                 *Extract info about the {@link it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardDeck}
+                 */
+                Pattern patternColor = Pattern.compile("[A-Z]+");
+                Matcher matchedColor = patternColor.matcher(slotId);
+                String color = new String();
+
+                while (matchedColor.find()) {
+                    color = matchedColor.group();
+                }
+
+                DevelopmentCardColor towerType = null;
+                switch(color) {
+                    case "GREEN": towerType = GREEN;
+                        break;
+                    case "BLUE": towerType = BLUE;
+                        break;
+                    case "PURPLE": towerType = PURPLE;
+                        break;
+                    case "YELLOW": towerType = YELLOW;
+                        break;
+                    default:
+                        break;
+                }
+                /**
+                 * Extract info about the {@link TowerSlot}'s level
+                 */
+                Integer level = 0;
+                Pattern patternLevel = Pattern.compile("\\d");
+                Matcher matchedLevel = patternLevel.matcher(slotId);
+                while (matchedLevel.find()) {
+                    level = Integer.parseInt(matchedLevel.group());
+                }
+                /**
+                 * And now fill the {@link PlayerAction} with the info of the {@link TowerSlot} selected
+                 */
+                playerAction = new PlayerAction(TOWERS_CONTEXT, new TowerSlotAction(towerType, level));
+            }
+            //TODO: send to server the choice
         }
     }
 
