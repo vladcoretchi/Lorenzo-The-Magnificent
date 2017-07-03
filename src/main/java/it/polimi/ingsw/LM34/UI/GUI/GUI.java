@@ -19,8 +19,6 @@ import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
 import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
-import it.polimi.ingsw.LM34.Network.SlotAction;
-import it.polimi.ingsw.LM34.Network.TowerSlotAction;
 import it.polimi.ingsw.LM34.UI.GUI.GuiViews.*;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import it.polimi.ingsw.LM34.Utils.Configurator;
@@ -47,6 +45,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
@@ -681,6 +680,10 @@ public class GUI extends Application implements UIInterface {
             this.slotClicked = slotClicked;
         }
 
+        /**
+         * Construct the {@link PlayerAction} in order to send it to the server
+         * @param event from which to extract the slot clicked
+         */
         @Override
         public void handle(Event event) {
             PlayerAction playerAction;
@@ -690,14 +693,24 @@ public class GUI extends Application implements UIInterface {
             Node source = (Node) event.getSource();
             String slotId = source.getId();
             System.out.println(slotId);
+
+            /**
+             * Extract info about the {@link ActionSlot} or {@link TowerSlot}'s level
+             */
+            Integer level = 0;
+            Pattern patternLevel = Pattern.compile("\\d");
+            Matcher matchedLevel = patternLevel.matcher(slotId);
+            while (matchedLevel.find()) {
+                level = Integer.parseInt(matchedLevel.group());
+            }
             if(slotId.contains("productionArea"))
-                playerAction = new PlayerAction(PRODUCTION_AREA_CONTEXT, new SlotAction(slotId.charAt(slotId.length()-1)));
+                playerAction = new PlayerAction(PRODUCTION_AREA_CONTEXT, level);
             else if(slotId.contains("harvestArea"))
-                playerAction = new PlayerAction(HARVEST_AREA_CONTEXT, new SlotAction(slotId.charAt(slotId.length()-1)));
+                playerAction = new PlayerAction(HARVEST_AREA_CONTEXT, level);
             else if(slotId.contains("councilPalace"))
                 playerAction = new PlayerAction(COUNCIL_PALACE_CONTEXT, null);
             else if(slotId.contains("marketSlot"))
-                playerAction = new PlayerAction(MARKET_AREA_CONTEXT, new SlotAction(slotId.charAt(slotId.length()-1)));
+                playerAction = new PlayerAction(MARKET_AREA_CONTEXT, level);
             else if(slotId.contains("tower")) {
                 /**
                  *Extract info about the {@link it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardDeck}
@@ -724,18 +737,10 @@ public class GUI extends Application implements UIInterface {
                         break;
                 }
                 /**
-                 * Extract info about the {@link TowerSlot}'s level
-                 */
-                Integer level = 0;
-                Pattern patternLevel = Pattern.compile("\\d");
-                Matcher matchedLevel = patternLevel.matcher(slotId);
-                while (matchedLevel.find()) {
-                    level = Integer.parseInt(matchedLevel.group());
-                }
-                /**
                  * And now fill the {@link PlayerAction} with the info of the {@link TowerSlot} selected
                  */
-                playerAction = new PlayerAction(TOWERS_CONTEXT, new TowerSlotAction(towerType, level));
+                playerAction = new PlayerAction(TOWERS_CONTEXT,
+                                    new ImmutablePair<DevelopmentCardColor, Integer>(towerType, level));
             }
             //TODO: send to server the choice
         }
