@@ -110,11 +110,32 @@ public class GUI extends Application implements UIInterface {
         this.primaryStage = new Stage();
         prepareWindow();
 
+
+
         FamilyMember pawn = new FamilyMember(PawnColor.BLUE, DiceColor.ORANGE);
         FamilyMember pawn2 = new FamilyMember(PawnColor.RED, DiceColor.ORANGE);
         FamilyMember pawn3 = new FamilyMember(PawnColor.BLUE, DiceColor.ORANGE);
         FamilyMember pawn4 = new FamilyMember(PawnColor.RED, DiceColor.ORANGE);
         FamilyMember pawn5 = new FamilyMember(PawnColor.GREEN, DiceColor.ORANGE);
+        Market market = Configurator.getMarket();
+        market.insertFamilyMember(1, pawn);
+        market.insertFamilyMember(3, pawn2);
+        WorkingArea productionArea = Configurator.getProductionArea();
+        WorkingArea harvestArea = Configurator.getHarvestArea();
+
+        productionArea.getSingleSlot().insertFamilyMember(pawn);
+        productionArea.getAdvancedSlots().get(0).insertFamilyMember(pawn2);
+        productionArea.getAdvancedSlots().get(0).insertFamilyMember(pawn);
+        harvestArea.getSingleSlot().insertFamilyMember(pawn);
+        harvestArea.getAdvancedSlots().get(0).insertFamilyMember(pawn3);
+        harvestArea.getAdvancedSlots().get(0).insertFamilyMember(pawn4);
+        harvestArea.getAdvancedSlots().get(0).insertFamilyMember(pawn5);
+        updateMarket(market);
+        updateProductionArea(productionArea);
+        updateHarvestArea(harvestArea);
+        towersSpaces = Configurator.getTowers();
+        updateTowers(towersSpaces);
+
 
         CouncilPalace councilPalace = Configurator.getPalace();
         councilPalace.getActionSlot().insertFamilyMember(pawn);
@@ -122,6 +143,8 @@ public class GUI extends Application implements UIInterface {
         councilPalace.getActionSlot().insertFamilyMember(pawn3);
 
         updateCouncilPalace(councilPalace);
+
+
         this.selectedContext = Optional.empty();
     }
 
@@ -240,6 +263,7 @@ public class GUI extends Application implements UIInterface {
                         for (; level < Configurator.MAX_TOWER_LEVELS; level++) {
                             slotView = (ImageView) root.lookup("#tower" + cardColor + "bonus" + level);
                             slotView.setOnMouseEntered(new SlotMouseEvent(towerSpace.getTowerSlots().get(level).getResourcesReward()));
+                            slotView.setOnMouseClicked(new PlacePawn(towerSpace.getTowerSlots().get(level)));
                         }
                     }
             }
@@ -263,6 +287,7 @@ public class GUI extends Application implements UIInterface {
             List<FamilyMember> pawnsInPalace = new ArrayList<>();
             ActionSlot palaceSlot = palace.getActionSlot();
             palacePane.setOnMouseEntered(new SlotMouseEvent(palaceSlot.getResourcesReward()));
+            palacePane.setOnMouseClicked(new PlacePawn(palace.getActionSlot()));
             pawnsInPalace = palaceSlot.getFamilyMembers();
 
             if (pawnsInPalace.isEmpty())
@@ -294,8 +319,9 @@ public class GUI extends Application implements UIInterface {
 
             List<ActionSlot> marketSlots = this.market.getActionSlots();
             for (Integer index = 0; index < marketSlots.size(); index++) {
-                ImageView slotView = ((ImageView) root.lookup("#marketActionSlot" + index));
+                ImageView slotView = (ImageView) root.lookup("#marketActionSlot" + index);
                 slotView.setOnMouseEntered(new SlotMouseEvent(marketSlots.get(index).getResourcesReward()));
+                slotView.setOnMouseClicked(new PlacePawn(marketSlots.get(index)));
 
                 if (!marketSlots.get(index).getFamilyMembers().isEmpty()) {
                     pawnColor = marketSlots.get(index).getFamilyMembers().get(0).getFamilyMemberColor();
@@ -324,7 +350,9 @@ public class GUI extends Application implements UIInterface {
          */
         FamilyMember pawnInSingleSlot = this.productionArea.getSingleSlot().getFamilyMembers().get(0);
         ImageView imageSingle = (ImageView) root.lookup("#productionArea" + 0);
-        if (pawnInSingleSlot != null) {
+        imageSingle.setOnMouseClicked(new PlacePawn(this.productionArea.getSingleSlot()));
+
+            if (pawnInSingleSlot != null) {
             imageSingle.setImage(new Image(Thread.currentThread()
                     .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + pawnInSingleSlot.getFamilyMemberColor() + ".png")
                     .toExternalForm()));
@@ -335,8 +363,10 @@ public class GUI extends Application implements UIInterface {
          * Fill the advanced {@link ActionSlot} with the pawns placed inside
          */
         StackPane advancedSlot = (StackPane) root.lookup("#productionArea" + 1);
+        advancedSlot.setOnMouseClicked(new PlacePawn(this.productionArea.getAdvancedSlots().get(0)));
+
         HBox hSlots = new HBox();
-            hSlots.setSpacing(10);
+        hSlots.setSpacing(10);
         ImageView image;
         List<FamilyMember> pawnsInAdvancedSlot = new ArrayList<>();
         pawnsInAdvancedSlot = this.productionArea.getAdvancedSlots().get(0).getFamilyMembers();
@@ -371,6 +401,7 @@ public class GUI extends Application implements UIInterface {
              */
             FamilyMember pawnInSingleSlot = this.harvestArea.getSingleSlot().getFamilyMembers().get(0);
             ImageView imageSingle = (ImageView) root.lookup("#harvestArea" + 0);
+            imageSingle.setOnMouseClicked(new PlacePawn(this.harvestArea.getSingleSlot()));
             if (pawnInSingleSlot != null) {
                 imageSingle.setImage(new Image(Thread.currentThread()
                         .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + pawnInSingleSlot.getFamilyMemberColor() + ".png")
@@ -382,6 +413,7 @@ public class GUI extends Application implements UIInterface {
              * Fill the advanced {@link ActionSlot} with the pawns placed inside
              */
             StackPane advancedSlot = (StackPane) root.lookup("#harvestArea" + 1);
+            advancedSlot.setOnMouseClicked(new PlacePawn(this.harvestArea.getAdvancedSlots().get(0)));
             HBox hSlots = new HBox();
             hSlots.setSpacing(10);
             ImageView image;
@@ -425,7 +457,7 @@ public class GUI extends Application implements UIInterface {
                 playerInfo.setVisible(true);
                 playerInfo.setManaged(true);
 
-                playerInfo.setOnMouseClicked(new PlayerClickEvent(player));
+                playerInfo.setOnMouseClicked(new PlayerInfoClickEvent(player));
 
                 playerName = (Label) root.lookup("#player" + numPlayer);
                 playerName.setText(player.getPlayerName());
@@ -636,31 +668,22 @@ public class GUI extends Application implements UIInterface {
         this.faithPath = faithPath;
     }
 
-    //TODO
-    @FXML
-    public void placePawn(MouseEvent event) {
-        Image image;
+    //TODO: send to server the choice
+    /**
+     * Receive the action performed by the player and send the infos about the move to the server
+     */
+    private class PlacePawn implements EventHandler<Event> {
+        private ActionSlot slotClicked;
+        public PlacePawn(ActionSlot slotClicked) {
+            this.slotClicked = slotClicked;
+        }
 
-        ArrayList<FamilyMember> membersAvailable;
-
-        String source = event.getPickResult().getIntersectedNode().getId();
-        FamilyMemberSelectDialog dialog;
-
-
-        List<Node> nodes = towers.getChildren();
-        for (Node node : nodes)
-            if (node.getId() == source) {
-                ((ImageView) node).setImage(new Image(Thread.currentThread()
-                        .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + "choosedPawn.png").toExternalForm()));
-            }
-    }
-
-    @FXML
-    public void buyCard(MouseEvent event) {
-        Image image;
-            Object source = event.getSource();
-           ImageView imageView = (ImageView) source;
-        imageView = setImage(IMAGE_CARD_TRANSPARENT);
+        @Override
+        public void handle(Event event) {
+            Node source = (Node) event.getSource();
+            String slotId = source.getId();
+            System.out.println(slotId);
+        }
     }
 
     /**
@@ -710,13 +733,15 @@ public class GUI extends Application implements UIInterface {
         });
         Platform.runLater(uiTask);
     }
+
     /**
-     * Shows the personal board of the player label clicked
+     * Shows the {@link it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard}
+     * of the {@link Player} {@link Label} clicked
      */
-    private class PlayerClickEvent implements EventHandler<Event> {
+    private class PlayerInfoClickEvent implements EventHandler<Event> {
         private Player player;
 
-        public PlayerClickEvent(Player player) {
+        public PlayerInfoClickEvent(Player player) {
             this.player = player;
         }
 
@@ -818,5 +843,4 @@ public class GUI extends Application implements UIInterface {
         Configurator.loadConfigs();
         gui.launch();
     }
-
 }

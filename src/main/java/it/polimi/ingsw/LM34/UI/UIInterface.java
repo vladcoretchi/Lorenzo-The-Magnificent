@@ -46,7 +46,6 @@ public interface UIInterface {
     PlayerAction turnMainAction(Optional<Exception> lastActionValid);
     PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid);
 
-
     /**
      * Update UI informations about the gameboard state at start or after each player turn
      * @param game states
