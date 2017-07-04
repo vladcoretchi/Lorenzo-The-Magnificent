@@ -9,7 +9,6 @@ import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
-import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Dice;
@@ -118,7 +117,6 @@ public class GUI extends Application implements UIInterface {
         this.primaryStage = new Stage();
         prepareWindow();
 
-
         this.selectedContext = Optional.empty();
     }
 
@@ -222,38 +220,41 @@ public class GUI extends Application implements UIInterface {
 
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
             ImageView cardView;
-            for (Tower tower : this.towersSpaces) {
-                /***Load cards***/
-                Integer indexCard = 0;
-                for (AbstractDevelopmentCard card : tower.getCardsStored()) {
-                    cardView = (ImageView) root.lookup("#tower" + tower.getCardColor().toString() + "_level" + indexCard);
-                    if (card != null) {
-                        String devType = tower.getCardColor().getDevType();
+            /**
+             * Register the slots to {@link MouseEvent} so that they will show the
+             * {@link Resources} provided in a {@link PopupSlotBonus}
+             */
+            List<TowerSlot> slotsInTower;
+            ImageView slotView;
+            for (Tower towerSpace : this.towersSpaces) {
+                String cardColor = towerSpace.getCardColor().toString();
+                for (Integer level = 0; level < Configurator.MAX_TOWER_LEVELS; level++) {
+                    TowerSlot towerSlot = towerSpace.getTowerSlots().get(level);
+
+                    /***Load cards***/
+                    cardView = (ImageView) root.lookup("#tower" + towerSpace.getCardColor().toString() + "_level" + level);
+                    if (towerSlot.getCardStored() != null) {
+                        String devType = towerSlot.getCardStored().getColor().getDevType();
                         cardView.setImage(new Image(Thread.currentThread()
-                                .getContextClassLoader().getResource("images/developmentCards/" + devType + "/" + card.getName() + ".png")
+                                .getContextClassLoader().getResource("images/developmentCards/" + devType + "/" + towerSlot.getCardStored().getName() + ".png")
                                 .toExternalForm()));
                     } else {
-                        cardView = setImage(IMAGE_CARD_TRANSPARENT);
+                        cardView.setImage(new Image(Thread.currentThread()
+                                .getContextClassLoader().getResource(IMAGE_CARD_TRANSPARENT)
+                                .toExternalForm()));
                     }
-                    indexCard++;
+
+                    /***Load bonuses***/
+                    slotView = (ImageView) root.lookup("#tower" + cardColor + "bonus" + level);
+                    slotView.setOnMouseEntered(new SlotMouseEvent(towerSpace.getTowerSlots().get(level).getResourcesReward()));
+                    slotView.setOnMouseClicked(new PlacePawn(towerSpace.getTowerSlots().get(level)));
+                    if (!towerSlot.getFamilyMembers().isEmpty()) {
+                        PawnColor pawnColor = towerSlot.getFamilyMembers().get(0).getFamilyMemberColor();
+                        slotView.setImage(new Image(Thread.currentThread()
+                                .getContextClassLoader().getResource("images/pawns/" + pawnColor.toString() + ".png").toExternalForm()));
+                    } else
+                        slotView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
                 }
-                /**
-                 * Register the slots to {@link MouseEvent} so that they will show the
-                 * {@link Resources} provided in a {@link PopupSlotBonus}
-                 */
-                    List<TowerSlot> slotsInTower;
-                    Integer level;
-                    ImageView slotView;
-                    for (Tower towerSpace : this.towersSpaces) {
-                        level = 0;
-                        String cardColor = towerSpace.getCardColor().toString();
-                        /***Load bonuses***/
-                        for (; level < Configurator.MAX_TOWER_LEVELS; level++) {
-                            slotView = (ImageView) root.lookup("#tower" + cardColor + "bonus" + level);
-                            slotView.setOnMouseEntered(new SlotMouseEvent(towerSpace.getTowerSlots().get(level).getResourcesReward()));
-                            slotView.setOnMouseClicked(new PlacePawn(towerSpace.getTowerSlots().get(level)));
-                        }
-                    }
             }
             return null;
         });
@@ -877,7 +878,6 @@ public class GUI extends Application implements UIInterface {
     public void showLeaderCardsActions() {
         //TODO: will this call mainaction?
         this.selectedContext = Optional.of(PlayerSelectableContexts.LEADER_ACTIVATE_OR_DISCARD_CONTEXT);
-
     }
 
     /**

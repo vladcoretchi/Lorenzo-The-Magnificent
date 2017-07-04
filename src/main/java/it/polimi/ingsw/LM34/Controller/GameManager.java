@@ -129,6 +129,7 @@ public class GameManager {
         players.forEach(player -> this.getPlayerNetworkController(player).updateHarvestArea(this.harvestArea));
         players.forEach(player -> this.getPlayerNetworkController(player).updateMarket(this.market));
         players.forEach(player -> this.getPlayerNetworkController(player).updateCouncilPalace(this.councilPalace));
+        
 
         ((TurnContext) getContextByType(TURN_CONTEXT)).initContext(); //first player start first round of the game
     }
@@ -222,7 +223,9 @@ public class GameManager {
             endGame();
     }
 
-    /**New cards are placed in the towers at the beginning of the new round**/
+    /**
+     * New cards are placed in the towers at the beginning of the new round
+     */
     private void replaceCards() {
         changeCards(towers, territoryCardDeck);
         changeCards(towers, buildingCardDeck);
@@ -277,10 +280,18 @@ public class GameManager {
         contexts.forEach((type, context) -> context.setGameManager(this));
     }
 
+    /**
+     * @param contextType enum used to know which {@link AbstractGameContext} retrieve
+     * @return the {@link AbstractGameContext} used by contexts and effects to connect with each other
+     */
     public AbstractGameContext getContextByType(ContextType contextType) {
         return this.contexts.getOrDefault(contextType, null);
     }
 
+    /**
+     * @param contextType enum used to know which {@link PlayerSelectableContexts} retrieve
+     * @return the {@link PlayerSelectableContexts} used by contexts and effects to connect with each other
+     */
     public AbstractGameContext getContextByType(PlayerSelectableContexts contextType) {
         return contexts.getOrDefault(contextType, null);
     }
@@ -337,7 +348,7 @@ public class GameManager {
     /**
      * The players have the opportunity to choose one {@link BonusTile}
      * he wants to have during the game
-     *if timeout while user selects the card -> an arbitrary {@link  is selected automatically
+     *if timeout while user selects the card -> an arbitrary {@link BonusTile} is selected automatically
      */
     private void bonusTileSelectionPhase() {
         List<BonusTile> bonusTiles;
@@ -374,6 +385,10 @@ public class GameManager {
         }
     }
 
+    /**
+     * @param leaderCards in game
+     * @param player from which to ask the {@link LeaderCard} desired
+     */
     private void playerLeaderCardSelection(List<LeaderCard> leaderCards, Player player) {
         try {
             Integer selectedCard = getPlayerNetworkController(player).leaderCardSelectionPhase(leaderCards);

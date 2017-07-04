@@ -80,7 +80,6 @@ public class SocketClient extends AbstractClient {
             outStream.writeUTF(password);
             outStream.flush();
         } catch (IOException e) {
-            getUI().disconnectionWarning();
             LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e);
         }
     }

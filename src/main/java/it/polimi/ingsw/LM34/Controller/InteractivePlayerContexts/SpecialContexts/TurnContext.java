@@ -16,6 +16,9 @@ import java.util.logging.Level;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
+/**
+ * This is the main context, from which to control the flow of the interaction with the player
+ */
 public class TurnContext extends AbstractGameContext {
     private Boolean skipTurn;
 
@@ -27,9 +30,8 @@ public class TurnContext extends AbstractGameContext {
     }
 
     /**
-     * @param player about to begin his turn
-     * Reactivate all observers that are of the player that is going to play
-     * NOTE: OncePerRound observers are excluded
+     * Reactivate all observers that are associated to the player that is going to play
+     * NOTE: OncePerRound observers are excluded in this reactivation
      */
     public void initContext() {
         this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updatePlayersData(this.gameManager.getPlayers()));

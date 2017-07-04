@@ -1,7 +1,8 @@
 {
   "configuration": {
     "server": {
-      "timeout": 120
+      "timeout": 120,
+      "timeoutTurn": 60
     },
     "game": {
       "maxPlayers": 5,

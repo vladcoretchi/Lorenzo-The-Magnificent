@@ -35,11 +35,12 @@ import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.MILITARY_POINTS;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 /**
- * config parameters loaded from file as static variables
+ * The {@link Configurator} loads all parameters from file as variables that will be used by each game
  */
 public final class Configurator {
     /*CONVENTION GAME_CODES*/
     public static Integer WAITING_ROOM_TIMEOUT;
+    public static Integer TURN_TIMEOUT;
     public static final Integer WAITING_ROOM_PLAYERS_THRESHOLD = 2;
     public static final Integer PLAYER_MOVE_TIMEOUT = 120000;
     public static final Integer MAX_TOWER_LEVELS = 4;
@@ -105,8 +106,11 @@ public final class Configurator {
     private static final String HARVEST_JSONSTRING = "harvest";
     private static final String WORKING_AREA_TYPE_JSONSTRING = "workingAreaType";
 
-    private Configurator() {}
+    private Configurator() {/*Intentionally left void*/}
 
+    /**
+     * Loads all variable from the JSON data
+     */
     public static void loadConfigs() {
         JSONObject jsonObject = null;
         try {
@@ -122,7 +126,11 @@ public final class Configurator {
         /****GameRoom Timeout****/
         if(jsonObject != null) {
             WAITING_ROOM_TIMEOUT = jsonObject.getJSONObject("server").getInt("timeout");
+            TURN_TIMEOUT = jsonObject.getJSONObject("server").getInt("timeoutTurn");
 
+            /**
+             * Setups all game objects
+             */
             setupLeaderCards(jsonObject.optJSONObject(CARDS_JSONSTRING).optJSONArray("leaderCards"));
             setupGame(jsonObject.getJSONObject("game"));
             setupPersonalTiles(jsonObject);
@@ -136,6 +144,9 @@ public final class Configurator {
         }
     }
 
+    /**
+     * @param jsonLeaderCards JSON from which to extract information about the {@link LeaderCard}s
+     */
     private static void setupLeaderCards(JSONArray jsonLeaderCards) {
         leaderCards = new ArrayList<>();
         String name;
@@ -150,11 +161,14 @@ public final class Configurator {
             oncePerRound = jsonLeaderCards.getJSONObject(index).getBoolean("oncePerRound");
             JSONArray cardsReq;
 
+            /**
+             * Load for each card its {@link LeaderRequirements}
+             */
             if(jsonLeaderCards.getJSONObject(index).getJSONObject(LEADER_REQUIREMENTS_JSONSTRING).optJSONArray("cardRequirements") != null) {
                 cardsReq = jsonLeaderCards.getJSONObject(index).getJSONObject(LEADER_REQUIREMENTS_JSONSTRING).getJSONArray("cardRequirements");
 
 
-                /**Retrieve the quantity of specific card colors the player needs to have for activate the leader**/
+                /**Retrieve the quantity of specific card colors the player needs to have for activate the {@link LeaderCard}**/
                 for (Integer k = 0; k < cardsReq.length(); k++) {
                     if (!cardsReq.getJSONObject(k).getString(DEVELOPMENT_CARD_COLOR_JSONSTRING).isEmpty()) {
                         cardRequirements.put(getCardTypeFromJson(cardsReq.getJSONObject(k).getString(DEVELOPMENT_CARD_COLOR_JSONSTRING)),
@@ -162,11 +176,15 @@ public final class Configurator {
                     }
                 }
 
-                /**Extract the Requirements for activating the leader**/
+                /**Extract the Requirements for activating the {@link LeaderCard}**/
                 if (jsonLeaderCards.getJSONObject(index).getJSONObject(LEADER_REQUIREMENTS_JSONSTRING).optJSONObject("resourcesRequirements") != null)
                     resRequirements = getResourcesBonusFromJson(jsonLeaderCards.getJSONObject(index).optJSONObject(LEADER_REQUIREMENTS_JSONSTRING).getJSONObject("resourcesRequirements")).getResources();
             }
-            /**Store the bonus in the LeaderCard*/
+
+            /**Store the {@link AbstractEffect} bonus in the {@link LeaderCard}
+             * Note: only one {@link AbstractEffect} is allowed for each {@link LeaderCard}
+             * based on The Rules
+             */
             JSONObject jsonBonus;
             if (jsonLeaderCards.optJSONObject(index).getJSONObject("bonus") != null) {
                 jsonBonus = jsonLeaderCards.getJSONObject(index).getJSONObject("bonus");
@@ -233,6 +251,9 @@ public final class Configurator {
                     bonus = new DevelopmentCardAcquireEffect(cardColor, diceValue, false, discount);
                 }
             }
+            /**
+             * And now create the {@link LeaderCard}
+             */
             leaderCards.add(new LeaderCard(name, new LeaderRequirements(resRequirements, cardRequirements), bonus, oncePerRound));
         }
     }
@@ -324,7 +345,7 @@ public final class Configurator {
     }
 
     /**
-     * @param jsonArray from which to load into objects the excommunication cards
+     * @param jsonArray from which to load into objects the {@link ExcommunicationCard}s
      */
     private static void setupExcommunicationTiles(JSONArray jsonArray) {
         excommunicationTiles = new ArrayList<>();
@@ -356,6 +377,9 @@ public final class Configurator {
         }
     }
 
+    /**
+     * @param jsonObject from which to extra and fill the {@link TowerSlot}s
+     */
     private static TowerSlot getTowerSlotFromJson(JSONObject jsonObject) {
         Boolean singlePawnSlot = jsonObject.optBoolean("singlePawnSlot", true);
         Integer diceValue = jsonObject.optInt(DICE_VALUE_JSONSTRING, 0);
@@ -411,6 +435,9 @@ public final class Configurator {
         return orderedDeck;
     }
 
+    /**
+     * @param jsonObject from which to extra and fill the {@link ActionSlot}s
+     */
     private static ActionSlot getActionSlotFromJson(JSONObject jsonObject) {
         Boolean singlePawnSlot = jsonObject.optBoolean("singlePawnSlot", true);
         Integer diceValue = jsonObject.optInt(DICE_VALUE_JSONSTRING, 0);
@@ -421,6 +448,9 @@ public final class Configurator {
         return new ActionSlot(singlePawnSlot, diceValue, resourcesBonus);
     }
 
+    /**
+     * @param jsonResourcesBonus from which to create and instantiate che {@link ResourcesBonus} effect
+     */
     private static ResourcesBonus getResourcesBonusFromJson(JSONObject jsonResourcesBonus) {
         Map<ResourceType, Integer> resourcesMap = new EnumMap<>(ResourceType.class);
         Integer councilPrivileges;
@@ -441,6 +471,9 @@ public final class Configurator {
         return new ResourcesBonus(resources, councilPrivileges);
     }
 
+    /**
+     * @param jsonArray from which to create and instantiate che {@link DevelopmentCardDeck} of {@link TerritoryCard}
+     */
     private static List<TerritoryCard> getTerritoryCardsFromJson(JSONArray jsonArray) {
         ArrayList<TerritoryCard> cards = new ArrayList<>();
         for(int i = 0; i < jsonArray.length(); i++) {
@@ -462,6 +495,9 @@ public final class Configurator {
         return new TerritoryCard(name, diceValueToHarvest, period, instantResources, permanentResources);
     }
 
+    /**
+     * @param jsonArray from which to create and instantiate che {@link DevelopmentCardDeck} of {@link BuildingCard}
+     */
     private static List<BuildingCard> getBuildingCardsFromJson(JSONArray jsonArray) {
         List<BuildingCard> cards = new ArrayList<>();
         for(int i = 0; i < jsonArray.length(); i++) {
@@ -521,6 +557,9 @@ public final class Configurator {
         return new BuildingCard(name, diceValueToProduct, period, resourcesRequired, instantResources, permanentBonus);
     }
 
+    /**
+     * @param jsonArray from which to create and instantiate che {@link DevelopmentCardDeck} of {@link VentureCard}
+     */
     private static List<VentureCard> getVentureCardsFromJson(JSONArray jsonArray) {
         List<VentureCard> cards = new ArrayList<>();
         for(int i = 0; i < jsonArray.length(); i++) {
@@ -596,6 +635,9 @@ public final class Configurator {
         return excommunicationTiles;
     }
 
+    /**
+     * Order the {@link ExcommunicationCard}s by period
+     */
     public static void orderExcommunicatioCardByPeriod() {
         List<ExcommunicationCard> temp = new ArrayList();
 
@@ -606,6 +648,9 @@ public final class Configurator {
         excommunicationTiles = temp;
     }
 
+    /**
+     * @param productionSlotsJson from which to extra information about the Production Area ({@link WorkingArea})
+     */
     private static void setupProductionArea(JSONArray productionSlotsJson) {
         List<ActionSlot> productionSlots = new ArrayList<>();
         for( int i = 0; i < productionSlotsJson.length(); i++)
@@ -614,6 +659,9 @@ public final class Configurator {
         productionArea = new WorkingArea(productionSlots);
     }
 
+    /**
+     * @param harvestSlotsJson from which to extra information about the Harvest Area ({@link WorkingArea})
+     */
     private static void setupHarvestArea(JSONArray harvestSlotsJson) {
         List<ActionSlot> harvestSlots = new ArrayList<>();
         for( int i = 0; i < harvestSlotsJson.length(); i++)
@@ -739,6 +787,9 @@ public final class Configurator {
         return new ExcommunicationCard(number, period, penalty);
     }
 
+    /**
+     * @param jsonArray from which to create and instantiate che {@link DevelopmentCardDeck} of {@link CharacterCard}
+     */
     private static List<CharacterCard> getCharacterCardsFromJson(JSONArray jsonArray) {
         List<CharacterCard> cards = new ArrayList<>();
         for(int i = 0; i < jsonArray.length(); i++) {
