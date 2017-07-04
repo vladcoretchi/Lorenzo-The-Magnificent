@@ -586,7 +586,7 @@ public final class Configurator {
     public static List<LeaderCard> getLeaderCards(Integer numPlayers) {
         Collections.shuffle(leaderCards);
         List<LeaderCard> leadersForPlaying = new ArrayList<>();
-        for(Integer index = 0; index < numPlayers; index++)
+        for(Integer index = 0; index < MAX_LEADER_PER_PLAYER * numPlayers; index++)
             leadersForPlaying.add(leaderCards.get(index));
 
         return leadersForPlaying;

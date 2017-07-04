@@ -69,7 +69,6 @@ public class CLI implements UIInterface {
         selectableContexts = new ArrayList<>();
         for(PlayerSelectableContexts c : PlayerSelectableContexts.values())
             selectableContexts.add(c);
-
     }
     private Integer selectionMenu(List<?> data, Optional<String> backString, Optional<String> message, Optional<String> errorMessage) {
         backString.ifPresent((str) -> printFormat("%1$d) %2$s\n", 0, str));
@@ -256,7 +255,8 @@ public class CLI implements UIInterface {
     }
 
     /**
-     * this method will be called when the user will choice about which {@link it.polimi.ingsw.LM34.Controller.ContextFactory} player wish to use
+     * this method will be called when the user will choice about which
+     * {@link it.polimi.ingsw.LM34.Controller.AbstractGameContext} the player wishes to enter
      */
     //TODO
     public Integer contextSelection(List<PlayerSelectableContexts> allContext)  {
@@ -579,13 +579,12 @@ public class CLI implements UIInterface {
     public Pair<String, LeaderCardsAction>  leaderCardSelection(List<LeaderCard> leadersOwned) {
         LeaderCardsAction actionChoiced = LeaderCardsAction.DISCARD;
         String input;
+        Integer choice = 0;
 
-        printFormat("Choose to Play, Copy or Discard Leader\n");
+        printFormat("Choose to Play or Discard a Leader\n");
         input = readUserInput.nextLine();
         if(input.equalsIgnoreCase(LeaderCardsAction.PLAY.toString()))
             actionChoiced = LeaderCardsAction.PLAY;
-        else if (input.equalsIgnoreCase(LeaderCardsAction.COPY.toString()))
-            actionChoiced = LeaderCardsAction.COPY;
         else if (input.equalsIgnoreCase(LeaderCardsAction.DISCARD.toString()))
             actionChoiced = LeaderCardsAction.DISCARD;
         else {
@@ -598,6 +597,7 @@ public class CLI implements UIInterface {
         try {
             input = readUserInput.nextLine();
             Validator.checkValidity(input, leadersOwned);
+            choice = Integer.parseInt(input);
         }
         catch (IncorrectInputException e) {
             LOGGER.log(Level.WARNING, e.getMessage(), e);
@@ -777,7 +777,7 @@ public class CLI implements UIInterface {
      * Shows all infos about each players in the game
      */
     private void showPlayersInfo() {
-        CLIStuff.printToConsole.println("Here are the infos about all players in game");
+        CLIStuff.printToConsole.println("Here are the information about all players in game");
         players.forEach(p -> {
 
             /**Leader the player has activated**/
@@ -790,11 +790,17 @@ public class CLI implements UIInterface {
             for(ResourceType t : ResourceType.values())
                 printFormat("%1$s : %2$s", t.toString(), res.getResourceByType(t).toString());
 
-            /**Resources the player has**/
+            /**
+             * The {@link ExcommunicationCard}s of the player
+             */
+            printLine("\nThe penalties he has:");
             p.getExcommunicationCards().forEach(e -> printFormat("%1$s : %2$s", e.getPeriod(),
                                                 e.getPenalty().getClass().getSimpleName()));
 
-            /**The cards the players has bought during the game**/
+            /**
+             * The {@link it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard}
+             * the players has bought during the game
+             */
             printFormat("The Personal Board of player %1$s\n", p.getPlayerName());
             PersonalBoard pb = p.getPersonalBoard();
             for(DevelopmentCardColor color : DevelopmentCardColor.values()) {
@@ -807,7 +813,7 @@ public class CLI implements UIInterface {
     }
 
     /**
-     * Shows the values of the 3 dices in this round
+     * Shows the values of the 3 {@link Dice}s in this round
      */
     private void showDiceValues() {
         dices.forEach(d -> printFormat("%1$s value: %2$d ", d.getColor().toString(), d.getValue()));
@@ -854,8 +860,8 @@ public class CLI implements UIInterface {
 
         bonusTiles.forEach(bt -> {
             printToConsole.println("This bonus tile gives:");
-            printFormat("For harvest area %1$s", bt.getHarvestBonus().getResources().toString());
-            printFormat("For production area %1$s", bt.getHarvestBonus().getResources().toString());
+            printFormat("For harvest area %1$s", bt.getHarvestBonus().getResources().getResources());
+            printFormat("For production area %1$s", bt.getHarvestBonus().getResources().getResources());
         });
 
         do {

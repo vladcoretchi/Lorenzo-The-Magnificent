@@ -7,8 +7,10 @@ import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.EndGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
+import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -17,13 +19,13 @@ import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Dice;
-import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.GameRoom;
 import it.polimi.ingsw.LM34.Network.Server.ServerNetworkController;
 import it.polimi.ingsw.LM34.Utils.Configurator;
+import it.polimi.ingsw.LM34.Utils.Validator;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -73,10 +75,6 @@ public class GameManager {
     private TurnContext turnContext = new TurnContext();
     private CouncilPalaceContext palaceContext;
 
-    /*CONSTRUCTOR*/
-    //TODO:
-    public GameManager() {}
-
     public GameManager(GameRoom gameRoom, List<String> players) {
         this.gameRoom = gameRoom;
 
@@ -94,6 +92,12 @@ public class GameManager {
         setUpDecks();
         replaceCards();
         setExcommunicationCards();
+
+        //Instantiate and roll dices
+        this.dices = new ArrayList<>();
+        for(DiceColor color : DiceColor.values())
+            this.dices.add(new Dice(color));
+        rollDices();
 
         /**
          * Randomly set the initial play order
@@ -114,7 +118,16 @@ public class GameManager {
      * At game startup show to the each client the info about the players
      */
     public void startGame() {
+        //bonusTileSelectionPhase(); //TODO: uncomment
+        //leaderSelectionPhase();
+        players.forEach(player -> this.getPlayerNetworkController(player).updateDiceValues(this.dices));
         players.forEach(player -> this.getPlayerNetworkController(player).updatePlayersData(this.players));
+        players.forEach(player -> this.getPlayerNetworkController(player).updateTowers(this.towers));
+        players.forEach(player -> this.getPlayerNetworkController(player).updateProductionArea(this.productionArea));
+        players.forEach(player -> this.getPlayerNetworkController(player).updateHarvestArea(this.harvestArea));
+        players.forEach(player -> this.getPlayerNetworkController(player).updateMarket(this.market));
+        players.forEach(player -> this.getPlayerNetworkController(player).updateCouncilPalace(this.councilPalace));
+
         ((TurnContext) getContextByType(TURN_CONTEXT)).initContext(); //first player start first round of the game
     }
 
@@ -155,9 +168,9 @@ public class GameManager {
 
     public void nextTurn() {
         turn++;
-        if (turn >= players.size() - 1) { //all players have placed 1 pawn
+        if (turn >= players.size()) { //all players have placed 1 pawn
             nextPhase();
-            turn = 0;
+            this.turn = 0;
         } else {
             ((TurnContext) getContextByType(TURN_CONTEXT)).initContext();
         }
@@ -165,40 +178,29 @@ public class GameManager {
 
     public void nextPhase() {
         /*If all players have placed all of their pawns go to the next round*/
-        if(phase >= (players.size() * players.get(0).getFamilyMembers().size()))
+        if(phase > (players.size() * players.get(0).getFamilyMembers().size()))
             nextRound();
         else
-            phase++;
+            this.phase++;
     }
 
     public void nextRound() { //round = half period
-        List<AbstractEffect> playerObservers;
-        round++;
+        this.round++;
+        //TODO: reset once per round leaders + players pawns
 
-
-        //TODO: is this still necessary?
-        /* At the beginning of the round re apply all the once per round observers of the player */
-        /*for (Player player : players) {
-            playerObservers = player.getObservers();
-            for (AbstractEffect observer : playerObservers)
-                if (observer.isOncePerRound())
-                    observer.subscribeObserverToContext(contexts);
-        }*/
-
-        if (round % 2 == 0) {
+        if (this.round % 2 == 0) {
             /**Now it is Curch Report time**/
             ChurchReportContext churchContext = (ChurchReportContext) getContextByType(CHURCH_REPORT_CONTEXT);
 
             /**ChurchReportContext interact with a player at a time, based on turn order**/
-            players.forEach(churchContext::interactWithPlayer);
-
+            this.players.forEach(churchContext::interactWithPlayer);
         }
+        this.phase = 1;
 
         setNewTurnOrder();
         rollDices();
         sweepActionSlots();  //sweeps all action and tower slots from pawns and cards
         replaceCards();      //Four development cards per type are moved from the decks into the towerslots
-
     }
 
     //TODO: consider to place this in nextRound...
@@ -339,10 +341,10 @@ public class GameManager {
     public void bonusTileSelectionPhase() {
         List<BonusTile> bonusTiles;
         bonusTiles = Configurator.getBonusTiles();
-        for (Player p : players) {
-            Integer selected = getPlayerNetworkController(p).bonusTileSelection(bonusTiles);
-            p.getPersonalBoard().setPersonalBonusTile(bonusTiles.get(selected));
-            bonusTiles.remove(selected);
+        for (Integer playerIndex = 0; playerIndex < players.size(); playerIndex++) {
+            Integer selected = getPlayerNetworkController(players.get(playerIndex)).bonusTileSelection(bonusTiles);
+            players.get(playerIndex).getPersonalBoard().setPersonalBonusTile(bonusTiles.get(selected.intValue()));
+            bonusTiles.remove(selected.intValue());
         }
     }
 
@@ -354,17 +356,32 @@ public class GameManager {
         /**
          * The {@link LeaderCard s} are only 4*#players, the remaining cards are not considered in the game
          */
-        leaderCardsDeck = leaderCardsDeck.subList(0, MAX_LEADER_PER_PLAYER * players.size());
-        Integer selected = 0;
+        leaderCardsDeck = Configurator.getLeaderCards(players.size());
+        List<List<LeaderCard>> leaderCardsGroups = new ArrayList<>();
 
-        for (Integer i = 0; i < MAX_LEADER_PER_PLAYER; i++) {
-            for(Integer p = 0; p < players.size(); p++) {
-                selected = getPlayerNetworkController(players.get(p))
-                       .leaderCardSelectionPhase(leaderCardsDeck
-                       .subList(p * MAX_LEADER_PER_PLAYER, p * MAX_LEADER_PER_PLAYER + (MAX_LEADER_PER_PLAYER - i)));
+        for(int i = 0; i < players.size(); i++) {
+            leaderCardsGroups.add(new ArrayList<>());
+            for(int j = 0; j < MAX_LEADER_PER_PLAYER; j++)
+                leaderCardsGroups.get(i).add(leaderCardsDeck.get(i * MAX_LEADER_PER_PLAYER + j));
+        }
 
-                leaderCardsDeck.remove(selected);
+        for(int i = 0; i < players.size(); i++) {
+            for(int j = 0; j < MAX_LEADER_PER_PLAYER; j++) {
+                playerLeaderCardSelection(leaderCardsGroups.get(i), players.get(j % players.size()));
             }
+            Collections.rotate(players, 1);
+        }
+    }
+
+    private void playerLeaderCardSelection(List<LeaderCard> leaderCards, Player player) {
+        try {
+            Integer selectedCard = getPlayerNetworkController(player).leaderCardSelectionPhase(leaderCards);
+            Validator.checkValidity(selectedCard, leaderCards);
+            player.addLeaderCard(leaderCards.get(selectedCard.intValue()));
+            leaderCards.remove(selectedCard.intValue());
+        } catch(IncorrectInputException ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            playerLeaderCardSelection(leaderCards, player);
         }
     }
 
@@ -405,11 +422,6 @@ public class GameManager {
     }
 
     public CouncilPalace getPalace() { return this.councilPalace; }
-
-    //TODO
-    public void setPlayers(List<Player> players) {
-        this.players = players;
-    }
 }
 
 

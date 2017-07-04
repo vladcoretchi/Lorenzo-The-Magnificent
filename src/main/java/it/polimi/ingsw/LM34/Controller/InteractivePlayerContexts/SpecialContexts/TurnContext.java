@@ -32,6 +32,13 @@ public class TurnContext extends AbstractGameContext {
      * NOTE: OncePerRound observers are excluded
      */
     public void initContext() {
+        this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updatePlayersData(this.gameManager.getPlayers()));
+        this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updateTowers(this.gameManager.getTowers()));
+        this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updateProductionArea(this.gameManager.getProductionArea()));
+        this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updateHarvestArea(this.gameManager.getHarvestArea()));
+        this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updateMarket(this.gameManager.getMarket()));
+        this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updateCouncilPalace(this.gameManager.getPalace()));
+
         this.skipTurn = false;
         setChanged();
         notifyObservers(this); //for SkipTurn observer
@@ -51,7 +58,8 @@ public class TurnContext extends AbstractGameContext {
 
     @Override
     public Void interactWithPlayer(Object... args) {
-        playerAction(Optional.empty());
+        this.gameManager.nextTurn();
+        //playerAction(Optional.empty());
         return null;
     }
 

@@ -25,6 +25,29 @@ public class LeaderCardsView {
      * @return the leader choosed and the action to perform on him
      */
     public Pair<String, LeaderCardsAction> interactWithPlayer(List<LeaderCard> leadersOwned) {
+        String leaderChoosed = leaderCardSelection(leadersOwned);
+
+        LeaderCardsAction action = LeaderCardsAction.DISCARD;
+        ButtonType activate = new ButtonType(LeaderCardsAction.PLAY.toString());
+        ButtonType discard = new ButtonType(LeaderCardsAction.DISCARD.toString());
+        ButtonType copy = new ButtonType(LeaderCardsAction.COPY.toString());
+        Alert actionChoice = new Alert(Alert.AlertType.NONE, "Activate or Discard "+leaderChoosed, activate, discard, copy);
+        actionChoice.setTitle("Leader Action Dialog");
+        actionChoice.getDialogPane().getStylesheets().add(
+                getClass().getResource("/css/dialogStyle.css").toExternalForm());
+        actionChoice.getDialogPane().getStyleClass().add("dialogClass");
+        Optional<ButtonType> choice = actionChoice.showAndWait();
+
+        if (choice.isPresent())
+            if(choice.get().equals(activate))
+                action = LeaderCardsAction.PLAY;
+            else
+                action = LeaderCardsAction.DISCARD;
+
+        return new ImmutablePair(leaderChoosed, action);
+    }
+
+    public String leaderCardSelection(List<LeaderCard> leadersOwned) {
         final ChoiceDialog dialog = new ChoiceDialog();
         dialog.setTitle("Leaders Available");
         dialog.setHeaderText("Leader Card choice");
@@ -57,22 +80,7 @@ public class LeaderCardsView {
         Optional<ImageView> result = dialog.showAndWait();
         dialog.getDialogPane().setMinHeight(800.0);
         String leaderChoosed = result.orElse(new ImageView()).getId();
-        LeaderCardsAction action = LeaderCardsAction.DISCARD;
-        ButtonType activate = new ButtonType(LeaderCardsAction.PLAY.toString());
-        ButtonType discard = new ButtonType(LeaderCardsAction.DISCARD.toString());
-        Alert actionChoice = new Alert(Alert.AlertType.NONE, "Activate or Discard "+leaderChoosed, activate, discard);
-        actionChoice.setTitle("Leader Action Dialog");
-        actionChoice.getDialogPane().getStylesheets().add(
-                getClass().getResource("/css/dialogStyle.css").toExternalForm());
-        actionChoice.getDialogPane().getStyleClass().add("dialogClass");
-        Optional<ButtonType> choice = actionChoice.showAndWait();
 
-        if (choice.isPresent())
-            if(choice.get().equals(activate))
-                action = LeaderCardsAction.PLAY;
-            else
-                action = LeaderCardsAction.DISCARD;
-
-        return new ImmutablePair(leaderChoosed, action);
+        return leaderChoosed;
     }
 }

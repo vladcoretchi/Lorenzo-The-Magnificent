@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class GameSpace implements Serializable {
+    private static final long serialVersionUID = -3770094102046167420L;
     List<ActionSlot> actionSlots;
 
     GameSpace(List<ActionSlot> slots) {
