@@ -47,6 +47,10 @@ public interface UIInterface {
     PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid);
 
     /**
+     * Pass the turn if the player wants to pass before timeout ends
+     */
+    void passTurn();
+    /**
      * Update UI informations about the gameboard state at start or after each player turn
      * @param game states
      */
@@ -86,6 +90,7 @@ public interface UIInterface {
     Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards);
     Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses);
     Boolean alternativeRequirementsPayment();
+    void bonusAction();
 
     /**
      * Ask each player about their decision at Church Reports

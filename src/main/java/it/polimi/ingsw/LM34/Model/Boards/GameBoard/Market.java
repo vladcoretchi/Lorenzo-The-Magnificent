@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Market extends GameSpace implements Serializable {
+    private static final long serialVersionUID = 5521854884094710325L;
 
     /**
      * costructor called only at the beginning of the game

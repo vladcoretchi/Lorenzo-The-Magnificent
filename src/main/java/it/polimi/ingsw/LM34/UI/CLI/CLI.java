@@ -25,7 +25,6 @@ import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.UI.UIInterface;
-import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 import it.polimi.ingsw.LM34.Utils.Validator;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -209,6 +208,11 @@ public class CLI implements UIInterface {
     @Override
     public PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid) {
         return null;
+    }
+
+    @Override
+    public void passTurn() {
+        //TODO
     }
 
     /**
@@ -643,15 +647,20 @@ public class CLI implements UIInterface {
 
         input = readUserInput.nextLine();
 
-        if(input.equalsIgnoreCase("yes"))
+        if("yes".equalsIgnoreCase(input))
             choice = true;
-        else if (input.equalsIgnoreCase("no"))
+        else if("no".equalsIgnoreCase(input))
             choice = false;
         else {
             printError(INCORRECT_INPUT);
             alternativeRequirementsPayment();
         }
         return choice;
+    }
+
+    @Override
+    public void bonusAction() {
+        //TODO
     }
 
     /**
@@ -679,7 +688,8 @@ public class CLI implements UIInterface {
     }
 
     /**
-     *Prints all the towers and their tower slots showing info about cards stored and reward each slots provides
+     *Prints all the {@link Tower} and their {@link TowerSlot}s showing informations about cards stored
+     * and the reward each slots provides
      */
     public void printTowers() {
 
@@ -767,7 +777,7 @@ public class CLI implements UIInterface {
     }
 
     /**
-     * Shows the excommunicationCards set at game startup
+     * Shows the {@link ExcommunicationCard}s that have been choosed at game startup
      */
     private void showExcommunicationCards() {
         excommunicationCards.forEach(ex -> printFormat("Period %1$d, Penalty %2$s\n", ex.getPeriod(),ex.getPenalty().getClass().getSimpleName()));
@@ -828,7 +838,7 @@ public class CLI implements UIInterface {
     }
 
     /**
-     * Inform the player that the server is not more reachable
+     * Inform the player that the server is no more reachable
      */
     @Override
     public void disconnectionWarning() {
@@ -860,8 +870,8 @@ public class CLI implements UIInterface {
 
         bonusTiles.forEach(bt -> {
             printToConsole.println("This bonus tile gives:");
-            printFormat("For harvest area %1$s", bt.getHarvestBonus().getResources().getResources());
-            printFormat("For production area %1$s", bt.getHarvestBonus().getResources().getResources());
+            printFormat("For harvest area: %1$s", bt.getHarvestBonus().getResources().getResources());
+            printFormat("For production area: %1$s", bt.getHarvestBonus().getResources().getResources());
         });
 
         do {
@@ -895,8 +905,7 @@ public class CLI implements UIInterface {
 
         leaderCards.forEach(lc -> {
             printToConsole.println("This leader has the following characteristics:");
-            printFormat("Requirements: %1$s", lc.getRequirements().getResourcesRequirements().get().getResources().toString());
-            printFormat("Bonus Type: %1$s", lc.getBonus().getClass().getSimpleName());
+            printFormat("Leader: " + lc.getName());
         });
 
         do {
@@ -1007,30 +1016,5 @@ public class CLI implements UIInterface {
         printSlots(tempSlots);
     }
 
-    public static void main (String[] args) {
-        Configurator.loadConfigs();
-        Market market = Configurator.getMarket();
-        CLI cli = new CLI();
-        cli.market = market;
-        cli.towers = Configurator.getTowers();
-        try {
-            //cli.towers.get(1).getTowerSlots().get(0).insertFamilyMember(new FamilyMember(PawnColor.RED, ORANGE));
-            /*cli.market.insertFamilyMember(0, new FamilyMember(PawnColor.BLUE, DiceColor.ORANGE));
-            cli.market.insertFamilyMember(1, new FamilyMember(PawnColor.GREEN, DiceColor.BLACK));
-            cli.market.insertFamilyMember(2, new FamilyMember(PawnColor.RED, DiceColor.WHITE));
-            cli.market.insertFamilyMember(3, new FamilyMember(PawnColor.YELLOW, DiceColor.ORANGE));*/
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-        }
-        cli.updateProductionArea(Configurator.getProductionArea());
-        cli.marketSlotSelection();
-        cli.printTowers();
-        List<Player> players = new ArrayList<>();
-        Player giacomo = new Player("giacomo", PawnColor.BLUE, new PersonalBoard());
-        giacomo.addResources(new Resources(4,5,1,2));
-        Player antonio = new Player("antonio", PawnColor.RED, new PersonalBoard());
-        players.add(giacomo);
-        players.add(antonio);
-        antonio.addResources(new Resources(4,5,1,2, 7,4 ,9));
-    }
+
 }

@@ -10,7 +10,7 @@ public class DisconnectionWarning {
     public void interactWithPlayer() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Network Disconnection");
-        alert.setHeaderText("You are no connected to the game");
+        alert.setHeaderText("You are not connected to the game");
         alert.getDialogPane().getStylesheets().add(
                 getClass().getResource("/css/dialogStyle.css").toExternalForm());
         alert.getDialogPane().getStyleClass().add("dialogClass");

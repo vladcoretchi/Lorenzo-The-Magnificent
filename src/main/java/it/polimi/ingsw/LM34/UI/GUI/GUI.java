@@ -52,12 +52,14 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import static it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts.*;
 import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.*;
 import static it.polimi.ingsw.LM34.UI.UIConnectionInfo.*;
@@ -622,6 +624,13 @@ public class GUI extends Application implements UIInterface {
         return RunLaterTask(uiTask);
     }
 
+    @FXML
+    @Override
+    public void passTurn() {
+        System.out.println("ciao");
+        //TODO: send action to server
+    }
+
     /**
      * This class is called for the {@link it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard}
      * that have as an alternative requirement option the payment of MILITARY POINTS
@@ -630,6 +639,11 @@ public class GUI extends Application implements UIInterface {
     public Boolean alternativeRequirementsPayment() {
     FutureTask<Boolean> uiTask = new FutureTask<>(() -> new AlternativeRequirementPaymentDialog().interactWithPlayer());
         return RunLaterTask(uiTask);
+    }
+
+    @Override
+    public void bonusAction() {
+
     }
 
     @Override
@@ -862,13 +876,6 @@ public class GUI extends Application implements UIInterface {
         //TODO: will this call mainaction?
         this.selectedContext = Optional.of(PlayerSelectableContexts.LEADER_ACTIVATE_OR_DISCARD_CONTEXT);
 
-        LeaderCardsView leaderCardsView = new LeaderCardsView();
-        List<LeaderCard> leaderCards = new ArrayList<>();
-        LeaderCard leaderCard = new LeaderCard("Lorenzo de Medici", null, null, true);
-        LeaderCard leaderCard1 = new LeaderCard("Cesare Borgia", null, null, true);
-        leaderCards.add(leaderCard);
-        leaderCards.add(leaderCard1);
-        leaderCardsView.interactWithPlayer(leaderCards);
     }
 
     /**

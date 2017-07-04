@@ -30,8 +30,7 @@ public class LeaderCardsView {
         LeaderCardsAction action = LeaderCardsAction.DISCARD;
         ButtonType activate = new ButtonType(LeaderCardsAction.PLAY.toString());
         ButtonType discard = new ButtonType(LeaderCardsAction.DISCARD.toString());
-        ButtonType copy = new ButtonType(LeaderCardsAction.COPY.toString());
-        Alert actionChoice = new Alert(Alert.AlertType.NONE, "Activate or Discard "+leaderChoosed, activate, discard, copy);
+        Alert actionChoice = new Alert(Alert.AlertType.NONE, "Activate or Discard "+leaderChoosed, activate, discard);
         actionChoice.setTitle("Leader Action Dialog");
         actionChoice.getDialogPane().getStylesheets().add(
                 getClass().getResource("/css/dialogStyle.css").toExternalForm());
@@ -50,8 +49,7 @@ public class LeaderCardsView {
     public String leaderCardSelection(List<LeaderCard> leadersOwned) {
         final ChoiceDialog dialog = new ChoiceDialog();
         dialog.setTitle("Leaders Available");
-        dialog.setHeaderText("Leader Card choice");
-        dialog.setContentText("which leader do you wish to use? ");
+        dialog.setHeaderText("Which leader do you wish to use?");
         dialog.getDialogPane().setPrefHeight(405);
         dialog.setResizable(false);
         dialog.getDialogPane().getStylesheets().add(
