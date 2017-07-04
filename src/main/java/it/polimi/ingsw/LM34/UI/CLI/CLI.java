@@ -983,7 +983,9 @@ public class CLI implements UIInterface {
         tempSlots.add(productionArea.getSingleSlot());
         printSlots(tempSlots);
         printToConsole.println("Production Area advanced slots:");
-        printSlots(productionArea.getAdvancedSlots());
+        tempSlots.clear();
+        tempSlots.add(productionArea.getAdvancedSlot());
+        printSlots(tempSlots);
     }
 
     /**
@@ -995,7 +997,9 @@ public class CLI implements UIInterface {
         tempSlots.add(harvestArea.getSingleSlot());
         printSlots(tempSlots);
         printToConsole.println("Harvest Area advanced slots:");
-        printSlots(harvestArea.getAdvancedSlots());
+        tempSlots.clear();
+        tempSlots.add(harvestArea.getAdvancedSlot());
+        printSlots(tempSlots);
     }
 
     public static void main (String[] args) {

@@ -2,7 +2,10 @@ package it.polimi.ingsw.LM34.UI.GUI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
-import it.polimi.ingsw.LM34.Enums.Model.*;
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.Model.PathType;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
@@ -111,40 +114,6 @@ public class GUI extends Application implements UIInterface {
         root = FXMLLoader.load(getClass().getClassLoader().getResource("views/gui.fxml"));
         this.primaryStage = new Stage();
         prepareWindow();
-
-
-
-        FamilyMember pawn = new FamilyMember(PawnColor.BLUE, DiceColor.ORANGE);
-        FamilyMember pawn2 = new FamilyMember(PawnColor.RED, DiceColor.ORANGE);
-        FamilyMember pawn3 = new FamilyMember(PawnColor.BLUE, DiceColor.ORANGE);
-        FamilyMember pawn4 = new FamilyMember(PawnColor.RED, DiceColor.ORANGE);
-        FamilyMember pawn5 = new FamilyMember(PawnColor.GREEN, DiceColor.ORANGE);
-        Market market = Configurator.getMarket();
-        market.insertFamilyMember(1, pawn);
-        market.insertFamilyMember(3, pawn2);
-        WorkingArea productionArea = Configurator.getProductionArea();
-        WorkingArea harvestArea = Configurator.getHarvestArea();
-
-        productionArea.getSingleSlot().insertFamilyMember(pawn);
-        productionArea.getAdvancedSlots().get(0).insertFamilyMember(pawn2);
-        productionArea.getAdvancedSlots().get(0).insertFamilyMember(pawn);
-        harvestArea.getSingleSlot().insertFamilyMember(pawn);
-        harvestArea.getAdvancedSlots().get(0).insertFamilyMember(pawn3);
-        harvestArea.getAdvancedSlots().get(0).insertFamilyMember(pawn4);
-        harvestArea.getAdvancedSlots().get(0).insertFamilyMember(pawn5);
-        updateMarket(market);
-        updateProductionArea(productionArea);
-        updateHarvestArea(harvestArea);
-        towersSpaces = Configurator.getTowers();
-        updateTowers(towersSpaces);
-
-
-        CouncilPalace councilPalace = Configurator.getPalace();
-        councilPalace.getActionSlot().insertFamilyMember(pawn);
-        councilPalace.getActionSlot().insertFamilyMember(pawn2);
-        councilPalace.getActionSlot().insertFamilyMember(pawn3);
-
-        updateCouncilPalace(councilPalace);
 
 
         this.selectedContext = Optional.empty();
@@ -365,13 +334,13 @@ public class GUI extends Application implements UIInterface {
          * Fill the advanced {@link ActionSlot} with the pawns placed inside
          */
         StackPane advancedSlot = (StackPane) root.lookup("#productionArea" + 1);
-        advancedSlot.setOnMouseClicked(new PlacePawn(this.productionArea.getAdvancedSlots().get(0)));
+        advancedSlot.setOnMouseClicked(new PlacePawn(this.productionArea.getAdvancedSlot()));
 
         HBox hSlots = new HBox();
         hSlots.setSpacing(10);
         ImageView image;
         List<FamilyMember> pawnsInAdvancedSlot = new ArrayList<>();
-        pawnsInAdvancedSlot = this.productionArea.getAdvancedSlots().get(0).getFamilyMembers();
+        pawnsInAdvancedSlot = this.productionArea.getAdvancedSlot().getFamilyMembers();
 
         if (pawnsInAdvancedSlot.isEmpty())
             advancedSlot.getChildren().removeAll(advancedSlot.getChildren());
@@ -415,12 +384,12 @@ public class GUI extends Application implements UIInterface {
              * Fill the advanced {@link ActionSlot} with the pawns placed inside
              */
             StackPane advancedSlot = (StackPane) root.lookup("#harvestArea" + 1);
-            advancedSlot.setOnMouseClicked(new PlacePawn(this.harvestArea.getAdvancedSlots().get(0)));
+            advancedSlot.setOnMouseClicked(new PlacePawn(this.harvestArea.getAdvancedSlot()));
             HBox hSlots = new HBox();
             hSlots.setSpacing(10);
             ImageView image;
             List<FamilyMember> pawnsInAdvancedSlot = new ArrayList<>();
-            pawnsInAdvancedSlot = this.harvestArea.getAdvancedSlots().get(0).getFamilyMembers();
+            pawnsInAdvancedSlot = this.harvestArea.getAdvancedSlot().getFamilyMembers();
 
             if (pawnsInAdvancedSlot.isEmpty())
                 advancedSlot.getChildren().removeAll(advancedSlot.getChildren());
