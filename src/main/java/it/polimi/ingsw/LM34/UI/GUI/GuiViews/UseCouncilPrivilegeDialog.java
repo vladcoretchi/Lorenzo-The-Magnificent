@@ -14,7 +14,6 @@ public class UseCouncilPrivilegeDialog {
         List<String> choices = new ArrayList<>();
         Optional<String> result;
 
-        //TODO
         availableBonuses.forEach(resources -> {
             Integer index = 0;
             List<String> reward = new ArrayList<>();

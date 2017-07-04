@@ -290,7 +290,7 @@ public class GameManager {
                 if(fm1.getFamilyMemberColor() == fm2.getFamilyMemberColor())
                     membersInOrder.remove(fm2); //keep just the first pawn for every player
 
-        /*now that there is one pawn per players order the player based on pawns' positions*/
+        /*now that there is one pawn per players, order the player based on pawns' positions*/
         for(FamilyMember fm : membersInOrder) {
             PawnColor color = fm.getFamilyMemberColor();
             for (Player player : oldPlayersOrder)

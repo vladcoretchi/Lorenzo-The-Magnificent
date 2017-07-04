@@ -34,6 +34,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.*;
 import java.util.logging.Level;
 
+import static it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts.*;
+import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.*;
 import static it.polimi.ingsw.LM34.UI.CLI.CLIStuff.*;
 import static it.polimi.ingsw.LM34.UI.UIConnectionInfo.*;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
@@ -270,7 +272,7 @@ public class CLI implements UIInterface {
      */
     public void marketSlotSelection() {
         String input;
-        Integer selectedSlot;
+        Integer selectedSlot = 0;
         Boolean validUserInput = false;
         /***Show the market***/
         printSlots(market.getActionSlots());
@@ -289,7 +291,7 @@ public class CLI implements UIInterface {
                 printError(INCORRECT_INPUT);
             }
         } while(!validUserInput);
-
+       PlayerAction playerAction = new PlayerAction(MARKET_AREA_CONTEXT, selectedSlot);
        //TODO: send to server (market, selectedSlot)
     }
 
@@ -342,6 +344,7 @@ public class CLI implements UIInterface {
      * this method will be called when player will enter into Council Palace
      */
     public void councilPalaceSelection() {
+        PlayerAction playerAction;
         String input;
         /***SHOW COUNCIL PALACE***/
         printCouncilPalace();
@@ -350,10 +353,9 @@ public class CLI implements UIInterface {
         input = readUserInput.nextLine();
 
         if ("yes".equalsIgnoreCase(input)) {
-            //TODO: send to server councilPalaceSelection if true
-        } else if ("no".equalsIgnoreCase(input)) {
-        //TODO: go back to menu selection
-        }else {
+            playerAction = new PlayerAction(COUNCIL_PALACE_CONTEXT, null);
+            //TODO: send to server the playerAction
+        } else {
             printError(INCORRECT_INPUT);
             councilPalaceSelection();
         }
@@ -455,8 +457,8 @@ public class CLI implements UIInterface {
      * @param towerNumber how many towers contains a game board
      * @param towerFloor how many floors contains a tower
      */
-    public String towerSlotSelection() {
-        Integer tower;
+    public void towerSlotSelection() {
+        DevelopmentCardColor towerType = null;
         Integer floor;
         String towerAndItsFloor;
         Boolean validUserInput = false;
@@ -464,30 +466,42 @@ public class CLI implements UIInterface {
         /***SHOW THE TOWERS***/
         printTowers();
 
-        /***Let the player choose the tower***/
+        /***Let the player choose the tower based on {@link DevelopmentCardColor}***/
         do {
-           CLIStuff.printToConsole.println("In which tower do you wish to bring your family member? ");
-           tower = readUserInput.nextInt();
+            CLIStuff.printToConsole.println("In which tower color do you wish to bring your family member? ");
+            String color = readUserInput.nextLine().toUpperCase();
 
-           try {
-               Validator.checkValidity(tower.toString(), towers);
-               validUserInput = true;
-           }
-           catch (IncorrectInputException ex) {
-               LOGGER.log(Level.INFO, getClass().getSimpleName(), ex);
-               printError("please select a valid tower ");
-           }
+            switch (color) {
+                case "GREEN":
+                    towerType = GREEN;
+                    validUserInput = true;
+                    break;
+                case "BLUE":
+                    towerType = BLUE;
+                    validUserInput = true;
+                    break;
+                case "PURPLE":
+                    towerType = PURPLE;
+                    validUserInput = true;
+                    break;
+                case "YELLOW":
+                    towerType = YELLOW;
+                    validUserInput = true;
+                    break;
+                default:
+                    printError("Please select a valid color (green, yellow, blue, purple\n");
+            }
         } while(!validUserInput);
 
         validUserInput = false;
 
-        /***Let the player choose the level***/
+        /***Let the player choose the level of the {@link Tower} selected***/
         do {
             CLIStuff.printToConsole.println("in which tower's floor do you wish to put your family member? ");
             floor = readUserInput.nextInt();
 
             try {
-                Validator.checkValidity(floor.toString(), towers.get(tower).getTowerSlots());
+                Validator.checkValidity(floor.toString(), towers.get(0).getTowerSlots());
                 validUserInput = true;
             }
             catch (IncorrectInputException ex) {
@@ -496,13 +510,12 @@ public class CLI implements UIInterface {
             }
         } while (!validUserInput);
 
-         // decrement tower and floor because user's choice is between 1 and 4, but server's range is between 0 and 3
-        tower--;
+        //TODO: decrement tower and floor because user's choice is between 1 and 4, but server's range is between 0 and 3
         floor--;
 
-        towerAndItsFloor = towers.get(tower).getCardColor().toString() + floor.toString(); //TODO: verify the convention works
-
-        return towerAndItsFloor;
+        PlayerAction playerAction = new PlayerAction(TOWERS_CONTEXT,
+        new ImmutablePair<DevelopmentCardColor, Integer>(towerType, floor));
+        //TODO: send the playerAction
     }
 
     /**
@@ -627,7 +640,7 @@ public class CLI implements UIInterface {
     public Boolean alternativeRequirementsPayment() {
         String input;
         Boolean choice = false;
-        printFormat("Do you want to pay military points for this card?\n");
+        printFormat("Do you want to pay military points for this card (yes or no)?\n");
 
         input = readUserInput.nextLine();
 
