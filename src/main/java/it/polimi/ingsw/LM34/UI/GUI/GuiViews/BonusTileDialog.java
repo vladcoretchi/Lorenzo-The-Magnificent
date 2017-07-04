@@ -21,7 +21,7 @@ public class BonusTileDialog {
 
         bonusTiles.forEach(bt -> {
             choices.add("HarvestArea " + bt.getHarvestBonus().getResources().getResources()
-                    + "\nProductionArea " + bt.getHarvestBonus().getResources().getResources());
+                    + "\nProductionArea " + bt.getProductionBonus().getResources().getResources());
         });
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);

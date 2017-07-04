@@ -139,8 +139,12 @@ public class GUI extends Application implements UIInterface {
      */
     @Override
     public Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards) {
-        FutureTask<Integer> uiTask = new FutureTask<>(() ->  new LeaderSelectionPhaseDialog().interactWithPlayer(leaderCards));
-        return RunLaterTask(uiTask);
+        FutureTask<String> uiTask = new FutureTask<>(() -> new LeaderCardsView().leaderCardSelection(leaderCards));
+        String leaderCardName = RunLaterTask(uiTask);
+        for(int i = 0; i < leaderCards.size(); i++)
+            if(leaderCards.get(i).getName() == leaderCardName)
+                return i;
+        return -1;
     }
 
     /**
@@ -218,7 +222,9 @@ public class GUI extends Application implements UIInterface {
                     cardView = (ImageView) root.lookup("#tower" + tower.getCardColor().toString() + "_level" + indexCard);
                     if (card != null) {
                         String devType = tower.getCardColor().getDevType();
-                        cardView = setImage("images/developmentCards/" + devType + "/" + card.getName() + ".png");
+                        cardView.setImage(new Image(Thread.currentThread()
+                                .getContextClassLoader().getResource("images/developmentCards/" + devType + "/" + card.getName() + ".png")
+                                .toExternalForm()));
                     } else {
                         cardView = setImage(IMAGE_CARD_TRANSPARENT);
                     }
@@ -873,8 +879,8 @@ public class GUI extends Application implements UIInterface {
 
     public static void main (String[] args) {
         GUI gui = new GUI();
-        //gui.show();
-        Configurator.loadConfigs();
-        gui.launch();
+        gui.show();
+        //Configurator.loadConfigs();
+        //gui.launch();
     }
 }
