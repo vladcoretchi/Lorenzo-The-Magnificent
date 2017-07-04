@@ -31,8 +31,8 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     private boolean runListener;
 
     private final Socket connectionSocket;
-    private final ObjectInputStream inStream;
-    private final ObjectOutputStream outStream;
+    private ObjectInputStream inStream;
+    private ObjectOutputStream outStream;
 
     public SocketConnection(Socket socket) throws IOException {
         this.connectionSocket = socket;
@@ -108,6 +108,8 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     @Override
     public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
         try {
+            this.outStream.reset();
+
             this.outStream.writeUTF(RequestToClient.SET_EXCOMMUNICATION_CARDS.name());
             this.outStream.writeObject(excommunicationCards);
             this.outStream.flush();
@@ -119,39 +121,47 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     @Override
     public void updateTowers(List<Tower> towers) {
         try {
+            this.outStream.reset();
+
             this.outStream.writeUTF(RequestToClient.UPDATE_TOWERS.name());
             this.outStream.writeObject(towers);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 
     @Override
     public void updateCouncilPalace(CouncilPalace councilPalace) {
         try {
+            this.outStream.reset();
+
             this.outStream.writeUTF(RequestToClient.UPDATE_COUNCIL_PALACE.name());
             this.outStream.writeObject(councilPalace);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 
     @Override
     public void updateMarket(Market market) {
         try {
+            this.outStream.reset();
+
             this.outStream.writeUTF(RequestToClient.UPDATE_MARKET.name());
             this.outStream.writeObject(market);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 
     @Override
     public void updateProductionArea(WorkingArea productionArea) {
         try {
+            this.outStream.reset();
+
             this.outStream.writeUTF(RequestToClient.UPDATE_PRODUCTION_AREA.name());
             this.outStream.writeObject(productionArea);
             this.outStream.flush();
@@ -163,6 +173,8 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     @Override
     public void updateHarvestArea(WorkingArea harvestArea) {
         try {
+            this.outStream.reset();
+
             this.outStream.writeUTF(RequestToClient.UPDATE_HARVEST_AREA.name());
             this.outStream.writeObject(harvestArea);
             this.outStream.flush();
@@ -174,6 +186,8 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     @Override
     public void updatePlayersData(List<Player> players) {
         try {
+            this.outStream.reset();
+
             this.outStream.writeUTF(RequestToClient.UPDATE_PLAYERS_DATA.name());
             this.outStream.writeObject(players);
             this.outStream.flush();
@@ -185,6 +199,8 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     @Override
     public void updateDiceValues(List<Dice> diceValues) {
         try {
+            this.outStream.reset();
+
             this.outStream.writeUTF(RequestToClient.UPDATE_DICE_VALUES.name());
             this.outStream.writeObject(diceValues);
             this.outStream.flush();
@@ -196,14 +212,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     @Override
     public PlayerAction turnMainAction(Optional<Exception> lastActionValid) {
         try {
+            this.outStream.reset();
+
             this.outStream.writeUTF(RequestToClient.TURN_MAIN_ACTION.name());
             this.outStream.writeObject(lastActionValid.orElse(null));
             this.outStream.flush();
             return (PlayerAction) this.inStream.readObject();
-        } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            return null;
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
         }
@@ -212,14 +227,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     @Override
     public PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid) {
         try {
+            this.outStream.reset();
+
             this.outStream.writeUTF(RequestToClient.TURN_SECONDARY_ACTION.name());
             this.outStream.writeObject(lastActionValid.orElse(null));
             this.outStream.flush();
             return (PlayerAction) this.inStream.readObject();
-        } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            return null;
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
         }
@@ -228,6 +242,8 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     @Override
     public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
         try {
+            this.outStream.reset();
+
             this.outStream.writeUTF(RequestToClient.FAMILY_MEMBER_SELECTION.name());
             this.outStream.writeObject(familyMembers);
             this.outStream.flush();
@@ -241,6 +257,8 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     @Override
     public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
         try {
+            this.outStream.reset();
+
             this.outStream.writeUTF(RequestToClient.BONUS_TILE_SELECTION.name());
             this.outStream.writeObject(bonusTiles);
             this.outStream.flush();
@@ -254,6 +272,8 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     @Override
     public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
         try {
+            this.outStream.reset();
+
             this.outStream.writeUTF(RequestToClient.SERVANTS_SELECTION.name());
             this.outStream.writeInt(servantsAvailable);
             this.outStream.writeInt(minimumServantsRequested);
@@ -281,6 +301,8 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     @Override
     public Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards) {
         try {
+            this.outStream.reset();
+
             this.outStream.writeUTF(RequestToClient.LEADER_CARD_SELECTION.name());
             this.outStream.writeObject(leaderCards);
             this.outStream.flush();
@@ -294,6 +316,8 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     @Override
     public Boolean churchSupport() {
         try {
+            this.outStream.reset();
+
             this.outStream.writeUTF(RequestToClient.CHURCH_SUPPORT.name());
             this.outStream.flush();
             return this.inStream.readBoolean();
@@ -306,6 +330,8 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     @Override
     public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
         try {
+            this.outStream.reset();
+
             this.outStream.writeUTF(RequestToClient.COUNCIL_PRIVILEGE_BONUS_SELECTION.name());
             this.outStream.writeObject(availableBonuses);
             this.outStream.flush();
@@ -319,6 +345,8 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     @Override
     public Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards) {
         try {
+            this.outStream.reset();
+
             this.outStream.writeUTF(RequestToClient.LEADER_CARD_SELECTION_PHASE.name());
             this.outStream.writeObject(leaderCards);
             this.outStream.flush();

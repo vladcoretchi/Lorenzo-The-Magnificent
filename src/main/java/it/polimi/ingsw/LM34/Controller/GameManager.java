@@ -120,7 +120,8 @@ public class GameManager {
      */
     public void startGame() {
         bonusTileSelectionPhase();
-        leaderSelectionPhase();
+        //leaderSelectionPhase(); //TODO: uncomment
+        //players.forEach(player -> this.getPlayerNetworkController(player).setExcommunicationCards(this.excommunicationCards));
         players.forEach(player -> this.getPlayerNetworkController(player).updateDiceValues(this.dices));
         players.forEach(player -> this.getPlayerNetworkController(player).updatePlayersData(this.players));
         players.forEach(player -> this.getPlayerNetworkController(player).updateTowers(this.towers));
@@ -375,8 +376,7 @@ public class GameManager {
 
     private void playerLeaderCardSelection(List<LeaderCard> leaderCards, Player player) {
         try {
-            List<LeaderCard> cards = new ArrayList<>(leaderCards);
-            Integer selectedCard = getPlayerNetworkController(player).leaderCardSelectionPhase(cards);
+            Integer selectedCard = getPlayerNetworkController(player).leaderCardSelectionPhase(leaderCards);
             Validator.checkValidity(selectedCard, leaderCards);
             player.addLeaderCard(leaderCards.get(selectedCard));
             leaderCards.remove(selectedCard.intValue());

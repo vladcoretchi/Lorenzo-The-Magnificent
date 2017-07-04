@@ -31,7 +31,7 @@ public class SocketClient extends AbstractClient {
             inputListener = new ClientInputListener();
             inputListener.start();
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
@@ -73,10 +73,12 @@ public class SocketClient extends AbstractClient {
     @Override
     public void login(String username, String password) {
         try {
-            this.outStream.writeUTF(RequestToServer.LOGIN.name());
-            this.outStream.writeUTF(username);
-            this.outStream.writeUTF(password);
-            this.outStream.flush();
+            outStream.reset();
+
+            outStream.writeUTF(RequestToServer.LOGIN.name());
+            outStream.writeUTF(username);
+            outStream.writeUTF(password);
+            outStream.flush();
         } catch (IOException e) {
             getUI().disconnectionWarning();
             LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e);

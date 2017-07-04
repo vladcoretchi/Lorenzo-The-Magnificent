@@ -102,7 +102,7 @@ public class TowersContext extends AbstractGameContext {
             selectedFamilyMember.placePawn();
 
             this.gameManager.getCurrentPlayer().getPersonalBoard().addCard(card);
-            slot.sweepTowerSlot();
+            slot.setCardStored(null);
 
             //TODO: add military points choice for venture cards
             this.gameManager.getCurrentPlayer().subResources(requirements);
