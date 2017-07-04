@@ -33,9 +33,4 @@ public class ContextFactoryTest {
         assertTrue(ContextFactory.getContext(ContextType.FAMILY_MEMBER_SELECTION_CONTEXT) instanceof FamilyMemberSelectionContext);
     }
 
-    @Test(expected = NoSuchContextException.class)
-    public void getContextShouldThrowsException() throws Exception {
-        ContextFactory.getContext(null);
-    }
-
 }

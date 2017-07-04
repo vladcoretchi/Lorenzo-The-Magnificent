@@ -8,7 +8,7 @@ public class ExceptionsTest {
 
     @Test
     public void testExceptions() {
-        assertTrue(new PlayerException("test playerException").toString().contains("test playerException"));
+        assertTrue(new PlayerException("test playerException").toString().contains("test playerException")); 
         assertTrue(new PlayerException("test cardTypeNumLimitReachedException").toString().contains("test cardTypeNumLimitReachedException"));
         assertTrue(new PlayerException("test invalidLeaderCardActionException").toString().contains("test invalidLeaderCardActionException"));
         assertTrue(new PlayerException("test marketBanException").toString().contains("test marketBanException"));
