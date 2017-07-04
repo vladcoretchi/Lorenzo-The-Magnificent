@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CouncilPalace implements Serializable {
+    private static final long serialVersionUID = 8486870685805204261L;
+
     ActionSlot palaceSlot;
     /**
      * Group of {@link FamilyMember} in the palace

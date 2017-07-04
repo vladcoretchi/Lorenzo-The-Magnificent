@@ -61,7 +61,6 @@ public class CLI implements UIInterface {
     private List<Dice> dices;
     private List<PlayerSelectableContexts> selectableContexts;
 
-
     public CLI() {
         dices = new ArrayList<>();
         players= new ArrayList<>();
@@ -505,7 +504,7 @@ public class CLI implements UIInterface {
                 validUserInput = true;
             }
             catch (IncorrectInputException ex) {
-                LOGGER.log(Level.INFO, getClass().getSimpleName(), ex);
+                LOGGER.log(Level.WARNING, ex.getMessage(), ex);
                 printError("please select a valid tower's floor");
             }
         } while (!validUserInput);
@@ -868,7 +867,7 @@ public class CLI implements UIInterface {
                 validUserInput = true;
             }
             catch (IncorrectInputException e) {
-                LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
                 printError(INCORRECT_INPUT);
             }
         } while(!validUserInput);
@@ -903,7 +902,7 @@ public class CLI implements UIInterface {
                 validUserInput = true;
             }
             catch (IncorrectInputException | NumberFormatException e) {
-                LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
                 printError(INCORRECT_INPUT);
             }
         } while(!validUserInput);

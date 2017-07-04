@@ -11,6 +11,9 @@ public abstract class GameSpace implements Serializable {
         this.actionSlots = slots;
     }
 
+    /**
+     * Free each action slot from the {@link it.polimi.ingsw.LM34.Model.FamilyMember} placed inside them
+     */
     public void sweep() {
         this.actionSlots.forEach(ActionSlot::sweep);
     }

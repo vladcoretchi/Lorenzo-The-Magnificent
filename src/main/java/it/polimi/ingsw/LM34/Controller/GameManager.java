@@ -74,6 +74,9 @@ public class GameManager {
     private CouncilPalaceContext palaceContext;
 
     /*CONSTRUCTOR*/
+    //TODO:
+    public GameManager() {}
+
     public GameManager(GameRoom gameRoom, List<String> players) {
         this.gameRoom = gameRoom;
 
@@ -277,28 +280,22 @@ public class GameManager {
         return contexts.getOrDefault(contextType, null);
     }
 
-    //TODO: refactor
+    /**
+     * Set the new players order for the new round about to start
+     * @return the new {@link Player}s order
+     */
     public List<Player>  setNewTurnOrder() {
         List<Player> oldPlayersOrder = players;
         List<Player> newPlayersOrder = new ArrayList<>();
         List<FamilyMember> membersInOrder = this.councilPalace.getActionSlot().getFamilyMembers();
 
-        /*First remove all multiple pawns associated to the same player*/
-        /*These inner loops do not add temporal complexity because pawns' count is negligible*/
-        for(FamilyMember fm1 : membersInOrder)
-            for(FamilyMember fm2 : membersInOrder)
-                if(fm1.getFamilyMemberColor() == fm2.getFamilyMemberColor())
-                    membersInOrder.remove(fm2); //keep just the first pawn for every player
-
-        /*now that there is one pawn per players, order the player based on pawns' positions*/
-        for(FamilyMember fm : membersInOrder) {
-            PawnColor color = fm.getFamilyMemberColor();
-            for (Player player : oldPlayersOrder)
-                if (player.getPawnColor() == color) {
-                    newPlayersOrder.add(player);
-                    oldPlayersOrder.remove(player);
+        List<PawnColor> councilPalaceOrder = this.councilPalace.getPlayersOrder();
+        for(int i = 0; i < councilPalaceOrder.size(); i++)
+            for(int j = 0; j < oldPlayersOrder.size(); j++)
+                if(oldPlayersOrder.get(j).getPawnColor().name() == councilPalaceOrder.get(i).name()) {
+                    newPlayersOrder.add(oldPlayersOrder.get(j));
+                    oldPlayersOrder.remove(j);
                 }
-        }
         newPlayersOrder.addAll(oldPlayersOrder);
 
         return newPlayersOrder;
@@ -364,7 +361,7 @@ public class GameManager {
             for(Integer p = 0; p < players.size(); p++) {
                 selected = getPlayerNetworkController(players.get(p))
                        .leaderCardSelectionPhase(leaderCardsDeck
-                       .subList(p* MAX_LEADER_PER_PLAYER, p* MAX_LEADER_PER_PLAYER + (MAX_LEADER_PER_PLAYER - i)));
+                       .subList(p * MAX_LEADER_PER_PLAYER, p * MAX_LEADER_PER_PLAYER + (MAX_LEADER_PER_PLAYER - i)));
 
                 leaderCardsDeck.remove(selected);
             }
@@ -408,6 +405,11 @@ public class GameManager {
     }
 
     public CouncilPalace getPalace() { return this.councilPalace; }
+
+    //TODO
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
 }
 
 
