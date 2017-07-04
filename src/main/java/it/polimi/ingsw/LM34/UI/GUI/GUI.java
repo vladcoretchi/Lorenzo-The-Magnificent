@@ -117,7 +117,11 @@ public class GUI extends Application implements UIInterface {
 
 
         this.selectedContext = Optional.empty();
+
+        primaryStage.setOnCloseRequest(event -> stop(event));
+
     }
+
 
     /**
      * @param bonusTiles that the players has the opportunity to choose one from
@@ -504,7 +508,7 @@ public class GUI extends Application implements UIInterface {
     }
 
     /**
-     * @param leadersOwned that the game consider the player to have available
+     * @param leaderCards that the game consider the player to have available
      * @return the leader choosed and the action to perform on him
      */
     @Override
@@ -832,12 +836,13 @@ public class GUI extends Application implements UIInterface {
         //TODO: will this call mainaction?
         this.selectedContext = Optional.of(PlayerSelectableContexts.LEADER_ACTIVATE_OR_DISCARD_CONTEXT);
 
-        LeaderCardsView leaderCardsView;
+        LeaderCardsView leaderCardsView = new LeaderCardsView();
         List<LeaderCard> leaderCards = new ArrayList<>();
         LeaderCard leaderCard = new LeaderCard("Lorenzo de Medici", null, null, true);
         LeaderCard leaderCard1 = new LeaderCard("Cesare Borgia", null, null, true);
         leaderCards.add(leaderCard);
         leaderCards.add(leaderCard1);
+        leaderCardsView.interactWithPlayer(leaderCards);
     }
 
     /**

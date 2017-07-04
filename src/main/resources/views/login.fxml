@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.TextFlow?>
 <?import javafx.scene.text.Text?>
-<AnchorPane fx:id="login" maxHeight="256.0" maxWidth="377.0" prefHeight="256.0" prefWidth="377.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.LM34.UI.GUI.GUI">
+<AnchorPane fx:id="login" maxHeight="399.0" maxWidth="422.0" prefHeight="399.0" prefWidth="422.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.LM34.UI.GUI.GUI">
     <children>
-        <Pane minWidth="-Infinity" minHeight="-Infinity" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="970" prefHeight="1235.8" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <Pane minWidth="422.0" minHeight="399.0" maxHeight="399.0" maxWidth="422.0" prefWidth="422.0" prefHeight="399.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <ImageView fitHeight="399.0" fitWidth="422.0">
                 <Image url="@../images/login/loginBackground.jpg" />
             </ImageView>

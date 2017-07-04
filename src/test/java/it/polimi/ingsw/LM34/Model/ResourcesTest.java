@@ -1,88 +1,202 @@
 package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class ResourcesTest {
 
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
-
     @Test
-    public void ModifyByType() {
-        Resources resources = new Resources(1, 1, 1, 1, 1, 1, 1);
+    public void sumResourceTypeShouldThrowsException() throws Exception {
+        Resources resources = new Resources(1,1,1,1,1,1,1);
 
-        resources.sumResourceType(ResourceType.COINS, 1);
-        assertEquals("Coins: expected 2", resources.getResourceByType(ResourceType.COINS).intValue(), 2);
-        resources.sumResourceType(ResourceType.WOODS, 2);
-        assertEquals("Woods: expected 3", resources.getResourceByType(ResourceType.WOODS).intValue(), 3);
-        resources.sumResourceType(ResourceType.STONES, 3);
-        assertEquals("Stones: expected 4", resources.getResourceByType(ResourceType.STONES).intValue(), 4);
-        resources.sumResourceType(ResourceType.SERVANTS, -3);
-        assertEquals("Servants: expected -2", resources.getResourceByType(ResourceType.SERVANTS).intValue(), -2);
-        resources.sumResourceType(ResourceType.MILITARY_POINTS, 5);
-        assertEquals("MilitaryPoints: expected 6", resources.getResourceByType(ResourceType.MILITARY_POINTS).intValue(), 6);
-        resources.sumResourceType(ResourceType.FAITH_POINTS, -6);
-        assertEquals("FaithPoints: expected -5", resources.getResourceByType(ResourceType.FAITH_POINTS).intValue(), -5);
-        resources.sumResourceType(ResourceType.VICTORY_POINTS, 15);
-        assertEquals("VictoryPoints: expected 16", resources.getResourceByType(ResourceType.VICTORY_POINTS).intValue(), 16);
+        try {
+            resources.sumResourceType(null, 1);
+            fail("NullPointerException was not occured when resourceType is null");
+        }
+        catch (NullPointerException ex) {
+
+        }
+
+        try {
+            resources.sumResourceType(ResourceType.SERVANTS, null);
+            fail("NullPointerExcpetion was not occured when quantity is null");
+        }
+        catch (NullPointerException ex) {
+
+        }
+
+        try {
+            resources.sumResourceType(null, null);
+            fail("NullPointerException was not occured when both resourceType and quantity are null");
+        }
+        catch (NullPointerException ex) {
+
+        }
+
     }
 
     @Test
-    public void ModifyByTypeWithException1() {
-        Resources resources = new Resources(1, 1, 1, 1, 1, 1, 1);
+    public void sumResourceType() throws Exception {
+        Resources resources = new Resources(0,0,0,0,0,0,0);
 
-        exception.expect(NullPointerException.class);
-        exception.reportMissingExceptionWithMessage("NullPointerException was not thrown");
-        resources.sumResourceType(null, 2);
+        for (ResourceType resourceType : ResourceType.values())
+            resources.sumResourceType(resourceType, 1);
+
+        for(ResourceType resourceType : ResourceType.values())
+            assertEquals(1, resources.getResourceByType(resourceType).longValue());
+
+        for (ResourceType resourceType : ResourceType.values())
+            resources.sumResourceType(resourceType, -1);
+
+        for(ResourceType resourceType : ResourceType.values())
+            assertEquals(0, resources.getResourceByType(resourceType).longValue());
+
+        for (ResourceType resourceType : ResourceType.values())
+            resources.sumResourceType(resourceType, -1);
+
+        for(ResourceType resourceType : ResourceType.values())
+            assertEquals(-1, resources.getResourceByType(resourceType).longValue());
     }
 
-    @Test
-    public void ModifyByTypeWithException2() {
-        Resources resources = new Resources(1, 1, 1, 1, 1, 1, 1);
-
-        exception.expect(NullPointerException.class);
-        exception.reportMissingExceptionWithMessage("NullPointerException was not thrown");
-        resources.sumResourceType(ResourceType.COINS, null);
-    }
-
-    @Test
-    public void ModifyByTypeWithException3() {
-        Resources resources = new Resources(1, 1, 1, 1, 1, 1, 1);
-
-        exception.expect(NullPointerException.class);
-        exception.reportMissingExceptionWithMessage("NullPointerException was not thrown");
-        resources.sumResourceType(null, null);
-    }
-
-    @Test
-    public void SumResources() {
-        Resources resources = new Resources(1, 1, 1, 1, 1, 1, 1);
-        Resources resourcesGoods = new Resources(1, 2, -20, 56);
-        Resources resourcesPoints = new Resources(-5,2,3);
-
-        resources.sumResources(resourcesGoods);
-        assertEquals("Coins: expected 2", resources.getResourceByType(ResourceType.COINS).intValue(), 2);
-        assertEquals("Woods: expected 3", resources.getResourceByType(ResourceType.WOODS).intValue(), 3);
-        assertEquals("Stones: expected -19", resources.getResourceByType(ResourceType.STONES).intValue(), -19);
-        assertEquals("Servants: expected 57", resources.getResourceByType(ResourceType.SERVANTS).intValue(), 57);
-
-        resources.sumResources(resourcesPoints);
-        assertEquals("MilitaryPoints: expected -4", resources.getResourceByType(ResourceType.MILITARY_POINTS).intValue(), -4);
-        assertEquals("FaithPoints: expected 3", resources.getResourceByType(ResourceType.FAITH_POINTS).intValue(), 3);
-        assertEquals("VictoryPoints: expected 4", resources.getResourceByType(ResourceType.VICTORY_POINTS).intValue(), 4);
-    }
-
-    @Test
-    public void SumResourcesWithException() {
-        Resources resources = new Resources(1, 1, 1, 1, 1, 1, 1);
-        exception.expect(NullPointerException.class);
-        exception.reportMissingExceptionWithMessage("NullPointerException was not thrown");
-
+    @Test(expected = NullPointerException.class)
+    public void sumResourcesShouldThrowsException() throws Exception {
+        Resources resources = new Resources(0,0,0,0,0,0,0);
         resources.sumResources(null);
     }
+
+    @Test
+    public void sumResources() throws Exception {
+        Resources resources = new Resources(0,0,0,0,0,0,0);
+        Resources addendPositive = new Resources(1,1,1,1,1,1,1);
+        Resources addendNegative = new Resources(-1, -1, -1, -1, -1, -1, -1);
+        Resources addendEmpty = new Resources(0,0,0,0,0,0,0);
+
+
+        //test if 0 + 0 == 0
+        resources.sumResources(addendEmpty);
+        for(ResourceType resourceType : ResourceType.values())
+            assertEquals(0, resources.getResourceByType(resourceType).longValue());
+
+        //test if 0 + 1 == 1
+        resources.sumResources(addendPositive);
+        for(ResourceType resourceType : ResourceType.values())
+            assertEquals(1, resources.getResourceByType(resourceType).longValue());
+
+        //resources == 1 after previous sum. So, by adding -1, resources will return == 0
+        resources.sumResources(addendNegative);
+
+        //test if 0 - 1 == -1
+        resources.sumResources(addendNegative);
+        for(ResourceType resourceType : ResourceType.values())
+            assertEquals(-1, resources.getResourceByType(resourceType).longValue());
+
+
+
+        //resources == -1 after previous sum. So, by adding 1 twice, resources will return == 1
+        resources.sumResources(addendPositive);
+        resources.sumResources(addendPositive);
+
+        //test if 1 + 1 == 2
+        resources.sumResources(addendPositive);
+        for(ResourceType resourceType : ResourceType.values())
+            assertEquals(2, resources.getResourceByType(resourceType).longValue());
+
+        //resources == 2 after previous sum. So, by adding -1, resources will return == 1
+        resources.sumResources(addendNegative);
+
+        //test if 1 - 1 == 0
+        resources.sumResources(addendNegative);
+        for(ResourceType resourceType : ResourceType.values())
+            assertEquals(0, resources.getResourceByType(resourceType).longValue());
+
+        //resources == 0 after previous sum. So, by adding 1, resources will return == 1
+        resources.sumResources(addendPositive);
+
+        //test if 1 + 0 = 1
+        resources.sumResources(addendEmpty);
+        for(ResourceType resourceType : ResourceType.values())
+            assertEquals(1, resources.getResourceByType(resourceType).longValue());
+
+
+
+        //resources == 1 after previous sum. So, by adding -1 twice, resources will return == -1
+        resources.sumResources(addendNegative);
+        resources.sumResources(addendNegative);
+
+        //test if -1 - 1 == -2
+        resources.sumResources(addendNegative);
+        for(ResourceType resourceType : ResourceType.values())
+            assertEquals(-2, resources.getResourceByType(resourceType).longValue());
+
+        //resources == -2 after previous sum. So, by adding 1, resources will return == -1
+        resources.sumResources(addendPositive);
+
+        //test if -1 + 0 == -1
+        resources.sumResources(addendEmpty);
+        for(ResourceType resourceType : ResourceType.values())
+            assertEquals(-1, resources.getResourceByType(resourceType).longValue());
+
+        //test if -1 + 1 == 0
+        resources.sumResources(addendPositive);
+        for(ResourceType resourceType : ResourceType.values())
+            assertEquals(0, resources.getResourceByType(resourceType).longValue());
+
+
+
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void multiplyResourcesShouldThrowsException() throws Exception {
+        Resources resources = new Resources(0,0,0,0,0,0,0);
+        resources.multiplyResources(null);
+    }
+
+    @Test
+    public void multiplyResources() throws Exception {
+        Resources resources = new Resources(1,1,1,1,1,1,1);
+
+        //test if 1 * 1 == 1
+        resources.multiplyResources(1);
+        for(ResourceType resourceType : ResourceType.values())
+            assertEquals(1, resources.getResourceByType(resourceType).longValue());
+
+        //test if 1 * -1 == -1
+        resources.multiplyResources(-1);
+        for(ResourceType resourceType : ResourceType.values())
+            assertEquals(-1, resources.getResourceByType(resourceType).longValue());
+
+        //test if -1 * 0 == 0
+        resources.multiplyResources(0);
+        for(ResourceType resourceType : ResourceType.values())
+            assertEquals(0, resources.getResourceByType(resourceType).longValue());
+
+        //test if 0 * 0 == 0
+        resources.multiplyResources(0);
+        for(ResourceType resourceType : ResourceType.values())
+            assertEquals(0, resources.getResourceByType(resourceType).longValue());
+
+    }
+
+    @Test
+    public void hasEnough() throws Exception {
+        Resources resources = new Resources(-1,-1,-1,-1,-1,-1,-1);
+        Resources addendNegative = new Resources(-1, -1,-1, -1, -1, -1,-1);
+        Resources resourcedRequested = new Resources(-2,-2,-2,-2,-2,-2,-2);
+
+        assertTrue(resources.hasEnough(resourcedRequested));
+
+        //resources will value -2
+        resources.sumResources(addendNegative);
+
+        assertTrue(resources.hasEnough(resourcedRequested));
+
+        //resources will value -3
+        resources.sumResources(addendNegative);
+
+        assertFalse(resources.hasEnough(resourcedRequested));
+
+    }
+
 }

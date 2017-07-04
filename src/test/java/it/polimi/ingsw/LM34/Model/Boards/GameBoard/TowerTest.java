@@ -1,65 +1,92 @@
 package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.Resources;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.*;
+
 public class TowerTest {
-   /* @Test
+
+    @Test
     public void addCard() throws Exception {
-       /* Tower tower = new Tower(DevelopmentCardColor.BLUE, null);
-        AbstractDevelopmentCard abstractDevelopmentCard = new TestAbstractDevelopmentCard();
-        tower.addCard(abstractDevelopmentCard);
+        List<TowerSlot> towerSlots = new ArrayList<>();
+        Resources resources1 = new Resources(1,1,1,1,1,1,1);
+        Resources resources2 = new Resources(2,2,2,2,2,2,2);
+        ResourcesBonus resourcesBonus1 = new ResourcesBonus(resources1, 1);
+        ResourcesBonus resourcesBonus2 = new ResourcesBonus(resources2, 2);
+        TowerSlot towerSlot1 = new TowerSlot(true, 1, resourcesBonus1);
+        TowerSlot towerSlot2 = new TowerSlot(true, 2, resourcesBonus2);
+        towerSlots.add(towerSlot1);
+        towerSlots.add(towerSlot2);
+        Tower tower = new Tower(DevelopmentCardColor.BLUE, towerSlots);
+        AbstractDevelopmentCard abstractDevelopmentCard1 = new InitializeDevelopmentCard("carta1", 1, null, null, null, null);
+        AbstractDevelopmentCard abstractDevelopmentCard2 = new InitializeDevelopmentCard("carta2", 2, null, null, null, null);
+        tower.addCard(abstractDevelopmentCard1);
+        tower.addCard(abstractDevelopmentCard2);
 
-        assertNotNull(tower);
-
+        assertEquals(2, tower.getCardsStored().size());
     }
 
     @Test
     public void isTowerEmpty() throws Exception {
-        Tower tower;
-        Resources resources = new Resources(1,1,1,1,1,1,1);
-        ResourcesBonus resourcesBonus = new ResourcesBonus(resources, 3);
-        TowerSlot towerSlot = new TowerSlot(true, 3, resourcesBonus);
-        FamilyMember familyMember = new FamilyMember(PawnColor.GREEN, DiceColor.BLACK);
-        towerSlot.insertFamilyMember(familyMember);
         List<TowerSlot> towerSlots = new ArrayList<>();
-        towerSlots.add(towerSlot);
-        AbstractDevelopmentCard abstractDevelopmentCard = new TestAbstractDevelopmentCard();
-        tower = new Tower(DevelopmentCardColor.BLUE, towerSlots);
-        tower.addCard(abstractDevelopmentCard);
+        Tower tower = new Tower(DevelopmentCardColor.BLUE, towerSlots);
 
+        assertTrue(tower.isTowerEmpty());
 
-        assertFalse(tower.isTowerEmpty());
+        Resources resources1 = new Resources(1,1,1,1,1,1,1);
+        Resources resources2 = new Resources(2,2,2,2,2,2,2);
+        ResourcesBonus resourcesBonus1 = new ResourcesBonus(resources1, 1);
+        ResourcesBonus resourcesBonus2 = new ResourcesBonus(resources2, 2);
+        TowerSlot towerSlot1 = new TowerSlot(true, 1, resourcesBonus1);
+        TowerSlot towerSlot2 = new TowerSlot(true, 2, resourcesBonus2);
+        towerSlots.add(towerSlot1);
+        towerSlots.add(towerSlot2);
+
+        Tower tower2 = new Tower(DevelopmentCardColor.GREEN, towerSlots);
+
+        assertTrue(tower2.isTowerEmpty());
     }
 
     @Test
     public void sweep() throws Exception {
-        Tower tower;
-        Resources resources = new Resources(1,1,1,1,1,1,1);
-        ResourcesBonus resourcesBonus = new ResourcesBonus(resources, 3);
-        TowerSlot towerSlot = new TowerSlot(true, 3, resourcesBonus);
-        FamilyMember familyMember = new FamilyMember(PawnColor.GREEN, DiceColor.BLACK);
-        towerSlot.insertFamilyMember(familyMember);
         List<TowerSlot> towerSlots = new ArrayList<>();
-        towerSlots.add(towerSlot);
-        AbstractDevelopmentCard abstractDevelopmentCard = new TestAbstractDevelopmentCard();
-        tower = new Tower(DevelopmentCardColor.BLUE, towerSlots);
-        tower.addCard(abstractDevelopmentCard);
-        //verify that before sweep, the tower isn`t already null
-        assertFalse(tower.isTowerEmpty());
+        Resources resources1 = new Resources(1,1,1,1,1,1,1);
+        Resources resources2 = new Resources(2,2,2,2,2,2,2);
+        ResourcesBonus resourcesBonus1 = new ResourcesBonus(resources1, 1);
+        ResourcesBonus resourcesBonus2 = new ResourcesBonus(resources2, 2);
+        TowerSlot towerSlot1 = new TowerSlot(true, 1, resourcesBonus1);
+        TowerSlot towerSlot2 = new TowerSlot(true, 2, resourcesBonus2);
+        towerSlots.add(towerSlot1);
+        towerSlots.add(towerSlot2);
+
+        Tower tower = new Tower(DevelopmentCardColor.BLUE, towerSlots);
+
         tower.sweep();
 
         assertTrue(tower.isTowerEmpty());
 
+
     }
 
-    private class TestAbstractDevelopmentCard extends AbstractDevelopmentCard {
+    class InitializeDevelopmentCard extends AbstractDevelopmentCard {
 
-        public TestAbstractDevelopmentCard() {
-            this.name = "testCard";
-            this.period = 1;
-            this.color = DevelopmentCardColor.BLUE;
-            this.permanentBonus = null;
-            this.resourceRequired = new Resources(1,1,1,1,1,1,1);
+        public InitializeDevelopmentCard(String name, Integer period, DevelopmentCardColor color, AbstractEffect permanentBonus, List<AbstractEffect> instantBonus, Resources resourceRequired) {
+
+            this.name = name;
+            this.period = period;
+            this.color = color;
+            this.permanentBonus = permanentBonus;
+            this.instantBonus = instantBonus;
+            this.resourceRequired = resourceRequired;
         }
-
-    }*/
+    }
 
 }

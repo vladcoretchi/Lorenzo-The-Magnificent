@@ -166,13 +166,14 @@
         </Group>
     </ScrollPane>
 
-        <ScrollPane GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.rowIndex="0">
-            <VBox id="playersInfoList">
+        <ScrollPane prefHeight="280" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.rowIndex="0">
+            <VBox id="playersInfoList" minHeight="100">
                 <children>
 
-                    <Pane fx:id="leaderCardsActions" prefHeight="100.0" prefWidth="150" style="-fx-background-color: rgba(172,172,172,0.96)">
+                    <Pane fx:id="leaderCardsActions" prefHeight="200.0" prefWidth="190" style="-fx-background-color: rgba(172,172,172,0.96)">
                         <children>
-                            <Button fx:id="leaderCardActions" layoutX="40" layoutY="15" onAction="#showLeaderCardsActions" prefHeight="50" prefWidth="150" style="-fx-border-color: #61a2b1; -fx-text-fill: crimson; -fx-background-color: rgba(136,139,138,0.74);" text="Leader Cards" />
+                            <ToggleButton fx:id="leaderCardActions" prefWidth="150" prefHeight="50" layoutX="40" layoutY="15" text="Leader Cards" onAction="#showLeaderCardsActions" style="-fx-border-color: #61a2b1; -fx-text-fill: crimson; -fx-background-color: rgba(136,139,138,0.74);"></ToggleButton>
+                            <Button fx:id="endTurn" prefWidth="150" prefHeight="50" layoutX="40" layoutY="75" text="End Turn" onAction="#endTurn" style="-fx-border-color: #61a2b1; -fx-text-fill: crimson; -fx-background-color: rgba(136,139,138,0.74);"></Button>
                         </children>
                     </Pane>
 

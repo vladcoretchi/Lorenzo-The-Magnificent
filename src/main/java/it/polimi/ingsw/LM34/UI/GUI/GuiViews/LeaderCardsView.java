@@ -60,8 +60,7 @@ public class LeaderCardsView {
         LeaderCardsAction action = LeaderCardsAction.DISCARD;
         ButtonType activate = new ButtonType(LeaderCardsAction.PLAY.toString());
         ButtonType discard = new ButtonType(LeaderCardsAction.DISCARD.toString());
-        ButtonType copy = new ButtonType(LeaderCardsAction.COPY.toString());
-        Alert actionChoice = new Alert(Alert.AlertType.NONE, "Activate, Copy or Discard "+leaderChoosed, activate, discard, copy);
+        Alert actionChoice = new Alert(Alert.AlertType.NONE, "Activate or Discard "+leaderChoosed, activate, discard);
         actionChoice.setTitle("Leader Action Dialog");
         actionChoice.getDialogPane().getStylesheets().add(
                 getClass().getResource("/css/dialogStyle.css").toExternalForm());
@@ -71,8 +70,6 @@ public class LeaderCardsView {
         if (choice.isPresent())
             if(choice.get().equals(activate))
                 action = LeaderCardsAction.PLAY;
-            else if (choice.get().equals(copy))
-                action = LeaderCardsAction.COPY;
             else
                 action = LeaderCardsAction.DISCARD;
 
