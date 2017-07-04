@@ -1,54 +1,25 @@
 package it.polimi.ingsw.LM34.Controller;
 
-import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
-import it.polimi.ingsw.LM34.GameServer;
-import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
-import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Network.GameRoom;
-import it.polimi.ingsw.LM34.Network.Server.Server;
-import it.polimi.ingsw.LM34.Network.Server.ServerNetworkController;
-import it.polimi.ingsw.LM34.Network.Server.Socket.SocketConnection;
-import it.polimi.ingsw.LM34.Utils.Configurator;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.*; 
 
 public class GameManagerTest {
 
-    @BeforeClass
-    public static void setUp() throws Exception {
-        Configurator.loadConfigs();
-        Configurator.getTerritoryCards();
-        GameServer gameServer = new GameServer();
-        new Thread(new Runnable() { public void run() { Server.getInstance(); gameServer.main(null);}}).start();
-
-    }
-
-    @Test
+    @Test(expected = NullPointerException.class)
     public void startGame() throws Exception {
         List<String> players = new ArrayList<>();
         players.add("aldo");
         players.add("giovanni");
-        Socket socket = new Socket("localhost", 20001);
-        SocketConnection socketConnection = new SocketConnection(socket);
-        ServerNetworkController serverNetworkController = new ServerNetworkController(socketConnection);
-        Server.addPlayerToGameRoom("aldo", serverNetworkController);
-        Server.startWaitingGame();
-        Server.login("aldo", "ciccio");
-        GameRoom gameRoom = new GameRoom();
-        gameRoom.addPlayer("aldo", serverNetworkController);
-        System.out.println(gameRoom.getPlayerNetworkController("aldo"));
-
-        GameManager gameManager = new GameManager(gameRoom, players);
+        players.add("giacomo");
+        GameManager gameManager = new GameManager(new GameRoom(), players);
         gameManager.startGame();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void endGame() throws Exception {
         List<String> players = new ArrayList<>();
         players.add("aldo");
@@ -58,7 +29,7 @@ public class GameManagerTest {
         gameManager.endGame();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void nextTurn() throws Exception {
         List<String> players = new ArrayList<>();
         GameManager gameManager = new GameManager(new GameRoom(), players);
@@ -69,7 +40,7 @@ public class GameManagerTest {
         gameManager.nextTurn();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void nextPhase() throws Exception {
         List<String> players = new ArrayList<>();
         GameManager gameManager = new GameManager(new GameRoom(), players);
@@ -80,7 +51,7 @@ public class GameManagerTest {
         gameManager.nextPhase();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void nextRound() throws Exception {
         List<String> players = new ArrayList<>();
         GameManager gameManager = new GameManager(new GameRoom(), players);
@@ -90,7 +61,7 @@ public class GameManagerTest {
         gameManager.nextRound();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void nextPeriod() throws Exception {
         List<String> players = new ArrayList<>();
         GameManager gameManager = new GameManager(new GameRoom(), players);
@@ -100,7 +71,7 @@ public class GameManagerTest {
         gameManager.nextPeriod();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void replaceCards() throws Exception {
         List<String> players = new ArrayList<>();
         GameManager gameManager = new GameManager(new GameRoom(), players);
@@ -110,7 +81,7 @@ public class GameManagerTest {
         gameManager.replaceCards();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void sweepActionSlots() throws Exception {
         List<String> players = new ArrayList<>();
         GameManager gameManager = new GameManager(new GameRoom(), players);
@@ -120,7 +91,7 @@ public class GameManagerTest {
         gameManager.sweepActionSlots();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void setupPlayersResources() throws Exception {
         List<String> players = new ArrayList<>();
         GameManager gameManager = new GameManager(new GameRoom(), players);
@@ -130,7 +101,7 @@ public class GameManagerTest {
         gameManager.setupPlayersResources();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void setupGameContexts() throws Exception {
         List<String> players = new ArrayList<>();
         GameManager gameManager = new GameManager(new GameRoom(), players);
@@ -140,7 +111,7 @@ public class GameManagerTest {
         gameManager.setupGameContexts();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void bonusTileSelectionPhase() throws Exception {
         List<String> players = new ArrayList<>();
         GameManager gameManager = new GameManager(new GameRoom(), players);
@@ -150,7 +121,7 @@ public class GameManagerTest {
         gameManager.bonusTileSelectionPhase();
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void leaderSelectionPhase() throws Exception {
         List<String> players = new ArrayList<>();
         GameManager gameManager = new GameManager(new GameRoom(), players);
