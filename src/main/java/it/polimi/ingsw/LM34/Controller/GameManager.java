@@ -328,8 +328,6 @@ public class GameManager {
 
     /**
      * Choose the 3 excommunication cards of the game
-     * @param cards excommunication deck from which to extract one card by period
-     * @return the 3 card choosed
      */
     private void setExcommunicationCards() {
         this.excommunicationCards = Configurator.getExcommunicationTiles();
@@ -377,7 +375,8 @@ public class GameManager {
 
     private void playerLeaderCardSelection(List<LeaderCard> leaderCards, Player player) {
         try {
-            Integer selectedCard = getPlayerNetworkController(player).leaderCardSelectionPhase(leaderCards);
+            List<LeaderCard> cards = new ArrayList<>(leaderCards);
+            Integer selectedCard = getPlayerNetworkController(player).leaderCardSelectionPhase(cards);
             Validator.checkValidity(selectedCard, leaderCards);
             player.addLeaderCard(leaderCards.get(selectedCard));
             leaderCards.remove(selectedCard.intValue());

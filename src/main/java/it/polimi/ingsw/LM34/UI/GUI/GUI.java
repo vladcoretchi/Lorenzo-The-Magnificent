@@ -79,6 +79,7 @@ public class GUI extends Application implements UIInterface {
     private Parent root;
     private Stage primaryStage;
     private LoginDialog loginDialog;
+    private Stage loginStage;
     @FXML private TextField username;
     @FXML private TextField password;
     @FXML private Label playerLoginError;
@@ -129,7 +130,8 @@ public class GUI extends Application implements UIInterface {
     @Override
     public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
         FutureTask<Integer> uiTask = new FutureTask<>(() -> {
-            this.username.getScene().getWindow().hide();
+            this.loginStage.hide();
+            this.loginStage.close();
             this.start(new Stage());
             return new BonusTileDialog().interactWithPlayer(bonusTiles);
         });
@@ -176,9 +178,9 @@ public class GUI extends Application implements UIInterface {
             FutureTask<Void> uiTask = new FutureTask<>(() -> {
                 WaitingAnimation wa = new WaitingAnimation();
                 Scene scene = new Scene(wa, 422, 368);
-                Stage loginStage = (Stage) this.username.getScene().getWindow();
-                loginStage.setTitle("Waiting Room");
-                loginStage.setScene(scene);
+                this.loginStage = (Stage) this.username.getScene().getWindow();
+                this.loginStage.setTitle("Waiting Room");
+                this.loginStage.setScene(scene);
                 return null;
             });
             Platform.runLater(uiTask);
