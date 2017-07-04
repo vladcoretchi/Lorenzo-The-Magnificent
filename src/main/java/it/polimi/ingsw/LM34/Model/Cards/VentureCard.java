@@ -24,7 +24,6 @@ public class VentureCard extends AbstractDevelopmentCard {
         this.militaryPointsSubtraction = militaryPointsSubtraction;
     }
 
-    //TODO: handle in the controller the payment alternative?
     public boolean isThereAlternativeToMilitaryPointsPayment() {
         return militaryPointsPaymenSubstitute;
     }

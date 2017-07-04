@@ -31,8 +31,9 @@ public class Player implements Serializable {
 
         this.familyMembers = new ArrayList<>();
         for (DiceColor diceColor : DiceColor.values())
-            /**Initialize each FamilyMember with the color of the player**/
-            this.familyMembers.add(new FamilyMember(pawnColor, diceColor));
+            /*Initialize each FamilyMember with the color of the player*/
+            if(diceColor != DiceColor.DEFAULT)
+                this.familyMembers.add(new FamilyMember(pawnColor, diceColor));
 
         this.leaderCards = new ArrayList<>();
         this.excommunicationCards = new ArrayList<>();

@@ -41,16 +41,23 @@ public class TowersContext extends AbstractGameContext {
     @Override
     public Void interactWithPlayer(Object... args)
             throws IncorrectInputException, OccupiedSlotException, NotEnoughResourcesException, NotEnoughMilitaryPoints, CardTypeNumLimitReachedException {
-        Pair<Integer, Integer> slotSelection;
+        Pair<DevelopmentCardColor, Integer> slotSelection;
         try {
             Pair<?, ?> slotArg = (Pair<?, ?>) args[0];
-            slotSelection = new ImmutablePair<>((Integer) slotArg.getLeft(), (Integer) slotArg.getRight());
+            slotSelection = new ImmutablePair<>((DevelopmentCardColor) slotArg.getLeft(), (Integer) slotArg.getRight());
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             throw new IncorrectInputException();
         }
 
-        Tower selectedTower = this.gameManager.getTowers().get(slotSelection.getLeft());
+        Tower selectedTower = null;
+        for (Tower t : this.gameManager.getTowers()) {
+            if(t.getCardColor() == slotSelection.getLeft())
+                selectedTower = t;
+        }
+        if(selectedTower == null)
+            throw new IncorrectInputException();
+
         TowerSlot slot = selectedTower.getTowerSlots().get(slotSelection.getRight());
 
         if(!slot.isEmpty())

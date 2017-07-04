@@ -1,12 +1,16 @@
 package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
+
+import java.util.Set;
 
 public class LoginDialog extends Application {
 

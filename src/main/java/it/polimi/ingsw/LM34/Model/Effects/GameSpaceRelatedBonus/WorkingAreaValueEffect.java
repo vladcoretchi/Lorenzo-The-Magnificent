@@ -15,8 +15,6 @@ import java.util.logging.Level;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.FAMILY_MEMBER_SELECTION_CONTEXT;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
-//TODO: evaluate to 'merge' in FamilyMemberValueEffect observer class
-
 public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
     private ContextType influenceableContext; //PRODUCTION_CONTEXT OR HARVEST_CONTEXT
     private Integer diceValue;
@@ -56,7 +54,7 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
     public void applyEffect(AbstractGameContext callerContext)  {
         if(this.isRelative)
             callerContext.getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT).addObserver(this);
-        else //TODO
+        else //TODO (card instant effect - free harvest/production)
             try {
                 callerContext.getContextByType(influenceableContext).interactWithPlayer();
             } catch (IncorrectInputException | MarketBanException | OccupiedSlotException | NotEnoughResourcesException | NotEnoughMilitaryPoints | CardTypeNumLimitReachedException | InvalidLeaderCardAction ex) {

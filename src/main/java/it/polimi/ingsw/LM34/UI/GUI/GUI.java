@@ -46,18 +46,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import static it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts.*;
 import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.*;
 import static it.polimi.ingsw.LM34.UI.UIConnectionInfo.*;
@@ -117,9 +117,6 @@ public class GUI extends Application implements UIInterface {
 
 
         this.selectedContext = Optional.empty();
-
-        primaryStage.setOnCloseRequest(event -> stop(event));
-
     }
 
 
@@ -129,7 +126,11 @@ public class GUI extends Application implements UIInterface {
      */
     @Override
     public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
-        FutureTask<Integer> uiTask = new FutureTask<>(() ->  new BonusTileDialog().interactWithPlayer(bonusTiles));
+        FutureTask<Integer> uiTask = new FutureTask<>(() -> {
+            this.username.getScene().getWindow().hide();
+            this.start(new Stage());
+            return new BonusTileDialog().interactWithPlayer(bonusTiles);
+        });
         return RunLaterTask(uiTask);
     }
 
@@ -171,11 +172,13 @@ public class GUI extends Application implements UIInterface {
     public void loginResult(Boolean result) {
         if (result) {
             FutureTask<Void> uiTask = new FutureTask<>(() -> {
-                this.username.getScene().getWindow().hide();
-                this.start(new Stage());
+                WaitingAnimation wa = new WaitingAnimation();
+                Scene scene = new Scene(wa, 422, 368);
+                Stage loginStage = (Stage) this.username.getScene().getWindow();
+                loginStage.setTitle("Waiting Room");
+                loginStage.setScene(scene);
                 return null;
             });
-
             Platform.runLater(uiTask);
         }
         else {
@@ -621,7 +624,7 @@ public class GUI extends Application implements UIInterface {
 
     /**
      * This class is called for the {@link it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard}
-     * that have as an alternative requirement option the payment of {@link ResourceType.MILITARY_POINTS}
+     * that have as an alternative requirement option the payment of MILITARY POINTS
      */
     @Override
     public Boolean alternativeRequirementsPayment() {
@@ -771,6 +774,23 @@ public class GUI extends Application implements UIInterface {
             return null;
         });
         Platform.runLater(uiTask);
+    }
+
+    /**
+     * WebView for showing to the user an animation while waiting for other players
+     */
+    private class WaitingAnimation extends Region {
+        WebView webView = new WebView();
+        WebEngine webEngine = webView.getEngine();
+
+        /**
+         * Constructor
+         */
+        public WaitingAnimation(){
+            webEngine.load(Thread.currentThread().getContextClassLoader().getResource("LM34Rain.html").toExternalForm());
+            webView.setZoom(0.25);
+            getChildren().add(webView);
+        }
     }
 
     /**

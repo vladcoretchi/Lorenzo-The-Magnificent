@@ -5,6 +5,7 @@ import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Exceptions.Controller.InvalidLeaderCardAction;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -36,7 +37,7 @@ public LeaderCardsContext() {
 }
 
     @Override
-    public Void interactWithPlayer(Object... args) throws IncorrectInputException, InvalidLeaderCardAction {
+    public Void interactWithPlayer(Object... args) throws IncorrectInputException, InvalidLeaderCardAction, NotEnoughResourcesException {
         Pair<Integer, LeaderCardsAction> leaderCardAction;
         try {
             Pair<?, ?> actionArg = (Pair<?, ?>) args[0];
@@ -66,21 +67,26 @@ public LeaderCardsContext() {
     }
 
 
-    private void playLeaderCard(LeaderCard card) {
-        //TODO: handle multiple requirements choice
+    private void playLeaderCard(LeaderCard card) throws NotEnoughResourcesException {
         Optional<Resources> resourcesRequirements = card.getRequirements().getResourcesRequirements();
         Optional<Map<DevelopmentCardColor, Integer>> cardsRequirements = card.getRequirements().getCardRequirements();
-        if(resourcesRequirements.isPresent() || cardsRequirements.isPresent()) {
 
-            if(resourcesRequirements.isPresent())
-                this.gameManager.getCurrentPlayer().subResources(resourcesRequirements.get());
+        if(resourcesRequirements.isPresent())
+            if(this.getCurrentPlayer().hasEnoughResources(resourcesRequirements.get()))
+                this.getCurrentPlayer().subResources(resourcesRequirements.get());
+            else
+                throw new NotEnoughResourcesException();
 
-            card.activate();
-            card.getBonus().applyEffect(this);
+        if(cardsRequirements.isPresent())
+            for(DevelopmentCardColor color : DevelopmentCardColor.values())
+                if(cardsRequirements.get().containsKey(color) && !this.getCurrentPlayer().hasEnoughCardsOfType(color, cardsRequirements.get().get(color)))
+                    throw new NotEnoughResourcesException();
 
-            setChanged();
-            notifyObservers(this);
-        }
+        card.activate();
+        card.getBonus().applyEffect(this);
+
+        setChanged();
+        notifyObservers(this);
     }
 
     private void discardLeaderCard(LeaderCard card) {

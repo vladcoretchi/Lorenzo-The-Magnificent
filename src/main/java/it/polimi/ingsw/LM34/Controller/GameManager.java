@@ -19,6 +19,7 @@ import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Dice;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractOncePerRoundEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
@@ -71,7 +72,7 @@ public class GameManager {
     private List<ExcommunicationCard> excommunicationCards;
 
     /*GAME CONTEXTS*/
-    protected Map<ContextType, AbstractGameContext> contexts;
+    private Map<ContextType, AbstractGameContext> contexts;
     private TurnContext turnContext = new TurnContext();
     private CouncilPalaceContext palaceContext;
 
@@ -82,9 +83,9 @@ public class GameManager {
         for (int i = 0; i < players.size(); i++)
             this.players.add(new Player(players.get(i), PawnColor.values()[i], new PersonalBoard()));
 
-        this.period = 1; //when cards of the new period are stored on towers
-        this.round = 1; //when all players have placed all their pawns
-        this.phase = 1; //when all players have placed 1 of their pawn
+        this.period = 0; //when cards of the new period are stored on towers
+        this.round = 0; //when all players have placed all their pawns
+        this.phase = 0; //when all players have placed 1 of their pawn
         this.turn = 0; //when the current player places his pawn
 
         setupGameContexts();
@@ -134,7 +135,7 @@ public class GameManager {
     /**
      * Sets up the game spaces before game begins
      */
-    public void setUpGameSpaces() {
+    private void setUpGameSpaces() {
         this.market = Configurator.getMarket();
         this.towers = Configurator.getTowers();
         this.councilPalace = Configurator.getPalace();
@@ -146,7 +147,7 @@ public class GameManager {
      * Enter the EndGameContext during which final points are calculated and ranking is showed
      * With this {@link EndGameContext} the games end
      */
-    public void endGame() {
+    private void endGame() {
         EndGameContext endGameContext = (EndGameContext) getContextByType(END_GAME_CONTEXT);
         endGameContext.interactWithPlayer();
     }
@@ -157,7 +158,7 @@ public class GameManager {
      * {@link ExcommunicationCard deck}
      * {@link LeaderCard deck}
      */
-    public void setUpDecks() {
+    private void setUpDecks() {
         this.territoryCardDeck = Configurator.getTerritoryCards();
         this.buildingCardDeck = Configurator.getBuildingCards();
         this.characterCardDeck = Configurator.getCharactersCards();
@@ -176,26 +177,29 @@ public class GameManager {
         }
     }
 
-    public void nextPhase() {
+    private void nextPhase() {
+        this.phase++;
+
         /*If all players have placed all of their pawns go to the next round*/
-        if(phase > (players.size() * players.get(0).getFamilyMembers().size()))
+        if(phase >= (players.size() * players.get(0).getFamilyMembers().size()))
             nextRound();
-        else
-            this.phase++;
     }
 
-    public void nextRound() { //round = half period
+    private void nextRound() { //round = half period
         this.round++;
-        //TODO: reset once per round leaders + players pawns
 
-        if (this.round % 2 == 0) {
-            /**Now it is Curch Report time**/
-            ChurchReportContext churchContext = (ChurchReportContext) getContextByType(CHURCH_REPORT_CONTEXT);
+        this.players.forEach(player -> {
+            player.getActivatedLeaderCards().forEach(card -> {
+                if(card.getBonus() instanceof AbstractOncePerRoundEffect)
+                    ((AbstractOncePerRoundEffect) card.getBonus()).newTurn();
+            });
+            player.getFamilyMembers().forEach(FamilyMember::freePawn);
+        });
 
-            /**ChurchReportContext interact with a player at a time, based on turn order**/
-            this.players.forEach(churchContext::interactWithPlayer);
-        }
-        this.phase = 1;
+        if (this.round % 2 == 0)
+            nextPeriod();
+
+        this.phase = 0;
 
         setNewTurnOrder();
         rollDices();
@@ -203,24 +207,22 @@ public class GameManager {
         replaceCards();      //Four development cards per type are moved from the decks into the towerslots
     }
 
-    //TODO: consider to place this in nextRound...
-    public void nextPeriod() {
-        period++;
+    private void nextPeriod() {
+        this.period++;
 
-        /**
-         * enter the endGame context in which final points are calculated
-         */
-        if(period > Configurator.TOTAL_PERIODS)
+        /*Now it is Curch Report time*/
+        ChurchReportContext churchContext = (ChurchReportContext) getContextByType(CHURCH_REPORT_CONTEXT);
 
+        /*ChurchReportContext interact with a player at a time, based on turn order*/
+        this.players.forEach(churchContext::interactWithPlayer);
+
+        /*enter the endGame context in which final points are calculated*/
+        if(this.period >= Configurator.TOTAL_PERIODS)
             endGame();
-        else
-            round = 1;
-
-        nextTurn();
     }
 
     /**New cards are placed in the towers at the beginning of the new round**/
-    public void replaceCards() {
+    private void replaceCards() {
         changeCards(towers, territoryCardDeck);
         changeCards(towers, buildingCardDeck);
         changeCards(towers, characterCardDeck);
@@ -230,7 +232,7 @@ public class GameManager {
     /**
      * Free all the action slots from the pawns and card stored during the previous round
      */
-    public void sweepActionSlots() {
+    private void sweepActionSlots() {
         this.towers.forEach(Tower::sweep);
         this.market.sweep();
         this.productionArea.sweep();
@@ -240,14 +242,14 @@ public class GameManager {
     /**
      * Roll the dices at the beginning of a Round
      */
-    public void rollDices() {
+    private void rollDices() {
         dices.forEach(Dice::rollDice);
     }
 
     /**
      * provide the players the initial amount of resources
      */
-    public void setupPlayersResources() {
+    private void setupPlayersResources() {
         for (int i = 0; i < players.size(); i++) {
             players.get(i).addResources(new Resources(
                 Configurator.BASE_COINS + i * Configurator.COINS_INCREMENT_PLAYER_ORDER,
@@ -261,7 +263,7 @@ public class GameManager {
     /**
      * Instantiate all the game contexts at the start of the game
      */
-    public void setupGameContexts() {
+    private void setupGameContexts() {
         contexts = new EnumMap<>(ContextType.class);
         for (ContextType context : ContextType.values())
             try {
@@ -286,7 +288,7 @@ public class GameManager {
      * Set the new players order for the new round about to start
      * @return the new {@link Player}s order
      */
-    public List<Player>  setNewTurnOrder() {
+    private List<Player>  setNewTurnOrder() {
         List<Player> oldPlayersOrder = players;
         List<Player> newPlayersOrder = new ArrayList<>();
         List<FamilyMember> membersInOrder = this.councilPalace.getActionSlot().getFamilyMembers();
@@ -308,7 +310,7 @@ public class GameManager {
      * @param towers from which choose the right tower by development card type
      * @param developmentDeck from which to extract and place in the tower the cards for the new round
      */
-    public void changeCards(List<Tower> towers, DevelopmentCardDeck<?> developmentDeck) {
+    private void changeCards(List<Tower> towers, DevelopmentCardDeck<?> developmentDeck) {
         Tower tower = null;
         Iterator iterator = developmentDeck.iterator();
 
@@ -329,7 +331,7 @@ public class GameManager {
      * @param cards excommunication deck from which to extract one card by period
      * @return the 3 card choosed
      */
-    public void setExcommunicationCards() {
+    private void setExcommunicationCards() {
         this.excommunicationCards = Configurator.getExcommunicationTiles();
     }
 
@@ -338,12 +340,12 @@ public class GameManager {
      * he wants to have during the game
      *if timeout while user selects the card -> an arbitrary {@link  is selected automatically
      */
-    public void bonusTileSelectionPhase() {
+    private void bonusTileSelectionPhase() {
         List<BonusTile> bonusTiles;
         bonusTiles = Configurator.getBonusTiles();
-        for (Integer playerIndex = 0; playerIndex < players.size(); playerIndex++) {
+        for(Integer playerIndex = 0; playerIndex < players.size(); playerIndex++) {
             Integer selected = getPlayerNetworkController(players.get(playerIndex)).bonusTileSelection(bonusTiles);
-            players.get(playerIndex).getPersonalBoard().setPersonalBonusTile(bonusTiles.get(selected.intValue()));
+            players.get(playerIndex).getPersonalBoard().setPersonalBonusTile(bonusTiles.get(selected));
             bonusTiles.remove(selected.intValue());
         }
     }
@@ -352,7 +354,7 @@ public class GameManager {
      * To each player show 4,3,2 {@link LeaderCard} at each step, from which he chooses one
      * If timeout while user selects the card -> an arbitrary card is selected automatically
      */
-    public void leaderSelectionPhase() {
+    private void leaderSelectionPhase() {
         /**
          * The {@link LeaderCard s} are only 4*#players, the remaining cards are not considered in the game
          */
@@ -377,7 +379,7 @@ public class GameManager {
         try {
             Integer selectedCard = getPlayerNetworkController(player).leaderCardSelectionPhase(leaderCards);
             Validator.checkValidity(selectedCard, leaderCards);
-            player.addLeaderCard(leaderCards.get(selectedCard.intValue()));
+            player.addLeaderCard(leaderCards.get(selectedCard));
             leaderCards.remove(selectedCard.intValue());
         } catch(IncorrectInputException ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
