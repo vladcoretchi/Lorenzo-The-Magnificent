@@ -166,10 +166,9 @@
         </Group>
     </ScrollPane>
 
-        <ScrollPane prefHeight="280" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.rowIndex="0">
+        <ScrollPane layoutY="300" prefHeight="880" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.rowIndex="1">
             <VBox id="playersInfoList" minHeight="100">
                 <children>
-
                     <Pane fx:id="leaderCardsActions" prefHeight="200.0" prefWidth="190" style="-fx-background-color: rgba(172,172,172,0.96)">
                         <children>
                             <ToggleButton fx:id="leaderCardActions" prefWidth="150" prefHeight="50" layoutX="40" layoutY="15" text="Leader Cards" onAction="#showLeaderCardsActions" style="-fx-border-color: #61a2b1; -fx-text-fill: crimson; -fx-background-color: rgba(136,139,138,0.74);"></ToggleButton>
