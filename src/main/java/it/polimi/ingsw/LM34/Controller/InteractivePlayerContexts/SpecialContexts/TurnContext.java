@@ -58,8 +58,7 @@ public class TurnContext extends AbstractGameContext {
 
     @Override
     public Void interactWithPlayer(Object... args) {
-        this.gameManager.nextTurn();
-        //playerAction(Optional.empty());
+        playerAction(Optional.empty());
         return null;
     }
 

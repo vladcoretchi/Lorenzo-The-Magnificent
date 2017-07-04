@@ -119,8 +119,8 @@ public class GameManager {
      * At game startup show to the each client the info about the players
      */
     public void startGame() {
-        //bonusTileSelectionPhase(); //TODO: uncomment
-        //leaderSelectionPhase();
+        bonusTileSelectionPhase();
+        leaderSelectionPhase();
         players.forEach(player -> this.getPlayerNetworkController(player).updateDiceValues(this.dices));
         players.forEach(player -> this.getPlayerNetworkController(player).updatePlayersData(this.players));
         players.forEach(player -> this.getPlayerNetworkController(player).updateTowers(this.towers));
@@ -170,8 +170,8 @@ public class GameManager {
     public void nextTurn() {
         turn++;
         if (turn >= players.size()) { //all players have placed 1 pawn
-            nextPhase();
             this.turn = 0;
+            nextPhase();
         } else {
             ((TurnContext) getContextByType(TURN_CONTEXT)).initContext();
         }
