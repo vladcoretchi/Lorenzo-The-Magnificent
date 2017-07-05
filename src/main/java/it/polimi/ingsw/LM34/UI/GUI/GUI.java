@@ -38,6 +38,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -53,6 +54,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
@@ -87,6 +89,7 @@ public class GUI extends Application implements UIInterface {
     @FXML private AnchorPane login;
     @FXML private Group towers;
     @FXML private Group slots;
+    @FXML private ToggleButton leaderCardActions;
 
     /**Game Objects**/
     private List<Player> players;
@@ -100,7 +103,9 @@ public class GUI extends Application implements UIInterface {
     private Map<Integer, Integer> mapMilitaryPointsForTerritories;
     private Map<Integer, Integer> mapCharactersToVictoryPoints;
     private Map<Integer, Integer> mapTerritoriesToVictoryPoints;
-    private Optional<PlayerSelectableContexts> selectedContext;
+
+    private PlayerAction playerAction;
+    private CountDownLatch actionLatch;
 
     private static final String IMAGE_CARD_TRANSPARENT = "images/transparent.png";
     private static final String IMAGE_SLOT_TRANSPARENT = "images/transparentSlot.png";
@@ -117,7 +122,7 @@ public class GUI extends Application implements UIInterface {
         this.primaryStage = new Stage();
         prepareWindow();
 
-        this.selectedContext = Optional.empty();
+        this.playerAction = null;
     }
 
 
@@ -617,8 +622,47 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public PlayerAction turnMainAction(Optional<Exception> lastActionValid) {
-        FutureTask<PlayerAction> uiTask = new FutureTask<>(() -> null);
-        return RunLaterTask(uiTask);
+        /*FutureTask<PlayerAction> uiTask = new FutureTask<>(() -> {
+            this.playerAction = null;
+            this.latch = new CountDownLatch(1);
+
+            try {
+                Platform.runLater(() -> {
+                    try {
+                        GUI.this.latch.await();
+                    } catch (InterruptedException e) {
+                        LOGGER.log(Level.INFO, e.getMessage(), e);
+                        Thread.currentThread().interrupt();
+                    }
+                });
+
+                //Thread waiterThread = new Thread(new ActionWaiter(this.latch));
+                //waiterThread.wait();
+            } catch (InterruptedException e) {
+                LOGGER.log(Level.INFO, e.getMessage(), e);
+                Thread.currentThread().interrupt();
+            }
+            return this.playerAction;
+        });*/
+
+        FutureTask<CountDownLatch> uiTaskActionInit = new FutureTask<>(() -> {
+            this.playerAction = new PlayerAction();
+            this.actionLatch = new CountDownLatch(1);
+            ToggleButton lBtn = (ToggleButton) root.lookup("#leaderCardActions");
+            lBtn.setOnMouseClicked(new LeaderButtonClickEvent(this.actionLatch, this.playerAction));
+
+            return this.actionLatch;
+        });
+        try {
+            CountDownLatch waitLatch = RunLaterTask(uiTaskActionInit);
+            if(waitLatch != null)
+                waitLatch.await();
+        } catch (InterruptedException e) {
+            LOGGER.log(Level.INFO, e.getMessage(), e);
+            Thread.currentThread().interrupt();
+        }
+        FutureTask<PlayerAction> uiTaskActionResult = new FutureTask<>(() -> this.playerAction);
+        return RunLaterTask(uiTaskActionResult);
     }
 
     @Override
@@ -859,6 +903,29 @@ public class GUI extends Application implements UIInterface {
     }
 
     /**
+     * Notify the server that the player wants to access the leaders available and the action
+     */
+    private class LeaderButtonClickEvent implements EventHandler<Event> {
+        private CountDownLatch waitLatch;
+        private PlayerAction action;
+
+        public LeaderButtonClickEvent(CountDownLatch latch, PlayerAction action) {
+            this.waitLatch = latch;
+            this.action = action;
+        }
+
+        @Override
+        public void handle(Event event) {
+            try {
+                this.action.setValues(PlayerSelectableContexts.LEADER_ACTIVATE_OR_DISCARD_CONTEXT, null);
+                this.waitLatch.countDown();
+            } catch (Exception e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
+            }
+        }
+    }
+
+    /**
      * @param uiTask to perform in a JavaFx thread
      */
         private <T> T RunLaterTask(FutureTask<T> uiTask) {
@@ -870,15 +937,6 @@ public class GUI extends Application implements UIInterface {
                 return null;
             }
         }
-
-    /**
-     * Notify the server that the player wants to access the leaders available and the action
-     */
-    @FXML
-    public void showLeaderCardsActions() {
-        //TODO: will this call mainaction?
-        this.selectedContext = Optional.of(PlayerSelectableContexts.LEADER_ACTIVATE_OR_DISCARD_CONTEXT);
-    }
 
     /**
      * this function will interrupt all Threads and will close the application

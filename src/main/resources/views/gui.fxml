@@ -171,7 +171,7 @@
                 <children>
                     <Pane fx:id="leaderCardsActions" prefHeight="200.0" prefWidth="190" style="-fx-background-color: rgba(172,172,172,0.96)">
                         <children>
-                            <ToggleButton fx:id="leaderCardActions" prefWidth="150" prefHeight="50" layoutX="40" layoutY="15" text="Leader Cards" onMouseClicked="#showLeaderCardsActions" style="-fx-border-color: #61a2b1; -fx-text-fill: crimson; -fx-background-color: rgba(136,139,138,0.74);"></ToggleButton>
+                            <ToggleButton fx:id="leaderCardActions" prefWidth="150" prefHeight="50" layoutX="40" layoutY="15" text="Leader Cards" style="-fx-border-color: #61a2b1; -fx-text-fill: crimson; -fx-background-color: rgba(136,139,138,0.74);"></ToggleButton>
                             <Button fx:id="endTurn" prefWidth="150" prefHeight="50" layoutX="40" layoutY="75" text="End Turn" onMouseClicked="#passTurn" style="-fx-border-color: #61a2b1; -fx-text-fill: crimson; -fx-background-color: rgba(136,139,138,0.74);"></Button>
                         </children>
                     </Pane>

@@ -38,17 +38,7 @@ public LeaderCardsContext() {
 
     @Override
     public Void interactWithPlayer(Object... args) throws IncorrectInputException, InvalidLeaderCardAction, NotEnoughResourcesException {
-        Pair<Integer, LeaderCardsAction> leaderCardAction;
-        try {
-            Pair<?, ?> actionArg = (Pair<?, ?>) args[0];
-            leaderCardAction = new ImmutablePair<>((Integer) actionArg.getLeft(), (LeaderCardsAction) actionArg.getRight());
-        } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
-            throw new IncorrectInputException();
-        }
-
-        Validator.checkValidity(leaderCardAction.getLeft(), this.getCurrentPlayer().getActivatedLeaderCards());
-
+        Pair<Integer, LeaderCardsAction> leaderCardAction = leaderCardsAction();
         LeaderCard selectedCard = this.getCurrentPlayer().getPendingLeaderCards().get(leaderCardAction.getLeft());
 
         switch (leaderCardAction.getRight()) {
@@ -64,6 +54,17 @@ public LeaderCardsContext() {
         this.getCurrentPlayer().discardLeaderCard(selectedCard);
 
         return null;
+    }
+
+    private Pair<Integer, LeaderCardsAction> leaderCardsAction() {
+        List<LeaderCard> leaderCards = this.getCurrentPlayer().getPendingLeaderCards();
+        Pair<String, LeaderCardsAction> action = this.gameManager.getActivePlayerNetworkController().leaderCardSelection(leaderCards);
+
+        for(int i = 0; i < leaderCards.size(); i++)
+            if(leaderCards.get(i).getName() == action.getLeft())
+                return new ImmutablePair<>(i, action.getRight());
+
+        return leaderCardsAction();
     }
 
 

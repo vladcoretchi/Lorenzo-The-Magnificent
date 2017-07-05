@@ -65,9 +65,7 @@ public class CLI implements UIInterface {
         players= new ArrayList<>();
         excommunicationCards = new ArrayList<>();
         towers = new ArrayList<>();
-        selectableContexts = new ArrayList<>();
-        for(PlayerSelectableContexts c : PlayerSelectableContexts.values())
-            selectableContexts.add(c);
+        selectableContexts = Arrays.asList(PlayerSelectableContexts.values());
     }
     private Integer selectionMenu(List<?> data, Optional<String> backString, Optional<String> message, Optional<String> errorMessage) {
         backString.ifPresent((str) -> printFormat("%1$d) %2$s\n", 0, str));
@@ -201,8 +199,26 @@ public class CLI implements UIInterface {
 
     @Override
     public PlayerAction turnMainAction(Optional<Exception> lastActionValid) {
-        //TODO
-        return null;
+        lastActionValid.ifPresent(ex -> printError(ex.getMessage()));
+
+        PlayerSelectableContexts context = contextSelection(this.selectableContexts);
+        switch (context) {
+            case TOWERS_CONTEXT:
+                return new PlayerAction(TOWERS_CONTEXT, towerSlotSelection());
+            case COUNCIL_PALACE_CONTEXT:
+                councilPalaceSelection();
+                return new PlayerAction(COUNCIL_PALACE_CONTEXT, null);
+            case HARVEST_AREA_CONTEXT:
+                return new PlayerAction(HARVEST_AREA_CONTEXT, workingAreaSlotSelection(WorkingAreaType.HARVEST));
+            case PRODUCTION_AREA_CONTEXT:
+                return new PlayerAction(PRODUCTION_AREA_CONTEXT, workingAreaSlotSelection(WorkingAreaType.PRODUCTION));
+            case MARKET_AREA_CONTEXT:
+                return new PlayerAction(MARKET_AREA_CONTEXT, marketSlotSelection());
+            case LEADER_ACTIVATE_OR_DISCARD_CONTEXT:
+                return new PlayerAction(LEADER_ACTIVATE_OR_DISCARD_CONTEXT, null);
+            default:
+                return turnMainAction(Optional.of(new IncorrectInputException()));
+        }
     }
 
     @Override
@@ -221,27 +237,12 @@ public class CLI implements UIInterface {
      */
     @Override
     public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
-        Boolean validUserInput = false;
-        Integer selectedFamilyMember = 0;
-        String input;
-
-         do {
-             familyMembers.forEach(fm -> printFormat("%1$s: %2$d\n", fm.getDiceColorAssociated(), fm.getValue()));
-            CLIStuff.printToConsole.println("which family member do you wish to use? ");
-            input = readUserInput.nextLine();
-
-            try {
-                Validator.checkValidity(input, familyMembers);
-                validUserInput = true;
-                selectedFamilyMember = Integer.parseInt(input);
-            }  catch (Exception e) {
-                LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
-                    printError("Please select a valid family member");
-            }
-        }
-        while(!validUserInput);
-
-         return selectedFamilyMember;
+        List<String> familyMembersString = new ArrayList<>();
+        familyMembers.forEach(fm -> familyMembersString.add(String.format("%1$s (%2$d)", fm.getDiceColorAssociated(), fm.getValue())));
+        return selectionMenu(familyMembersString,
+                Optional.empty(),
+                Optional.of("Select the family member to use"),
+                Optional.of("Select a valid family member"));
     }
 
     /**
@@ -259,27 +260,26 @@ public class CLI implements UIInterface {
     }
 
     /**
-     * this method will be called when the user will choice about which
-     * {@link it.polimi.ingsw.LM34.Controller.AbstractGameContext} the player wishes to enter
+     * this method will be called when the user will have to select the
+     * {@link it.polimi.ingsw.LM34.Controller.AbstractGameContext} to enter
      */
-    //TODO
-    public Integer contextSelection(List<PlayerSelectableContexts> allContext)  {
-        return selectionMenu(allContext,
+    public PlayerSelectableContexts contextSelection(List<PlayerSelectableContexts> allContext)  {
+        return allContext.get(selectionMenu(allContext,
                 Optional.of("End turn"),
                 Optional.of("Select the context to enter or 0 to end this turn"),
-                Optional.of("Invalid selection"));
+                Optional.of("Invalid selection")));
     }
 
     /**
      * This method will be called when player will want to enter into the {@link Market}
      */
-    public void marketSlotSelection() {
+    public Integer marketSlotSelection() {
+        /*Show the market*/
+        printSlots(market.getActionSlots());
+
         String input;
         Integer selectedSlot = 0;
         Boolean validUserInput = false;
-        /***Show the market***/
-        printSlots(market.getActionSlots());
-
         printToConsole.println("in which slot do you want to place one of your pawn?");
         do {
             input = readUserInput.nextLine();
@@ -294,40 +294,19 @@ public class CLI implements UIInterface {
                 printError(INCORRECT_INPUT);
             }
         } while(!validUserInput);
-       PlayerAction playerAction = new PlayerAction(MARKET_AREA_CONTEXT, selectedSlot);
-       //TODO: send to server (market, selectedSlot)
+        return selectedSlot;
     }
 
     /**
      * Provides the player the ability to select one of the two {@link WorkingAreaType} to enter
      */
-    public void workingAreaSlotSelection() {
+    public Integer workingAreaSlotSelection(WorkingAreaType workingArea) {
         String input;
         Integer selectedSlot;
         Boolean validUserInput = false;
-        WorkingAreaType selectedArea = WorkingAreaType.PRODUCTION;
-
-        do {
-            CLIStuff.printToConsole.println("Choose one of the working areas:");
-            printFormat("1) %2$s\n", WorkingAreaType.PRODUCTION);
-            printFormat("2) %1$s\n", WorkingAreaType.HARVEST);
-            input = readUserInput.nextLine();
-
-            if(input.equalsIgnoreCase(WorkingAreaType.PRODUCTION.toString())) {
-                selectedArea = WorkingAreaType.PRODUCTION;
-                validUserInput = true;
-            }
-            else if(input.equalsIgnoreCase(WorkingAreaType.HARVEST.toString())) {
-                selectedArea = WorkingAreaType.HARVEST;
-                validUserInput = true;
-            }else
-                printError(INCORRECT_INPUT);
-        } while(!validUserInput);
-
-        validUserInput = false;
 
        do {
-           CLIStuff.printToConsole.format("in which slot of the %1$s area do you want to %s?", selectedArea.toString());
+           CLIStuff.printToConsole.format("in which slot of the %1$s area do you want to %s?", workingArea.toString());
            selectedSlot = readUserInput.nextInt();
 
            try {
@@ -340,28 +319,18 @@ public class CLI implements UIInterface {
            }
        } while(!validUserInput);
 
-        //TODO: send option to server: (selectedArea, selectedSlot)
+        return selectedSlot;
     }
 
     /**
      * this method will be called when player will enter into Council Palace
      */
-    public void councilPalaceSelection() {
-        PlayerAction playerAction;
-        String input;
-        /***SHOW COUNCIL PALACE***/
+    private void councilPalaceSelection() {
+        /*SHOW COUNCIL PALACE*/
         printCouncilPalace();
 
-        printToConsole.println("\nDo you want to place one of your pawns in the Council Palace?");
-        input = readUserInput.nextLine();
-
-        if ("yes".equalsIgnoreCase(input)) {
-            playerAction = new PlayerAction(COUNCIL_PALACE_CONTEXT, null);
-            //TODO: send to server the playerAction
-        } else {
-            printError(INCORRECT_INPUT);
-            councilPalaceSelection();
-        }
+        printToConsole.println("\nYou choosed to place one of your pawns in the Council Palace. Press a key to continue");
+        readUserInput.next();
     }
 
     /**
@@ -382,21 +351,21 @@ public class CLI implements UIInterface {
      * @param slots
      */
     private void printSlots(List<ActionSlot> slots) {
-        List<List<Map.Entry<String,Integer>>> slotsResources = new ArrayList<>();
+        List<List<Pair<String, Integer>>> slotsResources = new ArrayList<>();
         List<FamilyMember> pawnsInserted = new ArrayList<>();
         List<Integer> diceValues = new ArrayList<>();
 
         slots.forEach((ActionSlot as) -> {
             diceValues.add(as.getDiceValue());
-            /***PAWN COLOR INSERTED IN SLOT***/
+            /*PAWN COLOR INSERTED IN SLOT*/
             if(as.getFamilyMembers() != null && !as.getFamilyMembers().isEmpty())
                 pawnsInserted.add(as.getFamilyMembers().get(0)); //TODO: handle multiple family members
-            Map res = new HashMap<>();
+            List<Pair<String, Integer>> res = new ArrayList<>();
             Resources resources = as.getResourcesReward().getResources();
-            resources.getResources().forEach((ResourceType rt, Integer val) -> res.put(rt.toString(), val));
+            resources.getResources().forEach((ResourceType rt, Integer val) -> res.add(new ImmutablePair<>(rt.toString(), val)));
             if (as.getResourcesReward().getCouncilPrivilege() > 0)
-                res.put("COUNCIL PRIVILEGES", as.getResourcesReward().getCouncilPrivilege());
-            slotsResources.add(new ArrayList<>(res.entrySet()));
+                res.add(new ImmutablePair<>("COUNCIL PRIVILEGES", as.getResourcesReward().getCouncilPrivilege()));
+            slotsResources.add(res);
         });
 
         Integer resourcesLines = 0;
@@ -421,7 +390,7 @@ public class CLI implements UIInterface {
             s = "|";
             List<String[]> splittedStrings = new ArrayList<>();
             Integer resourceNameLines = 0;
-            for (List<Map.Entry<String,Integer>> sr : slotsResources) {
+            for (List<Pair<String,Integer>> sr : slotsResources) {
                 if (i < sr.size()) {
                     s = String.format("%1$s%2$-10s|", s, sr.get(i).getValue());
                     String[] splittedResourceName = Utilities.splitStringByLength(sr.get(i).getKey(), 10);
@@ -460,10 +429,9 @@ public class CLI implements UIInterface {
      * @param towerNumber how many towers contains a game board
      * @param towerFloor how many floors contains a tower
      */
-    public void towerSlotSelection() {
+    public Pair<DevelopmentCardColor, Integer> towerSlotSelection() {
         DevelopmentCardColor towerType = null;
         Integer floor;
-        String towerAndItsFloor;
         Boolean validUserInput = false;
 
         /***SHOW THE TOWERS***/
@@ -513,12 +481,9 @@ public class CLI implements UIInterface {
             }
         } while (!validUserInput);
 
-        //TODO: decrement tower and floor because user's choice is between 1 and 4, but server's range is between 0 and 3
         floor--;
 
-        PlayerAction playerAction = new PlayerAction(TOWERS_CONTEXT,
-        new ImmutablePair<DevelopmentCardColor, Integer>(towerType, floor));
-        //TODO: send the playerAction
+        return new ImmutablePair<>(towerType, floor);
     }
 
     /**
@@ -543,8 +508,7 @@ public class CLI implements UIInterface {
         } catch (IncorrectInputException | NumberFormatException e) {
             LOGGER.log(Level.WARNING, e.getMessage(), e);
             printError("Incorrect number of servants");
-            servantsSelection(servantsAvailable, minimumServantsRequested);
-            return 0;
+            return servantsSelection(servantsAvailable, minimumServantsRequested);
         }
     }
 
@@ -563,16 +527,14 @@ public class CLI implements UIInterface {
 
         try {
             input = readUserInput.nextLine();
-            Validator.checkValidity(input, choices);
-            choice = Integer.parseInt(input);
+            choice = Validator.checkValidity(input, choices);
+            return choice;
         }
         catch (Exception e) {
             LOGGER.log(Level.WARNING, e.getMessage(), e);
             printError("The resources exchange choosed is not valid");
-            resourceExchangeSelection(choices);
+            return resourceExchangeSelection(choices);
         }
-
-        return choice;
     }
 
     /**
@@ -581,16 +543,16 @@ public class CLI implements UIInterface {
      */
     @Override
     public Pair<String, LeaderCardsAction>  leaderCardSelection(List<LeaderCard> leadersOwned) {
-        LeaderCardsAction actionChoiced = LeaderCardsAction.DISCARD;
+        LeaderCardsAction selectedAction = LeaderCardsAction.DISCARD;
         String input;
-        Integer choice = 0;
+        Integer choice;
 
         printFormat("Choose to Play or Discard a Leader\n");
         input = readUserInput.nextLine();
         if(input.equalsIgnoreCase(LeaderCardsAction.PLAY.toString()))
-            actionChoiced = LeaderCardsAction.PLAY;
+            selectedAction = LeaderCardsAction.PLAY;
         else if (input.equalsIgnoreCase(LeaderCardsAction.DISCARD.toString()))
-            actionChoiced = LeaderCardsAction.DISCARD;
+            selectedAction = LeaderCardsAction.DISCARD;
         else {
             printError("Invalid action");
             leaderCardSelection(leadersOwned);
@@ -600,16 +562,14 @@ public class CLI implements UIInterface {
 
         try {
             input = readUserInput.nextLine();
-            Validator.checkValidity(input, leadersOwned);
-            choice = Integer.parseInt(input);
+            choice = Validator.checkValidity(input, leadersOwned);
+            return new ImmutablePair<>(leadersOwned.get(choice).getName(), selectedAction);
         }
         catch (IncorrectInputException e) {
             LOGGER.log(Level.WARNING, e.getMessage(), e);
             printError("The leader choosed is not valid");
-            leaderCardSelection(leadersOwned);
+            return leaderCardSelection(leadersOwned);
         }
-
-        return new ImmutablePair(input, actionChoiced);
     }
 
     /**
@@ -619,20 +579,18 @@ public class CLI implements UIInterface {
     @Override
     public Boolean churchSupport() {
         String input;
-        Boolean choice = false;
         printFormat("Do you want to Support the Church (Yes or No)?\n");
 
         input = readUserInput.nextLine();
 
         if("yes".equalsIgnoreCase(input))
-            choice = true;
+            return true;
         else if ("no".equalsIgnoreCase(input))
-            choice = false;
+            return false;
         else {
             printError(INCORRECT_INPUT);
-            churchSupport();
+            return churchSupport();
         }
-        return choice;
     }
 
     /**
@@ -642,20 +600,18 @@ public class CLI implements UIInterface {
     @Override
     public Boolean alternativeRequirementsPayment() {
         String input;
-        Boolean choice = false;
         printFormat("Do you want to pay military points for this card (yes or no)?\n");
 
         input = readUserInput.nextLine();
 
         if("yes".equalsIgnoreCase(input))
-            choice = true;
+            return true;
         else if("no".equalsIgnoreCase(input))
-            choice = false;
+            return false;
         else {
             printError(INCORRECT_INPUT);
-            alternativeRequirementsPayment();
+            return alternativeRequirementsPayment();
         }
-        return choice;
     }
 
     @Override
@@ -682,8 +638,7 @@ public class CLI implements UIInterface {
         catch (Exception e) {
             LOGGER.log(Level.WARNING, e.getMessage(), e);
             printError("The selected reward is not valid");
-            selectCouncilPrivilegeBonus(availableBonuses);
-            return 0;
+            return selectCouncilPrivilegeBonus(availableBonuses);
         }
     }
 
