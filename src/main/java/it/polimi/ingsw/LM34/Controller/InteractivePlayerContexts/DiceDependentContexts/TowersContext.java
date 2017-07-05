@@ -2,6 +2,8 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentC
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Exceptions.Controller.CardTypeNumLimitReachedException;
@@ -24,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.FAMILY_MEMBER_SELECTION_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.*;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
@@ -60,7 +62,6 @@ public class TowersContext extends AbstractGameContext {
         if(selectedTower == null)
             throw new IncorrectInputException();
 
-        //TODO
         TowerSlot slot = selectedTower.getTowerSlots().get(slotSelection.getRight());
 
         if(!slot.isEmpty())
@@ -115,13 +116,17 @@ public class TowersContext extends AbstractGameContext {
             this.gameManager.getCurrentPlayer().subResources(requirements);
 
             card.getInstantBonus().forEach(effect -> effect.applyEffect(this));
-            card.getPermanentBonus().applyEffect(this);
+            if(card.getPermanentBonus() != null)
+                card.getPermanentBonus().applyEffect(this);
 
             if(!this.slotsRewardPenalty)
                 slot.getResourcesReward().applyEffect(this);
         } catch(InvalidCardType | OccupiedSlotException ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
         }
+        ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).setIncome(slot.getResourcesReward().getResources());
+        ((UseCouncilPrivilegeContext) getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(slot.getResourcesReward().getCouncilPrivilege());
+
 
         return null;
     }

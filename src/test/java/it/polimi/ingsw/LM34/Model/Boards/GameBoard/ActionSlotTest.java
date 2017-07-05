@@ -1,8 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
 
 
-import static org.junit.Assert.*;
-
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
@@ -10,6 +8,8 @@ import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Resources;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class ActionSlotTest {
 
@@ -30,11 +30,11 @@ public class ActionSlotTest {
         Resources resources = new Resources(1,1,1,1,1,1,1);
         ResourcesBonus resourcesBonus = new ResourcesBonus(resources, 3);
         ActionSlot actionSlot = new ActionSlot(true, 3, resourcesBonus);
-        FamilyMember familyMember = null;
+        FamilyMember familyMember = new FamilyMember(PawnColor.BLUE, DiceColor.ORANGE);
 
         try {
             actionSlot.insertFamilyMember(familyMember);
-            assertTrue(actionSlot.getFamilyMembers().get(0) == null);
+            assertTrue(actionSlot.getFamilyMembers().get(0) != null);
         }
         catch (OccupiedSlotException ex) {
             fail("insertFamilyMember, when received a null familyMember, should not throw exception");

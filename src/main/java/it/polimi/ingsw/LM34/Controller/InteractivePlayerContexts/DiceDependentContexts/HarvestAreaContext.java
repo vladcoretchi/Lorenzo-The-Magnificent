@@ -45,6 +45,7 @@ public class HarvestAreaContext extends AbstractGameContext {
         Boolean canPlace = actionSlotContext.interactWithPlayer(this, slot);
         if (canPlace) {
             FamilyMember selectedFamilyMember = ((FamilyMemberSelectionContext) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT)).interactWithPlayer(slotDiceValue, true, this.contextType);
+            selectedFamilyMember.isUsed(); //TODO: check if this goes here
 
             if (actionSlotContext.getIgnoreOccupiedSlot())
                 this.gameManager.getProductionArea().getActionSlots().get(selectedSlot).insertFamilyMemberIgnoringSlotLimit(selectedFamilyMember);

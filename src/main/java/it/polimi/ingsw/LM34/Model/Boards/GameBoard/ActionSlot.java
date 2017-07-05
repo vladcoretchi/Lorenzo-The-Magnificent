@@ -29,8 +29,10 @@ public class ActionSlot implements Serializable {
     public void insertFamilyMember(FamilyMember fm) throws OccupiedSlotException {
         if(this.isSinglePawnSlot() && !this.familyMembers.isEmpty())
             throw new OccupiedSlotException();
-        else
+        else {
             this.familyMembers.add(fm);
+            fm.isUsed(); //TODO: check if this goes here
+        }
     }
 
     public void insertFamilyMemberIgnoringSlotLimit(FamilyMember fm) {

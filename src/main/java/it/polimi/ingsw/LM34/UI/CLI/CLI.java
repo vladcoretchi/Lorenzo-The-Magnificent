@@ -206,7 +206,7 @@ public class CLI implements UIInterface {
             case TOWERS_CONTEXT:
                 return new PlayerAction(TOWERS_CONTEXT, towerSlotSelection());
             case COUNCIL_PALACE_CONTEXT:
-                //councilPalaceSelection();
+                councilPalaceSelection();
                 return new PlayerAction(COUNCIL_PALACE_CONTEXT, null);
             case HARVEST_AREA_CONTEXT:
                 return new PlayerAction(HARVEST_AREA_CONTEXT, workingAreaSlotSelection(WorkingAreaType.HARVEST));
@@ -279,18 +279,8 @@ public class CLI implements UIInterface {
         Integer input = 0;
         Boolean validUserInput = false;
         printToConsole.println("in which slot do you want to place one of your pawn?");
-        do {
-            try {
-                input = readUserInput.nextInt();
-                Validator.checkValidity(--input, market.getActionSlots());
-                validUserInput = true;
-            }
-            catch (IncorrectInputException | InputMismatchException e) {
-                LOGGER.log(Level.FINEST, e.getMessage(), e);
-                printError(INCORRECT_INPUT);
 
-            }
-        } while(!validUserInput);
+        input = checkInput(market.getActionSlots());
 
         return input--;
     }
@@ -299,25 +289,15 @@ public class CLI implements UIInterface {
      * Provides the player the ability to select one of the two {@link WorkingAreaType} to enter
      */
     public Integer workingAreaSlotSelection(WorkingAreaType workingArea) {
-        String input;
         Integer selectedSlot;
-        Boolean validUserInput = false;
 
         showProductionArea();
         showHarvestArea();
-       do {
-           CLIStuff.printToConsole.format("in which slot of the %1$s area do you want to enter? ", workingArea.toString());
-           selectedSlot = readUserInput.nextInt();
 
-           try {
-               Validator.checkValidity(--selectedSlot, productionArea.getActionSlots());
-               validUserInput = true;
-           }
-           catch (IncorrectInputException e) {
-               LOGGER.log(Level.FINEST, e.getMessage(), e);
-               printError(INCORRECT_INPUT);
-           }
-       } while(!validUserInput);
+       CLIStuff.printToConsole.format("in which slot of the %1$s area do you want to enter? ", workingArea.toString());
+       selectedSlot = readUserInput.nextInt();
+
+       selectedSlot = checkInput(productionArea.getActionSlots());
 
         return selectedSlot--;
     }
@@ -359,7 +339,7 @@ public class CLI implements UIInterface {
             diceValues.add(as.getDiceValue());
             /*PAWN COLOR INSERTED IN SLOT*/
             if(!as.getFamilyMembers().isEmpty())
-                pawnsInserted.add(as.getFamilyMembers().get(0)); //TODO: handle multiple family members
+                pawnsInserted.add(as.getFamilyMembers().get(0));
             else
                 pawnsInserted.add(null);
             List<Pair<String, Integer>> res = new ArrayList<>();
@@ -499,12 +479,11 @@ public class CLI implements UIInterface {
      */
     @Override
     public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
+        Boolean validUserInput = false;
         Integer input = 0;
 
         printFormat("to complete this action, you need at least %1$d servants (you have %2$d servants)\n", minimumServantsRequested, servantsAvailable);
         printToConsole.println("How many servants do you wish to use?");
-
-        Boolean validUserInput = false;
 
         do {
             try {
@@ -527,24 +506,17 @@ public class CLI implements UIInterface {
      */
     @Override
     public Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices) {
-        String input;
-        Integer choice = 0;
+        Integer input = 0;
         choices.forEach(c ->
             printFormat("resources required: %1$s ---> Resources provided: %2$s, CouncilPrivileges provided: %3$d\n",
                     c.getLeft().getResources().toString(), c.getRight().getResources().getResources().toString(), c.getRight().getCouncilPrivilege())
         );
 
-        try {
-            input = readUserInput.nextLine();
-            choice = Validator.checkValidity(input, choices);
-            return choice;
-        }
-        catch (Exception e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            printError("The resources exchange choosed is not valid");
-            return resourceExchangeSelection(choices);
-        }
+        input = checkInput(choices);
+
+        return input--;
     }
+
 
     /**
      * @param leadersOwned that the game consider the player to have available
@@ -552,9 +524,10 @@ public class CLI implements UIInterface {
      */
     @Override
     public Pair<String, LeaderCardsAction>  leaderCardSelection(List<LeaderCard> leadersOwned) {
+        Boolean validUserInput = false;
         LeaderCardsAction selectedAction = LeaderCardsAction.DISCARD;
         String input;
-        Integer choice;
+        Integer choice = 0;
 
         printFormat("Choose to Play or Discard a Leader\n");
         input = readUserInput.nextLine();
@@ -569,16 +542,9 @@ public class CLI implements UIInterface {
 
         leadersOwned.forEach(l -> printFormat("%1$s\n" ,l.getName()));
 
-        try {
-            input = readUserInput.nextLine();
-            choice = Validator.checkValidity(input, leadersOwned);
-            return new ImmutablePair<>(leadersOwned.get(choice).getName(), selectedAction);
-        }
-        catch (IncorrectInputException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            printError("The leader choosed is not valid");
-            return leaderCardSelection(leadersOwned);
-        }
+        choice = checkInput(leadersOwned);
+
+        return new ImmutablePair<>(leadersOwned.get(choice).getName(), selectedAction);
     }
 
     /**
@@ -630,20 +596,10 @@ public class CLI implements UIInterface {
     @Override
     public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
         Integer input = 0;
-        Boolean validUserInput = false;
         printFormat("Choose the reward you desire:\n");
         availableBonuses.forEach(b -> printFormat("%1$s\n", b.getResources()));
-        do {
-            try {
-                input = readUserInput.nextInt();
-                Validator.checkValidity(--input, market.getActionSlots());
-                validUserInput = true;
-            }
-            catch (IncorrectInputException | InputMismatchException e) {
-                LOGGER.log(Level.FINEST, e.getMessage(), e);
-                printError(INCORRECT_INPUT);
-            }
-        } while(!validUserInput);
+
+        input = checkInput(availableBonuses);
 
         return input--;
     }
@@ -696,7 +652,8 @@ public class CLI implements UIInterface {
                     printFormat("           ");
             });
 
-            cardNames.forEach(c -> printFormat(c));
+            printLine("");
+            cardNames.forEach(c -> printFormat("Remainig cards (in order): " + c + ", "));
 
             printFormat("\n %1$s \n", String.join(" ", Collections.nCopies(slotsResources.size(), "__________")));
             printFormat("|%1$s|\n", String.join("|", Collections.nCopies(slotsResources.size(), "          ")));
@@ -839,18 +796,7 @@ public class CLI implements UIInterface {
             printFormat("  and  For production area: %1$s\n\n", bt.getProductionBonus().getResources().getResources());
         });
 
-        do {
-            try {
-                input = readUserInput.nextInt();
-                Validator.checkValidity(--input, bonusTiles);
-                validUserInput = true;
-            }
-            catch (IncorrectInputException | InputMismatchException e) {
-                LOGGER.log(Level.FINEST, e.getMessage(), e);
-                printError(INCORRECT_INPUT);
-
-            }
-        } while(!validUserInput);
+       input = checkInput(bonusTiles);
 
         return input--;
     }
@@ -861,7 +807,6 @@ public class CLI implements UIInterface {
      */
     @Override
     public Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards) {
-        String input;
         Integer leaderSelected = 0;
         Boolean validUserInput = false;
 
@@ -872,19 +817,7 @@ public class CLI implements UIInterface {
             printFormat("Leader: " + lc.getName());
         });
 
-        do {
-            input = readUserInput.nextLine();
-
-            try {
-                Validator.checkValidity(input, leaderCards);
-                leaderSelected = Integer.parseInt(input);
-                validUserInput = true;
-            }
-            catch (IncorrectInputException | NumberFormatException e) {
-                LOGGER.log(Level.WARNING, e.getMessage(), e);
-                printError(INCORRECT_INPUT);
-            }
-        } while(!validUserInput);
+       leaderSelected = checkInput(leaderCards);
 
         return leaderSelected;
     }
@@ -978,5 +911,29 @@ public class CLI implements UIInterface {
         tempSlots.clear();
         tempSlots.add(harvestArea.getAdvancedSlot());
         printSlots(tempSlots);
+    }
+
+    /**
+     * Whenever a CLI method needs to get a valid Integer within a certain range from the player,
+     * this utility is invoked
+     * @param availableList, list of elements of the game a player can choose among
+     * @return the selected option
+     */
+    private Integer checkInput(List<?> availableList) {
+        Boolean validUserInput = false;
+        Integer input = 0;
+        do {
+            try {
+                input = readUserInput.nextInt();
+                Validator.checkValidity(--input, availableList);
+                validUserInput = true;
+            }
+            catch (IncorrectInputException | InputMismatchException e) {
+                LOGGER.log(Level.FINEST, e.getMessage(), e);
+                printError(INCORRECT_INPUT);
+            }
+        } while(!validUserInput);
+
+        return input--;
     }
 }

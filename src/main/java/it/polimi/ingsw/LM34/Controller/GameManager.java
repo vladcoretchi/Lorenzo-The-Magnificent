@@ -195,16 +195,16 @@ public class GameManager {
         if (turn >= players.size()) { //all players have placed 1 pawn
             this.turn = 0;
             nextPhase();
-        } else {
-            ((TurnContext) getContextByType(TURN_CONTEXT)).initContext();
-        }
+        }// else {
+        ((TurnContext) getContextByType(TURN_CONTEXT)).initContext();
+        //}
     }
 
     private void nextPhase() {
         this.phase++;
 
         /*If all players have placed all of their pawns go to the next round*/
-        if(phase >= (players.size() * players.get(0).getFamilyMembers().size()))
+        if(phase >= (players.get(0).getFamilyMembers().size()))
             nextRound();
     }
 
