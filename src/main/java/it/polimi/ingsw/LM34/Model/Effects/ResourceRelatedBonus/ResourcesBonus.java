@@ -7,16 +7,19 @@ import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Resources;
+
 import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 /*Basic Instant effects are handled here*/
 //This represents also the excomunication malus on resources
 public class ResourcesBonus extends AbstractEffect implements Observer, Serializable {
+    private static final long serialVersionUID = -6351217096331197402L;
     private Resources resources;
     private Integer councilPrivilege;
     private Integer developmentCardsGoodsMultiplier; /*santa rita*/
@@ -65,10 +68,6 @@ public class ResourcesBonus extends AbstractEffect implements Observer, Serializ
             }
 
         if(this.resources != null)
-            try {
-                ((ResourceIncomeContext) callerContext.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT)).interactWithPlayer(this.resources);
-            } catch(IncorrectInputException ex) {
-                LOGGER.log(Level.WARNING, ex.getMessage(), ex);
-            }
+            ((ResourceIncomeContext) callerContext.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT)).setIncome(this.resources);
     }
 }

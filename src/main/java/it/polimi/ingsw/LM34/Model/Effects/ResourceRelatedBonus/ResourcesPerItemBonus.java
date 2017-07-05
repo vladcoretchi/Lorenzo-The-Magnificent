@@ -15,9 +15,10 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.MILITARY_POINTS;
 
 public class ResourcesPerItemBonus extends AbstractEffect {
+    private static final long serialVersionUID = 2939595191379929910L;
     private Resources bonusResources;
-    private DevelopmentCardColor cardColor; //"nobile, araldo, cortigiana,governatore, zecca, teatro, esattoria,arco di triongo"
-    private Integer militaryPoints; //for "generale" card
+    private DevelopmentCardColor cardColor;
+    private Integer militaryPoints;
 
     public ResourcesPerItemBonus(Resources bonusResources, DevelopmentCardColor cardColor) {
         this.bonusResources = bonusResources;

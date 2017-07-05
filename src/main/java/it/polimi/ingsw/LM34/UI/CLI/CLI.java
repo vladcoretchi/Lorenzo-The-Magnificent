@@ -294,10 +294,13 @@ public class CLI implements UIInterface {
         showProductionArea();
         showHarvestArea();
 
-       CLIStuff.printToConsole.format("in which slot of the %1$s area do you want to enter? ", workingArea.toString());
+       CLIStuff.printToConsole.format("in which slot of the %1$s area do you want to enter?\n", workingArea.toString());
        selectedSlot = readUserInput.nextInt();
 
-       selectedSlot = checkInput(productionArea.getActionSlots());
+       if(workingArea.getWorkingAreaType().equalsIgnoreCase(productionArea.toString()))
+           selectedSlot = checkInput(productionArea.getActionSlots().subList(0,1));
+       else
+           selectedSlot = checkInput(harvestArea.getActionSlots().subList(0,1));
 
         return selectedSlot--;
     }
@@ -626,6 +629,9 @@ public class CLI implements UIInterface {
                     pawnsInserted.add(null);
                 if(as.getCardStored() != null)
                     cardNames.add(as.getCardStored().getName());
+                else
+                    cardNames.add("");
+
                 Resources resources = as.getResourcesReward().getResources();
                 resources.getResources().forEach((ResourceType rt, Integer val) -> res.put(rt.toString(), val));
                 if (as.getResourcesReward().getCouncilPrivilege() > 0)
@@ -653,7 +659,13 @@ public class CLI implements UIInterface {
             });
 
             printLine("");
-            cardNames.forEach(c -> printFormat("Remainig cards (in order): " + c + ", "));
+            printFormat("\"Remaining cards in the tower (in order): \"");
+            cardNames.forEach(c -> {
+                if("".equalsIgnoreCase(c))
+                    printFormat(" ************,");
+                else
+                    printFormat(" %1$s, ", c);
+            });
 
             printFormat("\n %1$s \n", String.join(" ", Collections.nCopies(slotsResources.size(), "__________")));
             printFormat("|%1$s|\n", String.join("|", Collections.nCopies(slotsResources.size(), "          ")));
@@ -889,11 +901,11 @@ public class CLI implements UIInterface {
      * Presents to the player the state of the ProductionArea
      */
     private void showProductionArea() {
-        printToConsole.println("Production Area single slot:");
+        printYellow("Production Area single slot:");
         List<ActionSlot> tempSlots = new ArrayList<>();
         tempSlots.add(productionArea.getSingleSlot());
         printSlots(tempSlots);
-        printToConsole.println("Production Area advanced slots:");
+        printYellow("Production Area advanced slots:\n");
         tempSlots.clear();
         tempSlots.add(productionArea.getAdvancedSlot());
         printSlots(tempSlots);
@@ -903,11 +915,12 @@ public class CLI implements UIInterface {
      * Presents to the player the state of the HarvestArea
      */
     private void showHarvestArea() {
-        printToConsole.println("Harvest Area single slot:");
+        printYellow("Harvest Area single slot:");
         List<ActionSlot> tempSlots = new ArrayList<>();
         tempSlots.add(harvestArea.getSingleSlot());
+        printLine("\n");
         printSlots(tempSlots);
-        printToConsole.println("Harvest Area advanced slots:");
+        printYellow("Harvest Area advanced slots:\n");
         tempSlots.clear();
         tempSlots.add(harvestArea.getAdvancedSlot());
         printSlots(tempSlots);

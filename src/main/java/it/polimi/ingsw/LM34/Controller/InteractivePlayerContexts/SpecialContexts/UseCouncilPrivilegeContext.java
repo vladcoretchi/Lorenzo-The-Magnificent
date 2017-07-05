@@ -42,7 +42,9 @@ public class UseCouncilPrivilegeContext extends AbstractGameContext {
             Integer choice = councilPrivilegeRewardSelection(rewardsAvailable);
             incomeContext.setIncome(rewardsAvailable.get(choice));
             rewardsAvailable.remove(choice.intValue());
+            incomeContext.interactWithPlayer();
         }
+
 
         return null;
     }

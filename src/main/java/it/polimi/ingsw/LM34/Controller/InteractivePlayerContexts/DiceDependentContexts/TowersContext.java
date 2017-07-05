@@ -96,7 +96,7 @@ public class TowersContext extends AbstractGameContext {
                 card.getResourcesRequired().getResourceByType(FAITH_POINTS),
                 card.getResourcesRequired().getResourceByType(VICTORY_POINTS));
 
-        if(!this.noOccupiedTowerTax)
+        if(!this.noOccupiedTowerTax && !selectedTower.isTowerEmpty())
             requirements.sumResources(Configurator.TOWER_OCCUPIED_COST);
 
         if(!this.gameManager.getCurrentPlayer().hasEnoughResources(requirements))
@@ -125,8 +125,8 @@ public class TowersContext extends AbstractGameContext {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
         }
         ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).setIncome(slot.getResourcesReward().getResources());
+        ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).interactWithPlayer();
         ((UseCouncilPrivilegeContext) getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(slot.getResourcesReward().getCouncilPrivilege());
-
 
         return null;
     }

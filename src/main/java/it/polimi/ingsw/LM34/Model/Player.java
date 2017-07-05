@@ -144,4 +144,14 @@ public class Player implements Serializable {
         Optional<List<AbstractDevelopmentCard>> cards = this.getPersonalBoard().getDevelopmentCardsByType(cardType);
         return (cards.isPresent() && cards.get().size() >= num);
     }
+
+    public List<FamilyMember> getAvailableFamilyMembers() {
+        List<FamilyMember> availablePawns = new ArrayList<>();
+        this.familyMembers.forEach(pawn -> {
+            if(!pawn.isUsed())
+                availablePawns.add(pawn);
+        });
+
+        return availablePawns;
+    }
 }

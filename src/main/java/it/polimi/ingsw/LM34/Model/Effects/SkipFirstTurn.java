@@ -23,7 +23,7 @@ public class SkipFirstTurn extends AbstractOncePerRoundEffect implements Observe
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
-        if(!this.used)
+       // if(!this.used)
             callerContext.getContextByType(TURN_CONTEXT).addObserver(this);
     }
 

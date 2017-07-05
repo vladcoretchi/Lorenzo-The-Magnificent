@@ -59,7 +59,7 @@ public class SocketClient extends AbstractClient {
                     RequestToClient.valueOf(request).readAndHandle(SocketClient.this);
                 } catch (IOException e) {
                     getUI().disconnectionWarning();
-                    LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e);
+                    LOGGER.log(Level.WARNING, e.getMessage(), e);
                     this.terminate();
                 }
             }

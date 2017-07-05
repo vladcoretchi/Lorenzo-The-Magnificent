@@ -124,7 +124,7 @@ public class Resources implements Serializable {
         if (res == null)
             throw new NullPointerException();
 
-        res.getResources().forEach(this::sumResourceType);
+        res.getResources().forEach(this::subResourceType);
     }
 
     //this method also handles the multiplication of resourcesMap

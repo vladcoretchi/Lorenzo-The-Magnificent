@@ -4,6 +4,7 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
+import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Validator;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class FamilyMemberSelectionContext extends AbstractGameContext {
             throw new IncorrectInputException();
         }
 
-        List<FamilyMember> familyMembers = this.gameManager.getCurrentPlayer().getFamilyMembers();
+        List<FamilyMember> familyMembers = this.gameManager.getCurrentPlayer().getAvailableFamilyMembers();
         Integer selectedFamilyMember = this.gameManager.getActivePlayerNetworkController().familyMemberSelection(familyMembers);
         Validator.checkValidity(selectedFamilyMember, familyMembers);
 
@@ -48,9 +49,14 @@ public class FamilyMemberSelectionContext extends AbstractGameContext {
         if(this.gameManager.getCurrentPlayer().getResources().getResourceByType(SERVANTS) + this.familyMemberValue < minValueRequested)
             throw new IncorrectInputException();
 
-        if(servantsRequestAnyway || this.familyMemberValue < minValueRequested)
-            familyMember.setValue(((IncreasePawnsValueByServantsContext) getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT)).
-                    interactWithPlayer(minValueRequested - this.familyMemberValue) + this.familyMemberValue);
+
+        if(servantsRequestAnyway || this.familyMemberValue < minValueRequested) {
+            Integer servantsUsed = ((IncreasePawnsValueByServantsContext) getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT)).
+                    interactWithPlayer(minValueRequested - this.familyMemberValue) + this.familyMemberValue;
+
+            familyMember.setValue(servantsUsed);
+            getCurrentPlayer().getResources().subResources(new Resources(0,0,0,servantsUsed));
+        }
 
         return familyMember;
     }
