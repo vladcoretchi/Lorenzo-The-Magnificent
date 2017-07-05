@@ -43,7 +43,7 @@ public class MarketAreaContext extends AbstractGameContext {
         ActionSlot slot = this.gameManager.getMarket().getActionSlots().get(selectedSlot);
 
         ActionSlotContext actionSlotContext = (ActionSlotContext) getContextByType(ACTION_SLOT_CONTEXT);
-        Boolean canPlace = actionSlotContext.interactWithPlayer(this, selectedSlot);
+        Boolean canPlace = actionSlotContext.interactWithPlayer(this, slot);
         if (canPlace) {
             FamilyMember selectedFamilyMember = ((FamilyMemberSelectionContext) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT)).interactWithPlayer(slot.getDiceValue(), false, this.contextType);
 

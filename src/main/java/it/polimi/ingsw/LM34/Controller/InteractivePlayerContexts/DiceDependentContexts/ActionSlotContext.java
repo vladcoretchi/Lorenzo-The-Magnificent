@@ -25,7 +25,7 @@ public class ActionSlotContext extends AbstractGameContext {
             this.referenceContext = (AbstractGameContext) args[0];
             slot = (ActionSlot) args[1];
         } catch(Exception ex) {
-            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            LOGGER.log(Level.FINEST, ex.getMessage(), ex);
             throw new IncorrectInputException();
         }
         this.ignoreSlotLimit = false;

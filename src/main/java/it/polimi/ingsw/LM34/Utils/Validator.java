@@ -2,7 +2,6 @@ package it.polimi.ingsw.LM34.Utils;
 
 
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
-import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 
 import java.util.List;
@@ -22,7 +21,9 @@ public final class Validator {
 
     private Validator() {}
 
-    /*Validate input based on expected data types and ranges*/
+    /**
+     * Validate input based on expected data types and ranges
+     */
     public static final Integer checkValidity(String input, List<?> data) throws IncorrectInputException {
         try {
             /*Try to extract an Integer from input*/
@@ -35,7 +36,9 @@ public final class Validator {
         }
     }
 
-    /*Validate input based on expected data types and ranges*/
+    /**
+     * Validate input based on expected data types and ranges
+     */
     public static final void checkValidity(Integer input, List<?> data) throws IncorrectInputException {
             /*Calculates range*/
             Integer min = 0;
@@ -46,7 +49,9 @@ public final class Validator {
                 throw new IncorrectInputException();
     }
 
-    /*Validate Number type inputs*/
+    /**
+     * Validate Number type inputs
+     */
     public static final void checkValidity(String input) throws IncorrectInputException {
         Integer inputValue;
         try {
@@ -57,26 +62,27 @@ public final class Validator {
         }
     }
 
-    /*Validate Number type inputs*/
+    /**
+     * Validate Number type inputs
+     */
     public static final void checkValidity(Integer input, Integer max) throws IncorrectInputException {
         if(input < 0 || input > max)
             throw new IncorrectInputException();
     }
 
-    /*Validate Number type inputs*/
+    /**
+     * Validate Number type inputs within range min-max
+     */
     public static final void checkValidity(Integer input, Integer min, Integer max) throws IncorrectInputException {
         if(input < min || input > max)
             throw new IncorrectInputException();
     }
 
-    public static void checkLeaderValidity(List<LeaderCard> leaderCards, String choice) throws IncorrectInputException {
-        for(LeaderCard l : leaderCards)
-            if(l.getName().equalsIgnoreCase(choice))
-                return;
-
-        throw new IncorrectInputException();
-    }
-
+    /**
+     * Verify server-side that the action performed by the clients are valid
+     * @param action to be evaluated
+     * @throws IncorrectInputException if input from clients is not trusted
+     */
     public static void checkPlayerActionValidity(PlayerAction action) throws IncorrectInputException {
         if (action == null || action.getContext() == null || action.getAction() == null)
             throw new IncorrectInputException();

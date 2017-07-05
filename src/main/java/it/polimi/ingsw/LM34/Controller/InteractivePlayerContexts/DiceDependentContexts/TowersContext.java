@@ -16,6 +16,7 @@ import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Configurator;
+import it.polimi.ingsw.LM34.Utils.Validator;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -45,8 +46,9 @@ public class TowersContext extends AbstractGameContext {
         try {
             Pair<?, ?> slotArg = (Pair<?, ?>) args[0];
             slotSelection = new ImmutablePair<>((DevelopmentCardColor) slotArg.getLeft(), (Integer) slotArg.getRight());
+            Validator.checkValidity(slotSelection.getRight(), 0, Configurator.MAX_TOWER_LEVELS-1);
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            LOGGER.log(Level.FINEST, ex.getMessage(), ex);
             throw new IncorrectInputException();
         }
 
@@ -58,6 +60,7 @@ public class TowersContext extends AbstractGameContext {
         if(selectedTower == null)
             throw new IncorrectInputException();
 
+        //TODO
         TowerSlot slot = selectedTower.getTowerSlots().get(slotSelection.getRight());
 
         if(!slot.isEmpty())
@@ -76,7 +79,10 @@ public class TowersContext extends AbstractGameContext {
         setChanged();
         notifyObservers(this);
 
-        Optional<List<AbstractDevelopmentCard>> currentPlayerTerritoryCards = this.getCurrentPlayer().getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.GREEN);
+        Optional<List<AbstractDevelopmentCard>> currentPlayerTerritoryCards = this.getCurrentPlayer().getPersonalBoard()
+                                                                            .getDevelopmentCardsByType(DevelopmentCardColor.GREEN);
+
+        //Check if player has not passed the limit of territory cards he can have based on his MILITARY_POINTS
         if(this.towerColor == DevelopmentCardColor.GREEN && !this.ignoreMilitaryPointsRequirements && currentPlayerTerritoryCards.isPresent() &&
                 Configurator.getMilitaryPointsForTerritories().get(currentPlayerTerritoryCards.get().size()) > this.getCurrentPlayer().getResources().getResourceByType(MILITARY_POINTS))
             throw new NotEnoughMilitaryPoints();
@@ -95,7 +101,8 @@ public class TowersContext extends AbstractGameContext {
         if(!this.gameManager.getCurrentPlayer().hasEnoughResources(requirements))
             throw new NotEnoughResourcesException();
 
-        FamilyMember selectedFamilyMember = ((FamilyMemberSelectionContext) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT)).interactWithPlayer(slot.getDiceValue(), false, this.contextType);
+        FamilyMember selectedFamilyMember = ((FamilyMemberSelectionContext) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT))
+                                                        .interactWithPlayer(slot.getDiceValue(), false, this.contextType);
 
         try {
             slot.insertFamilyMember(selectedFamilyMember);

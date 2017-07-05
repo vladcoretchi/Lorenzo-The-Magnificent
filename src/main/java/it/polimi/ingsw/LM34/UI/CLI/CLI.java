@@ -79,8 +79,8 @@ public class CLI implements UIInterface {
             selectedValue = Integer.parseInt(readUserInput.nextLine());
             Validator.checkValidity(--selectedValue, data);
         }
-        catch (IncorrectInputException ex) {
-            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+        catch (IncorrectInputException | NumberFormatException ex) {
+            LOGGER.log(Level.FINEST, ex.getMessage(), ex);
             errorMessage.ifPresent(CLIStuff::printError);
             selectedValue = selectionMenu(data, backString, message, errorMessage);
         }
@@ -206,7 +206,7 @@ public class CLI implements UIInterface {
             case TOWERS_CONTEXT:
                 return new PlayerAction(TOWERS_CONTEXT, towerSlotSelection());
             case COUNCIL_PALACE_CONTEXT:
-                councilPalaceSelection();
+                //councilPalaceSelection();
                 return new PlayerAction(COUNCIL_PALACE_CONTEXT, null);
             case HARVEST_AREA_CONTEXT:
                 return new PlayerAction(HARVEST_AREA_CONTEXT, workingAreaSlotSelection(WorkingAreaType.HARVEST));
@@ -238,7 +238,7 @@ public class CLI implements UIInterface {
     @Override
     public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
         List<String> familyMembersString = new ArrayList<>();
-        familyMembers.forEach(fm -> familyMembersString.add(String.format("%1$s (%2$d)", fm.getDiceColorAssociated(), fm.getValue())));
+        familyMembers.forEach(fm -> familyMembersString.add(String.format("%1$s (Value: %2$d)", fm.getDiceColorAssociated(), fm.getValue())));
         return selectionMenu(familyMembersString,
                 Optional.empty(),
                 Optional.of("Select the family member to use"),
@@ -276,25 +276,23 @@ public class CLI implements UIInterface {
     public Integer marketSlotSelection() {
         /*Show the market*/
         printSlots(market.getActionSlots());
-
-        String input;
-        Integer selectedSlot = 0;
+        Integer input = 0;
         Boolean validUserInput = false;
         printToConsole.println("in which slot do you want to place one of your pawn?");
         do {
-            input = readUserInput.nextLine();
-
             try {
-                Validator.checkValidity(input, market.getActionSlots());
+                input = readUserInput.nextInt();
+                Validator.checkValidity(--input, market.getActionSlots());
                 validUserInput = true;
-                selectedSlot = Integer.parseInt(input);
             }
-            catch (IncorrectInputException e) {
-                LOGGER.log(Level.WARNING, e.getMessage(), e);
+            catch (IncorrectInputException | InputMismatchException e) {
+                LOGGER.log(Level.FINEST, e.getMessage(), e);
                 printError(INCORRECT_INPUT);
+
             }
         } while(!validUserInput);
-        return selectedSlot;
+
+        return input--;
     }
 
     /**
@@ -305,21 +303,23 @@ public class CLI implements UIInterface {
         Integer selectedSlot;
         Boolean validUserInput = false;
 
+        showProductionArea();
+        showHarvestArea();
        do {
-           CLIStuff.printToConsole.format("in which slot of the %1$s area do you want to %s?", workingArea.toString());
+           CLIStuff.printToConsole.format("in which slot of the %1$s area do you want to enter? ", workingArea.toString());
            selectedSlot = readUserInput.nextInt();
 
            try {
-               Validator.checkValidity(selectedSlot.toString(), market.getActionSlots());
+               Validator.checkValidity(--selectedSlot, productionArea.getActionSlots());
                validUserInput = true;
            }
            catch (IncorrectInputException e) {
-               LOGGER.log(Level.INFO, getClass().getSimpleName(), e);
+               LOGGER.log(Level.FINEST, e.getMessage(), e);
                printError(INCORRECT_INPUT);
            }
        } while(!validUserInput);
 
-        return selectedSlot;
+        return selectedSlot--;
     }
 
     /**
@@ -358,8 +358,10 @@ public class CLI implements UIInterface {
         slots.forEach((ActionSlot as) -> {
             diceValues.add(as.getDiceValue());
             /*PAWN COLOR INSERTED IN SLOT*/
-            if(as.getFamilyMembers() != null && !as.getFamilyMembers().isEmpty())
+            if(!as.getFamilyMembers().isEmpty())
                 pawnsInserted.add(as.getFamilyMembers().get(0)); //TODO: handle multiple family members
+            else
+                pawnsInserted.add(null);
             List<Pair<String, Integer>> res = new ArrayList<>();
             Resources resources = as.getResourcesReward().getResources();
             resources.getResources().forEach((ResourceType rt, Integer val) -> res.add(new ImmutablePair<>(rt.toString(), val)));
@@ -378,7 +380,12 @@ public class CLI implements UIInterface {
         diceValues.forEach(diceValue -> printDiceValue(diceValue.toString()));
         printLine("");
 
-        pawnsInserted.forEach((pawn) -> printPawn(pawn.getFamilyMemberColor(), pawn.getDiceColorAssociated()));
+        pawnsInserted.forEach((pawn) -> {
+            if(pawn != null)
+                printPawn(pawn.getFamilyMemberColor(), pawn.getDiceColorAssociated());
+            else
+                printFormat("            ");
+        });
 
         printFormat(" \n%1$s \n", String.join(" ", Collections.nCopies(slotsResources.size(), "__________")));
         printFormat("|%1$s|\n", String.join("|", Collections.nCopies(slotsResources.size(), "          ")));
@@ -431,7 +438,7 @@ public class CLI implements UIInterface {
      */
     public Pair<DevelopmentCardColor, Integer> towerSlotSelection() {
         DevelopmentCardColor towerType = null;
-        Integer floor;
+        Integer floor = 0;
         Boolean validUserInput = false;
 
         /***SHOW THE TOWERS***/
@@ -439,7 +446,7 @@ public class CLI implements UIInterface {
 
         /***Let the player choose the tower based on {@link DevelopmentCardColor}***/
         do {
-            CLIStuff.printToConsole.println("In which tower color do you wish to bring your family member? ");
+            printToConsole.println("In which tower color do you wish to bring your family member? ");
             String color = readUserInput.nextLine().toUpperCase();
 
             switch (color) {
@@ -460,30 +467,28 @@ public class CLI implements UIInterface {
                     validUserInput = true;
                     break;
                 default:
-                    printError("Please select a valid color (green, yellow, blue, purple\n");
+                    printError("Please select a valid color (green, yellow, blue, purple)\n");
             }
         } while(!validUserInput);
 
         validUserInput = false;
 
         /***Let the player choose the level of the {@link Tower} selected***/
+        printToConsole.println("in which tower's floor do you want to place one of your pawn?");
         do {
-            CLIStuff.printToConsole.println("in which tower's floor do you wish to put your family member? ");
-            floor = readUserInput.nextInt();
-
             try {
-                Validator.checkValidity(floor.toString(), towers.get(0).getTowerSlots());
+                floor = readUserInput.nextInt();
+                Validator.checkValidity((--floor).toString());
                 validUserInput = true;
             }
-            catch (IncorrectInputException ex) {
-                LOGGER.log(Level.WARNING, ex.getMessage(), ex);
-                printError("please select a valid tower's floor");
+            catch (IncorrectInputException | InputMismatchException e) {
+                LOGGER.log(Level.FINEST, e.getMessage(), e);
+                printError(INCORRECT_INPUT);
+
             }
-        } while (!validUserInput);
+        } while(!validUserInput);
 
-        floor--;
-
-        return new ImmutablePair<>(towerType, floor);
+        return new ImmutablePair<>(towerType, floor--);
     }
 
     /**
@@ -494,22 +499,26 @@ public class CLI implements UIInterface {
      */
     @Override
     public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
-        String input;
-        Integer usedServants;
+        Integer input = 0;
 
         printFormat("to complete this action, you need at least %1$d servants (you have %2$d servants)\n", minimumServantsRequested, servantsAvailable);
-        CLIStuff.printToConsole.println("How many servants do you wish to use?");
+        printToConsole.println("How many servants do you wish to use?");
 
-        try {
-            input = readUserInput.nextLine();
-            usedServants = Integer.parseInt(input);
-            Validator.checkValidity(usedServants, servantsAvailable);
-            return usedServants;
-        } catch (IncorrectInputException | NumberFormatException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            printError("Incorrect number of servants");
-            return servantsSelection(servantsAvailable, minimumServantsRequested);
-        }
+        Boolean validUserInput = false;
+
+        do {
+            try {
+                input = readUserInput.nextInt();
+                Validator.checkValidity(input, servantsAvailable);
+                validUserInput = true;
+            }
+            catch (IncorrectInputException | InputMismatchException e) {
+                LOGGER.log(Level.FINEST, e.getMessage(), e);
+                printError(INCORRECT_INPUT);
+            }
+        } while(!validUserInput);
+
+        return input;
     }
 
     /**
@@ -614,32 +623,29 @@ public class CLI implements UIInterface {
         }
     }
 
-    @Override
-    public void bonusAction() {
-        //TODO
-    }
-
     /**
      * @param availableBonuses, set from the game
      * @return the choice made by the player among the options in input
      */
     @Override
     public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
-        String input;
-        Integer choice;
+        Integer input = 0;
+        Boolean validUserInput = false;
         printFormat("Choose the reward you desire:\n");
         availableBonuses.forEach(b -> printFormat("%1$s\n", b.getResources()));
-        try {
-            input = readUserInput.nextLine();
-            Validator.checkValidity(input, availableBonuses);
-            choice = Integer.parseInt(input);
-            return choice;
-        }
-        catch (Exception e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            printError("The selected reward is not valid");
-            return selectCouncilPrivilegeBonus(availableBonuses);
-        }
+        do {
+            try {
+                input = readUserInput.nextInt();
+                Validator.checkValidity(--input, market.getActionSlots());
+                validUserInput = true;
+            }
+            catch (IncorrectInputException | InputMismatchException e) {
+                LOGGER.log(Level.FINEST, e.getMessage(), e);
+                printError(INCORRECT_INPUT);
+            }
+        } while(!validUserInput);
+
+        return input--;
     }
 
     /**
@@ -658,8 +664,10 @@ public class CLI implements UIInterface {
                 /***DICE VALUE***/
                 diceValues.add(as.getDiceValue());
                 /***PAWN COLOR INSERTED IN SLOT***/
-                if(as.getFamilyMembers() != null && as.getFamilyMembers().size() > 0)
+                if(!as.getFamilyMembers().isEmpty())
                     pawnsInserted.add(as.getFamilyMembers().get(0));
+                else
+                    pawnsInserted.add(null);
                 if(as.getCardStored() != null)
                     cardNames.add(as.getCardStored().getName());
                 Resources resources = as.getResourcesReward().getResources();
@@ -681,11 +689,14 @@ public class CLI implements UIInterface {
             diceValues.forEach(dv -> printDiceValue(dv.toString()));
             printLine("");
 
-            for(FamilyMember pawn : pawnsInserted)
+            pawnsInserted.forEach((pawn) -> {
                 if(pawn != null)
                     printPawn(pawn.getFamilyMemberColor(), pawn.getDiceColorAssociated());
+                else
+                    printFormat("           ");
+            });
 
-            //printCardSplittedNames(tower.getCardColor(), cards);
+            cardNames.forEach(c -> printFormat(c));
 
             printFormat("\n %1$s \n", String.join(" ", Collections.nCopies(slotsResources.size(), "__________")));
             printFormat("|%1$s|\n", String.join("|", Collections.nCopies(slotsResources.size(), "          ")));
@@ -817,33 +828,31 @@ public class CLI implements UIInterface {
      */
     @Override
     public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
-        String input;
-        Integer bonusTileSelected = 0;
+        Integer input = 0;
         Boolean validUserInput = false;
 
-        CLIStuff.printToConsole.println("Choose the bonus tile you desire to have");
+        CLIStuff.printToConsole.println("Choose the bonus tile you desire to have: (specify the index)\n");
 
         bonusTiles.forEach(bt -> {
             printToConsole.println("This bonus tile gives:");
             printFormat("For harvest area: %1$s", bt.getHarvestBonus().getResources().getResources());
-            printFormat("For production area: %1$s", bt.getHarvestBonus().getResources().getResources());
+            printFormat("  and  For production area: %1$s\n\n", bt.getProductionBonus().getResources().getResources());
         });
 
         do {
-            input = readUserInput.nextLine();
-
             try {
-                Validator.checkValidity(input, bonusTiles);
-                bonusTileSelected = Integer.parseInt(input);
+                input = readUserInput.nextInt();
+                Validator.checkValidity(--input, bonusTiles);
                 validUserInput = true;
             }
-            catch (IncorrectInputException e) {
-                LOGGER.log(Level.WARNING, e.getMessage(), e);
+            catch (IncorrectInputException | InputMismatchException e) {
+                LOGGER.log(Level.FINEST, e.getMessage(), e);
                 printError(INCORRECT_INPUT);
+
             }
         } while(!validUserInput);
 
-        return bonusTileSelected;
+        return input--;
     }
 
     /**
@@ -970,6 +979,4 @@ public class CLI implements UIInterface {
         tempSlots.add(harvestArea.getAdvancedSlot());
         printSlots(tempSlots);
     }
-
-
 }

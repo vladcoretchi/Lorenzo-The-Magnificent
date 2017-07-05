@@ -1,6 +1,5 @@
 package it.polimi.ingsw.LM34.Controller;
 
-import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.CouncilPalaceContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.ChurchReportContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.TurnContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
@@ -32,6 +31,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.DEFAULT;
 import static it.polimi.ingsw.LM34.Utils.Configurator.MAX_LEADER_PER_PLAYER;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
@@ -62,6 +62,7 @@ public class GameManager {
     private Map<Integer, Integer> faithPath;
     private Map<Integer, Integer> mapCharactersToVictoryPoints;
     private Map<Integer, Integer> mapTerritoriesToVictoryPoints;
+    private Map<Integer, Integer> mapMilitaryPointsForTerritories;
 
     /*DECKS*/
     private DevelopmentCardDeck<TerritoryCard> territoryCardDeck;
@@ -74,7 +75,7 @@ public class GameManager {
     /*GAME CONTEXTS*/
     private Map<ContextType, AbstractGameContext> contexts;
     private TurnContext turnContext = new TurnContext();
-    private CouncilPalaceContext palaceContext;
+    //private CouncilPalaceContext palaceContext;
 
     public GameManager(GameRoom gameRoom, List<String> players) {
         this.gameRoom = gameRoom;
@@ -92,19 +93,33 @@ public class GameManager {
         setUpGameSpaces();
         setUpDecks();
         replaceCards();
-        setExcommunicationCards();
+        /*Set the 3 excommunication cards of the game*/
+        Configurator.orderExcommunicatioCardByPeriod();
+        this.excommunicationCards = Configurator.getExcommunicationTiles();
 
         //Instantiate and roll dices
         this.dices = new ArrayList<>();
         for(DiceColor color : DiceColor.values())
-            this.dices.add(new Dice(color));
+            if(color != DEFAULT)
+                this.dices.add(new Dice(color));
         rollDices();
+        updateFamilyMemberValues();
+
 
         /**
          * Randomly set the initial play order
          */
-        Collections.shuffle(players);
+        Collections.shuffle(this.players);
         setupPlayersResources();
+    }
+
+    private void updateFamilyMemberValues() {
+        for(Player player : this.players)
+            player.getFamilyMembers().forEach(fm -> {
+                for(Dice dice : dices)
+                    if(fm.getDiceColorAssociated() == dice.getColor())
+                        fm.setValue(dice.getValue());
+            });
     }
 
     public ServerNetworkController getActivePlayerNetworkController() {
@@ -121,7 +136,8 @@ public class GameManager {
     public void startGame() {
         bonusTileSelectionPhase();
         //leaderSelectionPhase(); //TODO: uncomment
-        //players.forEach(player -> this.getPlayerNetworkController(player).setExcommunicationCards(this.excommunicationCards));
+
+        players.forEach(player -> this.getPlayerNetworkController(player).setExcommunicationCards(this.excommunicationCards));
         players.forEach(player -> this.getPlayerNetworkController(player).updateDiceValues(this.dices));
         players.forEach(player -> this.getPlayerNetworkController(player).updatePlayersData(this.players));
         players.forEach(player -> this.getPlayerNetworkController(player).updateTowers(this.towers));
@@ -129,7 +145,6 @@ public class GameManager {
         players.forEach(player -> this.getPlayerNetworkController(player).updateHarvestArea(this.harvestArea));
         players.forEach(player -> this.getPlayerNetworkController(player).updateMarket(this.market));
         players.forEach(player -> this.getPlayerNetworkController(player).updateCouncilPalace(this.councilPalace));
-        
 
         ((TurnContext) getContextByType(TURN_CONTEXT)).initContext(); //first player start first round of the game
     }
@@ -143,6 +158,11 @@ public class GameManager {
         this.councilPalace = Configurator.getPalace();
         this.harvestArea = Configurator.getHarvestArea();
         this.productionArea = Configurator.getProductionArea();
+        this.faithPath = Configurator.getFaithPath();
+        this.mapCharactersToVictoryPoints = Configurator.getMapCharactersToVictoryPoints();
+        this.mapTerritoriesToVictoryPoints = Configurator.getMapCharactersToVictoryPoints();
+        this.mapMilitaryPointsForTerritories = Configurator.getMilitaryPointsForTerritories();
+
     }
 
     /**
@@ -170,6 +190,7 @@ public class GameManager {
     }
 
     public void nextTurn() {
+
         turn++;
         if (turn >= players.size()) { //all players have placed 1 pawn
             this.turn = 0;
@@ -205,6 +226,7 @@ public class GameManager {
 
         setNewTurnOrder();
         rollDices();
+        updateFamilyMemberValues();
         sweepActionSlots();  //sweeps all action and tower slots from pawns and cards
         replaceCards();      //Four development cards per type are moved from the decks into the towerslots
     }
@@ -292,8 +314,11 @@ public class GameManager {
      * @param contextType enum used to know which {@link PlayerSelectableContexts} retrieve
      * @return the {@link PlayerSelectableContexts} used by contexts and effects to connect with each other
      */
-    public AbstractGameContext getContextByType(PlayerSelectableContexts contextType) {
-        return contexts.getOrDefault(contextType, null);
+    public AbstractGameContext getContextByType(PlayerSelectableContexts context) {
+        for(ContextType contextType : ContextType.values())
+            if(contextType.name().equalsIgnoreCase(context.name()))
+                return contexts.get(contextType);
+        return null;
     }
 
     /**
@@ -336,13 +361,6 @@ public class GameManager {
             tower.sweep();
         while (iterator.hasNext() && tower.getCardsStored().size() < Configurator.CARD_PER_ROUND)
             tower.addCard((AbstractDevelopmentCard) iterator.next());
-    }
-
-    /**
-     * Choose the 3 excommunication cards of the game
-     */
-    private void setExcommunicationCards() {
-        this.excommunicationCards = Configurator.getExcommunicationTiles();
     }
 
     /**

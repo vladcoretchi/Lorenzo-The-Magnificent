@@ -4,9 +4,13 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
 import it.polimi.ingsw.LM34.Model.Cards.BuildingCard;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
+
 import java.util.logging.Level;
+
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
 import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.YELLOW;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
@@ -19,7 +23,10 @@ public class ProductionAreaContext extends AbstractGameContext {
 
     @Override
     public Void interactWithPlayer(Object... args) throws IncorrectInputException, OccupiedSlotException {
+        WorkingArea productionArea = this.gameManager.getProductionArea();
         Integer selectedSlot;
+        Integer slotDiceValue;
+        ActionSlot slot;
         try {
             selectedSlot = (Integer) args[0];
         } catch(Exception ex) {
@@ -27,20 +34,22 @@ public class ProductionAreaContext extends AbstractGameContext {
             throw new IncorrectInputException();
         }
 
-        Integer slotDiceValue = this.gameManager.getProductionArea().getActionSlots().get(selectedSlot).getDiceValue();
+        slot = (selectedSlot == 0) ? productionArea.getSingleSlot() : productionArea.getAdvancedSlot();
+
+        slotDiceValue = slot.getDiceValue();
 
         setChanged();
         notifyObservers(this);
 
         ActionSlotContext actionSlotContext = (ActionSlotContext) getContextByType(ACTION_SLOT_CONTEXT);
-        Boolean canPlace = actionSlotContext.interactWithPlayer(this, selectedSlot);
+        Boolean canPlace = actionSlotContext.interactWithPlayer(this, slot);
         if (canPlace) {
             FamilyMember selectedFamilyMember = ((FamilyMemberSelectionContext) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT)).interactWithPlayer(slotDiceValue, true, this.contextType);
 
             if (actionSlotContext.getIgnoreOccupiedSlot())
-                this.gameManager.getProductionArea().getActionSlots().get(selectedSlot).insertFamilyMemberIgnoringSlotLimit(selectedFamilyMember);
+                slot.insertFamilyMemberIgnoringSlotLimit(selectedFamilyMember);
             else
-                this.gameManager.getProductionArea().getActionSlots().get(selectedSlot).insertFamilyMember(selectedFamilyMember);
+               slot.insertFamilyMember(selectedFamilyMember);
             selectedFamilyMember.placePawn();
 
             this.gameManager.getCurrentPlayer().getPersonalBoard().getDevelopmentCardsByType(YELLOW).ifPresent(list ->

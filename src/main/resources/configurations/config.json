@@ -2006,6 +2006,7 @@
           "permanentBonus": {
             "developmentCardAcquireEffect": {
               "developmentCardColor": "GREEN",
+              "relative": true,
               "diceValue": 2
             }
           }
@@ -2023,6 +2024,7 @@
             "developmentCardAcquireEffect": {
               "developmentCardColor": "YELLOW",
               "diceValue": 2,
+              "relative": true,
               "requirementsDiscount": {
                 "resources": {
                   "WOODS": 1,
@@ -2045,6 +2047,7 @@
             "developmentCardAcquireEffect": {
               "developmentCardColor": "BLUE",
               "diceValue": 2,
+              "relative": true,
               "requirementsDiscount": {
                 "resources": {
                   "COINS": 1
@@ -2070,7 +2073,9 @@
           "permanentBonus": {
             "developmentCardAcquireEffect": {
               "developmentCardColor": "PURPLE",
-              "diceValue": 2
+              "diceValue": 2,
+              "relative": true
+
             }
           }
         },
@@ -2086,7 +2091,8 @@
           "permanentBonus": {
             "workingAreaValueEffect": {
               "workingAreaType": "HARVEST",
-              "diceValue": 2
+              "diceValue": 2,
+              "relative": true
             }
           }
         },
@@ -2102,7 +2108,8 @@
           "permanentBonus": {
             "workingAreaValueEffect": {
               "workingAreaType": "PRODUCTION",
-              "diceValue": 2
+              "diceValue": 2,
+              "relative": true
             }
           }
         },
@@ -2146,8 +2153,9 @@
           },
           "instantBonus": {
             "developmentCardAcquireEffect": {
-              "developmentCardColor": "DEFAULT",
-              "diceValue": 4
+              "developmentCardColor": "MULTICOLOR",
+              "diceValue": 4,
+              "relative": false
             },
             "resourcesBonus": {
               "resources": {
@@ -2168,7 +2176,8 @@
           "instantBonus": {
             "developmentCardAcquireEffect": {
               "developmentCardColor": "GREEN",
-              "diceValue": 6
+              "diceValue": 6,
+              "relative": false
             },
             "resourcesBonus": {
               "resources": {
@@ -2189,6 +2198,7 @@
           "instantBonus": {
             "developmentCardAcquireEffect": {
               "developmentCardColor": "YELLOW",
+              "relative": false,
               "diceValue": 6,
               "requirementsDiscount": {
                 "resources": {
@@ -2212,6 +2222,7 @@
             "developmentCardAcquireEffect": {
               "developmentCardColor": "BLUE",
               "diceValue": 6,
+              "relative": false,
               "requirementsDiscount": {
                 "resources": {
                   "COINS": 2
@@ -2232,6 +2243,7 @@
           "instantBonus": {
             "developmentCardAcquireEffect": {
               "developmentCardColor": "PURPLE",
+              "relative": false,
               "diceValue": 6
             },
             "resourcesBonus": {
@@ -2251,7 +2263,8 @@
           "permanentBonus": {
             "workingAreaValueEffect": {
               "workingAreaType": "HARVEST",
-              "diceValue": 3
+              "diceValue": 3,
+              "relative": true
             }
           }
         },
@@ -2267,7 +2280,8 @@
           "permanentBonus": {
             "workingAreaValueEffect": {
               "workingAreaType": "PRODUCTION",
-              "diceValue": 3
+              "diceValue": 3,
+              "relative": true
             }
           }
         },
@@ -2387,7 +2401,8 @@
           "instantBonus": {
             "workingAreaValueEffect": {
               "workingAreaType": "HARVEST",
-              "diceValue": 4
+              "diceValue": 4,
+              "relative": false
             },
             "resourcesBonus": {
               "resources": {
@@ -2408,10 +2423,13 @@
           "instantBonus": {
             "workingAreaValueEffect": {
               "workingAreaType": "PRODUCTION",
-              "diceValue": 4
+              "diceValue": 4,
+              "relative": false
             },
             "resourcesBonus": {
-              "councilPrivilege": 1
+              "resources": {
+                "COINS": 6
+              }
             }
           }
         },
@@ -2447,7 +2465,8 @@
           "instantBonus": {
             "developmentCardAcquireEffect": {
               "developmentCardColor": "DEFAULT",
-              "diceValue": 7
+              "diceValue": 7,
+              "relative": false
             },
             "resourcesBonus": {
               "councilPrivilege": 1
@@ -2830,7 +2849,7 @@
           },
           "instantBonus": {
             "developmentCardAcquireEffect": {
-              "developmentCardColor": "DEFAULT",
+              "developmentCardColor": "MULTICOLOR",
               "diceValue": 7
             },
             "resourcesBonus": {
@@ -2999,7 +3018,7 @@
           "leaderRequirements": {
             "cardRequirements": [
               {
-                "developmentCardColor": "DEFAULT",
+                "developmentCardColor": "MULTICOLOR",
                 "number": 6
               }
             ]
@@ -3380,7 +3399,7 @@
           },
           "bonus": {
             "developmentCardAcquireEffect": {
-              "developmentCardColor": "DEFAULT",
+              "developmentCardColor": "MULTICOLOR",
               "requirementsDiscount": {
                 "resources": {
                   "coins": 3

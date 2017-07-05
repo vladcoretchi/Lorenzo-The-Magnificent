@@ -125,7 +125,6 @@ public class GUI extends Application implements UIInterface {
         this.playerAction = null;
     }
 
-
     /**
      * @param bonusTiles that the players has the opportunity to choose one from
      * @return the bonus tile the player wants to have during the game
@@ -205,9 +204,11 @@ public class GUI extends Application implements UIInterface {
 
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
             ImageView imageView;
-            for (Integer index = 1; index <= Configurator.TOTAL_PERIODS; index++) {
-                imageView = (ImageView) root.lookup("#excommunicationCard" + this.excommunicationCards.get(index).getPeriod());
-                imageView = setImage("images/excommunicationTiles/excomm_" + index + "_" + this.excommunicationCards.get(index).getNumber() + ".png");
+            for (ExcommunicationCard ex : excommunicationCards) {
+                imageView = (ImageView) root.lookup("#excommunicationCard" + ex.getPeriod());
+                imageView.setImage(new Image(Thread.currentThread()
+                        .getContextClassLoader().getResource("images/excommunicationTiles/excomm_" + ex.getPeriod() + "_" + ex.getNumber() + ".png")
+                        .toExternalForm()));;
             }
             return null;
         });
@@ -686,11 +687,6 @@ public class GUI extends Application implements UIInterface {
     public Boolean alternativeRequirementsPayment() {
     FutureTask<Boolean> uiTask = new FutureTask<>(() -> new AlternativeRequirementPaymentDialog().interactWithPlayer());
         return RunLaterTask(uiTask);
-    }
-
-    @Override
-    public void bonusAction() {
-
     }
 
     @Override

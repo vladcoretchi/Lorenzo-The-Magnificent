@@ -4,8 +4,10 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Utils.Validator;
+
 import java.util.logging.Level;
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class IncreasePawnsValueByServantsContext extends AbstractGameContext {
@@ -29,7 +31,7 @@ public class IncreasePawnsValueByServantsContext extends AbstractGameContext {
 
         Integer availableServants = this.gameManager.getCurrentPlayer().getResources().getResourceByType(ResourceType.SERVANTS);
         Integer selectedServants = this.gameManager.getActivePlayerNetworkController().servantsSelection(availableServants, this.servantsRequested);
-        Validator.checkValidity(selectedServants, availableServants, this.servantsRequested);
+        Validator.checkValidity(selectedServants, this.servantsRequested, availableServants);
 
         return selectedServants;
     }

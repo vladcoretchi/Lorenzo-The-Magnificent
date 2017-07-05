@@ -34,6 +34,8 @@ public class TurnContext extends AbstractGameContext {
      * NOTE: OncePerRound observers are excluded in this reactivation
      */
     public void initContext() {
+        //TODO: informInGamePlayers
+        this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).setExcommunicationCards(this.gameManager.getExcommunicationCards()));
         this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updatePlayersData(this.gameManager.getPlayers()));
         this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updateTowers(this.gameManager.getTowers()));
         this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updateProductionArea(this.gameManager.getProductionArea()));

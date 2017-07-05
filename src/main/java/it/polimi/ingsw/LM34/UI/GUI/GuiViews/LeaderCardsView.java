@@ -49,7 +49,8 @@ public class LeaderCardsView {
     public String leaderCardSelection(List<LeaderCard> leadersOwned) {
         final ChoiceDialog dialog = new ChoiceDialog();
         dialog.setTitle("Leaders Available");
-        dialog.setHeaderText("Which leader do you wish to use?");
+        dialog.setHeaderText("Leader Card choice");
+        dialog.setContentText("which leader do you wish to use? ");
         dialog.getDialogPane().setPrefHeight(405);
         dialog.setResizable(false);
         dialog.getDialogPane().getStylesheets().add(

@@ -109,6 +109,17 @@ public enum RequestToClient {
             }
         }
     },
+    //TODO
+    INFORM_IN_GAME_PLAYERS {
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            /*try {
+
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
+            }*/
+        }
+    },
     UPDATE_PLAYERS_DATA {
         @Override
         void readAndHandle(SocketClient socketConnection) {
