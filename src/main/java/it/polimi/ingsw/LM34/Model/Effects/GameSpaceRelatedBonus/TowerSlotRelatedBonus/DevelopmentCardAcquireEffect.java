@@ -5,14 +5,12 @@ import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentCo
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Exceptions.Controller.CardTypeNumLimitReachedException;
-import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughMilitaryPoints;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
-import it.polimi.ingsw.LM34.Model.Player;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -21,6 +19,8 @@ import java.util.logging.Level;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class DevelopmentCardAcquireEffect extends AbstractEffect implements Observer {
+    private static final long serialVersionUID = 9154894195925064951L;
+
     private DevelopmentCardColor color;
     private Integer value;
     private ResourcesBonus requirementsDiscount;

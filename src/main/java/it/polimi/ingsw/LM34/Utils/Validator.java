@@ -15,9 +15,8 @@ import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
  *Server side is adopted broadly by all contexts that calls the overloaded methods they need
  * Server side is needed to enforce and grant consistency of the games tate
  */
-
-/*Proudly designed and implemented by 0 :-)*/
 public final class Validator {
+    /*Proudly designed and implemented by 0 :-)*/
 
     private Validator() {}
 
@@ -53,9 +52,8 @@ public final class Validator {
      * Validate Number type inputs
      */
     public static final void checkValidity(String input) throws IncorrectInputException {
-        Integer inputValue;
         try {
-            inputValue = Integer.parseInt(input);
+            Integer.parseInt(input);
         } catch(NumberFormatException e) {
             LOGGER.log(Level.WARNING, e.getMessage(), e);
             throw new IncorrectInputException();

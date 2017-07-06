@@ -36,7 +36,7 @@ public class RMIServer implements RMIServerInterface {
 
                 rmiConnections = new ArrayList<>();
             } catch (RemoteException e) {
-                LOGGER.log(Level.WARNING, getClass().getSimpleName(),  e.getStackTrace());
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
     }

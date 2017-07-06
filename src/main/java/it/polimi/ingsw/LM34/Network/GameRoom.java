@@ -41,8 +41,8 @@ public class GameRoom {
 
         this.players.put(username, networkController);
 
-        if (this.players.size() >= Configurator.WAITING_ROOM_PLAYERS_THRESHOLD) {
-            this.timeoutRunnable = new WaitingRoomTimeout(Configurator.WAITING_ROOM_TIMEOUT);
+        if (this.players.size() >= Configurator.getWaitingRoomPlayersThreshold()) {
+            this.timeoutRunnable = new WaitingRoomTimeout(Configurator.getWaitingRoomTimeout());
             timeoutThread = new Thread(this.timeoutRunnable);
             timeoutThread.start();
         }

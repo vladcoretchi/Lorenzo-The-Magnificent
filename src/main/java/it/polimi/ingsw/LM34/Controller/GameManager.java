@@ -63,6 +63,7 @@ public class GameManager {
     private Map<Integer, Integer> mapCharactersToVictoryPoints;
     private Map<Integer, Integer> mapTerritoriesToVictoryPoints;
     private Map<Integer, Integer> mapMilitaryPointsForTerritories;
+    private Integer[] minFaithPoints;
 
     /*DECKS*/
     private DevelopmentCardDeck<TerritoryCard> territoryCardDeck;
@@ -162,7 +163,7 @@ public class GameManager {
         this.mapCharactersToVictoryPoints = Configurator.getMapCharactersToVictoryPoints();
         this.mapTerritoriesToVictoryPoints = Configurator.getMapCharactersToVictoryPoints();
         this.mapMilitaryPointsForTerritories = Configurator.getMilitaryPointsForTerritories();
-
+        this.minFaithPoints = Configurator.getMinFaithPoints();
     }
 
     /**
@@ -328,7 +329,6 @@ public class GameManager {
     private List<Player>  setNewTurnOrder() {
         List<Player> oldPlayersOrder = players;
         List<Player> newPlayersOrder = new ArrayList<>();
-        List<FamilyMember> membersInOrder = this.councilPalace.getActionSlot().getFamilyMembers();
 
         List<PawnColor> councilPalaceOrder = this.councilPalace.getPlayersOrder();
         for(int i = 0; i < councilPalaceOrder.size(); i++)
@@ -348,19 +348,18 @@ public class GameManager {
      * @param developmentDeck from which to extract and place in the tower the cards for the new round
      */
     private void changeCards(List<Tower> towers, DevelopmentCardDeck<?> developmentDeck) {
-        Tower tower = null;
+        Optional<Tower> tower = Optional.empty();
         Iterator iterator = developmentDeck.iterator();
 
-        /**select the right tower...**/
+        /*select the right tower...*/
         for (Tower t : towers)
             if (t.getDevelopmentTypeStored() == developmentDeck.getCardColor())
-                tower = t;
+                tower = Optional.of(t);
 
         /**...and now place every card in the deck until the tower's slots are full**/
-        if(tower != null)
-            tower.sweep();
-        while (iterator.hasNext() && tower.getCardsStored().size() < Configurator.CARD_PER_ROUND)
-            tower.addCard((AbstractDevelopmentCard) iterator.next());
+        tower.ifPresent(Tower::sweep);
+        while (iterator.hasNext() && tower.get().getCardsStored().size() < Configurator.CARD_PER_ROUND)
+            tower.get().addCard((AbstractDevelopmentCard) iterator.next());
     }
 
     /**
@@ -456,6 +455,10 @@ public class GameManager {
     }
 
     public CouncilPalace getPalace() { return this.councilPalace; }
+
+    public Integer[] getMinFaithPoints() {
+        return minFaithPoints;
+    }
 }
 
 

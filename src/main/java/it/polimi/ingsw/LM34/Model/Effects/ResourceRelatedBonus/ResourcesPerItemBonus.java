@@ -42,9 +42,8 @@ public class ResourcesPerItemBonus extends AbstractEffect {
     public void applyEffect(AbstractGameContext callerContext) {
         if(this.bonusResources != null) {
             Player player = callerContext.getCurrentPlayer();
-            Integer cardTypeOwnedNum = 0;
             ResourceIncomeContext incomeContext;
-            incomeContext = ((ResourceIncomeContext) callerContext.getContextByType(RESOURCE_INCOME_CONTEXT));
+            incomeContext = (ResourceIncomeContext) callerContext.getContextByType(RESOURCE_INCOME_CONTEXT);
 
             if (this.militaryPoints != null && this.militaryPoints > 0) {
                 bonusResources.multiplyResources(player.getResources().getResourceByType(MILITARY_POINTS) / militaryPoints);

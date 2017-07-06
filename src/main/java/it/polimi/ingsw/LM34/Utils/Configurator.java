@@ -40,15 +40,15 @@ import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
  */
 public final class Configurator {
     /*CONVENTION GAME_CODES*/
-    public static Integer WAITING_ROOM_TIMEOUT;
-    public static Integer TURN_TIMEOUT;
-    public static final Integer WAITING_ROOM_PLAYERS_THRESHOLD = 2;
+    private static Integer waitingRoomTimeout;
+    private static Integer TURN_TIMEOUT;
+    private static final Integer WAITING_ROOM_PLAYERS_THRESHOLD = 2;
     public static final Integer PLAYER_MOVE_TIMEOUT = 120000;
     public static final Integer MAX_TOWER_LEVELS = 4;
     public static final Integer MAX_LEADER_PER_PLAYER = 4;
     public static final Integer MAX_PLAYERS = 4;
     public static final Integer TOTAL_PERIODS = 3; //#total periods
-    public static final Integer[] MIN_FAITHS_POINTS = {3,4,5};
+    private static final Integer[] minFaithPoints = {3,4,5};
     public static final Integer CARD_PER_ROUND = 4;
     public static final Integer BASE_COINS = 5; //#coins given to first player at game start
     public static final Integer COINS_INCREMENT_PLAYER_ORDER = 1;
@@ -126,7 +126,7 @@ public final class Configurator {
 
         /****GameRoom Timeout****/
         if(jsonObject != null) {
-            WAITING_ROOM_TIMEOUT = jsonObject.getJSONObject("server").getInt("timeout");
+            waitingRoomTimeout = jsonObject.getJSONObject("server").getInt("timeout");
             TURN_TIMEOUT = jsonObject.getJSONObject("server").getInt("timeoutTurn");
 
             /**
@@ -1020,6 +1020,17 @@ public final class Configurator {
         return militaryPointsForTerritories;
     }
 
+    public static Integer getWaitingRoomTimeout() {
+        return waitingRoomTimeout;
+    }
+
+    public static Integer[] getMinFaithPoints() {
+        return minFaithPoints;
+    }
+
+    public static Integer getWaitingRoomPlayersThreshold() {
+        return WAITING_ROOM_PLAYERS_THRESHOLD;
+    }
 
     public static void main (String[] args) {
         Configurator.loadConfigs();

@@ -66,7 +66,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
 
                 RequestToServer.valueOf(request).readAndHandle(this);
             } catch (IOException e) {
-                LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
                 this.terminateListener();
             }
         }
@@ -85,17 +85,17 @@ public class SocketConnection extends AbstractConnection implements Runnable {
         try {
             this.inStream.close();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
         try {
             this.outStream.close();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
         try {
             this.connectionSocket.close();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 

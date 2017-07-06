@@ -26,7 +26,7 @@ public class RMIClient extends AbstractClient implements RMIClientInterface {
             this.networkController = new ClientNetworkController(this);
             this.ui = ui;
         } catch (RemoteException | NotBoundException e) {
-            LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 
@@ -36,7 +36,7 @@ public class RMIClient extends AbstractClient implements RMIClientInterface {
             Boolean loginResult = server.login(username, password, this);
             this.networkController.loginResult(loginResult);
         } catch (RemoteException e) {
-            LOGGER.log(Level.SEVERE, getClass().getSimpleName(), e.getStackTrace());
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 }
