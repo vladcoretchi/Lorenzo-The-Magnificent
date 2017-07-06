@@ -109,11 +109,6 @@ public class GameManagerTest {
         }
 
         @Override
-        public void passTurn() {
-
-        }
-
-        @Override
         public void loadMapTerritoriesToVictoryPoints(Map<Integer, Integer> mapTerritoriesToVictoryPoints) {
 
         }
