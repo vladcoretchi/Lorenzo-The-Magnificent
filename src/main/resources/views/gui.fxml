@@ -184,7 +184,7 @@
                                     -fx-padding: 10 20 10 20;">
 
                         </Button>
-                            <Button fx:id="endTurn" prefWidth="150" prefHeight="50" layoutX="40" layoutY="75" text="End Turn" onMouseClicked="#passTurn"
+                            <Button fx:id="endTurn" prefWidth="150" prefHeight="50" layoutX="40" layoutY="75" text="End Turn"
 
                                     style="
 
@@ -200,12 +200,10 @@
                             ">
 
                             </Button>
-                            <Button fx:id="leaderCardAction" prefWidth="150" prefHeight="50" layoutX="40" layoutY="15" text="Leader Cards" style="-fx-border-color: #61a2b1; -fx-text-fill: crimson; -fx-background-color: rgba(136,139,138,0.74);"></Button>
-                            <Button fx:id="endTurn" prefWidth="150" prefHeight="50" layoutX="40" layoutY="75" text="End Turn" style="-fx-border-color: #61a2b1; -fx-text-fill: crimson; -fx-background-color: rgba(136,139,138,0.74);"></Button>
                         </children>
                     </Pane>
 
-                <Pane fx:id="playerInfo1" managed="true" style="-fx-border-color: #1d1d1d;" visible="true">
+                <Pane fx:id="playerInfo1" managed="false" style="-fx-border-color: #1d1d1d;" visible="false">
                     <children>
                         <Label fx:id="player1" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player1">
                          <font>
@@ -303,7 +301,7 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo2" managed="true" style="-fx-border-color: #1d1d1d;" visible="true">
+            <Pane fx:id="playerInfo2" managed="false" style="-fx-border-color: #1d1d1d;" visible="false">
                 <children>
                     <Label fx:id="player2" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player2">
                         <font>
@@ -401,7 +399,7 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo3" managed="true" style="-fx-border-color: #1d1d1d;" visible="true">
+            <Pane fx:id="playerInfo3" managed="false" style="-fx-border-color: #1d1d1d;" visible="false">
                 <children>
                     <Label fx:id="player3" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player3">
                         <font>
@@ -499,7 +497,7 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo4" managed="true" style="-fx-border-color: #1d1d1d;" visible="true">
+            <Pane fx:id="playerInfo4" managed="false" style="-fx-border-color: #1d1d1d;" visible="false">
                 <children>
                     <Label fx:id="player4" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="player4">
                         <font>
@@ -597,7 +595,7 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo5" managed="true" style="-fx-border-color: #1d1d1d;" visible="true">
+            <Pane fx:id="playerInfo5" managed="false" style="-fx-border-color: #1d1d1d;" visible="false">
                 <children>
                     <Label fx:id="player5" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player5">
                         <font>
