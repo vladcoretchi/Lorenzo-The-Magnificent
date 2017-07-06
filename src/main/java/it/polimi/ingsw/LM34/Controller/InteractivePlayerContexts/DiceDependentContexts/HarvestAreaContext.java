@@ -44,7 +44,6 @@ public class HarvestAreaContext extends AbstractGameContext {
                 slot.insertFamilyMemberIgnoringSlotLimit(selectedFamilyMember);
             else
                 slot.insertFamilyMember(selectedFamilyMember);
-            selectedFamilyMember.placePawn();
 
             if(this.getCurrentPlayer().getPersonalBoard().getPersonalBonusTile().getHarvestDiceValue() <= selectedFamilyMember.getValue()) {
                 ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();

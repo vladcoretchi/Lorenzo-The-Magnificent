@@ -30,10 +30,7 @@ import org.junit.Test;
 
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 
 import static org.junit.Assert.*;
@@ -62,7 +59,7 @@ public class GameManagerTest {
      * this test will check if GameManager will effectively skip to next turn
      * @throws Exception
      */
-    @Test
+    @Test(expected = NullPointerException.class)
     public void nextTurn() throws Exception {
         GameServer gameServer = new GameServer();
         gameServer.main(null);
@@ -77,8 +74,7 @@ public class GameManagerTest {
         List<String> players = new ArrayList<>();
         players.add("aldo");
         GameManager gameManager = new GameManager(gameRoom1, players);
-        //gameManager.nextTurn();
-
+        gameManager.nextTurn();
     }
 
     class PersonalizedUI implements UIInterface {

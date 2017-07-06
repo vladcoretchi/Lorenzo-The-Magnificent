@@ -13,6 +13,7 @@ import java.util.Scanner;
 public final class CLIStuff {
     public static final IgnoreInput ignoreInput = new IgnoreInput();
     public static final String INCORRECT_INPUT = "Incorrect input";
+    public static final String INVALID_SELECTION = "Invalid selection";
     public static final Scanner readUserInput = new Scanner(System.in);
     public static final PrintWriter printToConsole = new PrintWriter(System.out, true);
     private static final String INVALID_PAWN_COLOR = "Invalid pawn color";

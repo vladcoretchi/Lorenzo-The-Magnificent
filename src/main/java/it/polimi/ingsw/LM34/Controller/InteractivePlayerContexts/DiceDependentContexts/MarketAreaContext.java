@@ -51,7 +51,6 @@ public class MarketAreaContext extends AbstractGameContext {
                 slot.insertFamilyMemberIgnoringSlotLimit(selectedFamilyMember);
             else
                 slot.insertFamilyMember(selectedFamilyMember);
-            selectedFamilyMember.placePawn();
 
             ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();
             ((UseCouncilPrivilegeContext) getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(slot.getResourcesReward().getCouncilPrivilege());

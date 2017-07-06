@@ -71,6 +71,9 @@ public class TurnContext extends AbstractGameContext {
         try {
             Validator.checkPlayerActionValidity(action);
 
+            if(action.getContext() == null)
+                return;
+
             AbstractGameContext actionContext = getContextByType(action.getContext());
             actionContext.interactWithPlayer(action.getAction());
         } catch (IncorrectInputException |

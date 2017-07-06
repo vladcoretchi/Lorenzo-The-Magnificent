@@ -8,40 +8,6 @@ import static org.junit.Assert.*;
 public class ResourcesTest {
 
     /**
-     * this test will check if, when resourceType or quantity is null, the NullPointerException will be properly thrown
-     * @throws Exception
-     */
-    @Test
-    public void sumResourceTypeShouldThrowsException() throws Exception {
-        Resources resources = new Resources(1,1,1,1,1,1,1);
-
-        try {
-            resources.sumResourceType(null, 1);
-            fail("NullPointerException was not occured when resourceType is null");
-        }
-        catch (NullPointerException ex) {
-
-        }
-
-        try {
-            resources.sumResourceType(ResourceType.SERVANTS, null);
-            fail("NullPointerExcpetion was not occured when quantity is null");
-        }
-        catch (NullPointerException ex) {
-
-        }
-
-        try {
-            resources.sumResourceType(null, null);
-            fail("NullPointerException was not occured when both resourceType and quantity are null");
-        }
-        catch (NullPointerException ex) {
-
-        }
-
-    }
-
-    /**
      * this test will check if the addiction or subtraction between resources will be properly executed
      */
     @Test
@@ -65,16 +31,6 @@ public class ResourcesTest {
 
         for(ResourceType resourceType : ResourceType.values())
             assertEquals(-1, resources.getResourceByType(resourceType).longValue());
-    }
-
-    /**
-     * this test will check if, when all resources are 0, the NullPointerException will be properly thrown
-     * @throws Exception
-     */
-    @Test(expected = NullPointerException.class)
-    public void sumResourcesShouldThrowsException() throws Exception {
-        Resources resources = new Resources(0,0,0,0,0,0,0);
-        resources.sumResources(null);
     }
 
     /**
@@ -159,16 +115,6 @@ public class ResourcesTest {
 
 
 
-    }
-
-    /**
-     * this test will check if, when multiplier is null, the NullPointerException will be properly thrown
-     * @throws Exception NullPointerException if multiplier is null
-     */
-    @Test(expected = NullPointerException.class)
-    public void multiplyResourcesShouldThrowsException() throws Exception {
-        Resources resources = new Resources(0,0,0,0,0,0,0);
-        resources.multiplyResources(null);
     }
 
     /**

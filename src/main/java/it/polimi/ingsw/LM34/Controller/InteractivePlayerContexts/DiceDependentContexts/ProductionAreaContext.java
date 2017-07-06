@@ -44,7 +44,6 @@ public class ProductionAreaContext extends AbstractGameContext {
                 slot.insertFamilyMemberIgnoringSlotLimit(selectedFamilyMember);
             else
                slot.insertFamilyMember(selectedFamilyMember);
-            selectedFamilyMember.placePawn();
 
             if(this.getCurrentPlayer().getPersonalBoard().getPersonalBonusTile().getProductionDiceValue() <= selectedFamilyMember.getValue()) {
                 ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();

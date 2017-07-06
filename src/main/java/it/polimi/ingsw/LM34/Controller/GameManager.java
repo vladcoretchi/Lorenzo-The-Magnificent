@@ -75,8 +75,6 @@ public class GameManager {
 
     /*GAME CONTEXTS*/
     private Map<ContextType, AbstractGameContext> contexts;
-    private TurnContext turnContext = new TurnContext();
-    //private CouncilPalaceContext palaceContext;
 
     public GameManager(GameRoom gameRoom, List<String> players) {
         this.gameRoom = gameRoom;
@@ -137,7 +135,6 @@ public class GameManager {
     public void startGame() {
         bonusTileSelectionPhase();
         //leaderSelectionPhase(); //TODO: uncomment
-
         players.forEach(player -> this.getPlayerNetworkController(player).setExcommunicationCards(this.excommunicationCards));
         players.forEach(player -> this.getPlayerNetworkController(player).updateDiceValues(this.dices));
         players.forEach(player -> this.getPlayerNetworkController(player).updatePlayersData(this.players));
@@ -356,7 +353,7 @@ public class GameManager {
             if (t.getDevelopmentTypeStored() == developmentDeck.getCardColor())
                 tower = Optional.of(t);
 
-        /**...and now place every card in the deck until the tower's slots are full**/
+        /*...and now place every card in the deck until the tower's slots are full*/
         tower.ifPresent(Tower::sweep);
         while (iterator.hasNext() && tower.get().getCardsStored().size() < Configurator.CARD_PER_ROUND)
             tower.get().addCard((AbstractDevelopmentCard) iterator.next());
@@ -382,9 +379,7 @@ public class GameManager {
      * If timeout while user selects the card -> an arbitrary card is selected automatically
      */
     private void leaderSelectionPhase() {
-        /**
-         * The {@link LeaderCard s} are only 4*#players, the remaining cards are not considered in the game
-         */
+        /*The LeaderCards are only 4*#players, the remaining cards are not considered in the game*/
         leaderCardsDeck = Configurator.getLeaderCards(players.size());
         List<List<LeaderCard>> leaderCardsGroups = new ArrayList<>();
 

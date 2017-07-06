@@ -23,7 +23,7 @@ public class ResourcesBonusTest {
      * this test will check if incomeContext will be properly called
      * @throws Exception ClassCastException if Observable won't be casted to AbstractGameContext
      */
-    @Test//(expected = ClassCastException.class)
+    @Test(expected = ClassCastException.class)
     public void update() throws Exception {
         Observable o = new Observable();
         Object obj = new Object();

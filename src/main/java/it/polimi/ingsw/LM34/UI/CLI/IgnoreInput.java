@@ -7,8 +7,7 @@ import java.util.logging.Level;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class IgnoreInput implements Runnable{
-
-    private boolean run;
+    private Boolean run;
 
     @Override
     public void run() {

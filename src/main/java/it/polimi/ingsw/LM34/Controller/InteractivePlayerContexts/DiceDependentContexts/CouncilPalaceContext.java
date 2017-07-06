@@ -25,7 +25,6 @@ public class CouncilPalaceContext extends AbstractGameContext {
                                                     .interactWithPlayer(palaceSlot.getDiceValue(), false, this.contextType);
 
         councilPalace.addFamilyMember(selectedFamilyMember);
-        selectedFamilyMember.placePawn();
 
         ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();
         ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT))

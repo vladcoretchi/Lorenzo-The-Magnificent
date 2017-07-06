@@ -117,7 +117,6 @@ public class TowersContext extends AbstractGameContext {
 
         try {
             slot.insertFamilyMember(selectedFamilyMember);
-            selectedFamilyMember.placePawn();
 
             this.gameManager.getCurrentPlayer().getPersonalBoard().addCard(card);
             slot.setCardStored(null);

@@ -33,7 +33,7 @@ public class ActionSlotContext extends AbstractGameContext {
         setChanged();
         notifyObservers(this);
 
-        return slot.isEmpty() || this.ignoreSlotLimit;
+        return !slot.isSinglePawnSlot() || (slot.isEmpty() || this.ignoreSlotLimit);
     }
 
     public AbstractGameContext getReferenceContext() {

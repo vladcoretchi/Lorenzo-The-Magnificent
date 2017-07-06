@@ -45,12 +45,15 @@ public class ResourcesExchangeContext extends AbstractGameContext {
             throw new IncorrectInputException();
         }
 
-        Pair<Resources, ResourcesBonus> exchange = resourcesExchange.get(resourceExchangeSelection(resourcesExchange));
-        this.gameManager.getCurrentPlayer().getResources().subResources(exchange.getLeft());
-        ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();
-        ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).setIncome(exchange.getRight().getResources());
-        ((UseCouncilPrivilegeContext) getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(exchange.getRight().getCouncilPrivilege());
-        ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).interactWithPlayer();
+        Integer selection = resourceExchangeSelection(resourcesExchange);
+        if(selection >= 0) {
+            Pair<Resources, ResourcesBonus> exchange = resourcesExchange.get(selection);
+            this.gameManager.getCurrentPlayer().getResources().subResources(exchange.getLeft());
+            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();
+            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).setIncome(exchange.getRight().getResources());
+            ((UseCouncilPrivilegeContext) getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(exchange.getRight().getCouncilPrivilege());
+            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).interactWithPlayer();
+        }
 
         return null;
     }
@@ -58,7 +61,8 @@ public class ResourcesExchangeContext extends AbstractGameContext {
     private Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> resourcesExchange) {
         Integer selectedPair = this.gameManager.getActivePlayerNetworkController().resourceExchangeSelection(resourcesExchange);
         try {
-            Validator.checkValidity(selectedPair, resourcesExchange);
+            if(selectedPair >= 0)
+                Validator.checkValidity(selectedPair, resourcesExchange);
             return  selectedPair;
         } catch(IncorrectInputException ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);

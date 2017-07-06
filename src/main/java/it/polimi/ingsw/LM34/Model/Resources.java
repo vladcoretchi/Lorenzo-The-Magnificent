@@ -87,57 +87,49 @@ public class Resources implements Serializable {
 
     //this method allows the controller to retrieve just the information about the type of resource it needs in that moment
     public Integer getResourceByType(ResourceType resourceType) {
-        if (resourceType == null)
-            throw new NullPointerException();
-
-        return this.resourcesMap.getOrDefault(resourceType, 0);
+        if (resourceType != null)
+            return this.resourcesMap.getOrDefault(resourceType, 0);
+        else
+            return 0;
     }
 
     //allows both addition and subtraction of quantity
     public void sumResourceType(ResourceType resourceType, Integer quantity) {
-        if (resourceType == null || quantity == null)
-            throw new NullPointerException();
-
-        this.resourcesMap.merge(resourceType, quantity, Utilities.sumInteger);
-        if (this.resourcesMap.get(resourceType) == 0)
-            this.resourcesMap.remove(resourceType);
+        if (resourceType != null && quantity != null) {
+            this.resourcesMap.merge(resourceType, quantity, Utilities.sumInteger);
+            if (this.resourcesMap.get(resourceType) == 0)
+                this.resourcesMap.remove(resourceType);
+        }
     }
 
     public void subResourceType(ResourceType resourceType, Integer quantity) {
-        if (resourceType == null || quantity == null)
-            throw new NullPointerException();
-
-        this.resourcesMap.merge(resourceType, quantity, Utilities.subInteger);
-        if (this.resourcesMap.get(resourceType) == 0)
-            this.resourcesMap.remove(resourceType);
+        if (resourceType != null && quantity != null) {
+            this.resourcesMap.merge(resourceType, quantity, Utilities.subInteger);
+            if (this.resourcesMap.get(resourceType) == 0)
+                this.resourcesMap.remove(resourceType);
+        }
     }
 
     //this method handles addition of resourcesMap
     public void sumResources (Resources res) {
-        if (res == null)
-            throw new NullPointerException();
-
-        res.getResources().forEach(this::sumResourceType);
+        if (res != null)
+            res.getResources().forEach(this::sumResourceType);
     }
 
 
     //this method handles subtraction as negative number of resourcesMap
     public void subResources (Resources res) {
-        if (res == null)
-            throw new NullPointerException();
-
-        res.getResources().forEach(this::subResourceType);
+        if (res != null)
+            res.getResources().forEach(this::subResourceType);
     }
 
     //this method also handles the multiplication of resourcesMap
     public void multiplyResources (Integer multiplier) {
-        if (multiplier == null)
-            throw new NullPointerException();
-
-        for(ResourceType type : ResourceType.values())
-            if(this.resourcesMap.containsKey(type)) {
-                this.resourcesMap.merge(type, multiplier, Utilities.multiplyInteger);
-            }
+        if (multiplier != null)
+            for(ResourceType type : ResourceType.values())
+                if(this.resourcesMap.containsKey(type)) {
+                    this.resourcesMap.merge(type, multiplier, Utilities.multiplyInteger);
+                }
     }
 
     public Boolean hasEnough(Resources res) {

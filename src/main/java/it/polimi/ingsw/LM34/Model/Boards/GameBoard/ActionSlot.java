@@ -31,7 +31,7 @@ public class ActionSlot implements Serializable {
             throw new OccupiedSlotException();
         else {
             this.familyMembers.add(fm);
-            fm.isUsed(); //TODO: check if this goes here
+            fm.placePawn();
         }
     }
 
