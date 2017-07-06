@@ -13,7 +13,9 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class TowerTest {
-
+    /**
+     * this test will test if cards will be correctly added into tower's slot
+     */
     @Test
     public void addCard() throws Exception {
         List<TowerSlot> towerSlots = new ArrayList<>();
@@ -34,6 +36,9 @@ public class TowerTest {
         assertEquals(2, tower.getCardsStored().size());
     }
 
+    /**
+     * this test will check if a tower is empty
+     */
     @Test
     public void isTowerEmpty() throws Exception {
         List<TowerSlot> towerSlots = new ArrayList<>();
@@ -55,8 +60,11 @@ public class TowerTest {
         assertTrue(tower2.isTowerEmpty());
     }
 
+    /**
+     * this tower will check if a tower will properly sweep
+     */
     @Test
-    public void sweep() throws Exception {
+    public void sweep() {
         List<TowerSlot> towerSlots = new ArrayList<>();
         Resources resources1 = new Resources(1,1,1,1,1,1,1);
         Resources resources2 = new Resources(2,2,2,2,2,2,2);

@@ -7,9 +7,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class FamilyMemberTest {
-
+    /**
+     * this test will check if a FamilyMember will be properly copied
+     */
     @Test
-    public void copy() throws Exception {
+    public void copy() {
         FamilyMember familyMember = new FamilyMember(PawnColor.GREEN, DiceColor.BLACK);
         familyMember.setValue(3);
         FamilyMember familyMemberThatWillReceiveCopy = familyMember.copy();
@@ -20,6 +22,10 @@ public class FamilyMemberTest {
         assertEquals(familyMember.isUsed(), familyMemberThatWillReceiveCopy.isUsed());
     }
 
+    /**
+     * this test will check if a pawn will be properly placed
+     * @throws Exception
+     */
     @Test
     public void placePawn() throws Exception {
         FamilyMember familyMember = new FamilyMember(PawnColor.GREEN, DiceColor.BLACK);
@@ -31,6 +37,10 @@ public class FamilyMemberTest {
         assertTrue(familyMember.isUsed());
     }
 
+    /**
+     * this test will check if a pawn's slot will be effectively freed when a pawn will be removed
+     * @throws Exception
+     */
     @Test
     public void freePawn() throws Exception {
         FamilyMember familyMember = new FamilyMember(PawnColor.GREEN, DiceColor.BLACK);
@@ -41,6 +51,10 @@ public class FamilyMemberTest {
         assertFalse(familyMember.isUsed());
     }
 
+    /**
+     * this test will check if a pawn's slot will be effectively used when it's will contains a pawn
+     * @throws Exception
+     */
     @Test
     public void isUsed() throws Exception {
         FamilyMember familyMember = new FamilyMember(PawnColor.GREEN, DiceColor.BLACK);

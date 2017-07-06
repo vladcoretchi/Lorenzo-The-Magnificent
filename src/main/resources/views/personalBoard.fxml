@@ -5,16 +5,14 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
 <AnchorPane minWidth="-Infinity" minHeight="-Infinity" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="970" prefHeight="670" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.LM34.UI.GUI.GuiViews.PersonalBoardView">
     <children>
         <ScrollPane vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED" minWidth="-Infinity" minHeight="-Infinity" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="970" prefHeight="1235.8" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <Group fx:id="personalBoardCards">
                  <ImageView fitWidth="970" fitHeight="1235.8">
                     <Image url="@../images/backgrounds/PersonalBoardBackground.jpg"></Image>
-                </ImageView>
-
-                <ImageView fx:id="personalTile" fitWidth="100" fitHeight="658.08" layoutX="20" layoutY="20">
-                    <Image url="@../images/personalBoard/personalTiles/AdvancedPersonalTile1.png"></Image>
                 </ImageView>
 
                 <ImageView fx:id="personalBoard_YELLOWCard0" fitWidth="126" fitHeight="194" layoutX="150" layoutY="20" visible="false">
@@ -30,6 +28,162 @@
                 <ImageView fx:id="personalBoard_YELLOWCard5" fitWidth="126" fitHeight="194" layoutX="805" layoutY="20" visible="false">
                 </ImageView>
 
+                <StackPane fx:id="military_points_for_territories0" layoutX="175.0" layoutY="220.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="35.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/MILITARY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="8" layoutY="26" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
+                <StackPane fx:id="territories_to_victory_points0" layoutX="220.0" layoutY="223.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/VICTORY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
+                <StackPane fx:id="military_points_for_territories1" layoutX="306" layoutY="220.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="35.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/MILITARY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="8" layoutY="26" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
+                <StackPane fx:id="territories_to_victory_points1" layoutX="351.0" layoutY="223.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/VICTORY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
+                <StackPane fx:id="military_points_for_territories2" layoutX="437" layoutY="220.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="35.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/MILITARY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="8" layoutY="26" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
+                <StackPane fx:id="territories_to_victory_points2" layoutX="482.0" layoutY="223.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/VICTORY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
+                <StackPane fx:id="military_points_for_territories3" layoutX="568" layoutY="220.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="35.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/MILITARY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="8" layoutY="26" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
+                <StackPane fx:id="territories_to_victory_points3" layoutX="613.0" layoutY="223.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/VICTORY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
+                <StackPane fx:id="military_points_for_territories4" layoutX="699" layoutY="220.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="35.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/MILITARY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="8" layoutY="26" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
+                <StackPane fx:id="territories_to_victory_points4" layoutX="744.0" layoutY="223.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/VICTORY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
+                <StackPane fx:id="military_points_for_territories5" layoutX="830" layoutY="220.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="35.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/MILITARY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="8" layoutY="26" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
+                <StackPane fx:id="territories_to_victory_points5" layoutX="875.0" layoutY="223.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/VICTORY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
                 <ImageView fx:id="personalBoard_GREENCard0" fitWidth="126" fitHeight="194" layoutX="150" layoutY="264" visible="false">
                 </ImageView>
                 <ImageView fx:id="personalBoard_GREENCard1" fitWidth="126" fitHeight="194" layoutX="281" layoutY="264" visible="false">
@@ -43,6 +197,84 @@
                 <ImageView fx:id="personalBoard_GREENCard5" fitWidth="126" fitHeight="194" layoutX="805" layoutY="264" visible="false">
                 </ImageView>
 
+                <StackPane fx:id="characters_to_victory_points0" layoutX="201.0" layoutY="467.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/VICTORY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
+                <StackPane fx:id="characters_to_victory_points1" layoutX="332.0" layoutY="467.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/VICTORY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
+                <StackPane fx:id="characters_to_victory_points2" layoutX="463.0" layoutY="467.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/VICTORY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
+                <StackPane fx:id="characters_to_victory_points3" layoutX="594.0" layoutY="467.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/VICTORY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
+                <StackPane fx:id="characters_to_victory_points4" layoutX="725.0" layoutY="467.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/VICTORY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
+                <StackPane fx:id="characters_to_victory_points5" layoutX="856.0" layoutY="467.0">
+                    <Group>
+                        <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
+                            <Image url="@../images/resources/VICTORY_POINTS.png" />
+                        </ImageView>
+                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
+                            <font>
+                                <Font size="16" />
+                            </font>
+                        </Text>
+                    </Group>
+                </StackPane>
+
                 <ImageView fx:id="personalBoard_BLUECard0" fitWidth="126" fitHeight="194" layoutX="150" layoutY="508" visible="false">
                 </ImageView>
                 <ImageView fx:id="personalBoard_BLUECard1" fitWidth="126" fitHeight="194" layoutX="281" layoutY="508" visible="false">
@@ -55,9 +287,6 @@
                 </ImageView>
                 <ImageView fx:id="personalBoard_BLUECard5" fitWidth="126" fitHeight="194" layoutX="805" layoutY="508" visible="false">
                 </ImageView>
-                <ImageView fx:id="personalBoard_BLUECard6" fitWidth="126" fitHeight="194" layoutX="936" layoutY="508" visible="false">
-                </ImageView>
-
 
                 <ImageView fx:id="personalBoard_PURPLECard0" fitWidth="126" fitHeight="194" layoutX="150" layoutY="752" visible="false">
                 </ImageView>
@@ -70,8 +299,6 @@
                 <ImageView fx:id="personalBoard_PURPLECard4" fitWidth="126" fitHeight="194" layoutX="674" layoutY="752" visible="false">
                 </ImageView>
                 <ImageView fx:id="personalBoard_PURPLECard5" fitWidth="126" fitHeight="194" layoutX="805" layoutY="752" visible="false">
-                </ImageView>
-                <ImageView fx:id="personalBoard_PURPLECard6" fitWidth="126" fitHeight="194" layoutX="936" layoutY="752" visible="false">
                 </ImageView>
 
                 <ImageView fx:id="personalBoard_LeaderCard0" fitWidth="131" fitHeight="219.8" layoutX="150" layoutY="996" visible="false">

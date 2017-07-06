@@ -11,6 +11,10 @@ import static org.junit.Assert.assertEquals;
 
 public class CouncilPalaceTest {
 
+    /**
+     * this test will check if council palace will be properly swept
+     * @throws Exception
+     */
     @Test
     public void sweepPalace() throws Exception {
         List<FamilyMember> occupyingPawns;

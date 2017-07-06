@@ -47,6 +47,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -129,10 +130,16 @@ public class GUI extends Application implements UIInterface {
     @Override
     public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
         FutureTask<Integer> uiTask = new FutureTask<>(() -> {
-            this.loginStage.hide();
-            this.loginStage.close();
-            this.start(new Stage());
-            return new BonusTileDialog().interactWithPlayer(bonusTiles);
+            try {
+                this.loginStage.hide();
+                this.loginStage.close();
+                this.start(new Stage());
+                return new BonusTileDialog().interactWithPlayer(bonusTiles);
+            }
+            catch (Exception ex) {
+                ex.printStackTrace();
+                return null;
+            }
         });
         return RunLaterTask(uiTask);
     }
@@ -558,6 +565,7 @@ public class GUI extends Application implements UIInterface {
     public void show() {
         Platform.setImplicitExit(true);
         loginMenu();
+
     }
 
     /**

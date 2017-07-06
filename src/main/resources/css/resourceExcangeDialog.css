@@ -1,7 +1,8 @@
 .choice-box {
     -fx-background-color: rgba(107,110,109,0.74);
     -fx-text-fill: #914800;
-    -fx-effect: dropshadow(gaussian, fuchsia, 10, 1.0, 100, 100);
+    -fx-text-fill: rgba(54,25,0,0.96);
+    -fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);
 }
 
 .header {
@@ -10,10 +11,15 @@
 
 .resourceExcange > *.header-panel {
     -fx-background-color: rgba(136,139,138,0.74);
+    -fx-text-fill: rgba(54,25,0,0.96);
+    -fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);
 }
 
 .choice-box > .button-bar > .container {
     -fx-background-color: #1d1d1d;
+    -fx-font-size: 18px;
+    -fx-font-style: italic;
+    -fx-text-fill: white;
 }
 
 .resourceExcange > *.button-bar {

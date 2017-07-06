@@ -141,42 +141,71 @@
             <ImageView fx:id="towerYELLOWbonus3" fitHeight="100" fitWidth="100" layoutX="891" layoutY="115"  style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="towerYELLOWbonus2" fitHeight="100" fitWidth="100" layoutX="891" layoutY="380"  style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOWbonus2" fitHeight="30" fitWidth="30" layoutX="891" layoutY="380"  style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="towerYELLOWbonus1" fitHeight="100" fitWidth="100" layoutX="891" layoutY="642"  style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOWbonus1" fitHeight="30" fitWidth="30" layoutX="891" layoutY="642"  style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="towerYELLOWbonus0" fitHeight="100" fitWidth="100" layoutX="891" layoutY="902"  style="-fx-background-color: transparent">
+            <ImageView fx:id="towerYELLOWbonus0" fitHeight="30" fitWidth="30" layoutX="891" layoutY="902"  style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
 
-            <ImageView fx:id="towerPURPLEbonus3" fitHeight="100" fitWidth="100" layoutX="1211" layoutY="115"  style="-fx-background-color: transparent">
+            <ImageView fx:id="towerPURPLEbonus3" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="115"  style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="towerPURPLEbonus2" fitHeight="100" fitWidth="100" layoutX="1211" layoutY="380"  style="-fx-background-color: transparent">
+            <ImageView fx:id="towerPURPLEbonus2" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="380"  style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="towerPURPLEbonus1" fitHeight="100" fitWidth="100" layoutX="1211" layoutY="642"  style="-fx-background-color: transparent">
+            <ImageView fx:id="towerPURPLEbonus1" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="642"  style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <ImageView fx:id="towerPURPLEbonus0" fitHeight="100" fitWidth="100" layoutX="1211" layoutY="902"  style="-fx-background-color: transparent">
+            <ImageView fx:id="towerPURPLEbonus0" fitHeight="30" fitWidth="30" layoutX="1211" layoutY="902"  style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
         </Group>
     </ScrollPane>
 
         <ScrollPane layoutY="300" prefHeight="880" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.rowIndex="1">
-            <VBox id="playersInfoList" minHeight="100">
+            <VBox id="playersInfoList" minHeight="100" style="-fx-background-color: #3d4d5b">
                 <children>
-                    <Pane fx:id="leaderCardsActions" prefHeight="200.0" prefWidth="190" style="-fx-background-color: rgba(172,172,172,0.96)">
+                    <Pane fx:id="leaderCardsActions" prefHeight="200.0" prefWidth="190">
                         <children>
+                            <Button fx:id="leaderCardAction" prefWidth="150" prefHeight="50" layoutX="40" layoutY="15" text="Leader Cards"
+                                    style="
+
+                                    -fx-background-color:#090a0c, linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%), linear-gradient(#20262b, #191d22), radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+                                    -fx-background-radius: 5,4,3,5;
+                                    -fx-background-insets: 0,1,2,0;
+                                    -fx-text-fill: white;
+                                    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+                                    -fx-text-fill: linear-gradient(white, #d0d0d0);
+                                    -fx-font-size: 12px;
+                                    -fx-padding: 10 20 10 20;">
+
+                        </Button>
+                            <Button fx:id="endTurn" prefWidth="150" prefHeight="50" layoutX="40" layoutY="75" text="End Turn" onMouseClicked="#passTurn"
+
+                                    style="
+
+                                    -fx-background-color:#090a0c, linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%), linear-gradient(#20262b, #191d22), radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
+                                    -fx-background-radius: 5,4,3,5;
+                                    -fx-background-insets: 0,1,2,0;
+                                    -fx-text-fill: white;
+                                    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+                                    -fx-text-fill: linear-gradient(white, #d0d0d0);
+                                    -fx-font-size: 12px;
+                                    -fx-padding: 10 20 10 20;
+
+                            ">
+
+                            </Button>
                             <Button fx:id="leaderCardAction" prefWidth="150" prefHeight="50" layoutX="40" layoutY="15" text="Leader Cards" style="-fx-border-color: #61a2b1; -fx-text-fill: crimson; -fx-background-color: rgba(136,139,138,0.74);"></Button>
                             <Button fx:id="endTurn" prefWidth="150" prefHeight="50" layoutX="40" layoutY="75" text="End Turn" style="-fx-border-color: #61a2b1; -fx-text-fill: crimson; -fx-background-color: rgba(136,139,138,0.74);"></Button>
                         </children>
                     </Pane>
 
-                <Pane fx:id="playerInfo1" managed="false" style="-fx-border-color: #1d1d1d;" visible="false">
+                <Pane fx:id="playerInfo1" managed="true" style="-fx-border-color: #1d1d1d;" visible="true">
                     <children>
                         <Label fx:id="player1" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player1">
                          <font>
@@ -187,19 +216,19 @@
                                 <ImageView fx:id="VICTORY_POINTS_player1_type" fitHeight="45.6" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/VICTORY_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="VICTORY_POINTS_player1_value" layoutX="17" layoutY="28" style="-fx-border-color: white; -fx-border-width: 5px;" text="1">
+                            <Text fx:id="VICTORY_POINTS_player1_value" layoutX="17" layoutY="28" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="15" />
                                 </font>
                             </Text>
                         </Group>
                     </StackPane>
-                    <StackPane fx:id="COINS_player1_wrapper" layoutX="20.0" layoutY="70.0">
+                    <StackPane fx:id="COINS_player1_wrapper" layoutX="20.0" layoutY="75.0">
                         <Group>
                             <ImageView fx:id="COINS_player1_type" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
                                 <Image url="@../images/resources/COINS.png" />
                             </ImageView>
-                            <Text fx:id="COINS_player1_value" layoutX="17" layoutY="25" text="1">
+                            <Text fx:id="COINS_player1_value" layoutX="17" layoutY="23" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="22" />
                                 </font>
@@ -211,7 +240,7 @@
                             <ImageView fx:id="STONES_player1_type" fitHeight="38.88" fitWidth="42.84" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/STONES.png" />
                             </ImageView>
-                            <Text fx:id="STONES_player1_value" layoutX="12" layoutY="30" text="1">
+                            <Text fx:id="STONES_player1_value" layoutX="12" layoutY="30" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="17" />
                                 </font>
@@ -223,7 +252,7 @@
                             <ImageView fx:id="WOODS_player1_type" fitHeight="36.0" fitWidth="42.12" layoutX="100.0" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/WOODS.png" />
                             </ImageView>
-                            <Text fx:id="WOODS_player1_value" layoutX="118" layoutY="4" text="1">
+                            <Text fx:id="WOODS_player1_value" layoutX="118" layoutY="4" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="17" />
                                 </font>
@@ -235,7 +264,7 @@
                             <ImageView fx:id="SERVANTS_player1_type" fitHeight="56.0" fitWidth="33.6" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/SERVANTS.png" />
                             </ImageView>
-                            <Text fx:id="SERVANTS_player1_value" layoutX="5" layoutY="38" text="1">
+                            <Text fx:id="SERVANTS_player1_value" layoutX="5" layoutY="38" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <effect>
                                     <Glow />
                                 </effect>
@@ -250,7 +279,7 @@
                             <ImageView fx:id="FAITH_POINTS_player1_type" fitHeight="49.28" fitWidth="42.24" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/FAITH_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="FAITH_POINTS_player1_value" layoutX="7" layoutY="41" text="1">
+                            <Text fx:id="FAITH_POINTS_player1_value" layoutX="7" layoutY="41" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <effect>
                                     <DropShadow color="white"> </DropShadow>
                                 </effect>
@@ -265,7 +294,7 @@
                             <ImageView fx:id="MILITARY_POINTS_player1_type" fitHeight="53.1" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/MILITARY_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="MILITARY_POINTS_player1_value" layoutX="15" layoutY="38" text="1">
+                            <Text fx:id="MILITARY_POINTS_player1_value" layoutX="15" layoutY="38" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="17" />
                                 </font>
@@ -274,7 +303,7 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo2" managed="false" style="-fx-border-color: #1d1d1d;" visible="false">
+            <Pane fx:id="playerInfo2" managed="true" style="-fx-border-color: #1d1d1d;" visible="true">
                 <children>
                     <Label fx:id="player2" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player2">
                         <font>
@@ -285,7 +314,7 @@
                             <ImageView fx:id="VICTORY_POINTS_player2_type" fitHeight="45.6" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/VICTORY_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="VICTORY_POINTS_player2_value" layoutX="17" layoutY="28" style="-fx-border-color: white; -fx-border-width: 5px;" text="1">
+                            <Text fx:id="VICTORY_POINTS_player2_value" layoutX="17" layoutY="28" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="15" />
                                 </font>
@@ -297,7 +326,7 @@
                             <ImageView fx:id="COINS_player2_type" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
                                 <Image url="@../images/resources/COINS.png" />
                             </ImageView>
-                            <Text fx:id="COINS_player2_value" layoutX="17" layoutY="25" text="1">
+                            <Text fx:id="COINS_player2_value" layoutX="17" layoutY="25" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="22" />
                                 </font>
@@ -309,7 +338,7 @@
                             <ImageView fx:id="STONES_player2_type" fitHeight="38.88" fitWidth="42.84" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/STONES.png" />
                             </ImageView>
-                            <Text fx:id="STONES_player2_value" layoutX="12" layoutY="30" text="1">
+                            <Text fx:id="STONES_player2_value" layoutX="12" layoutY="30" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="17" />
                                 </font>
@@ -321,7 +350,7 @@
                             <ImageView fx:id="WOODS_player2_type" fitHeight="36.0" fitWidth="42.12" layoutX="100.0" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/WOODS.png" />
                             </ImageView>
-                            <Text fx:id="WOODS_player2_value" layoutX="118" layoutY="4" text="1">
+                            <Text fx:id="WOODS_player2_value" layoutX="118" layoutY="4" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="17" />
                                 </font>
@@ -333,7 +362,7 @@
                             <ImageView fx:id="SERVANTS_player2_type" fitHeight="56.0" fitWidth="33.6" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/SERVANTS.png" />
                             </ImageView>
-                            <Text fx:id="SERVANTS_player2_value" layoutX="5" layoutY="38" text="1">
+                            <Text fx:id="SERVANTS_player2_value" layoutX="5" layoutY="38" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <effect>
                                     <Glow />
                                 </effect>
@@ -348,7 +377,7 @@
                             <ImageView fx:id="FAITH_POINTS_player2_type" fitHeight="49.28" fitWidth="42.24" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/FAITH_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="FAITH_POINTS_player2_value" layoutX="7" layoutY="41" text="1">
+                            <Text fx:id="FAITH_POINTS_player2_value" layoutX="7" layoutY="41" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <effect>
                                     <DropShadow color="white"> </DropShadow>
                                 </effect>
@@ -363,7 +392,7 @@
                             <ImageView fx:id="MILITARY_POINTS_player2_type" fitHeight="53.1" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/MILITARY_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="MILITARY_POINTS_player2_value" layoutX="15" layoutY="38" text="1">
+                            <Text fx:id="MILITARY_POINTS_player2_value" layoutX="15" layoutY="38" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="17" />
                                 </font>
@@ -372,7 +401,7 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo3" managed="false" style="-fx-border-color: #1d1d1d;" visible="false">
+            <Pane fx:id="playerInfo3" managed="true" style="-fx-border-color: #1d1d1d;" visible="true">
                 <children>
                     <Label fx:id="player3" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player3">
                         <font>
@@ -395,7 +424,7 @@
                             <ImageView fx:id="COINS_player3_type" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
                                 <Image url="@../images/resources/COINS.png" />
                             </ImageView>
-                            <Text fx:id="COINS_player3_value" layoutX="17" layoutY="25" text="1">
+                            <Text fx:id="COINS_player3_value" layoutX="17" layoutY="25" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="22" />
                                 </font>
@@ -407,7 +436,7 @@
                             <ImageView fx:id="STONES_player3_type" fitHeight="38.88" fitWidth="42.84" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/STONES.png" />
                             </ImageView>
-                            <Text fx:id="STONES_player3_value" layoutX="12" layoutY="30" text="1">
+                            <Text fx:id="STONES_player3_value" layoutX="12" layoutY="30" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="17" />
                                 </font>
@@ -419,7 +448,7 @@
                             <ImageView fx:id="WOODS_player3_type" fitHeight="36.0" fitWidth="42.12" layoutX="100.0" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/WOODS.png" />
                             </ImageView>
-                            <Text fx:id="WOODS_player3_value" layoutX="118" layoutY="4" text="1">
+                            <Text fx:id="WOODS_player3_value" layoutX="118" layoutY="4" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="17" />
                                 </font>
@@ -431,7 +460,7 @@
                             <ImageView fx:id="SERVANTS_player3_type" fitHeight="56.0" fitWidth="33.6" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/SERVANTS.png" />
                             </ImageView>
-                            <Text fx:id="SERVANTS_player3_value" layoutX="5" layoutY="38" text="1">
+                            <Text fx:id="SERVANTS_player3_value" layoutX="5" layoutY="38" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <effect>
                                     <Glow />
                                 </effect>
@@ -446,7 +475,7 @@
                             <ImageView fx:id="FAITH_POINTS_player3_type" fitHeight="49.28" fitWidth="42.24" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/FAITH_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="FAITH_POINTS_player3_value" layoutX="7" layoutY="41" text="1">
+                            <Text fx:id="FAITH_POINTS_player3_value" layoutX="7" layoutY="41" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <effect>
                                     <DropShadow color="white"> </DropShadow>
                                 </effect>
@@ -461,7 +490,7 @@
                             <ImageView fx:id="MILITARY_POINTS_player3_type" fitHeight="53.1" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/MILITARY_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="MILITARY_POINTS_player3_value" layoutX="15" layoutY="38" text="1">
+                            <Text fx:id="MILITARY_POINTS_player3_value" layoutX="15" layoutY="38" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="17" />
                                 </font>
@@ -470,9 +499,9 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo4" managed="false" style="-fx-border-color: #1d1d1d;" visible="false">
+            <Pane fx:id="playerInfo4" managed="true" style="-fx-border-color: #1d1d1d;" visible="true">
                 <children>
-                    <Label fx:id="player4" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player4">
+                    <Label fx:id="player4" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="player4">
                         <font>
                             <Font size="17.0" />
                         </font></Label>
@@ -493,7 +522,7 @@
                             <ImageView fx:id="COINS_player4_type" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
                                 <Image url="@../images/resources/COINS.png" />
                             </ImageView>
-                            <Text fx:id="COINS_player4_value" layoutX="17" layoutY="25" text="1">
+                            <Text fx:id="COINS_player4_value" layoutX="17" layoutY="25" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="22" />
                                 </font>
@@ -505,7 +534,7 @@
                             <ImageView fx:id="STONES_player4_type" fitHeight="38.88" fitWidth="42.84" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/STONES.png" />
                             </ImageView>
-                            <Text fx:id="STONES_player4_value" layoutX="12" layoutY="30" text="1">
+                            <Text fx:id="STONES_player4_value" layoutX="12" layoutY="30" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="17" />
                                 </font>
@@ -517,7 +546,7 @@
                             <ImageView fx:id="WOODS_player4_type" fitHeight="36.0" fitWidth="42.12" layoutX="100.0" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/WOODS.png" />
                             </ImageView>
-                            <Text fx:id="WOODS_player4_value" layoutX="118" layoutY="4" text="1">
+                            <Text fx:id="WOODS_player4_value" layoutX="118" layoutY="4" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="17" />
                                 </font>
@@ -529,7 +558,7 @@
                             <ImageView fx:id="SERVANTS_player4_type" fitHeight="56.0" fitWidth="33.6" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/SERVANTS.png" />
                             </ImageView>
-                            <Text fx:id="SERVANTS_player4_value" layoutX="5" layoutY="38" text="1">
+                            <Text fx:id="SERVANTS_player4_value" layoutX="5" layoutY="38" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <effect>
                                     <Glow />
                                 </effect>
@@ -544,7 +573,7 @@
                             <ImageView fx:id="FAITH_POINTS_player4_type" fitHeight="49.28" fitWidth="42.24" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/FAITH_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="FAITH_POINTS_player4_value" layoutX="7" layoutY="41" text="1">
+                            <Text fx:id="FAITH_POINTS_player4_value" layoutX="7" layoutY="41" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <effect>
                                     <DropShadow color="white"> </DropShadow>
                                 </effect>
@@ -559,7 +588,7 @@
                             <ImageView fx:id="MILITARY_POINTS_player4_type" fitHeight="53.1" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/MILITARY_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="MILITARY_POINTS_player4_value" layoutX="15" layoutY="38" text="1">
+                            <Text fx:id="MILITARY_POINTS_player4_value" layoutX="15" layoutY="38" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="17" />
                                 </font>
@@ -568,7 +597,7 @@
                     </StackPane>
                 </children>
             </Pane>
-            <Pane fx:id="playerInfo5" managed="false" style="-fx-border-color: #1d1d1d;" visible="false">
+            <Pane fx:id="playerInfo5" managed="true" style="-fx-border-color: #1d1d1d;" visible="true">
                 <children>
                     <Label fx:id="player5" layoutX="20.0" layoutY="17.0" prefHeight="22.0" prefWidth="117.0" text="player5">
                         <font>
@@ -591,7 +620,7 @@
                             <ImageView fx:id="COINS_player5_type" fitHeight="44.27" fitWidth="44.27" pickOnBounds="true" preserveRatio="true"> <!--19%-->
                                 <Image url="@../images/resources/COINS.png" />
                             </ImageView>
-                            <Text fx:id="COINS_player5_value" layoutX="17" layoutY="25" text="1">
+                            <Text fx:id="COINS_player5_value" layoutX="17" layoutY="25" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="22" />
                                 </font>
@@ -603,7 +632,7 @@
                             <ImageView fx:id="STONES_player5_type" fitHeight="38.88" fitWidth="42.84" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/STONES.png" />
                             </ImageView>
-                            <Text fx:id="STONES_player5_value" layoutX="12" layoutY="30" text="1">
+                            <Text fx:id="STONES_player5_value" layoutX="12" layoutY="30" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="17" />
                                 </font>
@@ -615,7 +644,7 @@
                             <ImageView fx:id="WOODS_player5_type" fitHeight="36.0" fitWidth="42.12" layoutX="100.0" pickOnBounds="true" preserveRatio="true"> <!--36%-->
                                 <Image url="@../images/resources/WOODS.png" />
                             </ImageView>
-                            <Text fx:id="WOODS_player5_value" layoutX="118" layoutY="4" text="1">
+                            <Text fx:id="WOODS_player5_value" layoutX="118" layoutY="4" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="17" />
                                 </font>
@@ -627,7 +656,7 @@
                             <ImageView fx:id="SERVANTS_player5_type" fitHeight="56.0" fitWidth="33.6" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/SERVANTS.png" />
                             </ImageView>
-                            <Text fx:id="SERVANTS_player5_value" layoutX="5" layoutY="38" text="1">
+                            <Text fx:id="SERVANTS_player5_value" layoutX="5" layoutY="38" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <effect>
                                     <Glow />
                                 </effect>
@@ -642,7 +671,7 @@
                             <ImageView fx:id="FAITH_POINTS_player5_type" fitHeight="49.28" fitWidth="42.24" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/FAITH_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="FAITH_POINTS_player5_value" layoutX="7" layoutY="41" text="1">
+                            <Text fx:id="FAITH_POINTS_player5_value" layoutX="7" layoutY="41" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <effect>
                                     <DropShadow color="white"> </DropShadow>
                                 </effect>
@@ -657,7 +686,7 @@
                             <ImageView fx:id="MILITARY_POINTS_player5_type" fitHeight="53.1" fitWidth="40.5" pickOnBounds="true" preserveRatio="true"> <!--23%-->
                                 <Image url="@../images/resources/MILITARY_POINTS.png" />
                             </ImageView>
-                            <Text fx:id="MILITARY_POINTS_player5_value" layoutX="15" layoutY="38" text="1">
+                            <Text fx:id="MILITARY_POINTS_player5_value" layoutX="15" layoutY="38" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0);" text="1">
                                 <font>
                                     <Font size="17" />
                                 </font>

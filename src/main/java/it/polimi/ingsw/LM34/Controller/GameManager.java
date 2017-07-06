@@ -196,9 +196,9 @@ public class GameManager {
         if (turn >= players.size()) { //all players have placed 1 pawn
             this.turn = 0;
             nextPhase();
-        }
+        }// else {
         ((TurnContext) getContextByType(TURN_CONTEXT)).initContext();
-
+        //}
     }
 
     private void nextPhase() {

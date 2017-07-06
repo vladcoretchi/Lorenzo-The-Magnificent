@@ -13,6 +13,10 @@ import static org.junit.Assert.*;
 
 public class ActionSlotTest {
 
+    /**
+     * this test will check if a family member effectively cannot be inserted into an occupied slot
+     * @throws OccupiedSlotException
+     */
     @Test(expected = OccupiedSlotException.class)
     public void insertFamilyMemberWithException() throws OccupiedSlotException {
         Resources resources = new Resources(1,1,1,1,1,1,1);
@@ -25,6 +29,9 @@ public class ActionSlotTest {
 
     }
 
+    /**
+     * this test will check if a family member will effectively inserted into an actionSlot
+     */
     @Test
     public void insertFamilyMember() {
         Resources resources = new Resources(1,1,1,1,1,1,1);
@@ -42,6 +49,10 @@ public class ActionSlotTest {
 
     }
 
+    /**
+     * this test will check if an action slot is effectively empty
+     * @throws OccupiedSlotException
+     */
     @Test
     public void isEmpty() throws OccupiedSlotException {
         Resources resources = new Resources(1,1,1,1,1,1,1);
@@ -56,6 +67,10 @@ public class ActionSlotTest {
         assertFalse(actionSlot.isEmpty());
     }
 
+    /**
+     * this test will check if an action slot will properly swept
+     * @throws OccupiedSlotException
+     */
     @Test
     public void sweep() throws OccupiedSlotException {
         Resources resources = new Resources(1,1,1,1,1,1,1);
@@ -71,6 +86,10 @@ public class ActionSlotTest {
         assertTrue(actionSlot.isEmpty());
     }
 
+    /**
+     * this test will check if an action slot is effectively a singePawnSlot
+     * @throws OccupiedSlotException
+     */
     @Test
     public void isSinglePawnSlot() throws OccupiedSlotException {
         Resources resources = new Resources(1,1,1,1,1,1,1);

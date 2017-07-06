@@ -4,21 +4,17 @@ import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Network.PlayerAction;
 import org.junit.Test;
+
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class ValidatorTest {
 
-    @Test
-    public void checkPlayerActionValidity() throws Exception {
-        PlayerAction action = new PlayerAction();
-        Validator.checkPlayerActionValidity(action);
-    }
-
+    /**
+     * this method will check if a non-Integer String effectively won't be cast to Integer
+     * @throws IncorrectInputException if the input string cannot be cast to Integer
+     */
     @Test(expected = IncorrectInputException.class)
     public void checkValidity() throws IncorrectInputException {
         List<?> data = Arrays.<Object>asList("aldo", "giovanni", "giacomo");
@@ -27,6 +23,10 @@ public class ValidatorTest {
         Validator.checkValidity(input, data);
     }
 
+    /**
+     * this test will check if a String that contains a number will be correctly casted into an Integer
+     * @throws Exception IncorrectInputException if the String won't be cast to Integer
+     */
     @Test
     public void checkValidity2() throws Exception {
         List<?> data = Arrays.<Object>asList(PawnColor.BLUE, PawnColor.GREEN, PawnColor.RED);
@@ -35,6 +35,10 @@ public class ValidatorTest {
         Validator.checkValidity(inputInInteger, data);
     }
 
+    /**
+     * this test will check if input will be >= 0 and <= Player List's size
+     * @throws Exception IncorrectInputException will be thrown if input will be < 0 or > Player List's size
+     */
     @Test
     public void checkValidity3() throws Exception {
         Player player = new Player("luca", PawnColor.GREEN, new PersonalBoard());
@@ -46,6 +50,10 @@ public class ValidatorTest {
         Validator.checkValidity(input, data);
     }
 
+    /**
+     * this test will check if a String that contains a number will be correctly casted into an Integer
+     * @throws Exception IncorrectInputException if the String won't be casted into Integer
+     */
     @Test
     public void checkValidity4() throws Exception {
         String input = "3";
@@ -53,6 +61,10 @@ public class ValidatorTest {
         Validator.checkValidity(input);
     }
 
+    /**
+     * this test will check if input will be > 0 and < max
+     * @throws Exception IncorrectInputException if input will be < 0 or > max
+     */
     @Test
     public void checkValidity5() throws Exception {
         Integer input = 0;

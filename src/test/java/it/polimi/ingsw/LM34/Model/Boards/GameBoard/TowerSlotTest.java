@@ -9,8 +9,11 @@ import static org.junit.Assert.*;
 
 public class TowerSlotTest {
 
+    /**
+     * this test will check if a slot has a card inside
+     */
     @Test
-    public void hasCard() throws Exception {
+    public void hasCard() {
         Resources resources = new Resources(1,1,1,1,1,1,1);
         ResourcesBonus resourcesBonus = new ResourcesBonus(resources, 3);
         TowerSlot towerSlot = new TowerSlot(true, 3, resourcesBonus);
@@ -24,8 +27,11 @@ public class TowerSlotTest {
 
     }
 
+    /**
+     * this test will check if a tower's slot will properly closed
+     */
     @Test
-    public void sweepTowerSlot() throws Exception {
+    public void sweepTowerSlot() {
         Resources resources = new Resources(1,1,1,1,1,1,1);
         ResourcesBonus resourcesBonus = new ResourcesBonus(resources, 3);
         TowerSlot towerSlot = new TowerSlot(true, 3, resourcesBonus);

@@ -12,6 +12,10 @@ import static org.junit.Assert.*;
 
 public class PlayerTest {
 
+    /**
+     * this test will check if, when a leader card will be discarded, the leaderAvailable's size will be reduced by 1
+     * @throws Exception
+     */
     @Test
     public void discardLeaderCard() throws Exception {
         Player player = new Player("aldo", PawnColor.RED, new PersonalBoard());
@@ -32,6 +36,10 @@ public class PlayerTest {
         assertEquals(1, player.getPendingLeaderCards().size());
     }
 
+    /**
+     * this test will check if, when a leader card will be added to player's leaderAvailable, it's size will be increased by 1
+     * @throws Exception
+     */
     @Test
     public void addLeaderCard() throws Exception {
         Player player = new Player("giovanni", PawnColor.RED, new PersonalBoard());
@@ -51,6 +59,10 @@ public class PlayerTest {
 
     }
 
+    /**
+     * this test will check if player's resources will be properly added or subtracted
+     * @throws Exception
+     */
     @Test
     public void addResources() throws Exception {
         Player player = new Player("giacomo", PawnColor.RED, new PersonalBoard());
@@ -75,6 +87,11 @@ public class PlayerTest {
 
     }
 
+    /**
+     * this test will check if, when a excommunication card will be added, the player's excommunication card list's size will be
+     * properly increased by 1
+     * @throws Exception
+     */
     @Test
     public void addExcommunicationCards() throws Exception {
         Player player = new Player("chiara", PawnColor.RED, new PersonalBoard());
@@ -87,6 +104,10 @@ public class PlayerTest {
         assertEquals(1, player.getExcommunicationCards().size());
     }
 
+    /**
+     * this test will check if, when player has enough resources, will properly returned true
+     * @throws Exception
+     */
     @Test
     public void hasEnoughResources() throws Exception {
         Player player = new Player("claudia", PawnColor.RED, new PersonalBoard());
@@ -103,6 +124,10 @@ public class PlayerTest {
         assertFalse(player.hasEnoughResources(resources));
     }
 
+    /**
+     * this test will check if the player has enough cards of determinate type (ex: BLUE), will be properly returned true
+     * @throws Exception
+     */
     @Test
     public void hasEnoughCardsOfType() throws Exception {
         Player player = new Player("silvana", PawnColor.RED, new PersonalBoard());

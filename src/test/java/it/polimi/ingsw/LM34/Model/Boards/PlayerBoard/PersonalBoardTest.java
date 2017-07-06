@@ -11,8 +11,11 @@ import static org.junit.Assert.*;
 public class PersonalBoardTest {
 
     Resources cardResourcesRequired = new Resources();
-     AbstractDevelopmentCard card = new FillAbstractDevelopmentCard();
+    AbstractDevelopmentCard card = new FillAbstractDevelopmentCard();
 
+    /**
+     * this test will check if a card will be correctly added to player's personal board
+     */
     @Test
     public void addCard() {
 

@@ -12,6 +12,10 @@ import java.util.List;
 
 public class MarketTest {
 
+    /**
+     * this test will check if a family member will correctly inserted into market
+     * @throws Exception OccupiedSlotException if player will try to put family memeber into an occupied slot
+     */
     @Test
     public void insertFamilyMember() throws Exception {
         Integer slotIndex = 0;

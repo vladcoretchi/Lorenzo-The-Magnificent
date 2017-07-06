@@ -13,7 +13,10 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class GameSpaceTest {
-
+    /**
+     * this test will check if GameSpace's FamilyMember will properly sweep
+     * @throws Exception
+     */
     @Test
     public void sweep() throws Exception {
         Resources resources = new Resources(1,1,1,1,1,1,1);
