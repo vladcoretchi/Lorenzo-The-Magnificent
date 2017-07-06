@@ -53,6 +53,7 @@ public class TurnContext extends AbstractGameContext {
 
             this.getCurrentPlayer().getActivatedLeaderCards().forEach(card -> card.getBonus().applyEffect(this));
 
+            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();
             interactWithPlayer();
         }
 

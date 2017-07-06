@@ -28,7 +28,8 @@ public class BonusTileDialog {
         });
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
-        dialog.setTitle("BonusTile Selection");
+        dialog.setHeaderText("BonusTile Selection");
+        dialog.setContentText("Choose one of the following bonus tiles");
         dialog.setHeight(600.0);
         dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setDisable(true);
         dialog.setWidth(800.0);

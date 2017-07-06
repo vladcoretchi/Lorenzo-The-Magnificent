@@ -43,34 +43,35 @@
                 <ImageView fx:id="personalBoard_GREENCard5" fitWidth="126" fitHeight="194" layoutX="805" layoutY="264" visible="false">
                 </ImageView>
 
-                <ImageView fx:id="personalBoard_PURPLECard0" fitWidth="126" fitHeight="194" layoutX="150" layoutY="508" visible="false">
+                <ImageView fx:id="personalBoard_BLUECard0" fitWidth="126" fitHeight="194" layoutX="150" layoutY="508" visible="false">
                 </ImageView>
-                <ImageView fx:id="personalBoard_PURPLECard1" fitWidth="126" fitHeight="194" layoutX="281" layoutY="508" visible="false">
+                <ImageView fx:id="personalBoard_BLUECard1" fitWidth="126" fitHeight="194" layoutX="281" layoutY="508" visible="false">
                 </ImageView>
-                <ImageView fx:id="personalBoard_PURPLECard2" fitWidth="126" fitHeight="194" layoutX="412" layoutY="508" visible="false">
+                <ImageView fx:id="personalBoard_BLUECard2" fitWidth="126" fitHeight="194" layoutX="412" layoutY="508" visible="false">
                 </ImageView>
-                <ImageView fx:id="personalBoard_PURPLECard3" fitWidth="126" fitHeight="194" layoutX="543" layoutY="508" visible="false">
+                <ImageView fx:id="personalBoard_BLUECard3" fitWidth="126" fitHeight="194" layoutX="543" layoutY="508" visible="false">
                 </ImageView>
-                <ImageView fx:id="personalBoard_PURPLECard4" fitWidth="126" fitHeight="194" layoutX="674" layoutY="508" visible="false">
+                <ImageView fx:id="personalBoard_BLUECard4" fitWidth="126" fitHeight="194" layoutX="674" layoutY="508" visible="false">
                 </ImageView>
-                <ImageView fx:id="personalBoard_PURPLECard5" fitWidth="126" fitHeight="194" layoutX="805" layoutY="508" visible="false">
+                <ImageView fx:id="personalBoard_BLUECard5" fitWidth="126" fitHeight="194" layoutX="805" layoutY="508" visible="false">
                 </ImageView>
-                <ImageView fx:id="personalBoard_PURPLECard6" fitWidth="126" fitHeight="194" layoutX="936" layoutY="508" visible="false">
+                <ImageView fx:id="personalBoard_BLUECard6" fitWidth="126" fitHeight="194" layoutX="936" layoutY="508" visible="false">
                 </ImageView>
 
-                <ImageView fx:id="personalBoard_BLUECard0" fitWidth="126" fitHeight="194" layoutX="150" layoutY="752" visible="false">
+
+                <ImageView fx:id="personalBoard_PURPLECard0" fitWidth="126" fitHeight="194" layoutX="150" layoutY="752" visible="false">
                 </ImageView>
-                <ImageView fx:id="personalBoard_BLUECard1" fitWidth="126" fitHeight="194" layoutX="281" layoutY="752" visible="false">
+                <ImageView fx:id="personalBoard_PURPLECard1" fitWidth="126" fitHeight="194" layoutX="281" layoutY="752" visible="false">
                 </ImageView>
-                <ImageView fx:id="personalBoard_BLUECard2" fitWidth="126" fitHeight="194" layoutX="412" layoutY="752" visible="false">
+                <ImageView fx:id="personalBoard_PURPLECard2" fitWidth="126" fitHeight="194" layoutX="412" layoutY="752" visible="false">
                 </ImageView>
-                <ImageView fx:id="personalBoard_BLUECard3" fitWidth="126" fitHeight="194" layoutX="543" layoutY="752" visible="false">
+                <ImageView fx:id="personalBoard_PURPLECard3" fitWidth="126" fitHeight="194" layoutX="543" layoutY="752" visible="false">
                 </ImageView>
-                <ImageView fx:id="personalBoard_BLUECard4" fitWidth="126" fitHeight="194" layoutX="674" layoutY="752" visible="false">
+                <ImageView fx:id="personalBoard_PURPLECard4" fitWidth="126" fitHeight="194" layoutX="674" layoutY="752" visible="false">
                 </ImageView>
-                <ImageView fx:id="personalBoard_BLUECard5" fitWidth="126" fitHeight="194" layoutX="805" layoutY="752" visible="false">
+                <ImageView fx:id="personalBoard_PURPLECard5" fitWidth="126" fitHeight="194" layoutX="805" layoutY="752" visible="false">
                 </ImageView>
-                <ImageView fx:id="personalBoard_BLUECard6" fitWidth="126" fitHeight="194" layoutX="936" layoutY="752" visible="false">
+                <ImageView fx:id="personalBoard_PURPLECard6" fitWidth="126" fitHeight="194" layoutX="936" layoutY="752" visible="false">
                 </ImageView>
 
                 <ImageView fx:id="personalBoard_LeaderCard0" fitWidth="131" fitHeight="219.8" layoutX="150" layoutY="996" visible="false">

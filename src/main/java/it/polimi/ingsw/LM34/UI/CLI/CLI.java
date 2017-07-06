@@ -11,7 +11,6 @@ import it.polimi.ingsw.LM34.Enums.UI.NetworkType;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
-import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
@@ -35,7 +34,7 @@ import java.util.*;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts.*;
-import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.*;
+import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.MULTICOLOR;
 import static it.polimi.ingsw.LM34.UI.CLI.CLIStuff.*;
 import static it.polimi.ingsw.LM34.UI.UIConnectionInfo.*;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
@@ -228,11 +227,6 @@ public class CLI implements UIInterface {
     @Override
     public PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid) {
         return null;
-    }
-
-    @Override
-    public void passTurn() {
-        //TODO
     }
 
     /**

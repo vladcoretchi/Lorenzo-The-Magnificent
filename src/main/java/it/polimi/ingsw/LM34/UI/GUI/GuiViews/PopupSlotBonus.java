@@ -17,7 +17,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -45,7 +44,6 @@ public class PopupSlotBonus {
         ImageView tempImage;
         Text value;
         DropShadow borderGlow;
-
 
         for (ResourceType resType : ResourceType.values())
              /*---ADD AS IMAGE AND VALUE THE RESOURCES AND POINTS---*/
@@ -101,7 +99,6 @@ public class PopupSlotBonus {
         scene.setFill(Color.TRANSPARENT);
         stage.setX(coordinateX);
         stage.setY(coordinateY);
-        stage.initModality(Modality.NONE);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setFullScreen(false);
         stage.setScene(scene);

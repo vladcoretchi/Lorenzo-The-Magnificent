@@ -30,9 +30,6 @@ public class Dice implements Serializable {
      *against passing the new value from outside this class
      */
     public void rollDice(){
-        if(this.getColor() != NEUTRAL)
-            this.value = new Random().nextInt(6) + 1;
-        else
-            this.value = 0;
+        this.value = (this.getColor() != NEUTRAL) ? this.value = new Random().nextInt(6) + 1 : 0;
     }
 }

@@ -30,11 +30,11 @@ public class ResourceExchangeDialog {
         }
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
-        dialog.setTitle("Resource Exchange");
+        //dialog.setTitle("Resource Exchange");
         dialog.setHeight(600.0);
         dialog.setWidth(400.0);
         dialog.setGraphic(new ImageView(Thread.currentThread().getContextClassLoader().getResource("images/resources/SERVANTS.png").toExternalForm()));
-        dialog.setContentText("Choose the Leader and the Option to perform:");
+        dialog.setContentText("Choose one of the following options:");
         dialog.setResizable(true);
         dialog.getDialogPane().getStylesheets().add(
                 getClass().getResource("/css/resourceExcangeDialog.css").toExternalForm());

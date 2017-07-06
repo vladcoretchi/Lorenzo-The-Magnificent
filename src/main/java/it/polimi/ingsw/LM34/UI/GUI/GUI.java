@@ -35,10 +35,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -208,7 +205,7 @@ public class GUI extends Application implements UIInterface {
                 imageView = (ImageView) root.lookup("#excommunicationCard" + ex.getPeriod());
                 imageView.setImage(new Image(Thread.currentThread()
                         .getContextClassLoader().getResource("images/excommunicationTiles/excomm_" + ex.getPeriod() + "_" + ex.getNumber() + ".png")
-                        .toExternalForm()));;
+                        .toExternalForm()));
             }
             return null;
         });
@@ -253,7 +250,6 @@ public class GUI extends Application implements UIInterface {
                     /***Load bonuses***/
                     slotView = (ImageView) root.lookup("#tower" + cardColor + "bonus" + level);
                     slotView.setOnMouseEntered(new SlotMouseEvent(towerSpace.getTowerSlots().get(level).getResourcesReward()));
-                    slotView.setOnMouseClicked(new PlacePawn(towerSpace.getTowerSlots().get(level)));
                     if (!towerSlot.getFamilyMembers().isEmpty()) {
                         PawnColor pawnColor = towerSlot.getFamilyMembers().get(0).getFamilyMemberColor();
                         slotView.setImage(new Image(Thread.currentThread()
@@ -267,6 +263,7 @@ public class GUI extends Application implements UIInterface {
         Platform.runLater(uiTask);
     }
 
+    //TODO
     @Override
     public void updateCouncilPalace(CouncilPalace councilPalace) {
         this.palace = councilPalace;
@@ -282,7 +279,6 @@ public class GUI extends Application implements UIInterface {
             List<FamilyMember> pawnsInPalace = new ArrayList<>();
             ActionSlot palaceSlot = palace.getActionSlot();
             palacePane.setOnMouseEntered(new SlotMouseEvent(palaceSlot.getResourcesReward()));
-            palacePane.setOnMouseClicked(new PlacePawn(palace.getActionSlot()));
             pawnsInPalace = palaceSlot.getFamilyMembers();
 
             if (pawnsInPalace.isEmpty())
@@ -316,7 +312,6 @@ public class GUI extends Application implements UIInterface {
             for (Integer index = 0; index < marketSlots.size(); index++) {
                 ImageView slotView = (ImageView) root.lookup("#marketActionSlot" + index);
                 slotView.setOnMouseEntered(new SlotMouseEvent(marketSlots.get(index).getResourcesReward()));
-                slotView.setOnMouseClicked(new PlacePawn(marketSlots.get(index)));
 
                 if (!marketSlots.get(index).getFamilyMembers().isEmpty()) {
                     pawnColor = marketSlots.get(index).getFamilyMembers().get(0).getFamilyMemberColor();
@@ -345,7 +340,6 @@ public class GUI extends Application implements UIInterface {
          */
         FamilyMember pawnInSingleSlot = this.productionArea.getSingleSlot().getFamilyMembers().get(0);
         ImageView imageSingle = (ImageView) root.lookup("#productionArea" + 0);
-        imageSingle.setOnMouseClicked(new PlacePawn(this.productionArea.getSingleSlot()));
 
             if (pawnInSingleSlot != null) {
             imageSingle.setImage(new Image(Thread.currentThread()
@@ -358,8 +352,6 @@ public class GUI extends Application implements UIInterface {
          * Fill the advanced {@link ActionSlot} with the pawns placed inside
          */
         StackPane advancedSlot = (StackPane) root.lookup("#productionArea" + 1);
-        advancedSlot.setOnMouseClicked(new PlacePawn(this.productionArea.getAdvancedSlot()));
-
         HBox hSlots = new HBox();
         hSlots.setSpacing(10);
         ImageView image;
@@ -396,7 +388,6 @@ public class GUI extends Application implements UIInterface {
              */
             FamilyMember pawnInSingleSlot = this.harvestArea.getSingleSlot().getFamilyMembers().get(0);
             ImageView imageSingle = (ImageView) root.lookup("#harvestArea" + 0);
-            imageSingle.setOnMouseClicked(new PlacePawn(this.harvestArea.getSingleSlot()));
             if (pawnInSingleSlot != null) {
                 imageSingle.setImage(new Image(Thread.currentThread()
                         .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + pawnInSingleSlot.getFamilyMemberColor() + ".png")
@@ -408,7 +399,6 @@ public class GUI extends Application implements UIInterface {
              * Fill the advanced {@link ActionSlot} with the pawns placed inside
              */
             StackPane advancedSlot = (StackPane) root.lookup("#harvestArea" + 1);
-            advancedSlot.setOnMouseClicked(new PlacePawn(this.harvestArea.getAdvancedSlot()));
             HBox hSlots = new HBox();
             hSlots.setSpacing(10);
             ImageView image;
@@ -497,7 +487,7 @@ public class GUI extends Application implements UIInterface {
 
     /**
      * @param familyMembers available to the player
-     * @return familyMember choosed from the player
+     * @return familyMember selected from the player
      */
     @Override
     public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
@@ -513,7 +503,14 @@ public class GUI extends Application implements UIInterface {
      */
     @Override
     public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
-        FutureTask<Integer> uiTask = new FutureTask<>(() -> new UseServantsDialog().interactWithPlayer(servantsAvailable, minimumServantsRequested));
+        FutureTask<Integer> uiTask = new FutureTask<>(() -> {
+            try {
+                return new UseServantsDialog().interactWithPlayer(servantsAvailable, minimumServantsRequested);
+            } catch (Exception e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
+                return 1;
+            }
+        });
         return RunLaterTask(uiTask);
     }
 
@@ -529,7 +526,7 @@ public class GUI extends Application implements UIInterface {
 
     /**
      * @param leaderCards that the game consider the player to have available
-     * @return the leader choosed and the action to perform on him
+     * @return the leader selected and the action to perform on him
      */
     @Override
     public Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards) {
@@ -621,39 +618,73 @@ public class GUI extends Application implements UIInterface {
         new PathTypesVisualizationDialog().interactWithPlayer(PathType.MILITARY_POINTS_FOR_TERRITORIES, mapMilitaryPointsForTerritories);
     }
 
+    /**
+     * Main action of a turn performed by the player
+     * @param lastActionValid if the server has invalidated the action of the player, this object
+     * contains the detailed information to display to the player in an informative popup
+     * @return the {@link PlayerAction} to send to the server
+     */
     @Override
     public PlayerAction turnMainAction(Optional<Exception> lastActionValid) {
-        /*FutureTask<PlayerAction> uiTask = new FutureTask<>(() -> {
-            this.playerAction = null;
-            this.latch = new CountDownLatch(1);
-
-            try {
-                Platform.runLater(() -> {
-                    try {
-                        GUI.this.latch.await();
-                    } catch (InterruptedException e) {
-                        LOGGER.log(Level.INFO, e.getMessage(), e);
-                        Thread.currentThread().interrupt();
-                    }
-                });
-
-                //Thread waiterThread = new Thread(new ActionWaiter(this.latch));
-                //waiterThread.wait();
-            } catch (InterruptedException e) {
-                LOGGER.log(Level.INFO, e.getMessage(), e);
-                Thread.currentThread().interrupt();
-            }
-            return this.playerAction;
-        });*/
-
         FutureTask<CountDownLatch> uiTaskActionInit = new FutureTask<>(() -> {
             this.playerAction = new PlayerAction();
             this.actionLatch = new CountDownLatch(1);
-            ToggleButton lBtn = (ToggleButton) root.lookup("#leaderCardActions");
-            lBtn.setOnMouseClicked(new LeaderButtonClickEvent(this.actionLatch, this.playerAction));
 
-            return this.actionLatch;
+        /*Show the player a popup indicating that the last action he did was not valid
+        and what went wrong with it*/
+        lastActionValid.ifPresent( invalidAction ->
+                new LastActionInvalid().interactWithPlayer(invalidAction.getMessage())
+        );
+
+        try {
+            /*Set the listener on the passTurn button*/
+            Button leaderButton = (Button) root.lookup("#leaderCardAction");
+            leaderButton.setOnMouseClicked(new LeaderButtonClickEvent(this.actionLatch, this.playerAction));
+
+            /*Set the listener on the leader button*/
+            Button endTurn = (Button) root.lookup("#endTurn");
+            endTurn.setOnMouseClicked(new endTurnClick(this.actionLatch, this.playerAction));
+
+            /*Set the listener on tower slots*/
+            for (Tower towerSpace : this.towersSpaces) {
+                String cardColor = towerSpace.getCardColor().toString();
+                for (Integer level = 0; level < Configurator.MAX_TOWER_LEVELS; level++) {
+                    ImageView slotView = (ImageView) root.lookup("#tower" + cardColor + "bonus" + level);
+                    slotView.setOnMouseClicked(new PlacePawn(towerSpace.getTowerSlots().get(level), actionLatch, playerAction));
+                }
+            }
+
+            /*Set the listener on palace*/
+            StackPane palacePane = (StackPane) root.lookup("#councilPalace");
+            palacePane.setOnMouseClicked(new PlacePawn(palace.getActionSlot(), actionLatch, playerAction));
+
+            /*Set the listener on the market*/
+            List<ActionSlot> marketSlots = this.market.getActionSlots();
+            for (Integer index = 0; index < marketSlots.size(); index++) {
+                ImageView slotView = (ImageView) root.lookup("#marketActionSlot" + index);
+                slotView.setOnMouseClicked(new PlacePawn(marketSlots.get(index), actionLatch, playerAction));
+            }
+
+            /*Set the listener on harvest area*/
+            ImageView harvestSingle = (ImageView) root.lookup("#harvestArea" + 0);
+            harvestSingle.setOnMouseClicked(new PlacePawn(this.harvestArea.getSingleSlot(), actionLatch, playerAction));
+
+            StackPane harvestAdvanced = (StackPane) root.lookup("#harvestArea" + 1);
+            harvestAdvanced.setOnMouseClicked(new PlacePawn(this.harvestArea.getAdvancedSlot(), actionLatch, playerAction));
+
+            /*Set the listener on production area*/
+            ImageView productionSingle = (ImageView) root.lookup("#productionArea" + 0);
+            productionSingle.setOnMouseClicked(new PlacePawn(this.productionArea.getSingleSlot(), actionLatch, playerAction));
+
+            StackPane productionAdvanced = (StackPane) root.lookup("#productionArea" + 1);
+            productionAdvanced.setOnMouseClicked(new PlacePawn(this.productionArea.getAdvancedSlot(), actionLatch, playerAction));
+        } catch(Exception ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+        }
+        return this.actionLatch;
+
         });
+
         try {
             CountDownLatch waitLatch = RunLaterTask(uiTaskActionInit);
             if(waitLatch != null)
@@ -672,11 +703,24 @@ public class GUI extends Application implements UIInterface {
         return RunLaterTask(uiTask);
     }
 
-    @FXML
-    @Override
-    public void passTurn() {
-        System.out.println("ciao");
-        //TODO: send action to server
+    private class endTurnClick implements  EventHandler<Event> {
+        private CountDownLatch waitLatch;
+        private PlayerAction action;
+
+        public endTurnClick(CountDownLatch latch, PlayerAction action) {
+            this.waitLatch = latch;
+            this.action = action;
+        }
+
+        @Override
+        public void handle(Event event) {
+            try {
+                this.action.setValues(null, null);
+                this.waitLatch.countDown();
+            } catch (Exception e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
+            }
+        }
     }
 
     /**
@@ -709,14 +753,18 @@ public class GUI extends Application implements UIInterface {
         this.faithPath = faithPath;
     }
 
-
     /**
      * Receive the action performed by the player and send the infos about the move to the server
      */
     private class PlacePawn implements EventHandler<Event> {
         private ActionSlot slotClicked;
-        public PlacePawn(ActionSlot slotClicked) {
+        private CountDownLatch waitLatch;
+        private PlayerAction action;
+
+        public PlacePawn(ActionSlot slotClicked, CountDownLatch latch, PlayerAction action) {
             this.slotClicked = slotClicked;
+            this.action = action;
+            this.waitLatch = latch;
         }
 
         /**
@@ -725,13 +773,12 @@ public class GUI extends Application implements UIInterface {
          */
         @Override
         public void handle(Event event) {
-            PlayerAction playerAction;
+            PlayerAction playerAction = new PlayerAction();
             /**
              * Identify the {@link ImageView} or {@link StackPane} that generated the {@link MouseEvent}
              */
             Node source = (Node) event.getSource();
             String slotId = source.getId();
-            System.out.println(slotId);
 
             /**
              * Extract info about the {@link ActionSlot} or {@link TowerSlot}'s level
@@ -748,7 +795,7 @@ public class GUI extends Application implements UIInterface {
                 playerAction = new PlayerAction(HARVEST_AREA_CONTEXT, level);
             else if(slotId.contains("councilPalace"))
                 playerAction = new PlayerAction(COUNCIL_PALACE_CONTEXT, null);
-            else if(slotId.contains("marketSlot"))
+            else if(slotId.contains("marketActionSlot"))
                 playerAction = new PlayerAction(MARKET_AREA_CONTEXT, level);
             else if(slotId.contains("tower")) {
                 /**
@@ -756,7 +803,7 @@ public class GUI extends Application implements UIInterface {
                  */
                 Pattern patternColor = Pattern.compile("[A-Z]+");
                 Matcher matchedColor = patternColor.matcher(slotId);
-                String color = new String();
+                String color ="";
 
                 while (matchedColor.find()) {
                     color = matchedColor.group();
@@ -781,7 +828,9 @@ public class GUI extends Application implements UIInterface {
                 playerAction = new PlayerAction(TOWERS_CONTEXT,
                                     new ImmutablePair<DevelopmentCardColor, Integer>(towerType, level));
             }
-            //TODO: send to server the choice
+
+            this.action.setValues(playerAction.getContext(), playerAction.getAction());
+            this.waitLatch.countDown();
         }
     }
 
@@ -958,12 +1007,5 @@ public class GUI extends Application implements UIInterface {
                 .getContextClassLoader().getResource(path)
                 .toExternalForm()));
         return image;
-    }
-
-    public static void main (String[] args) {
-        GUI gui = new GUI();
-        gui.show();
-        //Configurator.loadConfigs();
-        //gui.launch();
     }
 }

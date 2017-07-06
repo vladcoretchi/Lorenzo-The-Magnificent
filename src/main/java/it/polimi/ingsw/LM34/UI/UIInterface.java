@@ -47,11 +47,6 @@ public interface UIInterface {
     PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid);
 
     /**
-     * Pass the turn if the player wants to pass before timeout ends
-     */
-    void passTurn();
-
-    /**
      * Update UI informations about the gameboard state at start or after each player turn
      * @param game states
      */

@@ -22,15 +22,15 @@ public class LeaderCardsView {
 
     /**
      * @param leadersOwned that the game consider the player to have available
-     * @return the leader choosed and the action to perform on him
+     * @return the leader selected and the action to perform on him
      */
     public Pair<String, LeaderCardsAction> interactWithPlayer(List<LeaderCard> leadersOwned) {
-        String leaderChoosed = leaderCardSelection(leadersOwned);
+        String leaderSelected = leaderCardSelection(leadersOwned);
 
         LeaderCardsAction action = LeaderCardsAction.DISCARD;
         ButtonType activate = new ButtonType(LeaderCardsAction.PLAY.toString());
         ButtonType discard = new ButtonType(LeaderCardsAction.DISCARD.toString());
-        Alert actionChoice = new Alert(Alert.AlertType.NONE, "Activate or Discard "+ leaderChoosed, activate, discard);
+        Alert actionChoice = new Alert(Alert.AlertType.NONE, "Activate or Discard "+ leaderSelected, activate, discard);
         actionChoice.setTitle("Leader Action Dialog");
         actionChoice.getDialogPane().getStylesheets().add(
                 getClass().getResource("/css/dialogStyle.css").toExternalForm());
@@ -43,7 +43,7 @@ public class LeaderCardsView {
             else
                 action = LeaderCardsAction.DISCARD;
 
-        return new ImmutablePair(leaderChoosed, action);
+        return new ImmutablePair(leaderSelected, action);
     }
 
     public String leaderCardSelection(List<LeaderCard> leadersOwned) {
@@ -78,8 +78,8 @@ public class LeaderCardsView {
 
         Optional<ImageView> result = dialog.showAndWait();
         dialog.getDialogPane().setMinHeight(800.0);
-        String leaderChoosed = result.orElse(new ImageView()).getId();
+        String leaderSelected = result.orElse(new ImageView()).getId();
 
-        return leaderChoosed;
+        return leaderSelected;
     }
 }
