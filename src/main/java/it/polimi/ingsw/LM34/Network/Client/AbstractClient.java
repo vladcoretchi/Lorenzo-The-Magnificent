@@ -1,6 +1,8 @@
 package it.polimi.ingsw.LM34.Network.Client;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -102,7 +104,23 @@ public abstract class AbstractClient {
         return this.networkController.bonusTileSelection(availableBonusTiles);
     }
 
-    public Integer leaderCardSelectionPhase(List<LeaderCard> availableLeaderCardss) {
-        return this.networkController.leaderCardSelectionPhase(availableLeaderCardss);
+    public Integer leaderCardSelectionPhase(List<LeaderCard> availableLeaderCards) {
+        return this.networkController.leaderCardSelectionPhase(availableLeaderCards);
+    }
+
+    public Boolean alternativeRequirementsPayment() {
+        return this.networkController.alternativeRequirementsPayment();
+    }
+
+    public void endGame(List<Player> players) {
+        this.networkController.endGame(players);
+    }
+
+    public void endTurn() {
+        this.networkController.endTurn();
+    }
+
+    public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) {
+        this.networkController.informInGamePlayers(infoType, playerName, playerColor);
     }
 }

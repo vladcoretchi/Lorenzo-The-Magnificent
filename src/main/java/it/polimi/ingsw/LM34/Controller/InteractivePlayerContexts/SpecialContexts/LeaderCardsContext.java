@@ -5,6 +5,7 @@ import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Exceptions.Controller.InvalidLeaderCardAction;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NoMoreLeaderCardsAvailable;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
@@ -29,15 +30,16 @@ import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
  * In the latter case, all requirements of the leader to activate are verified
  */
 public class LeaderCardsContext extends AbstractGameContext {
-    private Integer totalLeadersDiscarded;
-    private String leaderToActivate; //TODO
 
-public LeaderCardsContext() {
+    public LeaderCardsContext() {
     this.contextType = LEADER_CARDS_CONTEXT;
 }
 
     @Override
-    public Void interactWithPlayer(Object... args) throws IncorrectInputException, InvalidLeaderCardAction, NotEnoughResourcesException {
+    public Void interactWithPlayer(Object... args) throws IncorrectInputException, InvalidLeaderCardAction, NotEnoughResourcesException, NoMoreLeaderCardsAvailable {
+        if(this.getCurrentPlayer().getPendingLeaderCards().isEmpty())
+            throw new NoMoreLeaderCardsAvailable();
+
         Pair<Integer, LeaderCardsAction> leaderCardAction = leaderCardsAction();
         LeaderCard selectedCard = this.getCurrentPlayer().getPendingLeaderCards().get(leaderCardAction.getLeft());
 
@@ -61,7 +63,7 @@ public LeaderCardsContext() {
         Pair<String, LeaderCardsAction> action = this.gameManager.getActivePlayerNetworkController().leaderCardSelection(leaderCards);
 
         for(int i = 0; i < leaderCards.size(); i++)
-            if(leaderCards.get(i).getName() == action.getLeft())
+            if(leaderCards.get(i).getName().equals(action.getLeft()))
                 return new ImmutablePair<>(i, action.getRight());
 
         return leaderCardsAction();
@@ -93,6 +95,7 @@ public LeaderCardsContext() {
     private void discardLeaderCard(LeaderCard card) {
         try {
             ((UseCouncilPrivilegeContext) this.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(Configurator.COUNCIL_PRIVILEGES_FOR_DISCARDED_LEADER_CARD);
+            this.getCurrentPlayer().getPendingLeaderCards().remove(card);
         } catch(IncorrectInputException ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
         }

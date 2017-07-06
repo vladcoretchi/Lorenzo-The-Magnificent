@@ -45,7 +45,7 @@ public final class Validator {
             Integer max = data.size();
 
             /*Check if input meets the requirements*/
-            if(input < min || input > max)
+            if(input < min || input >= max)
                 throw new IncorrectInputException();
     }
 
@@ -84,7 +84,7 @@ public final class Validator {
      * @throws IncorrectInputException if input from clients is not trusted
      */
     public static void checkPlayerActionValidity(PlayerAction action) throws IncorrectInputException {
-        if (action == null || action.getContext() == null || action.getAction() == null)
+        if (action == null)
             throw new IncorrectInputException();
     }
 }

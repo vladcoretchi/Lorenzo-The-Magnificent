@@ -30,7 +30,8 @@ public abstract class AbstractGameContext extends Observable  {
             NotEnoughResourcesException,
             NotEnoughMilitaryPoints,
             InvalidLeaderCardAction,
-            CardTypeNumLimitReachedException;
+            CardTypeNumLimitReachedException,
+            NoMoreLeaderCardsAvailable;
 
     /**
      * @return Context's type

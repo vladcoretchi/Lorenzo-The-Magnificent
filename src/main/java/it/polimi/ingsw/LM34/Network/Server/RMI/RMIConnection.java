@@ -1,6 +1,8 @@
 package it.polimi.ingsw.LM34.Network.Server.RMI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -43,32 +45,29 @@ public class RMIConnection extends AbstractConnection {
 
     @Override
     public void updateTowers(List<Tower> towers) {
-
         try {
             this.clientRMI.updateTowers(towers);
         } catch(RemoteException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return;
         }
     }
 
     @Override
     public void updateCouncilPalace(CouncilPalace councilPalace) {
-
         try {
             this.clientRMI.updateCouncilPalace(councilPalace);
         } catch(RemoteException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 
     @Override
     public void updateMarket(Market market) {
-
         try {
             this.clientRMI.updateMarket(market);
         } catch(RemoteException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 
@@ -77,28 +76,26 @@ public class RMIConnection extends AbstractConnection {
         try {
             this.clientRMI.updateProductionArea(productionArea);
         } catch(RemoteException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
 
         }
     }
 
     @Override
     public void updateHarvestArea(WorkingArea harvestArea) {
-
         try {
             this.clientRMI.updateHarvestArea(harvestArea);
         } catch (RemoteException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 
     @Override
     public void updatePlayersData(List<Player> players) {
-
         try {
             this.clientRMI.updatePlayersData(players);
         } catch (RemoteException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 
@@ -107,7 +104,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             this.clientRMI.updateDiceValues(diceValues);
         } catch(RemoteException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 
@@ -116,7 +113,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             return this.clientRMI.turnMainAction(lastActionValid.orElse(null));
         } catch(RemoteException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
         }
     }
@@ -126,7 +123,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             return this.clientRMI.turnMainAction(lastActionValid.orElse(null));
         } catch(RemoteException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
         }
     }
@@ -136,7 +133,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             return this.clientRMI.familyMemberSelection(familyMembers);
         } catch(RemoteException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(),e);
+            LOGGER.log(Level.WARNING, e.getMessage(),e);
             return -1;
         }
     }
@@ -146,7 +143,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             return this.clientRMI.servantsSelection(servantsAvailable, minimumServantsRequested);
         } catch(RemoteException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return -1;
         }
     }
@@ -156,7 +153,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             return this.clientRMI.resourceExchangeSelection(choices);
         } catch(RemoteException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return -1;
         }
     }
@@ -166,18 +163,17 @@ public class RMIConnection extends AbstractConnection {
         try {
             return this.clientRMI.leaderCardSelection(leaderCards);
         } catch(RemoteException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
         }
     }
 
     @Override
     public Boolean churchSupport() {
-
         try {
             return this.clientRMI.churchSupport();
         } catch (RemoteException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return false;
         }
     }
@@ -187,7 +183,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             return this.clientRMI.selectCouncilPrivilegeBonus(availableBonuses);
         } catch(RemoteException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return -1;
         }
     }
@@ -197,7 +193,7 @@ public class RMIConnection extends AbstractConnection {
         try {
             return this.clientRMI.bonusTileSelection(bonusTiles);
         } catch(RemoteException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return -1;
         }
     }
@@ -207,8 +203,45 @@ public class RMIConnection extends AbstractConnection {
         try {
             return this.clientRMI.leaderCardSelectionPhase(leaderCards);
         } catch(RemoteException e) {
-            LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
             return -1;
+        }
+    }
+
+    @Override
+    public Boolean alternativeRequirementsPayment() {
+        try {
+            return this.clientRMI.alternativeRequirementsPayment();
+        } catch(RemoteException e) {
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            return false;
+        }
+    }
+
+    @Override
+    public void endGame(List<Player> players) {
+        try {
+            this.clientRMI.endGame(players);
+        } catch(RemoteException e) {
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void endTurn() {
+        try {
+            this.clientRMI.endTurn();
+        } catch(RemoteException e) {
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) {
+        try {
+            this.clientRMI.informInGamePlayers(infoType, playerName, playerColor);
+        } catch(RemoteException e) {
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 }

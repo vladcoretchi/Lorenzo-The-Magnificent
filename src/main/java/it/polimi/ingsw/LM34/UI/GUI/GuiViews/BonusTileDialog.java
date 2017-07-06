@@ -1,9 +1,12 @@
 package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +30,10 @@ public class BonusTileDialog {
         ChoiceDialog<String> dialog = new ChoiceDialog<>("", choices);
         dialog.setTitle("BonusTile Selection");
         dialog.setHeight(600.0);
+        dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setDisable(true);
         dialog.setWidth(800.0);
+        dialog.initStyle(StageStyle.UNDECORATED);
+        dialog.initModality(Modality.WINDOW_MODAL);
         dialog.setContentText("Choose the the bonus tile you desire");
         dialog.setResizable(false);
         dialog.getDialogPane().getStylesheets().add(

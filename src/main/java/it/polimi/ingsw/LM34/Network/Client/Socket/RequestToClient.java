@@ -1,5 +1,7 @@
 package it.polimi.ingsw.LM34.Network.Client.Socket;
 
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -109,17 +111,6 @@ public enum RequestToClient {
             }
         }
     },
-    //TODO
-    INFORM_IN_GAME_PLAYERS {
-        @Override
-        void readAndHandle(SocketClient socketConnection) {
-            /*try {
-
-            } catch (IOException | ClassNotFoundException e) {
-                LOGGER.log(Level.WARNING, e.getMessage(), e);
-            }*/
-        }
-    },
     UPDATE_PLAYERS_DATA {
         @Override
         void readAndHandle(SocketClient socketConnection) {
@@ -150,6 +141,7 @@ public enum RequestToClient {
             try {
                 Exception lastActionValid = (Exception) socketConnection.getInputStream().readObject();
 
+                socketConnection.getOutputStream().reset();
                 socketConnection.getOutputStream().writeObject(socketConnection.turnMainAction(lastActionValid));
                 socketConnection.getOutputStream().flush();
             } catch (IOException | ClassNotFoundException e) {
@@ -163,6 +155,7 @@ public enum RequestToClient {
             try {
                 Exception lastActionValid = (Exception) socketConnection.getInputStream().readObject();
 
+                socketConnection.getOutputStream().reset();
                 socketConnection.getOutputStream().writeObject(socketConnection.turnSecondaryAction(lastActionValid));
                 socketConnection.getOutputStream().flush();
             } catch (IOException | ClassNotFoundException e) {
@@ -176,6 +169,7 @@ public enum RequestToClient {
             try {
                 List<FamilyMember> familyMembers = (List<FamilyMember>) socketConnection.getInputStream().readObject();
 
+                socketConnection.getOutputStream().reset();
                 socketConnection.getOutputStream().writeInt(socketConnection.familyMemberSelection(familyMembers));
                 socketConnection.getOutputStream().flush();
             } catch (IOException | ClassNotFoundException e) {
@@ -190,6 +184,7 @@ public enum RequestToClient {
                 Integer servantsAvailable = socketConnection.getInputStream().readInt();
                 Integer minimumServantsRequested = socketConnection.getInputStream().readInt();
 
+                socketConnection.getOutputStream().reset();
                 socketConnection.getOutputStream().writeInt(socketConnection.servantsSelection(servantsAvailable, minimumServantsRequested));
                 socketConnection.getOutputStream().flush();
             } catch (IOException e) {
@@ -203,6 +198,7 @@ public enum RequestToClient {
             try {
                 List<Pair<Resources, ResourcesBonus>> choices = (List<Pair<Resources, ResourcesBonus>>) socketConnection.getInputStream().readObject();
 
+                socketConnection.getOutputStream().reset();
                 socketConnection.getOutputStream().writeInt(socketConnection.resourceExchangeSelection(choices));
                 socketConnection.getOutputStream().flush();
             } catch (IOException | ClassNotFoundException e) {
@@ -216,6 +212,7 @@ public enum RequestToClient {
             try {
                 List<LeaderCard> leaderCards = (List<LeaderCard>) socketConnection.getInputStream().readObject();
 
+                socketConnection.getOutputStream().reset();
                 socketConnection.getOutputStream().writeObject(socketConnection.leaderCardSelection(leaderCards));
                 socketConnection.getOutputStream().flush();
             } catch (IOException | ClassNotFoundException e) {
@@ -227,6 +224,7 @@ public enum RequestToClient {
         @Override
         void readAndHandle(SocketClient socketConnection) {
             try {
+                socketConnection.getOutputStream().reset();
                 socketConnection.getOutputStream().writeBoolean(socketConnection.churchSupport());
                 socketConnection.getOutputStream().flush();
             } catch (IOException e) {
@@ -240,6 +238,7 @@ public enum RequestToClient {
             try {
                 List<BonusTile> availableBonusTiles = (List<BonusTile>) socketConnection.getInputStream().readObject();
 
+                socketConnection.getOutputStream().reset();
                 socketConnection.getOutputStream().writeInt(socketConnection.bonusTileSelection(availableBonusTiles));
                 socketConnection.getOutputStream().flush();
             } catch (IOException | ClassNotFoundException e) {
@@ -253,6 +252,7 @@ public enum RequestToClient {
             try {
                 List<LeaderCard> availableLeaderCards = (List<LeaderCard>) socketConnection.getInputStream().readObject();
 
+                socketConnection.getOutputStream().reset();
                 socketConnection.getOutputStream().writeInt(socketConnection.leaderCardSelectionPhase(availableLeaderCards));
                 socketConnection.getOutputStream().flush();
             } catch (IOException | ClassNotFoundException e) {
@@ -266,8 +266,53 @@ public enum RequestToClient {
             try {
                 List<Resources> availableBonuses = (List<Resources>) socketConnection.getInputStream().readObject();
 
+                socketConnection.getOutputStream().reset();
                 socketConnection.getOutputStream().writeInt(socketConnection.selectCouncilPrivilegeBonus(availableBonuses));
                 socketConnection.getOutputStream().flush();
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
+            }
+        }
+    },
+    ALTERNATIVE_REQUIREMENTS_PAYMENT {
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+                socketConnection.getOutputStream().reset();
+                socketConnection.getOutputStream().writeBoolean(socketConnection.alternativeRequirementsPayment());
+                socketConnection.getOutputStream().flush();
+            } catch (IOException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
+            }
+        }
+    },
+    END_GAME {
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+                List<Player> players = (List<Player>) socketConnection.getInputStream().readObject();
+
+                socketConnection.endGame(players);
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
+            }
+        }
+    },
+    END_TURN {
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            socketConnection.endTurn();
+        }
+    },
+    INFORM_IN_GAME_PLAYERS {
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+                GameInformationType infoType = (GameInformationType) socketConnection.getInputStream().readObject();
+                String playerName = socketConnection.getInputStream().readUTF();
+                PawnColor playerColor = (PawnColor) socketConnection.getInputStream().readObject();
+
+                socketConnection.informInGamePlayers(infoType, playerName, playerColor);
             } catch (IOException | ClassNotFoundException e) {
                 LOGGER.log(Level.WARNING, e.getMessage(), e);
             }

@@ -57,7 +57,14 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
         else //TODO (card instant effect - free harvest/production)
             try {
                 callerContext.getContextByType(influenceableContext).interactWithPlayer();
-            } catch (IncorrectInputException | MarketBanException | OccupiedSlotException | NotEnoughResourcesException | NotEnoughMilitaryPoints | CardTypeNumLimitReachedException | InvalidLeaderCardAction ex) {
+            } catch (IncorrectInputException |
+                    MarketBanException |
+                    OccupiedSlotException |
+                    NotEnoughResourcesException |
+                    NotEnoughMilitaryPoints |
+                    CardTypeNumLimitReachedException |
+                    InvalidLeaderCardAction |
+                    NoMoreLeaderCardsAvailable ex) {
                 LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             }
     }

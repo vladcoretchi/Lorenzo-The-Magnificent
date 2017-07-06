@@ -7,10 +7,8 @@ import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import org.apache.commons.lang3.tuple.Pair;
-
 import java.util.List;
 import java.util.logging.Level;
-
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 /**
@@ -28,14 +26,14 @@ public class ResourcesExchangeBonus extends AbstractEffect {
         Player player = callerContext.getCurrentPlayer();
         Boolean hasResources = false;
 
-        for (Pair<Resources, ResourcesBonus> pair : resourceExchange)
+        for (Pair<Resources, ResourcesBonus> pair : this.resourceExchange)
             if(player.hasEnoughResources(pair.getLeft()))
                 hasResources = true;
 
         if(hasResources) {
             ResourcesExchangeContext resourceExchangeContext = (ResourcesExchangeContext) callerContext.getContextByType(ContextType.RESOURCE_EXCHANGE_CONTEXT);
             try {
-                resourceExchangeContext.interactWithPlayer(resourceExchange);
+                resourceExchangeContext.interactWithPlayer(this.resourceExchange);
             } catch (Exception ex) {
                 LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             }

@@ -15,6 +15,7 @@ import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlot;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+import it.polimi.ingsw.LM34.Model.Cards.VentureCard;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Configurator;
@@ -88,7 +89,8 @@ public class TowersContext extends AbstractGameContext {
                 Configurator.getMilitaryPointsForTerritories().get(currentPlayerTerritoryCards.get().size()) > this.getCurrentPlayer().getResources().getResourceByType(MILITARY_POINTS))
             throw new NotEnoughMilitaryPoints();
 
-        Resources requirements = new Resources(card.getResourcesRequired().getResourceByType(COINS),
+        Resources requirements = new Resources(
+                card.getResourcesRequired().getResourceByType(COINS),
                 card.getResourcesRequired().getResourceByType(WOODS),
                 card.getResourcesRequired().getResourceByType(STONES),
                 card.getResourcesRequired().getResourceByType(SERVANTS),
@@ -96,10 +98,18 @@ public class TowersContext extends AbstractGameContext {
                 card.getResourcesRequired().getResourceByType(FAITH_POINTS),
                 card.getResourcesRequired().getResourceByType(VICTORY_POINTS));
 
-        if(!this.noOccupiedTowerTax && !selectedTower.isTowerEmpty())
-            requirements.sumResources(Configurator.TOWER_OCCUPIED_COST);
+        Resources ventureCardAlternative = null;
+        if(card.getColor() == DevelopmentCardColor.PURPLE && ((VentureCard) card).isThereAlternativeToMilitaryPointsPayment())
+            ventureCardAlternative = new Resources(((VentureCard) card).getMilitaryPointsRequired(), 0, 0);
 
-        if(!this.gameManager.getCurrentPlayer().hasEnoughResources(requirements))
+        if(!this.noOccupiedTowerTax && !selectedTower.isTowerEmpty()) {
+            requirements.sumResources(Configurator.TOWER_OCCUPIED_COST);
+            if(ventureCardAlternative != null)
+                ventureCardAlternative.sumResources(Configurator.TOWER_OCCUPIED_COST);
+        }
+
+        if(!this.gameManager.getCurrentPlayer().hasEnoughResources(requirements) &&
+                (ventureCardAlternative != null && !this.gameManager.getCurrentPlayer().hasEnoughResources(ventureCardAlternative)))
             throw new NotEnoughResourcesException();
 
         FamilyMember selectedFamilyMember = ((FamilyMemberSelectionContext) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT))
@@ -112,11 +122,19 @@ public class TowersContext extends AbstractGameContext {
             this.gameManager.getCurrentPlayer().getPersonalBoard().addCard(card);
             slot.setCardStored(null);
 
-            //TODO: add military points choice for venture cards
-            this.gameManager.getCurrentPlayer().subResources(requirements);
+            if(this.gameManager.getCurrentPlayer().hasEnoughResources(requirements) && !this.gameManager.getCurrentPlayer().hasEnoughResources(ventureCardAlternative)) {
+                if(this.gameManager.getActivePlayerNetworkController().alternativeRequirementsPayment())
+                    this.gameManager.getCurrentPlayer().subResources(ventureCardAlternative);
+                else
+                    this.gameManager.getCurrentPlayer().subResources(requirements);
+            }
+            else if(this.gameManager.getCurrentPlayer().hasEnoughResources(requirements))
+                this.gameManager.getCurrentPlayer().subResources(requirements);
+            else
+                this.gameManager.getCurrentPlayer().subResources(ventureCardAlternative);
 
             card.getInstantBonus().forEach(effect -> effect.applyEffect(this));
-            if(card.getPermanentBonus() != null)
+            if(card.getColor() != DevelopmentCardColor.GREEN && card.getColor() != DevelopmentCardColor.YELLOW && card.getPermanentBonus() != null)
                 card.getPermanentBonus().applyEffect(this);
 
             if(!this.slotsRewardPenalty)
@@ -124,9 +142,11 @@ public class TowersContext extends AbstractGameContext {
         } catch(InvalidCardType | OccupiedSlotException ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
         }
+
+        ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();
         ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).setIncome(slot.getResourcesReward().getResources());
-        ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).interactWithPlayer();
         ((UseCouncilPrivilegeContext) getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(slot.getResourcesReward().getCouncilPrivilege());
+        ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).interactWithPlayer();
 
         return null;
     }

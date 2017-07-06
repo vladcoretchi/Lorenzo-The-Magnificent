@@ -53,7 +53,6 @@ public class TurnContext extends AbstractGameContext {
 
             this.getCurrentPlayer().getActivatedLeaderCards().forEach(card -> card.getBonus().applyEffect(this));
 
-            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();
             interactWithPlayer();
         }
 
@@ -73,7 +72,14 @@ public class TurnContext extends AbstractGameContext {
 
             AbstractGameContext actionContext = getContextByType(action.getContext());
             actionContext.interactWithPlayer(action.getAction());
-        } catch (IncorrectInputException | OccupiedSlotException | MarketBanException | NotEnoughResourcesException | NotEnoughMilitaryPoints | CardTypeNumLimitReachedException | InvalidLeaderCardAction ex) {
+        } catch (IncorrectInputException |
+                OccupiedSlotException |
+                MarketBanException |
+                NotEnoughResourcesException |
+                NotEnoughMilitaryPoints |
+                CardTypeNumLimitReachedException |
+                InvalidLeaderCardAction |
+                NoMoreLeaderCardsAvailable ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             playerAction(Optional.of(ex));
         }

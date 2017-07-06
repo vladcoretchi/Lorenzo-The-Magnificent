@@ -1,6 +1,8 @@
 package it.polimi.ingsw.LM34.Network.Client.RMI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -50,4 +52,12 @@ public interface RMIClientInterface extends Remote {
     Integer bonusTileSelection(List<BonusTile> availableBonusTiles) throws  RemoteException;
 
     Integer leaderCardSelectionPhase(List<LeaderCard> availableLeaderCards) throws  RemoteException;
+
+    Boolean alternativeRequirementsPayment() throws  RemoteException;
+
+    void endGame(List<Player> players) throws  RemoteException;
+
+    void endTurn() throws  RemoteException;
+
+    void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) throws RemoteException;
 }

@@ -6,6 +6,7 @@ import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Validator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -36,15 +37,13 @@ public class UseCouncilPrivilegeContext extends AbstractGameContext {
         }
 
         ResourceIncomeContext incomeContext = (ResourceIncomeContext) gameManager.getContextByType(RESOURCE_INCOME_CONTEXT);
-        List<Resources> rewardsAvailable = this.rewardsForPrivilege;
+        List<Resources> rewardsAvailable = new ArrayList<>(this.rewardsForPrivilege);
 
         for (int i = 0; i < numberOfCouncilPrivileges; i++) {
             Integer choice = councilPrivilegeRewardSelection(rewardsAvailable);
             incomeContext.setIncome(rewardsAvailable.get(choice));
             rewardsAvailable.remove(choice.intValue());
-            incomeContext.interactWithPlayer();
         }
-
 
         return null;
     }

@@ -1,12 +1,14 @@
 package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
+import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.function.BiFunction;
 
 public class Resources implements Serializable {
     private static final long serialVersionUID = 8305447519327637463L;
@@ -139,6 +141,9 @@ public class Resources implements Serializable {
     }
 
     public Boolean hasEnough(Resources res) {
+        if(res == null || res.getResources() == null || res.getResources().isEmpty())
+            return true;
+
         Iterator it = res.getResources().entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<?, ?> entry = (Map.Entry<?, ?>) it.next();

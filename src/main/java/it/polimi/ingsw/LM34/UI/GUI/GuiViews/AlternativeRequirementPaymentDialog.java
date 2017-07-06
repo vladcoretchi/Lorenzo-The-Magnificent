@@ -5,6 +5,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.StageStyle;
 
 import java.util.Optional;
 
@@ -22,6 +24,9 @@ public class AlternativeRequirementPaymentDialog {
         Alert alternativePayment = new Alert(Alert.AlertType.NONE, "Alternative Payment", military, resources);
         alternativePayment.setTitle("Alternative Payment Selection");
         alternativePayment.setHeaderText("Select the payment option");
+        alternativePayment.getDialogPane().lookupButton(ButtonType.CANCEL).setDisable(true);
+        alternativePayment.initStyle(StageStyle.UNDECORATED);
+        alternativePayment.initModality(Modality.WINDOW_MODAL);
         alternativePayment.getDialogPane().getStylesheets().add(
                 getClass().getResource("/css/dialogStyle.css").toExternalForm());
         alternativePayment.getDialogPane().getStyleClass().add("dialogClass");

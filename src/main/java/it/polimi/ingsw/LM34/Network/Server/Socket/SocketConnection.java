@@ -1,6 +1,8 @@
 package it.polimi.ingsw.LM34.Network.Server.Socket;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -354,6 +356,60 @@ public class SocketConnection extends AbstractConnection implements Runnable {
         } catch (IOException e) {
             LOGGER.log(Level.WARNING, e.getMessage(), e);
             return null;
+        }
+    }
+
+    @Override
+    public Boolean alternativeRequirementsPayment() {
+        try {
+            this.outStream.reset();
+
+            this.outStream.writeUTF(RequestToClient.ALTERNATIVE_REQUIREMENTS_PAYMENT.name());
+            this.outStream.flush();
+            return this.inStream.readBoolean();
+        } catch (IOException e) {
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            return false;
+        }
+    }
+
+    @Override
+    public void endGame(List<Player> players) {
+        try {
+            this.outStream.reset();
+
+            this.outStream.writeUTF(RequestToClient.END_GAME.name());
+            this.outStream.writeObject(players);
+            this.outStream.flush();
+        } catch (IOException e) {
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void endTurn() {
+        try {
+            this.outStream.reset();
+
+            this.outStream.writeUTF(RequestToClient.END_TURN.name());
+            this.outStream.flush();
+        } catch (IOException e) {
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) {
+        try {
+            this.outStream.reset();
+
+            this.outStream.writeUTF(RequestToClient.INFORM_IN_GAME_PLAYERS.name());
+            this.outStream.writeObject(infoType);
+            this.outStream.writeObject(playerName);
+            this.outStream.writeObject(playerColor);
+            this.outStream.flush();
+        } catch (IOException e) {
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
         }
     }
 }

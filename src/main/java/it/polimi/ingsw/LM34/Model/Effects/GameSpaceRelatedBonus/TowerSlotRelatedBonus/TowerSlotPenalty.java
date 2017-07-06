@@ -11,7 +11,7 @@ import java.util.Observer;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TOWERS_CONTEXT;
 
 public class TowerSlotPenalty extends AbstractEffect implements Observer {
-    private List<Integer> noResourcesFromTowerLevels; //handles card "predicatore"
+    private List<Integer> noResourcesFromTowerLevels;
 
     /**
      *

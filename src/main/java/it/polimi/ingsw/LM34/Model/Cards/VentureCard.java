@@ -10,7 +10,7 @@ public class VentureCard extends AbstractDevelopmentCard {
     private Integer endingVictoryPointsReward;
     private Integer militaryPointsRequired;
     private Integer militaryPointsSubtraction;
-    private Boolean militaryPointsPaymenSubstitute;
+    private Boolean militaryPointsPaymentSubstitute;
 
     public VentureCard(String ventureName, Integer period, Integer militaryPointsRequired, Integer militaryPointsSubtraction, Resources resourcesReq, List<AbstractEffect> instantBonus, Integer endingVictoryPointsReward) {
         this.name = ventureName;
@@ -22,14 +22,21 @@ public class VentureCard extends AbstractDevelopmentCard {
         this.endingVictoryPointsReward = endingVictoryPointsReward;
         this.militaryPointsRequired = militaryPointsRequired;
         this.militaryPointsSubtraction = militaryPointsSubtraction;
+        this.militaryPointsPaymentSubstitute =
+                (this.militaryPointsRequired != null && this.militaryPointsSubtraction != null &&
+                        this.militaryPointsRequired > 0 && this.militaryPointsSubtraction > 0);
     }
 
     public boolean isThereAlternativeToMilitaryPointsPayment() {
-        return militaryPointsPaymenSubstitute;
+        return militaryPointsPaymentSubstitute;
     }
 
-    public Integer getMilitaryPointsRequired(Integer militaryPointsRequired) {
+    public Integer getMilitaryPointsRequired() {
         return this.militaryPointsRequired;
+    }
+
+    public Integer getMilitaryPointsSubstraction() {
+        return this.militaryPointsSubtraction;
     }
 
     public Integer getEndingVictoryPointsReward() {

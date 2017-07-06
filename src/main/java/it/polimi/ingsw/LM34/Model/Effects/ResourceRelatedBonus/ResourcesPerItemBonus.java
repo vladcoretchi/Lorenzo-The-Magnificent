@@ -16,6 +16,7 @@ import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.MILITARY_POINTS;
 
 public class ResourcesPerItemBonus extends AbstractEffect {
     private static final long serialVersionUID = 2939595191379929910L;
+
     private Resources bonusResources;
     private DevelopmentCardColor cardColor;
     private Integer militaryPoints;

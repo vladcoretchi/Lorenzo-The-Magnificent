@@ -1,6 +1,8 @@
 package it.polimi.ingsw.LM34.Network.Server;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -102,5 +104,21 @@ public class ServerNetworkController {
 
     public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
         return this.serverConnection.bonusTileSelection(bonusTiles);
+    }
+
+    public Boolean alternativeRequirementsPayment() {
+        return this.serverConnection.alternativeRequirementsPayment();
+    }
+
+    public void endGame(List<Player> players) {
+        this.serverConnection.endGame(players);
+    }
+
+    public void endTurn() {
+        this.serverConnection.endTurn();
+    }
+
+    public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) {
+        this.serverConnection.informInGamePlayers(infoType, playerName, playerColor);
     }
 }

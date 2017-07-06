@@ -52,9 +52,9 @@ public class FamilyMemberSelectionContext extends AbstractGameContext {
 
         if(servantsRequestAnyway || this.familyMemberValue < minValueRequested) {
             Integer servantsUsed = ((IncreasePawnsValueByServantsContext) getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT)).
-                    interactWithPlayer(minValueRequested - this.familyMemberValue) + this.familyMemberValue;
+                    interactWithPlayer(minValueRequested - this.familyMemberValue);
 
-            familyMember.setValue(servantsUsed);
+            familyMember.setValue(servantsUsed + this.familyMemberValue);
             getCurrentPlayer().getResources().subResources(new Resources(0,0,0,servantsUsed));
         }
 

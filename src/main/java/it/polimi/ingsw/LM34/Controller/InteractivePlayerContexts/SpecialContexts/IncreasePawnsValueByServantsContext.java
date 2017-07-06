@@ -20,7 +20,7 @@ public class IncreasePawnsValueByServantsContext extends AbstractGameContext {
     @Override
     public Integer interactWithPlayer(Object... args) throws IncorrectInputException {
         try {
-            this.servantsRequested = (Integer) args[0];
+            this.servantsRequested = Math.min((Integer) args[0], 0);
         } catch(Exception ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             throw new IncorrectInputException();

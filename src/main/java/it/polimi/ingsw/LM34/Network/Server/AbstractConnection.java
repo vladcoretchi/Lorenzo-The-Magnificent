@@ -1,6 +1,8 @@
 package it.polimi.ingsw.LM34.Network.Server;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -69,4 +71,11 @@ public abstract class AbstractConnection {
 
     public abstract Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards);
 
+    public abstract Boolean alternativeRequirementsPayment();
+
+    public abstract void endGame(List<Player> players);
+
+    public abstract void endTurn();
+
+    public abstract void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor);
 }

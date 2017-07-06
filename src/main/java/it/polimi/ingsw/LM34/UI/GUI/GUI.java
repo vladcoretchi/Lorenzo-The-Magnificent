@@ -913,7 +913,7 @@ public class GUI extends Application implements UIInterface {
         @Override
         public void handle(Event event) {
             try {
-                this.action.setValues(PlayerSelectableContexts.LEADER_ACTIVATE_OR_DISCARD_CONTEXT, null);
+                this.action.setValues(PlayerSelectableContexts.LEADER_CARDS_CONTEXT, null);
                 this.waitLatch.countDown();
             } catch (Exception e) {
                 LOGGER.log(Level.WARNING, e.getMessage(), e);

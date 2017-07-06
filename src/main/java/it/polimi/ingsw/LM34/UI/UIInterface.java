@@ -71,7 +71,7 @@ public interface UIInterface {
     /**
      * The following methods show to the player the association between number of
      * {@link it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard s} or the position
-     * and the {@link it.polimi.ingsw.LM34.Enums.Model.ResourceType.VICTORY_POINTS} provided
+     * and the {@link it.polimi.ingsw.LM34.Enums.Model.ResourceType}.VICTORY_POINTS provided
      */
     void showMapCharactersToVictoryPoints();
     void showMapTerritoriesToVictoryPoints();
@@ -118,7 +118,7 @@ public interface UIInterface {
     void endTurn();
 
     /**
-     * Inform the player that the server is not more reachable
+     * Inform the player that the server is not reachable
      */
     void disconnectionWarning();
 }

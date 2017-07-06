@@ -103,7 +103,6 @@ public class PopupSlotBonus {
         stage.setY(coordinateY);
         stage.initModality(Modality.NONE);
         stage.initStyle(StageStyle.TRANSPARENT);
-        stage.initOwner(primaryStage);
         stage.setFullScreen(false);
         stage.setScene(scene);
 

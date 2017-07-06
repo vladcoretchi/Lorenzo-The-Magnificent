@@ -1,6 +1,8 @@
 package it.polimi.ingsw.LM34.Network.Client;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -109,5 +111,21 @@ public class ClientNetworkController {
 
     public Integer leaderCardSelectionPhase(List<LeaderCard> availableLeaderCards) {
         return this.clientConnection.getUI().leaderCardSelectionPhase(availableLeaderCards);
+    }
+
+    public Boolean alternativeRequirementsPayment() {
+        return this.clientConnection.getUI().alternativeRequirementsPayment();
+    }
+
+    public void endGame(List<Player> players) {
+        this.clientConnection.getUI().endGame(players);
+    }
+
+    public void endTurn() {
+        this.clientConnection.getUI().endTurn();
+    }
+
+    public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) {
+        this.clientConnection.getUI().informInGamePlayers(infoType, playerName, playerColor);
     }
 }
