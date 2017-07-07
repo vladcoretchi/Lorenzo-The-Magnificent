@@ -11,8 +11,9 @@ import java.util.Observer;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.MARKET_AREA_CONTEXT;
 
 public class MarketBan extends AbstractEffect implements Observer {
+    private static final long serialVersionUID = -6001761259317118310L;
 
-public MarketBan() {}
+    public MarketBan() {}
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {

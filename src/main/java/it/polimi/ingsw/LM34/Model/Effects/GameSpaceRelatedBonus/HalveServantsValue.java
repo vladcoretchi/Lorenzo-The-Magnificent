@@ -11,6 +11,7 @@ import java.util.Observer;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;
 
 public class HalveServantsValue extends AbstractEffect implements Observer {
+    private static final long serialVersionUID = 1951906837873565119L;
 
     public HalveServantsValue() {}
 

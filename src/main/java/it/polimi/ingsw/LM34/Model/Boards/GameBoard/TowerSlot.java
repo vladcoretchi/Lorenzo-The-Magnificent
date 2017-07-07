@@ -8,7 +8,9 @@ import java.io.Serializable;
 /**
  * Slot of a Tower
  */
-public class TowerSlot extends ActionSlot implements Serializable {
+public class TowerSlot extends ActionSlot {
+    private static final long serialVersionUID = -6177817966738962316L;
+
     /**
      * Card associated to the slot
      */

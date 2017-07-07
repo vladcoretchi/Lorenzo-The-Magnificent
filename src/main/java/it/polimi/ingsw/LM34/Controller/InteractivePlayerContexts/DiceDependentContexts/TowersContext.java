@@ -89,26 +89,29 @@ public class TowersContext extends AbstractGameContext {
                 Configurator.getMilitaryPointsForTerritories().get(currentPlayerTerritoryCards.get().size()) > this.getCurrentPlayer().getResources().getResourceByType(MILITARY_POINTS))
             throw new NotEnoughMilitaryPoints();
 
-        Resources requirements = new Resources(
-                card.getResourcesRequired().getResourceByType(COINS),
-                card.getResourcesRequired().getResourceByType(WOODS),
-                card.getResourcesRequired().getResourceByType(STONES),
-                card.getResourcesRequired().getResourceByType(SERVANTS),
-                card.getResourcesRequired().getResourceByType(MILITARY_POINTS),
-                card.getResourcesRequired().getResourceByType(FAITH_POINTS),
-                card.getResourcesRequired().getResourceByType(VICTORY_POINTS));
-
         Resources ventureCardAlternative = null;
         if(card.getColor() == DevelopmentCardColor.PURPLE && ((VentureCard) card).isThereAlternativeToMilitaryPointsPayment())
             ventureCardAlternative = new Resources(((VentureCard) card).getMilitaryPointsRequired(), 0, 0);
 
+        Resources requirements = null;
+        if(!(card.getColor() == DevelopmentCardColor.PURPLE && card.getResourcesRequired().getResources().isEmpty()))
+            requirements = new Resources(
+                    card.getResourcesRequired().getResourceByType(COINS),
+                    card.getResourcesRequired().getResourceByType(WOODS),
+                    card.getResourcesRequired().getResourceByType(STONES),
+                    card.getResourcesRequired().getResourceByType(SERVANTS),
+                    card.getResourcesRequired().getResourceByType(MILITARY_POINTS),
+                    card.getResourcesRequired().getResourceByType(FAITH_POINTS),
+                    card.getResourcesRequired().getResourceByType(VICTORY_POINTS));
+
         if(!this.noOccupiedTowerTax && !selectedTower.isTowerEmpty()) {
-            requirements.sumResources(Configurator.TOWER_OCCUPIED_COST);
             if(ventureCardAlternative != null)
                 ventureCardAlternative.sumResources(Configurator.TOWER_OCCUPIED_COST);
+            if(requirements != null)
+                requirements.sumResources(Configurator.TOWER_OCCUPIED_COST);
         }
 
-        if(!this.gameManager.getCurrentPlayer().hasEnoughResources(requirements) &&
+        if((requirements != null && !this.gameManager.getCurrentPlayer().hasEnoughResources(requirements)) &&
                 (ventureCardAlternative != null && !this.gameManager.getCurrentPlayer().hasEnoughResources(ventureCardAlternative)))
             throw new NotEnoughResourcesException();
 
@@ -121,13 +124,13 @@ public class TowersContext extends AbstractGameContext {
             this.gameManager.getCurrentPlayer().getPersonalBoard().addCard(card);
             slot.setCardStored(null);
 
-            if(this.gameManager.getCurrentPlayer().hasEnoughResources(requirements) && !this.gameManager.getCurrentPlayer().hasEnoughResources(ventureCardAlternative)) {
+            if(requirements != null && ventureCardAlternative != null) {
                 if(this.gameManager.getActivePlayerNetworkController().alternativeRequirementsPayment())
                     this.gameManager.getCurrentPlayer().subResources(ventureCardAlternative);
                 else
                     this.gameManager.getCurrentPlayer().subResources(requirements);
             }
-            else if(this.gameManager.getCurrentPlayer().hasEnoughResources(requirements))
+            else if(requirements != null)
                 this.gameManager.getCurrentPlayer().subResources(requirements);
             else
                 this.gameManager.getCurrentPlayer().subResources(ventureCardAlternative);

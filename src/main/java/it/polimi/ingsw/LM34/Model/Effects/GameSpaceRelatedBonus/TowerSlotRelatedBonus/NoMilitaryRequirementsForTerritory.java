@@ -10,6 +10,7 @@ import java.util.Observer;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TOWERS_CONTEXT;
 
 public class NoMilitaryRequirementsForTerritory extends AbstractEffect implements Observer {
+    private static final long serialVersionUID = 5635433972576879891L;
 
     @Override
     public void update(Observable o, Object arg) {

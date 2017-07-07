@@ -3,7 +3,9 @@ package it.polimi.ingsw.LM34.Model.Effects;
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Utils.Copyable;
 
+import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
@@ -12,6 +14,8 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.END_GAME_CONTEXT
 
 // handles third period excommunication tiles
 public class VictoryPointsPenalty extends AbstractEffect implements Observer {
+    private static final long serialVersionUID = -7309570915017663730L;
+    
     private Integer victoryPoints;
     private Resources resources;
     private Resources playerGoods;

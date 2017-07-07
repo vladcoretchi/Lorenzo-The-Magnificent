@@ -18,8 +18,9 @@ import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 /*Basic Instant effects are handled here*/
 //This represents also the excomunication malus on resources
-public class ResourcesBonus extends AbstractEffect implements Observer, Serializable {
+public class ResourcesBonus extends AbstractEffect implements Observer {
     private static final long serialVersionUID = -6351217096331197402L;
+
     private Resources resources;
     private Integer councilPrivilege;
     private Integer developmentCardsGoodsMultiplier; /*santa rita*/

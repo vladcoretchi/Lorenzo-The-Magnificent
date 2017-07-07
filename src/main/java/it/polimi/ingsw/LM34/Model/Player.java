@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class Player implements Serializable {
+    private static final long serialVersionUID = -6531439439079355880L;
+    
     private final String playerName;
     private final PawnColor pawnColor; /*Color of the Pawn associated to the player*/
     private List<FamilyMember>  familyMembers;

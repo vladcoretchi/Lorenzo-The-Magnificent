@@ -43,7 +43,7 @@ public final class Configurator {
     private static Integer waitingRoomTimeout;
     private static Integer TURN_TIMEOUT;
     private static final Integer WAITING_ROOM_PLAYERS_THRESHOLD = 2;
-    public static final Integer PLAYER_MOVE_TIMEOUT = 120000;
+    public static final Integer PLAYER_MOVE_TIMEOUT = 10000;
     public static final Integer MAX_TOWER_LEVELS = 4;
     public static final Integer MAX_LEADER_PER_PLAYER = 4;
     public static final Integer MAX_PLAYERS = 4;

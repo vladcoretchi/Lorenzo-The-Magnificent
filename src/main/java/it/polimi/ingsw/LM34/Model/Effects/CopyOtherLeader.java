@@ -10,6 +10,7 @@ import java.util.Observer;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_CARDS_CONTEXT;
 
 public class CopyOtherLeader extends AbstractEffect implements Observer {
+    private static final long serialVersionUID = -2188110517761913150L;
 
     @Override
     public void update(Observable o, Object arg) {

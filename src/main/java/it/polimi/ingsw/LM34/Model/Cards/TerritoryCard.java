@@ -9,6 +9,8 @@ import java.util.List;
 import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.GREEN;
 
 public class TerritoryCard extends AbstractDevelopmentCard {
+    private static final long serialVersionUID = -8495567739023202787L;
+
     private Integer diceValueToHarvest;
 
     public TerritoryCard(String territoryName, Integer diceValueToHarvest, Integer period, List<AbstractEffect> instantBonus, ResourcesBonus permanentBonus) {

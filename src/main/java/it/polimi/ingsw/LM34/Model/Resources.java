@@ -2,6 +2,7 @@ package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Utils.Configurator;
+import it.polimi.ingsw.LM34.Utils.Copyable;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.io.Serializable;
@@ -10,7 +11,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.function.BiFunction;
 
-public class Resources implements Serializable {
+import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.*;
+
+public class Resources implements Serializable, Copyable {
     private static final long serialVersionUID = 8305447519327637463L;
 
     private Map<ResourceType, Integer> resourcesMap;
@@ -144,5 +147,17 @@ public class Resources implements Serializable {
         }
 
         return true;
+    }
+
+    @Override
+    public Resources copy() {
+        return new Resources(
+                this.getResourceByType(COINS).intValue(),
+                this.getResourceByType(WOODS).intValue(),
+                this.getResourceByType(STONES).intValue(),
+                this.getResourceByType(SERVANTS).intValue(),
+                this.getResourceByType(MILITARY_POINTS).intValue(),
+                this.getResourceByType(FAITH_POINTS).intValue(),
+                this.getResourceByType(VICTORY_POINTS).intValue());
     }
 }

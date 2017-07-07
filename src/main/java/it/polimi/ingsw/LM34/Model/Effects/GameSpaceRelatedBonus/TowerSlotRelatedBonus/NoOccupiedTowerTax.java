@@ -10,6 +10,7 @@ import java.util.Observer;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TOWERS_CONTEXT;
 
 public class NoOccupiedTowerTax extends AbstractEffect implements Observer {
+    private static final long serialVersionUID = -7812804357873012270L;
 
     public NoOccupiedTowerTax() {}
 

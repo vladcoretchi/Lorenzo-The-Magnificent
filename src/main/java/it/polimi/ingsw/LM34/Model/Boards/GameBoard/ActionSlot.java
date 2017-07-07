@@ -11,6 +11,7 @@ import java.util.List;
 
 public class ActionSlot implements Serializable {
     private static final long serialVersionUID = 4982569359763654675L;
+
     private List<FamilyMember> familyMembers; //the pawns inside the action slot
     private ResourcesBonus resources; //the bonus the slot provides
     private Integer diceValue;

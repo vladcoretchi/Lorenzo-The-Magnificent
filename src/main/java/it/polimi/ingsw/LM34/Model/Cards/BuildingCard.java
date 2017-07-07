@@ -7,6 +7,7 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import java.util.List;
 
 public class BuildingCard extends AbstractDevelopmentCard {
+    private static final long serialVersionUID = -1105190673359416950L;
 
     private Integer diceValueToProduct;
 

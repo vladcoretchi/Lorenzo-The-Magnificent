@@ -5,6 +5,8 @@ import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import java.io.Serializable;
 
 public class LeaderCard implements Serializable {
+    private static final long serialVersionUID = -4128584530536090234L;
+
     private String leaderName;
     private LeaderRequirements requirements;
     private AbstractEffect bonus;

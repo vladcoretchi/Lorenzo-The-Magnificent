@@ -7,6 +7,8 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import java.util.List;
 
 public class VentureCard extends AbstractDevelopmentCard {
+    private static final long serialVersionUID = -4319857520925007103L;
+    
     private Integer endingVictoryPointsReward;
     private Integer militaryPointsRequired;
     private Integer militaryPointsSubtraction;

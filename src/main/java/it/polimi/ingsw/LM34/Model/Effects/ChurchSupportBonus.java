@@ -19,6 +19,8 @@ import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
  * This class represents Sisto IV peculiar effect and registers itself to ChurchReportContext
  */
 public class ChurchSupportBonus extends AbstractEffect implements Observer {
+    private static final long serialVersionUID = 5712732830307229555L;
+    
     private ResourcesBonus resources;
 
     public ChurchSupportBonus(ResourcesBonus resources) {

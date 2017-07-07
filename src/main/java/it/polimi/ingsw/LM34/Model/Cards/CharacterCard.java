@@ -7,6 +7,7 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import java.util.List;
 
 public class CharacterCard extends AbstractDevelopmentCard {
+    private static final long serialVersionUID = 8427440784022963731L;
 
     public CharacterCard(String name, Integer period, Resources resourcesRequired, List<AbstractEffect> instantBonus, AbstractEffect permanentBonus)  {
         this.resourceRequired = resourcesRequired;

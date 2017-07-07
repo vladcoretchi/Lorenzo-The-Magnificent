@@ -11,6 +11,8 @@ import java.util.Observer;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TOWERS_CONTEXT;
 
 public class TowerSlotPenalty extends AbstractEffect implements Observer {
+    private static final long serialVersionUID = 2670003935360198120L;
+
     private List<Integer> noResourcesFromTowerLevels;
 
     /**

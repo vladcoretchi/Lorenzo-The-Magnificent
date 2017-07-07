@@ -16,6 +16,8 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.FAMILY_MEMBER_SE
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
+    private static final long serialVersionUID = -6008637768397328624L;
+    
     private ContextType influenceableContext; //PRODUCTION_CONTEXT OR HARVEST_CONTEXT
     private Integer diceValue;
 

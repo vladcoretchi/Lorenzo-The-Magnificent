@@ -9,9 +9,13 @@ import it.polimi.ingsw.LM34.Exceptions.Controller.*;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
+import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.Validator;
 
 import java.util.Optional;
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
@@ -36,8 +40,8 @@ public class TurnContext extends AbstractGameContext {
      */
     public void initContext() {
 
-        this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player)
-                    .informInGamePlayers(GameInformationType.INFO_NEW_PLAYER_TURN, getCurrentPlayer().getPlayerName(), getCurrentPlayer().getPawnColor()));
+        //this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player)
+        //            .informInGamePlayers(GameInformationType.INFO_NEW_PLAYER_TURN, getCurrentPlayer().getPlayerName(), getCurrentPlayer().getPawnColor()));
 
         this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).setExcommunicationCards(this.gameManager.getExcommunicationCards()));
         this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updatePlayersData(this.gameManager.getPlayers()));
@@ -66,12 +70,28 @@ public class TurnContext extends AbstractGameContext {
 
     @Override
     public Void interactWithPlayer(Object... args) {
+        /*FutureTask future = new FutureTask<>(() -> {
+            try {
+                playerAction(Optional.empty());
+            } catch(Exception ex) {
+                LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            }
+            return null;
+        });
+
+        try {
+            future.get(Configurator.PLAYER_MOVE_TIMEOUT, TimeUnit.MILLISECONDS);
+        } catch(Exception ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            return null;
+        }*/
         playerAction(Optional.empty());
         return null;
     }
 
     private void playerAction(Optional<Exception> error) {
         PlayerAction action = this.gameManager.getPlayerNetworkController(this.gameManager.getCurrentPlayer()).turnMainAction(error);
+
         try {
             Validator.checkPlayerActionValidity(action);
 

@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class ExcommunicationCard implements Serializable {
     private static final long serialVersionUID = 1085193678618724890L;
+
     private Integer number;
     private Integer period;
     private AbstractEffect penalty;

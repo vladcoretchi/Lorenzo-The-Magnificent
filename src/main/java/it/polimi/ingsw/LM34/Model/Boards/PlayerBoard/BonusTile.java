@@ -5,6 +5,8 @@ import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import java.io.Serializable;
 
 public class BonusTile implements Serializable {
+    private static final long serialVersionUID = -6130532497303242455L;
+
     private ResourcesBonus productionBonus;
     private ResourcesBonus harvestBonus;
     private Integer harvDiceValue;

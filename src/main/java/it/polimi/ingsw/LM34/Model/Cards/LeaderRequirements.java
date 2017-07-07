@@ -13,6 +13,8 @@ import java.util.Optional;
  * in order to activate the associated {@link LeaderCard}
  */
 public class LeaderRequirements implements Serializable {
+    private static final long serialVersionUID = -8750448326899411272L;
+
     private Resources resourcesRequirements;
     private Map<DevelopmentCardColor, Integer> cardRequirements;
 

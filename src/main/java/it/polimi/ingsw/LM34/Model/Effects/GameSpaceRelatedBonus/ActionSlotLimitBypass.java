@@ -12,6 +12,7 @@ import java.util.Observer;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
 
 public class ActionSlotLimitBypass extends AbstractEffect implements Observer {
+    private static final long serialVersionUID = 7827533200787962957L;
 
     @Override
     public void update(Observable o, Object arg) {

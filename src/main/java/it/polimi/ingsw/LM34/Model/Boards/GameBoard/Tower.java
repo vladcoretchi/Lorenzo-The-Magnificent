@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tower implements Serializable {
+    private static final long serialVersionUID = -513834504315922843L;
+
     private DevelopmentCardColor cardColor;
     private List<TowerSlot> slots;
 

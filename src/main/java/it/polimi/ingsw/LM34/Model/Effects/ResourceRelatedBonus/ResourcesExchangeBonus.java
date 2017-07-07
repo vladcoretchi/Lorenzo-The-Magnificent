@@ -15,6 +15,8 @@ import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
  * This class handles the multiple choice that some BuildingCards' permanent bonus offers
  */
 public class ResourcesExchangeBonus extends AbstractEffect {
+    private static final long serialVersionUID = -8753998575370497635L;
+
     private List<Pair<Resources, ResourcesBonus>> resourceExchange;
 
     public ResourcesExchangeBonus(List<Pair<Resources, ResourcesBonus>> resourceExchange) {

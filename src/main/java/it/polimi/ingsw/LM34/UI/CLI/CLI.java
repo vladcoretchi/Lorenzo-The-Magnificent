@@ -299,9 +299,9 @@ public class CLI implements UIInterface {
        CLIStuff.printToConsole.format("In which slot of the %1$s area do you want to enter?%n", workingArea.toString());
 
        if(workingArea.getWorkingAreaType().equalsIgnoreCase(productionArea.toString()))
-           selectedSlot = checkInput(productionArea.getActionSlots().subList(0,1));
+           selectedSlot = checkInput(productionArea.getActionSlots());
        else
-           selectedSlot = checkInput(harvestArea.getActionSlots().subList(0,1));
+           selectedSlot = checkInput(harvestArea.getActionSlots());
 
         return selectedSlot;
     }

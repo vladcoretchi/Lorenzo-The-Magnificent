@@ -5,7 +5,8 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import java.io.Serializable;
 
 public abstract class AbstractEffect implements Serializable {
-    //protected ArrayList<ContextType> observableContexts;
+    private static final long serialVersionUID = 2089703062600133920L;
+
     /**
      * @return true if the observer is activable once per round (e.g. SkipTurn, PerRoundLeaderReward)
      * Default is false
@@ -14,8 +15,5 @@ public abstract class AbstractEffect implements Serializable {
         return false;
     }
 
-    //public ArrayList<ContextType> getContextToBeSubscribedTo() {return observableContexts;}
-
     public abstract void applyEffect(AbstractGameContext callerContext);
-
 }

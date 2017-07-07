@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class PersonalBoard implements Serializable {
+    private static final long serialVersionUID = 6306753167289615978L;
+
     /**
      * Development card types stored in the PersonalBoard
      */

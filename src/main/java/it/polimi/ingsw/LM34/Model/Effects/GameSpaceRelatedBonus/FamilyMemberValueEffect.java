@@ -18,7 +18,8 @@ import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.FAMILY_MEMBER_SE
  * the dice values associated to his pawns has to be incremented or decreased by the effects of the cards mentioned above
  */
 public class FamilyMemberValueEffect extends AbstractEffect implements Observer {
-
+    private static final long serialVersionUID = -2410726346554385940L;
+    
     /**
      * if null then the value is related to the neutral family member
      * if MULTICOLOR, the value is applied to all the dices

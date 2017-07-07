@@ -7,6 +7,8 @@ import it.polimi.ingsw.LM34.Utils.Copyable;
 import java.io.Serializable;
 
 public class FamilyMember implements Serializable, Copyable {
+    private static final long serialVersionUID = -5142694494298022987L;
+
     private PawnColor pawnColor;
     private DiceColor diceColor;
     private Integer value;

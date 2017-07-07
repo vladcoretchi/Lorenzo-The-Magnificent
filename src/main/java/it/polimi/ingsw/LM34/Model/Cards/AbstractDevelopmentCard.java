@@ -15,6 +15,7 @@ import java.util.List;
  * {@link VentureCard}
  */
 public abstract class AbstractDevelopmentCard implements Serializable {
+    private static final long serialVersionUID = 474897345172229849L;
 
     protected String name;
     protected Integer period;

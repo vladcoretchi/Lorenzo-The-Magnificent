@@ -9,6 +9,7 @@ import java.util.Observer;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TURN_CONTEXT;
 
 public class SkipFirstTurn extends AbstractOncePerRoundEffect implements Observer {
+    private static final long serialVersionUID = -4964914894768670L;
 
     public SkipFirstTurn() {}
 

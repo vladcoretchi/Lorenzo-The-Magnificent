@@ -55,8 +55,8 @@ public class GameManagerTest {
      * this test will check if GameManager will effectively skip to next turn
      * @throws Exception
      */
-    //@Test(expected = NullPointerException.class)
-    @Test(expected = StackOverflowError.class)
+    @Test(expected = NullPointerException.class)
+    //@Test(expected = StackOverflowError.class)
     public void nextTurn() throws Exception {
         GameServer gameServer = new GameServer();
         gameServer.main(null);

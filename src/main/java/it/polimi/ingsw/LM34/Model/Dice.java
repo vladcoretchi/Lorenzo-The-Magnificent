@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
+import it.polimi.ingsw.LM34.Utils.Copyable;
 
 import java.io.Serializable;
 import java.util.Random;
@@ -9,7 +10,7 @@ import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.NEUTRAL;
 
 public class Dice implements Serializable {
     private static final long serialVersionUID = 9147027093845168538L;
-    private Random rand = new Random();
+
     private final DiceColor color;
     private Integer value;
 
@@ -30,6 +31,6 @@ public class Dice implements Serializable {
      *against passing the new value from outside this class
      */
     public void rollDice(){
-        this.value = (this.getColor() != NEUTRAL) ? this.value = new Random().nextInt(6) + 1 : 0;
+        this.value = (this.getColor() != NEUTRAL) ? new Random().nextInt(6) + 1 : 0;
     }
 }

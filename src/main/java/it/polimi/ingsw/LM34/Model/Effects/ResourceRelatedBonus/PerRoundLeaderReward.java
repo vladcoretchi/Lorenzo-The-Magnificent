@@ -20,6 +20,8 @@ import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 //TODO: remember to activate these rewards in the controller at the beginning of the phase of each player
 public class PerRoundLeaderReward extends AbstractOncePerRoundEffect implements Observer {
+    private static final long serialVersionUID = 5004649676960788989L;
+    
     private Resources resources;
     private Integer councilPrivilege;
     private WorkingAreaValueEffect workingAreaValueEffect; //"francesco sforza, leonardo da vinci"
