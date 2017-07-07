@@ -176,11 +176,11 @@ public final class Configurator {
                                 cardsReq.getJSONObject(k).getInt("number"));
                     }
                 }
-
-                /**Extract the Requirements for activating the {@link LeaderCard}**/
-                if (jsonLeaderCards.getJSONObject(index).getJSONObject(LEADER_REQUIREMENTS_JSONSTRING).optJSONObject("resourcesRequirements") != null)
-                    resRequirements = getResourcesBonusFromJson(jsonLeaderCards.getJSONObject(index).getJSONObject(LEADER_REQUIREMENTS_JSONSTRING).optJSONObject("resourcesRequirements")).getResources();
             }
+            /**Extract the Requirements for activating the {@link LeaderCard}**/
+            if (jsonLeaderCards.getJSONObject(index).getJSONObject(LEADER_REQUIREMENTS_JSONSTRING).optJSONObject("resourcesRequirements") != null)
+                resRequirements = getResourcesBonusFromJson(jsonLeaderCards.getJSONObject(index).getJSONObject(LEADER_REQUIREMENTS_JSONSTRING).optJSONObject("resourcesRequirements")).getResources();
+
 
             /**Store the {@link AbstractEffect} bonus in the {@link LeaderCard}
              * Note: only one {@link AbstractEffect} is allowed for each {@link LeaderCard}
@@ -190,7 +190,7 @@ public final class Configurator {
             if (jsonLeaderCards.optJSONObject(index).optJSONObject("bonus") != null) {
                 jsonBonus = jsonLeaderCards.getJSONObject(index).getJSONObject("bonus");
 
-                if (jsonBonus.optJSONObject("actionSlotLimitBypass") != null)
+                if (!jsonBonus.optString("actionSlotLimitBypass").isEmpty())
                     bonus = new ActionSlotLimitBypass();
 
                 if (jsonBonus.optJSONObject("churchSupportBonus") != null)
@@ -199,8 +199,8 @@ public final class Configurator {
                 if (jsonBonus.optJSONObject(RESOURCES_BONUS_JSONSTRING) != null)
                     bonus = getResourcesBonusFromJson(jsonBonus.getJSONObject(RESOURCES_BONUS_JSONSTRING));
 
-                if (jsonBonus.optInt("developmentCardsGoodsMultiplier") > 1)
-                    bonus = new ResourcesBonus(jsonBonus.getInt("developmentCardsGoodsMultiplier"));
+                if (!jsonBonus.optString("doubleGoodsIncomeFromDevelopmentCardsImmediateEffect").isEmpty())
+                    bonus = new ResourcesBonus(jsonBonus.getInt("doubleGoodsIncomeFromDevelopmentCardsImmediateEffect"));
 
                 if (!jsonBonus.optString("noMilitaryPointsRequirementForTerritory").isEmpty())
                     bonus = new NoMilitaryRequirementsForTerritory();

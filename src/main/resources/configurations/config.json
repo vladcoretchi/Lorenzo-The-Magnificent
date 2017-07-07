@@ -3127,7 +3127,7 @@
           "leaderRequirements": {
             "resourcesRequirements": {
               "resources": {
-                "MLITARY_POINTS": 7,
+                "MILITARY_POINTS": 7,
                 "FAITH_POINTS": 3
               }
             }
@@ -3167,10 +3167,11 @@
         {
           "leaderName": "Girolamo Savonarola",
           "leaderRequirements": {
-            "resources": {
+            "resourcesRequirements": {
+              "resources": {
               "COINS": 18
             }
-          },
+          }},
           "bonus": {
             "resourcesBonus": {
               "resources": {
@@ -3204,9 +3205,10 @@
         {
           "leaderName": "Michelangelo Buonarroti",
           "leaderRequirements": {
-            "resources": {
+            "resourcesRequirements": {
+              "resources": {
               "STONES": 10
-            }
+            }}
           },
           "bonus": {
             "resourcesBonus": {
@@ -3227,7 +3229,7 @@
             }
           },
           "bonus": {
-            "doubleGoodsIncomeFromDevelopmentCardsImmediateEffect": true
+            "doubleGoodsIncomeFromDevelopmentCardsImmediateEffect": 2
           },
           "oncePerRound": false
         },

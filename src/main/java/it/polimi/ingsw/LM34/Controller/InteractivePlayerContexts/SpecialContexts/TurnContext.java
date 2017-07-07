@@ -4,18 +4,13 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Exceptions.Controller.*;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
-import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.Validator;
 
 import java.util.Optional;
-import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
@@ -121,7 +116,7 @@ public class TurnContext extends AbstractGameContext {
             if(this.getContextByType(ct) != null)
                 this.getContextByType(ct).deleteObservers();
 
-        this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).endTurn());
+        //this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).endTurn());
         this.gameManager.nextTurn();
     }
 

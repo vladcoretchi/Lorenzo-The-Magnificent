@@ -41,7 +41,7 @@ public class UseCouncilPrivilegeDialog {
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
-            Integer choiceId = 1;
+            Integer choiceId = 0;
             for (String choice : choices) {
                 if (choice.equalsIgnoreCase(result.get()))
                     return choiceId;

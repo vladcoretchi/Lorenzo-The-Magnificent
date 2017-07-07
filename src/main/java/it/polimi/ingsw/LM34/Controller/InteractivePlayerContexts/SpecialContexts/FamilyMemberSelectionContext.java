@@ -58,7 +58,7 @@ public class FamilyMemberSelectionContext extends AbstractGameContext {
             getCurrentPlayer().getResources().subResources(new Resources(0,0,0,servantsUsed));
         }
 
-        return familyMember;
+        return familyMember; //TODO
     }
 
     public ContextType getCurrentActionContext() {
