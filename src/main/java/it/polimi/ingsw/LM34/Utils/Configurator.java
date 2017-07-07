@@ -153,14 +153,14 @@ public final class Configurator {
         String name;
         AbstractEffect bonus = null;
         Boolean oncePerRound;
-        Resources resRequirements = new Resources();
-        Map<DevelopmentCardColor, Integer> cardRequirements = new EnumMap<>(DevelopmentCardColor.class);
 
         /**Prepare each LeaderCard**/
         for (Integer index = 0; index < jsonLeaderCards.length(); index++) {
+            Resources resRequirements = new Resources();
+            Map<DevelopmentCardColor, Integer> cardRequirements = new HashMap<DevelopmentCardColor, Integer>();
             name = jsonLeaderCards.getJSONObject(index).getString("leaderName");
             oncePerRound = jsonLeaderCards.getJSONObject(index).getBoolean("oncePerRound");
-            JSONArray cardsReq;
+            JSONArray cardsReq = new JSONArray();
 
             /**
              * Load for each card its {@link LeaderRequirements}
@@ -256,8 +256,6 @@ public final class Configurator {
              * And now create the {@link LeaderCard}
              */
             leaderCards.add(new LeaderCard(name, new LeaderRequirements(resRequirements, cardRequirements), bonus, oncePerRound));
-
-            cardRequirements.clear();
         }
     }
 

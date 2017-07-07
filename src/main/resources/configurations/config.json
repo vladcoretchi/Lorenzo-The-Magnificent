@@ -3113,7 +3113,7 @@
           "leaderRequirements": {
             "resourcesRequirements": {
               "resources": {
-                "victoryPoints": 35
+                "VICTORY_POINTS": 35
               }
             }
           },
@@ -3127,8 +3127,8 @@
           "leaderRequirements": {
             "resourcesRequirements": {
               "resources": {
-                "militaryPoints": 7,
-                "faithPoints": 3
+                "MLITARY_POINTS": 7,
+                "FAITH_POINTS": 3
               }
             }
           },
@@ -3148,17 +3148,17 @@
           "leaderRequirements": {
             "resourcesRequirements": {
               "resources": {
-                "coins": 6,
-                "woods": 6,
-                "stones": 6,
-                "servants": 6
+                "COINS": 6,
+                "WOODS": 6,
+                "STONES": 6,
+                "SERVANTS": 6
               }
             }
           },
           "bonus": {
             "churchSupportBonus": {
               "resources": {
-                "victoryPoints": 5
+                "VICTORY_POINTS": 5
               }
             }
           },
@@ -3168,13 +3168,13 @@
           "leaderName": "Girolamo Savonarola",
           "leaderRequirements": {
             "resources": {
-              "coins": 18
+              "COINS": 18
             }
           },
           "bonus": {
             "resourcesBonus": {
               "resources": {
-                "faithPoints": 1
+                "FAITH_POINTS": 1
               }
             }
           },
@@ -3191,8 +3191,8 @@
             ],
             "resourcesRequirements": {
               "resources": {
-                "coins": 12,
-                "faithPoints": 2
+                "COINS": 12,
+                "FAITH_POINTS": 2
               }
             }
           },
@@ -3205,13 +3205,13 @@
           "leaderName": "Michelangelo Buonarroti",
           "leaderRequirements": {
             "resources": {
-              "stones": 10
+              "STONES": 10
             }
           },
           "bonus": {
             "resourcesBonus": {
               "resources": {
-                "coins": 3
+                "COINS": 3
               }
             }
           },
@@ -3222,7 +3222,7 @@
           "leaderRequirements": {
             "resourcesRequirements": {
               "resources": {
-                "faithPoints": 8
+                "FAITH_POINTS": 8
               }
             }
           },
@@ -3235,15 +3235,15 @@
           "leaderName": "Giovanni dalle Bande Nere",
           "leaderRequirements": {
             "resources": {
-              "militaryPoints": 12
+              "MILITARY_POINTS": 12
             }
           },
           "bonus": {
             "resourcesBonus": {
               "resources": {
-                "coins": 1,
-                "woods": 1,
-                "stones": 1
+                "COINS": 1,
+                "WOODS": 1,
+                "STONES": 1
               }
             }
           },
@@ -3266,8 +3266,8 @@
           "bonus": {
             "resourcesBonus": {
               "resources": {
-                "servants": 3,
-                "victoryPoints": 1
+                "SERVANTS": 3,
+                "VICTORY_POINTS": 1
               }
             }
           },
@@ -3312,7 +3312,7 @@
           "bonus": {
             "resourcesBonus": {
               "resources": {
-                "victoryPoints": 1
+                "VICTORY_POINTS": 1
               }
             }
           },
@@ -3323,15 +3323,15 @@
           "leaderRequirements": {
             "resourcesRequirements": {
               "resources": {
-                "woods": 10
+                "WOODS": 10
               }
             }
           },
           "bonus": {
             "resourcesBonus": {
               "resources": {
-                "militaryPoints": 2,
-                "victoryPoints": 1
+                "MILITARY_POINTS": 2,
+                "VICTORY_POINTS": 1
               }
             }
           },
@@ -3342,13 +3342,13 @@
           "leaderRequirements": {
             "resourcesRequirements": {
               "resources": {
-                "servants": 15
+                "SERVANTS": 15
               }
             }
           },
           "bonus": {
             "resourcesBonus": {
-              "councilPrevilege": 1
+              "councilPrivilege": 1
             }
           },
           "oncePerRound": true
@@ -3415,7 +3415,7 @@
               "developmentCardColor": "MULTICOLOR",
               "requirementsDiscount": {
                 "resources": {
-                  "coins": 3
+                  "COINS": 3
                 }
               }
             }

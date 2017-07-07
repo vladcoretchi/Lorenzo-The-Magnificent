@@ -26,7 +26,7 @@ public class RMIClient extends AbstractClient implements RMIClientInterface {
             this.networkController = new ClientNetworkController(this);
             this.ui = ui;
         } catch (RemoteException | NotBoundException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            LOGGER.log(Level.FINEST, e.getMessage(), e);
         }
     }
 
