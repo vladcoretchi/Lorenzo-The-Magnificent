@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Controller.NonInteractiveContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.VentureCard;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -9,7 +8,6 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -100,10 +98,9 @@ public class EndGameContext  extends AbstractGameContext {
         setChanged();
         notifyObservers();
 
-        /*onEndCalculateVictoryPointsPerPlayerByVentureCards(victoryPointsToPlayers);
+        onEndCalculateVictoryPointsPerPlayerByVentureCards(victoryPointsToPlayers);
         onEndCalculateVictoryPointsPerPlayerByResources(victoryPointsToPlayers);
-        players.forEach(p -> gameManager.getPlayerNetworkController(p).endGameResults(victoryPointsToPlayers));*/
-        //TODO: show calculations and ranks
+        players.forEach(p -> gameManager.getPlayerNetworkController(p).endGame(players));
     }
 
 }

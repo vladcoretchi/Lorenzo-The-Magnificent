@@ -193,9 +193,9 @@ public class GameManager {
         if (turn >= players.size()) { //all players have placed 1 pawn
             this.turn = 0;
             nextPhase();
-        }// else {
+        }
         ((TurnContext) getContextByType(TURN_CONTEXT)).initContext();
-        //}
+
     }
 
     private void nextPhase() {
@@ -221,8 +221,8 @@ public class GameManager {
             nextPeriod();
 
         this.phase = 0;
-
-        setNewTurnOrder();
+        nextTurn();
+        players = setNewTurnOrder();
         rollDices();
         updateFamilyMemberValues();
         sweepActionSlots();  //sweeps all action and tower slots from pawns and cards
@@ -261,6 +261,7 @@ public class GameManager {
         this.market.sweep();
         this.productionArea.sweep();
         this.harvestArea.sweep();
+        this.councilPalace.sweepPalace();
     }
 
     /**

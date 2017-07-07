@@ -38,6 +38,7 @@ public class ActionSlot implements Serializable {
 
     public void insertFamilyMemberIgnoringSlotLimit(FamilyMember fm) {
         this.familyMembers.add(fm);
+        fm.placePawn(); //TODO
     }
 
     public boolean isEmpty() {

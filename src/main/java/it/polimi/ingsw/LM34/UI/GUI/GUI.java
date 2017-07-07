@@ -390,7 +390,9 @@ public class GUI extends Application implements UIInterface {
             /**
              * Fill the single {@link ActionSlot} with the pawn placed inside
              */
-            FamilyMember pawnInSingleSlot = this.harvestArea.getSingleSlot().getFamilyMembers().get(0);
+            FamilyMember pawnInSingleSlot = null;
+            if(!this.harvestArea.getSingleSlot().getFamilyMembers().isEmpty())
+                pawnInSingleSlot = this.harvestArea.getSingleSlot().getFamilyMembers().get(0);
             ImageView imageSingle = (ImageView) root.lookup("#harvestArea" + 0);
             if (pawnInSingleSlot != null) {
                 imageSingle.setImage(new Image(Thread.currentThread()
