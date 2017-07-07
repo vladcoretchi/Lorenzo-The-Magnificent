@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+//TODO: remove
 public class PathTypesVisualizationDialog {
 
     public void interactWithPlayer(PathType map, Map<Integer, Integer> path) {

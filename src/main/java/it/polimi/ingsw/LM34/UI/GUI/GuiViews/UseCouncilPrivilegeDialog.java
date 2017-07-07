@@ -1,8 +1,11 @@
 package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
 import it.polimi.ingsw.LM34.Model.Resources;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,9 @@ public class UseCouncilPrivilegeDialog {
         //dialog.setTitle("Servants Selection");
         dialog.setGraphic(new ImageView(Thread.currentThread().getContextClassLoader().getResource("images/resources/COUNCIL_PRIVILEGE.png").toExternalForm()));
         dialog.setHeaderText("Use privilege:");
+        dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setDisable(true);
+        dialog.initStyle(StageStyle.UNDECORATED);
+        dialog.initModality(Modality.WINDOW_MODAL);
         dialog.setContentText("Choose type of reward:");
         dialog.getDialogPane().getStylesheets().add(
                 getClass().getResource("/css/dialogStyle.css").toExternalForm());
@@ -35,7 +41,7 @@ public class UseCouncilPrivilegeDialog {
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
-            Integer choiceId = 0;
+            Integer choiceId = 1;
             for (String choice : choices) {
                 if (choice.equalsIgnoreCase(result.get()))
                     return choiceId;

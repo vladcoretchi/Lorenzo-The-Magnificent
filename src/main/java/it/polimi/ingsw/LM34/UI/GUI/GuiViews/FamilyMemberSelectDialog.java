@@ -5,6 +5,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class FamilyMemberSelectDialog {
      * @param membersAvailable available to the player
      * @return familyMember choosed from the player
      */
-    public Integer interactWithPlayer(List<FamilyMember> membersAvailable) {
+    public Integer interactWithPlayer(Stage primaryStage, List<FamilyMember> membersAvailable) {
         String choosed;
         ArrayList<String> members = new ArrayList<>();
 
@@ -28,7 +29,8 @@ public class FamilyMemberSelectDialog {
         dialog.setTitle("Family Member Selection");
         dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setDisable(true);
         dialog.initStyle(StageStyle.UNDECORATED);
-        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initModality(Modality.WINDOW_MODAL);
+        dialog.initOwner(primaryStage);
         dialog.setContentText("Family Member Selection");
         dialog.setGraphic(new ImageView(Thread.currentThread().getContextClassLoader().getResource("images/resources/SERVANTS.png").toExternalForm()));
         dialog.getDialogPane().getStylesheets().add(
@@ -37,7 +39,7 @@ public class FamilyMemberSelectDialog {
         Optional<String> result = dialog.showAndWait();
 
         if (result.isPresent()) {
-            Integer choiceId = 0;
+            Integer choiceId = 1;
             for (String choice : members) {
                 if (choice.equalsIgnoreCase(result.get()))
                     return choiceId;

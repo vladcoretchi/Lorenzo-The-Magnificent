@@ -4,6 +4,7 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Exceptions.Controller.*;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
@@ -34,7 +35,10 @@ public class TurnContext extends AbstractGameContext {
      * NOTE: OncePerRound observers are excluded in this reactivation
      */
     public void initContext() {
-        //TODO: informInGamePlayers, try church support
+
+        this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player)
+                    .informInGamePlayers(GameInformationType.INFO_NEW_PLAYER_TURN, getCurrentPlayer().getPlayerName(), getCurrentPlayer().getPawnColor()));
+
         this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).setExcommunicationCards(this.gameManager.getExcommunicationCards()));
         this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updatePlayersData(this.gameManager.getPlayers()));
         this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updateTowers(this.gameManager.getTowers()));
@@ -84,7 +88,7 @@ public class TurnContext extends AbstractGameContext {
                 CardTypeNumLimitReachedException |
                 InvalidLeaderCardAction |
                 NoMoreLeaderCardsAvailable ex) {
-            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            LOGGER.log(Level.FINER, ex.getMessage(), ex);
             playerAction(Optional.of(ex));
         }
     }
@@ -97,6 +101,7 @@ public class TurnContext extends AbstractGameContext {
             if(this.getContextByType(ct) != null)
                 this.getContextByType(ct).deleteObservers();
 
+        this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).endTurn());
         this.gameManager.nextTurn();
     }
 

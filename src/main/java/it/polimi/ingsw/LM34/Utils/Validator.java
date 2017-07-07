@@ -44,7 +44,7 @@ public final class Validator {
             Integer max = data.size();
 
             /*Check if input meets the requirements*/
-            if(input < min || input >= max)
+            if(input < min || input >= max) //TODO: input >= max    era sbagliato?
                 throw new IncorrectInputException();
     }
 

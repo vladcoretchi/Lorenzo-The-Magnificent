@@ -3,7 +3,6 @@ package it.polimi.ingsw.LM34.Controller;
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
-import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.GameServer;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
@@ -23,17 +22,14 @@ import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.Network.Server.RMI.RMIConnection;
 import it.polimi.ingsw.LM34.Network.Server.Server;
 import it.polimi.ingsw.LM34.Network.Server.ServerNetworkController;
-import it.polimi.ingsw.LM34.UI.CLI.CLI;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.util.*;
-
-
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class GameManagerTest {
     /**
@@ -59,7 +55,8 @@ public class GameManagerTest {
      * this test will check if GameManager will effectively skip to next turn
      * @throws Exception
      */
-    @Test(expected = NullPointerException.class)
+    //@Test(expected = NullPointerException.class)
+    @Test(expected = StackOverflowError.class)
     public void nextTurn() throws Exception {
         GameServer gameServer = new GameServer();
         gameServer.main(null);

@@ -1013,7 +1013,7 @@
           "permanentBonus": {
             "resourcesBonus": {
               "resources": {
-                "VICTORY_POINTS": 1,
+                "VICTORY_POINTS": 2,
                 "WOODS": 2
               }
             }
@@ -1027,7 +1027,7 @@
           "instantBonus": {
             "resourcesBonus": {
               "resources": {
-                "MILITARY_POINTS": 1
+                "MILITARY_POINTS": 2
               }
             }
           },
@@ -1225,7 +1225,7 @@
           "permanentBonus": {
             "resourcesPerItemBonus": {
               "resources": {
-                "COINS": 1
+                "VICTORY_POINTS": 1
               },
               "developmentCardColor": "PURPLE"
             }
@@ -1412,9 +1412,7 @@
                   }
                 },
                 "resourcesGain": {
-                  "resources": {
-                    "councilPrivilege": 1
-                  }
+                  "councilPrivilege": 1
                 }
               }
             ]
@@ -1478,7 +1476,7 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                    "SERVANTS": 1
+                    "COINS": 1
                   }
                 },
                 "resourcesGain": {
@@ -1490,7 +1488,7 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                    "SERVANTS": 2
+                    "COINS": 2
                   }
                 },
                 "resourcesGain": {
@@ -1570,7 +1568,7 @@
               {
                 "resourcesDiscard": {
                   "resources": {
-                    "STONES": 3
+                    "STONES": 1
                   }
                 },
                 "resourcesGain": {
@@ -1917,6 +1915,18 @@
                     "FAITH_POINTS": 2
                   }
                 }
+              },
+              {
+                "resourcesDiscard": {
+                  "resources": {
+                    "STONES": 1
+                  }
+                },
+                "resourcesGain": {
+                  "resources": {
+                    "FAITH_POINTS": 2
+                  }
+                }
               }
             ]
           }
@@ -1930,7 +1940,7 @@
             "resources": {
               "SERVANTS": 1,
               "WOODS": 2,
-              "STONES": 4
+              "STONES": 2
             }
           },
           "instantBonus": {
@@ -2075,7 +2085,6 @@
               "developmentCardColor": "PURPLE",
               "diceValue": 2,
               "relative": true
-
             }
           }
         },
@@ -2130,13 +2139,13 @@
             }
           },
           "permanentBonus": {
-            "ActionSlotPenalty": {
+            "actionSlotPenalty": {
               "noResourcesFromTowerLevels": [
                 {
-                  "level1": 5
+                  "level0": 5
                 },
                 {
-                  "level2": 7
+                  "level1": 7
                 }
               ]
             }
@@ -2428,7 +2437,7 @@
             },
             "resourcesBonus": {
               "resources": {
-                "COINS": 6
+                "FAITH_POINTS": 1
               }
             }
           }
@@ -2448,7 +2457,9 @@
                 "VICTORY_POINTS": 1
               },
               "requiredResources": {
-                "MILITARY_POINTS": 2
+                "resources": {
+                  "MILITARY_POINTS": 2
+                }
               }
             }
           }
@@ -2589,7 +2600,9 @@
           },
           "instantBonus": {
             "resourcesBonus": {
-              "SERVANTS": 4
+              "resources": {
+                "SERVANTS": 4
+              }
             }
           },
           "permanentBonus": {
@@ -3504,13 +3517,13 @@
           "period": 2,
           "penalty": {
             "developmentCardAcquireEffect": {
-              "developmentCardColor": "PURPLE",
+              "developmentCardColor": "GREEN",
               "diceValue": -4
             }
           }
         },
         {
-          "number": 2,
+          "number": 3,
           "period": 2,
           "penalty": {
             "developmentCardAcquireEffect": {
@@ -3520,7 +3533,7 @@
           }
         },
         {
-          "number": 3,
+          "number": 2,
           "period": 2,
           "penalty": {
             "developmentCardAcquireEffect": {
@@ -3534,7 +3547,7 @@
           "period": 2,
           "penalty": {
             "developmentCardAcquireEffect": {
-              "developmentCardColor": "GREEN",
+              "developmentCardColor": "PURPLE",
               "diceValue": -4
             }
           }
@@ -3547,21 +3560,21 @@
           }
         },
         {
-          "number": 6,
+          "number": 7,
           "period": 2,
           "penalty": {
             "skipFirstTurn": true
           }
         },
         {
-          "number": 7,
+          "number": 6,
           "period": 2,
           "penalty": {
             "halveServantsValue": true
           }
         },
         {
-          "number": 1,
+          "number": 5,
           "period": 3,
           "penalty": {
             "victoryPointsPenalty": {
@@ -3573,7 +3586,7 @@
           }
         },
         {
-          "number": 2,
+          "number": 4,
           "period": 3,
           "penalty": {
             "victoryPointsPenalty": {
@@ -3585,7 +3598,7 @@
           }
         },
         {
-          "number": 3,
+          "number": 1,
           "period": 3,
           "penalty": {
             "victoryPointsPenalty": {
@@ -3595,7 +3608,7 @@
           }
         },
         {
-          "number": 4,
+          "number": 2,
           "period": 3,
           "penalty": {
             "victoryPointsPenalty": {
@@ -3605,7 +3618,7 @@
           }
         },
         {
-          "number": 5,
+          "number": 3,
           "period": 3,
           "penalty": {
             "victoryPointsPenalty": {
@@ -3615,17 +3628,22 @@
           }
         },
         {
-          "number": 6,
+          "number": 7,
           "period": 3,
           "penalty": {
             "victoryPointsPenalty": {
               "VICTORY_POINTS": -1,
-              "playerGoods": 1
+              "resources": {
+                "STONES": 1,
+                "WOODS": 1,
+                "SERVANTS": 1,
+                "COINS": 1
+              }
             }
           }
         },
         {
-          "number": 7,
+          "number": 6,
           "period": 3,
           "penalty": {
             "victoryPointsPenalty": {

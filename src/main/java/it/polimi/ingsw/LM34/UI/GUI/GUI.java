@@ -47,7 +47,6 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -130,16 +129,11 @@ public class GUI extends Application implements UIInterface {
     @Override
     public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
         FutureTask<Integer> uiTask = new FutureTask<>(() -> {
-            try {
-                this.loginStage.hide();
-                this.loginStage.close();
-                this.start(new Stage());
-                return new BonusTileDialog().interactWithPlayer(bonusTiles);
-            }
-            catch (Exception ex) {
-                ex.printStackTrace();
-                return null;
-            }
+
+            this.loginStage.hide();
+            this.loginStage.close();
+            this.start(new Stage());
+            return new BonusTileDialog().interactWithPlayer(bonusTiles);
         });
         return RunLaterTask(uiTask);
     }
@@ -270,7 +264,6 @@ public class GUI extends Application implements UIInterface {
         Platform.runLater(uiTask);
     }
 
-    //TODO
     @Override
     public void updateCouncilPalace(CouncilPalace councilPalace) {
         this.palace = councilPalace;
@@ -498,7 +491,7 @@ public class GUI extends Application implements UIInterface {
      */
     @Override
     public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
-        FutureTask<Integer> uiTask = new FutureTask<>(() -> new FamilyMemberSelectDialog().interactWithPlayer(familyMembers));
+        FutureTask<Integer> uiTask = new FutureTask<>(() -> new FamilyMemberSelectDialog().interactWithPlayer(primaryStage, familyMembers));
         return RunLaterTask(uiTask);
     }
 
