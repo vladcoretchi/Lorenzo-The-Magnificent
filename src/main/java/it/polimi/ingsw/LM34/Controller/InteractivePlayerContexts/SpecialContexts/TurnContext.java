@@ -34,7 +34,6 @@ public class TurnContext extends AbstractGameContext {
      * NOTE: OncePerRound observers are excluded in this reactivation
      */
     public void initContext() {
-        //TODO: see if this crashes the game
         this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).setExcommunicationCards(this.gameManager.getExcommunicationCards()));
         this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updatePlayersData(this.gameManager.getPlayers()));
         this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updateTowers(this.gameManager.getTowers()));
@@ -62,21 +61,6 @@ public class TurnContext extends AbstractGameContext {
 
     @Override
     public Void interactWithPlayer(Object... args) {
-        /*FutureTask future = new FutureTask<>(() -> {
-            try {
-                playerAction(Optional.empty());
-            } catch(Exception ex) {
-                LOGGER.log(Level.WARNING, ex.getMessage(), ex);
-            }
-            return null;
-        });
-
-        try {
-            future.get(Configurator.PLAYER_MOVE_TIMEOUT, TimeUnit.MILLISECONDS);
-        } catch(Exception ex) {
-            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
-            return null;
-        }*/
         playerAction(Optional.empty());
         return null;
     }

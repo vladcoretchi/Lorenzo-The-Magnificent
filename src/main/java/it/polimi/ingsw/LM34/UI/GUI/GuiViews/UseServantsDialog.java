@@ -15,11 +15,11 @@ public class UseServantsDialog {
     public UseServantsDialog() {}
 
     public Integer interactWithPlayer(Integer servantsAvailable, Integer minimumServantsRequested) {
-        List<String> choices = new ArrayList<>();
+        List<Integer> choices = new ArrayList<>();
         for(Integer i = minimumServantsRequested; i <= servantsAvailable; i++ )
-            choices.add(i.toString());
+            choices.add(i);
 
-        ChoiceDialog<String> dialog = new ChoiceDialog<>(choices.get(0), choices);
+        ChoiceDialog<Integer> dialog = new ChoiceDialog<>(choices.get(0), choices);
         dialog.setTitle("Servants Selection");
         dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setDisable(true);
         dialog.initStyle(StageStyle.UNDECORATED);
@@ -32,18 +32,10 @@ public class UseServantsDialog {
         dialog.getDialogPane().getStyleClass().add("dialogClass");
         dialog.getDialogPane().getStyleClass().add("servant");
 
-        Optional<String> result = dialog.showAndWait();
+        Optional<Integer> result = dialog.showAndWait();
 
-        if (result.isPresent()) {
-            Integer choiceId = 1;
-            for (String choice : choices) {
-                if (choice.equalsIgnoreCase(result.get()))
-                    return choiceId;
-
-                choiceId++;
-            }
-        }
-        return 0;
+        return result.orElse(0);
     }
+
 }
 

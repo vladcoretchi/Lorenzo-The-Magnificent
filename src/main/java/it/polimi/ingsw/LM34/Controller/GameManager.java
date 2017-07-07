@@ -29,6 +29,7 @@ import it.polimi.ingsw.LM34.Utils.Validator;
 
 import java.util.*;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
 import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.DEFAULT;
@@ -221,12 +222,13 @@ public class GameManager {
             nextPeriod();
 
         this.phase = 0;
-        nextTurn();
+
         players = setNewTurnOrder();
         rollDices();
         updateFamilyMemberValues();
         sweepActionSlots();  //sweeps all action and tower slots from pawns and cards
         replaceCards();      //Four development cards per type are moved from the decks into the towerslots
+        nextTurn();
     }
 
     private void nextPeriod() {
@@ -246,7 +248,7 @@ public class GameManager {
     /**
      * New cards are placed in the towers at the beginning of the new round
      */
-    private void replaceCards() {
+    public void replaceCards() {
         changeCards(towers, territoryCardDeck);
         changeCards(towers, buildingCardDeck);
         changeCards(towers, characterCardDeck);
@@ -356,8 +358,14 @@ public class GameManager {
 
         /*...and now place every card in the deck until the tower's slots are full*/
         tower.ifPresent(Tower::sweep);
-        while (iterator.hasNext() && tower.get().getCardsStored().size() < Configurator.CARD_PER_ROUND)
+        while (iterator.hasNext() && tower.get().getCardsStored().size() < Configurator.CARD_PER_ROUND) {
             tower.get().addCard((AbstractDevelopmentCard) iterator.next());
+            try {
+                iterator.remove();
+            } catch( UnsupportedOperationException e) {
+                Logger.getAnonymousLogger().log(Level.FINEST, e.getMessage(), e);
+            }
+        }
     }
 
     /**

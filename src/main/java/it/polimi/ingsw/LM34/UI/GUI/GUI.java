@@ -526,7 +526,8 @@ public class GUI extends Application implements UIInterface {
      */
     @Override
     public Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices) {
-        FutureTask<Integer> uiTask = new FutureTask<>(() -> new ResourceExchangeDialog().interactWithPlayer(choices));
+        FutureTask<Integer> uiTask = new FutureTask<>(
+                () -> new ResourceExchangeDialog().interactWithPlayer(choices));
         return RunLaterTask(uiTask);
     }
 

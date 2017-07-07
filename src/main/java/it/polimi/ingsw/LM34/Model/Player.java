@@ -143,7 +143,9 @@ public class Player implements Serializable {
      * @return if the user has a defined number (or more) of cards of a type
      */
     public Boolean hasEnoughCardsOfType(DevelopmentCardColor cardType, Integer num) {
-        Optional<List<AbstractDevelopmentCard>> cards = this.getPersonalBoard().getDevelopmentCardsByType(cardType);
+        Optional<List<AbstractDevelopmentCard>> cards = Optional.empty();
+        if(cardType != null)
+            cards = this.getPersonalBoard().getDevelopmentCardsByType(cardType);
         return (cards.isPresent() && cards.get().size() >= num);
     }
 

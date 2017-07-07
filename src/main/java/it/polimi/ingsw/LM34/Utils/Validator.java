@@ -13,7 +13,7 @@ import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
  * This static class is unbelievably useful for validate data inserted by player both client and server side
  * Client side is used as a preliminary approach to avoid malicious input
  *Server side is adopted broadly by all contexts that calls the overloaded methods they need
- * Server side is needed to enforce and grant consistency of the games tate
+ * Server side is needed to enforce and grant consistency of the game state
  */
 public final class Validator {
     /*Proudly designed and implemented by 0 :-)*/
@@ -44,7 +44,7 @@ public final class Validator {
             Integer max = data.size();
 
             /*Check if input meets the requirements*/
-            if(input < min || input >= max) //TODO: input >= max    era sbagliato?
+            if(input < min || input >= max)
                 throw new IncorrectInputException();
     }
 

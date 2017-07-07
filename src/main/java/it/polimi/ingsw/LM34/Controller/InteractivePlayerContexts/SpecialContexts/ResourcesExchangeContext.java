@@ -49,10 +49,8 @@ public class ResourcesExchangeContext extends AbstractGameContext {
         if(selection >= 0) {
             Pair<Resources, ResourcesBonus> exchange = resourcesExchange.get(selection);
             this.gameManager.getCurrentPlayer().getResources().subResources(exchange.getLeft());
-            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();
             ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).setIncome(exchange.getRight().getResources());
             ((UseCouncilPrivilegeContext) getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(exchange.getRight().getCouncilPrivilege());
-            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).interactWithPlayer();
         }
 
         return null;

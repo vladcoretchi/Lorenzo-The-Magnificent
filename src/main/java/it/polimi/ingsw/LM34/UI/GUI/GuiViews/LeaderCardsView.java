@@ -7,6 +7,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.StageStyle;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -32,6 +34,8 @@ public class LeaderCardsView {
         ButtonType discard = new ButtonType(LeaderCardsAction.DISCARD.toString());
         Alert actionChoice = new Alert(Alert.AlertType.NONE, "Activate or Discard "+ leaderSelected, activate, discard);
         actionChoice.setTitle("Leader Action Dialog");
+        actionChoice.initStyle(StageStyle.UNDECORATED);
+        actionChoice.initModality(Modality.WINDOW_MODAL);
         actionChoice.getDialogPane().getStylesheets().add(
                 getClass().getResource("/css/dialogStyle.css").toExternalForm());
         actionChoice.getDialogPane().getStyleClass().add("dialogClass");

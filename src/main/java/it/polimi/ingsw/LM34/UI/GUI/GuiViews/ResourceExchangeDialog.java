@@ -37,8 +37,11 @@ public class ResourceExchangeDialog {
         dialog.setContentText("Choose one of the following options:");
         dialog.setResizable(true);
         dialog.getDialogPane().getStylesheets().add(
+                getClass().getResource("/css/dialogStyle.css").toExternalForm());
+        dialog.getDialogPane().getStyleClass().add("dialogClass");
+        /*dialog.getDialogPane().getStylesheets().add(
                 getClass().getResource("/css/resourceExcangeDialog.css").toExternalForm());
-        dialog.getDialogPane().getStyleClass().add("resourceExcange");
+        dialog.getDialogPane().getStyleClass().add("resourceExcange");*/
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {

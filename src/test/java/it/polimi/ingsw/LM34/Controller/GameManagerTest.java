@@ -56,7 +56,7 @@ public class GameManagerTest {
      * @throws Exception
      */
     //Test(expected = NullPointerException.class)
-    @Test(expected = StackOverflowError.class)
+    @Test(expected = Exception.class)
     public void nextTurn() throws Exception {
         GameServer gameServer = new GameServer();
         gameServer.main(null);
