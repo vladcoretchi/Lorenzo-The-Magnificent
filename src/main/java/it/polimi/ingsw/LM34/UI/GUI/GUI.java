@@ -338,7 +338,11 @@ public class GUI extends Application implements UIInterface {
         /**
          * Fill the single {@link ActionSlot} with the pawn placed inside
          */
-        FamilyMember pawnInSingleSlot = this.productionArea.getSingleSlot().getFamilyMembers().get(0);
+        try {
+            FamilyMember pawnInSingleSlot = null;
+            if(!this.productionArea.getSingleSlot().getFamilyMembers().isEmpty())
+                pawnInSingleSlot = this.productionArea.getSingleSlot().getFamilyMembers().get(0);
+
         ImageView imageSingle = (ImageView) root.lookup("#productionArea" + 0);
 
             if (pawnInSingleSlot != null) {
@@ -368,6 +372,9 @@ public class GUI extends Application implements UIInterface {
                 hSlots.setHgrow(image, Priority.ALWAYS);
             }
             advancedSlot.getChildren().add(hSlots);
+        }
+        } catch (Exception e ) {
+            e.printStackTrace();
         }
         return null;
         });
