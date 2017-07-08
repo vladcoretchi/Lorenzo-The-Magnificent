@@ -18,6 +18,7 @@ import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Dice;
+import it.polimi.ingsw.LM34.Model.Effects.SkipFirstTurn;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
@@ -135,7 +136,7 @@ public class GameManager {
      */
     public void startGame() {
         bonusTileSelectionPhase();
-        leaderSelectionPhase(); //TODO: uncomment
+        //leaderSelectionPhase(); //TODO: uncomment
         players.forEach(player -> this.getPlayerNetworkController(player).setExcommunicationCards(this.excommunicationCards));
         players.forEach(player -> this.getPlayerNetworkController(player).updateDiceValues(this.dices));
         players.forEach(player -> this.getPlayerNetworkController(player).updatePlayersData(this.players));
@@ -187,6 +188,8 @@ public class GameManager {
         this.ventureCardDeck = Configurator.getVentureCards();
         this.leaderCardsDeck = Configurator.getLeaderCards(this.players.size());
         this.excommunicationCards = Configurator.getExcommunicationTiles();
+
+        getCurrentPlayer().getExcommunicationCards().addAll(excommunicationCards);//TODO
     }
 
     public void nextTurn() {
@@ -224,6 +227,12 @@ public class GameManager {
 
             /*Reactivate the FamilyMembers of the player*/
             player.getFamilyMembers().forEach(FamilyMember::freePawn);
+
+            player.getExcommunicationCards().forEach(excommunicationCard -> {
+                        if (excommunicationCard.getPenalty() instanceof SkipFirstTurn)
+                            ((SkipFirstTurn) excommunicationCard.getPenalty()).setUsed(false);
+                    }
+            );
         });
 
         if (this.round % 2 == 0)

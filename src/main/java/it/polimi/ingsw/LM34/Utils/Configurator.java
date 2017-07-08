@@ -355,7 +355,7 @@ public final class Configurator {
         /**
          * Now keep only the 3 excommunication cards that the {@link it.polimi.ingsw.LM34.Controller.GameManager} needs
          */
-        orderExcommunicatioCardByPeriod();
+       //TODO orderExcommunicatioCardByPeriod();
     }
 
     /**

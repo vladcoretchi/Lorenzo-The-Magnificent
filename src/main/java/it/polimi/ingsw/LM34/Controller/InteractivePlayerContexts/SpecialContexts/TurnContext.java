@@ -46,6 +46,10 @@ public class TurnContext extends AbstractGameContext {
         this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updateMarket(this.gameManager.getMarket()));
         this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updateCouncilPalace(this.gameManager.getPalace()));
 
+        this.getCurrentPlayer().getExcommunicationCards().forEach(excommunicationCard -> {
+            excommunicationCard.getPenalty().applyEffect(this);
+        });
+
         this.skipTurn = false;
         setChanged();
         notifyObservers(this); //for SkipTurn observer
@@ -63,10 +67,6 @@ public class TurnContext extends AbstractGameContext {
                     card.getBonus().applyEffect(this);
                     if (!card.isUsed())
                         card.setUsed(true);
-
-            this.getCurrentPlayer().getExcommunicationCards().forEach(excommunicationCard -> {
-                excommunicationCard.getPenalty().applyEffect(this);
-            });
                 }
             });
 

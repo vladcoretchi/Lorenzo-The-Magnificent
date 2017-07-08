@@ -8,17 +8,19 @@ import java.util.Observer;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TURN_CONTEXT;
 
-public class SkipFirstTurn extends AbstractOncePerRoundEffect implements Observer {
+public class SkipFirstTurn extends AbstractEffect implements Observer {
     private static final long serialVersionUID = -4964914894768670L;
-
-    public SkipFirstTurn() {}
+    private Boolean used;
+    public SkipFirstTurn() {
+        this.used = false;
+    }
 
     @Override
     public void update(Observable o, Object arg) {
         if(!this.used) {
             TurnContext turnContext = (TurnContext) arg;
             turnContext.skipTurn();
-            this.used = true;
+            setUsed(true);
         }
     }
 
@@ -27,8 +29,7 @@ public class SkipFirstTurn extends AbstractOncePerRoundEffect implements Observe
         callerContext.getContextByType(TURN_CONTEXT).addObserver(this);
     }
 
-    @Override
-    public boolean isOncePerRound() {
-        return true;
+    public void setUsed(Boolean isUsed) {
+        this.used = isUsed;
     }
 }
