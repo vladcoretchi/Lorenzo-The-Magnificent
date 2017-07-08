@@ -18,6 +18,7 @@ public class Player implements Serializable {
     
     private final String playerName;
     private final PawnColor pawnColor; /*Color of the Pawn associated to the player*/
+    private Boolean connected;
     private List<FamilyMember>  familyMembers;
     private Resources resources;
     private PersonalBoard personalBoard; /**{@link PersonalBoard} cointains the developments cards bought**/
@@ -39,6 +40,8 @@ public class Player implements Serializable {
 
         this.leaderCards = new ArrayList<>();
         this.excommunicationCards = new ArrayList<>();
+
+        this.connected = true;
     }
 
     public String getPlayerName() {
@@ -157,5 +160,28 @@ public class Player implements Serializable {
         });
 
         return availablePawns;
+    }
+
+    /**
+     * Indicates if the player is or not connected
+     * @return player's connection state
+     */
+    public Boolean isConnected() {
+        return this.connected;
+    }
+
+    /**
+     * Set the player as disconnected
+     */
+    public void setDisconnected() {
+        this.connected = false;
+
+    }
+
+    /**
+     * Set the player as connected
+     */
+    public void setConncted() {
+        this.connected = true;
     }
 }

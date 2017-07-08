@@ -239,6 +239,25 @@ public class CLI implements UIInterface {
 
     @Override
     public PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid) {
+        lastActionValid.ifPresent(ex -> printError(ex.getMessage()));
+
+        List<PlayerSelectableContexts> contexts = new ArrayList<>();
+        contexts.add(LEADER_CARDS_CONTEXT);
+
+        Optional<PlayerSelectableContexts> context = contextSelection(contexts);
+        if(!context.isPresent())
+            return new PlayerAction(null, null);
+
+        switch (context.get()) {
+            case LEADER_CARDS_CONTEXT:
+                return new PlayerAction(LEADER_CARDS_CONTEXT, null);
+            default:
+                return turnSecondaryAction(Optional.of(new IncorrectInputException()));
+        }
+    }
+
+    @Override
+    public PlayerAction freeAction(PlayerAction action, Optional<Exception> lastActionValid) {
         return null;
     }
 
@@ -292,7 +311,7 @@ public class CLI implements UIInterface {
     private Integer marketSlotSelection() {
         /*Show the market*/
         printSlots(market.getActionSlots());
-        printToConsole.println("In which slot do you want to place one of your pawn?%n");
+        printLine("In which slot do you want to place one of your pawn?\n");
 
         return checkInput(market.getActionSlots());
     }
@@ -306,7 +325,7 @@ public class CLI implements UIInterface {
         showProductionArea();
         showHarvestArea();
 
-       CLIStuff.printToConsole.format("In which slot of the %1$s area do you want to enter?%n", workingArea.toString());
+       CLIStuff.printFormat("In which slot of the %1$s area do you want to enter?%n", workingArea.toString());
 
        if(workingArea.getWorkingAreaType().equalsIgnoreCase(productionArea.toString()))
            selectedSlot = checkInput(productionArea.getActionSlots());
@@ -323,7 +342,7 @@ public class CLI implements UIInterface {
         /*SHOW COUNCIL PALACE*/
         printCouncilPalace();
 
-        printToConsole.println("You selected to place one of your pawns in the Council Palace. Press a key to continue");
+        printLine("You selected to place one of your pawns in the Council Palace. Press a key to continue");
         readUserInput.next();
     }
 
@@ -448,7 +467,7 @@ public class CLI implements UIInterface {
                         Optional.of(INVALID_SELECTION))));
 
         /*Let the player choose the level of the selected tower*/
-        printToConsole.println("In which tower's floor do you want to place your pawn?\n");
+        printLine("In which tower's floor do you want to place your pawn?\n");
         floor = readUserInput.nextInt();
 
         return new ImmutablePair<>(towerType, --floor);
@@ -469,7 +488,7 @@ public class CLI implements UIInterface {
             printFormat("To complete this action, you need at least %1$d servants (you have %2$d servants)%n", minimumServantsRequested, servantsAvailable);
         else
             printFormat("You can use servants to increment your family member's value (%1$s available)%n", servantsAvailable);
-        printToConsole.println("How many servants do you wish to use?\n");
+        printLine("How many servants do you wish to use?\n");
 
         do {
             try {
@@ -719,13 +738,13 @@ public class CLI implements UIInterface {
             }
 
             /*Resources the player has*/
-            printLine("%nResources:");
+            printLine("\nResources:");
             Resources res = p.getResources();
             for(ResourceType t : ResourceType.values())
                 printFormat("%1$s: %2$s%n", t.toString(), res.getResourceByType(t).toString());
 
             /*The ExcommunicationCards of the player*/
-            printLine("%nPenalties:");
+            printLine("\nPenalties:");
             p.getExcommunicationCards().forEach(e -> printFormat("%1$s: %2$s%n", e.getPeriod(),
                                                 e.getPenalty().getClass().getSimpleName()));
 
@@ -871,6 +890,11 @@ public class CLI implements UIInterface {
     public void showMilitaryPointsForTerritories() {
         printToConsole.println("Here is the mapping between the number of territories and the military points required to get another territory card");
         mapMilitaryPointsForTerritories.forEach((pos, points) -> printToConsole.println(pos + ":" + points));
+    }
+
+    @Override
+    public void startGame() {
+
     }
 
     /**

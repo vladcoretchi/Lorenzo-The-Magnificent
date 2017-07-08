@@ -2,12 +2,15 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContext
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Utils.Validator;
+import sun.nio.ch.Net;
 
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.SERVANTS;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class IncreasePawnsValueByServantsContext extends AbstractGameContext {
@@ -26,11 +29,21 @@ public class IncreasePawnsValueByServantsContext extends AbstractGameContext {
             throw new IncorrectInputException();
         }
 
+        if(this.gameManager.getCurrentPlayer().getResources().getResourceByType(SERVANTS) < servantsRequested)
+            throw new IncorrectInputException();
+
         setChanged();
         notifyObservers(this);
 
         Integer availableServants = this.gameManager.getCurrentPlayer().getResources().getResourceByType(ResourceType.SERVANTS);
-        Integer selectedServants = this.gameManager.getActivePlayerNetworkController().servantsSelection(availableServants, this.servantsRequested);
+        Integer selectedServants = 0;
+        if(this.getCurrentPlayer().isConnected())
+            try {
+                selectedServants = this.gameManager.getActivePlayerNetworkController().servantsSelection(availableServants, this.servantsRequested);
+            } catch (NetworkConnectionException ex) {
+                LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                this.getCurrentPlayer().setDisconnected();
+            }
         Validator.checkValidity(selectedServants, this.servantsRequested, availableServants);
 
         return selectedServants;

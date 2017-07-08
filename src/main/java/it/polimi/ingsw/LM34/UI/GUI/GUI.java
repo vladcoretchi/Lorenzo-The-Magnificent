@@ -659,6 +659,11 @@ public class GUI extends Application implements UIInterface {
         new PathTypesVisualizationDialog().interactWithPlayer(PathType.MILITARY_POINTS_FOR_TERRITORIES, mapMilitaryPointsForTerritories);
     }
 
+    @Override
+    public void startGame() {
+
+    }
+
     /**
      * Main action of a turn performed by the player
      * @param lastActionValid if the server has invalidated the action of the player, this object
@@ -742,6 +747,11 @@ public class GUI extends Application implements UIInterface {
     public PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid) {
         FutureTask<PlayerAction> uiTask = new FutureTask<>(() -> null);
         return RunLaterTask(uiTask);
+    }
+
+    @Override
+    public PlayerAction freeAction(PlayerAction action, Optional<Exception> lastActionValid) {
+        return null;
     }
 
     private class endTurnClick implements  EventHandler<Event> {

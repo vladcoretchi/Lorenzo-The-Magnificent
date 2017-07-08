@@ -21,10 +21,9 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
     private static final long serialVersionUID = -2410726346554385940L;
     
     /**
-     * if null then the value is related to the neutral family member
-     * if MULTICOLOR, the value is applied to all the dices
+     * Keeps track of what dice the effect is applied to
      */
-    private List<DiceColor> diceColor; //keep track on what dice the effect is applied to
+    private List<DiceColor> diceColors;
     private ContextType contextType;
 
     private Integer value;
@@ -37,13 +36,13 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
     private Boolean relative;
 
     public FamilyMemberValueEffect(List<DiceColor> colors, Integer value, Boolean relative) {
-        this.diceColor = colors;
+        this.diceColors = colors;
         this.value = value;
         this.relative = relative;
     }
 
     public List<DiceColor> getDiceColor() {
-        return this.diceColor;
+        return this.diceColors;
     }
 
     public Integer getValue() {
@@ -57,7 +56,10 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
     @Override
     public void update(Observable o, Object arg) {
         FamilyMemberSelectionContext callerContext = (FamilyMemberSelectionContext) arg;
-        callerContext.changeFamilyMemberValue(this.value, this.relative);
+
+        if((this.diceColors.size() == 1 && this.diceColors.get(0).name().equals(DiceColor.DEFAULT.name())) ||
+                this.diceColors.stream().anyMatch(dc -> dc.name().equals(callerContext.getAssociatedDiceColor().name())))
+            callerContext.changeFamilyMemberValue(this.value, this.relative);
     }
 
     @Override

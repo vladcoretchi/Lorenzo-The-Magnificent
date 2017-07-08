@@ -1,8 +1,10 @@
 package it.polimi.ingsw.LM34.Network.Client;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -19,6 +21,7 @@ import it.polimi.ingsw.LM34.Network.PlayerAction;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class ClientNetworkController {
@@ -33,12 +36,23 @@ public class ClientNetworkController {
     }
 
     public void loginResult(Boolean result) {
-        /*FutureTask uiTask = new FutureTask(() -> {
-            this.clientConnection.getUI().loginResult(result);
-            return null;
-        });
-        Platform.runLater(uiTask);*/
         this.clientConnection.getUI().loginResult(result);
+    }
+
+    public void loadMapTerritoriesToVictoryPoints(Map<Integer, Integer> mapTerritoriesToVictoryPoints) {
+        this.clientConnection.getUI().loadMapTerritoriesToVictoryPoints(mapTerritoriesToVictoryPoints);
+    }
+
+    public void loadMapMilitaryPointsForTerritories(Map<Integer, Integer> mapMilitaryPointsForTerritories) {
+        this.clientConnection.getUI().loadMapMilitaryPointsForTerritories(mapMilitaryPointsForTerritories);
+    }
+
+    public void loadMapCharactersToVictoryPoints(Map<Integer, Integer> mapCharactersToVictoryPoints) {
+        this.clientConnection.getUI().loadMapCharactersToVictoryPoints(mapCharactersToVictoryPoints);
+    }
+
+    public void loadFaithPath(Map<Integer, Integer> faithPath) {
+        this.clientConnection.getUI().loadFaithPath(faithPath);
     }
 
     public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
@@ -71,6 +85,10 @@ public class ClientNetworkController {
 
     public void updateDiceValues(List<Dice> diceValues) {
         this.clientConnection.getUI().updateDiceValues(diceValues);
+    }
+
+    public void startGame() {
+        this.clientConnection.getUI().startGame();
     }
 
     public PlayerAction turnMainAction(Optional<Exception> lastActionValid) {
@@ -127,5 +145,13 @@ public class ClientNetworkController {
 
     public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) {
         this.clientConnection.getUI().informInGamePlayers(infoType, playerName, playerColor);
+    }
+
+    public PlayerAction freeAction(PlayerAction availableAction, Optional<Exception> lastActionValid) {
+        return this.clientConnection.getUI().freeAction(availableAction, lastActionValid);
+    }
+
+    public Integer leaderCardCopy(List<LeaderCard> leaderCards) {
+        return this.clientConnection.getUI().leaderCardCopy(leaderCards);
     }
 }

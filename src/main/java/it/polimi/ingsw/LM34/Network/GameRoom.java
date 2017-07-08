@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.Network;
 
 import it.polimi.ingsw.LM34.Controller.GameManager;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
 import it.polimi.ingsw.LM34.Network.Server.Server;
 import it.polimi.ingsw.LM34.Network.Server.ServerNetworkController;
 import it.polimi.ingsw.LM34.Utils.Configurator;
@@ -30,6 +31,10 @@ public class GameRoom {
 
     public String[] getPlayers() {
         return this.players.keySet().toArray(new String[]{});
+    }
+
+    public GameManager getGameManager() {
+        return this.gameManager;
     }
 
     public void addPlayer(String username, ServerNetworkController networkController) {

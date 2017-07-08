@@ -11,7 +11,7 @@ import java.util.Map;
 
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.*;
 
-public class Resources implements Serializable, Copyable {
+public class Resources implements Serializable {
     private static final long serialVersionUID = 8305447519327637463L;
 
     private Map<ResourceType, Integer> resourcesMap;
@@ -145,17 +145,5 @@ public class Resources implements Serializable, Copyable {
         }
 
         return true;
-    }
-
-    @Override
-    public Resources copy() {
-        return new Resources(
-                this.getResourceByType(COINS).intValue(),
-                this.getResourceByType(WOODS).intValue(),
-                this.getResourceByType(STONES).intValue(),
-                this.getResourceByType(SERVANTS).intValue(),
-                this.getResourceByType(MILITARY_POINTS).intValue(),
-                this.getResourceByType(FAITH_POINTS).intValue(),
-                this.getResourceByType(VICTORY_POINTS).intValue());
     }
 }

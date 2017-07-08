@@ -73,4 +73,8 @@ public abstract class AbstractGameContext extends Observable  {
         this.gameManager = gameManager;
     }
 
+    public GameManager getGameManager() {
+        return this.gameManager;
+    }
+
 }

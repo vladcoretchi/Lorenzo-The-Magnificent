@@ -20,6 +20,7 @@ import it.polimi.ingsw.LM34.UI.UIInterface;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public abstract class AbstractClient {
@@ -35,6 +36,22 @@ public abstract class AbstractClient {
     }
 
     public abstract void login(String username, String password);
+
+    public void loadMapTerritoriesToVictoryPoints(Map<Integer, Integer> mapTerritoriesToVictoryPoints) {
+        this.networkController.loadMapTerritoriesToVictoryPoints(mapTerritoriesToVictoryPoints);
+    }
+
+    public void loadMapMilitaryPointsForTerritories(Map<Integer, Integer> mapMilitaryPointsForTerritories) {
+        this.networkController.loadMapMilitaryPointsForTerritories(mapMilitaryPointsForTerritories);
+    }
+
+    public void loadMapCharactersToVictoryPoints(Map<Integer, Integer> mapCharactersToVictoryPoints) {
+        this.networkController.loadMapCharactersToVictoryPoints(mapCharactersToVictoryPoints);
+    }
+
+    public void loadFaithPath(Map<Integer, Integer> faithPath) {
+        this.networkController.loadFaithPath(faithPath);
+    }
 
     public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
         this.networkController.setExcommunicationCards(excommunicationCards);
@@ -66,6 +83,10 @@ public abstract class AbstractClient {
 
     public void updateDiceValues(List<Dice> diceValues) {
         this.networkController.updateDiceValues(diceValues);
+    }
+
+    public void startGame() {
+        this.networkController.startGame();
     }
 
     public PlayerAction turnMainAction(Exception lastActionValid) {
@@ -122,5 +143,13 @@ public abstract class AbstractClient {
 
     public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) {
         this.networkController.informInGamePlayers(infoType, playerName, playerColor);
+    }
+
+    public PlayerAction freeAction(PlayerAction availableAction, Exception lastActionValid) {
+        return this.networkController.freeAction(availableAction, Optional.ofNullable(lastActionValid));
+    }
+
+    public Integer leaderCardCopy(List<LeaderCard> leaderCards) {
+        return this.networkController.leaderCardCopy(leaderCards);
     }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
 
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
@@ -14,7 +15,7 @@ public class ResourcesExchangeContextTest {
      * this test will check if pair will correctly used inside interactWithPlayer
      * @throws Exception
      */
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IncorrectInputException.class)
     public void interactWithPlayer() throws Exception {
         ResourcesExchangeContext resourcesExchangeContext = new ResourcesExchangeContext();
         Pair<Integer, Integer> argumentsPair = new Pair<Integer, Integer>() {

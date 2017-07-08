@@ -1,8 +1,10 @@
 package it.polimi.ingsw.LM34.Network.Server;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -19,6 +21,7 @@ import it.polimi.ingsw.LM34.Network.PlayerAction;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public abstract class AbstractConnection {
@@ -42,40 +45,50 @@ public abstract class AbstractConnection {
         return loginResult;
     }
 
-    public abstract void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards);
-    public abstract void updateTowers(List<Tower> towers);
-    public abstract void updateCouncilPalace(CouncilPalace councilPalace);
-    public abstract void updateMarket(Market market);
-    public abstract void updateProductionArea(WorkingArea productionArea);
-    public abstract void updateHarvestArea(WorkingArea harvestArea);
-    public abstract void updatePlayersData(List<Player> players);
-    public abstract void updateDiceValues(List<Dice> diceValues);
+    public abstract void loadMapTerritoriesToVictoryPoints(Map<Integer, Integer> mapTerritoriesToVictoryPoints) throws NetworkConnectionException;
+    public abstract void loadMapMilitaryPointsForTerritories(Map<Integer, Integer> mapMilitaryPointsForTerritories) throws NetworkConnectionException;
+    public abstract void loadMapCharactersToVictoryPoints(Map<Integer, Integer> mapCharactersToVictoryPoints) throws NetworkConnectionException;
+    public abstract void loadFaithPath(Map<Integer, Integer> faithPath) throws NetworkConnectionException;
+    public abstract void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) throws NetworkConnectionException;
+    public abstract void updateTowers(List<Tower> towers) throws NetworkConnectionException;
+    public abstract void updateCouncilPalace(CouncilPalace councilPalace) throws NetworkConnectionException;
+    public abstract void updateMarket(Market market) throws NetworkConnectionException;
+    public abstract void updateProductionArea(WorkingArea productionArea) throws NetworkConnectionException;
+    public abstract void updateHarvestArea(WorkingArea harvestArea) throws NetworkConnectionException;
+    public abstract void updatePlayersData(List<Player> players) throws NetworkConnectionException;
+    public abstract void updateDiceValues(List<Dice> diceValues) throws NetworkConnectionException;
 
-    public abstract PlayerAction turnMainAction(Optional<Exception> lastActionValid);
+    public abstract void startGame() throws NetworkConnectionException;
 
-    public abstract PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid);
+    public abstract PlayerAction turnMainAction(Optional<Exception> lastActionValid) throws NetworkConnectionException;
 
-    public abstract Integer familyMemberSelection(List<FamilyMember> familyMembers);
+    public abstract PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid) throws NetworkConnectionException;
 
-    public abstract Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested);
+    public abstract Integer familyMemberSelection(List<FamilyMember> familyMembers) throws NetworkConnectionException;
 
-    public abstract Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices);
+    public abstract Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) throws NetworkConnectionException;
 
-    public abstract Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards);
+    public abstract Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices) throws NetworkConnectionException;
 
-    public abstract Boolean churchSupport();
+    public abstract Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards) throws NetworkConnectionException;
 
-    public abstract Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses);
+    public abstract Boolean churchSupport() throws NetworkConnectionException;
 
-    public abstract Integer bonusTileSelection(List<BonusTile> bonusTiles);
+    public abstract Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) throws NetworkConnectionException;
 
-    public abstract Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards);
+    public abstract Integer bonusTileSelection(List<BonusTile> bonusTiles) throws NetworkConnectionException;
 
-    public abstract Boolean alternativeRequirementsPayment();
+    public abstract Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards) throws NetworkConnectionException;
 
-    public abstract void endGame(List<Player> players);
+    public abstract Boolean alternativeRequirementsPayment() throws NetworkConnectionException;
 
-    public abstract void endTurn();
+    public abstract void endGame(List<Player> players) throws NetworkConnectionException;
 
-    public abstract void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor);
+    public abstract void endTurn() throws NetworkConnectionException;
+
+    public abstract void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) throws NetworkConnectionException;
+
+    public abstract PlayerAction freeAction(PlayerAction availableAction, Optional<Exception> lastActionValid) throws NetworkConnectionException;
+
+    public abstract Integer leaderCardCopy(List<LeaderCard> leaderCards) throws NetworkConnectionException;
 }

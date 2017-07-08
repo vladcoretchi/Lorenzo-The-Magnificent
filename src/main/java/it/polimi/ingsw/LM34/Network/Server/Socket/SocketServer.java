@@ -12,14 +12,14 @@ import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 public final class SocketServer {
     private static ServerSocket serverSocket;
     private static Thread connectionsHandler;
-    private static List<SocketConnection> socketCnnections;
+    private static List<SocketConnection> socketConnections;
 
     public SocketServer(Integer port) {
         try {
-            this.serverSocket = new ServerSocket(port);
-            this.connectionsHandler = new Thread(new ConnectionHandler());
-            this.socketCnnections = new ArrayList<>();
-            this.connectionsHandler.start();
+            serverSocket = new ServerSocket(port);
+            connectionsHandler = new Thread(new ConnectionHandler());
+            socketConnections = new ArrayList<>();
+            connectionsHandler.start();
         } catch(IOException ex) {
             LOGGER.log(Level.WARNING, getClass().getSimpleName(), ex);
             this.terminate();
@@ -27,8 +27,8 @@ public final class SocketServer {
     }
 
     public void terminate() {
-        this.connectionsHandler.interrupt();
-        this.socketCnnections.forEach(connection -> connection.terminate());
+        connectionsHandler.interrupt();
+        socketConnections.forEach(SocketConnection::terminate);
     }
 
     private class ConnectionHandler implements Runnable {
@@ -36,12 +36,12 @@ public final class SocketServer {
 
         @Override
         public void run() {
-            //TODO: consider using NIO to improve performance with many clients connected
             while(this.run) {
                 try {
                     Socket socket = serverSocket.accept();
-                    SocketConnection connection = new SocketConnection(socket);
+                    SocketConnection connection = new SocketConnection(socket, SocketServer.this);
                     new Thread(connection).start();
+                    SocketServer.socketConnections.add(connection);
                 } catch(IOException e) {
                     LOGGER.log(Level.WARNING, getClass().getSimpleName(), e);
                     this.terminate();
@@ -52,6 +52,13 @@ public final class SocketServer {
         public void terminate() {
             this.run = false;
         }
+    }
+
+    public void removeClosedConnection(SocketConnection connection) {
+        //directly remove the object is seen as a smell as it might take too long for large collections
+        Integer index = socketConnections.indexOf(connection);
+        if(index >= 0)
+            socketConnections.remove(index);
     }
 
 }

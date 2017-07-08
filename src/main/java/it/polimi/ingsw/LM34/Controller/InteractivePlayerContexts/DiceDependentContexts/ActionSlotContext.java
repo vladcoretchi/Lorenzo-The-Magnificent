@@ -28,12 +28,12 @@ public class ActionSlotContext extends AbstractGameContext {
             LOGGER.log(Level.FINEST, ex.getMessage(), ex);
             throw new IncorrectInputException();
         }
-        this.ignoreSlotLimit = false;
+        this.ignoreSlotLimit = !slot.isSinglePawnSlot();
 
         setChanged();
         notifyObservers(this);
 
-        return !slot.isSinglePawnSlot() || (slot.isEmpty() || this.ignoreSlotLimit);
+        return slot.isEmpty() || this.ignoreSlotLimit;
     }
 
     public AbstractGameContext getReferenceContext() {

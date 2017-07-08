@@ -1,18 +1,28 @@
 package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.HarvestAreaContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ProductionAreaContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.TowersContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Exceptions.Controller.*;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+import it.polimi.ingsw.LM34.Network.PlayerAction;
+import it.polimi.ingsw.LM34.Utils.Validator;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Optional;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.FAMILY_MEMBER_SELECTION_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.HARVEST_AREA_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.PRODUCTION_AREA_CONTEXT;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
@@ -47,27 +57,52 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         FamilyMemberSelectionContext callerContext = (FamilyMemberSelectionContext) arg;
-        if(callerContext.getCurrentActionContext() == influenceableContext)
-            callerContext.changeFamilyMemberValue(this.diceValue, this.isRelative);
+        if(callerContext.getCurrentActionContext().name().equals(influenceableContext.name()))
+            if(this.isRelative)
+                callerContext.changeFamilyMemberValue(this.diceValue, true);
+            else
+                if (influenceableContext.name().equals(PRODUCTION_AREA_CONTEXT.name()))
+                    ((ProductionAreaContext) callerContext.getContextByType(PRODUCTION_AREA_CONTEXT)).noFamilyMemberRequired();
+                else
+                    ((HarvestAreaContext) callerContext.getContextByType(HARVEST_AREA_CONTEXT)).noFamilyMemberRequired();
     }
-
 
     @Override
     public void applyEffect(AbstractGameContext callerContext)  {
         if(this.isRelative)
             callerContext.getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT).addObserver(this);
-        else //TODO (card instant effect - free harvest/production)
+        else {
+            AbstractGameContext context = callerContext.getContextByType(this.influenceableContext);
+            context.addObserver(this);
+            playerInteraction(context, Optional.empty());
+            context.deleteObserver(this);
+        }
+    }
+
+    private void playerInteraction(AbstractGameContext context, Optional<Exception> error) {
+        if(context.getCurrentPlayer().isConnected())
             try {
-                callerContext.getContextByType(influenceableContext).interactWithPlayer();
+                PlayerAction action = context.getGameManager().getActivePlayerNetworkController().freeAction(
+                        new PlayerAction(PlayerSelectableContexts.TOWERS_CONTEXT, this.diceValue), error);
+
+                Validator.checkPlayerActionValidity(action);
+
+                if(action.getContext() == null)
+                    return;
+
+                if(action.getContext().name().equals(HARVEST_AREA_CONTEXT.name()))
+                    ((HarvestAreaContext) context).interactWithPlayer(action.getAction(), this.diceValue);
+                else if(action.getContext().name().equals(PRODUCTION_AREA_CONTEXT.name()))
+                    ((ProductionAreaContext) context).interactWithPlayer(action.getAction(), this.diceValue);
+                else
+                    throw new IncorrectInputException();
             } catch (IncorrectInputException |
-                    MarketBanException |
-                    OccupiedSlotException |
-                    NotEnoughResourcesException |
-                    NotEnoughMilitaryPoints |
-                    CardTypeNumLimitReachedException |
-                    InvalidLeaderCardAction |
-                    NoMoreLeaderCardsAvailable ex) {
+                    OccupiedSlotException ex) {
                 LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+                playerInteraction(context, Optional.of(ex));
+            } catch (NetworkConnectionException ex) {
+                LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                context.getCurrentPlayer().setDisconnected();
             }
     }
 }

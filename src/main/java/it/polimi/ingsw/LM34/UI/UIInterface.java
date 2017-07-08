@@ -1,6 +1,7 @@
 package it.polimi.ingsw.LM34.UI;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
@@ -45,6 +46,7 @@ public interface UIInterface {
 
     PlayerAction turnMainAction(Optional<Exception> lastActionValid);
     PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid);
+    PlayerAction freeAction(PlayerAction action, Optional<Exception> lastActionValid);
 
     /**
      * Update UI informations about the gameboard state at start or after each player turn
@@ -62,7 +64,6 @@ public interface UIInterface {
     void updateHarvestArea(WorkingArea harvestArea);
     void updatePlayersData(List<Player> players);
     void updateDiceValues(List<Dice> dicesValues);
-    Integer leaderCardCopy(List<LeaderCard> activatedLeadersByOtherPlayers);
 
     /**
      * The following methods show to the player the association between number of
@@ -75,6 +76,11 @@ public interface UIInterface {
     void showMilitaryPointsForTerritories();
 
     /**
+     * Shows the game interface to the player
+     */
+    void startGame();
+
+    /**
      * Propose to the player what he could do in a specific context and retrieve his choice
      * @param choices available to players and related to specific game contexts
      * @return the choice of the player
@@ -85,6 +91,7 @@ public interface UIInterface {
     Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested);
     Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices);
     Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards);
+    Integer leaderCardCopy(List<LeaderCard> leaderCards);
     Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses);
     Boolean alternativeRequirementsPayment();
 

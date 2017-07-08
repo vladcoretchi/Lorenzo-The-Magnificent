@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
 
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

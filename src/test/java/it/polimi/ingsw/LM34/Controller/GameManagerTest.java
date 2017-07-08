@@ -57,7 +57,7 @@ public class GameManagerTest {
      */
     //Test(expected = NullPointerException.class)
     //@Test(expected = Exception.class)
-    @Test(expected = StackOverflowError.class)
+    @Test(expected = NullPointerException.class)
     public void nextTurn() throws Exception {
         GameServer gameServer = new GameServer();
         gameServer.main(null);
@@ -99,6 +99,11 @@ public class GameManagerTest {
 
         @Override
         public PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid) {
+            return null;
+        }
+
+        @Override
+        public PlayerAction freeAction(PlayerAction action, Optional<Exception> lastActionValid) {
             return null;
         }
 
@@ -184,6 +189,11 @@ public class GameManagerTest {
 
         @Override
         public void showMilitaryPointsForTerritories() {
+
+        }
+
+        @Override
+        public void startGame() {
 
         }
 

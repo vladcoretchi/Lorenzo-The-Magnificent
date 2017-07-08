@@ -3,19 +3,19 @@ package it.polimi.ingsw.LM34.Controller.NonInteractiveContexts;
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.VentureCard;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.END_GAME_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.VICTORY_POINTS;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 /**
  * End game calculation players' scores and presentation of the results of the match
@@ -43,11 +43,19 @@ public class EndGameContext  extends AbstractGameContext {
         notifyObservers(this);
 
         /*Calculate the victory points of each player based on the Rules*/
-        players.forEach(player -> onEndCalculateVictoryPointsPerPlayerByResources(player));
-        players.forEach(player -> onEndGameCalculatePointsByDevelopmentCardsOwned(player));
+        players.forEach(this::onEndCalculateVictoryPointsPerPlayerByResources);
+        players.forEach(this::onEndGameCalculatePointsByDevelopmentCardsOwned);
 
         /*And now tell each player how many victory points everyone has scored and declare the winner*/
-        players.forEach(player -> this.gameManager.getPlayerNetworkController(player).endGame(players));
+        players.forEach(player -> {
+            if(player.isConnected())
+                try {
+                    this.gameManager.getPlayerNetworkController(player).endGame(players);
+                } catch(NetworkConnectionException ex) {
+                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                    player.setDisconnected();
+                }
+        });
         return null;
     }
 
@@ -58,15 +66,16 @@ public class EndGameContext  extends AbstractGameContext {
      * @return the hashmap with a correlation between players and their points earned by cards
      */
     private void onEndGameCalculatePointsByDevelopmentCardsOwned(Player player) {
-        List<AbstractDevelopmentCard> cards = new ArrayList<>();
+        Optional<List<AbstractDevelopmentCard>> cards;
         Integer pointsToAdd = 0;
         for(DevelopmentCardColor cardType: DevelopmentCardColor.values())
             if (!devCardPenalty.containsKey(cardType)) {
-                cards = player.getPersonalBoard().getDevelopmentCardsByType(cardType).get();
+                cards = player.getPersonalBoard().getDevelopmentCardsByType(cardType);
+                if(cards.isPresent())
                 if(cardType == DevelopmentCardColor.BLUE)
-                    pointsToAdd += this.gameManager.getMapCharactersToVictoryPoints().get(cards);
+                    pointsToAdd += this.gameManager.getMapCharactersToVictoryPoints().get(cards.get());
                 else if(cardType == DevelopmentCardColor.GREEN)
-                    pointsToAdd += this.gameManager.getMapTerritoriesToVictoryPoints().get(cards);
+                    pointsToAdd += this.gameManager.getMapTerritoriesToVictoryPoints().get(cards.get());
                 else if(cardType == DevelopmentCardColor.PURPLE)
                     pointsToAdd += onEndCalculateVictoryPointsPerPlayerByVentureCards(player);
 
@@ -103,7 +112,7 @@ public class EndGameContext  extends AbstractGameContext {
         /*And now subtract points based on the ResourceType penalty the excommunication tiles have*/
         resourceTypePenalty.forEach((resTypeMalus, pointsPenalty) -> {
             playerResources.sumResourceType(VICTORY_POINTS,
-                    playerResources.getResourceByType(resTypeMalus).intValue() * pointsPenalty);
+                    playerResources.getResourceByType(resTypeMalus) * pointsPenalty);
         });
     }
 

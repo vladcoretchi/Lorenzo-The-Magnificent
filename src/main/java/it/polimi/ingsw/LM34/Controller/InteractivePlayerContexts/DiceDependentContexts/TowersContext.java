@@ -2,11 +2,14 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentC
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.IncreasePawnsValueByServantsContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Exceptions.Controller.CardTypeNumLimitReachedException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughMilitaryPoints;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
@@ -38,6 +41,10 @@ public class TowersContext extends AbstractGameContext {
     private DevelopmentCardColor towerColor;
     private Integer slotDiceValue;
 
+    //free action variables
+    private Boolean freeAction;
+    private Resources requirementsDiscount;
+
     public TowersContext() {
         this.contextType = ContextType.TOWERS_CONTEXT;
     }
@@ -46,8 +53,11 @@ public class TowersContext extends AbstractGameContext {
     public Void interactWithPlayer(Object... args)
             throws IncorrectInputException, OccupiedSlotException, NotEnoughResourcesException, NotEnoughMilitaryPoints, CardTypeNumLimitReachedException {
         Pair<DevelopmentCardColor, Integer> slotSelection;
+        Integer freeActionValue = 0;
         try {
             Pair<?, ?> slotArg = (Pair<?, ?>) args[0];
+            if(args.length == 2)
+                freeActionValue = (Integer) args[1];
             slotSelection = new ImmutablePair<>((DevelopmentCardColor) slotArg.getLeft(), (Integer) slotArg.getRight());
             Validator.checkValidity(slotSelection.getRight(), 0, Configurator.MAX_TOWER_LEVELS-1);
         } catch (Exception ex) {
@@ -77,9 +87,24 @@ public class TowersContext extends AbstractGameContext {
         this.slotsRewardPenalty = false;
         this.noOccupiedTowerTax = false;
         this.ignoreMilitaryPointsRequirements = false;
+        this.freeAction = false;
+        this.requirementsDiscount = null;
 
         setChanged();
         notifyObservers(this);
+
+        if(!this.freeAction && selectedTower.getTowerSlots().stream().anyMatch(ts ->
+                ts.getFamilyMembers().stream().anyMatch(fm ->
+                        fm.getFamilyMemberColor().name().equals(this.getCurrentPlayer().getPawnColor().name())
+                                && !fm.getDiceColorAssociated().name().equals(DiceColor.NEUTRAL.name()))))
+            throw new IncorrectInputException();
+
+        if(this.freeAction && freeActionValue > 0 && slot.getDiceValue() > freeActionValue) {
+            Integer selectedServants = ((IncreasePawnsValueByServantsContext) getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT)).
+                    interactWithPlayer(slot.getDiceValue() - freeActionValue);
+
+            this.getCurrentPlayer().getResources().subResources(new Resources(0,0,0,selectedServants));
+        }
 
         Optional<List<AbstractDevelopmentCard>> currentPlayerTerritoryCards = this.getCurrentPlayer().getPersonalBoard()
                                                                             .getDevelopmentCardsByType(DevelopmentCardColor.GREEN);
@@ -104,6 +129,30 @@ public class TowersContext extends AbstractGameContext {
                     card.getResourcesRequired().getResourceByType(FAITH_POINTS),
                     card.getResourcesRequired().getResourceByType(VICTORY_POINTS));
 
+        if(this.requirementsDiscount != null) {
+            if(ventureCardAlternative != null)
+                ventureCardAlternative.subResources(new Resources(
+                        Math.min(ventureCardAlternative.getResourceByType(COINS), requirementsDiscount.getResourceByType(COINS)),
+                        Math.min(ventureCardAlternative.getResourceByType(WOODS), requirementsDiscount.getResourceByType(WOODS)),
+                        Math.min(ventureCardAlternative.getResourceByType(STONES), requirementsDiscount.getResourceByType(STONES)),
+                        Math.min(ventureCardAlternative.getResourceByType(SERVANTS), requirementsDiscount.getResourceByType(SERVANTS)),
+                        Math.min(ventureCardAlternative.getResourceByType(MILITARY_POINTS), requirementsDiscount.getResourceByType(MILITARY_POINTS)),
+                        Math.min(ventureCardAlternative.getResourceByType(FAITH_POINTS), requirementsDiscount.getResourceByType(FAITH_POINTS)),
+                        Math.min(ventureCardAlternative.getResourceByType(VICTORY_POINTS), requirementsDiscount.getResourceByType(VICTORY_POINTS))
+                ));
+
+            if(requirements != null)
+                requirements.subResources(new Resources(
+                        Math.min(requirements.getResourceByType(COINS), requirementsDiscount.getResourceByType(COINS)),
+                        Math.min(requirements.getResourceByType(WOODS), requirementsDiscount.getResourceByType(WOODS)),
+                        Math.min(requirements.getResourceByType(STONES), requirementsDiscount.getResourceByType(STONES)),
+                        Math.min(requirements.getResourceByType(SERVANTS), requirementsDiscount.getResourceByType(SERVANTS)),
+                        Math.min(requirements.getResourceByType(MILITARY_POINTS), requirementsDiscount.getResourceByType(MILITARY_POINTS)),
+                        Math.min(requirements.getResourceByType(FAITH_POINTS), requirementsDiscount.getResourceByType(FAITH_POINTS)),
+                        Math.min(requirements.getResourceByType(VICTORY_POINTS), requirementsDiscount.getResourceByType(VICTORY_POINTS))
+                ));
+        }
+
         if(!this.noOccupiedTowerTax && !selectedTower.isTowerEmpty()) {
             if(ventureCardAlternative != null)
                 ventureCardAlternative.sumResources(Configurator.TOWER_OCCUPIED_COST);
@@ -115,7 +164,14 @@ public class TowersContext extends AbstractGameContext {
                 (ventureCardAlternative != null && !this.gameManager.getCurrentPlayer().hasEnoughResources(ventureCardAlternative)))
             throw new NotEnoughResourcesException();
 
-        FamilyMember selectedFamilyMember = ((FamilyMemberSelectionContext) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT))
+        FamilyMember selectedFamilyMember = null;
+        if(this.freeAction) {
+            Optional<FamilyMember> tempfm = this.getCurrentPlayer().getFamilyMembers().stream().filter(fm -> fm.getDiceColorAssociated().name().equals(DiceColor.NEUTRAL.name())).findFirst();
+            if (tempfm.isPresent())
+                selectedFamilyMember = tempfm.get();
+        }
+        else
+            selectedFamilyMember = ((FamilyMemberSelectionContext) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT))
                                                         .interactWithPlayer(slot.getDiceValue(), false, this.contextType);
 
         try {
@@ -125,7 +181,15 @@ public class TowersContext extends AbstractGameContext {
             slot.setCardStored(null);
 
             if(requirements != null && ventureCardAlternative != null) {
-                if(this.gameManager.getActivePlayerNetworkController().alternativeRequirementsPayment())
+                Boolean alternativePayment = false;
+                if(this.getCurrentPlayer().isConnected())
+                    try {
+                        alternativePayment = this.gameManager.getActivePlayerNetworkController().alternativeRequirementsPayment();
+                    } catch (NetworkConnectionException ex) {
+                        LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                        this.getCurrentPlayer().setDisconnected();
+                    }
+                if(alternativePayment)
                     this.gameManager.getCurrentPlayer().subResources(ventureCardAlternative);
                 else
                     this.gameManager.getCurrentPlayer().subResources(requirements);
@@ -135,20 +199,17 @@ public class TowersContext extends AbstractGameContext {
             else
                 this.gameManager.getCurrentPlayer().subResources(ventureCardAlternative);
 
+            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();
             card.getInstantBonus().forEach(effect -> effect.applyEffect(this));
             if(card.getColor() != DevelopmentCardColor.GREEN && card.getColor() != DevelopmentCardColor.YELLOW && card.getPermanentBonus() != null)
                 card.getPermanentBonus().applyEffect(this);
 
             if(!this.slotsRewardPenalty)
                 slot.getResourcesReward().applyEffect(this);
+            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).interactWithPlayer();
         } catch(InvalidCardType | OccupiedSlotException ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
         }
-
-        ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();
-        ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).setIncome(slot.getResourcesReward().getResources());
-        ((UseCouncilPrivilegeContext) getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(slot.getResourcesReward().getCouncilPrivilege());
-        ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).interactWithPlayer();
 
         return null;
     }
@@ -172,5 +233,13 @@ public class TowersContext extends AbstractGameContext {
     public void ignoreMilitaryPointsRequirementsForTerritoryCards() {
         if(this.towerColor == DevelopmentCardColor.GREEN)
             this.ignoreMilitaryPointsRequirements = true;
+    }
+
+    public void noFamilyMemberRequired() {
+        this.freeAction = true;
+    }
+
+    public void setRequirementsDiscount(Resources res) {
+        this.requirementsDiscount = res;
     }
 }

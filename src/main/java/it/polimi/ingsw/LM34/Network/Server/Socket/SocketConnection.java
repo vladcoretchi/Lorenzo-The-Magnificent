@@ -1,8 +1,10 @@
 package it.polimi.ingsw.LM34.Network.Server.Socket;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
@@ -18,32 +20,34 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.Client.Socket.RequestToClient;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.Network.Server.AbstractConnection;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import sun.nio.ch.Net;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class SocketConnection extends AbstractConnection implements Runnable {
-    private static boolean serverStatus;
     private boolean runListener;
+    private SocketServer socketServer;
 
     private final Socket connectionSocket;
     private ObjectInputStream inStream;
     private ObjectOutputStream outStream;
 
-    public SocketConnection(Socket socket) throws IOException {
+    public SocketConnection(Socket socket, SocketServer socketServer) throws IOException {
         this.connectionSocket = socket;
         this.outStream = new ObjectOutputStream(new BufferedOutputStream(connectionSocket.getOutputStream()));
         this.outStream.flush();
         this.inStream = new ObjectInputStream(new BufferedInputStream(connectionSocket.getInputStream()));
         this.runListener = true;
-
-        serverStatus = true;
+        this.socketServer = socketServer;
     }
 
     public Socket getSocket() {
@@ -77,7 +81,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
         closeConnections();
     }
 
-    public void terminateListener() {
+    private void terminateListener() {
         this.runListener = false;
     }
 
@@ -99,6 +103,12 @@ public class SocketConnection extends AbstractConnection implements Runnable {
         }
     }
 
+    private void connectionExceptionHandler(Exception ex) {
+        LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+        this.terminate();
+        this.socketServer.removeClosedConnection(this);
+    }
+
     @Override
     public boolean login(String username, String password) {
         boolean result = super.login(username, password);
@@ -108,7 +118,63 @@ public class SocketConnection extends AbstractConnection implements Runnable {
     }
 
     @Override
-    public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) {
+    public void loadMapTerritoriesToVictoryPoints(Map<Integer, Integer> mapTerritoriesToVictoryPoints) throws NetworkConnectionException {
+        try {
+            this.outStream.reset();
+
+            this.outStream.writeUTF(RequestToClient.LOAD_MAP_TERRITORIES_TO_VICTORY_POINTS.name());
+            this.outStream.writeObject(mapTerritoriesToVictoryPoints);
+            this.outStream.flush();
+        } catch (IOException e) {
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
+        }
+    }
+
+    @Override
+    public void loadMapMilitaryPointsForTerritories(Map<Integer, Integer> mapMilitaryPointsForTerritories) throws NetworkConnectionException {
+        try {
+            this.outStream.reset();
+
+            this.outStream.writeUTF(RequestToClient.LOAD_MAP_MILITARY_POINTS_FOR_TERRITORIES.name());
+            this.outStream.writeObject(mapMilitaryPointsForTerritories);
+            this.outStream.flush();
+        } catch (IOException e) {
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
+        }
+    }
+
+    @Override
+    public void loadMapCharactersToVictoryPoints(Map<Integer, Integer> mapCharactersToVictoryPoints) throws NetworkConnectionException {
+        try {
+            this.outStream.reset();
+
+            this.outStream.writeUTF(RequestToClient.LOAD_MAP_CHARACTERS_TO_VICTORY_POINTS.name());
+            this.outStream.writeObject(mapCharactersToVictoryPoints);
+            this.outStream.flush();
+        } catch (IOException e) {
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
+        }
+    }
+
+    @Override
+    public void loadFaithPath(Map<Integer, Integer> faithPath) throws NetworkConnectionException {
+        try {
+            this.outStream.reset();
+
+            this.outStream.writeUTF(RequestToClient.LOAD_FAITH_PATH.name());
+            this.outStream.writeObject(faithPath);
+            this.outStream.flush();
+        } catch (IOException e) {
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
+        }
+    }
+
+    @Override
+    public void setExcommunicationCards(List<ExcommunicationCard> excommunicationCards) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -116,12 +182,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.writeObject(excommunicationCards);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public void updateTowers(List<Tower> towers) {
+    public void updateTowers(List<Tower> towers) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -129,12 +196,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.writeObject(towers);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public void updateCouncilPalace(CouncilPalace councilPalace) {
+    public void updateCouncilPalace(CouncilPalace councilPalace) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -142,12 +210,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.writeObject(councilPalace);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public void updateMarket(Market market) {
+    public void updateMarket(Market market) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -155,12 +224,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.writeObject(market);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public void updateProductionArea(WorkingArea productionArea) {
+    public void updateProductionArea(WorkingArea productionArea) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -168,12 +238,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.writeObject(productionArea);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public void updateHarvestArea(WorkingArea harvestArea) {
+    public void updateHarvestArea(WorkingArea harvestArea) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -181,12 +252,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.writeObject(harvestArea);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public void updatePlayersData(List<Player> players) {
+    public void updatePlayersData(List<Player> players) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -194,12 +266,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.writeObject(players);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public void updateDiceValues(List<Dice> diceValues) {
+    public void updateDiceValues(List<Dice> diceValues) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -207,12 +280,26 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.writeObject(diceValues);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public PlayerAction turnMainAction(Optional<Exception> lastActionValid) {
+    public void startGame() throws NetworkConnectionException {
+        try {
+            this.outStream.reset();
+
+            this.outStream.writeUTF(RequestToClient.START_GAME.name());
+            this.outStream.flush();
+        } catch (IOException e) {
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
+        }
+    }
+
+    @Override
+    public PlayerAction turnMainAction(Optional<Exception> lastActionValid) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -221,13 +308,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return (PlayerAction) this.inStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            return null;
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid) {
+    public PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -236,13 +323,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return (PlayerAction) this.inStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            return null;
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public Integer familyMemberSelection(List<FamilyMember> familyMembers) {
+    public Integer familyMemberSelection(List<FamilyMember> familyMembers) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -251,13 +338,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return this.inStream.readInt();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            return null;
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
+    public Integer bonusTileSelection(List<BonusTile> bonusTiles) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -266,13 +353,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return this.inStream.readInt();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            return null;
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
+    public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -282,41 +369,42 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return this.inStream.readInt();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            return null;
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices) {
+    public Integer resourceExchangeSelection(List<Pair<Resources, ResourcesBonus>> choices) throws NetworkConnectionException {
         try {
             this.outStream.writeUTF(RequestToClient.RESOURCE_EXCHANGE_SELECTION.name());
             this.outStream.writeObject(choices);
             this.outStream.flush();
             return this.inStream.readInt();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            return null;
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards) {
+    public Pair<String, LeaderCardsAction> leaderCardSelection(List<LeaderCard> leaderCards) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
             this.outStream.writeUTF(RequestToClient.LEADER_CARD_SELECTION.name());
             this.outStream.writeObject(leaderCards);
             this.outStream.flush();
-            return (Pair<String, LeaderCardsAction>)this.inStream.readObject();
+            Pair<?, ?> pairObject = (Pair<?, ?>) this.inStream.readObject();
+            return new ImmutablePair<>((String) pairObject.getLeft(), (LeaderCardsAction) pairObject.getRight());
         } catch (IOException | ClassNotFoundException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            return null;
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public Boolean churchSupport() {
+    public Boolean churchSupport() throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -324,13 +412,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return this.inStream.readBoolean();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            return null;
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) {
+    public Integer selectCouncilPrivilegeBonus(List<Resources> availableBonuses) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -339,13 +427,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return this.inStream.readInt();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            return null;
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards) {
+    public Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -354,13 +442,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return this.inStream.readInt();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            return null;
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public Boolean alternativeRequirementsPayment() {
+    public Boolean alternativeRequirementsPayment() throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -368,13 +456,13 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.flush();
             return this.inStream.readBoolean();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-            return false;
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public void endGame(List<Player> players) {
+    public void endGame(List<Player> players) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -382,24 +470,26 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.writeObject(players);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public void endTurn() {
+    public void endTurn() throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
             this.outStream.writeUTF(RequestToClient.END_TURN.name());
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 
     @Override
-    public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) {
+    public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) throws NetworkConnectionException {
         try {
             this.outStream.reset();
 
@@ -409,7 +499,39 @@ public class SocketConnection extends AbstractConnection implements Runnable {
             this.outStream.writeObject(playerColor);
             this.outStream.flush();
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
+        }
+    }
+
+    @Override
+    public PlayerAction freeAction(PlayerAction availableAction, Optional<Exception> lastActionValid) throws NetworkConnectionException {
+        try {
+            this.outStream.reset();
+
+            this.outStream.writeUTF(RequestToClient.FREE_ACTION.name());
+            this.outStream.writeObject(availableAction);
+            this.outStream.writeObject(lastActionValid.orElse(null));
+            this.outStream.flush();
+            return (PlayerAction) this.inStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
+        }
+    }
+
+    @Override
+    public Integer leaderCardCopy(List<LeaderCard> leaderCards) throws NetworkConnectionException {
+        try {
+            this.outStream.reset();
+
+            this.outStream.writeUTF(RequestToClient.LEADER_CARD_COPY.name());
+            this.outStream.writeObject(leaderCards);
+            this.outStream.flush();
+            return this.inStream.readInt();
+        } catch (IOException e) {
+            connectionExceptionHandler(e);
+            throw new NetworkConnectionException();
         }
     }
 }

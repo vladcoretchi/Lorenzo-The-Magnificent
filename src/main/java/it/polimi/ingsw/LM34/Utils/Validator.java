@@ -16,7 +16,6 @@ import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
  * Server side is needed to enforce and grant consistency of the game state
  */
 public final class Validator {
-    /*Proudly designed and implemented by 0 :-)*/
 
     private Validator() {}
 

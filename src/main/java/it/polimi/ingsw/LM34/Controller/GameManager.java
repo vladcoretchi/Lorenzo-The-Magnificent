@@ -8,6 +8,7 @@ import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
@@ -26,13 +27,11 @@ import it.polimi.ingsw.LM34.Network.GameRoom;
 import it.polimi.ingsw.LM34.Network.Server.ServerNetworkController;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.Validator;
-
 import java.util.*;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
 import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.DEFAULT;
+import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.NEUTRAL;
 import static it.polimi.ingsw.LM34.Utils.Configurator.MAX_LEADER_PER_PLAYER;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
@@ -115,19 +114,29 @@ public class GameManager {
     }
 
     private void updateFamilyMemberValues() {
-        for(Player player : this.players)
+        this.players.forEach(player -> {
             player.getFamilyMembers().forEach(fm -> {
-                for(Dice dice : dices)
-                    if(fm.getDiceColorAssociated() == dice.getColor())
-                        fm.setValue(dice.getValue());
+                if (fm.getDiceColorAssociated().name().equals(NEUTRAL.name()))
+                    fm.setValue(0);
+                else
+                    for (Dice dice : dices)
+                        if (fm.getDiceColorAssociated() == dice.getColor())
+                            fm.setValue(dice.getValue());
             });
+        });
     }
 
-    public ServerNetworkController getActivePlayerNetworkController() {
+    public ServerNetworkController getActivePlayerNetworkController() throws NetworkConnectionException {
+        if(!players.get(this.turn).isConnected())
+            throw new NetworkConnectionException();
+
         return this.gameRoom.getPlayerNetworkController(players.get(this.turn).getPlayerName());
     }
 
-    public ServerNetworkController getPlayerNetworkController(Player player) {
+    public ServerNetworkController getPlayerNetworkController(Player player) throws NetworkConnectionException {
+        if(!player.isConnected())
+            throw new NetworkConnectionException();
+
         return this.gameRoom.getPlayerNetworkController(player.getPlayerName());
     }
 
@@ -137,16 +146,117 @@ public class GameManager {
     public void startGame() {
         bonusTileSelectionPhase();
         //leaderSelectionPhase(); //TODO: uncomment
-        players.forEach(player -> this.getPlayerNetworkController(player).setExcommunicationCards(this.excommunicationCards));
-        players.forEach(player -> this.getPlayerNetworkController(player).updateDiceValues(this.dices));
-        players.forEach(player -> this.getPlayerNetworkController(player).updatePlayersData(this.players));
-        players.forEach(player -> this.getPlayerNetworkController(player).updateTowers(this.towers));
-        players.forEach(player -> this.getPlayerNetworkController(player).updateProductionArea(this.productionArea));
-        players.forEach(player -> this.getPlayerNetworkController(player).updateHarvestArea(this.harvestArea));
-        players.forEach(player -> this.getPlayerNetworkController(player).updateMarket(this.market));
-        players.forEach(player -> this.getPlayerNetworkController(player).updateCouncilPalace(this.councilPalace));
+
+        players.forEach(player -> {
+            try {
+                this.getPlayerNetworkController(player).setExcommunicationCards(this.excommunicationCards);
+            } catch(NetworkConnectionException ex) {
+                LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                player.setDisconnected();
+            }
+        });
+        players.forEach(player -> {
+            try {
+                this.getPlayerNetworkController(player).loadMapTerritoriesToVictoryPoints(this.mapTerritoriesToVictoryPoints);
+            } catch(NetworkConnectionException ex) {
+                LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                player.setDisconnected();
+            }
+        });
+        players.forEach(player -> {
+            try {
+                this.getPlayerNetworkController(player).loadMapCharactersToVictoryPoints(this.mapCharactersToVictoryPoints);
+            } catch(NetworkConnectionException ex) {
+                LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                player.setDisconnected();
+            }
+        });
+        players.forEach(player -> {
+            try {
+                this.getPlayerNetworkController(player).loadMapMilitaryPointsForTerritories(this.mapMilitaryPointsForTerritories);
+            } catch(NetworkConnectionException ex) {
+                LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                player.setDisconnected();
+            }
+        });
+        players.forEach(player -> {
+            try {
+                this.getPlayerNetworkController(player).loadFaithPath(this.faithPath);
+            } catch(NetworkConnectionException ex) {
+                LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                player.setDisconnected();
+            }
+        });
+
+        updateClientPlayers();
 
         ((TurnContext) getContextByType(TURN_CONTEXT)).initContext(); //first player start first round of the game
+    }
+
+    public void updateClientPlayers() {
+        players.forEach(player -> {
+            if(player.isConnected())
+                try {
+                    this.getPlayerNetworkController(player).updateDiceValues(this.dices);
+                } catch(NetworkConnectionException ex) {
+                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                    player.setDisconnected();
+                }
+        });
+        players.forEach(player -> {
+            if(player.isConnected())
+                try {
+                    this.getPlayerNetworkController(player).updatePlayersData(this.players);
+                } catch(NetworkConnectionException ex) {
+                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                    player.setDisconnected();
+                }
+        });
+        players.forEach(player -> {
+            if(player.isConnected())
+                try {
+                    this.getPlayerNetworkController(player).updateTowers(this.towers);
+                } catch(NetworkConnectionException ex) {
+                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                    player.setDisconnected();
+                }
+        });
+        players.forEach(player -> {
+            if(player.isConnected())
+                try {
+                    this.getPlayerNetworkController(player).updateProductionArea(this.productionArea);
+                } catch(NetworkConnectionException ex) {
+                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                    player.setDisconnected();
+                }
+        });
+        players.forEach(player -> {
+            if(player.isConnected())
+                try {
+                    this.getPlayerNetworkController(player).updateHarvestArea(this.harvestArea);
+                } catch(NetworkConnectionException ex) {
+                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                    player.setDisconnected();
+                }
+        });
+        players.forEach(player -> {
+            if(player.isConnected())
+                try {
+                    this.getPlayerNetworkController(player).updateMarket(this.market);
+                } catch(NetworkConnectionException ex) {
+                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                    player.setDisconnected();
+                }
+        });
+        players.forEach(player -> {
+            if(player.isConnected())
+                try {
+                    this.getPlayerNetworkController(player).updateCouncilPalace(this.councilPalace);
+                } catch(NetworkConnectionException ex) {
+                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                    player.setDisconnected();
+                }
+        });
     }
 
     /**
@@ -188,8 +298,7 @@ public class GameManager {
         this.ventureCardDeck = Configurator.getVentureCards();
         this.leaderCardsDeck = Configurator.getLeaderCards(this.players.size());
         this.excommunicationCards = Configurator.getExcommunicationTiles();
-
-        getCurrentPlayer().getExcommunicationCards().addAll(excommunicationCards);//TODO
+        getCurrentPlayer().getExcommunicationCards().addAll(excommunicationCards);//TODO: remove
     }
 
     public void nextTurn() {
@@ -200,7 +309,6 @@ public class GameManager {
             nextPhase();
         }
         ((TurnContext) getContextByType(TURN_CONTEXT)).initContext();
-
     }
 
     private void nextPhase() {
@@ -214,10 +322,9 @@ public class GameManager {
     private void nextRound() { //round = half period
         this.round++;
 
-
         this.players.forEach(player -> {
-            /**
-             * Reactivate the {@link it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.PerRoundLeaderReward}
+            /*
+             * Reactivate the PerRoundLeaderReward
              * of the leaders that the player has enabled during the game
              */
             player.getActivatedLeaderCards().forEach(card -> {
@@ -229,10 +336,9 @@ public class GameManager {
             player.getFamilyMembers().forEach(FamilyMember::freePawn);
 
             player.getExcommunicationCards().forEach(excommunicationCard -> {
-                        if (excommunicationCard.getPenalty() instanceof SkipFirstTurn)
-                            ((SkipFirstTurn) excommunicationCard.getPenalty()).setUsed(false);
-                    }
-            );
+                    if (excommunicationCard.getPenalty() instanceof SkipFirstTurn)
+                        ((SkipFirstTurn) excommunicationCard.getPenalty()).setUsed(false);
+            });
         });
 
         if (this.round % 2 == 0)
@@ -298,7 +404,7 @@ public class GameManager {
             players.get(i).addResources(new Resources(
                   40,40,40,40, 40,40,40));
 
-                //TODO
+                //TODO: uncomment
                 /*Configurator.BASE_COINS + i * Configurator.COINS_INCREMENT_PLAYER_ORDER,
                 Configurator.BASE_WOODS + i * Configurator.WOODS_INCREMENT_PLAYER_ORDER,
                 Configurator.BASE_STONES + i * Configurator.STONES_INCREMENT_PLAYER_ORDER,
@@ -382,8 +488,8 @@ public class GameManager {
             tower.get().addCard((AbstractDevelopmentCard) iterator.next());
             try {
                 iterator.remove();
-            } catch( UnsupportedOperationException e) {
-                Logger.getAnonymousLogger().log(Level.FINEST, e.getMessage(), e);
+            } catch(UnsupportedOperationException e) {
+                LOGGER.log(Level.FINEST, e.getMessage(), e);
             }
         }
     }
@@ -396,9 +502,16 @@ public class GameManager {
     private void bonusTileSelectionPhase() {
         List<BonusTile> bonusTiles;
         bonusTiles = Configurator.getBonusTiles();
-        for(Integer playerIndex = 0; playerIndex < players.size(); playerIndex++) {
-            Integer selected = getPlayerNetworkController(players.get(playerIndex)).bonusTileSelection(bonusTiles);
-            players.get(playerIndex).getPersonalBoard().setPersonalBonusTile(bonusTiles.get(selected));
+        for(Integer playerIndex = 0; playerIndex < this.players.size(); playerIndex++) {
+            Integer selected;
+            try {
+                selected = getPlayerNetworkController(this.players.get(playerIndex)).bonusTileSelection(bonusTiles);
+            } catch(NetworkConnectionException ex) {
+                LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                this.players.get(playerIndex).setDisconnected();
+                selected = new Random().nextInt(bonusTiles.size());
+            }
+            this.players.get(playerIndex).getPersonalBoard().setPersonalBonusTile(bonusTiles.get(selected));
             bonusTiles.remove(selected.intValue());
         }
     }
@@ -432,11 +545,22 @@ public class GameManager {
      */
     private void playerLeaderCardSelection(List<LeaderCard> leaderCards, Player player) {
         try {
-            Integer selectedCard = getPlayerNetworkController(player).leaderCardSelectionPhase(leaderCards);
+            Integer selectedCard;
+            if(player.isConnected())
+                try {
+                    selectedCard = getPlayerNetworkController(player).leaderCardSelectionPhase(leaderCards);
+                } catch (NetworkConnectionException ex) {
+                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                    player.setDisconnected();
+                    selectedCard = new Random().nextInt(leaderCards.size());
+                }
+            else
+                selectedCard = new Random().nextInt(leaderCards.size());
+
             Validator.checkValidity(selectedCard, leaderCards);
             player.addLeaderCard(leaderCards.get(selectedCard));
             leaderCards.remove(selectedCard.intValue());
-        } catch(IncorrectInputException ex) {
+        } catch (IncorrectInputException ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             playerLeaderCardSelection(leaderCards, player);
         }

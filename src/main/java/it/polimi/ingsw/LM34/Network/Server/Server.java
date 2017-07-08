@@ -6,6 +6,7 @@ import it.polimi.ingsw.LM34.Network.Server.Socket.SocketServer;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Server {
@@ -49,14 +50,17 @@ public class Server {
             String[] gameRoomPlayers = gameRooms.get(i).getPlayers();
             for (int j = 0; !found && j < gameRoomPlayers.length; j++) {
                 if (username == gameRoomPlayers[j])
-                    found = true;
+                    if(gameRooms.get(i).getGameManager().getPlayers().stream()
+                            .noneMatch(p -> p.getPlayerName().equals(username) && !p.isConnected()))
+                        found = true;
             }
         }
         if (!found) {
             String[] gameRoomPlayers = waitingRoom.getPlayers();
             for (int j = 0; !found && j < gameRoomPlayers.length; j++) {
                 if (gameRoomPlayers[j].equals(username))
-                    found = true;
+                    if(Arrays.stream(waitingRoom.getPlayers()).noneMatch(p -> p.equals(username)))
+                        found = true;
             }
         }
         return !found;

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.LM34.Network.Client.Socket;
 
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
@@ -14,10 +15,12 @@ import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Network.PlayerAction;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
@@ -35,6 +38,54 @@ public enum RequestToClient {
 
                 socketConnection.getNetworkController().loginResult(loginResult);
             } catch (IOException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
+            }
+        }
+    },
+    LOAD_MAP_TERRITORIES_TO_VICTORY_POINTS {
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+                Map<Integer, Integer> mapTerritoriesToVictoryPoints = (Map<Integer, Integer>) socketConnection.getInputStream().readObject();
+
+                socketConnection.loadMapTerritoriesToVictoryPoints(mapTerritoriesToVictoryPoints);
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
+            }
+        }
+    },
+    LOAD_MAP_MILITARY_POINTS_FOR_TERRITORIES {
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+                Map<Integer, Integer> mapMilitaryPointsForTerritories = (Map<Integer, Integer>) socketConnection.getInputStream().readObject();
+
+                socketConnection.loadMapMilitaryPointsForTerritories(mapMilitaryPointsForTerritories);
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
+            }
+        }
+    },
+    LOAD_MAP_CHARACTERS_TO_VICTORY_POINTS {
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+                Map<Integer, Integer> mapCharactersToVictoryPoints = (Map<Integer, Integer>) socketConnection.getInputStream().readObject();
+
+                socketConnection.loadMapCharactersToVictoryPoints(mapCharactersToVictoryPoints);
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
+            }
+        }
+    },
+    LOAD_FAITH_PATH {
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+                Map<Integer, Integer> faithPath = (Map<Integer, Integer>) socketConnection.getInputStream().readObject();
+
+                socketConnection.loadFaithPath(faithPath);
+            } catch (IOException | ClassNotFoundException e) {
                 LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
         }
@@ -133,6 +184,12 @@ public enum RequestToClient {
             } catch (IOException | ClassNotFoundException e) {
                 LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
+        }
+    },
+    START_GAME {
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            socketConnection.startGame();
         }
     },
     TURN_MAIN_ACTION {
@@ -313,6 +370,35 @@ public enum RequestToClient {
                 PawnColor playerColor = (PawnColor) socketConnection.getInputStream().readObject();
 
                 socketConnection.informInGamePlayers(infoType, playerName, playerColor);
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
+            }
+        }
+    },
+    FREE_ACTION {
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+                PlayerAction availableAction = (PlayerAction) socketConnection.getInputStream().readObject();
+                Exception lastActionValid = (Exception) socketConnection.getInputStream().readObject();
+
+                socketConnection.getOutputStream().reset();
+                socketConnection.getOutputStream().writeObject(socketConnection.freeAction(availableAction, lastActionValid));
+                socketConnection.getOutputStream().flush();
+            } catch (IOException | ClassNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
+            }
+        }
+    },
+    LEADER_CARD_COPY {
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+                List<LeaderCard> leaderCards = (List<LeaderCard>) socketConnection.getInputStream().readObject();
+
+                socketConnection.getOutputStream().reset();
+                socketConnection.getOutputStream().writeInt(socketConnection.leaderCardCopy(leaderCards));
+                socketConnection.getOutputStream().flush();
             } catch (IOException | ClassNotFoundException e) {
                 LOGGER.log(Level.WARNING, e.getMessage(), e);
             }

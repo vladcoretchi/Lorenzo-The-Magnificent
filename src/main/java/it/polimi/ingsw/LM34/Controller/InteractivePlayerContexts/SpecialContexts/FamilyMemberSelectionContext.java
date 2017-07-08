@@ -2,7 +2,10 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContext
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Model.Dice;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Validator;
@@ -17,6 +20,7 @@ import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class FamilyMemberSelectionContext extends AbstractGameContext {
     private Integer familyMemberValue;
+    private DiceColor associatedDiceColor;
     private ContextType currentActionContext;
 
     public FamilyMemberSelectionContext() {
@@ -37,18 +41,22 @@ public class FamilyMemberSelectionContext extends AbstractGameContext {
         }
 
         List<FamilyMember> familyMembers = this.gameManager.getCurrentPlayer().getAvailableFamilyMembers();
-        Integer selectedFamilyMember = this.gameManager.getActivePlayerNetworkController().familyMemberSelection(familyMembers);
+        Integer selectedFamilyMember = -1;
+        if(this.getCurrentPlayer().isConnected())
+            try {
+                selectedFamilyMember = this.gameManager.getActivePlayerNetworkController().familyMemberSelection(familyMembers);
+            } catch (NetworkConnectionException ex) {
+                LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                this.getCurrentPlayer().setDisconnected();
+            }
         Validator.checkValidity(selectedFamilyMember, familyMembers);
 
         FamilyMember familyMember = familyMembers.get(selectedFamilyMember);
         this.familyMemberValue = familyMember.getValue();
+        this.associatedDiceColor = familyMember.getDiceColorAssociated();
 
         setChanged();
         notifyObservers(this);
-
-        if(this.gameManager.getCurrentPlayer().getResources().getResourceByType(SERVANTS) + this.familyMemberValue < minValueRequested)
-            throw new IncorrectInputException();
-
 
         if(servantsRequestAnyway || this.familyMemberValue < minValueRequested) {
             Integer servantsUsed = ((IncreasePawnsValueByServantsContext) getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT)).
@@ -59,6 +67,10 @@ public class FamilyMemberSelectionContext extends AbstractGameContext {
         }
 
         return familyMember;
+    }
+
+    public DiceColor getAssociatedDiceColor() {
+        return this.associatedDiceColor;
     }
 
     public ContextType getCurrentActionContext() {
