@@ -3,6 +3,7 @@ package it.polimi.ingsw.LM34.Controller.NonInteractiveContexts;
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 /**
@@ -21,6 +22,11 @@ public class ResourceIncomeContext extends AbstractGameContext {
     public Void interactWithPlayer(Object... args) throws IncorrectInputException {
         setChanged();
         notifyObservers(this);
+        this.gameManager.getCurrentPlayer().getExcommunicationCards().
+                            forEach(exCard -> {
+                                if (exCard.getPenalty() instanceof ResourcesBonus)
+                                        exCard.getPenalty().applyEffect(this);
+                            });
 
         this.gameManager.getCurrentPlayer().addResources(income);
 
