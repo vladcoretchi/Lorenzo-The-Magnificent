@@ -16,14 +16,14 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
     private static final long serialVersionUID = -7309570915017663730L;
     
     private Integer victoryPoints;
-    private Optional<Resources> resources;
+    private Resources resources;
     private Resources playerGoods;
     private DevelopmentCardColor cardColor;
     private Resources buildingCardsResources;
 
     public VictoryPointsPenalty(Integer victoryPoints, Resources playerGoods) {
         this.victoryPoints = victoryPoints;
-        this.resources = Optional.empty();
+        this.resources = new Resources();
         this.playerGoods = playerGoods;
         this.buildingCardsResources = new Resources();
         this.cardColor = null;
@@ -31,7 +31,7 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
 
     public VictoryPointsPenalty(Integer victoryPoints, Resources resources, Resources buildingCardsResources) {
         this.victoryPoints = victoryPoints;
-        this.resources = Optional.of(resources);
+        this.resources = resources;
         this.playerGoods = new Resources();
         this.buildingCardsResources = buildingCardsResources;
         this.cardColor = null;
@@ -39,7 +39,7 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
 
     public VictoryPointsPenalty(DevelopmentCardColor cardColor) {
         this.victoryPoints = 0;
-        this.resources = Optional.empty();
+        this.resources = new Resources();
         this.playerGoods = new Resources();
         this.buildingCardsResources = new Resources();
         this.cardColor = cardColor;
@@ -59,8 +59,8 @@ public class VictoryPointsPenalty extends AbstractEffect implements Observer {
 
         if(cardColor != null)
             endGameContext.addDevelopmentCardPenalty(cardColor, victoryPoints);
-        if(resources.isPresent())
-            resources.get().getResources().forEach((resourceType, integer) -> {
+        if(resources != null)
+            resources.getResources().forEach((resourceType, integer) -> {
                 endGameContext.addResourcesPenalty(resourceType, victoryPoints);
             });
     }

@@ -405,7 +405,7 @@ public class SocketConnection extends AbstractConnection implements Runnable {
 
             this.outStream.writeUTF(RequestToClient.INFORM_IN_GAME_PLAYERS.name());
             this.outStream.writeObject(infoType);
-            this.outStream.writeObject(playerName);
+            this.outStream.writeUTF(playerName);
             this.outStream.writeObject(playerColor);
             this.outStream.flush();
         } catch (IOException e) {

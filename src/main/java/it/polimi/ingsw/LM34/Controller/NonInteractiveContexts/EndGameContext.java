@@ -40,7 +40,7 @@ public class EndGameContext  extends AbstractGameContext {
 
         /*Trigger excommunication tiles that are related to the endGame*/
         setChanged();
-        notifyObservers();
+        notifyObservers(this);
 
         /*Calculate the victory points of each player based on the Rules*/
         players.forEach(player -> onEndCalculateVictoryPointsPerPlayerByResources(player));

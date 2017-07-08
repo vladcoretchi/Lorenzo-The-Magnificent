@@ -98,7 +98,7 @@ public class LeaderCardsContext extends AbstractGameContext {
 
         /*trigger Copy Leader ability*/
         setChanged();
-        notifyObservers();
+        notifyObservers(this);
     }
 
     private void discardLeaderCard(LeaderCard card) {

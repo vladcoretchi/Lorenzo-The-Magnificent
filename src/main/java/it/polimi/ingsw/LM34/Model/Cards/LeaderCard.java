@@ -25,6 +25,7 @@ public class LeaderCard implements Serializable {
         this.bonus = bonus;
         this.oncePerRound = oncePerRound;
         this.activated = false;
+        this.used = false;
     }
 
     public String getName() {

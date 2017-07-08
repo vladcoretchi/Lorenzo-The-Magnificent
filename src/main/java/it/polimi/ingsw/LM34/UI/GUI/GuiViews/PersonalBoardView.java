@@ -6,9 +6,7 @@ import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Player;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -16,17 +14,22 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.Map;
 
 import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.MULTICOLOR;
 
 public class PersonalBoardView extends Application {
     private Parent root;
+    private Map<Integer, Integer> mapCharactersToVictoryPoints;
+    private Map<Integer, Integer> mapTerritoriesToVictoryPoints;
     private Player player;
-    @FXML private Group personalBoardCards;
 
-    public PersonalBoardView(Player playerReceived) {
+    public PersonalBoardView(Player playerReceived, Map<Integer, Integer> mapTerritoriesToVictoryPoints, Map<Integer, Integer> mapCharactersToVictoryPoints) {
         this.player = playerReceived;
+        this.mapCharactersToVictoryPoints = mapCharactersToVictoryPoints;
+        this.mapTerritoriesToVictoryPoints = mapTerritoriesToVictoryPoints;
     }
+
     public PersonalBoardView() {/**Intentionally left void**/}
 
     @Override
@@ -80,6 +83,15 @@ public class PersonalBoardView extends Application {
 
             imageView.setVisible(true);
         }
+    }
+
+    //TODO
+    private void showMapCharactersToVictoryPoints() {
+
+    }
+
+    private void showMapTerritoriesToVIctoryPoints() {
+
     }
 }
 

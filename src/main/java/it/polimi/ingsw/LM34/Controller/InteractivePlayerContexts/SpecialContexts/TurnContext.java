@@ -34,6 +34,10 @@ public class TurnContext extends AbstractGameContext {
      * NOTE: OncePerRound observers are excluded in this reactivation
      */
     public void initContext() {
+        /*this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player)
+                        .informInGamePlayers(
+                        GameInformationType.INFO_NEW_PLAYER_TURN, this.getCurrentPlayer().getPlayerName(), this.getCurrentPlayer().getPawnColor()));
+*/
         this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).setExcommunicationCards(this.gameManager.getExcommunicationCards()));
         this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updatePlayersData(this.gameManager.getPlayers()));
         this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).updateTowers(this.gameManager.getTowers()));
@@ -55,10 +59,14 @@ public class TurnContext extends AbstractGameContext {
                     .ifPresent(cards -> cards.forEach(card -> card.getPermanentBonus().applyEffect(this)));
 
             this.getCurrentPlayer().getActivatedLeaderCards().forEach(card -> {
-                if(card.isOncePerRound() && !card.isUsed() || !card.isOncePerRound()) {
+                if(card.isOncePerRound() && card != null && !card.isUsed() || !card.isOncePerRound()) {
                     card.getBonus().applyEffect(this);
                     if (!card.isUsed())
                         card.setUsed(true);
+
+            this.getCurrentPlayer().getExcommunicationCards().forEach(excommunicationCard -> {
+                excommunicationCard.getPenalty().applyEffect(this);
+            });
                 }
             });
 
@@ -112,7 +120,7 @@ public class TurnContext extends AbstractGameContext {
             if(this.getContextByType(ct) != null)
                 this.getContextByType(ct).deleteObservers();
 
-        //this.gameManager.getPlayers().forEach(player -> this.gameManager.getPlayerNetworkController(player).endTurn());
+        this.gameManager.getActivePlayerNetworkController().endTurn();
         this.gameManager.nextTurn();
     }
 

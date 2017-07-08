@@ -893,7 +893,11 @@ public class GUI extends Application implements UIInterface {
      */
     @Override
     public void endTurn() {
-        new EndTurnPopup().interactWithPlayer();
+        FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            new EndTurnPopup().interactWithPlayer();
+            return null;
+        });
+        Platform.runLater(uiTask);
     }
 
     /**
@@ -954,7 +958,7 @@ public class GUI extends Application implements UIInterface {
         @Override
         public void handle(Event event) {
             try {
-                personalBoardView = new PersonalBoardView(player);
+                personalBoardView = new PersonalBoardView(player, mapTerritoriesToVictoryPoints, mapCharactersToVictoryPoints);
                 personalBoardView.start(primaryStage);
                 if(player.getPlayerName().equalsIgnoreCase(username.getText())) {
                     showFaithPath();

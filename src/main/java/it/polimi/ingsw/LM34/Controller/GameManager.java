@@ -246,8 +246,8 @@ public class GameManager {
         ChurchReportContext churchContext = (ChurchReportContext) getContextByType(CHURCH_REPORT_CONTEXT);
 
         /*ChurchReportContext interact with a player at a time, based on turn order*/
-        this.players.forEach(churchContext::interactWithPlayer);
-
+        for(Player player : players)
+            churchContext.interactWithPlayer(player);
         /*enter the endGame context in which final points are calculated*/
         if(this.period >= Configurator.TOTAL_PERIODS)
             endGame();

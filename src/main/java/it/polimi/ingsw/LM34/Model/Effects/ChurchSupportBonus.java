@@ -4,8 +4,6 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
-import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -33,6 +31,7 @@ public class ChurchSupportBonus extends AbstractEffect implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        System.out.println("sisto a rapporto"); //TODO
         AbstractGameContext callerContext = (AbstractGameContext) arg;
         callerContext.getCurrentPlayer().getResources().sumResources(this.resources.getResources());
         if(this.resources.getCouncilPrivilege() > 0)

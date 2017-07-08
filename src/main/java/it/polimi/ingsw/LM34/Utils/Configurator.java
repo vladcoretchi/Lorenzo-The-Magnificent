@@ -636,7 +636,7 @@ public final class Configurator {
      * @return the exact number of leaders the game needs (4 per player)
      */
     public static List<LeaderCard> getLeaderCards(Integer numPlayers) {
-        Collections.shuffle(leaderCards);
+        //Collections.shuffle(leaderCards); TODO
         List<LeaderCard> leadersForPlaying = new ArrayList<>();
         for(Integer index = 0; index < MAX_LEADER_PER_PLAYER * numPlayers; index++)
             leadersForPlaying.add(leaderCards.get(index));
