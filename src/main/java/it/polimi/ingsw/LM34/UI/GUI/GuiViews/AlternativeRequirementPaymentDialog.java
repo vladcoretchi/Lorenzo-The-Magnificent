@@ -17,14 +17,12 @@ import java.util.Optional;
 public class AlternativeRequirementPaymentDialog {
 
     public Boolean interactWithPlayer() {
-        Boolean result = false;
-        ButtonType military = new ButtonType(ResourceType.MILITARY_POINTS.toString());
+        ButtonType military = new ButtonType("MILITARY");
         ButtonType resources = new ButtonType("RESOURCES");
         
         Alert alternativePayment = new Alert(Alert.AlertType.NONE, "Alternative Payment", military, resources);
         alternativePayment.setTitle("Alternative Payment Selection");
         alternativePayment.setHeaderText("Select the payment option");
-        alternativePayment.getDialogPane().lookupButton(ButtonType.CANCEL).setDisable(true);
         alternativePayment.initStyle(StageStyle.UNDECORATED);
         alternativePayment.initModality(Modality.WINDOW_MODAL);
         alternativePayment.getDialogPane().getStylesheets().add(
@@ -39,9 +37,9 @@ public class AlternativeRequirementPaymentDialog {
 
         if (choice.isPresent()) {
             String stringResult = choice.get().toString();
-            if(stringResult.equalsIgnoreCase(military.getText()))
-                result = true;
+            if("MILITARY".equalsIgnoreCase(stringResult))
+                 return true;
         }
-        return result;
+        return false;
     }
 }

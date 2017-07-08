@@ -751,7 +751,7 @@ public class GUI extends Application implements UIInterface {
 
     @Override
     public PlayerAction freeAction(PlayerAction action, Optional<Exception> lastActionValid) {
-        return null;
+        return new PlayerAction(null, null);
     }
 
     private class endTurnClick implements  EventHandler<Event> {
@@ -780,9 +780,15 @@ public class GUI extends Application implements UIInterface {
      */
     @Override
     public Boolean alternativeRequirementsPayment() {
-    FutureTask<Boolean> uiTask = new FutureTask<>(() -> new AlternativeRequirementPaymentDialog().interactWithPlayer());
-        return RunLaterTask(uiTask);
+    FutureTask<Boolean> uiTask = new FutureTask<>(() -> {
+        try {
+            return new AlternativeRequirementPaymentDialog().interactWithPlayer();
+        } catch (Exception e) { e.printStackTrace(); return false;}
+    });
+    return RunLaterTask(uiTask);
+
     }
+
 
     @Override
     public void loadMapTerritoriesToVictoryPoints(Map<Integer, Integer> mapTerritoriesToVictoryPoints) {

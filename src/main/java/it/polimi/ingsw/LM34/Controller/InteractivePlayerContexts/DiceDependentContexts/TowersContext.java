@@ -3,7 +3,6 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentC
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.IncreasePawnsValueByServantsContext;
-import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
@@ -188,14 +187,28 @@ public class TowersContext extends AbstractGameContext {
                         this.getCurrentPlayer().setDisconnected();
                     }
                 if(alternativePayment)
-                    this.gameManager.getCurrentPlayer().subResources(ventureCardAlternative);
+                    this.gameManager.getCurrentPlayer().subResources(new Resources(
+                            ventureCardAlternative.getResourceByType(COINS),
+                            ventureCardAlternative.getResourceByType(WOODS),
+                            ventureCardAlternative.getResourceByType(STONES),
+                            ventureCardAlternative.getResourceByType(SERVANTS),
+                            ((VentureCard) card).getMilitaryPointsSubstraction(),
+                            ventureCardAlternative.getResourceByType(FAITH_POINTS),
+                            ventureCardAlternative.getResourceByType(VICTORY_POINTS)));
                 else
                     this.gameManager.getCurrentPlayer().subResources(requirements);
             }
             else if(requirements != null)
                 this.gameManager.getCurrentPlayer().subResources(requirements);
             else
-                this.gameManager.getCurrentPlayer().subResources(ventureCardAlternative);
+                this.gameManager.getCurrentPlayer().subResources((new Resources(
+                        ventureCardAlternative.getResourceByType(COINS),
+                        ventureCardAlternative.getResourceByType(WOODS),
+                        ventureCardAlternative.getResourceByType(STONES),
+                        ventureCardAlternative.getResourceByType(SERVANTS),
+                        ((VentureCard) card).getMilitaryPointsSubstraction(),
+                        ventureCardAlternative.getResourceByType(FAITH_POINTS),
+                        ventureCardAlternative.getResourceByType(VICTORY_POINTS))));
 
             ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();
             card.getInstantBonus().forEach(effect -> effect.applyEffect(this));

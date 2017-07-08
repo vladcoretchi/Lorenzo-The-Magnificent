@@ -27,8 +27,10 @@ import it.polimi.ingsw.LM34.Network.GameRoom;
 import it.polimi.ingsw.LM34.Network.Server.ServerNetworkController;
 import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.Validator;
+
 import java.util.*;
 import java.util.logging.Level;
+
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
 import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.DEFAULT;
 import static it.polimi.ingsw.LM34.Enums.Model.DiceColor.NEUTRAL;
@@ -313,6 +315,8 @@ public class GameManager {
 
     private void nextPhase() {
         this.phase++;
+        //TODO
+        //endGame();
 
         /*If all players have placed all of their pawns go to the next round*/
         if(phase >= (players.get(0).getFamilyMembers().size()))
@@ -321,6 +325,8 @@ public class GameManager {
 
     private void nextRound() { //round = half period
         this.round++;
+        endGame(); //TODO
+
 
         this.players.forEach(player -> {
             /*

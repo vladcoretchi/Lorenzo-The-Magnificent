@@ -10,7 +10,10 @@ import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
-import java.util.*;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.END_GAME_CONTEXT;
@@ -66,18 +69,18 @@ public class EndGameContext  extends AbstractGameContext {
      * @return the hashmap with a correlation between players and their points earned by cards
      */
     private void onEndGameCalculatePointsByDevelopmentCardsOwned(Player player) {
-        Optional<List<AbstractDevelopmentCard>> cards;
+        Optional<List<AbstractDevelopmentCard>> cards = Optional.empty();
         Integer pointsToAdd = 0;
         for(DevelopmentCardColor cardType: DevelopmentCardColor.values())
             if (!devCardPenalty.containsKey(cardType)) {
                 cards = player.getPersonalBoard().getDevelopmentCardsByType(cardType);
                 if(cards.isPresent())
-                if(cardType == DevelopmentCardColor.BLUE)
-                    pointsToAdd += this.gameManager.getMapCharactersToVictoryPoints().get(cards.get());
-                else if(cardType == DevelopmentCardColor.GREEN)
-                    pointsToAdd += this.gameManager.getMapTerritoriesToVictoryPoints().get(cards.get());
-                else if(cardType == DevelopmentCardColor.PURPLE)
-                    pointsToAdd += onEndCalculateVictoryPointsPerPlayerByVentureCards(player);
+                    if(cardType == DevelopmentCardColor.BLUE)
+                        pointsToAdd += this.gameManager.getMapCharactersToVictoryPoints().get(cards.get().size());
+                    else if(cardType == DevelopmentCardColor.GREEN)
+                        pointsToAdd += this.gameManager.getMapTerritoriesToVictoryPoints().get(cards.get().size());
+                    else if(cardType == DevelopmentCardColor.PURPLE)
+                        pointsToAdd += onEndCalculateVictoryPointsPerPlayerByVentureCards(player);
 
                 /*And now add to the player the points he deserves*/
                 player.getResources().sumResourceType(VICTORY_POINTS, pointsToAdd);

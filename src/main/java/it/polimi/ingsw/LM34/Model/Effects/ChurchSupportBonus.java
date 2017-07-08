@@ -38,7 +38,7 @@ public class ChurchSupportBonus extends AbstractEffect implements Observer {
             try {
                 ((UseCouncilPrivilegeContext) callerContext.getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(this.resources.getCouncilPrivilege());
             } catch(IncorrectInputException ex) {
-                LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+                LOGGER.log(Level.FINEST, ex.getMessage(), ex);
             }
     }
 

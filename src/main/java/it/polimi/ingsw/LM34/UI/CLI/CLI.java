@@ -258,7 +258,7 @@ public class CLI implements UIInterface {
 
     @Override
     public PlayerAction freeAction(PlayerAction action, Optional<Exception> lastActionValid) {
-        return null;
+        return new PlayerAction(null, null);
     }
 
     /**
