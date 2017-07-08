@@ -258,7 +258,26 @@ public class CLI implements UIInterface {
 
     @Override
     public PlayerAction freeAction(PlayerAction action, Optional<Exception> lastActionValid) {
-        return new PlayerAction(null, null);
+
+        lastActionValid.ifPresent(ex -> printError(ex.getMessage()));
+
+        List<PlayerSelectableContexts> contexts = new ArrayList<>();
+        contexts.add(action.getContext());
+
+        Optional<PlayerSelectableContexts> context = contextSelection(contexts);
+        if(!context.isPresent())
+            return new PlayerAction(null, null);
+
+        switch (context.get()) {
+            case TOWERS_CONTEXT:
+                return new PlayerAction(TOWERS_CONTEXT, towerSlotSelection());
+            case HARVEST_AREA_CONTEXT:
+                return new PlayerAction(HARVEST_AREA_CONTEXT, workingAreaSlotSelection(WorkingAreaType.HARVEST));
+            case PRODUCTION_AREA_CONTEXT:
+                return new PlayerAction(PRODUCTION_AREA_CONTEXT, workingAreaSlotSelection(WorkingAreaType.PRODUCTION));
+            default:
+                return turnSecondaryAction(Optional.of(new IncorrectInputException()));
+        }
     }
 
     /**
@@ -773,7 +792,7 @@ public class CLI implements UIInterface {
      */
     @Override
     public void endTurn() {
-        CLIStuff.printYellow("Your turn has ended%n");
+        printYellow("Your turn has ended\n");
     }
 
     /**
@@ -781,7 +800,7 @@ public class CLI implements UIInterface {
      */
     @Override
     public void disconnectionWarning() {
-        CLIStuff.printError("You are not connected to the game%n");
+        printError("You are not connected to the game\n");
     }
 
     /**

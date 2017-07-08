@@ -11,6 +11,7 @@ import it.polimi.ingsw.LM34.Exceptions.Controller.*;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.Utils.Validator;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -56,15 +57,14 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        FamilyMemberSelectionContext callerContext = (FamilyMemberSelectionContext) arg;
-        if(callerContext.getCurrentActionContext().name().equals(influenceableContext.name()))
-            if(this.isRelative)
-                callerContext.changeFamilyMemberValue(this.diceValue, true);
-            else
-                if (influenceableContext.name().equals(PRODUCTION_AREA_CONTEXT.name()))
-                    ((ProductionAreaContext) callerContext.getContextByType(PRODUCTION_AREA_CONTEXT)).noFamilyMemberRequired();
-                else
-                    ((HarvestAreaContext) callerContext.getContextByType(HARVEST_AREA_CONTEXT)).noFamilyMemberRequired();
+        AbstractGameContext callerContext = (AbstractGameContext) arg;
+
+        if(callerContext instanceof FamilyMemberSelectionContext)
+            ((FamilyMemberSelectionContext) callerContext).changeFamilyMemberValue(this.diceValue, this.isRelative);
+        else if(callerContext instanceof ProductionAreaContext)
+            ((ProductionAreaContext) callerContext.getContextByType(PRODUCTION_AREA_CONTEXT)).noFamilyMemberRequired();
+        else if(callerContext instanceof HarvestAreaContext)
+            ((HarvestAreaContext) callerContext.getContextByType(HARVEST_AREA_CONTEXT)).noFamilyMemberRequired();
     }
 
     @Override
@@ -83,7 +83,7 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
         if(context.getCurrentPlayer().isConnected())
             try {
                 PlayerAction action = context.getGameManager().getActivePlayerNetworkController().freeAction(
-                        new PlayerAction(PlayerSelectableContexts.TOWERS_CONTEXT, this.diceValue), error);
+                        new PlayerAction(PlayerSelectableContexts.valueOf(this.influenceableContext.name()), this.diceValue), error);
 
                 Validator.checkPlayerActionValidity(action);
 

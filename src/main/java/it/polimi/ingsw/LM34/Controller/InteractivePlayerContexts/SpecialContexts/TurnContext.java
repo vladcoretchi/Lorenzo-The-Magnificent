@@ -133,7 +133,7 @@ public class TurnContext extends AbstractGameContext {
         do {
             stillMainAction = playerAction(Optional.empty());
         } while (stillMainAction != null && stillMainAction);
-        if(stillMainAction == null)
+        if(stillMainAction != null)
             playerSecondaryAction(Optional.empty());
         return null;
     }

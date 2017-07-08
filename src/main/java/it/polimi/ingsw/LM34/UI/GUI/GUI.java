@@ -166,7 +166,7 @@ public class GUI extends Application implements UIInterface {
         primaryStage.setWidth(800);
         primaryStage.setHeight(600);
         primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
-        primaryStage.setTitle("Lorenzo il Magnifico - [LM34] - Player: "+this.username.getText());
+        primaryStage.setTitle("Lorenzo il Magnifico - [LM34] - Player: " + this.username.getText());
         primaryStage.setScene(new Scene(root, primaryStage.getWidth(), primaryStage.getHeight()));
         primaryStage.setFullScreen(false);
         primaryStage.setResizable(true);
@@ -659,6 +659,108 @@ public class GUI extends Application implements UIInterface {
     }
 
     /**
+     * Adds the click event on the Pass Turn button
+     * @param latch countdown latch for the action
+     * @param action return PlayerAction
+     */
+    private void passTurnClickEvent(CountDownLatch latch, PlayerAction action) {
+        /*Set the listener on the passTurn button*/
+        Button leaderButton = (Button) root.lookup("#leaderCardAction");
+        leaderButton.setOnMouseClicked(new LeaderButtonClickEvent(latch, action));
+    }
+
+    /**
+     * Adds the click event on the Leader button
+     * @param latch countdown latch for the action
+     * @param action return PlayerAction
+     */
+    private void leaderClickEvent(CountDownLatch latch, PlayerAction action) {
+        /*Set the listener on the leader button*/
+        Button endTurn = (Button) root.lookup("#endTurn");
+        endTurn.setOnMouseClicked(new endTurnClick(latch, action));
+    }
+
+    /**
+     * Adds the click event on the towers' action slots
+     * @param latch countdown latch for the action
+     * @param action return PlayerAction
+     */
+    private void towersClickEvents(CountDownLatch latch, PlayerAction action) {
+        /*Set the listener on tower slots*/
+        for (Tower towerSpace : this.towersSpaces) {
+            String cardColor = towerSpace.getCardColor().toString();
+            for (Integer level = 0; level < Configurator.MAX_TOWER_LEVELS; level++) {
+                ImageView slotView = (ImageView) root.lookup("#tower" + cardColor + "bonus" + level);
+                slotView.setOnMouseClicked(new PlacePawn(towerSpace.getTowerSlots().get(level), latch, action));
+            }
+        }
+    }
+
+    /**
+     * Adds the click event on the council palace
+     * @param latch countdown latch for the action
+     * @param action return PlayerAction
+     */
+    private void councilPalaceClickEvent(CountDownLatch latch, PlayerAction action) {
+        /*Set the listener on palace*/
+        StackPane palacePane = (StackPane) root.lookup("#councilPalace");
+        palacePane.setOnMouseClicked(new PlacePawn(palace.getActionSlot(), latch, action));
+    }
+
+    /**
+     * Adds the click event on the market's slots
+     * @param latch countdown latch for the action
+     * @param action return PlayerAction
+     */
+    private void marketClickEvent(CountDownLatch latch, PlayerAction action) {
+        /*Set the listener on the market*/
+        List<ActionSlot> marketSlots = this.market.getActionSlots();
+        for (Integer index = 0; index < marketSlots.size(); index++) {
+            ImageView slotView = (ImageView) root.lookup("#marketActionSlot" + index);
+            slotView.setOnMouseClicked(new PlacePawn(marketSlots.get(index), latch, action));
+        }
+    }
+
+    /**
+     * Adds the click event on the harvest area's slots
+     * @param latch countdown latch for the action
+     * @param action return PlayerAction
+     */
+    private void harvestAreaClickEvent(CountDownLatch latch, PlayerAction action) {
+        /*Set the listener on harvest area*/
+        ImageView harvestSingle = (ImageView) root.lookup("#harvestArea" + 0);
+        harvestSingle.setOnMouseClicked(new PlacePawn(this.harvestArea.getSingleSlot(), latch, action));
+
+        StackPane harvestAdvanced = (StackPane) root.lookup("#harvestArea" + 1);
+        harvestAdvanced.setOnMouseClicked(new PlacePawn(this.harvestArea.getAdvancedSlot(), latch, action));
+    }
+
+    /**
+     * Adds the click event on the production area's slots
+     * @param latch countdown latch for the action
+     * @param action return PlayerAction
+     */
+    private void productionAreaClickEvent(CountDownLatch latch, PlayerAction action) {
+        /*Set the listener on production area*/
+        ImageView productionSingle = (ImageView) root.lookup("#productionArea" + 0);
+        productionSingle.setOnMouseClicked(new PlacePawn(this.productionArea.getSingleSlot(), latch, action));
+
+        StackPane productionAdvanced = (StackPane) root.lookup("#productionArea" + 1);
+        productionAdvanced.setOnMouseClicked(new PlacePawn(this.productionArea.getAdvancedSlot(), latch, action));
+    }
+
+    private void waitForPlayerAction(FutureTask<CountDownLatch> uiTaskAction) {
+        try {
+            CountDownLatch waitLatch = RunLaterTask(uiTaskAction);
+            if(waitLatch != null)
+                waitLatch.await();
+        } catch (InterruptedException e) {
+            LOGGER.log(Level.INFO, e.getMessage(), e);
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    /**
      * Main action of a turn performed by the player
      * @param lastActionValid if the server has invalidated the action of the player, this object
      * contains the detailed information to display to the player in an informative popup
@@ -670,82 +772,92 @@ public class GUI extends Application implements UIInterface {
             this.playerAction = new PlayerAction();
             this.actionLatch = new CountDownLatch(1);
 
-        /*Show the player a popup indicating that the last action he did was not valid
-        and what went wrong with it*/
-        lastActionValid.ifPresent( invalidAction ->
-                new LastActionInvalid().interactWithPlayer(invalidAction.getMessage())
-        );
+            /*Show the player a popup indicating that the last action he did was not valid
+            and what went wrong with it*/
+            lastActionValid.ifPresent( invalidAction ->
+                    new LastActionInvalid().interactWithPlayer(invalidAction.getMessage())
+            );
 
-        try {
-            /*Set the listener on the passTurn button*/
-            Button leaderButton = (Button) root.lookup("#leaderCardAction");
-            leaderButton.setOnMouseClicked(new LeaderButtonClickEvent(this.actionLatch, this.playerAction));
+            /*activate click listeners*/
+            passTurnClickEvent(this.actionLatch, this.playerAction);
+            leaderClickEvent(this.actionLatch, this.playerAction);
+            towersClickEvents(this.actionLatch, this.playerAction);
+            councilPalaceClickEvent(this.actionLatch, this.playerAction);
+            marketClickEvent(this.actionLatch, this.playerAction);
+            harvestAreaClickEvent(this.actionLatch, this.playerAction);
+            productionAreaClickEvent(this.actionLatch, this.playerAction);
 
-            /*Set the listener on the leader button*/
-            Button endTurn = (Button) root.lookup("#endTurn");
-            endTurn.setOnMouseClicked(new endTurnClick(this.actionLatch, this.playerAction));
-
-            /*Set the listener on tower slots*/
-            for (Tower towerSpace : this.towersSpaces) {
-                String cardColor = towerSpace.getCardColor().toString();
-                for (Integer level = 0; level < Configurator.MAX_TOWER_LEVELS; level++) {
-                    ImageView slotView = (ImageView) root.lookup("#tower" + cardColor + "bonus" + level);
-                    slotView.setOnMouseClicked(new PlacePawn(towerSpace.getTowerSlots().get(level), actionLatch, playerAction));
-                }
-            }
-
-            /*Set the listener on palace*/
-            StackPane palacePane = (StackPane) root.lookup("#councilPalace");
-            palacePane.setOnMouseClicked(new PlacePawn(palace.getActionSlot(), actionLatch, playerAction));
-
-            /*Set the listener on the market*/
-            List<ActionSlot> marketSlots = this.market.getActionSlots();
-            for (Integer index = 0; index < marketSlots.size(); index++) {
-                ImageView slotView = (ImageView) root.lookup("#marketActionSlot" + index);
-                slotView.setOnMouseClicked(new PlacePawn(marketSlots.get(index), actionLatch, playerAction));
-            }
-
-            /*Set the listener on harvest area*/
-            ImageView harvestSingle = (ImageView) root.lookup("#harvestArea" + 0);
-            harvestSingle.setOnMouseClicked(new PlacePawn(this.harvestArea.getSingleSlot(), actionLatch, playerAction));
-
-            StackPane harvestAdvanced = (StackPane) root.lookup("#harvestArea" + 1);
-            harvestAdvanced.setOnMouseClicked(new PlacePawn(this.harvestArea.getAdvancedSlot(), actionLatch, playerAction));
-
-            /*Set the listener on production area*/
-            ImageView productionSingle = (ImageView) root.lookup("#productionArea" + 0);
-            productionSingle.setOnMouseClicked(new PlacePawn(this.productionArea.getSingleSlot(), actionLatch, playerAction));
-
-            StackPane productionAdvanced = (StackPane) root.lookup("#productionArea" + 1);
-            productionAdvanced.setOnMouseClicked(new PlacePawn(this.productionArea.getAdvancedSlot(), actionLatch, playerAction));
-        } catch(Exception ex) {
-            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
-        }
-        return this.actionLatch;
-
+            return this.actionLatch;
         });
 
-        try {
-            CountDownLatch waitLatch = RunLaterTask(uiTaskActionInit);
-            if(waitLatch != null)
-                waitLatch.await();
-        } catch (InterruptedException e) {
-            LOGGER.log(Level.INFO, e.getMessage(), e);
-            Thread.currentThread().interrupt();
-        }
+        waitForPlayerAction(uiTaskActionInit);
         FutureTask<PlayerAction> uiTaskActionResult = new FutureTask<>(() -> this.playerAction);
         return RunLaterTask(uiTaskActionResult);
     }
 
     @Override
     public PlayerAction turnSecondaryAction(Optional<Exception> lastActionValid) {
-        FutureTask<PlayerAction> uiTask = new FutureTask<>(() -> null);
-        return RunLaterTask(uiTask);
+        FutureTask<CountDownLatch> uiTaskActionInit = new FutureTask<>(() -> {
+            this.playerAction = new PlayerAction();
+            this.actionLatch = new CountDownLatch(1);
+
+            /*Show the player a popup indicating that the last action he did was not valid
+            and what went wrong with it*/
+            lastActionValid.ifPresent( invalidAction ->
+                    new LastActionInvalid().interactWithPlayer(invalidAction.getMessage())
+            );
+
+            /*activate click listeners*/
+            leaderClickEvent(this.actionLatch, this.playerAction);
+
+            return this.actionLatch;
+        });
+
+        waitForPlayerAction(uiTaskActionInit);
+        FutureTask<PlayerAction> uiTaskActionResult = new FutureTask<>(() -> this.playerAction);
+        return RunLaterTask(uiTaskActionResult);
     }
 
     @Override
     public PlayerAction freeAction(PlayerAction action, Optional<Exception> lastActionValid) {
-        return new PlayerAction(null, null);
+        FutureTask<CountDownLatch> uiTaskActionInit = new FutureTask<>(() -> {
+            try {
+                this.playerAction = new PlayerAction();
+                this.actionLatch = new CountDownLatch(1);
+
+            /*Show the player a popup indicating that the last action he did was not valid
+            and what went wrong with it*/
+                lastActionValid.ifPresent(invalidAction ->
+                        new LastActionInvalid().interactWithPlayer(invalidAction.getMessage())
+                );
+
+            /*activate click listeners*/
+                switch (action.getContext()) {
+                    case HARVEST_AREA_CONTEXT:
+                        harvestAreaClickEvent(this.actionLatch, this.playerAction);
+                        break;
+                    case PRODUCTION_AREA_CONTEXT:
+                        productionAreaClickEvent(this.actionLatch, this.playerAction);
+                        break;
+                    case TOWERS_CONTEXT:
+                        towersClickEvents(this.actionLatch, this.playerAction);
+                        break;
+                    default:
+                        this.playerAction = new PlayerAction(null, null);
+                        this.actionLatch = null;
+                        break;
+                }
+
+                return this.actionLatch;
+            }catch(Exception ex) {
+                System.out.printf("%1$s%n%2$s",ex.getMessage(), Arrays.toString(ex.getStackTrace()));
+                return null;
+            }
+        });
+
+        waitForPlayerAction(uiTaskActionInit);
+        FutureTask<PlayerAction> uiTaskActionResult = new FutureTask<>(() -> this.playerAction);
+        return RunLaterTask(uiTaskActionResult);
     }
 
     private class endTurnClick implements  EventHandler<Event> {
@@ -780,7 +892,6 @@ public class GUI extends Application implements UIInterface {
     return RunLaterTask(uiTask);
 
     }
-
 
     @Override
     public void loadMapTerritoriesToVictoryPoints(Map<Integer, Integer> mapTerritoriesToVictoryPoints) {

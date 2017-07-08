@@ -52,7 +52,11 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
     public void update(Observable o, Object arg) {
         AbstractGameContext callerContext = (AbstractGameContext) arg;
         ResourceIncomeContext incomeContext = (ResourceIncomeContext) callerContext.getContextByType(RESOURCE_INCOME_CONTEXT);
-        incomeContext.setIncome(resources);
+
+        if(this.developmentCardsGoodsMultiplier != null && this.developmentCardsGoodsMultiplier > 1)
+            incomeContext.duplicateGoods();
+        else
+            incomeContext.setIncome(resources);
     }
 
     @Override

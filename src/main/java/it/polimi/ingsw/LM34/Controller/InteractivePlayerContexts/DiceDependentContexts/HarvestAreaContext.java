@@ -57,14 +57,25 @@ public class HarvestAreaContext extends AbstractGameContext {
         ActionSlotContext actionSlotContext = (ActionSlotContext) getContextByType(ACTION_SLOT_CONTEXT);
         Boolean canPlace = actionSlotContext.interactWithPlayer(this, slot);
         if (canPlace) {
-            FamilyMember selectedFamilyMember = ((FamilyMemberSelectionContext) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT)).interactWithPlayer(slot.getDiceValue(), true, this.contextType);
+            Integer actionValue;
+            if(!freeAction) {
+                FamilyMember selectedFamilyMember = ((FamilyMemberSelectionContext) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT)).interactWithPlayer(slot.getDiceValue(), true, this.contextType);
+                actionValue = selectedFamilyMember.getValue();
 
-            if (actionSlotContext.getIgnoreOccupiedSlot())
-                slot.insertFamilyMemberIgnoringSlotLimit(selectedFamilyMember);
-            else
-                slot.insertFamilyMember(selectedFamilyMember);
+                if (actionSlotContext.getIgnoreOccupiedSlot())
+                    slot.insertFamilyMemberIgnoringSlotLimit(selectedFamilyMember);
+                else
+                    slot.insertFamilyMember(selectedFamilyMember);
+            }
+            else {
+                Integer selectedServants = ((IncreasePawnsValueByServantsContext) getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT)).
+                        interactWithPlayer(slot.getDiceValue() - freeActionValue);
+                actionValue = freeActionValue + selectedServants;
 
-            if(this.getCurrentPlayer().getPersonalBoard().getPersonalBonusTile().getHarvestDiceValue() <= selectedFamilyMember.getValue()) {
+                this.getCurrentPlayer().getResources().subResources(new Resources(0,0,0,selectedServants));
+            }
+
+            if(this.getCurrentPlayer().getPersonalBoard().getPersonalBonusTile().getHarvestDiceValue() <= actionValue) {
                 ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();
                 ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).setIncome(this.getCurrentPlayer().getPersonalBoard().getPersonalBonusTile().getHarvestBonus().getResources());
                 ((UseCouncilPrivilegeContext) getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(this.getCurrentPlayer().getPersonalBoard().getPersonalBonusTile().getHarvestBonus().getCouncilPrivilege());
@@ -74,7 +85,7 @@ public class HarvestAreaContext extends AbstractGameContext {
             ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();
             this.getCurrentPlayer().getPersonalBoard().getDevelopmentCardsByType(GREEN).ifPresent(list ->
                 list.forEach(card -> {
-                    if (((TerritoryCard) card).getDiceValueToHarvest() <= selectedFamilyMember.getValue())
+                    if (((TerritoryCard) card).getDiceValueToHarvest() <= actionValue)
                         card.getPermanentBonus().applyEffect(this);
                 })
             );

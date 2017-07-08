@@ -1,7 +1,9 @@
 package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ProductionAreaContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.TowersContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
@@ -23,13 +25,15 @@ import java.util.Observer;
 import java.util.Optional;
 import java.util.logging.Level;
 
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.FAMILY_MEMBER_SELECTION_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.PRODUCTION_AREA_CONTEXT;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class DevelopmentCardAcquireEffect extends AbstractEffect implements Observer {
     private static final long serialVersionUID = 9154894195925064951L;
 
     private DevelopmentCardColor color;
-    private Integer value;
+    private Integer diceValue;
     private ResourcesBonus requirementsDiscount;
 
     /**
@@ -37,7 +41,7 @@ public class DevelopmentCardAcquireEffect extends AbstractEffect implements Obse
      * if true - the value is applied when the user goes on a tower action space.
      * else - the user can go to a tower action space without using the family member
      */
-    private Boolean relative;
+    private Boolean isRelative;
 
     public DevelopmentCardAcquireEffect(DevelopmentCardColor color, Integer value, Boolean relative) {
         this(color, value, relative, null);
@@ -45,9 +49,9 @@ public class DevelopmentCardAcquireEffect extends AbstractEffect implements Obse
 
     public DevelopmentCardAcquireEffect(DevelopmentCardColor color, Integer value, Boolean relative, ResourcesBonus requirementsDiscount) {
         this.color = color;
-        this.value = value;
+        this.diceValue = value;
         this.requirementsDiscount = requirementsDiscount;
-        this.relative = relative;
+        this.isRelative = relative;
     }
 
     public DevelopmentCardColor getDevelopmentCardColor() {
@@ -55,7 +59,7 @@ public class DevelopmentCardAcquireEffect extends AbstractEffect implements Obse
     }
 
     public Integer getValue() {
-        return this.value;
+        return this.diceValue;
     }
 
     public ResourcesBonus getRequirementsDiscount() {
@@ -63,31 +67,39 @@ public class DevelopmentCardAcquireEffect extends AbstractEffect implements Obse
     }
 
     public Boolean isRelative() {
-        return this.relative;
+        return this.isRelative;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        TowersContext callerContext = (TowersContext) arg;
-        callerContext.noFamilyMemberRequired();
-        callerContext.setRequirementsDiscount(requirementsDiscount.getResources());
+        AbstractGameContext callerContext = (AbstractGameContext) arg;
+
+        if(callerContext instanceof FamilyMemberSelectionContext)
+            ((FamilyMemberSelectionContext) callerContext).changeFamilyMemberValue(this.diceValue, this.isRelative);
+        else if(callerContext instanceof TowersContext) {
+            TowersContext context = (TowersContext) callerContext;
+            context.noFamilyMemberRequired();
+            context.setRequirementsDiscount(requirementsDiscount.getResources());
+        }
     }
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
-        TowersContext towerContext = (TowersContext) callerContext.getContextByType(ContextType.TOWERS_CONTEXT);
-        towerContext.addObserver(this);
-
-        playerInteraction(towerContext, Optional.empty());
-
-        towerContext.deleteObserver(this);
+        if(this.isRelative)
+            callerContext.getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT).addObserver(this);
+        else {
+            TowersContext towerContext = (TowersContext) callerContext.getContextByType(ContextType.TOWERS_CONTEXT);
+            towerContext.addObserver(this);
+            playerInteraction(towerContext, Optional.empty());
+            towerContext.deleteObserver(this);
+        }
     }
 
     private void playerInteraction(TowersContext towerContext, Optional<Exception> error) {
         if(towerContext.getCurrentPlayer().isConnected())
             try {
                 PlayerAction action = towerContext.getGameManager().getActivePlayerNetworkController().freeAction(
-                        new PlayerAction(PlayerSelectableContexts.TOWERS_CONTEXT, new ImmutablePair<>(this.color, this.value)), error);
+                        new PlayerAction(PlayerSelectableContexts.TOWERS_CONTEXT, new ImmutablePair<>(this.color, this.diceValue)), error);
 
                 Validator.checkPlayerActionValidity(action);
 
@@ -97,7 +109,7 @@ public class DevelopmentCardAcquireEffect extends AbstractEffect implements Obse
                 if(!action.getContext().name().equals(PlayerSelectableContexts.TOWERS_CONTEXT.name()))
                     throw new IncorrectInputException();
 
-                towerContext.interactWithPlayer(action.getAction(), this.value);
+                towerContext.interactWithPlayer(action.getAction(), this.diceValue);
             } catch (IncorrectInputException |
                     NotEnoughMilitaryPoints |
                     OccupiedSlotException |

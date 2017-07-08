@@ -272,7 +272,7 @@ public class GameManager {
         this.productionArea = Configurator.getProductionArea();
         this.faithPath = Configurator.getFaithPath();
         this.mapCharactersToVictoryPoints = Configurator.getMapCharactersToVictoryPoints();
-        this.mapTerritoriesToVictoryPoints = Configurator.getMapCharactersToVictoryPoints();
+        this.mapTerritoriesToVictoryPoints = Configurator.getMapTerritoriesToVictoryPoints();
         this.mapMilitaryPointsForTerritories = Configurator.getMilitaryPointsForTerritories();
         this.minFaithPoints = Configurator.getMinFaithPoints();
         this.resourcesForVictoryPoints = Configurator.getResourcesForVictoryPoints();
