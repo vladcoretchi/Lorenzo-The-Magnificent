@@ -93,12 +93,6 @@ public class TowersContext extends AbstractGameContext {
         setChanged();
         notifyObservers(this);
 
-        if(!this.freeAction && selectedTower.getTowerSlots().stream().anyMatch(ts ->
-                ts.getFamilyMembers().stream().anyMatch(fm ->
-                        fm.getFamilyMemberColor().name().equals(this.getCurrentPlayer().getPawnColor().name())
-                                && !fm.getDiceColorAssociated().name().equals(DiceColor.NEUTRAL.name()))))
-            throw new IncorrectInputException();
-
         if(this.freeAction && freeActionValue > 0 && slot.getDiceValue() > freeActionValue) {
             Integer selectedServants = ((IncreasePawnsValueByServantsContext) getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT)).
                     interactWithPlayer(slot.getDiceValue() - freeActionValue);
@@ -164,18 +158,22 @@ public class TowersContext extends AbstractGameContext {
                 (ventureCardAlternative != null && !this.gameManager.getCurrentPlayer().hasEnoughResources(ventureCardAlternative)))
             throw new NotEnoughResourcesException();
 
-        FamilyMember selectedFamilyMember = null;
-        if(this.freeAction) {
-            Optional<FamilyMember> tempfm = this.getCurrentPlayer().getFamilyMembers().stream().filter(fm -> fm.getDiceColorAssociated().name().equals(DiceColor.NEUTRAL.name())).findFirst();
-            if (tempfm.isPresent())
-                selectedFamilyMember = tempfm.get();
-        }
-        else
-            selectedFamilyMember = ((FamilyMemberSelectionContext) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT))
-                                                        .interactWithPlayer(slot.getDiceValue(), false, this.contextType);
-
         try {
-            slot.insertFamilyMember(selectedFamilyMember);
+            if(!freeAction) {
+                FamilyMember selectedFamilyMember = ((FamilyMemberSelectionContext) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT))
+                        .interactWithPlayer(slot.getDiceValue(), false, this.contextType);
+
+                if(!this.freeAction && selectedTower.getTowerSlots().stream().anyMatch(ts ->
+                        ts.getFamilyMembers().stream().anyMatch(fm ->
+                                fm.getFamilyMemberColor().name().equals(this.getCurrentPlayer().getPawnColor().name())
+                                        && !fm.getDiceColorAssociated().name().equals(DiceColor.NEUTRAL.name())
+                                        && !selectedFamilyMember.getDiceColorAssociated().name().equals(DiceColor.NEUTRAL.name())))) {
+                    this.gameManager.resetFamilyMemberValue(selectedFamilyMember);
+                    throw new IncorrectInputException();
+                }
+
+                slot.insertFamilyMember(selectedFamilyMember);
+            }
 
             this.gameManager.getCurrentPlayer().getPersonalBoard().addCard(card);
             slot.setCardStored(null);

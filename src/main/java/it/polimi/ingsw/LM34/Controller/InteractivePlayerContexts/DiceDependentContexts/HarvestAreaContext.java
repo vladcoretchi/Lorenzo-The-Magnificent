@@ -37,7 +37,8 @@ public class HarvestAreaContext extends AbstractGameContext {
             throw new IncorrectInputException();
         }
 
-        if(selectedSlot > this.gameManager.getHarvestArea().getActionSlots().size() - 1)
+        if(selectedSlot > this.gameManager.getHarvestArea().getActionSlots().size() - 1 ||
+                (selectedSlot > 1 && this.gameManager.getPlayers().size() < 3))
             throw new IncorrectInputException();
 
         ActionSlot slot = this.gameManager.getHarvestArea().getActionSlots().get(selectedSlot);

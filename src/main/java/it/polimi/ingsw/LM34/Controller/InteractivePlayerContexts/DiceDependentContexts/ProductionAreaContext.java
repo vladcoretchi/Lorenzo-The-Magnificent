@@ -38,7 +38,8 @@ public class ProductionAreaContext extends AbstractGameContext {
             throw new IncorrectInputException();
         }
 
-        if(selectedSlot > this.gameManager.getProductionArea().getActionSlots().size() - 1)
+        if(selectedSlot > this.gameManager.getProductionArea().getActionSlots().size() - 1 ||
+                (selectedSlot > 1 && this.gameManager.getPlayers().size() < 3))
             throw new IncorrectInputException();
 
         ActionSlot slot = this.gameManager.getProductionArea().getActionSlots().get(selectedSlot);

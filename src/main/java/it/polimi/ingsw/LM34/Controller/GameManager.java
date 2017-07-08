@@ -566,6 +566,13 @@ public class GameManager {
         }
     }
 
+    public void resetFamilyMemberValue(FamilyMember familyMember) {
+        Optional<Dice> dice = this.dices.stream().filter(d ->
+                d.getColor().name().equals(familyMember.getDiceColorAssociated().name())).findFirst();
+
+        dice.ifPresent(d -> familyMember.setValue(d.getValue()));
+    }
+
     public Integer getPeriod() {
         return period;
     }
