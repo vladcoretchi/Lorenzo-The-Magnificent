@@ -33,11 +33,6 @@
                         <ImageView fitWidth="27" fitHeight="35.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/MILITARY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="8" layoutY="26" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 
@@ -46,11 +41,6 @@
                         <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/VICTORY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 
@@ -59,11 +49,6 @@
                         <ImageView fitWidth="27" fitHeight="35.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/MILITARY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="8" layoutY="26" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 
@@ -72,11 +57,6 @@
                         <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/VICTORY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 
@@ -85,11 +65,6 @@
                         <ImageView fitWidth="27" fitHeight="35.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/MILITARY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="8" layoutY="26" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 
@@ -98,11 +73,6 @@
                         <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/VICTORY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 
@@ -111,11 +81,6 @@
                         <ImageView fitWidth="27" fitHeight="35.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/MILITARY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="8" layoutY="26" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 
@@ -124,11 +89,6 @@
                         <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/VICTORY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 
@@ -137,11 +97,6 @@
                         <ImageView fitWidth="27" fitHeight="35.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/MILITARY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="8" layoutY="26" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 
@@ -150,11 +105,6 @@
                         <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/VICTORY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 
@@ -163,11 +113,6 @@
                         <ImageView fitWidth="27" fitHeight="35.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/MILITARY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="8" layoutY="26" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 
@@ -176,11 +121,6 @@
                         <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/VICTORY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 
@@ -202,11 +142,6 @@
                         <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/VICTORY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 
@@ -215,11 +150,6 @@
                         <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/VICTORY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 
@@ -228,11 +158,6 @@
                         <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/VICTORY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 
@@ -241,11 +166,6 @@
                         <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/VICTORY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 
@@ -254,11 +174,6 @@
                         <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/VICTORY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 
@@ -267,11 +182,6 @@
                         <ImageView fitWidth="27" fitHeight="30.4" pickOnBounds="true" preserveRatio="true"> <!--20%-->
                             <Image url="@../images/resources/VICTORY_POINTS.png" />
                         </ImageView>
-                        <Text layoutX="10" layoutY="22" text="1" style="-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0)">
-                            <font>
-                                <Font size="16" />
-                            </font>
-                        </Text>
                     </Group>
                 </StackPane>
 

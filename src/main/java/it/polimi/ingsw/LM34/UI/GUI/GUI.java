@@ -43,6 +43,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -78,24 +79,17 @@ public class GUI extends Application implements UIInterface {
     private Stage primaryStage;
     private LoginDialog loginDialog;
     private Stage loginStage;
-    @FXML
-    private TextField username;
-    @FXML
-    private TextField password;
-    @FXML
-    private Label playerLoginError;
-    @FXML
-    private RadioButton rmiChoice;
-    @FXML
-    private RadioButton socketChoice;
-    @FXML
-    private AnchorPane login;
-    @FXML
-    private Group towers;
-    @FXML
-    private Group slots;
-    @FXML
-    private ToggleButton leaderCardActions;
+    @FXML private TextField username;
+    @FXML private TextField password;
+    @FXML private Label playerLoginError;
+    @FXML private RadioButton rmiChoice;
+    @FXML private RadioButton socketChoice;
+    @FXML private AnchorPane login;
+    @FXML private Group towers;
+    @FXML private Group slots;
+    @FXML private ToggleButton leaderCardActions;
+    @FXML private StackPane faithPosition;
+    @FXML private StackPane faithVictoryPoints;
 
     /**
      * Game Objects
@@ -172,7 +166,7 @@ public class GUI extends Application implements UIInterface {
         primaryStage.setWidth(800);
         primaryStage.setHeight(600);
         primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/icon.png").toExternalForm()));
-        primaryStage.setTitle("Lorenzo il Magnifico by CranioCreations");
+        primaryStage.setTitle("Lorenzo il Magnifico - [LM34] - Player: "+this.username.getText());
         primaryStage.setScene(new Scene(root, primaryStage.getWidth(), primaryStage.getHeight()));
         primaryStage.setFullScreen(false);
         primaryStage.setResizable(true);
@@ -808,6 +802,7 @@ public class GUI extends Application implements UIInterface {
     @Override
     public void loadFaithPath(Map<Integer, Integer> faithPath) {
         this.faithPath = faithPath;
+        initializeFaithPath();
     }
 
     /**
@@ -974,13 +969,13 @@ public class GUI extends Application implements UIInterface {
         @Override
         public void handle(Event event) {
             try {
-                personalBoardView = new PersonalBoardView(player, mapTerritoriesToVictoryPoints, mapCharactersToVictoryPoints);
+                personalBoardView = new PersonalBoardView(player, mapTerritoriesToVictoryPoints, mapMilitaryPointsForTerritories, mapCharactersToVictoryPoints);
                 personalBoardView.start(primaryStage);
                 if(player.getPlayerName().equalsIgnoreCase(username.getText())) {
-                    showFaithPath();
-                    showMapCharactersToVictoryPoints();
-                    showMapTerritoriesToVictoryPoints();
-                    showMilitaryPointsForTerritories();
+                    //showFaithPath(); TODO
+                    //showMapCharactersToVictoryPoints();
+                    //showMapTerritoriesToVictoryPoints();
+                   // showMilitaryPointsForTerritories();
                 }
             } catch (Exception e) {
                 LOGGER.log(Level.WARNING, e.getMessage(), e);
@@ -1051,10 +1046,7 @@ public class GUI extends Application implements UIInterface {
     public void stop(WindowEvent event) {
         primaryStage.setOnCloseRequest(event1 -> Platform.exit());
         primaryStage.close();
-        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
-        for (Thread thread : threadSet) {
-            thread.interrupt();
-        }
+        System.exit(0);
     }
 
     /**
@@ -1068,5 +1060,45 @@ public class GUI extends Application implements UIInterface {
                 .getContextClassLoader().getResource(path)
                 .toExternalForm()));
         return image;
+    }
+
+    private void initializeFaithPath() {
+        FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            TextFlow faithPositions;
+            Text faithPositionValue;
+            Iterator<Map.Entry<Integer, Integer>> iterator = this.faithPath.entrySet().iterator();
+            Integer i = 0;
+            while(iterator.hasNext()) {
+                faithPositions = (TextFlow) root.lookup("#faithPosition"+ i.toString());
+                faithPositionValue = new Text(iterator.next().getKey().toString());
+                faithPositionValue.setStyle("-fx-background-color: rgba(118,93,29,0.96); -fx-text-fill: rgba(118,93,29,0.96); -fx-font-size: 17");
+                faithPositions.getChildren().add(faithPositionValue);
+                faithPositions.setVisible(true);
+                i++;
+            }
+
+            return null;
+        });
+
+        FutureTask<Void> uiTask1 = new FutureTask<>(() -> {
+            TextFlow faithVictoryPoints;
+            Text faithVictoryPointsValue;
+            Iterator<Map.Entry<Integer, Integer>> iterator = this.faithPath.entrySet().iterator();
+            Integer i = 0;
+
+            while(iterator.hasNext()) {
+                faithVictoryPoints = (TextFlow) root.lookup("#faithPoint"+ i.toString());
+                faithVictoryPointsValue = new Text(iterator.next().getValue().toString());
+                faithVictoryPointsValue.setStyle("-fx-background-color: rgba(118,93,29,0.96); -fx-text-fill: rgba(118,93,29,0.96); -fx-font-size: 17");
+                faithVictoryPoints.getChildren().add(faithVictoryPointsValue);
+                faithVictoryPoints.setVisible(true);
+                i++;
+            }
+
+            return null;
+        });
+
+      Platform.runLater(uiTask);
+      Platform.runLater(uiTask1);
     }
 }

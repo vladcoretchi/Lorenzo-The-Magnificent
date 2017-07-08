@@ -14,6 +14,8 @@ import java.util.Set;
 
 public class LoginDialog extends Application {
 
+    private Stage primaryStage;
+
     public void show() {
         launch();
     }
@@ -21,7 +23,7 @@ public class LoginDialog extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource("views/login.fxml"));
-        Stage primaryStage = stage;
+        primaryStage = stage;
         primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource("images/login/login.png").toExternalForm()));
         primaryStage.setTitle("Login - Lorenzo il Magnifico [LM34]");
         primaryStage.setScene(new Scene(root, 400, 400));
@@ -29,7 +31,13 @@ public class LoginDialog extends Application {
         primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.setResizable(false);
         primaryStage.show();
-        primaryStage.setOnHidden(e -> primaryStage.close());
+        primaryStage.setOnCloseRequest(event -> stop(event));
 
+    }
+
+    public void stop(WindowEvent event) {
+        primaryStage.setOnCloseRequest(event1 -> Platform.exit());
+        primaryStage.close();
+        System.exit(0);
     }
 }

@@ -55,7 +55,7 @@ public class LeaderCardsView {
         dialog.setTitle("Leaders Available");
         dialog.setHeaderText("Leader Card choice");
         dialog.setContentText("which leader do you wish to use? ");
-        dialog.getDialogPane().setPrefHeight(405);
+        dialog.getDialogPane().setPrefHeight(475);
         dialog.setResizable(false);
         dialog.getDialogPane().getStylesheets().add(
                 getClass().getResource("/css/dialogStyle.css").toExternalForm());

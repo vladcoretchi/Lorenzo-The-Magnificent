@@ -32,7 +32,10 @@ public class FamilyMemberSelectDialog {
         dialog.initModality(Modality.WINDOW_MODAL);
         dialog.initOwner(primaryStage);
         dialog.setContentText("Family Member Selection");
-        dialog.setGraphic(new ImageView(Thread.currentThread().getContextClassLoader().getResource("images/resources/SERVANTS.png").toExternalForm()));
+        ImageView brownFamilyMember = new ImageView(Thread.currentThread().getContextClassLoader().getResource("images/pawns/"+ membersAvailable.get(0).getFamilyMemberColor()+".png").toExternalForm());
+        brownFamilyMember.setFitWidth(65);
+        brownFamilyMember.setFitHeight(65);
+        dialog.setGraphic(brownFamilyMember);
         dialog.getDialogPane().getStylesheets().add(
                 getClass().getResource("/css/dialogStyle.css").toExternalForm());
         dialog.getDialogPane().getStyleClass().add("dialogClass");
