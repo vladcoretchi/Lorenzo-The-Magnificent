@@ -37,7 +37,7 @@ public class AlternativeRequirementPaymentDialog {
 
         if (choice.isPresent()) {
             String stringResult = choice.get().toString();
-            if("MILITARY".equalsIgnoreCase(stringResult))
+            if(stringResult.contains("MILITARY"))
                  return true;
         }
         return false;

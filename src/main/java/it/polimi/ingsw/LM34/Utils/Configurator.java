@@ -716,7 +716,7 @@ public final class Configurator {
                 else if (areaType.equalsIgnoreCase(HARVEST_JSONSTRING))
                     workingAreaType = ContextType.HARVEST_AREA_CONTEXT;
 
-            penalty = new WorkingAreaValueEffect(workingAreaType, diceValue, false);
+            penalty = new WorkingAreaValueEffect(workingAreaType, diceValue, true);
         }
 
         /********Family Member Value Effect*******/

@@ -4,12 +4,10 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Resources;
 
-import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
@@ -59,8 +57,7 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
-        if(this.developmentCardsGoodsMultiplier != null && this.developmentCardsGoodsMultiplier > 1)
-            callerContext.getContextByType(RESOURCE_INCOME_CONTEXT).addObserver(this);
+        callerContext.getContextByType(RESOURCE_INCOME_CONTEXT).addObserver(this);
 
         if(this.councilPrivilege != null && this.councilPrivilege > 0)
             try {

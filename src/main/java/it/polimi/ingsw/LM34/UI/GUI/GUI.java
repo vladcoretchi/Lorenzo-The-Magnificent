@@ -775,9 +775,7 @@ public class GUI extends Application implements UIInterface {
     @Override
     public Boolean alternativeRequirementsPayment() {
     FutureTask<Boolean> uiTask = new FutureTask<>(() -> {
-        try {
             return new AlternativeRequirementPaymentDialog().interactWithPlayer();
-        } catch (Exception e) { e.printStackTrace(); return false;}
     });
     return RunLaterTask(uiTask);
 
