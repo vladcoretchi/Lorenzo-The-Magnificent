@@ -31,6 +31,7 @@ import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
  * In the latter case, all requirements of the leader to activate are verified
  */
 public class LeaderCardsContext extends AbstractGameContext {
+    List<LeaderCard> leaderCards;
 
     public LeaderCardsContext() {
     this.contextType = LEADER_CARDS_CONTEXT;
@@ -38,7 +39,9 @@ public class LeaderCardsContext extends AbstractGameContext {
 
     @Override
     public Void interactWithPlayer(Object... args) throws IncorrectInputException, InvalidLeaderCardAction, NotEnoughResourcesException, NoMoreLeaderCardsAvailable {
-        if(this.getCurrentPlayer().getPendingLeaderCards().isEmpty())
+        leaderCards = this.getCurrentPlayer().getPendingLeaderCards();
+
+        if(leaderCards.isEmpty())
             throw new NoMoreLeaderCardsAvailable();
 
         Pair<Integer, LeaderCardsAction> leaderCardAction = leaderCardsAction();
@@ -54,13 +57,11 @@ public class LeaderCardsContext extends AbstractGameContext {
             default:
                 throw new InvalidLeaderCardAction();
         }
-        this.getCurrentPlayer().discardLeaderCard(selectedCard);
 
         return null;
     }
 
     private Pair<Integer, LeaderCardsAction> leaderCardsAction() {
-        List<LeaderCard> leaderCards = this.getCurrentPlayer().getPendingLeaderCards();
         Pair<String, LeaderCardsAction> action = this.gameManager.getActivePlayerNetworkController().leaderCardSelection(leaderCards);
 
         for(int i = 0; i < leaderCards.size(); i++)
@@ -76,9 +77,7 @@ public class LeaderCardsContext extends AbstractGameContext {
         Optional<Map<DevelopmentCardColor, Integer>> cardsRequirements = card.getRequirements().getCardRequirements();
 
         if(resourcesRequirements.isPresent())
-            if(this.getCurrentPlayer().hasEnoughResources(resourcesRequirements.get()))
-                this.getCurrentPlayer().subResources(resourcesRequirements.get());
-            else
+            if(!this.getCurrentPlayer().hasEnoughResources(resourcesRequirements.get()))
                 throw new NotEnoughResourcesException();
 
         if(cardsRequirements.isPresent())
@@ -87,10 +86,19 @@ public class LeaderCardsContext extends AbstractGameContext {
                     throw new NotEnoughResourcesException();
 
         card.activate();
+        ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();
         card.getBonus().applyEffect(this);
+        if(card.isOncePerRound())
+            card.setUsed(true);
+        try {
+            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).interactWithPlayer();
+        } catch(IncorrectInputException ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+        }
 
+        /*trigger Copy Leader ability*/
         setChanged();
-        notifyObservers(this);
+        notifyObservers();
     }
 
     private void discardLeaderCard(LeaderCard card) {
@@ -100,12 +108,11 @@ public class LeaderCardsContext extends AbstractGameContext {
                                               .interactWithPlayer(Configurator.COUNCIL_PRIVILEGES_FOR_DISCARDED_LEADER_CARD);
             ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).interactWithPlayer();
 
-            this.getCurrentPlayer().getPendingLeaderCards().remove(card);
+            this.getCurrentPlayer().discardLeaderCard(card);
         } catch(IncorrectInputException ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
         }
     }
-
     /**
      * An interactive method that unlocks to the player the ability to clone another leader
      */
@@ -117,8 +124,7 @@ public class LeaderCardsContext extends AbstractGameContext {
             if(player != this.getCurrentPlayer())
                 activatedLeaderCards.addAll(player.getActivatedLeaderCards());
 
-        /*Integer leaderToCopy = gameManager.getActivePlayerNetworkController().copyLeaderSelection(allLeadersActivatedByOthers);
-
+        /*TODO: Integer leaderToCopy = gameManager.getActivePlayerNetworkController().leaderCardCopy(allLeadersActivatedByOthers);
         try {
             Validator.checkValidity(leaderToCopy, activatedLeaderCards);
             LeaderCard selectedLeader = activatedLeaderCards.get(leaderToCopy);

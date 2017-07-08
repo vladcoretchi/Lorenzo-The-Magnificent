@@ -18,7 +18,6 @@ import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.*;
 import it.polimi.ingsw.LM34.Model.Dice;
-import it.polimi.ingsw.LM34.Model.Effects.AbstractOncePerRoundEffect;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
@@ -64,6 +63,7 @@ public class GameManager {
     private Map<Integer, Integer> mapCharactersToVictoryPoints;
     private Map<Integer, Integer> mapTerritoriesToVictoryPoints;
     private Map<Integer, Integer> mapMilitaryPointsForTerritories;
+    private Integer resourcesForVictoryPoints;
     private Integer[] minFaithPoints;
 
     /*DECKS*/
@@ -135,7 +135,7 @@ public class GameManager {
      */
     public void startGame() {
         bonusTileSelectionPhase();
-        //leaderSelectionPhase(); //TODO: uncomment
+        leaderSelectionPhase(); //TODO: uncomment
         players.forEach(player -> this.getPlayerNetworkController(player).setExcommunicationCards(this.excommunicationCards));
         players.forEach(player -> this.getPlayerNetworkController(player).updateDiceValues(this.dices));
         players.forEach(player -> this.getPlayerNetworkController(player).updatePlayersData(this.players));
@@ -162,6 +162,7 @@ public class GameManager {
         this.mapTerritoriesToVictoryPoints = Configurator.getMapCharactersToVictoryPoints();
         this.mapMilitaryPointsForTerritories = Configurator.getMilitaryPointsForTerritories();
         this.minFaithPoints = Configurator.getMinFaithPoints();
+        this.resourcesForVictoryPoints = Configurator.getResourcesForVictoryPoints();
     }
 
     /**
@@ -210,11 +211,18 @@ public class GameManager {
     private void nextRound() { //round = half period
         this.round++;
 
+
         this.players.forEach(player -> {
+            /**
+             * Reactivate the {@link it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.PerRoundLeaderReward}
+             * of the leaders that the player has enabled during the game
+             */
             player.getActivatedLeaderCards().forEach(card -> {
-                if(card.getBonus() instanceof AbstractOncePerRoundEffect)
-                    ((AbstractOncePerRoundEffect) card.getBonus()).newTurn();
+                if(card.isOncePerRound())
+                    card.setUsed(false);
             });
+
+            /*Reactivate the FamilyMembers of the player*/
             player.getFamilyMembers().forEach(FamilyMember::freePawn);
         });
 
@@ -279,11 +287,14 @@ public class GameManager {
     private void setupPlayersResources() {
         for (int i = 0; i < players.size(); i++) {
             players.get(i).addResources(new Resources(
-                Configurator.BASE_COINS + i * Configurator.COINS_INCREMENT_PLAYER_ORDER,
+                  40,40,40,40, 40,40,40));
+
+                //TODO
+                /*Configurator.BASE_COINS + i * Configurator.COINS_INCREMENT_PLAYER_ORDER,
                 Configurator.BASE_WOODS + i * Configurator.WOODS_INCREMENT_PLAYER_ORDER,
                 Configurator.BASE_STONES + i * Configurator.STONES_INCREMENT_PLAYER_ORDER,
-                Configurator.BASE_SERVANTS + i * Configurator.SERVANTS_INCREMENT_PLAYER_ORDER
-            ));
+                Configurator.BASE_SERVANTS + i * Configurator.SERVANTS_INCREMENT_PLAYER_ORDER*/
+           // ));
         }
     }
 
@@ -358,7 +369,7 @@ public class GameManager {
 
         /*...and now place every card in the deck until the tower's slots are full*/
         tower.ifPresent(Tower::sweep);
-        while (iterator.hasNext() && tower.get().getCardsStored().size() < Configurator.CARD_PER_ROUND) {
+        while (iterator.hasNext() && tower.isPresent() && tower.get().getCardsStored().size() < Configurator.CARD_PER_ROUND) {
             tower.get().addCard((AbstractDevelopmentCard) iterator.next());
             try {
                 iterator.remove();
@@ -463,6 +474,27 @@ public class GameManager {
     public Integer[] getMinFaithPoints() {
         return minFaithPoints;
     }
+
+    public Map<Integer, Integer> getFaithPath() {
+        return faithPath;
+    }
+
+    public Map<Integer, Integer> getMapCharactersToVictoryPoints() {
+        return mapCharactersToVictoryPoints;
+    }
+
+    public Map<Integer, Integer> getMapTerritoriesToVictoryPoints() {
+        return mapTerritoriesToVictoryPoints;
+    }
+
+    public Integer getResourcesForVictoryPoints() {
+        return resourcesForVictoryPoints;
+    }
+
+    public Map<Integer, Integer> getMilitaryPointsForTerritories() {
+        return mapMilitaryPointsForTerritories;
+    }
+
 }
 
 

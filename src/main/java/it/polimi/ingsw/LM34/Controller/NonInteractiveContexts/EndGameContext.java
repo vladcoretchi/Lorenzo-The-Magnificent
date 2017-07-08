@@ -1,6 +1,8 @@
 package it.polimi.ingsw.LM34.Controller.NonInteractiveContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.VentureCard;
 import it.polimi.ingsw.LM34.Model.Player;
@@ -8,100 +10,121 @@ import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.END_GAME_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.VICTORY_POINTS;
 
+/**
+ * End game calculation players' scores and presentation of the results of the match
+ * are performed in this {@link AbstractGameContext}
+ */
 public class EndGameContext  extends AbstractGameContext {
-    List<Player> players;
-    Map<Player, Integer> victoryPointsToPlayers;
-
-    //TODO: all excommunication III period penalties are applied here as observers
-
-
+    private Map<DevelopmentCardColor, Integer> devCardPenalty = new EnumMap<DevelopmentCardColor, Integer>(DevelopmentCardColor.class);
+    private Map<ResourceType, Integer> resourceTypePenalty = new EnumMap<ResourceType, Integer>(ResourceType.class);
    public EndGameContext() {
         this.contextType = END_GAME_CONTEXT;
     }
 
+    /**
+     *Entry point of the class. This method is called by the game manager at the end of the game in order
+     * to calculate final victory points of each player that has joined the game and declare the winner
+     * based on the highest score
+     */
     @Override
     public Void interactWithPlayer(Object... args) {
-        players = gameManager.getPlayers();
+        List<Player> players;
+        players = this.gameManager.getPlayers();
 
+        /*Trigger excommunication tiles that are related to the endGame*/
+        setChanged();
+        notifyObservers();
+
+        /*Calculate the victory points of each player based on the Rules*/
+        players.forEach(player -> onEndCalculateVictoryPointsPerPlayerByResources(player));
+        players.forEach(player -> onEndGameCalculatePointsByDevelopmentCardsOwned(player));
+
+        /*And now tell each player how many victory points everyone has scored and declare the winner*/
+        players.forEach(player -> this.gameManager.getPlayerNetworkController(player).endGame(players));
         return null;
     }
 
     /**
-     *Entry point of the class. This method is called by the game manager at the end of the game
-     * @param players
-     */
-
-
-    /**
+     * Based on the Rules, the following method covers the calculation of victory points of each player
+     * at the end og the game, keeping in consideration the effects of the
+     * {@link it.polimi.ingsw.LM34.Model.Effects.VictoryPointsPenalty} associated to them
      * @return the hashmap with a correlation between players and their points earned by cards
      */
-    public Map<Player, Integer> onEndGameCalculatePointsByDevelopmentCardsOwned(Map<Player, Integer> victoryPointsByPlayer) {
-        //TODO
-        return victoryPointsByPlayer;
-    }
+    private void onEndGameCalculatePointsByDevelopmentCardsOwned(Player player) {
+        List<AbstractDevelopmentCard> cards = new ArrayList<>();
+        Integer pointsToAdd = 0;
+        for(DevelopmentCardColor cardType: DevelopmentCardColor.values())
+            if (!devCardPenalty.containsKey(cardType)) {
+                cards = player.getPersonalBoard().getDevelopmentCardsByType(cardType).get();
+                if(cardType == DevelopmentCardColor.BLUE)
+                    pointsToAdd += this.gameManager.getMapCharactersToVictoryPoints().get(cards);
+                else if(cardType == DevelopmentCardColor.GREEN)
+                    pointsToAdd += this.gameManager.getMapTerritoriesToVictoryPoints().get(cards);
+                else if(cardType == DevelopmentCardColor.PURPLE)
+                    pointsToAdd += onEndCalculateVictoryPointsPerPlayerByVentureCards(player);
 
-    /**
-     * @return the hashmap with a correlation between players and their points earned by venture cards
-     */
-    public Map<Player, Integer> onEndCalculateVictoryPointsPerPlayerByVentureCards(Map<Player, Integer> victoryPointsToPlayers) {
-
-        Integer totalVictoryPointsByVentureCardReward = 0;
-        ArrayList<AbstractDevelopmentCard> tempPlayerVentureCards = new ArrayList<>();
-        //for each player we calculate the sum of the victory points rewards provided by his venture cards stored in the personal board
-
-            for (Player p : players) {
-                //TODO: check if the player has the excommunication card that disables this step
-                /*if(p.getMalus== noCalculateEndPoints)
-                    victoryPointsToPlayers(p, 0);*/
-                // else
-                //TODO: now returned value is Optional, so we must fix the expected value
-                // tempPlayerVentureCards = p.getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.PURPLE);
-
-                totalVictoryPointsByVentureCardReward = 0;
-                for (AbstractDevelopmentCard dci : tempPlayerVentureCards) {
-                    VentureCard dciVenture = (VentureCard) dci;
-                    totalVictoryPointsByVentureCardReward += dciVenture.getEndingVictoryPointsReward();
-                }
-                victoryPointsToPlayers.put(p, totalVictoryPointsByVentureCardReward);
+                /*And now add to the player the points he deserves*/
+                player.getResources().sumResourceType(VICTORY_POINTS, pointsToAdd);
             }
-
-
-        return victoryPointsToPlayers;
     }
 
+    /**
+     * @return the {@link it.polimi.ingsw.LM34.Enums.Model.ResourceType} of VICTORY_POINTS
+     * that are provided by venture cards the player has bought along the game
+     */
+    public Integer onEndCalculateVictoryPointsPerPlayerByVentureCards(Player player) {
+        Integer totalVictoryPointsByVentureCardReward =0;
+        List<AbstractDevelopmentCard> venturesOwned = player.getPersonalBoard()
+                                                    .getDevelopmentCardsByType(DevelopmentCardColor.PURPLE).orElse(null);
+        for(AbstractDevelopmentCard ventureCard: venturesOwned)
+            totalVictoryPointsByVentureCardReward += ((VentureCard) ventureCard).getEndingVictoryPointsReward();
+
+        return totalVictoryPointsByVentureCardReward;
+    }
 
     /**
-     * @return the hashmap with a correlation between players and their points earned by number of resources
+     * Calculate the VICTORY_POINTS of the player based on the Rules and the excommunication tiles applied during the game
+     * @param player that will have his score influenced by this step
      */
-    public Map<Player, Integer> onEndCalculateVictoryPointsPerPlayerByResources(Map<Player, Integer> victoryPointsToPlayers) {
-
-        Integer totalVictoryPointsByResources = 0;
+    public void onEndCalculateVictoryPointsPerPlayerByResources(Player player) {
+        Resources playerResources = player.getResources();
         //for each player we calculate the sum of the victory points rewards provided by his resources
+        playerResources.sumResourceType(VICTORY_POINTS,
+                                            Utilities.getTotalAmount(player.getResources())
+                                                    / this.gameManager.getResourcesForVictoryPoints());
 
-            for (Player p : players) {
-                Resources resources = p.getResources();
-                totalVictoryPointsByResources = Utilities.getTotalAmount(resources) /5;
-
-                victoryPointsToPlayers.put(p, totalVictoryPointsByResources);
-            }
-
-        return victoryPointsToPlayers;
+        /*And now subtract points based on the ResourceType penalty the excommunication tiles have*/
+        resourceTypePenalty.forEach((resTypeMalus, pointsPenalty) -> {
+            playerResources.sumResourceType(VICTORY_POINTS,
+                    playerResources.getResourceByType(resTypeMalus).intValue() * pointsPenalty);
+        });
     }
 
-
-    public void interactWithPlayer(List<Player> players) {
-        setChanged();
-        notifyObservers();
-
-        onEndCalculateVictoryPointsPerPlayerByVentureCards(victoryPointsToPlayers);
-        onEndCalculateVictoryPointsPerPlayerByResources(victoryPointsToPlayers);
-        players.forEach(p -> gameManager.getPlayerNetworkController(p).endGame(players));
+    /**
+     * Excommunication card of the III period, that related to number of card a player has, add their penalty
+     * to this map
+     * @param cardType specified by the {@link it.polimi.ingsw.LM34.Model.Effects.VictoryPointsPenalty} card
+     * @param points (VICTORY_POINTS) of penalty for that effect
+     */
+    public void addDevelopmentCardPenalty(DevelopmentCardColor cardType, Integer pointsPenalty) {
+        devCardPenalty.put(cardType, pointsPenalty);
     }
 
+    /**
+     * Excommunication card of the III period, that related to number of resources a player has, add their penalty
+     * to this map
+     * @param resourceType specified by the {@link it.polimi.ingsw.LM34.Model.Effects.VictoryPointsPenalty} card
+     * @param points (VICTORY_POINTS) of penalty for that effect
+     */
+    public void addResourcesPenalty(ResourceType resourceType, Integer pointsPenalty) {
+        resourceTypePenalty.put(resourceType, pointsPenalty);
+    }
 }
 

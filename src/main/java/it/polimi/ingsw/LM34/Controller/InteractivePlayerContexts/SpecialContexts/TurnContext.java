@@ -46,13 +46,28 @@ public class TurnContext extends AbstractGameContext {
         setChanged();
         notifyObservers(this); //for SkipTurn observer
 
-        if(!this.skipTurn) {
-            this.getCurrentPlayer().getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.BLUE).ifPresent(cards ->
-                cards.forEach(card -> card.getPermanentBonus().applyEffect(this)));
 
-            this.getCurrentPlayer().getActivatedLeaderCards().forEach(card -> card.getBonus().applyEffect(this));
+        if(!this.skipTurn) {
 
             ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();
+
+            this.getCurrentPlayer().getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.BLUE)
+                    .ifPresent(cards -> cards.forEach(card -> card.getPermanentBonus().applyEffect(this)));
+
+            this.getCurrentPlayer().getActivatedLeaderCards().forEach(card -> {
+                if(card.isOncePerRound() && !card.isUsed() || !card.isOncePerRound()) {
+                    card.getBonus().applyEffect(this);
+                    if (!card.isUsed())
+                        card.setUsed(true);
+                }
+            });
+
+            try {
+                ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).interactWithPlayer();
+            } catch(IncorrectInputException e) {
+                LOGGER.log(Level.INFO, e.getMessage(), e);
+            }
+
             interactWithPlayer();
         }
 

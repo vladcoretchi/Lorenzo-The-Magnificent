@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Model;
 
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
-import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.Copyable;
 import it.polimi.ingsw.LM34.Utils.Utilities;
 
@@ -9,7 +8,6 @@ import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.function.BiFunction;
 
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.*;
 
@@ -72,11 +70,11 @@ public class Resources implements Serializable, Copyable {
     public Resources(Integer militaryPoints, Integer faithPoints, Integer victoryPoints) {
         resourcesMap = new EnumMap<>(ResourceType.class);
 
-        if(militaryPoints != 0)
+        if(militaryPoints != null)
             this.resourcesMap.put(ResourceType.MILITARY_POINTS, militaryPoints);
-        if(faithPoints != 0)
+        if(faithPoints != null)
             this.resourcesMap.put(ResourceType.FAITH_POINTS, faithPoints);
-        if(victoryPoints != 0)
+        if(victoryPoints != null)
             this.resourcesMap.put(ResourceType.VICTORY_POINTS, victoryPoints);
     }
 

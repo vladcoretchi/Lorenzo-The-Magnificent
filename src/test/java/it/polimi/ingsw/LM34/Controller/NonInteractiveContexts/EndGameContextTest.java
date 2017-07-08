@@ -8,8 +8,6 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-
 public class EndGameContextTest {
 
     /**
@@ -23,22 +21,6 @@ public class EndGameContextTest {
     }
 
     /**
-     * this test will check if the victory points by developmnet card will be calculated corrected
-     * @throws Exception
-     */
-    @Test
-    public void onEndGameCalculatePointsByDevelopmentCardsOwned() throws Exception {
-        Map<Player, Integer> victoryPointsByPlayer = new HashMap<>();
-        Map<Player, Integer> victoryPointsByPlayerResult;
-        Player player = new Player("aldo", PawnColor.GREEN, new PersonalBoard());
-        victoryPointsByPlayer.put(player, 3);
-        EndGameContext endGameContext = new EndGameContext();
-        victoryPointsByPlayerResult = endGameContext.onEndGameCalculatePointsByDevelopmentCardsOwned(victoryPointsByPlayer);
-        assertEquals(3, victoryPointsByPlayerResult.get(player).longValue());
-
-    }
-
-    /**
      * this test will check if the victory points by venture cards will be calculated corrected
      * @throws Exception
      */
@@ -48,7 +30,7 @@ public class EndGameContextTest {
        Map<Player, Integer> victoryPointsPerPlayer = new HashMap<>();
        Player player = new Player("aldo", PawnColor.GREEN, new PersonalBoard());
        victoryPointsPerPlayer.put(player, 3);
-       endGameContext.onEndCalculateVictoryPointsPerPlayerByVentureCards(victoryPointsPerPlayer);
+       endGameContext.onEndCalculateVictoryPointsPerPlayerByVentureCards(null);
     }
 
     /**
@@ -61,6 +43,6 @@ public class EndGameContextTest {
         Map<Player, Integer> victoryPointsPerPlayer = new HashMap<>();
         Player player = new Player("aldo", PawnColor.GREEN, new PersonalBoard());
         victoryPointsPerPlayer.put(player, 3);
-        endGameContext.onEndCalculateVictoryPointsPerPlayerByResources(victoryPointsPerPlayer);
+        endGameContext.onEndCalculateVictoryPointsPerPlayerByResources(player);
     }
 }

@@ -62,6 +62,7 @@ public interface UIInterface {
     void updateHarvestArea(WorkingArea harvestArea);
     void updatePlayersData(List<Player> players);
     void updateDiceValues(List<Dice> dicesValues);
+    Integer leaderCardCopy(List<LeaderCard> activatedLeadersByOtherPlayers);
 
     /**
      * The following methods show to the player the association between number of

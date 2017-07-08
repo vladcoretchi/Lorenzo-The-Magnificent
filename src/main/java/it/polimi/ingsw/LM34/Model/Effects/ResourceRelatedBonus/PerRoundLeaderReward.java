@@ -5,7 +5,6 @@ import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
-import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractOncePerRoundEffect;
 import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.WorkingAreaValueEffect;
 import it.polimi.ingsw.LM34.Model.Resources;
@@ -18,13 +17,12 @@ import java.util.logging.Level;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TURN_CONTEXT;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
-//TODO: remember to activate these rewards in the controller at the beginning of the phase of each player
 public class PerRoundLeaderReward extends AbstractOncePerRoundEffect implements Observer {
     private static final long serialVersionUID = 5004649676960788989L;
     
     private Resources resources;
     private Integer councilPrivilege;
-    private WorkingAreaValueEffect workingAreaValueEffect; //"francesco sforza, leonardo da vinci"
+    private WorkingAreaValueEffect workingAreaValueEffect;
 
     public PerRoundLeaderReward(Resources resources, Integer councilPrivilege) {
         this.resources = resources;
@@ -53,13 +51,10 @@ public class PerRoundLeaderReward extends AbstractOncePerRoundEffect implements 
     @Override
     public void update(Observable o, Object arg) {
         AbstractGameContext callerContext = (AbstractGameContext) arg;
+        if(!this.used) {
 
         if(this.resources != null)
-            try {
-                ((ResourceIncomeContext) callerContext.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT)).interactWithPlayer(this.resources);
-            } catch(IncorrectInputException ex) {
-                LOGGER.log(Level.WARNING, ex.getMessage(), ex);
-            }
+            ((ResourceIncomeContext) callerContext.getContextByType(ContextType.RESOURCE_INCOME_CONTEXT)).setIncome(this.resources);
 
         if(this.councilPrivilege != null && this.councilPrivilege > 0)
             try {
@@ -70,7 +65,7 @@ public class PerRoundLeaderReward extends AbstractOncePerRoundEffect implements 
 
         if(this.workingAreaValueEffect != null)
             this.workingAreaValueEffect.applyEffect(callerContext);
-
+        }
         this.used = true;
     }
 

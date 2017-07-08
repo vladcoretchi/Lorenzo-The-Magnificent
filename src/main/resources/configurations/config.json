@@ -3205,10 +3205,9 @@
         {
           "leaderName": "Michelangelo Buonarroti",
           "leaderRequirements": {
-            "resourcesRequirements": {
-              "resources": {
+            "resources": {
               "STONES": 10
-            }}
+            }
           },
           "bonus": {
             "resourcesBonus": {

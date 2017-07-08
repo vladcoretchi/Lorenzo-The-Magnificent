@@ -56,7 +56,8 @@ public class GameManagerTest {
      * @throws Exception
      */
     //Test(expected = NullPointerException.class)
-    @Test(expected = Exception.class)
+    //@Test(expected = Exception.class)
+    @Test(expected = StackOverflowError.class)
     public void nextTurn() throws Exception {
         GameServer gameServer = new GameServer();
         gameServer.main(null);
@@ -159,6 +160,11 @@ public class GameManagerTest {
         @Override
         public void updateDiceValues(List<Dice> dicesValues) {
 
+        }
+
+        @Override
+        public Integer leaderCardCopy(List<LeaderCard> activatedLeadersByOtherPlayers) {
+            return  null;
         }
 
         @Override

@@ -55,7 +55,7 @@ public class PersonalBoardView extends Application {
         ImageView imageView;
 
         for(DevelopmentCardColor type : DevelopmentCardColor.values())
-            if(type != MULTICOLOR) {
+            if(type != MULTICOLOR && player.getPersonalBoard().getDevelopmentCardsByType(type).isPresent()) {
                 devDecks = player.getPersonalBoard().getDevelopmentCardsByType(type).get();
                 for (int i = 0; i < devDecks.size(); i++) {
                     imageView = (ImageView) root.lookup(String.format("#personalBoard_%1$sCard%2$d",

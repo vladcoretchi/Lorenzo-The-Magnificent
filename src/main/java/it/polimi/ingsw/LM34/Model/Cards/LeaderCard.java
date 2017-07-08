@@ -12,6 +12,7 @@ public class LeaderCard implements Serializable {
     private AbstractEffect bonus;
     private Boolean activated;
     private Boolean oncePerRound;
+    private Boolean used;
 
     /**
      * {@link it.polimi.ingsw.LM34.Model.Effects.CopyOtherLeader}
@@ -38,13 +39,23 @@ public class LeaderCard implements Serializable {
         return this.bonus;
     }
 
-    public Boolean isOncePerRound() { return this.oncePerRound; }
-    
     public void activate() {
         this.activated = true;
     }
 
     public Boolean isActivatedByPlayer() {
         return this.activated;
+    }
+
+    public Boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(Boolean usage) {
+        this.used = usage;
+    }
+
+    public Boolean isOncePerRound() {
+        return oncePerRound;
     }
 }

@@ -170,6 +170,16 @@ public class CLI implements UIInterface {
     }
 
     /**
+     * Let the player choose a leader between the
+     * @param activatedLeadersByOtherPlayers that other players have activated during the game
+     * @return the selected index of the leader to copy
+     */
+    @Override
+    public Integer leaderCardCopy(List<LeaderCard> activatedLeadersByOtherPlayers) {
+       return leaderCardSelectionPhase(activatedLeadersByOtherPlayers);
+    }
+
+    /**
      * Show the game results and declare the winner
      * @param players in game
      */

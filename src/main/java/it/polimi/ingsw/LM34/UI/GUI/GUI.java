@@ -78,17 +78,28 @@ public class GUI extends Application implements UIInterface {
     private Stage primaryStage;
     private LoginDialog loginDialog;
     private Stage loginStage;
-    @FXML private TextField username;
-    @FXML private TextField password;
-    @FXML private Label playerLoginError;
-    @FXML private RadioButton rmiChoice;
-    @FXML private RadioButton socketChoice;
-    @FXML private AnchorPane login;
-    @FXML private Group towers;
-    @FXML private Group slots;
-    @FXML private ToggleButton leaderCardActions;
+    @FXML
+    private TextField username;
+    @FXML
+    private TextField password;
+    @FXML
+    private Label playerLoginError;
+    @FXML
+    private RadioButton rmiChoice;
+    @FXML
+    private RadioButton socketChoice;
+    @FXML
+    private AnchorPane login;
+    @FXML
+    private Group towers;
+    @FXML
+    private Group slots;
+    @FXML
+    private ToggleButton leaderCardActions;
 
-    /**Game Objects**/
+    /**
+     * Game Objects
+     **/
     private List<Player> players;
     private List<ExcommunicationCard> excommunicationCards;
     private List<Tower> towersSpaces;
@@ -110,6 +121,7 @@ public class GUI extends Application implements UIInterface {
 
     /**
      * Start the application
+     *
      * @param stage
      * @throws Exception if the JavaFx application cannot be instantiated
      */
@@ -146,8 +158,8 @@ public class GUI extends Application implements UIInterface {
     public Integer leaderCardSelectionPhase(List<LeaderCard> leaderCards) {
         FutureTask<String> uiTask = new FutureTask<>(() -> new LeaderCardsView().leaderCardSelection(leaderCards));
         String leaderCardName = RunLaterTask(uiTask);
-        for(int i = 0; i < leaderCards.size(); i++)
-            if(leaderCards.get(i).getName() == leaderCardName)
+        for (int i = 0; i < leaderCards.size(); i++)
+            if (leaderCards.get(i).getName() == leaderCardName)
                 return i;
         return -1;
     }
@@ -170,6 +182,7 @@ public class GUI extends Application implements UIInterface {
 
     /**
      * Receives the login operation result
+     *
      * @param result login result
      */
     @Override
@@ -184,8 +197,7 @@ public class GUI extends Application implements UIInterface {
                 return null;
             });
             Platform.runLater(uiTask);
-        }
-        else {
+        } else {
             FutureTask<Void> uiTask = new FutureTask<>(() -> {
                 playerLoginError.setText("invalid username or password");
                 playerLoginError.setVisible(true);
@@ -215,6 +227,7 @@ public class GUI extends Application implements UIInterface {
 
     /**
      * Show the {@link TowerSlot} rewards and cards stored
+     *
      * @param towers updated from the server
      */
     @Override
@@ -299,6 +312,7 @@ public class GUI extends Application implements UIInterface {
 
     /**
      * Shows the rewards that each MarketSlots provides and the {@link FamilyMember} placed in them
+     *
      * @param market updated from the server
      */
     @Override
@@ -319,7 +333,7 @@ public class GUI extends Application implements UIInterface {
                             .getContextClassLoader().getResource("images/pawns/" + pawnColor.toString() + ".png").toExternalForm()));
                 } else
                     slotView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
-                }
+            }
 
             return null;
         });
@@ -328,6 +342,7 @@ public class GUI extends Application implements UIInterface {
 
     /**
      * Shows the {@link FamilyMember} placed in it
+     *
      * @param productionArea updated from the server
      */
     @Override
@@ -335,51 +350,52 @@ public class GUI extends Application implements UIInterface {
         this.productionArea = productionArea;
 
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
-        /**
-         * Fill the single {@link ActionSlot} with the pawn placed inside
-         */
-        FamilyMember pawnInSingleSlot = null;
-        if(!this.productionArea.getSingleSlot().getFamilyMembers().isEmpty())
-            pawnInSingleSlot = this.productionArea.getSingleSlot().getFamilyMembers().get(0);
+            /**
+             * Fill the single {@link ActionSlot} with the pawn placed inside
+             */
+            FamilyMember pawnInSingleSlot = null;
+            if (!this.productionArea.getSingleSlot().getFamilyMembers().isEmpty())
+                pawnInSingleSlot = this.productionArea.getSingleSlot().getFamilyMembers().get(0);
 
-        ImageView imageSingle = (ImageView) root.lookup("#productionArea" + 0);
+            ImageView imageSingle = (ImageView) root.lookup("#productionArea" + 0);
 
             if (pawnInSingleSlot != null) {
-            imageSingle.setImage(new Image(Thread.currentThread()
-                    .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + pawnInSingleSlot.getFamilyMemberColor() + ".png")
-                    .toExternalForm()));
-        } else
-            imageSingle = setImage(IMAGE_SLOT_TRANSPARENT);
+                imageSingle.setImage(new Image(Thread.currentThread()
+                        .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + pawnInSingleSlot.getFamilyMemberColor() + ".png")
+                        .toExternalForm()));
+            } else
+                imageSingle = setImage(IMAGE_SLOT_TRANSPARENT);
 
-        /**
-         * Fill the advanced {@link ActionSlot} with the pawns placed inside
-         */
-        StackPane advancedSlot = (StackPane) root.lookup("#productionArea" + 1);
-        HBox hSlots = new HBox();
-        hSlots.setSpacing(10);
-        ImageView image;
-        List<FamilyMember> pawnsInAdvancedSlot = new ArrayList<>();
-        pawnsInAdvancedSlot = this.productionArea.getAdvancedSlot().getFamilyMembers();
+            /**
+             * Fill the advanced {@link ActionSlot} with the pawns placed inside
+             */
+            StackPane advancedSlot = (StackPane) root.lookup("#productionArea" + 1);
+            HBox hSlots = new HBox();
+            hSlots.setSpacing(10);
+            ImageView image;
+            List<FamilyMember> pawnsInAdvancedSlot = new ArrayList<>();
+            pawnsInAdvancedSlot = this.productionArea.getAdvancedSlot().getFamilyMembers();
 
-        if (pawnsInAdvancedSlot.isEmpty())
-            advancedSlot.getChildren().removeAll(advancedSlot.getChildren());
-        else {
-            for (Integer index = 0; index < pawnsInAdvancedSlot.size(); index++) {
-                image = new ImageView();
-                image = setImage(IMAGE_PAWNS_PATH + pawnsInAdvancedSlot.get(index).getFamilyMemberColor() + ".png");
-                hSlots.getChildren().add(image);
-                hSlots.setHgrow(image, Priority.ALWAYS);
+            if (pawnsInAdvancedSlot.isEmpty())
+                advancedSlot.getChildren().removeAll(advancedSlot.getChildren());
+            else {
+                for (Integer index = 0; index < pawnsInAdvancedSlot.size(); index++) {
+                    image = new ImageView();
+                    image = setImage(IMAGE_PAWNS_PATH + pawnsInAdvancedSlot.get(index).getFamilyMemberColor() + ".png");
+                    hSlots.getChildren().add(image);
+                    hSlots.setHgrow(image, Priority.ALWAYS);
+                }
+                advancedSlot.getChildren().add(hSlots);
             }
-            advancedSlot.getChildren().add(hSlots);
-        }
 
-        return null;
+            return null;
         });
         Platform.runLater(uiTask);
     }
 
     /**
      * Shows the {@link FamilyMember} placed in it
+     *
      * @param harvestArea updated from the server
      */
     @Override
@@ -391,7 +407,7 @@ public class GUI extends Application implements UIInterface {
              * Fill the single {@link ActionSlot} with the pawn placed inside
              */
             FamilyMember pawnInSingleSlot = null;
-            if(!this.harvestArea.getSingleSlot().getFamilyMembers().isEmpty())
+            if (!this.harvestArea.getSingleSlot().getFamilyMembers().isEmpty())
                 pawnInSingleSlot = this.harvestArea.getSingleSlot().getFamilyMembers().get(0);
             ImageView imageSingle = (ImageView) root.lookup("#harvestArea" + 0);
             if (pawnInSingleSlot != null) {
@@ -428,7 +444,8 @@ public class GUI extends Application implements UIInterface {
     }
 
     /**
-     *Shows the info about each player in game including name, color, cards, resources
+     * Shows the info about each player in game including name, color, cards, resources
+     *
      * @param players informations updated from the server
      */
     @Override
@@ -476,13 +493,14 @@ public class GUI extends Application implements UIInterface {
 
     /**
      * Show the values of the 3 dices in the current round
+     *
      * @param dicesValues updated from the server
      */
     @Override
     public void updateDiceValues(List<Dice> dicesValues) {
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
             Text diceSlot;
-            for(Dice dice : dicesValues) {
+            for (Dice dice : dicesValues) {
                 diceSlot = (Text) root.lookup("#diceSlot" + dice.getColor());
                 diceSlot.setText(dice.getValue().toString());
             }
@@ -490,6 +508,7 @@ public class GUI extends Application implements UIInterface {
         });
         Platform.runLater(uiTask);
     }
+
 
     /**
      * @param familyMembers available to the player
@@ -501,6 +520,20 @@ public class GUI extends Application implements UIInterface {
         return RunLaterTask(uiTask);
     }
 
+    /**
+     * Let the player choose a leader between the
+     * @param activatedLeadersByOtherPlayers that other players have activated during the game
+     * @return the selected index of the leader to copy
+     */
+    @Override
+    public Integer leaderCardCopy(List<LeaderCard> activatedLeadersByOtherPlayers) {
+        FutureTask<String> uiTask = new FutureTask<>(() -> new LeaderCardsView().leaderCardSelection(activatedLeadersByOtherPlayers));
+        String leaderCardName = RunLaterTask(uiTask);
+        for (int i = 0; i < activatedLeadersByOtherPlayers.size(); i++)
+            if (activatedLeadersByOtherPlayers.get(i).getName() == leaderCardName)
+                return i;
+        return -1;
+    }
     /**
      * this method will be called when user need to use some servants to improve his pawn's value
      * @param servantsAvailable user's available servants
