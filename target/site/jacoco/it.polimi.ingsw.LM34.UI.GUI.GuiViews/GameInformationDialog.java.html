@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameInformationDialog.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.UI.GUI.GuiViews</a> &gt; <span class="el_source">GameInformationDialog.java</span></div><h1>GameInformationDialog.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
+
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
+import javafx.scene.control.Alert;
+import javafx.scene.image.ImageView;
+
+<span class="nc" id="L8">public class GameInformationDialog {</span>
+
+    /**
+     * Shows multiple kind of info about players
+     * @param type information about a player {@link GameInformationType}
+     * @param playerName the associated phrase to show to player
+     * @param playerColor the color associated to the player to whom the info concerns
+     */
+    public void interactWithPlayer(GameInformationType type, String playerName, PawnColor playerColor) {
+
+<span class="nc" id="L18">        Alert alert = new Alert(Alert.AlertType.WARNING);</span>
+<span class="nc" id="L19">        alert.setTitle(&quot;Informations on Players&quot;);</span>
+<span class="nc" id="L20">        alert.setHeaderText(playerName + &quot; &quot; + type.toString());</span>
+<span class="nc" id="L21">        ImageView imageView = new ImageView(Thread.currentThread().getContextClassLoader().</span>
+<span class="nc" id="L22">                getResource(&quot;images/pawns/&quot; + playerColor.toString() +&quot;.png&quot;).toExternalForm());</span>
+<span class="nc" id="L23">        alert.getDialogPane().getStylesheets().add(</span>
+<span class="nc" id="L24">                getClass().getResource(&quot;/css/dialogStyle.css&quot;).toExternalForm());</span>
+<span class="nc" id="L25">        alert.getDialogPane().getStyleClass().add(&quot;dialogClass&quot;);</span>
+
+<span class="nc" id="L27">        alert.setGraphic(imageView);</span>
+
+<span class="nc" id="L29">        alert.showAndWait();</span>
+<span class="nc" id="L30">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

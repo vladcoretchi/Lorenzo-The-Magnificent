@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CLIStuff.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.UI.CLI</a> &gt; <span class="el_source">CLIStuff.java</span></div><h1>CLIStuff.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.UI.CLI;
+
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+
+import java.io.PrintWriter;
+import java.util.Scanner;
+
+/**
+ * Collections of escaping characters for printing in colors, ad hoc methods and... LM34 &quot;Lorenzo il Magnifico&quot; splash screen
+ */
+public final class CLIStuff {
+<span class="nc" id="L14">    public static final IgnoreInput ignoreInput = new IgnoreInput();</span>
+    public static final String INCORRECT_INPUT = &quot;Incorrect input&quot;;
+    public static final String INVALID_SELECTION = &quot;Invalid selection&quot;;
+<span class="nc" id="L17">    public static final Scanner readUserInput = new Scanner(System.in);</span>
+<span class="nc" id="L18">    public static final PrintWriter printToConsole = new PrintWriter(System.out, true);</span>
+    private static final String INVALID_PAWN_COLOR = &quot;Invalid pawn color&quot;;
+    /**
+     * to print colored message to console, will be used ANSI escape code
+     * https://en.wikipedia.org/wiki/ANSI_escape_code
+     */
+
+    /**
+     * escape sequence, needed to set or reset colors
+     */
+    private static final char ESCAPE_SEQUENCE = (char)27;
+
+    /**
+     * SGR sequence to print message in red
+     */
+    private static final String RED = &quot;[31m&quot;;
+
+    /**
+     * SGR sequences to print message in colors
+     */
+    private static final String GREEN = &quot;[32m&quot;;
+    private static final String YELLOW = &quot;[33m&quot;;
+    private static final String BLUE = &quot;[36m&quot;;
+    private static final String PURPLE = &quot;[35m&quot;;
+    private static final String DARK_BLUE = &quot;[34m&quot;;
+
+    private static final String PAWN_GREEN = &quot;[42m&quot;;
+    private static final String PAWN_YELLOW = &quot;[43m&quot;;
+    private static final String PAWN_BLUE = &quot;[44m&quot;;
+    private static final String PAWN_RED = &quot;[41m&quot;;
+    /**
+     * SGR sequence to print all following message in default color
+     */
+    private static final String RESET_COLOR_TO_DEFAULT = &quot;[0m&quot;;
+
+    /**
+     * set the errors messages in red
+     */
+    private static final String ERROR_MESSAGE_COLOR = ESCAPE_SEQUENCE + RED;
+
+    /**
+     * Color the tower name based on the development card color associated
+     */
+    private static final String GREEN_MESSAGE_COLOR = ESCAPE_SEQUENCE + GREEN;
+    private static final String YELLOW_MESSAGE_COLOR = ESCAPE_SEQUENCE + YELLOW;
+    private static final String BLUE_MESSAGE_COLOR = ESCAPE_SEQUENCE + BLUE;
+    private static final String PURPLE_MESSAGE_COLOR = ESCAPE_SEQUENCE + PURPLE;
+    private static final String DICE_VALUE_MESSAGE_COLOR = ESCAPE_SEQUENCE + DARK_BLUE;
+    private static final String PAWN_GREEN_COLOR = ESCAPE_SEQUENCE + PAWN_GREEN;
+    private static final String PAWN_BLUE_COLOR = ESCAPE_SEQUENCE + PAWN_BLUE;
+    private static final String PAWN_YELLOW_COLOR = ESCAPE_SEQUENCE + PAWN_YELLOW;
+    private static final String PAWN_RED_COLOR = ESCAPE_SEQUENCE + PAWN_RED;
+    private static final String RED_MESSAGE_COLOR = ESCAPE_SEQUENCE + RED;
+
+    /**
+     * reset all following message's color to default
+     */
+    private static final String RESET_COLOR = ESCAPE_SEQUENCE + RESET_COLOR_TO_DEFAULT;
+
+    private static final String SPLASH_SCREEN =
+            &quot; __       ______   .______    _______ .__   __.  ______    ______     __   __\n&quot; +
+                    &quot;|  |     /  __  \\  |   _  \\  |   ____||  \\ |  | |      /  /  __  \\   |  | |  |\n&quot; +
+                    &quot;|  |    |  |  |  | |  |_)  | |  |__   |   \\|  | `--/  /  |  |  |  |  |  | |  |\n&quot; +
+                    &quot;|  |    |  |  |  | |      /  |   __|  |  . `  |   /  /   |  |  |  |  |  | |  |\n&quot; +
+                    &quot;|  `---.|  `--'  | |  |\\  \\-.|  |____ |  |\\   |  /  /---.|  `--'  |  |  | |  `---.\n&quot; +
+                    &quot;|______| \\______/  | _| `.__||_______||__| \\__| /_______| \\______/   |__| |______|\n&quot; +
+                    &quot;\n&quot; +
+                    &quot;.___  ___.      ___       _______ .__   __.  __   _______  __    ______   ______\n&quot; +
+                    &quot;|   \\/   |     /   \\     /  _____||  \\ |  | |  | |   ____||  |  /      | /  __  \\\n&quot; +
+                    &quot;|  \\  /  |    /  ^  \\   |  |  __  |   \\|  | |  | |  |__   |  | |  ,----'|  |  |  |\n&quot; +
+                    &quot;|  |\\/|  |   /  /_\\  \\  |  | |_ | |  . `  | |  | |   __|  |  | |  |     |  |  |  |\n&quot; +
+                    &quot;|  |  |  |  /  _____  \\ |  |__| | |  |\\   | |  | |  |     |  | |  `----.|  `--'  |\n&quot; +
+                    &quot;|__|  |__| /__/     \\__\\ \\______| |__| \\__| |__| |__|     |__|  \\______| \\______/\n&quot; +
+                    &quot;                                                                                   &quot;;
+
+<span class="nc" id="L93">    private CLIStuff() {}</span>
+
+
+    public static final void printSplashScreen() {
+<span class="nc" id="L97">        printLine(SPLASH_SCREEN);</span>
+<span class="nc" id="L98">    }</span>
+
+    public static final void printLine(String message) {
+<span class="nc" id="L101">        printToConsole.println(message);</span>
+<span class="nc" id="L102">    }</span>
+
+    public static final void printError(String message) {
+<span class="nc" id="L105">        printToConsole.println(CLIStuff.ERROR_MESSAGE_COLOR + message + CLIStuff.RESET_COLOR);</span>
+<span class="nc" id="L106">    }</span>
+
+    public static final void printFormat(String format, Object... args) {
+<span class="nc" id="L109">        printToConsole.format(format, args);</span>
+<span class="nc" id="L110">    }</span>
+
+    public static final void printGreen(String message) {
+<span class="nc" id="L113">        printToConsole.print(CLIStuff.GREEN_MESSAGE_COLOR + message + CLIStuff.RESET_COLOR);</span>
+<span class="nc" id="L114">    }</span>
+
+    public static final void printRed(String message) {
+<span class="nc" id="L117">        printToConsole.print(CLIStuff.RED_MESSAGE_COLOR + message + CLIStuff.RESET_COLOR);</span>
+<span class="nc" id="L118">    }</span>
+
+    public static final void printYellow(String message) {
+<span class="nc" id="L121">        printToConsole.print(YELLOW_MESSAGE_COLOR + message + RESET_COLOR);</span>
+<span class="nc" id="L122">    }</span>
+
+    public static final void printBlue(String message) {
+<span class="nc" id="L125">        printToConsole.print(BLUE_MESSAGE_COLOR + message + RESET_COLOR);</span>
+<span class="nc" id="L126">    }</span>
+
+    private static final void printPurple(String message) {
+<span class="nc" id="L129">        printToConsole.print(PURPLE_MESSAGE_COLOR + message + RESET_COLOR);</span>
+<span class="nc" id="L130">    }</span>
+
+    public static final void printTowerTypeColor(DevelopmentCardColor color) {
+<span class="nc bnc" id="L133" title="All 5 branches missed.">        switch(color) {</span>
+            case GREEN:
+<span class="nc" id="L135">                printGreen(DevelopmentCardColor.GREEN.getDevType()+&quot;\n&quot;);</span>
+<span class="nc" id="L136">                break;</span>
+            case BLUE:
+<span class="nc" id="L138">                printBlue(DevelopmentCardColor.BLUE.getDevType()+&quot;\n&quot;);</span>
+<span class="nc" id="L139">                break;</span>
+            case YELLOW:
+<span class="nc" id="L141">                printYellow(DevelopmentCardColor.YELLOW.getDevType()+&quot;\n&quot;);</span>
+<span class="nc" id="L142">                break;</span>
+            case PURPLE:
+<span class="nc" id="L144">                printPurple(DevelopmentCardColor.PURPLE.getDevType()+&quot;\n&quot;);</span>
+<span class="nc" id="L145">                break;</span>
+            default:
+<span class="nc" id="L147">                    printError(&quot;Invalid development card color&quot;);</span>
+        }
+<span class="nc" id="L149">    }</span>
+
+    public static final void printDiceValue(String message) {
+<span class="nc" id="L152">        printToConsole.print(&quot;DiceValue &quot; + CLIStuff.DICE_VALUE_MESSAGE_COLOR + message + &quot; &quot; + CLIStuff.RESET_COLOR);</span>
+<span class="nc" id="L153">    }</span>
+
+    public static final void printPawn(PawnColor pawnColor, DiceColor diceColor) {
+<span class="nc bnc" id="L156" title="All 5 branches missed.">        switch(pawnColor) {</span>
+            case GREEN:
+<span class="nc" id="L158">                printToConsole.print(CLIStuff.PAWN_GREEN_COLOR + &quot; &quot;  + diceColor.toString() + &quot; &quot; + CLIStuff.RESET_COLOR + &quot;   &quot;);</span>
+<span class="nc" id="L159">                break;</span>
+            case RED:
+<span class="nc" id="L161">                printToConsole.print(CLIStuff.PAWN_RED_COLOR + &quot; &quot; + diceColor.toString() + &quot; &quot; + CLIStuff.RESET_COLOR + &quot;   &quot;);</span>
+<span class="nc" id="L162">                break;</span>
+            case YELLOW:
+<span class="nc" id="L164">                printToConsole.print(CLIStuff.PAWN_YELLOW_COLOR + &quot; &quot; + diceColor.toString() + &quot; &quot; + CLIStuff.RESET_COLOR + &quot;   &quot;);</span>
+<span class="nc" id="L165">                break;</span>
+            case BLUE:
+<span class="nc" id="L167">                printToConsole.print(CLIStuff.PAWN_BLUE_COLOR + &quot; &quot; + diceColor.toString() + &quot; &quot;  + CLIStuff.RESET_COLOR + &quot;   &quot;);</span>
+<span class="nc" id="L168">                break;</span>
+            default:
+<span class="nc" id="L170">                    printError(&quot;Invalid pawn color&quot;);</span>
+        }
+<span class="nc" id="L172">    }</span>
+
+    public static final void printPlayer(PawnColor pawnColor, String name) {
+<span class="nc bnc" id="L175" title="All 5 branches missed.">        switch(pawnColor) {</span>
+            case GREEN:
+<span class="nc" id="L177">                printToConsole.print(CLIStuff.PAWN_GREEN_COLOR + &quot; &quot;  + name + &quot; &quot; + CLIStuff.RESET_COLOR + &quot;   &quot;);</span>
+<span class="nc" id="L178">                break;</span>
+            case RED:
+<span class="nc" id="L180">                printToConsole.print(CLIStuff.PAWN_RED_COLOR + &quot; &quot; + name + &quot; &quot; + CLIStuff.RESET_COLOR + &quot;   &quot;);</span>
+<span class="nc" id="L181">                break;</span>
+            case YELLOW:
+<span class="nc" id="L183">                printToConsole.print(CLIStuff.PAWN_YELLOW_COLOR + &quot; &quot; + name + &quot; &quot; + CLIStuff.RESET_COLOR + &quot;   &quot;);</span>
+<span class="nc" id="L184">                break;</span>
+            case BLUE:
+<span class="nc" id="L186">                printToConsole.print(CLIStuff.PAWN_BLUE_COLOR + &quot; &quot; + name + &quot; &quot;  + CLIStuff.RESET_COLOR + &quot;   &quot;);</span>
+<span class="nc" id="L187">                break;</span>
+            default:
+<span class="nc" id="L189">                printError(INVALID_PAWN_COLOR);</span>
+        }
+<span class="nc" id="L191">    }</span>
+
+    public static final void printPlayerName(String phrase, PawnColor color) {
+<span class="nc bnc" id="L194" title="All 5 branches missed.">        switch (color) {</span>
+            case GREEN:
+<span class="nc" id="L196">                printGreen(phrase);</span>
+<span class="nc" id="L197">                break;</span>
+            case BLUE:
+<span class="nc" id="L199">                printBlue(phrase);</span>
+<span class="nc" id="L200">                break;</span>
+            case YELLOW:
+<span class="nc" id="L202">                printYellow(phrase);</span>
+<span class="nc" id="L203">                break;</span>
+            case RED:
+<span class="nc" id="L205">                printRed(phrase);</span>
+<span class="nc" id="L206">                break;</span>
+            default:
+<span class="nc" id="L208">                printError(INVALID_PAWN_COLOR);</span>
+        }
+<span class="nc" id="L210">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

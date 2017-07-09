@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MarketAreaContext.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts</a> &gt; <span class="el_source">MarketAreaContext.java</span></div><h1>MarketAreaContext.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts;
+
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
+import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotAvailableSpace;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughServantsException;
+import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
+
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
+
+public class MarketAreaContext extends AbstractGameContext {
+    private Boolean ban;
+
+<span class="fc" id="L23">    public MarketAreaContext() {</span>
+<span class="fc" id="L24">        this.contextType = MARKET_AREA_CONTEXT;</span>
+<span class="fc" id="L25">        this.ban = false;</span>
+<span class="fc" id="L26">    }</span>
+
+    @Override
+    public Void interactWithPlayer(Object... args) throws IncorrectInputException, MarketBanException, OccupiedSlotException, NotAvailableSpace, NotEnoughServantsException {
+<span class="fc" id="L30">        this.ban = false;</span>
+<span class="fc" id="L31">        setChanged();</span>
+<span class="fc" id="L32">        notifyObservers(this);</span>
+
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        if (this.ban)</span>
+<span class="nc" id="L35">            throw new MarketBanException();</span>
+
+        Integer selectedSlot;
+        try {
+<span class="fc" id="L39">            selectedSlot = (Integer) args[0];</span>
+<span class="nc" id="L40">        } catch(Exception ex) {</span>
+<span class="nc" id="L41">            LOGGER.log(Level.WARNING, ex.getMessage(), ex);</span>
+<span class="nc" id="L42">            throw new IncorrectInputException();</span>
+<span class="fc" id="L43">        }</span>
+
+<span class="pc bpc" id="L45" title="3 of 4 branches missed.">        if(selectedSlot &gt;= 2 &amp;&amp; this.gameManager.getPlayers().size() &lt; 4)</span>
+<span class="nc" id="L46">            throw new NotAvailableSpace();</span>
+
+<span class="nc" id="L48">        ActionSlot slot = this.gameManager.getMarket().getActionSlots().get(selectedSlot);</span>
+
+<span class="nc" id="L50">        ActionSlotContext actionSlotContext = (ActionSlotContext) getContextByType(ACTION_SLOT_CONTEXT);</span>
+<span class="nc" id="L51">        Boolean canPlace = actionSlotContext.interactWithPlayer(this, slot);</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (canPlace) {</span>
+<span class="nc" id="L53">            FamilyMember selectedFamilyMember = ((FamilyMemberSelectionContext) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT)).interactWithPlayer(slot.getDiceValue(), false, this.contextType);</span>
+
+<span class="nc bnc" id="L55" title="All 2 branches missed.">            if (actionSlotContext.getIgnoreOccupiedSlot())</span>
+<span class="nc" id="L56">                slot.insertFamilyMemberIgnoringSlotLimit(selectedFamilyMember);</span>
+            else
+<span class="nc" id="L58">                slot.insertFamilyMember(selectedFamilyMember);</span>
+
+<span class="nc" id="L60">            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();</span>
+<span class="nc" id="L61">            ((UseCouncilPrivilegeContext) getContextByType(USE_COUNCIL_PRIVILEGE_CONTEXT)).interactWithPlayer(slot.getResourcesReward().getCouncilPrivilege());</span>
+<span class="nc" id="L62">            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).setIncome(slot.getResourcesReward().getResources());</span>
+<span class="nc" id="L63">            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).interactWithPlayer();</span>
+<span class="nc" id="L64">        }</span>
+        else
+<span class="nc" id="L66">            throw new OccupiedSlotException();</span>
+
+<span class="nc" id="L68">        return null;</span>
+    }
+
+    public void setBan() {
+<span class="fc" id="L72">        this.ban = true;</span>
+<span class="fc" id="L73">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

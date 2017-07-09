@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>it.polimi.ingsw.LM34</OriginalElement>
+  <nodes>
+    <node x="829.75" y="7205.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.IncreasePawnsValueByServantsContext</node>
+    <node x="4151.0" y="573.5">it.polimi.ingsw.LM34.Controller.GameManagerTest</node>
+    <node x="7769.0" y="1319.0">it.polimi.ingsw.LM34.Network.Socket.SocketConnection</node>
+    <node x="7636.0" y="9068.0">it.polimi.ingsw.LM34.Model.ResourcesTest</node>
+    <node x="3546.75" y="6648.0">it.polimi.ingsw.LM34.Controller.AbstractGameContext</node>
+    <node x="3043.25" y="8478.0">it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlotTest</node>
+    <node x="4462.0" y="9068.0">it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard</node>
+    <node x="659.0" y="9661.0">it.polimi.ingsw.LM34.UI.GUI.GuiViews.FamilyMemberSelectDialog</node>
+    <node x="1565.75" y="7038.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.TowersContext</node>
+    <node x="26.25" y="4729.0">it.polimi.ingsw.LM34.Network.Client.AbstractClient</node>
+    <node x="4971.75" y="7112.5">it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.EndGameContext</node>
+    <node x="3565.0" y="9458.0">it.polimi.ingsw.LM34.Exceptions.Controller.NoSuchContextException</node>
+    <node x="1507.0" y="9068.0">it.polimi.ingsw.LM34.Utils.Validator</node>
+    <node x="6159.25" y="8708.0">it.polimi.ingsw.LM34.Model.Boards.GameBoard.GameSpaceTest.TestGameSpace</node>
+    <node x="742.0" y="9458.0">it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction</node>
+    <node x="7899.25" y="8385.0">it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower</node>
+    <node x="3894.0" y="9458.0">it.polimi.ingsw.LM34.Exceptions.Controller.NotAvailableSpace</node>
+    <node x="2920.0" y="7614.0">it.polimi.ingsw.LM34.Model.Effects.AbstractEffect</node>
+    <node x="9835.25" y="8385.0">it.polimi.ingsw.LM34.Model.Cards.LeaderRequirements</node>
+    <node x="1132.0" y="8013.5">it.polimi.ingsw.LM34.Model.Effects.CopyOtherLeader</node>
+    <node x="6335.0" y="9661.0">it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalaceTest</node>
+    <node x="3385.4545454545455" y="4450.0">it.polimi.ingsw.LM34.UI.GUI.GUI.PlacePawn</node>
+    <node x="2177.0" y="9458.0">it.polimi.ingsw.LM34.Exceptions.Controller.NoMoreLeaderCardsAvailable</node>
+    <node x="3386.0" y="9068.0">it.polimi.ingsw.LM34.GameServer</node>
+    <node x="1421.0" y="9458.0">it.polimi.ingsw.LM34.UI.GUI.GuiViews.BonusTileDialog</node>
+    <node x="8029.0" y="9068.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.TurnContextTest</node>
+    <node x="0.0" y="6011.0">it.polimi.ingsw.LM34.Network.Socket.SocketClient</node>
+    <node x="7360.0" y="6722.5">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ActionSlotContextTest</node>
+    <node x="2877.75" y="7168.5">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.LeaderCardsContext</node>
+    <node x="8520.0" y="7155.0">it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlot</node>
+    <node x="4851.0" y="9068.0">it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlotTest</node>
+    <node x="7237.75" y="7261.5">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ActionSlotContextTest.InitializeAbstractGameContext</node>
+    <node x="4346.0" y="9661.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ProductionAreaContextTest</node>
+    <node x="3654.0" y="2225.0">it.polimi.ingsw.LM34.Controller.GameManagerTest.PersonalizedUI</node>
+    <node x="1456.0" y="7975.5">it.polimi.ingsw.LM34.Model.Effects.SkipFirstTurn</node>
+    <node x="5805.25" y="8385.0">it.polimi.ingsw.LM34.Model.Boards.GameBoard.GameSpace</node>
+    <node x="4223.0" y="9458.0">it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType</node>
+    <node x="2186.0" y="8807.5">it.polimi.ingsw.LM34.Model.Cards.CharacterCard</node>
+    <node x="6197.0" y="9458.0">it.polimi.ingsw.LM34.UI.GUI.GuiViews.UseServantsDialog</node>
+    <node x="4453.25" y="8385.0">it.polimi.ingsw.LM34.Model.Cards.LeaderCard</node>
+    <node x="4680.0" y="9661.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.ChurchReportContextTest</node>
+    <node x="2510.0" y="8752.0">it.polimi.ingsw.LM34.Model.Cards.VentureCard</node>
+    <node x="442.75" y="7261.5">it.polimi.ingsw.LM34.Controller.AbstractGameContextTest.InitializeAbstractGameContext</node>
+    <node x="3636.0" y="9661.0">it.polimi.ingsw.LM34.UI.GUI.GuiViews.ChurchReportDialog</node>
+    <node x="1842.0" y="8788.5">it.polimi.ingsw.LM34.Model.Cards.BuildingCard</node>
+    <node x="2355.4545454545455" y="4487.0">it.polimi.ingsw.LM34.UI.GUI.GUI.PlayerInfoClickEvent</node>
+    <node x="5011.0" y="9661.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.HarvestAreaContextTest</node>
+    <node x="391.5" y="6741.0">it.polimi.ingsw.LM34.Controller.AbstractGameContextTest</node>
+    <node x="6623.0" y="9661.0">it.polimi.ingsw.LM34.Controller.ContextFactoryTest</node>
+    <node x="4308.75" y="7131.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.TurnContext</node>
+    <node x="7063.0" y="9458.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.IncreasePawnsValueByServantsContextTest</node>
+    <node x="9193.0" y="9458.0">it.polimi.ingsw.LM34.Enums.UI.UIType</node>
+    <node x="953.25" y="4784.5">it.polimi.ingsw.LM34.Network.RMI.RMIClientInterface</node>
+    <node x="477.0" y="8845.5">it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerTest.InitializeDevelopmentCard</node>
+    <node x="0.0" y="8459.0">it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoardTest</node>
+    <node x="6519.0" y="9458.0">it.polimi.ingsw.LM34.Controller.ContextFactory</node>
+    <node x="7471.25" y="8385.0">it.polimi.ingsw.LM34.UI.GUI.GuiViews.PersonalBoardView</node>
+    <node x="1812.0" y="9458.0">it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException</node>
+    <node x="5852.0" y="7994.5">it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus.NoOccupiedTowerTax</node>
+    <node x="2951.0" y="9068.0">it.polimi.ingsw.LM34.Model.PlayerTest</node>
+    <node x="8866.25" y="8385.0">it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts</node>
+    <node x="2529.0" y="9661.0">it.polimi.ingsw.LM34.UI.GUI.GuiViews.LastActionInvalid</node>
+    <node x="1812.0" y="8385.0">it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard</node>
+    <node x="9106.0" y="9068.0">it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus.DevelopmentCardAcquireEffectTest</node>
+    <node x="5815.25" y="8670.5">it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea</node>
+    <node x="9320.25" y="8385.0">it.polimi.ingsw.LM34.Network.RMI.RMIServerInterface</node>
+    <node x="0.0" y="1558.0">it.polimi.ingsw.LM34.UI.CLI.CLI</node>
+    <node x="5135.75" y="8385.0">it.polimi.ingsw.LM34.Utils.Copyable</node>
+    <node x="788.0" y="7994.5">it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.HalveServantsValue</node>
+    <node x="7711.0" y="6648.0">it.polimi.ingsw.LM34.Model.Player</node>
+    <node x="5342.0" y="9661.0">it.polimi.ingsw.LM34.UI.GUI.GuiViews.DisconnectionWarning</node>
+    <node x="5348.0" y="7846.0">it.polimi.ingsw.LM34.Model.Effects.VictoryPointsPenalty</node>
+    <node x="5685.75" y="7167.5">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext</node>
+    <node x="1281.0" y="6122.5">it.polimi.ingsw.LM34.Network.RMI.RMIClient</node>
+    <node x="7917.0" y="9458.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.MarketAreaContextTest</node>
+    <node x="4698.75" y="7205.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.MarketAreaContext</node>
+    <node x="3996.0" y="9661.0">it.polimi.ingsw.LM34.Model.Boards.GameBoard.MarketTest</node>
+    <node x="4552.0" y="9458.0">it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException</node>
+    <node x="3387.25" y="4729.0">it.polimi.ingsw.LM34.Network.Server.ServerNetworkController</node>
+    <node x="2013.4545454545455" y="4487.0">it.polimi.ingsw.LM34.UI.GUI.GUI.SlotMouseEvent</node>
+    <node x="4881.0" y="9458.0">it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughMilitaryPoints</node>
+    <node x="3264.75" y="7205.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ProductionAreaContext</node>
+    <node x="6366.0" y="9068.0">it.polimi.ingsw.LM34.Enums.Model.WorkingAreaType</node>
+    <node x="1233.0" y="9661.0">it.polimi.ingsw.LM34.UI.GUI.GuiViews.UseCouncilPrivilegeDialog</node>
+    <node x="3316.25" y="8385.0">it.polimi.ingsw.LM34.Enums.Controller.ContextType</node>
+    <node x="6118.75" y="7167.5">it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext</node>
+    <node x="3991.75" y="7242.5">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.CouncilPalaceContext</node>
+    <node x="0.0" y="9661.0">it.polimi.ingsw.LM34.UI.GUI.GuiViews.GameInformationDialog</node>
+    <node x="6526.75" y="7205.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.HarvestAreaContext</node>
+    <node x="5673.0" y="9661.0">it.polimi.ingsw.LM34.UI.GUI.GuiViews.EndTurnPopup</node>
+    <node x="2997.4545454545455" y="4468.5">it.polimi.ingsw.LM34.UI.GUI.GUI.EndTurnClick</node>
+    <node x="3646.0" y="9068.0">it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardDeck</node>
+    <node x="0.0" y="9068.0">it.polimi.ingsw.LM34.Utils.Utilities</node>
+    <node x="6951.0" y="7614.0">it.polimi.ingsw.LM34.Network.Server.Server</node>
+    <node x="0.0" y="9458.0">it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.EndGameContextTest</node>
+    <node x="2141.75" y="7186.5">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ActionSlotContext</node>
+    <node x="5210.0" y="9458.0">it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException</node>
+    <node x="8651.0" y="9068.0">it.polimi.ingsw.LM34.Enums.Model.PathType</node>
+    <node x="1498.0" y="8788.5">it.polimi.ingsw.LM34.Model.Cards.TerritoryCard</node>
+    <node x="8460.0" y="6648.0">it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot</node>
+    <node x="6009.0" y="9068.0">it.polimi.ingsw.LM34.UI.GUI.GuiViews.EndGameDialog</node>
+    <node x="8884.0" y="0.0">it.polimi.ingsw.LM34.Controller.GameManager</node>
+    <node x="4525.0" y="0.0">it.polimi.ingsw.LM34.Utils.Configurator</node>
+    <node x="371.0" y="9458.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.TowersContextTest</node>
+    <node x="9366.0" y="9458.0">it.polimi.ingsw.LM34.UI.GUI.GuiViews.ResourceExchangeDialog</node>
+    <node x="4073.0" y="9068.0">it.polimi.ingsw.LM34.Model.Dice</node>
+    <node x="6516.25" y="8385.0">it.polimi.ingsw.LM34.Network.Socket.SocketServer</node>
+    <node x="2894.0" y="8845.5">it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlotTest.TestAbstractDevelopmentCard</node>
+    <node x="1820.0" y="7939.0">it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesPerItemBonus</node>
+    <node x="2156.25" y="4729.0">it.polimi.ingsw.LM34.UI.CLI.CLIStuff</node>
+    <node x="5394.0" y="9068.0">it.polimi.ingsw.LM34.Utils.ValidatorTest</node>
+    <node x="138.0" y="6444.0">it.polimi.ingsw.LM34.Network.Socket.SocketClient.ClientInputListener</node>
+    <node x="117.0" y="8845.5">it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoardTest.FillAbstractDevelopmentCard</node>
+    <node x="773.0" y="9068.0">it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace</node>
+    <node x="6986.0" y="9068.0">it.polimi.ingsw.LM34.UI.UIConnectionInfo</node>
+    <node x="5489.25" y="4729.0">it.polimi.ingsw.LM34.Network.Socket.RequestToClient</node>
+    <node x="5004.0" y="7994.5">it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesExchangeBonus</node>
+    <node x="6004.0" y="9661.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.CouncilPalaceContextTest</node>
+    <node x="2648.0" y="7901.5">it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.WorkingAreaValueEffect</node>
+    <node x="6631.0" y="9068.0">it.polimi.ingsw.LM34.UI.GUI.GuiViews.LoginDialog</node>
+    <node x="2881.0" y="9458.0">it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException</node>
+    <node x="6793.0" y="1485.5">it.polimi.ingsw.LM34.Network.RMI.RMIConnection</node>
+    <node x="5539.0" y="9458.0">it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException</node>
+    <node x="2529.0" y="9458.0">it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughServantsException</node>
+    <node x="10067.0" y="9068.0">it.polimi.ingsw.LM34.UI.CLI.IgnoreInput</node>
+    <node x="5002.25" y="8519.0">it.polimi.ingsw.LM34.Model.FamilyMember</node>
+    <node x="9784.0" y="9068.0">it.polimi.ingsw.LM34.GameClient</node>
+    <node x="3232.0" y="9458.0">it.polimi.ingsw.LM34.Exceptions.Controller.CannotPlacePawnException</node>
+    <node x="6273.25" y="8460.5">it.polimi.ingsw.LM34.Model.Boards.GameBoard.GameSpaceTest</node>
+    <node x="1008.0" y="9458.0">it.polimi.ingsw.LM34.Exceptions.Controller.CardTypeNumLimitReachedException</node>
+    <node x="1202.0" y="9068.0">it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor</node>
+    <node x="5868.0" y="9458.0">it.polimi.ingsw.LM34.Exceptions.Controller.InvalidLeaderCardAction</node>
+    <node x="601.25" y="8459.5">it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerTest</node>
+    <node x="7365.5" y="0.0">it.polimi.ingsw.LM34.Network.Server.AbstractConnection</node>
+    <node x="2542.0" y="9068.0">it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile</node>
+    <node x="5765.0" y="9068.0">it.polimi.ingsw.LM34.Enums.Model.DiceColor</node>
+    <node x="4464.25" y="4729.0">it.polimi.ingsw.LM34.Network.Client.ClientNetworkController</node>
+    <node x="2493.75" y="7224.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.ResourcesExchangeContext</node>
+    <node x="3588.75" y="7205.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext</node>
+    <node x="7009.0" y="6722.5">it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonusTest</node>
+    <node x="6962.25" y="8385.0">it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard</node>
+    <node x="2609.4545454545455" y="4468.5">it.polimi.ingsw.LM34.UI.GUI.GUI.LeaderButtonClickEvent</node>
+    <node x="7517.0" y="9458.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContextTest</node>
+    <node x="2139.0" y="9661.0">it.polimi.ingsw.LM34.UI.GUI.GuiViews.GenericPopup</node>
+    <node x="3940.0" y="7975.5">it.polimi.ingsw.LM34.Model.Effects.ChurchSupportBonus</node>
+    <node x="1715.0" y="9661.0">it.polimi.ingsw.LM34.UI.GUI.GuiViews.AlternativeRequirementPaymentDialog</node>
+    <node x="3884.25" y="8385.0">it.polimi.ingsw.LM34.Model.Resources</node>
+    <node x="4680.0" y="8013.5">it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.ActionSlotLimitBypass</node>
+    <node x="4304.0" y="8013.5">it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus.NoMilitaryRequirementsForTerritory</node>
+    <node x="6435.0" y="8158.0">it.polimi.ingsw.LM34.Network.GameRoom.WaitingRoomTimeout</node>
+    <node x="2907.0" y="9661.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.ResourcesExchangeContextTest</node>
+    <node x="406.0" y="9068.0">it.polimi.ingsw.LM34.UI.GUI.GuiViews.PopupSlotBonus</node>
+    <node x="2219.954545454545" y="0.0">it.polimi.ingsw.LM34.UI.UIInterface</node>
+    <node x="1852.0" y="9068.0">it.polimi.ingsw.LM34.Enums.Model.ResourceType</node>
+    <node x="5471.25" y="8670.0">it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market</node>
+    <node x="6812.0" y="9458.0">it.polimi.ingsw.LM34.Network.Socket.RequestToServer</node>
+    <node x="3092.0" y="7975.5">it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus.TowerSlotPenalty</node>
+    <node x="6601.75" y="8706.0">it.polimi.ingsw.LM34.Network.Socket.SocketServer.ConnectionHandler</node>
+    <node x="6221.0" y="7614.0">it.polimi.ingsw.LM34.Network.GameRoom</node>
+    <node x="3272.0" y="9661.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContextTest</node>
+    <node x="8268.0" y="9458.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.LeaderCardsContextTest</node>
+    <node x="7320.0" y="9068.0">it.polimi.ingsw.LM34.UI.GUI.GuiViews.LeaderCardsView</node>
+    <node x="2133.0" y="9068.0">it.polimi.ingsw.LM34.Network.PlayerAction</node>
+    <node x="6850.75" y="7261.5">it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonusTest.InitializeAbstractGameContext</node>
+    <node x="1697.0" y="1318.0">it.polimi.ingsw.LM34.UI.GUI.GUI</node>
+    <node x="3456.0" y="7864.5">it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus.DevelopmentCardAcquireEffect</node>
+    <node x="8368.25" y="8385.0">it.polimi.ingsw.LM34.Enums.UI.GameInformationType</node>
+    <node x="2224.0" y="7920.0">it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus</node>
+    <node x="1226.75" y="7224.0">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.ChurchReportContext</node>
+    <node x="8363.0" y="9068.0">it.polimi.ingsw.LM34.Model.FamilyMemberTest</node>
+    <node x="9404.25" y="8519.0">it.polimi.ingsw.LM34.Network.RMI.RMIServer</node>
+    <node x="8970.0" y="9458.0">it.polimi.ingsw.LM34.Enums.UI.NetworkType</node>
+    <node x="1710.4545454545455" y="4487.5">it.polimi.ingsw.LM34.UI.GUI.GUI.WaitingAnimation</node>
+    <node x="344.0" y="7901.5">it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.FamilyMemberValueEffect</node>
+    <node x="8903.0" y="9068.0">it.polimi.ingsw.LM34.Enums.Model.PawnColor</node>
+    <node x="8619.0" y="9458.0">it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContextTest</node>
+    <node x="0.0" y="7994.5">it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.MarketBan</node>
+    <node x="3394.5" y="9240.0">it.polimi.ingsw.LM34.GameServer.ShutdownHook</node>
+    <node x="0.0" y="6741.0">it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesPerItemBonusTest</node>
+    <node x="55.75" y="7261.5">it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesPerItemBonusTest.InitializeAbstractGameContext</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ActionSlotContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="0.0" y="-117.0" />
+      <point x="2307.75" y="6988.0" />
+      <point x="3681.934210526316" y="6988.0" />
+      <point x="-98.31578947368416" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.GameManagerTest.PersonalizedUI" target="it.polimi.ingsw.LM34.Controller.GameManagerTest">
+      <point x="206.5" y="-634.0" />
+      <point x="0.0" y="60.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Network.Socket.SocketServer.ConnectionHandler" target="it.polimi.ingsw.LM34.Network.Socket.SocketServer">
+      <point x="0.0" y="-79.5" />
+      <point x="0.0" y="135.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.UI.GUI.GUI.PlayerInfoClickEvent" target="it.polimi.ingsw.LM34.UI.GUI.GUI">
+      <point x="0.0" y="-80.0" />
+      <point x="2472.4545454545455" y="4425.0" />
+      <point x="2504.0833333333335" y="4425.0" />
+      <point x="-161.41666666666652" y="1541.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesPerItemBonusTest.InitializeAbstractGameContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="91.75" y="-42.0" />
+      <point x="331.0" y="6938.0" />
+      <point x="3559.0394736842104" y="6938.0" />
+      <point x="-221.2105263157896" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesPerItemBonusTest.InitializeAbstractGameContext" target="it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesPerItemBonusTest">
+      <point x="-91.75" y="-42.0" />
+      <point x="0.0" y="42.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonusTest.InitializeAbstractGameContext" target="it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonusTest">
+      <point x="91.75" y="-42.0" />
+      <point x="0.0" y="60.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea" target="it.polimi.ingsw.LM34.Model.Boards.GameBoard.GameSpace">
+      <point x="0.0" y="-98.5" />
+      <point x="0.0" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlot" target="it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot">
+      <point x="0.0" y="-117.5" />
+      <point x="0.0" y="228.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ActionSlotContextTest.InitializeAbstractGameContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="-91.75" y="-42.0" />
+      <point x="7329.5" y="6938.0" />
+      <point x="4001.460526315789" y="6938.0" />
+      <point x="221.21052631578914" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus.NoOccupiedTowerTax" target="it.polimi.ingsw.LM34.Model.Effects.AbstractEffect">
+      <point x="0.0" y="-98.5" />
+      <point x="6014.0" y="7756.0" />
+      <point x="3195.125" y="7756.0" />
+      <point x="133.125" y="61.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.AbstractGameContextTest.InitializeAbstractGameContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContextTest">
+      <point x="-91.75" y="-42.0" />
+      <point x="0.0" y="42.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Network.Socket.SocketClient.ClientInputListener" target="it.polimi.ingsw.LM34.Network.Socket.SocketClient">
+      <point x="0.0" y="-79.5" />
+      <point x="0.0" y="191.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="0.0" y="-136.0" />
+      <point x="5892.25" y="6978.0" />
+      <point x="3903.144736842105" y="6978.0" />
+      <point x="122.89473684210498" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlotTest.TestAbstractDevelopmentCard" target="it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlotTest">
+      <point x="87.75" y="-42.0" />
+      <point x="0.0" y="60.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlotTest.TestAbstractDevelopmentCard" target="it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard">
+      <point x="-87.75" y="-42.0" />
+      <point x="2981.75" y="8712.0" />
+      <point x="2168.5714285714284" y="8712.0" />
+      <point x="164.57142857142844" y="153.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.VictoryPointsPenalty" target="it.polimi.ingsw.LM34.Model.Effects.AbstractEffect">
+      <point x="0.0" y="-247.0" />
+      <point x="5590.0" y="7766.0" />
+      <point x="3177.375" y="7766.0" />
+      <point x="115.375" y="61.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesPerItemBonus" target="it.polimi.ingsw.LM34.Model.Effects.AbstractEffect">
+      <point x="0.0" y="-154.0" />
+      <point x="2012.0" y="7806.0" />
+      <point x="3017.625" y="7806.0" />
+      <point x="-44.375" y="61.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.GameManagerTest.PersonalizedUI" target="it.polimi.ingsw.LM34.UI.UIInterface">
+      <point x="-206.5" y="-634.0" />
+      <point x="3860.5" y="1293.0" />
+      <point x="2908.287878787878" y="1293.0" />
+      <point x="275.33333333333303" y="634.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ActionSlotContextTest.InitializeAbstractGameContext" target="it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ActionSlotContextTest">
+      <point x="91.75" y="-42.0" />
+      <point x="0.0" y="60.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Network.RMI.RMIServer" target="it.polimi.ingsw.LM34.Network.RMI.RMIServerInterface">
+      <point x="0.0" y="-117.0" />
+      <point x="0.0" y="42.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.AbstractGameContextTest.InitializeAbstractGameContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="91.75" y="-42.0" />
+      <point x="718.0" y="6948.0" />
+      <point x="3583.6184210526317" y="6948.0" />
+      <point x="-196.63157894736833" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus.TowerSlotPenalty" target="it.polimi.ingsw.LM34.Model.Effects.AbstractEffect">
+      <point x="0.0" y="-117.5" />
+      <point x="3264.0" y="7826.0" />
+      <point x="3070.875" y="7826.0" />
+      <point x="8.875" y="61.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.TowersContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="0.0" y="-265.5" />
+      <point x="1843.75" y="6978.0" />
+      <point x="3657.3552631578946" y="6978.0" />
+      <point x="-122.89473684210543" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.ChurchReportContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="0.0" y="-79.5" />
+      <point x="1386.25" y="6968.0" />
+      <point x="3632.7763157894738" y="6968.0" />
+      <point x="-147.47368421052624" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.GameServer.ShutdownHook" target="it.polimi.ingsw.LM34.GameServer">
+      <point x="0.0" y="-42.0" />
+      <point x="0.0" y="61.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus.DevelopmentCardAcquireEffect" target="it.polimi.ingsw.LM34.Model.Effects.AbstractEffect">
+      <point x="0.0" y="-228.5" />
+      <point x="3688.0" y="7816.0" />
+      <point x="3088.625" y="7816.0" />
+      <point x="26.625" y="61.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.CouncilPalaceContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="0.0" y="-61.0" />
+      <point x="4140.25" y="7018.0" />
+      <point x="3804.828947368421" y="7018.0" />
+      <point x="24.578947368420813" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Boards.GameBoard.GameSpaceTest.TestGameSpace" target="it.polimi.ingsw.LM34.Model.Boards.GameBoard.GameSpace">
+      <point x="-71.0" y="-61.0" />
+      <point x="6230.25" y="8645.0" />
+      <point x="6091.916666666667" y="8645.0" />
+      <point x="114.66666666666697" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesExchangeBonus" target="it.polimi.ingsw.LM34.Model.Effects.AbstractEffect">
+      <point x="0.0" y="-98.5" />
+      <point x="5166.0" y="7776.0" />
+      <point x="3159.625" y="7776.0" />
+      <point x="97.625" y="61.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market" target="it.polimi.ingsw.LM34.Model.Boards.GameBoard.GameSpace">
+      <point x="0.0" y="-99.0" />
+      <point x="5633.25" y="8645.0" />
+      <point x="5862.583333333333" y="8645.0" />
+      <point x="-114.66666666666697" y="117.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.UI.GUI.GUI.LeaderButtonClickEvent" target="it.polimi.ingsw.LM34.UI.GUI.GUI">
+      <point x="0.0" y="-98.5" />
+      <point x="2793.4545454545455" y="4425.0" />
+      <point x="2826.916666666667" y="4425.0" />
+      <point x="161.41666666666697" y="1541.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.LeaderCardsContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="0.0" y="-135.0" />
+      <point x="3061.25" y="7008.0" />
+      <point x="3731.092105263158" y="7008.0" />
+      <point x="-49.15789473684208" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoardTest.FillAbstractDevelopmentCard" target="it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoardTest">
+      <point x="-85.0" y="-42.0" />
+      <point x="0.0" y="79.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.MarketBan" target="it.polimi.ingsw.LM34.Model.Effects.AbstractEffect">
+      <point x="0.0" y="-98.5" />
+      <point x="162.0" y="7756.0" />
+      <point x="2928.875" y="7756.0" />
+      <point x="-133.125" y="61.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.FamilyMember" target="it.polimi.ingsw.LM34.Utils.Copyable">
+      <point x="0.0" y="-191.5" />
+      <point x="0.0" y="42.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.IncreasePawnsValueByServantsContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="0.0" y="-98.5" />
+      <point x="1018.25" y="6958.0" />
+      <point x="3608.1973684210525" y="6958.0" />
+      <point x="-172.0526315789475" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Network.RMI.RMIClient" target="it.polimi.ingsw.LM34.Network.Client.AbstractClient">
+      <point x="-83.75" y="-80.0" />
+      <point x="1364.75" y="5986.0" />
+      <point x="706.5" y="5986.0" />
+      <point x="226.75" y="616.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.UI.GUI.GUI.EndTurnClick" target="it.polimi.ingsw.LM34.UI.GUI.GUI">
+      <point x="0.0" y="-98.5" />
+      <point x="3181.4545454545455" y="4425.0" />
+      <point x="3149.75" y="4425.0" />
+      <point x="484.25" y="1541.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus" target="it.polimi.ingsw.LM34.Model.Effects.AbstractEffect">
+      <point x="0.0" y="-173.0" />
+      <point x="2426.0" y="7816.0" />
+      <point x="3035.375" y="7816.0" />
+      <point x="-26.625" y="61.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.HalveServantsValue" target="it.polimi.ingsw.LM34.Model.Effects.AbstractEffect">
+      <point x="0.0" y="-98.5" />
+      <point x="950.0" y="7776.0" />
+      <point x="2964.375" y="7776.0" />
+      <point x="-97.625" y="61.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.HarvestAreaContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="0.0" y="-98.5" />
+      <point x="6678.75" y="6958.0" />
+      <point x="3952.3026315789475" y="6958.0" />
+      <point x="172.0526315789475" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Network.RMI.RMIConnection" target="it.polimi.ingsw.LM34.Network.Server.AbstractConnection">
+      <point x="0.0" y="-635.5" />
+      <point x="7271.0" y="1294.0" />
+      <point x="7576.5" y="1294.0" />
+      <point x="-211.0" y="634.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="0.0" y="-136.0" />
+      <point x="6312.75" y="6968.0" />
+      <point x="3927.7236842105262" y="6968.0" />
+      <point x="147.47368421052624" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.FamilyMemberValueEffect" target="it.polimi.ingsw.LM34.Model.Effects.AbstractEffect">
+      <point x="0.0" y="-191.5" />
+      <point x="556.0" y="7766.0" />
+      <point x="2946.625" y="7766.0" />
+      <point x="-115.375" y="61.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.EndGameContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="0.0" y="-191.0" />
+      <point x="5318.75" y="6988.0" />
+      <point x="3878.565789473684" y="6988.0" />
+      <point x="98.31578947368416" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.UI.GUI.GUI.PlacePawn" target="it.polimi.ingsw.LM34.UI.GUI.GUI">
+      <point x="0.0" y="-117.0" />
+      <point x="3558.4545454545455" y="4425.0" />
+      <point x="3472.583333333333" y="4425.0" />
+      <point x="807.083333333333" y="1541.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonusTest.InitializeAbstractGameContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="-91.75" y="-42.0" />
+      <point x="6942.5" y="6948.0" />
+      <point x="3976.8815789473683" y="6948.0" />
+      <point x="196.63157894736833" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Network.Socket.SocketClient" target="it.polimi.ingsw.LM34.Network.Client.AbstractClient">
+      <point x="0.0" y="-191.5" />
+      <point x="-226.75" y="616.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.CopyOtherLeader" target="it.polimi.ingsw.LM34.Model.Effects.AbstractEffect">
+      <point x="0.0" y="-79.5" />
+      <point x="1284.0" y="7786.0" />
+      <point x="2982.125" y="7786.0" />
+      <point x="-79.875" y="61.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Network.Socket.SocketConnection" target="it.polimi.ingsw.LM34.Network.Server.AbstractConnection">
+      <point x="0.0" y="-802.0" />
+      <point x="8304.0" y="1294.0" />
+      <point x="7998.5" y="1294.0" />
+      <point x="211.0" y="634.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.TurnContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="0.0" y="-172.5" />
+      <point x="4493.75" y="7008.0" />
+      <point x="3829.407894736842" y="7008.0" />
+      <point x="49.15789473684208" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.ChurchSupportBonus" target="it.polimi.ingsw.LM34.Model.Effects.AbstractEffect">
+      <point x="0.0" y="-117.5" />
+      <point x="4112.0" y="7806.0" />
+      <point x="3106.375" y="7806.0" />
+      <point x="44.375" y="61.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.UI.GUI.GUI.WaitingAnimation" target="it.polimi.ingsw.LM34.UI.GUI.GUI">
+      <point x="0.0" y="-79.5" />
+      <point x="1851.9545454545455" y="4425.0" />
+      <point x="1858.4166666666667" y="4425.0" />
+      <point x="-807.0833333333333" y="1541.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.MarketAreaContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="0.0" y="-98.5" />
+      <point x="4825.25" y="6998.0" />
+      <point x="3853.9868421052633" y="6998.0" />
+      <point x="73.73684210526335" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Network.RMI.RMIClient" target="it.polimi.ingsw.LM34.Network.RMI.RMIClientInterface">
+      <point x="83.75" y="-80.0" />
+      <point x="0.0" y="560.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerTest.InitializeDevelopmentCard" target="it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard">
+      <point x="250.25" y="-42.0" />
+      <point x="1227.75" y="8722.0" />
+      <point x="1894.2857142857142" y="8722.0" />
+      <point x="-109.71428571428578" y="153.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.SkipFirstTurn" target="it.polimi.ingsw.LM34.Model.Effects.AbstractEffect">
+      <point x="0.0" y="-117.5" />
+      <point x="1628.0" y="7796.0" />
+      <point x="2999.875" y="7796.0" />
+      <point x="-62.125" y="61.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Boards.GameBoard.GameSpaceTest.TestGameSpace" target="it.polimi.ingsw.LM34.Model.Boards.GameBoard.GameSpaceTest">
+      <point x="71.0" y="-61.0" />
+      <point x="0.0" y="42.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.ResourcesExchangeContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="0.0" y="-79.5" />
+      <point x="2675.75" y="6998.0" />
+      <point x="3706.5131578947367" y="6998.0" />
+      <point x="-73.73684210526335" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.UI.CLI.CLI" target="it.polimi.ingsw.LM34.UI.UIInterface">
+      <point x="0.0" y="-1301.0" />
+      <point x="838.5" y="1293.0" />
+      <point x="2357.6212121212116" y="1293.0" />
+      <point x="-275.3333333333335" y="634.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Cards.CharacterCard" target="it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard">
+      <point x="0.0" y="-80.0" />
+      <point x="2338.0" y="8732.0" />
+      <point x="2058.857142857143" y="8732.0" />
+      <point x="54.85714285714312" y="153.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Network.GameRoom.WaitingRoomTimeout" target="it.polimi.ingsw.LM34.Network.GameRoom">
+      <point x="0.0" y="-80.0" />
+      <point x="0.0" y="247.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Cards.BuildingCard" target="it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard">
+      <point x="0.0" y="-99.0" />
+      <point x="0.0" y="153.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ProductionAreaContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="0.0" y="-98.5" />
+      <point x="3416.75" y="7018.0" />
+      <point x="3755.671052631579" y="7018.0" />
+      <point x="-24.578947368420813" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoardTest.FillAbstractDevelopmentCard" target="it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard">
+      <point x="85.0" y="-42.0" />
+      <point x="372.0" y="8712.0" />
+      <point x="1839.4285714285716" y="8712.0" />
+      <point x="-164.57142857142844" y="153.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.UI.GUI.GUI.SlotMouseEvent" target="it.polimi.ingsw.LM34.UI.GUI.GUI">
+      <point x="0.0" y="-80.0" />
+      <point x="2174.4545454545455" y="4425.0" />
+      <point x="2181.25" y="4425.0" />
+      <point x="-484.25" y="1541.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext" target="it.polimi.ingsw.LM34.Controller.AbstractGameContext">
+      <point x="0.0" y="-98.5" />
+      <point x="0.0" y="135.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerTest.InitializeDevelopmentCard" target="it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerTest">
+      <point x="-250.25" y="-42.0" />
+      <point x="0.0" y="79.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Cards.TerritoryCard" target="it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard">
+      <point x="0.0" y="-99.0" />
+      <point x="1660.0" y="8732.0" />
+      <point x="1949.142857142857" y="8732.0" />
+      <point x="-54.85714285714289" y="153.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus.NoMilitaryRequirementsForTerritory" target="it.polimi.ingsw.LM34.Model.Effects.AbstractEffect">
+      <point x="0.0" y="-79.5" />
+      <point x="4482.0" y="7796.0" />
+      <point x="3124.125" y="7796.0" />
+      <point x="62.125" y="61.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.UI.GUI.GUI" target="it.polimi.ingsw.LM34.UI.UIInterface">
+      <point x="0.0" y="-1541.0" />
+      <point x="2665.5" y="1293.0" />
+      <point x="2632.954545454545" y="1293.0" />
+      <point x="0.0" y="634.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.WorkingAreaValueEffect" target="it.polimi.ingsw.LM34.Model.Effects.AbstractEffect">
+      <point x="0.0" y="-191.5" />
+      <point x="2860.0" y="7826.0" />
+      <point x="3053.125" y="7826.0" />
+      <point x="-8.875" y="61.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Cards.VentureCard" target="it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard">
+      <point x="0.0" y="-135.5" />
+      <point x="2692.0" y="8722.0" />
+      <point x="2113.714285714286" y="8722.0" />
+      <point x="109.71428571428578" y="153.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.ActionSlotLimitBypass" target="it.polimi.ingsw.LM34.Model.Effects.AbstractEffect">
+      <point x="0.0" y="-79.5" />
+      <point x="4832.0" y="7786.0" />
+      <point x="3141.875" y="7786.0" />
+      <point x="79.875" y="61.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.1152073732718894" x="5148.0" y="4873.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Constructors</Category>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

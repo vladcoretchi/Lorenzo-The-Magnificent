@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TurnContext.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts</a> &gt; <span class="el_source">TurnContext.java</span></div><h1>TurnContext.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
+
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Exceptions.Controller.*;
+import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Network.PlayerAction;
+import it.polimi.ingsw.LM34.Utils.Configurator;
+import it.polimi.ingsw.LM34.Utils.Validator;
+
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.concurrent.*;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_CARDS_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
+
+/**
+ * This is the main context, from which to control the flow of the interaction with the player
+ */
+public class TurnContext extends AbstractGameContext {
+    private Boolean skipTurn;
+
+    /**
+     * Constructor called only at the game setup
+     */
+<span class="fc" id="L32">    public TurnContext() {</span>
+<span class="fc" id="L33">        this.contextType = ContextType.TURN_CONTEXT;</span>
+<span class="fc" id="L34">    }</span>
+
+    /**
+     * Reactivate all observers that are associated to the player that is going to play
+     * NOTE: OncePerRound observers are excluded in this reactivation
+     */
+    public void initContext() {
+
+        //this.gameManager.getPlayers().forEach(player -&gt; this.gameManager.getPlayerNetworkController(player)
+        //            .informInGamePlayers(GameInformationType.INFO_NEW_PLAYER_TURN, getCurrentPlayer().getPlayerName(), getCurrentPlayer().getPawnColor()));
+
+<span class="nc" id="L45">        this.gameManager.updateClientPlayers();</span>
+
+<span class="nc" id="L47">        this.getCurrentPlayer().getExcommunicationCards().forEach(excommunicationCard -&gt; {</span>
+<span class="nc" id="L48">            excommunicationCard.getPenalty().applyEffect(this);</span>
+<span class="nc" id="L49">        });</span>
+
+<span class="nc" id="L51">        this.skipTurn = false;</span>
+<span class="nc" id="L52">        setChanged();</span>
+<span class="nc" id="L53">        notifyObservers(this);</span>
+
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if(!this.skipTurn) {</span>
+<span class="nc" id="L56">            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();</span>
+
+<span class="nc" id="L58">            this.getCurrentPlayer().getPersonalBoard().getDevelopmentCardsByType(DevelopmentCardColor.BLUE)</span>
+<span class="nc" id="L59">                    .ifPresent(cards -&gt; cards.forEach(card -&gt; card.getPermanentBonus().applyEffect(this)));</span>
+
+<span class="nc" id="L61">            this.getCurrentPlayer().getActivatedLeaderCards().forEach(card -&gt; {</span>
+<span class="nc bnc" id="L62" title="All 4 branches missed.">                if(!card.isOncePerRound() || !card.isUsed()) {</span>
+<span class="nc" id="L63">                    card.getBonus().applyEffect(this);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                    if (!card.isUsed())</span>
+<span class="nc" id="L65">                        card.setUsed(true);</span>
+
+<span class="nc" id="L67">                    this.getCurrentPlayer().getExcommunicationCards().forEach(excommunicationCard -&gt; {</span>
+<span class="nc" id="L68">                        excommunicationCard.getPenalty().applyEffect(this);</span>
+<span class="nc" id="L69">                    });</span>
+                }
+<span class="nc" id="L71">            });</span>
+
+            try {
+<span class="nc" id="L74">                ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).interactWithPlayer();</span>
+<span class="nc" id="L75">            } catch(IncorrectInputException e) {</span>
+<span class="nc" id="L76">                LOGGER.log(Level.INFO, e.getMessage(), e);</span>
+<span class="nc" id="L77">            }</span>
+
+<span class="nc" id="L79">            interactWithPlayer();</span>
+        }
+
+<span class="nc" id="L82">        endContext();</span>
+<span class="nc" id="L83">    }</span>
+
+    @Override
+    public Void interactWithPlayer(Object... args) {
+        //interrupting the socket's blocking read on input stream results in a corrupted stream with the impossibility t communicate with the client
+        /*FutureTask&lt;Void&gt; future = new FutureTask&lt;&gt;(() -&gt; {
+            try {
+                Boolean stillMainAction;
+                do {
+                    stillMainAction = playerAction(Optional.empty());
+                    this.gameManager.updateClientPlayers();
+                } while (stillMainAction != null &amp;&amp; stillMainAction);
+                if(stillMainAction != null)
+                    playerSecondaryAction(Optional.empty());
+            } catch(Exception ex) {
+                LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            }
+            return null;
+        });
+
+        try {
+            ExecutorService service = Executors.newCachedThreadPool();
+            service.execute(future);
+            try {
+                future.get(this.gameManager.getConfigurator().PLAYER_MOVE_TIMEOUT, TimeUnit.SECONDS);
+            } catch (Exception ex) {
+                LOGGER.log(Level.INFO, ex.getMessage(), ex);
+            }
+
+            FutureTask&lt;Void&gt; interruptTask = new FutureTask&lt;&gt;(() -&gt; {Thread.currentThread().interrupt(); return null;});
+            service.execute(interruptTask);
+            interruptTask.get();
+            service.shutdown();
+            //service.submit(future);
+        } catch(Exception ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+            return null;
+        }*/
+
+        Boolean stillMainAction;
+        do {
+<span class="nc" id="L124">            stillMainAction = playerAction(Optional.empty());</span>
+<span class="nc" id="L125">            this.gameManager.updateClientPlayers();</span>
+<span class="nc bnc" id="L126" title="All 4 branches missed.">        } while (stillMainAction != null &amp;&amp; stillMainAction);</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        if(stillMainAction != null)</span>
+<span class="nc" id="L128">            playerSecondaryAction(Optional.empty());</span>
+<span class="nc" id="L129">        return null;</span>
+    }
+
+    private Boolean playerAction(Optional&lt;Exception&gt; error) {
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        if(this.getCurrentPlayer().isConnected())</span>
+            try {
+<span class="nc" id="L135">                PlayerAction action = this.gameManager.getPlayerNetworkController(this.gameManager.getCurrentPlayer()).turnMainAction(error);</span>
+<span class="nc" id="L136">                Validator.checkPlayerActionValidity(action);</span>
+
+<span class="nc bnc" id="L138" title="All 2 branches missed.">                if(action.getContext() == null)</span>
+<span class="nc" id="L139">                    return null;</span>
+
+<span class="nc" id="L141">                AbstractGameContext actionContext = getContextByType(action.getContext());</span>
+<span class="nc" id="L142">                actionContext.interactWithPlayer(action.getAction());</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">                if(action.getContext().name().equals(LEADER_CARDS_CONTEXT.name()))</span>
+<span class="nc" id="L144">                    return true;</span>
+                else
+<span class="nc" id="L146">                    return false;</span>
+<span class="nc" id="L147">            } catch (IncorrectInputException |</span>
+                    OccupiedSlotException |
+                    MarketBanException |
+                    NotEnoughResourcesException |
+                    NotEnoughMilitaryPoints |
+                    CardTypeNumLimitReachedException |
+                    InvalidLeaderCardAction |
+                    NotAvailableSpace |
+                    NotEnoughServantsException |
+                    CannotPlacePawnException |
+                    NoMoreLeaderCardsAvailable ex) {
+<span class="nc" id="L158">                LOGGER.log(Level.FINER, ex.getMessage(), ex);</span>
+<span class="nc" id="L159">                return playerAction(Optional.of(ex));</span>
+<span class="nc" id="L160">            } catch (NetworkConnectionException ex) {</span>
+<span class="nc" id="L161">                LOGGER.log(Level.INFO, ex.getMessage(), ex);</span>
+<span class="nc" id="L162">                this.getCurrentPlayer().setDisconnected();</span>
+<span class="nc" id="L163">                return null;</span>
+            }
+<span class="nc" id="L165">        return null;</span>
+    }
+
+    private void playerSecondaryAction(Optional&lt;Exception&gt; error) {
+<span class="nc bnc" id="L169" title="All 2 branches missed.">        if(this.getCurrentPlayer().isConnected())</span>
+            try {
+<span class="nc" id="L171">                PlayerAction action = this.gameManager.getPlayerNetworkController(this.gameManager.getCurrentPlayer()).turnSecondaryAction(error);</span>
+<span class="nc" id="L172">                Validator.checkPlayerActionValidity(action);</span>
+
+<span class="nc bnc" id="L174" title="All 2 branches missed.">                if(action.getContext() == null)</span>
+<span class="nc" id="L175">                    return;</span>
+
+<span class="nc" id="L177">                LeaderCardsContext actionContext = (LeaderCardsContext) getContextByType(action.getContext());</span>
+<span class="nc" id="L178">                actionContext.interactWithPlayer(action.getAction());</span>
+
+<span class="nc" id="L180">                playerSecondaryAction(Optional.empty());</span>
+<span class="nc" id="L181">            } catch (IncorrectInputException |</span>
+                    NotEnoughResourcesException |
+                    InvalidLeaderCardAction |
+                    NoMoreLeaderCardsAvailable ex) {
+<span class="nc" id="L185">                LOGGER.log(Level.FINER, ex.getMessage(), ex);</span>
+<span class="nc" id="L186">                playerSecondaryAction(Optional.of(ex));</span>
+<span class="nc" id="L187">            } catch (NetworkConnectionException ex) {</span>
+<span class="nc" id="L188">                LOGGER.log(Level.INFO, ex.getMessage(), ex);</span>
+<span class="nc" id="L189">                this.getCurrentPlayer().setDisconnected();</span>
+<span class="nc" id="L190">            }</span>
+<span class="nc" id="L191">    }</span>
+
+    /**
+     * Deactivates all bonus observers of the player that finished the turn
+     */
+    public void endContext() {
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">        for (ContextType ct : ContextType.values())</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">            if(this.getContextByType(ct) != null)</span>
+<span class="nc" id="L199">                this.getContextByType(ct).deleteObservers();</span>
+
+<span class="nc bnc" id="L201" title="All 2 branches missed.">        if(this.getCurrentPlayer().isConnected())</span>
+            try {
+<span class="nc" id="L203">                this.gameManager.getActivePlayerNetworkController().endTurn();</span>
+<span class="nc" id="L204">            } catch(NetworkConnectionException ex) {</span>
+<span class="nc" id="L205">                LOGGER.log(Level.FINER, ex.getMessage(), ex);</span>
+<span class="nc" id="L206">                this.getCurrentPlayer().setDisconnected();</span>
+<span class="nc" id="L207">            }</span>
+
+<span class="nc" id="L209">        this.gameManager.nextTurn();</span>
+<span class="nc" id="L210">    }</span>
+
+    public void skipTurn() {
+<span class="fc" id="L213">        this.skipTurn = true;</span>
+<span class="fc" id="L214">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

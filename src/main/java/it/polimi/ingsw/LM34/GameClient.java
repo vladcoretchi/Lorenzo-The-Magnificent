@@ -16,9 +16,9 @@ public class GameClient {
 
     public static void main(String[] args) {
         Handler handlerObj = new ConsoleHandler();
-        handlerObj.setLevel(Level.INFO); //TODO: off
+        handlerObj.setLevel(Level.OFF);
         LOGGER.addHandler(handlerObj);
-        LOGGER.setLevel(Level.INFO);
+        LOGGER.setLevel(Level.OFF);
         LOGGER.setUseParentHandlers(false);
 
         printSplashScreen();

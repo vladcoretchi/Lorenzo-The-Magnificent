@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChurchReportContext.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts</a> &gt; <span class="el_source">ChurchReportContext.java</span></div><h1>ChurchReportContext.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
+
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
+import it.polimi.ingsw.LM34.Model.Effects.ChurchSupportBonus;
+import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.Resources;
+
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.CHURCH_REPORT_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.FAITH_POINTS;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
+
+public class ChurchReportContext extends AbstractGameContext {
+<span class="fc" id="L17">    public ChurchReportContext() {</span>
+<span class="fc" id="L18">        this.contextType = CHURCH_REPORT_CONTEXT;</span>
+<span class="fc" id="L19">    }</span>
+
+    @Override
+    public Void interactWithPlayer(Object... args) {
+<span class="nc" id="L23">        Integer[] minFaithPoints = this.gameManager.getMinFaithPoints();</span>
+<span class="nc" id="L24">        Boolean applyPenalty = true;</span>
+
+<span class="nc" id="L26">        activateTemporarilyPlayerObservers();</span>
+
+<span class="nc" id="L28">        Player player = (Player) args[0];</span>
+
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        if(player.isConnected())</span>
+            try {
+<span class="nc bnc" id="L32" title="All 2 branches missed.">                if (player.getResources().getResourceByType(FAITH_POINTS) &gt;= minFaithPoints[this.gameManager.getPeriod()] &amp;&amp;</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">                        !this.gameManager.getPlayerNetworkController(player).churchSupport())</span>
+<span class="nc" id="L34">                    applyPenalty = false;</span>
+<span class="nc" id="L35">            } catch (NetworkConnectionException ex) {</span>
+<span class="nc" id="L36">                LOGGER.log(Level.INFO, ex.getMessage(), ex);</span>
+<span class="nc" id="L37">                this.getCurrentPlayer().setDisconnected();</span>
+<span class="nc" id="L38">            }</span>
+
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if(applyPenalty) {</span>
+<span class="nc" id="L41">            this.gameManager.getExcommunicationCards().get(this.gameManager.getPeriod()).getPenalty().applyEffect(this);</span>
+<span class="nc" id="L42">            player.addExcommunicationCards(this.gameManager.getExcommunicationCards().get(this.gameManager.getPeriod()));</span>
+
+<span class="nc" id="L44">            this.gameManager.getPlayers().forEach(p -&gt; {</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">                if(player.isConnected())</span>
+                    try {
+<span class="nc" id="L47">                        this.gameManager.getPlayerNetworkController(p)</span>
+<span class="nc" id="L48">                                .informInGamePlayers(GameInformationType.INFO_EXCOMMUNICATION, player.getPlayerName(), player.getPawnColor());</span>
+<span class="nc" id="L49">                    } catch (NetworkConnectionException ex) {</span>
+<span class="nc" id="L50">                        LOGGER.log(Level.INFO, ex.getMessage(), ex);</span>
+<span class="nc" id="L51">                        this.getCurrentPlayer().setDisconnected();</span>
+<span class="nc" id="L52">                    }</span>
+<span class="nc" id="L53">            });</span>
+        }
+        else {
+<span class="nc" id="L56">            player.addResources(new Resources(0, 0, this.gameManager.getConfigurator().getFaithPath()</span>
+<span class="nc" id="L57">                    .get(player.getResources().getResourceByType(FAITH_POINTS))));</span>
+<span class="nc" id="L58">            player.subResources(new Resources(0,  this.gameManager.getConfigurator().getFaithPath()</span>
+<span class="nc" id="L59">                    .get(player.getResources().getResourceByType(FAITH_POINTS)), 0));</span>
+<span class="nc" id="L60">            setChanged();</span>
+<span class="nc" id="L61">            notifyObservers(this);</span>
+        }
+
+<span class="nc" id="L64">        return null;</span>
+    }
+
+    /**
+     * Activate all effects that are related to this special context
+     */
+    private void activateTemporarilyPlayerObservers() {
+<span class="nc" id="L71">        this.getCurrentPlayer().getActivatedLeaderCards().forEach(card -&gt; {</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            if (card.getBonus() instanceof ChurchSupportBonus) {</span>
+<span class="nc" id="L73">                card.getBonus().applyEffect(this);</span>
+            }
+<span class="nc" id="L75">        });</span>
+<span class="nc" id="L76">    }</span>
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

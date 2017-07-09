@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameClient.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34</a> &gt; <span class="el_source">GameClient.java</span></div><h1>GameClient.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34;
+
+import it.polimi.ingsw.LM34.UI.CLI.CLI;
+import it.polimi.ingsw.LM34.UI.GUI.GUI;
+import it.polimi.ingsw.LM34.UI.UIInterface;
+
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.UI.CLI.CLIStuff.*;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
+
+<span class="nc" id="L14">public class GameClient {</span>
+    private static UIInterface ui;
+
+    public static void main(String[] args) {
+<span class="nc" id="L18">        Handler handlerObj = new ConsoleHandler();</span>
+<span class="nc" id="L19">        handlerObj.setLevel(Level.OFF);</span>
+<span class="nc" id="L20">        LOGGER.addHandler(handlerObj);</span>
+<span class="nc" id="L21">        LOGGER.setLevel(Level.OFF);</span>
+<span class="nc" id="L22">        LOGGER.setUseParentHandlers(false);</span>
+
+<span class="nc" id="L24">        printSplashScreen();</span>
+
+        /*variable that will remain false until the user's input will be correct*/
+<span class="nc" id="L27">        Boolean userInputIsValid = false;</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        while(!userInputIsValid) {</span>
+<span class="nc" id="L29">            String viewChoice = viewSelection();</span>
+
+<span class="nc bnc" id="L31" title="All 2 branches missed.">            if (&quot;cli&quot;.equalsIgnoreCase(viewChoice)) {</span>
+<span class="nc" id="L32">                ui = new CLI();</span>
+<span class="nc" id="L33">                userInputIsValid = true;</span>
+            }
+<span class="nc bnc" id="L35" title="All 2 branches missed.">            else if (&quot;gui&quot;.equalsIgnoreCase(viewChoice)) {</span>
+<span class="nc" id="L36">                ui = new GUI();</span>
+<span class="nc" id="L37">                userInputIsValid = true;</span>
+            }
+            else
+<span class="nc" id="L40">                printError(&quot;Invalid selection!&quot;);</span>
+<span class="nc" id="L41">        }</span>
+
+<span class="nc" id="L43">        ui.show();</span>
+<span class="nc" id="L44">    }</span>
+
+    /**
+     * this method will be called when the console will start to interact to the user; it will print a menu that allow to the user to choice how Ui he wants to use between Cli or Gui
+     * @return the user's choice
+     */
+    public static String viewSelection() {
+<span class="nc" id="L51">        printLine(&quot;Do you wish to play using CLI or GUI?&quot;);</span>
+
+<span class="nc" id="L53">        return readUserInput.nextLine();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

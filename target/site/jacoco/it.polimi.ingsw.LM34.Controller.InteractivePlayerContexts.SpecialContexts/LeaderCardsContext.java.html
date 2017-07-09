@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LeaderCardsContext.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts</a> &gt; <span class="el_source">LeaderCardsContext.java</span></div><h1>LeaderCardsContext.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
+
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Exceptions.Controller.InvalidLeaderCardAction;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NoMoreLeaderCardsAvailable;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Utils.Configurator;
+import it.polimi.ingsw.LM34.Utils.Validator;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_CARDS_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.RESOURCE_INCOME_CONTEXT;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
+
+/**
+ * In this context the player can discard a leader in favor of a privilege or activate his ability
+ * In the latter case, all requirements of the leader to activate are verified
+ */
+public class LeaderCardsContext extends AbstractGameContext {
+
+<span class="fc" id="L37">    public LeaderCardsContext() {</span>
+<span class="fc" id="L38">    this.contextType = LEADER_CARDS_CONTEXT;</span>
+<span class="fc" id="L39">}</span>
+
+    @Override
+    public Void interactWithPlayer(Object... args) throws IncorrectInputException, InvalidLeaderCardAction, NotEnoughResourcesException, NoMoreLeaderCardsAvailable {
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if(this.getCurrentPlayer().getPendingLeaderCards().isEmpty())</span>
+<span class="nc" id="L44">            throw new NoMoreLeaderCardsAvailable();</span>
+
+<span class="nc" id="L46">        Pair&lt;Integer, LeaderCardsAction&gt; leaderCardAction = leaderCardsAction();</span>
+<span class="nc" id="L47">        LeaderCard selectedCard = this.getCurrentPlayer().getPendingLeaderCards().get(leaderCardAction.getLeft());</span>
+
+<span class="nc bnc" id="L49" title="All 3 branches missed.">        switch (leaderCardAction.getRight()) {</span>
+            case PLAY:
+<span class="nc" id="L51">                playLeaderCard(selectedCard);</span>
+<span class="nc" id="L52">                break;</span>
+            case DISCARD:
+<span class="nc" id="L54">                discardLeaderCard(selectedCard);</span>
+<span class="nc" id="L55">                break;</span>
+            default:
+<span class="nc" id="L57">                throw new InvalidLeaderCardAction();</span>
+        }
+
+<span class="nc" id="L60">        return null;</span>
+    }
+
+    private Pair&lt;Integer, LeaderCardsAction&gt; leaderCardsAction() throws IncorrectInputException {
+<span class="nc" id="L64">        List&lt;LeaderCard&gt; leaderCards = this.getCurrentPlayer().getPendingLeaderCards();</span>
+        Pair&lt;String, LeaderCardsAction&gt; action;
+
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if(!this.getCurrentPlayer().isConnected())</span>
+<span class="nc" id="L68">            return new ImmutablePair&lt;&gt;(null, null);</span>
+
+        try {
+<span class="nc" id="L71">            action = this.gameManager.getActivePlayerNetworkController().leaderCardSelection(leaderCards);</span>
+<span class="nc" id="L72">        } catch (NetworkConnectionException ex) {</span>
+<span class="nc" id="L73">            LOGGER.log(Level.INFO, ex.getMessage(), ex);</span>
+<span class="nc" id="L74">            this.getCurrentPlayer().setDisconnected();</span>
+<span class="nc" id="L75">            throw new IncorrectInputException();</span>
+<span class="nc" id="L76">        }</span>
+
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        for(int i = 0; i &lt; leaderCards.size(); i++)</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">            if(leaderCards.get(i).getName().equals(action.getLeft()))</span>
+<span class="nc" id="L80">                return new ImmutablePair&lt;&gt;(i, action.getRight());</span>
+
+<span class="nc" id="L82">        return leaderCardsAction();</span>
+    }
+
+
+    private void playLeaderCard(LeaderCard card) throws NotEnoughResourcesException {
+<span class="nc" id="L87">        Optional&lt;Resources&gt; resourcesRequirements = card.getRequirements().getResourcesRequirements();</span>
+<span class="nc" id="L88">        Optional&lt;Map&lt;DevelopmentCardColor, Integer&gt;&gt; cardsRequirements = card.getRequirements().getCardRequirements();</span>
+
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        if(resourcesRequirements.isPresent())</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">            if(this.getCurrentPlayer().hasEnoughResources(resourcesRequirements.get()))</span>
+<span class="nc" id="L92">                this.getCurrentPlayer().subResources(resourcesRequirements.get());</span>
+            else
+<span class="nc" id="L94">                throw new NotEnoughResourcesException();</span>
+
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if(cardsRequirements.isPresent())</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">            for(DevelopmentCardColor color : DevelopmentCardColor.values())</span>
+<span class="nc bnc" id="L98" title="All 4 branches missed.">                if(cardsRequirements.get().containsKey(color) &amp;&amp; !this.getCurrentPlayer().hasEnoughCardsOfType(color, cardsRequirements.get().get(color)))</span>
+<span class="nc" id="L99">                    throw new NotEnoughResourcesException();</span>
+
+<span class="nc" id="L101">        card.activate();</span>
+<span class="nc" id="L102">        ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();</span>
+<span class="nc" id="L103">        card.getBonus().applyEffect(this);</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        if(card.isOncePerRound())</span>
+<span class="nc" id="L105">            card.setUsed(true);</span>
+        try {
+<span class="nc" id="L107">            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).interactWithPlayer();</span>
+<span class="nc" id="L108">        } catch(IncorrectInputException ex) {</span>
+<span class="nc" id="L109">            LOGGER.log(Level.WARNING, ex.getMessage(), ex);</span>
+<span class="nc" id="L110">        }</span>
+
+        /*trigger Copy Leader ability*/
+<span class="nc" id="L113">        setChanged();</span>
+<span class="nc" id="L114">        notifyObservers(this);</span>
+<span class="nc" id="L115">    }</span>
+
+    private void discardLeaderCard(LeaderCard card) {
+        try {
+<span class="nc" id="L119">            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();</span>
+<span class="nc" id="L120">            ((UseCouncilPrivilegeContext) this.getContextByType(ContextType.USE_COUNCIL_PRIVILEGE_CONTEXT))</span>
+<span class="nc" id="L121">                                              .interactWithPlayer(Configurator.COUNCIL_PRIVILEGES_FOR_DISCARDED_LEADER_CARD);</span>
+<span class="nc" id="L122">            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).interactWithPlayer();</span>
+
+<span class="nc" id="L124">            this.getCurrentPlayer().discardLeaderCard(card);</span>
+<span class="nc" id="L125">        } catch(IncorrectInputException ex) {</span>
+<span class="nc" id="L126">            LOGGER.log(Level.WARNING, ex.getMessage(), ex);</span>
+<span class="nc" id="L127">        }</span>
+<span class="nc" id="L128">    }</span>
+    /**
+     * An interactive method that unlocks to the player the ability to clone another leader
+     */
+    public void copyOtherLeaderAbility() {
+<span class="fc" id="L133">        List&lt;LeaderCard&gt; activatedLeaderCards = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        for(Player player : this.gameManager.getPlayers())</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">            if(player != this.getCurrentPlayer())</span>
+<span class="nc" id="L137">                activatedLeaderCards.addAll(player.getActivatedLeaderCards());</span>
+
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        if(this.getCurrentPlayer().isConnected())</span>
+            try {
+<span class="nc" id="L141">                Integer leaderToCopy = this.gameManager.getActivePlayerNetworkController().leaderCardCopy(activatedLeaderCards);</span>
+<span class="nc" id="L142">                Validator.checkValidity(leaderToCopy, activatedLeaderCards);</span>
+<span class="nc" id="L143">                LeaderCard selectedLeader = activatedLeaderCards.get(leaderToCopy);</span>
+<span class="nc" id="L144">                this.getCurrentPlayer().addLeaderCard(selectedLeader);</span>
+<span class="nc" id="L145">                selectedLeader.activate();</span>
+<span class="nc" id="L146">                selectedLeader.getBonus().applyEffect(this);</span>
+<span class="nc" id="L147">            } catch(IncorrectInputException ex){</span>
+<span class="nc" id="L148">                LOGGER.log(Level.WARNING, ex.getMessage(), ex);</span>
+<span class="nc" id="L149">                copyOtherLeaderAbility();</span>
+<span class="nc" id="L150">            } catch (NetworkConnectionException ex) {</span>
+<span class="nc" id="L151">                LOGGER.log(Level.INFO, ex.getMessage(), ex);</span>
+<span class="nc" id="L152">                this.getCurrentPlayer().setDisconnected();</span>
+<span class="nc" id="L153">            }</span>
+<span class="nc" id="L154">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

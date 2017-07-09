@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PersonalBoard.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Model.Boards.PlayerBoard</a> &gt; <span class="el_source">PersonalBoard.java</span></div><h1>PersonalBoard.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Model.Boards.PlayerBoard;
+
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
+import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+import it.polimi.ingsw.LM34.Model.Cards.BuildingCard;
+import it.polimi.ingsw.LM34.Model.Cards.TerritoryCard;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+public class PersonalBoard implements Serializable {
+    private static final long serialVersionUID = 6306753167289615978L;
+
+    /**
+     * Development card types stored in the PersonalBoard
+     */
+    private List&lt;AbstractDevelopmentCard&gt; territories;
+    private List&lt;AbstractDevelopmentCard&gt; characters;
+    private List&lt;AbstractDevelopmentCard&gt; ventures;
+    private List&lt;AbstractDevelopmentCard&gt; buildings;
+
+    /**
+     * {@link PersonalBoard} stored in the PersonalBoard
+     */
+    private BonusTile personalBonusTile;
+
+<span class="fc" id="L30">    public PersonalBoard() {</span>
+<span class="fc" id="L31">        this.territories = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L32">        this.characters = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L33">        this.ventures = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L34">        this.buildings = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L35">        this.personalBonusTile = null;</span>
+<span class="fc" id="L36">    }</span>
+
+    public void addCard(AbstractDevelopmentCard card) throws InvalidCardType {
+<span class="pc bpc" id="L39" title="4 of 5 branches missed.">        switch (card.getColor()) {</span>
+<span class="nc" id="L40">            case GREEN: territories.add(card);</span>
+<span class="nc" id="L41">                break;</span>
+<span class="nc" id="L42">            case BLUE: characters.add(card);</span>
+<span class="nc" id="L43">                break;</span>
+<span class="fc" id="L44">            case YELLOW: buildings.add(card);</span>
+<span class="fc" id="L45">                break;</span>
+<span class="nc" id="L46">            case PURPLE: ventures.add(card);</span>
+<span class="nc" id="L47">                break;</span>
+            default:
+<span class="nc" id="L49">                throw new InvalidCardType(&quot;This card is not a DevelopmentCard&quot;);</span>
+        }
+<span class="fc" id="L51">    }</span>
+
+    /**
+     * @param developmentCardType of which we want to retrieve the deck associated
+     * @return
+     */
+    public Optional&lt;List&lt;AbstractDevelopmentCard&gt;&gt; getDevelopmentCardsByType(DevelopmentCardColor color)  {
+<span class="pc bpc" id="L58" title="4 of 5 branches missed.">        switch (color) {</span>
+<span class="nc" id="L59">            case PURPLE: return Optional.of(ventures);</span>
+<span class="fc" id="L60">            case BLUE: return Optional.of(characters);</span>
+<span class="nc" id="L61">            case GREEN: return Optional.of(territories);</span>
+<span class="nc" id="L62">            case YELLOW: return Optional.of(buildings);</span>
+            default:
+<span class="nc" id="L64">                return Optional.empty();</span>
+        }
+    }
+
+    /**
+     * @param valueToProduct of the player at the moment
+     * @return all building cards that have their diceValue requirement less than the valueToProduct
+     */
+    public List&lt;AbstractDevelopmentCard&gt; getActivableBuildingCard(Integer valueToProduct) {
+<span class="nc" id="L73">        List&lt;AbstractDevelopmentCard&gt; activableCards = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L74">        buildings.forEach(c -&gt; {</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">            if(((BuildingCard)c).getDiceValueToProduct() &gt; valueToProduct)</span>
+<span class="nc" id="L76">                activableCards.add(c);</span>
+<span class="nc" id="L77">        });</span>
+
+<span class="nc" id="L79">        return activableCards;</span>
+    }
+
+    /**
+     * @param valueToHarvest of the player at the moment
+     * @return all building cards that have their diceValue requirement less than the valueToHarvest
+     */
+    public List&lt;AbstractDevelopmentCard&gt; getActivableTerritoryCard(Integer valueToHarvest) {
+<span class="nc" id="L87">        List&lt;AbstractDevelopmentCard&gt; activableCards = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L88">        territories.forEach(c -&gt; {</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            if(((TerritoryCard)c).getDiceValueToHarvest() &gt; valueToHarvest)</span>
+<span class="nc" id="L90">                activableCards.add(c);</span>
+<span class="nc" id="L91">        });</span>
+
+<span class="nc" id="L93">        return activableCards;</span>
+    }
+
+    public void setPersonalBonusTile(BonusTile bonusTile) {
+<span class="nc" id="L97">        this.personalBonusTile = bonusTile;</span>
+<span class="nc" id="L98">    }</span>
+    public BonusTile getPersonalBonusTile() {
+<span class="nc" id="L100">        return this.personalBonusTile;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

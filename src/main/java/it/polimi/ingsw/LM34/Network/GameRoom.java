@@ -53,7 +53,7 @@ public class GameRoom {
             timeoutThread.start();
         }
         else if (this.players.size() >= this.configurator.getWaitingRoomPlayersThreshold()) {
-            this.timeoutRunnable = new WaitingRoomTimeout(this.configurator.getWaitingRoomTimeout() * 100); //TODO *1000
+            this.timeoutRunnable = new WaitingRoomTimeout(this.configurator.getWaitingRoomTimeout() * 1000);
             timeoutThread = new Thread(this.timeoutRunnable);
             timeoutThread.start();
         }

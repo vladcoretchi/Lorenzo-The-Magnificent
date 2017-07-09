@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PersonalBoardView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.UI.GUI.GuiViews</a> &gt; <span class="el_source">PersonalBoardView.java</span></div><h1>PersonalBoardView.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
+
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
+import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+import it.polimi.ingsw.LM34.Model.Player;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.FutureTask;
+
+import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.MULTICOLOR;
+
+public class PersonalBoardView extends Application {
+    private Parent root;
+    private Map&lt;Integer, Integer&gt; mapCharactersToVictoryPoints;
+    private Map&lt;Integer, Integer&gt; mapTerritoriesToVictoryPoints;
+    private Map&lt;Integer, Integer&gt; mapMilitaryPointsForTerritories;
+    private Player player;
+    private Text militaryPointsValue;
+
+<span class="nc" id="L34">    public PersonalBoardView(Player playerReceived, Map&lt;Integer, Integer&gt; mapTerritoriesToVictoryPoints, Map&lt;Integer, Integer&gt; mapMilitaryPointsForTerritories, Map&lt;Integer, Integer&gt; mapCharactersToVictoryPoints) {</span>
+<span class="nc" id="L35">        this.player = playerReceived;</span>
+<span class="nc" id="L36">        this.mapCharactersToVictoryPoints = mapCharactersToVictoryPoints;</span>
+<span class="nc" id="L37">        this.mapTerritoriesToVictoryPoints = mapTerritoriesToVictoryPoints;</span>
+<span class="nc" id="L38">        this.mapMilitaryPointsForTerritories = mapMilitaryPointsForTerritories;</span>
+<span class="nc" id="L39">    }</span>
+
+<span class="nc" id="L41">    public PersonalBoardView() {/**Intentionally left void**/}</span>
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+<span class="nc" id="L45">        root = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource(&quot;views/personalBoard.fxml&quot;));</span>
+<span class="nc" id="L46">        Stage stage = new Stage();</span>
+<span class="nc" id="L47">        stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));</span>
+<span class="nc" id="L48">        stage.setResizable(false);</span>
+<span class="nc" id="L49">        stage.setFullScreen(false);</span>
+<span class="nc" id="L50">        stage.initOwner(primaryStage);</span>
+<span class="nc" id="L51">        stage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource(&quot;images/icon.png&quot;).toExternalForm()));</span>
+<span class="nc" id="L52">        stage.setTitle(&quot;PersonalBoard - &quot; + this.player.getPlayerName());</span>
+<span class="nc" id="L53">        stage.setResizable(false);</span>
+<span class="nc" id="L54">        stage.show();</span>
+<span class="nc" id="L55">        updatePersonalBoard();</span>
+<span class="nc" id="L56">        updateMilitaryAndVictoryPoints();</span>
+<span class="nc" id="L57">        stage.setOnHidden(e -&gt; stage.close());</span>
+<span class="nc" id="L58">    }</span>
+
+    /**
+     * Show all the {@link AbstractDevelopmentCard} &amp;&amp; {@link LeaderCard} that the specified {@link Player} has
+     * in his {@link PersonalBoard}
+     */
+    public void updatePersonalBoard() {
+        List&lt;AbstractDevelopmentCard&gt; devDecks;
+        ImageView imageView;
+
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        for(DevelopmentCardColor type : DevelopmentCardColor.values())</span>
+<span class="nc bnc" id="L69" title="All 4 branches missed.">            if(type != MULTICOLOR &amp;&amp; player.getPersonalBoard().getDevelopmentCardsByType(type).isPresent()) {</span>
+<span class="nc" id="L70">                devDecks = player.getPersonalBoard().getDevelopmentCardsByType(type).get();</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">                for (int i = 0; i &lt; devDecks.size(); i++) {</span>
+<span class="nc" id="L72">                    imageView = (ImageView) root.lookup(String.format(&quot;#personalBoard_%1$sCard%2$d&quot;,</span>
+<span class="nc" id="L73">                            devDecks.get(i).getColor().toString(), i));</span>
+
+<span class="nc" id="L75">                    imageView.setImage(new Image(Thread.currentThread()</span>
+<span class="nc" id="L76">                            .getContextClassLoader().getResource(&quot;images/developmentCards/&quot; +</span>
+<span class="nc" id="L77">                                    devDecks.get(i).getColor().getDevType() + &quot;/&quot; + devDecks.get(i).getName() + &quot;.png&quot;)</span>
+<span class="nc" id="L78">                            .toExternalForm()));</span>
+
+<span class="nc" id="L80">                    imageView.setVisible(true);</span>
+                }
+            }
+
+<span class="nc" id="L84">        List&lt;LeaderCard&gt; leaderCards = player.getActivatedLeaderCards();</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        for (Integer i = 0; i &lt; leaderCards.size(); i++) {</span>
+<span class="nc" id="L86">            imageView = (ImageView) root.lookup(&quot;#personalBoard_LeaderCard&quot; + i.toString());</span>
+
+<span class="nc" id="L88">            imageView.setImage(new Image(Thread.currentThread()</span>
+<span class="nc" id="L89">                    .getContextClassLoader().getResource(String.format(&quot;images/leaderCards/%1$s.png&quot;, leaderCards.get(i).getName()))</span>
+<span class="nc" id="L90">                    .toExternalForm()));</span>
+
+<span class="nc" id="L92">            imageView.setVisible(true);</span>
+        }
+<span class="nc" id="L94">    }</span>
+
+    public void updateMilitaryAndVictoryPoints() {
+
+<span class="nc" id="L98">        FutureTask&lt;Void&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+            StackPane territoriesMilitaryPoints;
+            Text territoriesMilitaryPointsValues;
+
+<span class="nc" id="L102">            Iterator&lt;Map.Entry&lt;Integer, Integer&gt;&gt; militaryPointsIterator = this.mapMilitaryPointsForTerritories.entrySet().iterator();</span>
+<span class="nc" id="L103">            Integer i = 0;</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            while(militaryPointsIterator.hasNext()) {</span>
+<span class="nc" id="L105">                territoriesMilitaryPoints = (StackPane) root.lookup(&quot;#military_points_for_territories&quot;+ i.toString());</span>
+<span class="nc" id="L106">                territoriesMilitaryPointsValues = new Text(militaryPointsIterator.next().getValue().toString());</span>
+<span class="nc" id="L107">                territoriesMilitaryPointsValues.setStyle(&quot;-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0); -fx-font-size: 16;&quot;);</span>
+<span class="nc" id="L108">                territoriesMilitaryPoints.getChildren().add(territoriesMilitaryPointsValues);</span>
+<span class="nc" id="L109">                i++;</span>
+            }
+
+<span class="nc" id="L112">            return null;</span>
+        });
+
+<span class="nc" id="L115">        FutureTask&lt;Void&gt; uiTask1 = new FutureTask&lt;&gt;(() -&gt; {</span>
+            StackPane territoriesVictoryPoints;
+            Text territoriesVictoryPointsValue;
+
+<span class="nc" id="L119">            Iterator&lt;Map.Entry&lt;Integer, Integer&gt;&gt; victoryPointsIterator = this.mapTerritoriesToVictoryPoints.entrySet().iterator();</span>
+<span class="nc" id="L120">            Integer i = 0;</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">            while(victoryPointsIterator.hasNext()) {</span>
+<span class="nc" id="L122">                territoriesVictoryPoints = (StackPane) root.lookup(&quot;#territories_to_victory_points&quot;+ i.toString());</span>
+<span class="nc" id="L123">                territoriesVictoryPointsValue = new Text(victoryPointsIterator.next().getValue().toString());</span>
+<span class="nc" id="L124">                territoriesVictoryPointsValue.setStyle(&quot;-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0); -fx-font-size: 16;&quot;);</span>
+<span class="nc" id="L125">                territoriesVictoryPoints.getChildren().add(territoriesVictoryPointsValue);</span>
+<span class="nc" id="L126">                i++;</span>
+            }
+
+<span class="nc" id="L129">            return null;</span>
+        });
+
+<span class="nc" id="L132">        FutureTask&lt;Void&gt; uiTask2 = new FutureTask&lt;&gt;(() -&gt; {</span>
+            StackPane charactersVictoryPoints;
+            Text charactersVictoryPointsValue;
+
+<span class="nc" id="L136">            Iterator&lt;Map.Entry&lt;Integer, Integer&gt;&gt; victoryPointsIterator = this.mapCharactersToVictoryPoints.entrySet().iterator();</span>
+<span class="nc" id="L137">            Integer i = 0;</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">            while(victoryPointsIterator.hasNext()) {</span>
+<span class="nc" id="L139">                charactersVictoryPoints = (StackPane) root.lookup(&quot;#characters_to_victory_points&quot;+ i.toString());</span>
+<span class="nc" id="L140">                charactersVictoryPointsValue = new Text(victoryPointsIterator.next().getValue().toString());</span>
+<span class="nc" id="L141">                charactersVictoryPointsValue.setStyle(&quot;-fx-effect: dropshadow(gaussian, white, 3, 0.7, 0, 0); -fx-font-size: 16;&quot;);</span>
+<span class="nc" id="L142">                charactersVictoryPoints.getChildren().add(charactersVictoryPointsValue);</span>
+<span class="nc" id="L143">                i++;</span>
+            }
+
+<span class="nc" id="L146">            return null;</span>
+        });
+
+<span class="nc" id="L149">        Platform.runLater(uiTask);</span>
+<span class="nc" id="L150">        Platform.runLater(uiTask1);</span>
+<span class="nc" id="L151">        Platform.runLater(uiTask2);</span>
+<span class="nc" id="L152">    }</span>
+
+    }
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

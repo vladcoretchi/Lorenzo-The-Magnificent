@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TowersContext.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts</a> &gt; <span class="el_source">TowersContext.java</span></div><h1>TowersContext.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts;
+
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext;
+import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.IncreasePawnsValueByServantsContext;
+import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
+import it.polimi.ingsw.LM34.Exceptions.Controller.*;
+import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
+import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.TowerSlot;
+import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+import it.polimi.ingsw.LM34.Model.Cards.VentureCard;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
+import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Utils.Configurator;
+import it.polimi.ingsw.LM34.Utils.Validator;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
+import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.*;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
+
+public class TowersContext extends AbstractGameContext {
+    private Boolean slotsRewardPenalty;
+    private Boolean noOccupiedTowerTax;
+    private Boolean ignoreMilitaryPointsRequirements;
+    private DevelopmentCardColor towerColor;
+    private Integer slotDiceValue;
+
+    //free action variables
+    private Boolean freeAction;
+    private Resources requirementsDiscount;
+
+<span class="fc" id="L44">    public TowersContext() {</span>
+<span class="fc" id="L45">        this.contextType = ContextType.TOWERS_CONTEXT;</span>
+<span class="fc" id="L46">    }</span>
+
+    @Override
+    public Void interactWithPlayer(Object... args)
+            throws IncorrectInputException, OccupiedSlotException, NotEnoughResourcesException, NotEnoughMilitaryPoints, CardTypeNumLimitReachedException, CannotPlacePawnException, NotEnoughServantsException {
+        Pair&lt;DevelopmentCardColor, Integer&gt; slotSelection;
+<span class="fc" id="L52">        DevelopmentCardColor freeActionCard = null;</span>
+<span class="fc" id="L53">        Integer freeActionValue = 0;</span>
+        try {
+<span class="fc" id="L55">            Pair&lt;?, ?&gt; slotArg = (Pair&lt;?, ?&gt;) args[0];</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">            if(args.length == 3) {</span>
+<span class="nc" id="L57">                freeActionCard = (DevelopmentCardColor) args[1];</span>
+<span class="nc" id="L58">                freeActionValue = (Integer) args[2];</span>
+            }
+<span class="fc" id="L60">            slotSelection = new ImmutablePair&lt;&gt;((DevelopmentCardColor) slotArg.getLeft(), (Integer) slotArg.getRight());</span>
+<span class="fc" id="L61">            Validator.checkValidity(slotSelection.getRight(), 0, Configurator.MAX_TOWER_LEVELS-1);</span>
+<span class="nc" id="L62">        } catch (Exception ex) {</span>
+<span class="nc" id="L63">            LOGGER.log(Level.FINEST, ex.getMessage(), ex);</span>
+<span class="nc" id="L64">            throw new IncorrectInputException();</span>
+<span class="fc" id="L65">        }</span>
+
+<span class="fc" id="L67">        Tower selectedTower = null;</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        for (Tower t : this.gameManager.getTowers()) {</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">            if(t.getCardColor() == slotSelection.getLeft())</span>
+<span class="nc" id="L70">                selectedTower = t;</span>
+<span class="nc" id="L71">        }</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if(selectedTower == null)</span>
+<span class="nc" id="L73">            throw new IncorrectInputException();</span>
+
+<span class="nc bnc" id="L75" title="All 6 branches missed.">        if(freeActionCard != null &amp;&amp; freeActionCard != DevelopmentCardColor.MULTICOLOR &amp;&amp; !freeActionCard.name().equals(selectedTower.getCardColor().name()))</span>
+<span class="nc" id="L76">            throw new IncorrectInputException();</span>
+
+<span class="nc" id="L78">        TowerSlot slot = selectedTower.getTowerSlots().get(slotSelection.getRight());</span>
+
+<span class="nc" id="L80">        AbstractDevelopmentCard card = slot.getCardStored();</span>
+
+<span class="nc bnc" id="L82" title="All 4 branches missed.">        if(!slot.isEmpty() || card == null)</span>
+<span class="nc" id="L83">            throw new OccupiedSlotException();</span>
+
+<span class="nc bnc" id="L85" title="All 4 branches missed.">        if(card != null &amp;&amp; this.getCurrentPlayer().hasEnoughCardsOfType(card.getColor(), Configurator.MAX_ACQUIRABLE_CARDS_PER_TYPE))</span>
+<span class="nc" id="L86">            throw new CardTypeNumLimitReachedException();</span>
+
+<span class="nc" id="L88">        this.towerColor = selectedTower.getCardColor();</span>
+<span class="nc" id="L89">        this.slotDiceValue = slot.getDiceValue();</span>
+<span class="nc" id="L90">        this.slotsRewardPenalty = false;</span>
+<span class="nc" id="L91">        this.noOccupiedTowerTax = false;</span>
+<span class="nc" id="L92">        this.ignoreMilitaryPointsRequirements = false;</span>
+<span class="nc" id="L93">        this.freeAction = false;</span>
+<span class="nc" id="L94">        this.requirementsDiscount = null;</span>
+
+<span class="nc" id="L96">        setChanged();</span>
+<span class="nc" id="L97">        notifyObservers(this);</span>
+
+<span class="nc bnc" id="L99" title="All 6 branches missed.">        if(this.freeAction &amp;&amp; freeActionValue &gt; 0 &amp;&amp; slot.getDiceValue() &gt; freeActionValue) {</span>
+<span class="nc" id="L100">            Integer selectedServants = ((IncreasePawnsValueByServantsContext) getContextByType(INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT)).</span>
+<span class="nc" id="L101">                    interactWithPlayer(slot.getDiceValue() - freeActionValue);</span>
+
+<span class="nc" id="L103">            this.getCurrentPlayer().getResources().subResources(new Resources(0,0,0,selectedServants));</span>
+        }
+
+<span class="nc" id="L106">        Optional&lt;List&lt;AbstractDevelopmentCard&gt;&gt; currentPlayerTerritoryCards = this.getCurrentPlayer().getPersonalBoard()</span>
+<span class="nc" id="L107">                                                                            .getDevelopmentCardsByType(DevelopmentCardColor.GREEN);</span>
+
+        //Check if player has not passed the limit of territory cards he can have based on his MILITARY_POINTS
+<span class="nc bnc" id="L110" title="All 6 branches missed.">        if(this.towerColor == DevelopmentCardColor.GREEN &amp;&amp; !this.ignoreMilitaryPointsRequirements &amp;&amp; currentPlayerTerritoryCards.isPresent() &amp;&amp;</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">                this.gameManager.getConfigurator().getMilitaryPointsForTerritories().get(currentPlayerTerritoryCards.get().size()) &gt; this.getCurrentPlayer().getResources().getResourceByType(MILITARY_POINTS))</span>
+<span class="nc" id="L112">            throw new NotEnoughMilitaryPoints();</span>
+
+<span class="nc" id="L114">        Resources ventureCardAlternative = null;</span>
+<span class="nc bnc" id="L115" title="All 6 branches missed.">        if(card != null &amp;&amp; card.getColor() == DevelopmentCardColor.PURPLE &amp;&amp; ((VentureCard) card).isThereAlternativeToMilitaryPointsPayment())</span>
+<span class="nc" id="L116">            ventureCardAlternative = new Resources(((VentureCard) card).getMilitaryPointsRequired(), 0, 0);</span>
+
+<span class="nc" id="L118">        Resources requirements = null;</span>
+<span class="nc bnc" id="L119" title="All 6 branches missed.">        if(card != null &amp;&amp; !(card.getColor() == DevelopmentCardColor.PURPLE &amp;&amp; card.getResourcesRequired().getResources().isEmpty()))</span>
+<span class="nc" id="L120">            requirements = new Resources(</span>
+<span class="nc" id="L121">                    card.getResourcesRequired().getResourceByType(COINS),</span>
+<span class="nc" id="L122">                    card.getResourcesRequired().getResourceByType(WOODS),</span>
+<span class="nc" id="L123">                    card.getResourcesRequired().getResourceByType(STONES),</span>
+<span class="nc" id="L124">                    card.getResourcesRequired().getResourceByType(SERVANTS),</span>
+<span class="nc" id="L125">                    card.getResourcesRequired().getResourceByType(MILITARY_POINTS),</span>
+<span class="nc" id="L126">                    card.getResourcesRequired().getResourceByType(FAITH_POINTS),</span>
+<span class="nc" id="L127">                    card.getResourcesRequired().getResourceByType(VICTORY_POINTS));</span>
+
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if(this.requirementsDiscount != null) {</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">            if(ventureCardAlternative != null)</span>
+<span class="nc" id="L131">                ventureCardAlternative.subResources(new Resources(</span>
+<span class="nc" id="L132">                        Math.min(ventureCardAlternative.getResourceByType(COINS), requirementsDiscount.getResourceByType(COINS)),</span>
+<span class="nc" id="L133">                        Math.min(ventureCardAlternative.getResourceByType(WOODS), requirementsDiscount.getResourceByType(WOODS)),</span>
+<span class="nc" id="L134">                        Math.min(ventureCardAlternative.getResourceByType(STONES), requirementsDiscount.getResourceByType(STONES)),</span>
+<span class="nc" id="L135">                        Math.min(ventureCardAlternative.getResourceByType(SERVANTS), requirementsDiscount.getResourceByType(SERVANTS)),</span>
+<span class="nc" id="L136">                        Math.min(ventureCardAlternative.getResourceByType(MILITARY_POINTS), requirementsDiscount.getResourceByType(MILITARY_POINTS)),</span>
+<span class="nc" id="L137">                        Math.min(ventureCardAlternative.getResourceByType(FAITH_POINTS), requirementsDiscount.getResourceByType(FAITH_POINTS)),</span>
+<span class="nc" id="L138">                        Math.min(ventureCardAlternative.getResourceByType(VICTORY_POINTS), requirementsDiscount.getResourceByType(VICTORY_POINTS))</span>
+                ));
+
+<span class="nc bnc" id="L141" title="All 2 branches missed.">            if(requirements != null)</span>
+<span class="nc" id="L142">                requirements.subResources(new Resources(</span>
+<span class="nc" id="L143">                        Math.min(requirements.getResourceByType(COINS), requirementsDiscount.getResourceByType(COINS)),</span>
+<span class="nc" id="L144">                        Math.min(requirements.getResourceByType(WOODS), requirementsDiscount.getResourceByType(WOODS)),</span>
+<span class="nc" id="L145">                        Math.min(requirements.getResourceByType(STONES), requirementsDiscount.getResourceByType(STONES)),</span>
+<span class="nc" id="L146">                        Math.min(requirements.getResourceByType(SERVANTS), requirementsDiscount.getResourceByType(SERVANTS)),</span>
+<span class="nc" id="L147">                        Math.min(requirements.getResourceByType(MILITARY_POINTS), requirementsDiscount.getResourceByType(MILITARY_POINTS)),</span>
+<span class="nc" id="L148">                        Math.min(requirements.getResourceByType(FAITH_POINTS), requirementsDiscount.getResourceByType(FAITH_POINTS)),</span>
+<span class="nc" id="L149">                        Math.min(requirements.getResourceByType(VICTORY_POINTS), requirementsDiscount.getResourceByType(VICTORY_POINTS))</span>
+                ));
+        }
+
+<span class="nc bnc" id="L153" title="All 4 branches missed.">        if(!this.noOccupiedTowerTax &amp;&amp; !selectedTower.isTowerEmpty()) {</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">            if(ventureCardAlternative != null)</span>
+<span class="nc" id="L155">                ventureCardAlternative.sumResources(Configurator.TOWER_OCCUPIED_COST);</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">            if(requirements != null)</span>
+<span class="nc" id="L157">                requirements.sumResources(Configurator.TOWER_OCCUPIED_COST);</span>
+        }
+
+<span class="nc bnc" id="L160" title="All 6 branches missed.">        if(! ((requirements != null &amp;&amp; this.gameManager.getCurrentPlayer().hasEnoughResources(requirements)) ||</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">                (ventureCardAlternative != null &amp;&amp; this.gameManager.getCurrentPlayer().hasEnoughResources(ventureCardAlternative))))</span>
+<span class="nc" id="L162">            throw new NotEnoughResourcesException();</span>
+
+        try {
+<span class="nc bnc" id="L165" title="All 2 branches missed.">            if(!freeAction) {</span>
+<span class="nc" id="L166">                FamilyMember selectedFamilyMember = ((FamilyMemberSelectionContext) getContextByType(FAMILY_MEMBER_SELECTION_CONTEXT))</span>
+<span class="nc" id="L167">                        .interactWithPlayer(slot.getDiceValue(), false, this.contextType);</span>
+
+<span class="nc bnc" id="L169" title="All 4 branches missed.">                if(!this.freeAction &amp;&amp; selectedTower.getTowerSlots().stream().anyMatch(ts -&gt;</span>
+<span class="nc" id="L170">                        ts.getFamilyMembers().stream().anyMatch(fm -&gt;</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">                                fm.getFamilyMemberColor().name().equals(this.getCurrentPlayer().getPawnColor().name())</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">                                        &amp;&amp; !fm.getDiceColorAssociated().name().equals(DiceColor.NEUTRAL.name())</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">                                        &amp;&amp; !selectedFamilyMember.getDiceColorAssociated().name().equals(DiceColor.NEUTRAL.name())))) {</span>
+<span class="nc" id="L174">                    this.gameManager.resetFamilyMemberValue(selectedFamilyMember);</span>
+<span class="nc" id="L175">                    throw new CannotPlacePawnException();</span>
+                }
+
+<span class="nc" id="L178">                slot.insertFamilyMember(selectedFamilyMember);</span>
+            }
+<span class="nc bnc" id="L180" title="All 2 branches missed.">            if(card != null)</span>
+<span class="nc" id="L181">                this.gameManager.getCurrentPlayer().getPersonalBoard().addCard(card);</span>
+<span class="nc" id="L182">            slot.setCardStored(null);</span>
+
+<span class="nc bnc" id="L184" title="All 4 branches missed.">            if(requirements != null &amp;&amp; ventureCardAlternative != null) {</span>
+<span class="nc" id="L185">                Boolean alternativePayment = false;</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">                if(this.getCurrentPlayer().isConnected())</span>
+                    try {
+<span class="nc" id="L188">                        alternativePayment = this.gameManager.getActivePlayerNetworkController().alternativeRequirementsPayment();</span>
+<span class="nc" id="L189">                    } catch (NetworkConnectionException ex) {</span>
+<span class="nc" id="L190">                        LOGGER.log(Level.INFO, ex.getMessage(), ex);</span>
+<span class="nc" id="L191">                        this.getCurrentPlayer().setDisconnected();</span>
+<span class="nc" id="L192">                    }</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">                if(alternativePayment)</span>
+<span class="nc" id="L194">                    this.gameManager.getCurrentPlayer().subResources(new Resources(</span>
+<span class="nc" id="L195">                            ventureCardAlternative.getResourceByType(COINS),</span>
+<span class="nc" id="L196">                            ventureCardAlternative.getResourceByType(WOODS),</span>
+<span class="nc" id="L197">                            ventureCardAlternative.getResourceByType(STONES),</span>
+<span class="nc" id="L198">                            ventureCardAlternative.getResourceByType(SERVANTS),</span>
+<span class="nc" id="L199">                            ((VentureCard) card).getMilitaryPointsSubstraction(),</span>
+<span class="nc" id="L200">                            ventureCardAlternative.getResourceByType(FAITH_POINTS),</span>
+<span class="nc" id="L201">                            ventureCardAlternative.getResourceByType(VICTORY_POINTS)));</span>
+                else
+<span class="nc" id="L203">                    this.gameManager.getCurrentPlayer().subResources(requirements);</span>
+<span class="nc" id="L204">            }</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">            else if(requirements != null)</span>
+<span class="nc" id="L206">                this.gameManager.getCurrentPlayer().subResources(requirements);</span>
+            else
+<span class="nc" id="L208">                this.gameManager.getCurrentPlayer().subResources((new Resources(</span>
+<span class="nc" id="L209">                        ventureCardAlternative.getResourceByType(COINS),</span>
+<span class="nc" id="L210">                        ventureCardAlternative.getResourceByType(WOODS),</span>
+<span class="nc" id="L211">                        ventureCardAlternative.getResourceByType(STONES),</span>
+<span class="nc" id="L212">                        ventureCardAlternative.getResourceByType(SERVANTS),</span>
+<span class="nc" id="L213">                        ((VentureCard) card).getMilitaryPointsSubstraction(),</span>
+<span class="nc" id="L214">                        ventureCardAlternative.getResourceByType(FAITH_POINTS),</span>
+<span class="nc" id="L215">                        ventureCardAlternative.getResourceByType(VICTORY_POINTS))));</span>
+
+<span class="nc" id="L217">            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).initIncome();</span>
+<span class="nc" id="L218">            card.getInstantBonus().forEach(effect -&gt; effect.applyEffect(this));</span>
+<span class="nc bnc" id="L219" title="All 6 branches missed.">            if(card.getColor() != DevelopmentCardColor.GREEN &amp;&amp; card.getColor() != DevelopmentCardColor.YELLOW &amp;&amp; card.getPermanentBonus() != null)</span>
+<span class="nc" id="L220">                card.getPermanentBonus().applyEffect(this);</span>
+
+<span class="nc bnc" id="L222" title="All 2 branches missed.">            if(!this.slotsRewardPenalty)</span>
+<span class="nc" id="L223">                slot.getResourcesReward().applyEffect(this);</span>
+<span class="nc" id="L224">            ((ResourceIncomeContext) getContextByType(RESOURCE_INCOME_CONTEXT)).interactWithPlayer();</span>
+<span class="nc" id="L225">        } catch(InvalidCardType | OccupiedSlotException ex) {</span>
+<span class="nc" id="L226">            LOGGER.log(Level.WARNING, ex.getMessage(), ex);</span>
+<span class="nc" id="L227">        }</span>
+
+<span class="nc" id="L229">        return null;</span>
+    }
+
+    public DevelopmentCardColor getTowerColor() {
+<span class="nc" id="L233">        return this.towerColor;</span>
+    }
+
+    public Integer getSlotDiceValue() {
+<span class="nc" id="L237">        return this.slotDiceValue;</span>
+    }
+
+    public void setSlotsRewardPenalty() {
+<span class="nc" id="L241">        this.slotsRewardPenalty = true;</span>
+<span class="nc" id="L242">    }</span>
+
+    public void avoidOccupiedTowerTax() {
+<span class="fc" id="L245">        this.noOccupiedTowerTax = true;</span>
+<span class="fc" id="L246">    }</span>
+
+    public void ignoreMilitaryPointsRequirementsForTerritoryCards() {
+<span class="pc bpc" id="L249" title="1 of 2 branches missed.">        if(this.towerColor == DevelopmentCardColor.GREEN)</span>
+<span class="nc" id="L250">            this.ignoreMilitaryPointsRequirements = true;</span>
+<span class="fc" id="L251">    }</span>
+
+    public void noFamilyMemberRequired() {
+<span class="nc" id="L254">        this.freeAction = true;</span>
+<span class="nc" id="L255">    }</span>
+
+    public void setRequirementsDiscount(Resources res) {
+<span class="nc" id="L258">        this.requirementsDiscount = res;</span>
+<span class="nc" id="L259">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

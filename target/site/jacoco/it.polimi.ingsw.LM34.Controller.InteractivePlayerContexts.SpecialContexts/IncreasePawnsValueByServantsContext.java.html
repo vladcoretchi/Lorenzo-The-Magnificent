@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IncreasePawnsValueByServantsContext.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts</a> &gt; <span class="el_source">IncreasePawnsValueByServantsContext.java</span></div><h1>IncreasePawnsValueByServantsContext.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
+
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughServantsException;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Utils.Validator;
+
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;
+import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.SERVANTS;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
+
+public class IncreasePawnsValueByServantsContext extends AbstractGameContext {
+    private Integer servantsRequested;
+
+<span class="fc" id="L19">    public IncreasePawnsValueByServantsContext() {</span>
+<span class="fc" id="L20">        contextType = INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;</span>
+<span class="fc" id="L21">    }</span>
+
+    @Override
+    public Integer interactWithPlayer(Object... args) throws IncorrectInputException, NotEnoughServantsException {
+        try {
+<span class="nc" id="L26">            this.servantsRequested = Math.max((Integer) args[0], 0);</span>
+<span class="nc" id="L27">        } catch(Exception ex) {</span>
+<span class="nc" id="L28">            LOGGER.log(Level.WARNING, ex.getMessage(), ex);</span>
+<span class="nc" id="L29">            throw new IncorrectInputException();</span>
+<span class="nc" id="L30">        }</span>
+
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        if(this.gameManager.getCurrentPlayer().getResources().getResourceByType(SERVANTS) &lt; servantsRequested)</span>
+<span class="nc" id="L33">            throw new NotEnoughServantsException();</span>
+
+<span class="nc" id="L35">        setChanged();</span>
+<span class="nc" id="L36">        notifyObservers(this);</span>
+
+<span class="nc" id="L38">        Integer availableServants = this.gameManager.getCurrentPlayer().getResources().getResourceByType(ResourceType.SERVANTS);</span>
+<span class="nc" id="L39">        Integer selectedServants = 0;</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if(this.getCurrentPlayer().isConnected())</span>
+            try {
+<span class="nc" id="L42">                selectedServants = this.gameManager.getActivePlayerNetworkController().servantsSelection(availableServants, this.servantsRequested);</span>
+<span class="nc" id="L43">            } catch (NetworkConnectionException ex) {</span>
+<span class="nc" id="L44">                LOGGER.log(Level.INFO, ex.getMessage(), ex);</span>
+<span class="nc" id="L45">                this.getCurrentPlayer().setDisconnected();</span>
+<span class="nc" id="L46">            }</span>
+<span class="nc" id="L47">        Validator.checkValidity(selectedServants, this.servantsRequested, availableServants);</span>
+
+<span class="nc" id="L49">        return selectedServants;</span>
+    }
+
+    public void duplicateServantsRequirements() {
+<span class="nc" id="L53">        this.servantsRequested *= 2;</span>
+<span class="nc" id="L54">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
