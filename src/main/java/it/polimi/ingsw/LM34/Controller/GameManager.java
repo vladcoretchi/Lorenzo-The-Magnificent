@@ -155,7 +155,7 @@ public class GameManager {
      */
     public void startGame() {
         bonusTileSelectionPhase();
-        leaderSelectionPhase();
+        //leaderSelectionPhase(); //TODO
 
         players.forEach(player -> {
             try {
@@ -442,9 +442,13 @@ public class GameManager {
             Integer selected;
             try {
                 selected = getPlayerNetworkController(this.players.get(playerIndex)).bonusTileSelection(bonusTiles);
+                Validator.checkValidity(selected, bonusTiles);
             } catch(NetworkConnectionException ex) {
                 LOGGER.log(Level.INFO, ex.getMessage(), ex);
                 this.players.get(playerIndex).setDisconnected();
+                selected = new Random().nextInt(bonusTiles.size());
+            } catch (IncorrectInputException ex) {
+                LOGGER.log(Level.INFO, ex.getMessage(), ex);
                 selected = new Random().nextInt(bonusTiles.size());
             }
             this.players.get(playerIndex).getPersonalBoard().setPersonalBonusTile(bonusTiles.get(selected));

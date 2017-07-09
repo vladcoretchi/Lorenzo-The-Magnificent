@@ -1,5 +1,7 @@
 package it.polimi.ingsw.LM34.Network.Server;
 
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
+import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Network.GameRoom;
 import it.polimi.ingsw.LM34.Network.RMI.RMIConnection;
 import it.polimi.ingsw.LM34.Network.RMI.RMIServer;
@@ -9,6 +11,10 @@ import it.polimi.ingsw.LM34.Network.Socket.SocketServer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class Server {
     private static final Integer SOCKET_PORT = 20001;
@@ -42,8 +48,6 @@ public class Server {
     }
 
     public static boolean login(String username, String password) {
-        //TODO: actual login / registration
-
         Boolean found = false;
         for (int i = 0; !found && i < gameRooms.size(); i++) {
             String[] gameRoomPlayers = gameRooms.get(i).getPlayers();
@@ -66,8 +70,25 @@ public class Server {
     }
 
     public static GameRoom addPlayerToGameRoom(String username, ServerNetworkController networkController) {
-        waitingRoom.addPlayer(username, networkController);
-        return waitingRoom;
+       Optional<GameRoom> gameRoom = gameRooms.stream().filter(gr -> Arrays.stream(gr.getPlayers()).anyMatch(p -> p.equals(username))).findFirst();
+       if(gameRoom.isPresent()) {
+           gameRoom.get().substitutePlayer(username, networkController);
+           try {
+               networkController.startGame();
+           } catch (NetworkConnectionException ex) {
+               LOGGER.log(Level.INFO, ex.getMessage(), ex);
+           }
+           Optional<Player> gameManagerPlayer = gameRoom.get().getGameManager().getPlayers().stream().filter(player -> player.getPlayerName().equals(username)).findFirst();
+           gameManagerPlayer.ifPresent(Player::setConncted);
+           return gameRoom.get();
+       }
+       else {
+           if (Arrays.stream(waitingRoom.getPlayers()).anyMatch(p -> p.equals(username)))
+               waitingRoom.substitutePlayer(username, networkController);
+           else
+               waitingRoom.addPlayer(username, networkController);
+           return waitingRoom;
+       }
     }
 
     public static void startWaitingGame() {

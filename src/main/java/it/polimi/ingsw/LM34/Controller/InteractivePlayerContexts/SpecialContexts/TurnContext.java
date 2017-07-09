@@ -8,11 +8,12 @@ import it.polimi.ingsw.LM34.Exceptions.Controller.*;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
+import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.Validator;
 
+import java.util.Arrays;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_CARDS_CONTEXT;
@@ -81,49 +82,39 @@ public class TurnContext extends AbstractGameContext {
         endContext();
     }
 
-    public class MyFutureTask extends FutureTask<Object> {
-
-        public MyFutureTask(Runnable r) {
-            super(r, null);
-        }
-
-        @Override
-        protected void done() {
-            try {
-                if (!isCancelled())
-                    get();
-            } catch (ExecutionException e) {
-                // Exception occurred, deal with it
-                System.out.println("Exception: " + e.getCause());
-            } catch (InterruptedException e) {
-                // Shouldn't happen, we're invoked when computation is finished
-                throw new AssertionError(e);
-            }
-        }
-    }
-
     @Override
     public Void interactWithPlayer(Object... args) {
-        //TODO
-        /*FutureTask future = new MyFutureTask(() -> {
+        //interrupting the socket's blocking read on input stream results in a corrupted stream with the impossibility t communicate with the client
+        /*FutureTask<Void> future = new FutureTask<>(() -> {
             try {
-                playerAction(Optional.empty());
-                playerSecondaryAction(Optional.empty());
+                Boolean stillMainAction;
+                do {
+                    stillMainAction = playerAction(Optional.empty());
+                    this.gameManager.updateClientPlayers();
+                } while (stillMainAction != null && stillMainAction);
+                if(stillMainAction != null)
+                    playerSecondaryAction(Optional.empty());
             } catch(Exception ex) {
-                System.out.printf("%1$s%n%2$s",ex.getMessage(), Arrays.toString(ex.getStackTrace()));
                 LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             }
+            return null;
         });
 
         try {
-            //future.get(Configurator.PLAYER_MOVE_TIMEOUT, TimeUnit.MILLISECONDS);
             ExecutorService service = Executors.newCachedThreadPool();
             service.execute(future);
-            future.get(Configurator.PLAYER_MOVE_TIMEOUT, TimeUnit.MILLISECONDS);
+            try {
+                future.get(this.gameManager.getConfigurator().PLAYER_MOVE_TIMEOUT, TimeUnit.SECONDS);
+            } catch (Exception ex) {
+                LOGGER.log(Level.INFO, ex.getMessage(), ex);
+            }
+
+            FutureTask<Void> interruptTask = new FutureTask<>(() -> {Thread.currentThread().interrupt(); return null;});
+            service.execute(interruptTask);
+            interruptTask.get();
             service.shutdown();
             //service.submit(future);
         } catch(Exception ex) {
-            System.out.printf("%1$s%n%2$s",ex.getMessage(), Arrays.toString(ex.getStackTrace()));
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
             return null;
         }*/
