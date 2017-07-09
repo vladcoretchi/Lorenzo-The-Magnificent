@@ -156,7 +156,7 @@ public class TowersContext extends AbstractGameContext {
                 requirements.sumResources(Configurator.TOWER_OCCUPIED_COST);
         }
 
-        if((requirements != null && !this.gameManager.getCurrentPlayer().hasEnoughResources(requirements)) &&
+        if((requirements != null && !this.gameManager.getCurrentPlayer().hasEnoughResources(requirements)) ||
                 (ventureCardAlternative != null && !this.gameManager.getCurrentPlayer().hasEnoughResources(ventureCardAlternative)))
             throw new NotEnoughResourcesException();
 

@@ -75,8 +75,8 @@ public class CLI implements UIInterface {
         message.ifPresent(CLIStuff::printLine);
         Integer selectedValue;
         try {
-            selectedValue = Integer.parseInt(readUserInput.nextLine());
-            if(--selectedValue >= 0)
+            selectedValue = Integer.parseInt(readUserInput.nextLine()) - 1;
+            if(selectedValue >= 0 || !backString.isPresent())
                 Validator.checkValidity(selectedValue, data);
         }
         catch (IncorrectInputException | NumberFormatException ex) {
@@ -952,11 +952,11 @@ public class CLI implements UIInterface {
         Integer input = 0;
         do {
             try {
-                input = readUserInput.nextInt();
+                input = Integer.parseInt(readUserInput.nextLine());
                 Validator.checkValidity(--input, availableList);
                 validUserInput = true;
             }
-            catch (IncorrectInputException | InputMismatchException e) {
+            catch (IncorrectInputException | InputMismatchException | NumberFormatException e) {
                 LOGGER.log(Level.FINEST, e.getMessage(), e);
                 printError(INCORRECT_INPUT);
             }

@@ -73,8 +73,8 @@ public class PersonalBoardView extends Application {
                             devDecks.get(i).getColor().toString(), i));
 
                     imageView.setImage(new Image(Thread.currentThread()
-                            .getContextClassLoader().getResource(String.format("images/developmentCards/%1$s/%2$s.png",
-                                    devDecks.get(i).getColor().getDevType(), devDecks.get(i).getName()))
+                            .getContextClassLoader().getResource("images/developmentCards/" +
+                                    devDecks.get(i).getColor().getDevType() + "/" + devDecks.get(i).getName() + ".png")
                             .toExternalForm()));
 
                     imageView.setVisible(true);
@@ -91,15 +91,6 @@ public class PersonalBoardView extends Application {
 
             imageView.setVisible(true);
         }
-    }
-
-    //TODO
-    private void showMapCharactersToVictoryPoints() {
-
-    }
-
-    private void showMapTerritoriesToVIctoryPoints() {
-
     }
 
     public void updateMilitaryAndVictoryPoints() {

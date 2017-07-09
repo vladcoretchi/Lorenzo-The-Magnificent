@@ -133,9 +133,7 @@ public class GUI extends Application implements UIInterface {
      */
     @Override
     public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
-        FutureTask<Integer> uiTask = new FutureTask<>(() -> {
-            return new BonusTileDialog().interactWithPlayer(bonusTiles);
-        });
+        FutureTask<Integer> uiTask = new FutureTask<>(() -> new BonusTileDialog().interactWithPlayer(bonusTiles));
         return RunLaterTask(uiTask);
     }
 

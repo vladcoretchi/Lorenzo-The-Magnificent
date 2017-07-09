@@ -1,17 +1,11 @@
 package it.polimi.ingsw.LM34.Network;
 
 import it.polimi.ingsw.LM34.Controller.GameManager;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
 import it.polimi.ingsw.LM34.Network.Server.Server;
 import it.polimi.ingsw.LM34.Network.Server.ServerNetworkController;
 import it.polimi.ingsw.LM34.Utils.Configurator;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
-
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class GameRoom {
@@ -53,16 +47,23 @@ public class GameRoom {
         }
 
         this.players.put(username, networkController);
-
-        if (this.players.size() >= this.configurator.getWaitingRoomPlayersThreshold()) {
-            this.timeoutRunnable = new WaitingRoomTimeout(this.configurator.getWaitingRoomTimeout());
-            timeoutThread = new Thread(this.timeoutRunnable);
-            timeoutThread.start();
-        }
-        else if (this.players.size() == Configurator.MAX_PLAYERS) {
+        if (this.players.size() == Configurator.MAX_PLAYERS) {
             this.timeoutRunnable = new WaitingRoomTimeout(0);
             timeoutThread = new Thread(this.timeoutRunnable);
             timeoutThread.start();
+        }
+        else if (this.players.size() >= this.configurator.getWaitingRoomPlayersThreshold()) {
+            this.timeoutRunnable = new WaitingRoomTimeout(this.configurator.getWaitingRoomTimeout() * 1); //TODO *1000
+            timeoutThread = new Thread(this.timeoutRunnable);
+            timeoutThread.start();
+        }
+    }
+
+    public void substitutePlayer(String username, ServerNetworkController networkController) {
+        Optional<Map.Entry<String, ServerNetworkController>> oldPlayer = this.players.entrySet().stream().filter(player -> player.getKey().equals(username)).findFirst();
+        if(oldPlayer.isPresent()) {
+            oldPlayer.get().getValue().removeConnection();
+            oldPlayer.get().setValue(networkController);
         }
     }
 
@@ -106,6 +107,3 @@ public class GameRoom {
         }
     }
 }
-
-
-//TODO: handle disconnections, timer of turn, ecc

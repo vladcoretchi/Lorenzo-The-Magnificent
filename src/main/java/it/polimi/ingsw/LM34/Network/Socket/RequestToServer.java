@@ -16,8 +16,9 @@ public enum RequestToServer {
                 String username = connection.getInputStream().readUTF();
                 String password = connection.getInputStream().readUTF();
 
+                Boolean result = connection.login(username, password);
                 connection.getOutputStream().writeUTF(RequestToClient.LOGIN.name());
-                connection.getOutputStream().writeBoolean(connection.login(username, password));
+                connection.getOutputStream().writeBoolean(result);
                 connection.getOutputStream().flush();
             } catch (IOException e) {
                 LOGGER.log(Level.WARNING, e.getMessage(), e);

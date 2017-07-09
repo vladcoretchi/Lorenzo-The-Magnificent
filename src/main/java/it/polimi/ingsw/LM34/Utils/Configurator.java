@@ -39,12 +39,12 @@ import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
  * The {@link Configurator} loads all parameters from file as variables that will be used by each game
  */
 public class Configurator {
-    /*CONVENTION GAME_CODES*/
+    /*SERVER*/
     private Integer waitingRoomTimeout;
     private Integer TURN_TIMEOUT;
     private final Integer WAITING_ROOM_PLAYERS_THRESHOLD = 2;
 
-    public final Integer PLAYER_MOVE_TIMEOUT = 10000;
+    /*CONVENTION GAME_CODES*/
     public static final Integer MAX_TOWER_LEVELS = 4;
     public static final Integer MAX_LEADER_PER_PLAYER = 4;
     public static final Integer MAX_PLAYERS = 4;
@@ -119,8 +119,7 @@ public class Configurator {
         JSONObject jsonObject = null;
         try {
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            File file = new File(loader.getResource("configurations/config.json").getFile());
-            InputStream inputStream = new FileInputStream(file);
+            InputStream inputStream = loader.getResourceAsStream("configurations/config.json");
             String jsonString  = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
             jsonObject = new JSONObject(jsonString).optJSONObject("configuration");
         } catch (Exception e) {
@@ -1017,5 +1016,9 @@ public class Configurator {
 
     public Integer getWaitingRoomPlayersThreshold() {
         return WAITING_ROOM_PLAYERS_THRESHOLD;
+    }
+
+    public Integer getTurnTimeout() {
+        return TURN_TIMEOUT;
     }
 }
