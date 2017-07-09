@@ -4,12 +4,23 @@ import it.polimi.ingsw.LM34.UI.CLI.CLI;
 import it.polimi.ingsw.LM34.UI.GUI.GUI;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+
 import static it.polimi.ingsw.LM34.UI.CLI.CLIStuff.*;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class GameClient {
     private static UIInterface ui;
 
     public static void main(String[] args) {
+        Handler handlerObj = new ConsoleHandler();
+        handlerObj.setLevel(Level.INFO); //TODO: off
+        LOGGER.addHandler(handlerObj);
+        LOGGER.setLevel(Level.INFO);
+        LOGGER.setUseParentHandlers(false);
+
         printSplashScreen();
 
         /*variable that will remain false until the user's input will be correct*/
