@@ -131,6 +131,7 @@ public class TurnContext extends AbstractGameContext {
         Boolean stillMainAction;
         do {
             stillMainAction = playerAction(Optional.empty());
+            this.gameManager.updateClientPlayers();
         } while (stillMainAction != null && stillMainAction);
         if(stillMainAction != null)
             playerSecondaryAction(Optional.empty());

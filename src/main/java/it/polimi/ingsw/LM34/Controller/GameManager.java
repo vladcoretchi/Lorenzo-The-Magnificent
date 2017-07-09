@@ -339,11 +339,7 @@ public class GameManager {
      * provide the players the initial amount of resources
      */
     private void setupPlayersResources() {
-       /* for (int i = 0; i < players.size(); i++) {
-            players.get(i).addResources(new Resources(
-                  40,40,40,40, 40,40,40));*/
-
-        for (int i = 0; i < players.size(); i++) {
+       for (int i = 0; i < players.size(); i++) {
             players.get(i).addResources(new Resources(
                     Configurator.BASE_COINS + i * Configurator.COINS_INCREMENT_PLAYER_ORDER,
                     Configurator.BASE_WOODS + i * Configurator.WOODS_INCREMENT_PLAYER_ORDER,

@@ -40,7 +40,7 @@ public class MarketAreaContext extends AbstractGameContext {
             throw new IncorrectInputException();
         }
 
-        if(selectedSlot > 2 && this.gameManager.getPlayers().size() < 4)
+        if(selectedSlot >= 2 && this.gameManager.getPlayers().size() < 4)
             throw new IncorrectInputException();
 
         ActionSlot slot = this.gameManager.getMarket().getActionSlots().get(selectedSlot);

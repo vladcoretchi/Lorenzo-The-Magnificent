@@ -119,8 +119,7 @@ public class Configurator {
         JSONObject jsonObject = null;
         try {
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            File file = new File(loader.getResource("configurations/config.json").getFile());
-            InputStream inputStream = new FileInputStream(file);
+            InputStream inputStream = loader.getResourceAsStream("configurations/config.json");
             String jsonString  = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
             jsonObject = new JSONObject(jsonString).optJSONObject("configuration");
         } catch (Exception e) {
