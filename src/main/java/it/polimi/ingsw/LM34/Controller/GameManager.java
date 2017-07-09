@@ -155,7 +155,7 @@ public class GameManager {
      */
     public void startGame() {
         bonusTileSelectionPhase();
-        //leaderSelectionPhase(); //TODO
+        leaderSelectionPhase();
 
         players.forEach(player -> {
             try {
