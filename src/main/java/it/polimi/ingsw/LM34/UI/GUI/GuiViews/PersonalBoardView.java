@@ -1,12 +1,10 @@
 package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
 
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
 import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
 import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
 import it.polimi.ingsw.LM34.Model.Player;
-import it.polimi.ingsw.LM34.Utils.Configurator;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -14,14 +12,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -130,8 +124,6 @@ public class PersonalBoardView extends Application {
         FutureTask<Void> uiTask1 = new FutureTask<>(() -> {
             StackPane territoriesVictoryPoints;
             Text territoriesVictoryPointsValue;
-
-            System.out.println("mappa territori --> punti vittoria: "+this.mapTerritoriesToVictoryPoints.toString());
 
             Iterator<Map.Entry<Integer, Integer>> victoryPointsIterator = this.mapTerritoriesToVictoryPoints.entrySet().iterator();
             Integer i = 0;

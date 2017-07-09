@@ -5,7 +5,6 @@ import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
-import it.polimi.ingsw.LM34.Model.Dice;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Utils.Validator;
@@ -15,7 +14,6 @@ import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.FAMILY_MEMBER_SELECTION_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.INCREASE_PAWNS_VALUE_BY_SERVANTS_CONTEXT;
-import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.SERVANTS;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
 public class FamilyMemberSelectionContext extends AbstractGameContext {
@@ -29,6 +27,7 @@ public class FamilyMemberSelectionContext extends AbstractGameContext {
 
     @Override
     public FamilyMember interactWithPlayer(Object... args) throws IncorrectInputException {
+        this.familyMemberValue = 0; //TODO
         Integer minValueRequested;
         Boolean servantsRequestAnyway;
         try {

@@ -300,7 +300,6 @@ public class GameManager {
         this.ventureCardDeck = Configurator.getVentureCards();
         this.leaderCardsDeck = Configurator.getLeaderCards(this.players.size());
         this.excommunicationCards = Configurator.getExcommunicationTiles();
-        getCurrentPlayer().getExcommunicationCards().addAll(excommunicationCards);//TODO: remove
     }
 
     public void nextTurn() {
@@ -315,8 +314,6 @@ public class GameManager {
 
     private void nextPhase() {
         this.phase++;
-        //TODO
-        //endGame();
 
         /*If all players have placed all of their pawns go to the next round*/
         if(phase >= (players.get(0).getFamilyMembers().size()))
@@ -325,8 +322,6 @@ public class GameManager {
 
     private void nextRound() { //round = half period
         this.round++;
-        endGame(); //TODO
-
 
         this.players.forEach(player -> {
             /*
@@ -370,8 +365,10 @@ public class GameManager {
         for(Player player : players)
             churchContext.interactWithPlayer(player);
         /*enter the endGame context in which final points are calculated*/
-        if(this.period >= Configurator.TOTAL_PERIODS)
+        if(Configurator.TOTAL_PERIODS <= this.period) {
             endGame();
+            //TODO: terminare game manager...
+        }
     }
 
     /**
@@ -410,6 +407,20 @@ public class GameManager {
             players.get(i).addResources(new Resources(
                   40,40,40,40, 40,40,40));
 
+           //TODO: remove the following
+            players.forEach(player -> {
+                try {
+                    List<ExcommunicationCard> excomm = new ArrayList<>();
+                    excommunicationCards.forEach(ex -> {
+                        if(ex.getPeriod() == 1 && ex.getNumber() == 2)
+                            excomm.add(ex);
+                    });
+                    this.getPlayerNetworkController(player).setExcommunicationCards(excomm);
+                } catch(NetworkConnectionException ex) {
+                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
+                    player.setDisconnected();
+                }
+            });
                 //TODO: uncomment
                 /*Configurator.BASE_COINS + i * Configurator.COINS_INCREMENT_PLAYER_ORDER,
                 Configurator.BASE_WOODS + i * Configurator.WOODS_INCREMENT_PLAYER_ORDER,

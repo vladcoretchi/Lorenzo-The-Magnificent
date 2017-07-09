@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -98,7 +97,7 @@
             <ImageView fx:id="productionArea0" fitHeight="65" fitWidth="65" layoutX="36" layoutY="1605"  style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <StackPane fx:id="productionArea1" maxHeight="65" maxWidth="65" layoutX="290" layoutY="1605"  style="-fx-background-color: transparent">
+            <StackPane fx:id="productionArea1" maxHeight="65" maxWidth="380" layoutX="290" layoutY="1605"  style="-fx-background-color: transparent">
                 <ImageView fitHeight="65" fitWidth="65" layoutX="290" layoutY="1590">
                     <Image url="@../images/transparentSlot.png"></Image>
                 </ImageView>
@@ -108,14 +107,14 @@
             <ImageView fx:id="harvestArea0" fitHeight="65" fitWidth="65" layoutX="36" layoutY="1775"  style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
-            <StackPane fx:id="harvestArea1" maxHeight="65.0" maxWidth="65.0" layoutX="290" layoutY="1775"  style="-fx-background-color: transparent">
+            <StackPane fx:id="harvestArea1" maxHeight="65.0" maxWidth="380" layoutX="290" layoutY="1775"  style="-fx-background-color: transparent">
             <ImageView fitWidth="65" fitHeight="65" layoutX="290" layoutY="1760">
                 <Image url="@../images/transparentSlot.png"></Image>
             </ImageView>
             </StackPane>
 
             <!--council palace-->
-            <StackPane fx:id="councilPalace" minWidth="380.0" layoutX="710" layoutY="1080" minHeight="114.0" >
+            <StackPane fx:id="councilPalace" maxHeight="65.0" maxWidth="380.0" layoutX="710" layoutY="1080" minHeight="114.0" >
             </StackPane>
 
             <!--tower slots-->

@@ -15,7 +15,6 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -33,7 +32,7 @@ public class EndGameDialog {
         this.players = players;
     }
 
-    public void start(Stage primaryStage) throws Exception {
+    public void start() throws Exception {
 
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
@@ -68,7 +67,6 @@ public class EndGameDialog {
 
         Stage stage = new Stage();
         stage.initModality(Modality.NONE);
-        stage.initOwner(primaryStage);
         stage.setFullScreen(false);
         Scene scene = new Scene(pointsChart);
         scene.getStylesheets().add(EndGameDialog.class.getResource("/css/endGameDialog.css").toExternalForm());

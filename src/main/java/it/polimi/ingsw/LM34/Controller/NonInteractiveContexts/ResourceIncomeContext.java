@@ -7,8 +7,6 @@ import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.*;
-import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.FAITH_POINTS;
-import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.VICTORY_POINTS;
 
 /**
  * This context does not provide an interaction with the player but it is important
@@ -29,13 +27,14 @@ public class ResourceIncomeContext extends AbstractGameContext {
 
         setChanged();
         notifyObservers(this);
+
         this.gameManager.getCurrentPlayer().getExcommunicationCards().
                             forEach(exCard -> {
                                 if (exCard.getPenalty() instanceof ResourcesBonus)
                                         exCard.getPenalty().applyEffect(this);
                             });
 
-        Integer multiplier = (this.duplicateGoods ? 1 : 2);
+        Integer multiplier = (this.duplicateGoods ? 2 : 1);
 
         this.gameManager.getCurrentPlayer().addResources(new Resources(
                 this.income.getResourceByType(COINS) * multiplier,

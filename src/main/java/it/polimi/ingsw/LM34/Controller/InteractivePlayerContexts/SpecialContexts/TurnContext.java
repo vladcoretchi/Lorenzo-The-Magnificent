@@ -8,13 +8,11 @@ import it.polimi.ingsw.LM34.Exceptions.Controller.*;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
-import it.polimi.ingsw.LM34.Utils.Configurator;
 import it.polimi.ingsw.LM34.Utils.Validator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.LEADER_CARDS_CONTEXT;
@@ -106,6 +104,7 @@ public class TurnContext extends AbstractGameContext {
 
     @Override
     public Void interactWithPlayer(Object... args) {
+        //TODO
         /*FutureTask future = new MyFutureTask(() -> {
             try {
                 playerAction(Optional.empty());

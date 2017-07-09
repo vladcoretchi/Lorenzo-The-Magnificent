@@ -3,7 +3,6 @@ package it.polimi.ingsw.LM34.UI.GUI;
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Enums.Model.PathType;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
@@ -261,9 +260,9 @@ public class GUI extends Application implements UIInterface {
                     if (!towerSlot.getFamilyMembers().isEmpty()) {
                         PawnColor pawnColor = towerSlot.getFamilyMembers().get(0).getFamilyMemberColor();
                         slotView.setImage(new Image(Thread.currentThread()
-                                .getContextClassLoader().getResource("images/pawns/" + pawnColor.toString() + ".png").toExternalForm()));
+                                .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + pawnColor.toString() + ".png").toExternalForm()));
                     } else
-                        slotView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
+                        slotView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource(IMAGE_SLOT_TRANSPARENT).toExternalForm()));
                 }
             }
             return null;
@@ -324,9 +323,9 @@ public class GUI extends Application implements UIInterface {
                 if (!marketSlots.get(index).getFamilyMembers().isEmpty()) {
                     pawnColor = marketSlots.get(index).getFamilyMembers().get(0).getFamilyMemberColor();
                     slotView.setImage(new Image(Thread.currentThread()
-                            .getContextClassLoader().getResource("images/pawns/" + pawnColor.toString() + ".png").toExternalForm()));
+                            .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + pawnColor.toString() + ".png").toExternalForm()));
                 } else
-                    slotView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource("images/transparentSlot.png").toExternalForm()));
+                    slotView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource(IMAGE_SLOT_TRANSPARENT).toExternalForm()));
             }
 
             return null;
@@ -503,7 +502,6 @@ public class GUI extends Application implements UIInterface {
         Platform.runLater(uiTask);
     }
 
-
     /**
      * @param familyMembers available to the player
      * @return familyMember selected from the player
@@ -633,24 +631,25 @@ public class GUI extends Application implements UIInterface {
         this.loginDialog = new LoginDialog();
         this.loginDialog.show();
     }
+   //TODO: remove all the following FOUR methods below from UI Interface?
     @Override
     public void showMapCharactersToVictoryPoints() {
-        new PathTypesVisualizationDialog().interactWithPlayer(PathType.ENDING_GAME_CHARACTERS_VICTORY_POINTS, mapCharactersToVictoryPoints);
+
     }
 
     @Override
     public void showMapTerritoriesToVictoryPoints() {
-        new PathTypesVisualizationDialog().interactWithPlayer(PathType.ENDING_GAME_TERRITORIES_VICTORY_POINTS, mapTerritoriesToVictoryPoints);
+       // new PathTypesVisualizationDialog().interactWithPlayer(PathType.ENDING_GAME_TERRITORIES_VICTORY_POINTS, mapTerritoriesToVictoryPoints);
     }
 
     @Override
     public void showFaithPath() {
-        new PathTypesVisualizationDialog().interactWithPlayer(PathType.FAITH_PATH, faithPath);
+        //new PathTypesVisualizationDialog().interactWithPlayer(PathType.FAITH_PATH, faithPath);
     }
 
     @Override
     public void showMilitaryPointsForTerritories() {
-        new PathTypesVisualizationDialog().interactWithPlayer(PathType.MILITARY_POINTS_FOR_TERRITORIES, mapMilitaryPointsForTerritories);
+        //new PathTypesVisualizationDialog().interactWithPlayer(PathType.MILITARY_POINTS_FOR_TERRITORIES, mapMilitaryPointsForTerritories);
     }
 
     @Override
@@ -677,7 +676,7 @@ public class GUI extends Application implements UIInterface {
     private void leaderClickEvent(CountDownLatch latch, PlayerAction action) {
         /*Set the listener on the leader button*/
         Button endTurn = (Button) root.lookup("#endTurn");
-        endTurn.setOnMouseClicked(new endTurnClick(latch, action));
+        endTurn.setOnMouseClicked(new EndTurnClick(latch, action));
     }
 
     /**
@@ -850,7 +849,7 @@ public class GUI extends Application implements UIInterface {
 
                 return this.actionLatch;
             }catch(Exception ex) {
-                System.out.printf("%1$s%n%2$s",ex.getMessage(), Arrays.toString(ex.getStackTrace()));
+                LOGGER.log(Level.FINEST, ex.getMessage(), ex);
                 return null;
             }
         });
@@ -860,11 +859,11 @@ public class GUI extends Application implements UIInterface {
         return RunLaterTask(uiTaskActionResult);
     }
 
-    private class endTurnClick implements  EventHandler<Event> {
+    private class EndTurnClick implements  EventHandler<Event> {
         private CountDownLatch waitLatch;
         private PlayerAction action;
 
-        public endTurnClick(CountDownLatch latch, PlayerAction action) {
+        public EndTurnClick(CountDownLatch latch, PlayerAction action) {
             this.waitLatch = latch;
             this.action = action;
         }
@@ -1001,11 +1000,11 @@ public class GUI extends Application implements UIInterface {
      */
     @Override
     public void endGame(List<Player> players) {
-        try {
-            new EndGameDialog(players).start(new Stage());
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, e.getMessage(), e);
-        }
+        FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            new EndGameDialog(players).start();
+            return null;
+        });
+        Platform.runLater(uiTask);
     }
 
     /**
@@ -1081,10 +1080,7 @@ public class GUI extends Application implements UIInterface {
                 personalBoardView = new PersonalBoardView(player, mapTerritoriesToVictoryPoints, mapMilitaryPointsForTerritories, mapCharactersToVictoryPoints);
                 personalBoardView.start(primaryStage);
                 if(player.getPlayerName().equalsIgnoreCase(username.getText())) {
-                    //showFaithPath(); TODO
-                    //showMapCharactersToVictoryPoints();
-                    //showMapTerritoriesToVictoryPoints();
-                   // showMilitaryPointsForTerritories();
+                    //TODO: what?
                 }
             } catch (Exception e) {
                 LOGGER.log(Level.WARNING, e.getMessage(), e);

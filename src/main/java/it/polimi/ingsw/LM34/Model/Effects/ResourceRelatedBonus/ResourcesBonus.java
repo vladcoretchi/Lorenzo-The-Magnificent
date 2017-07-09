@@ -55,12 +55,11 @@ public class ResourcesBonus extends AbstractEffect implements Observer {
 
         if(this.developmentCardsGoodsMultiplier != null && this.developmentCardsGoodsMultiplier > 1)
             incomeContext.duplicateGoods();
-        else
-            incomeContext.setIncome(resources);
     }
 
     @Override
     public void applyEffect(AbstractGameContext callerContext) {
+
         callerContext.getContextByType(RESOURCE_INCOME_CONTEXT).addObserver(this);
 
         if(this.councilPrivilege != null && this.councilPrivilege > 0)
