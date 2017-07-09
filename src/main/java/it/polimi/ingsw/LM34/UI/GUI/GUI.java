@@ -200,16 +200,14 @@ public class GUI extends Application implements UIInterface {
         this.excommunicationCards = excommunicationCards;
 
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
-            try {
-                ImageView imageView;
-                for (ExcommunicationCard ex : excommunicationCards) {
-                    imageView = (ImageView) root.lookup("#excommunicationCard" + ex.getPeriod());
-                    imageView.setImage(new Image(Thread.currentThread()
-                            .getContextClassLoader().getResource("images/excommunicationTiles/excomm_" + ex.getPeriod() + "_" + ex.getNumber() + ".png")
-                            .toExternalForm()));
-                }
+
+            ImageView imageView;
+            for (ExcommunicationCard ex : excommunicationCards) {
+                imageView = (ImageView) root.lookup("#excommunicationCard" + ex.getPeriod());
+                imageView.setImage(new Image(Thread.currentThread()
+                        .getContextClassLoader().getResource("images/excommunicationTiles/excomm_" + ex.getPeriod() + "_" + ex.getNumber() + ".png")
+                        .toExternalForm()));
             }
-            catch(Exception e) { e.printStackTrace(); return null; }
 
             return null;
         });
