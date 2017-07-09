@@ -849,6 +849,8 @@ public class GUI extends Application implements UIInterface {
                 }
 
                 /*activate click listeners*/
+                passTurnClickEvent(this.actionLatch, this.playerAction);
+
                 switch (action.getContext()) {
                     case HARVEST_AREA_CONTEXT:
                         harvestAreaClickEvent(this.actionLatch, this.playerAction);

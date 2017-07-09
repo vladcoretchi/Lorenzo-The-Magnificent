@@ -7,10 +7,7 @@ import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeCont
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
-import it.polimi.ingsw.LM34.Exceptions.Controller.CardTypeNumLimitReachedException;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughMilitaryPoints;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.*;
 import it.polimi.ingsw.LM34.Exceptions.Model.InvalidCardType;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
@@ -50,7 +47,7 @@ public class TowersContext extends AbstractGameContext {
 
     @Override
     public Void interactWithPlayer(Object... args)
-            throws IncorrectInputException, OccupiedSlotException, NotEnoughResourcesException, NotEnoughMilitaryPoints, CardTypeNumLimitReachedException {
+            throws IncorrectInputException, OccupiedSlotException, NotEnoughResourcesException, NotEnoughMilitaryPoints, CardTypeNumLimitReachedException, CannotPlacePawnException, NotEnoughServantsException {
         Pair<DevelopmentCardColor, Integer> slotSelection;
         DevelopmentCardColor freeActionCard = null;
         Integer freeActionValue = 0;
@@ -174,7 +171,7 @@ public class TowersContext extends AbstractGameContext {
                                         && !fm.getDiceColorAssociated().name().equals(DiceColor.NEUTRAL.name())
                                         && !selectedFamilyMember.getDiceColorAssociated().name().equals(DiceColor.NEUTRAL.name())))) {
                     this.gameManager.resetFamilyMemberValue(selectedFamilyMember);
-                    throw new IncorrectInputException();
+                    throw new CannotPlacePawnException();
                 }
 
                 slot.insertFamilyMember(selectedFamilyMember);

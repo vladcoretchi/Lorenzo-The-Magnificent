@@ -7,6 +7,8 @@ import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotAvailableSpace;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughServantsException;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
@@ -92,6 +94,8 @@ public class WorkingAreaValueEffect extends AbstractEffect implements Observer {
                 else
                     throw new IncorrectInputException();
             } catch (IncorrectInputException |
+                    NotEnoughServantsException |
+                    NotAvailableSpace |
                     OccupiedSlotException ex) {
                 LOGGER.log(Level.WARNING, ex.getMessage(), ex);
                 playerInteraction(context, Optional.of(ex));

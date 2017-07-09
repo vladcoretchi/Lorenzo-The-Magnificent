@@ -9,7 +9,7 @@ public class NotEnoughResourcesException extends Exception {
     /** Serial Version */
 
     /** Invoke superclass constructor
-     *  with the costum message as parameter
+     *  with the custom message as parameter
      */
     public NotEnoughResourcesException() {
         super("You do not have enough resources");

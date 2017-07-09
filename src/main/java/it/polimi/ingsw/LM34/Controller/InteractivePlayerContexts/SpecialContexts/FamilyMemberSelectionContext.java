@@ -4,6 +4,7 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughServantsException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Resources;
@@ -26,8 +27,8 @@ public class FamilyMemberSelectionContext extends AbstractGameContext {
     }
 
     @Override
-    public FamilyMember interactWithPlayer(Object... args) throws IncorrectInputException {
-        this.familyMemberValue = 0; //TODO
+    public FamilyMember interactWithPlayer(Object... args) throws NotEnoughServantsException, IncorrectInputException {
+        this.familyMemberValue = 0;
         Integer minValueRequested;
         Boolean servantsRequestAnyway;
         try {
@@ -36,7 +37,7 @@ public class FamilyMemberSelectionContext extends AbstractGameContext {
             this.currentActionContext = (ContextType) args[2];
         } catch(Exception ex) {
             LOGGER.log(Level.WARNING, ex.getMessage(), ex);
-            throw new IncorrectInputException();
+            throw new NotEnoughServantsException();
         }
 
         List<FamilyMember> familyMembers = this.gameManager.getCurrentPlayer().getAvailableFamilyMembers();

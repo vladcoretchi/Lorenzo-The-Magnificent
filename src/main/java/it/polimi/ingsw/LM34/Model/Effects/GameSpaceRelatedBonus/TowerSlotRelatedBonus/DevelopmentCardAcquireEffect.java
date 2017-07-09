@@ -6,14 +6,12 @@ import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
 import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
-import it.polimi.ingsw.LM34.Exceptions.Controller.CardTypeNumLimitReachedException;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughMilitaryPoints;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughResourcesException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.*;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.Utils.Validator;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -42,7 +40,7 @@ public class DevelopmentCardAcquireEffect extends AbstractEffect implements Obse
     private Boolean isRelative;
 
     public DevelopmentCardAcquireEffect(DevelopmentCardColor color, Integer value, Boolean relative) {
-        this(color, value, relative, null);
+        this(color, value, relative, new ResourcesBonus(new Resources(), 0));
     }
 
     public DevelopmentCardAcquireEffect(DevelopmentCardColor color, Integer value, Boolean relative, ResourcesBonus requirementsDiscount) {
@@ -123,8 +121,10 @@ public class DevelopmentCardAcquireEffect extends AbstractEffect implements Obse
 
                 towerContext.interactWithPlayer(action.getAction(), this.color, this.diceValue);
             } catch (IncorrectInputException |
+                    CannotPlacePawnException |
                     NotEnoughMilitaryPoints |
                     OccupiedSlotException |
+                    NotEnoughServantsException |
                     NotEnoughResourcesException |
                     CardTypeNumLimitReachedException ex) {
                 LOGGER.log(Level.WARNING, ex.getMessage(), ex);

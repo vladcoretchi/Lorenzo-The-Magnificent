@@ -31,6 +31,9 @@ public abstract class AbstractGameContext extends Observable  {
             NotEnoughMilitaryPoints,
             InvalidLeaderCardAction,
             CardTypeNumLimitReachedException,
+            NotAvailableSpace,
+            CannotPlacePawnException,
+            NotEnoughServantsException,
             NoMoreLeaderCardsAvailable;
 
     /**

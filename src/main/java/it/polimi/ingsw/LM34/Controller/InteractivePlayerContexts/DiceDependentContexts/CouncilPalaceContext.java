@@ -4,6 +4,7 @@ import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughServantsException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
@@ -17,7 +18,7 @@ public class CouncilPalaceContext extends AbstractGameContext {
         this.contextType = COUNCIL_PALACE_CONTEXT;
     }
     @Override
-    public Void interactWithPlayer(Object... args) throws IncorrectInputException {
+    public Void interactWithPlayer(Object... args) throws NotEnoughServantsException, IncorrectInputException {
         CouncilPalace councilPalace = this.gameManager.getCouncilPalace();
         ActionSlot palaceSlot = councilPalace.getActionSlot();
 

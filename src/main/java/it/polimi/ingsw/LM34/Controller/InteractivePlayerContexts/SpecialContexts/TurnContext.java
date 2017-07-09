@@ -159,6 +159,9 @@ public class TurnContext extends AbstractGameContext {
                     NotEnoughMilitaryPoints |
                     CardTypeNumLimitReachedException |
                     InvalidLeaderCardAction |
+                    NotAvailableSpace |
+                    NotEnoughServantsException |
+                    CannotPlacePawnException |
                     NoMoreLeaderCardsAvailable ex) {
                 LOGGER.log(Level.FINER, ex.getMessage(), ex);
                 return playerAction(Optional.of(ex));

@@ -5,6 +5,8 @@ import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
 import it.polimi.ingsw.LM34.Exceptions.Controller.MarketBanException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotAvailableSpace;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughServantsException;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
@@ -24,7 +26,7 @@ public class MarketAreaContext extends AbstractGameContext {
     }
 
     @Override
-    public Void interactWithPlayer(Object... args) throws IncorrectInputException, MarketBanException, OccupiedSlotException {
+    public Void interactWithPlayer(Object... args) throws IncorrectInputException, MarketBanException, OccupiedSlotException, NotAvailableSpace, NotEnoughServantsException {
         this.ban = false;
         setChanged();
         notifyObservers(this);
@@ -40,8 +42,8 @@ public class MarketAreaContext extends AbstractGameContext {
             throw new IncorrectInputException();
         }
 
-        if(selectedSlot > 2 && this.gameManager.getPlayers().size() < 4)
-            throw new IncorrectInputException();
+        if(selectedSlot >= 2 && this.gameManager.getPlayers().size() < 4)
+            throw new NotAvailableSpace();
 
         ActionSlot slot = this.gameManager.getMarket().getActionSlots().get(selectedSlot);
 

@@ -5,6 +5,8 @@ import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.IncreasePawnsValueByServantsContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.UseCouncilPrivilegeContext;
 import it.polimi.ingsw.LM34.Controller.NonInteractiveContexts.ResourceIncomeContext;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotAvailableSpace;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughServantsException;
 import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.ActionSlot;
@@ -13,6 +15,7 @@ import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Resources;
 
 import java.util.logging.Level;
+
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.*;
 import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.GREEN;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
@@ -25,7 +28,7 @@ public class HarvestAreaContext extends AbstractGameContext {
     }
 
     @Override
-    public Void interactWithPlayer(Object... args) throws IncorrectInputException, OccupiedSlotException {
+    public Void interactWithPlayer(Object... args) throws IncorrectInputException, OccupiedSlotException, NotAvailableSpace, NotEnoughServantsException, NotEnoughServantsException {
         Integer selectedSlot;
         Integer freeActionValue = 0;
         try {
@@ -39,7 +42,7 @@ public class HarvestAreaContext extends AbstractGameContext {
 
         if(selectedSlot > this.gameManager.getHarvestArea().getActionSlots().size() - 1 ||
                 (selectedSlot > 1 && this.gameManager.getPlayers().size() < 3))
-            throw new IncorrectInputException();
+            throw new NotAvailableSpace();
 
         ActionSlot slot = this.gameManager.getHarvestArea().getActionSlots().get(selectedSlot);
         this.freeAction = false;
