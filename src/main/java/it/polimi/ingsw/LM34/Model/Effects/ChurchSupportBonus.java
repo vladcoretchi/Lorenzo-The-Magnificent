@@ -31,7 +31,6 @@ public class ChurchSupportBonus extends AbstractEffect implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("sisto a rapporto"); //TODO
         AbstractGameContext callerContext = (AbstractGameContext) arg;
         callerContext.getCurrentPlayer().getResources().sumResources(this.resources.getResources());
         if(this.resources.getCouncilPrivilege() > 0)

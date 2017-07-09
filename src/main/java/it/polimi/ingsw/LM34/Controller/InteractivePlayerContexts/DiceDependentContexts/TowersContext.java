@@ -176,8 +176,8 @@ public class TowersContext extends AbstractGameContext {
 
                 slot.insertFamilyMember(selectedFamilyMember);
             }
-
-            this.gameManager.getCurrentPlayer().getPersonalBoard().addCard(card);
+            if(card != null)
+                this.gameManager.getCurrentPlayer().getPersonalBoard().addCard(card);
             slot.setCardStored(null);
 
             if(requirements != null && ventureCardAlternative != null) {

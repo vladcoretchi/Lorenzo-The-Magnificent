@@ -3,9 +3,9 @@ package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContext
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
 import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NotEnoughServantsException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Utils.Validator;
-import sun.nio.ch.Net;
 
 import java.util.logging.Level;
 
@@ -21,7 +21,7 @@ public class IncreasePawnsValueByServantsContext extends AbstractGameContext {
     }
 
     @Override
-    public Integer interactWithPlayer(Object... args) throws IncorrectInputException {
+    public Integer interactWithPlayer(Object... args) throws IncorrectInputException, NotEnoughServantsException {
         try {
             this.servantsRequested = Math.max((Integer) args[0], 0);
         } catch(Exception ex) {
@@ -30,7 +30,7 @@ public class IncreasePawnsValueByServantsContext extends AbstractGameContext {
         }
 
         if(this.gameManager.getCurrentPlayer().getResources().getResourceByType(SERVANTS) < servantsRequested)
-            throw new IncorrectInputException();
+            throw new NotEnoughServantsException();
 
         setChanged();
         notifyObservers(this);

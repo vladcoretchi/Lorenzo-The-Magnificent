@@ -273,29 +273,29 @@ public class GUI extends Application implements UIInterface {
         this.palace = councilPalace;
 
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
-            /**
-             * Fill the advanced {@link ActionSlot} with the pawns placed inside
-             */
-            StackPane palacePane = (StackPane) root.lookup("#councilPalace");
-            HBox hSlots = new HBox();
-            hSlots.setSpacing(10);
-            ImageView image;
-            List<FamilyMember> pawnsInPalace = new ArrayList<>();
-            ActionSlot palaceSlot = palace.getActionSlot();
-            palacePane.setOnMouseEntered(new SlotMouseEvent(palaceSlot.getResourcesReward()));
-            pawnsInPalace = palaceSlot.getFamilyMembers();
+                /**
+                 * Fill the advanced {@link ActionSlot} with the pawns placed inside
+                 */
+                StackPane palacePane = (StackPane) root.lookup("#councilPalace");
+                HBox hSlots = new HBox();
+                hSlots.setSpacing(10);
+                ImageView image;
+                List<FamilyMember> pawnsInPalace = new ArrayList<>();
+                ActionSlot palaceSlot = palace.getActionSlot();
+                palacePane.setOnMouseEntered(new SlotMouseEvent(palaceSlot.getResourcesReward()));
+                pawnsInPalace = palaceSlot.getFamilyMembers();
 
-            if (pawnsInPalace.isEmpty())
-                palacePane.getChildren().removeAll(palacePane.getChildren());
-            else {
-                for (Integer index = 0; index < pawnsInPalace.size(); index++) {
-                    image = new ImageView();
-                    image = setImage(IMAGE_PAWNS_PATH + pawnsInPalace.get(index).getFamilyMemberColor() + ".png");
-                    hSlots.getChildren().add(image);
-                    hSlots.setHgrow(image, Priority.ALWAYS);
+                if (pawnsInPalace.isEmpty())
+                    palacePane.getChildren().removeAll(palacePane.getChildren());
+                else {
+                    for (Integer index = 0; index < pawnsInPalace.size(); index++) {
+                        image = new ImageView();
+                        image = setImage(IMAGE_PAWNS_PATH + pawnsInPalace.get(index).getFamilyMemberColor().toString() + ".png");
+                        hSlots.getChildren().add(image);
+                        hSlots.setHgrow(image, Priority.ALWAYS);
+                    }
+                    palacePane.getChildren().add(hSlots);
                 }
-                palacePane.getChildren().add(hSlots);
-            }
             return null;
         });
         Platform.runLater(uiTask);
@@ -352,11 +352,12 @@ public class GUI extends Application implements UIInterface {
 
             if (pawnInSingleSlot != null) {
                 imageSingle.setImage(new Image(Thread.currentThread()
-                        .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + pawnInSingleSlot.getFamilyMemberColor() + ".png")
+                        .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + pawnInSingleSlot.getFamilyMemberColor().toString() + ".png")
                         .toExternalForm()));
             } else
-                imageSingle = setImage(IMAGE_SLOT_TRANSPARENT);
-
+                imageSingle.setImage(new Image(Thread.currentThread()
+                        .getContextClassLoader().getResource(IMAGE_SLOT_TRANSPARENT)
+                        .toExternalForm()));
             /**
              * Fill the advanced {@link ActionSlot} with the pawns placed inside
              */
@@ -372,7 +373,7 @@ public class GUI extends Application implements UIInterface {
             else {
                 for (Integer index = 0; index < pawnsInAdvancedSlot.size(); index++) {
                     image = new ImageView();
-                    image = setImage(IMAGE_PAWNS_PATH + pawnsInAdvancedSlot.get(index).getFamilyMemberColor() + ".png");
+                    image = setImage(IMAGE_PAWNS_PATH + pawnsInAdvancedSlot.get(index).getFamilyMemberColor().toString() + ".png");
                     hSlots.getChildren().add(image);
                     hSlots.setHgrow(image, Priority.ALWAYS);
                 }
@@ -403,10 +404,12 @@ public class GUI extends Application implements UIInterface {
             ImageView imageSingle = (ImageView) root.lookup("#harvestArea" + 0);
             if (pawnInSingleSlot != null) {
                 imageSingle.setImage(new Image(Thread.currentThread()
-                        .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + pawnInSingleSlot.getFamilyMemberColor() + ".png")
+                        .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + pawnInSingleSlot.getFamilyMemberColor().toString() + ".png")
                         .toExternalForm()));
             } else
-                imageSingle = setImage(IMAGE_SLOT_TRANSPARENT);
+                imageSingle.setImage(new Image(Thread.currentThread()
+                        .getContextClassLoader().getResource(IMAGE_SLOT_TRANSPARENT)
+                        .toExternalForm()));
 
             /**
              * Fill the advanced {@link ActionSlot} with the pawns placed inside
@@ -423,7 +426,7 @@ public class GUI extends Application implements UIInterface {
             else {
                 for (Integer index = 0; index < pawnsInAdvancedSlot.size(); index++) {
                     image = new ImageView();
-                    image = setImage(IMAGE_PAWNS_PATH + pawnsInAdvancedSlot.get(index).getFamilyMemberColor() + ".png");
+                    image = setImage(IMAGE_PAWNS_PATH + pawnsInAdvancedSlot.get(index).getFamilyMemberColor().toString() + ".png");
                     hSlots.getChildren().add(image);
                     hSlots.setHgrow(image, Priority.ALWAYS);
                 }
@@ -1097,9 +1100,6 @@ public class GUI extends Application implements UIInterface {
             try {
                 personalBoardView = new PersonalBoardView(player, mapTerritoriesToVictoryPoints, mapMilitaryPointsForTerritories, mapCharactersToVictoryPoints);
                 personalBoardView.start(primaryStage);
-                if(player.getPlayerName().equalsIgnoreCase(username.getText())) {
-                    //TODO: what?
-                }
             } catch (Exception e) {
                 LOGGER.log(Level.WARNING, e.getMessage(), e);
             }

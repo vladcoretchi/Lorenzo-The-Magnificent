@@ -1,12 +1,11 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
 import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
 import it.polimi.ingsw.LM34.Model.Effects.ChurchSupportBonus;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
-import it.polimi.ingsw.LM34.Utils.Configurator;
 
 import java.util.logging.Level;
 
@@ -56,6 +55,8 @@ public class ChurchReportContext extends AbstractGameContext {
         else {
             player.addResources(new Resources(0, 0, this.gameManager.getConfigurator().getFaithPath()
                     .get(player.getResources().getResourceByType(FAITH_POINTS))));
+            player.subResources(new Resources(0,  this.gameManager.getConfigurator().getFaithPath()
+                    .get(player.getResources().getResourceByType(FAITH_POINTS)), 0));
             setChanged();
             notifyObservers(this);
         }
