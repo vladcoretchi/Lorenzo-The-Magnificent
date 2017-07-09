@@ -10,9 +10,6 @@ pom.xml
 # JavaDoc directory
 javaDoc/
 
-# PDF files
-*.pdf
-
 
 #############
 ## Windows detritus
