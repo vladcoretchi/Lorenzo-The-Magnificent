@@ -361,7 +361,7 @@ public class CLI implements UIInterface {
         /*SHOW COUNCIL PALACE*/
         printCouncilPalace();
 
-        printLine("You selected to place one of your pawns in the Council Palace. Press a key to continue");
+        printLine("You selected to place one of your pawns in the Council Palace. Enter something to continue");
         readUserInput.next();
     }
 
@@ -376,6 +376,7 @@ public class CLI implements UIInterface {
                                         actionSlot.getResourcesReward().getCouncilPrivilege());
 
         occupyingPawns.forEach(p -> printPawn(p.getFamilyMemberColor(), p.getDiceColorAssociated()));
+        printLine("");
     }
 
     /**
@@ -505,15 +506,15 @@ public class CLI implements UIInterface {
             printFormat("To complete this action, you need at least %1$d servants (you have %2$d servants)%n", minimumServantsRequested, servantsAvailable);
         else
             printFormat("You can use servants to increment your family member's value (%1$s available)%n", servantsAvailable);
-        printLine("How many servants do you wish to use?\n");
+        printLine("How many servants do you wish to use?");
 
         do {
             try {
-                input = readUserInput.nextInt();
+                input = Integer.parseInt(readUserInput.nextLine());
                 Validator.checkValidity(input, minimumServantsRequested, servantsAvailable);
                 validUserInput = true;
             }
-            catch (IncorrectInputException e) {
+            catch (IncorrectInputException | NumberFormatException e) {
                 LOGGER.log(Level.FINEST, e.getMessage(), e);
                 printError(INCORRECT_INPUT);
             }

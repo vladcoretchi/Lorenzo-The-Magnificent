@@ -288,7 +288,6 @@ public class GameManager {
             updateFamilyMemberValues();
             sweepActionSlots();  //sweeps all action and tower slots from pawns and cards
             replaceCards();      //Four development cards per type are moved from the decks into the towerslots
-            nextTurn();
         }
     }
 

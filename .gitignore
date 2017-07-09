@@ -2,11 +2,6 @@
 ## Custom Stuff
 #############
 
-# target directory
-target/
-target/generated-sources/
-target/generated-test-sources/
-
 # IntelliJ stuff
 .idea/
 *.iml

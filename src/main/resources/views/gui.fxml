@@ -103,7 +103,7 @@
             <!--harvest area-->
             <StackPane fx:id="harvestArea1" minHeight="114.0" minWidth="323.0" layoutX="190" layoutY="1760"  style="-fx-background-color: transparent">
             </StackPane>
-            <ImageView fx:id="harvestArea0" fitHeight="100" fitWidth="100" layoutX="26" layoutY="1760"  style="-fx-background-color: transparent">
+            <ImageView fx:id="harvestArea0" fitHeight="65" fitWidth="65" layoutX="26" layoutY="1760"  style="-fx-background-color: transparent">
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
 
