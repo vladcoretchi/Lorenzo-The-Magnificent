@@ -16,10 +16,10 @@ import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
-import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
+import it.polimi.ingsw.LM34.Network.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.GameRoom;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
-import it.polimi.ingsw.LM34.Network.Server.RMI.RMIConnection;
+import it.polimi.ingsw.LM34.Network.RMI.RMIConnection;
 import it.polimi.ingsw.LM34.Network.Server.Server;
 import it.polimi.ingsw.LM34.Network.Server.ServerNetworkController;
 import it.polimi.ingsw.LM34.UI.UIInterface;
@@ -42,7 +42,7 @@ public class GameManagerTest {
         gameServer.main(null);
         PersonalizedUI personalizedUI = new PersonalizedUI();
         RMIClient rmiClient = new RMIClient("localhost", 20002, personalizedUI);
-        RMIConnection rmiConnection = new RMIConnection(rmiClient);
+        RMIConnection rmiConnection = new RMIConnection(rmiClient, null);
         ServerNetworkController serverNetworkController = new ServerNetworkController(rmiConnection);
         GameRoom gameRoom = Server.addPlayerToGameRoom("aldo", serverNetworkController);
         ServerNetworkController serverNetworkController1 = gameRoom.getPlayerNetworkController("aldo");
@@ -62,7 +62,7 @@ public class GameManagerTest {
         gameServer.main(null);
         PersonalizedUI personalizedUI = new PersonalizedUI();
         RMIClient rmiClient = new RMIClient("localhost", 20002, personalizedUI);
-        RMIConnection rmiConnection = new RMIConnection(rmiClient);
+        RMIConnection rmiConnection = new RMIConnection(rmiClient,null);
         ServerNetworkController serverNetworkController = new ServerNetworkController(rmiConnection);
         GameRoom gameRoom = Server.addPlayerToGameRoom("aldo", serverNetworkController);
         ServerNetworkController serverNetworkController1 = gameRoom.getPlayerNetworkController("aldo");
@@ -169,26 +169,6 @@ public class GameManagerTest {
         @Override
         public Integer leaderCardCopy(List<LeaderCard> activatedLeadersByOtherPlayers) {
             return  null;
-        }
-
-        @Override
-        public void showMapCharactersToVictoryPoints() {
-
-        }
-
-        @Override
-        public void showMapTerritoriesToVictoryPoints() {
-
-        }
-
-        @Override
-        public void showFaithPath() {
-
-        }
-
-        @Override
-        public void showMilitaryPointsForTerritories() {
-
         }
 
         @Override

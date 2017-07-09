@@ -1,6 +1,5 @@
-package it.polimi.ingsw.LM34.Network.Client.Socket;
+package it.polimi.ingsw.LM34.Network.Socket;
 
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;

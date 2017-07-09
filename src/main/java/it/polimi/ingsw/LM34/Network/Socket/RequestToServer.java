@@ -1,6 +1,4 @@
-package it.polimi.ingsw.LM34.Network.Server.Socket;
-
-import it.polimi.ingsw.LM34.Network.Client.Socket.RequestToClient;
+package it.polimi.ingsw.LM34.Network.Socket;
 
 import java.io.IOException;
 import java.util.logging.Level;

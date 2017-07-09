@@ -52,6 +52,8 @@ public class GameManager {
      */
     private Integer turn;
 
+    private Boolean hasEnded;
+
     private List<Dice> dices;
     private List<Player> players;
 
@@ -91,13 +93,15 @@ public class GameManager {
         this.phase = 0; //when all players have placed 1 of their pawn
         this.turn = 0; //when the current player places his pawn
 
+        this.hasEnded = false;
+
         setupGameContexts();
         setUpGameSpaces();
         setUpDecks();
         replaceCards();
         /*Set the 3 excommunication cards of the game*/
-        Configurator.orderExcommunicatioCardByPeriod();
-        this.excommunicationCards = Configurator.getExcommunicationTiles();
+        this.getConfigurator().orderExcommunicatioCardByPeriod();
+        this.excommunicationCards = this.getConfigurator().getExcommunicationTiles();
 
         //Instantiate and roll dices
         this.dices = new ArrayList<>();
@@ -113,6 +117,10 @@ public class GameManager {
          */
         Collections.shuffle(this.players);
         setupPlayersResources();
+    }
+
+    public Configurator getConfigurator() {
+        return this.gameRoom.getConfigurator();
     }
 
     private void updateFamilyMemberValues() {
@@ -151,39 +159,12 @@ public class GameManager {
 
         players.forEach(player -> {
             try {
+                this.getPlayerNetworkController(player).startGame();
                 this.getPlayerNetworkController(player).setExcommunicationCards(this.excommunicationCards);
-            } catch(NetworkConnectionException ex) {
-                LOGGER.log(Level.INFO, ex.getMessage(), ex);
-                player.setDisconnected();
-            }
-        });
-        players.forEach(player -> {
-            try {
-                this.getPlayerNetworkController(player).loadMapTerritoriesToVictoryPoints(this.mapTerritoriesToVictoryPoints);
-            } catch(NetworkConnectionException ex) {
-                LOGGER.log(Level.INFO, ex.getMessage(), ex);
-                player.setDisconnected();
-            }
-        });
-        players.forEach(player -> {
-            try {
-                this.getPlayerNetworkController(player).loadMapCharactersToVictoryPoints(this.mapCharactersToVictoryPoints);
-            } catch(NetworkConnectionException ex) {
-                LOGGER.log(Level.INFO, ex.getMessage(), ex);
-                player.setDisconnected();
-            }
-        });
-        players.forEach(player -> {
-            try {
-                this.getPlayerNetworkController(player).loadMapMilitaryPointsForTerritories(this.mapMilitaryPointsForTerritories);
-            } catch(NetworkConnectionException ex) {
-                LOGGER.log(Level.INFO, ex.getMessage(), ex);
-                player.setDisconnected();
-            }
-        });
-        players.forEach(player -> {
-            try {
                 this.getPlayerNetworkController(player).loadFaithPath(this.faithPath);
+                this.getPlayerNetworkController(player).loadMapTerritoriesToVictoryPoints(this.mapTerritoriesToVictoryPoints);
+                this.getPlayerNetworkController(player).loadMapCharactersToVictoryPoints(this.mapCharactersToVictoryPoints);
+                this.getPlayerNetworkController(player).loadMapMilitaryPointsForTerritories(this.mapMilitaryPointsForTerritories);
             } catch(NetworkConnectionException ex) {
                 LOGGER.log(Level.INFO, ex.getMessage(), ex);
                 player.setDisconnected();
@@ -200,59 +181,11 @@ public class GameManager {
             if(player.isConnected())
                 try {
                     this.getPlayerNetworkController(player).updateDiceValues(this.dices);
-                } catch(NetworkConnectionException ex) {
-                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
-                    player.setDisconnected();
-                }
-        });
-        players.forEach(player -> {
-            if(player.isConnected())
-                try {
                     this.getPlayerNetworkController(player).updatePlayersData(this.players);
-                } catch(NetworkConnectionException ex) {
-                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
-                    player.setDisconnected();
-                }
-        });
-        players.forEach(player -> {
-            if(player.isConnected())
-                try {
                     this.getPlayerNetworkController(player).updateTowers(this.towers);
-                } catch(NetworkConnectionException ex) {
-                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
-                    player.setDisconnected();
-                }
-        });
-        players.forEach(player -> {
-            if(player.isConnected())
-                try {
                     this.getPlayerNetworkController(player).updateProductionArea(this.productionArea);
-                } catch(NetworkConnectionException ex) {
-                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
-                    player.setDisconnected();
-                }
-        });
-        players.forEach(player -> {
-            if(player.isConnected())
-                try {
                     this.getPlayerNetworkController(player).updateHarvestArea(this.harvestArea);
-                } catch(NetworkConnectionException ex) {
-                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
-                    player.setDisconnected();
-                }
-        });
-        players.forEach(player -> {
-            if(player.isConnected())
-                try {
                     this.getPlayerNetworkController(player).updateMarket(this.market);
-                } catch(NetworkConnectionException ex) {
-                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
-                    player.setDisconnected();
-                }
-        });
-        players.forEach(player -> {
-            if(player.isConnected())
-                try {
                     this.getPlayerNetworkController(player).updateCouncilPalace(this.councilPalace);
                 } catch(NetworkConnectionException ex) {
                     LOGGER.log(Level.INFO, ex.getMessage(), ex);
@@ -265,17 +198,17 @@ public class GameManager {
      * Sets up the game spaces before game begins
      */
     private void setUpGameSpaces() {
-        this.market = Configurator.getMarket();
-        this.towers = Configurator.getTowers();
-        this.councilPalace = Configurator.getPalace();
-        this.harvestArea = Configurator.getHarvestArea();
-        this.productionArea = Configurator.getProductionArea();
-        this.faithPath = Configurator.getFaithPath();
-        this.mapCharactersToVictoryPoints = Configurator.getMapCharactersToVictoryPoints();
-        this.mapTerritoriesToVictoryPoints = Configurator.getMapTerritoriesToVictoryPoints();
-        this.mapMilitaryPointsForTerritories = Configurator.getMilitaryPointsForTerritories();
-        this.minFaithPoints = Configurator.getMinFaithPoints();
-        this.resourcesForVictoryPoints = Configurator.getResourcesForVictoryPoints();
+        this.market = this.getConfigurator().getMarket();
+        this.towers = this.getConfigurator().getTowers();
+        this.councilPalace = this.getConfigurator().getPalace();
+        this.harvestArea = this.getConfigurator().getHarvestArea();
+        this.productionArea = this.getConfigurator().getProductionArea();
+        this.faithPath = this.getConfigurator().getFaithPath();
+        this.mapCharactersToVictoryPoints = this.getConfigurator().getMapCharactersToVictoryPoints();
+        this.mapTerritoriesToVictoryPoints = this.getConfigurator().getMapTerritoriesToVictoryPoints();
+        this.mapMilitaryPointsForTerritories = this.getConfigurator().getMilitaryPointsForTerritories();
+        this.minFaithPoints = this.getConfigurator().getMinFaithPoints();
+        this.resourcesForVictoryPoints = this.getConfigurator().getResourcesForVictoryPoints();
     }
 
     /**
@@ -285,6 +218,7 @@ public class GameManager {
     private void endGame() {
         EndGameContext endGameContext = (EndGameContext) getContextByType(END_GAME_CONTEXT);
         endGameContext.interactWithPlayer();
+        this.hasEnded = true;
     }
 
     /**
@@ -294,12 +228,12 @@ public class GameManager {
      * {@link LeaderCard deck}
      */
     private void setUpDecks() {
-        this.territoryCardDeck = Configurator.getTerritoryCards();
-        this.buildingCardDeck = Configurator.getBuildingCards();
-        this.characterCardDeck = Configurator.getCharactersCards();
-        this.ventureCardDeck = Configurator.getVentureCards();
-        this.leaderCardsDeck = Configurator.getLeaderCards(this.players.size());
-        this.excommunicationCards = Configurator.getExcommunicationTiles();
+        this.territoryCardDeck = this.getConfigurator().getTerritoryCards();
+        this.buildingCardDeck = this.getConfigurator().getBuildingCards();
+        this.characterCardDeck = this.getConfigurator().getCharactersCards();
+        this.ventureCardDeck = this.getConfigurator().getVentureCards();
+        this.leaderCardsDeck = this.getConfigurator().getLeaderCards(this.players.size());
+        this.excommunicationCards = this.getConfigurator().getExcommunicationTiles();
     }
 
     public void nextTurn() {
@@ -309,7 +243,8 @@ public class GameManager {
             this.turn = 0;
             nextPhase();
         }
-        ((TurnContext) getContextByType(TURN_CONTEXT)).initContext();
+        if(!hasEnded)
+            ((TurnContext) getContextByType(TURN_CONTEXT)).initContext();
     }
 
     private void nextPhase() {
@@ -345,29 +280,30 @@ public class GameManager {
         if (this.round % 2 == 0)
             nextPeriod();
 
-        this.phase = 0;
+        if(!hasEnded) {
+            this.phase = 0;
 
-        players = setNewTurnOrder();
-        rollDices();
-        updateFamilyMemberValues();
-        sweepActionSlots();  //sweeps all action and tower slots from pawns and cards
-        replaceCards();      //Four development cards per type are moved from the decks into the towerslots
-        nextTurn();
+            players = setNewTurnOrder();
+            rollDices();
+            updateFamilyMemberValues();
+            sweepActionSlots();  //sweeps all action and tower slots from pawns and cards
+            replaceCards();      //Four development cards per type are moved from the decks into the towerslots
+            nextTurn();
+        }
     }
 
     private void nextPeriod() {
-        this.period++;
-
-        /*Now it is Curch Report time*/
+        /*Now it is Church Report time*/
         ChurchReportContext churchContext = (ChurchReportContext) getContextByType(CHURCH_REPORT_CONTEXT);
 
         /*ChurchReportContext interact with a player at a time, based on turn order*/
         for(Player player : players)
             churchContext.interactWithPlayer(player);
+
         /*enter the endGame context in which final points are calculated*/
-        if(Configurator.TOTAL_PERIODS <= this.period) {
+        if(Configurator.TOTAL_PERIODS <= ++this.period) {
             endGame();
-            //TODO: terminare game manager...
+            this.gameRoom.end();
         }
     }
 
@@ -442,7 +378,7 @@ public class GameManager {
                 LOGGER.log(Level.WARNING, e.getMessage(), e);
             }
 
-        ((UseCouncilPrivilegeContext) contexts.get(USE_COUNCIL_PRIVILEGE_CONTEXT)).setRewards(Configurator.getCouncilPrivilegeRewards());
+        ((UseCouncilPrivilegeContext) contexts.get(USE_COUNCIL_PRIVILEGE_CONTEXT)).setRewards(this.getConfigurator().getCouncilPrivilegeRewards());
         contexts.forEach((type, context) -> context.setGameManager(this));
     }
 
@@ -455,7 +391,7 @@ public class GameManager {
     }
 
     /**
-     * @param contextType enum used to know which {@link PlayerSelectableContexts} retrieve
+     * @param context enum used to know which {@link PlayerSelectableContexts} retrieve
      * @return the {@link PlayerSelectableContexts} used by contexts and effects to connect with each other
      */
     public AbstractGameContext getContextByType(PlayerSelectableContexts context) {
@@ -518,7 +454,7 @@ public class GameManager {
      */
     private void bonusTileSelectionPhase() {
         List<BonusTile> bonusTiles;
-        bonusTiles = Configurator.getBonusTiles();
+        bonusTiles = this.getConfigurator().getBonusTiles();
         for(Integer playerIndex = 0; playerIndex < this.players.size(); playerIndex++) {
             Integer selected;
             try {
@@ -539,7 +475,7 @@ public class GameManager {
      */
     private void leaderSelectionPhase() {
         /*The LeaderCards are only 4*#players, the remaining cards are not considered in the game*/
-        leaderCardsDeck = Configurator.getLeaderCards(players.size());
+        leaderCardsDeck = this.getConfigurator().getLeaderCards(players.size());
         List<List<LeaderCard>> leaderCardsGroups = new ArrayList<>();
 
         for(int i = 0; i < players.size(); i++) {

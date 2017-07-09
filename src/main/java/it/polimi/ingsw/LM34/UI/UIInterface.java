@@ -66,16 +66,6 @@ public interface UIInterface {
     void updateDiceValues(List<Dice> dicesValues);
 
     /**
-     * The following methods show to the player the association between number of
-     * {@link it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard s} or the position
-     * and the {@link it.polimi.ingsw.LM34.Enums.Model.ResourceType}.VICTORY_POINTS provided
-     */
-    void showMapCharactersToVictoryPoints();
-    void showMapTerritoriesToVictoryPoints();
-    void showFaithPath();
-    void showMilitaryPointsForTerritories();
-
-    /**
      * Shows the game interface to the player
      */
     void startGame();

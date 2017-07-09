@@ -28,6 +28,8 @@ public abstract class AbstractConnection {
     protected ServerNetworkController networkController;
     protected String username;
 
+    public abstract void remove();
+
     public final String getUsername() {
         return this.username;
     }

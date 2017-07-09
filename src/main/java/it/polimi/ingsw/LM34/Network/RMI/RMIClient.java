@@ -1,8 +1,7 @@
-package it.polimi.ingsw.LM34.Network.Client.RMI;
+package it.polimi.ingsw.LM34.Network.RMI;
 
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
-import it.polimi.ingsw.LM34.Network.Server.RMI.RMIServerInterface;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 
 import java.rmi.NotBoundException;

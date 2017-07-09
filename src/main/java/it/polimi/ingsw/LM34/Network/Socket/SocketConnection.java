@@ -1,7 +1,6 @@
-package it.polimi.ingsw.LM34.Network.Server.Socket;
+package it.polimi.ingsw.LM34.Network.Socket;
 
 import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
-import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
 import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
 import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
 import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
@@ -17,12 +16,11 @@ import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
 import it.polimi.ingsw.LM34.Model.FamilyMember;
 import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
-import it.polimi.ingsw.LM34.Network.Client.Socket.RequestToClient;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.Network.Server.AbstractConnection;
+import it.polimi.ingsw.LM34.Network.Server.Server;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import sun.nio.ch.Net;
 
 import java.io.*;
 import java.net.Socket;
@@ -48,6 +46,11 @@ public class SocketConnection extends AbstractConnection implements Runnable {
         this.inStream = new ObjectInputStream(new BufferedInputStream(connectionSocket.getInputStream()));
         this.runListener = true;
         this.socketServer = socketServer;
+    }
+
+    @Override
+    public void remove() {
+        Server.removeSocketConnection(this);
     }
 
     public Socket getSocket() {

@@ -38,12 +38,13 @@ import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 /**
  * The {@link Configurator} loads all parameters from file as variables that will be used by each game
  */
-public final class Configurator {
+public class Configurator {
     /*CONVENTION GAME_CODES*/
-    private static Integer waitingRoomTimeout;
-    private static Integer TURN_TIMEOUT;
-    private static final Integer WAITING_ROOM_PLAYERS_THRESHOLD = 2;
-    public static final Integer PLAYER_MOVE_TIMEOUT = 10000;
+    private Integer waitingRoomTimeout;
+    private Integer TURN_TIMEOUT;
+    private final Integer WAITING_ROOM_PLAYERS_THRESHOLD = 2;
+
+    public final Integer PLAYER_MOVE_TIMEOUT = 10000;
     public static final Integer MAX_TOWER_LEVELS = 4;
     public static final Integer MAX_LEADER_PER_PLAYER = 4;
     public static final Integer MAX_PLAYERS = 4;
@@ -62,57 +63,59 @@ public final class Configurator {
     public static final Integer MAX_ACQUIRABLE_CARDS_PER_TYPE = 6;
     public static final Integer COUNCIL_PRIVILEGES_FOR_DISCARDED_LEADER_CARD = 1;
 
-    private static Market market;
-    private static CouncilPalace palace;
-    private static List<Tower> towers;
-    private static WorkingArea harvestArea;
-    private static WorkingArea productionArea;
-    private static List<TerritoryCard> territoryCards;
-    private static List<BuildingCard> buildingCards;
-    private static List<CharacterCard> characterCards;
-    private static List<VentureCard> ventureCards;
-    private static List<LeaderCard> leaderCards;
-    private static List<ExcommunicationCard> excommunicationTiles;
-    private static List<Resources> councilPrivilegeRewards;
-    private static Map<Integer, Integer> faithPath;
-    private static Map<Integer, Integer> endingGameCharactersVictoryPoints;
-    private static Map<Integer, Integer> endingGameTerritoriesVictoryPoints;
-    private static Map<Integer,Integer> militaryPointsForTerritories;
-    private static Integer resourcesForVictoryPoints;
-    private static List<BonusTile> advancedPersonalTiles;
+    private Market market;
+    private CouncilPalace palace;
+    private List<Tower> towers;
+    private WorkingArea harvestArea;
+    private WorkingArea productionArea;
+    private List<TerritoryCard> territoryCards;
+    private List<BuildingCard> buildingCards;
+    private List<CharacterCard> characterCards;
+    private List<VentureCard> ventureCards;
+    private List<LeaderCard> leaderCards;
+    private List<ExcommunicationCard> excommunicationTiles;
+    private List<Resources> councilPrivilegeRewards;
+    private Map<Integer, Integer> faithPath;
+    private Map<Integer, Integer> endingGameCharactersVictoryPoints;
+    private Map<Integer, Integer> endingGameTerritoriesVictoryPoints;
+    private Map<Integer,Integer> militaryPointsForTerritories;
+    private Integer resourcesForVictoryPoints;
+    private List<BonusTile> advancedPersonalTiles;
 
     /**JSON frequently used constants strings**/
-    private static final String WORKING_AREA_VALUE_EFFECT_JSONSTRING = "workingAreaValueEffect";
-    private static final String ACTION_SLOTS_JSONSTRING = "actionSlots";
-    private static final String DEVELOPMENT_CARD_COLOR_JSONSTRING = "developmentCardColor";
-    private static final String FAMILY_MEMBER_VALUE_EFFECT_JSONSTRING = "familyMemberValueEffect";
-    private static final String PERMANENT_BONUS_JSONSTRING= "permanentBonus";
-    private static final String COUNCIL_PRIVILEGE_JSONSTRING = "councilPrivilege";
-    private static final String PERIOD_JSONSTRING = "period";
-    private static final String RESOURCES_JSONSTRING = "resources";
-    private static final String RESOURCES_BONUS_JSONSTRING = "resourcesBonus";
-    private static final String FINAL_VICTORY_POINTS_JSONSTRING = "finalVictoryPoints";
-    private static final String DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING = "developmentCardAcquireEffect";
-    private static final String CARDS_JSONSTRING = "cards";
-    private static final String LEADER_REQUIREMENTS_JSONSTRING = "leaderRequirements";
-    private static final String REQUIREMENTS_DISCOUNT_JSONSTRING = "requirementsDiscount";
-    private static final String NAME_JSONSTRING = "name";
-    private static final String DICE_VALUE_JSONSTRING = "diceValue";
-    private static final String RESOURCES_PER_ITEM_BONUS_JSONSTRING = "resourcesPerItemBonus";
-    private static final String RESOURCES_EXCHANGE_BONUS_JSONSTRING = "resourcesExchangeBonus";
-    private static final String MILITARY_POINTS_JSONSTRING = "MILITARY_POINTS";
-    private static final String REQUIREMENTS_JSONSTRING = "requirements";
-    private static final String INSTANT_BONUS_JSONSTRING = "instantBonus";
-    private static final String PRODUCTION_JSONSTRING = "production";
-    private static final String HARVEST_JSONSTRING = "harvest";
-    private static final String WORKING_AREA_TYPE_JSONSTRING = "workingAreaType";
+    private final String WORKING_AREA_VALUE_EFFECT_JSONSTRING = "workingAreaValueEffect";
+    private final String ACTION_SLOTS_JSONSTRING = "actionSlots";
+    private final String DEVELOPMENT_CARD_COLOR_JSONSTRING = "developmentCardColor";
+    private final String FAMILY_MEMBER_VALUE_EFFECT_JSONSTRING = "familyMemberValueEffect";
+    private final String PERMANENT_BONUS_JSONSTRING= "permanentBonus";
+    private final String COUNCIL_PRIVILEGE_JSONSTRING = "councilPrivilege";
+    private final String PERIOD_JSONSTRING = "period";
+    private final String RESOURCES_JSONSTRING = "resources";
+    private final String RESOURCES_BONUS_JSONSTRING = "resourcesBonus";
+    private final String FINAL_VICTORY_POINTS_JSONSTRING = "finalVictoryPoints";
+    private final String DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING = "developmentCardAcquireEffect";
+    private final String CARDS_JSONSTRING = "cards";
+    private final String LEADER_REQUIREMENTS_JSONSTRING = "leaderRequirements";
+    private final String REQUIREMENTS_DISCOUNT_JSONSTRING = "requirementsDiscount";
+    private final String NAME_JSONSTRING = "name";
+    private final String DICE_VALUE_JSONSTRING = "diceValue";
+    private final String RESOURCES_PER_ITEM_BONUS_JSONSTRING = "resourcesPerItemBonus";
+    private final String RESOURCES_EXCHANGE_BONUS_JSONSTRING = "resourcesExchangeBonus";
+    private final String MILITARY_POINTS_JSONSTRING = "MILITARY_POINTS";
+    private final String REQUIREMENTS_JSONSTRING = "requirements";
+    private final String INSTANT_BONUS_JSONSTRING = "instantBonus";
+    private final String PRODUCTION_JSONSTRING = "production";
+    private final String HARVEST_JSONSTRING = "harvest";
+    private final String WORKING_AREA_TYPE_JSONSTRING = "workingAreaType";
 
-    private Configurator() {/*Intentionally left void*/}
+    public Configurator() {
+        this.loadConfigs();
+    }
 
     /**
      * Loads all variable from the JSON data
      */
-    public static void loadConfigs() {
+    private void loadConfigs() {
         JSONObject jsonObject = null;
         try {
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -148,7 +151,7 @@ public final class Configurator {
     /**
      * @param jsonLeaderCards JSON from which to extract information about the {@link LeaderCard}s
      */
-    private static void setupLeaderCards(JSONArray jsonLeaderCards) {
+    private void setupLeaderCards(JSONArray jsonLeaderCards) {
         leaderCards = new ArrayList<>();
         String name;
         AbstractEffect bonus = null;
@@ -264,7 +267,7 @@ public final class Configurator {
      * @param diceColor string from which to extract dice colors
      * @return
      */
-    private static DiceColor getDiceColorFromJson(String diceColor) {
+    private DiceColor getDiceColorFromJson(String diceColor) {
         for(DiceColor color : DiceColor.values())
             if(color.toString().equalsIgnoreCase(diceColor))
                 return color;
@@ -276,19 +279,19 @@ public final class Configurator {
      * @param developmentCardColor String from which to associate the corrisponding Enum type
      * @return the development card type
      */
-    private static DevelopmentCardColor getCardTypeFromJson(String developmentCardColor) {
+    private DevelopmentCardColor getCardTypeFromJson(String developmentCardColor) {
         for(DevelopmentCardColor cardType : DevelopmentCardColor.values())
             if(cardType.toString().equalsIgnoreCase(developmentCardColor))
                 return cardType;
 
-        return DevelopmentCardColor.MULTICOLOR;
+        return MULTICOLOR;
     }
 
     /**
      * Sets up the standardTile and the advanced ones
      * @param jsonObject from which to extract information on personalTile to create
      */
-    private static void setupPersonalTiles(JSONObject jsonObject) {
+    private void setupPersonalTiles(JSONObject jsonObject) {
         Integer  advancedProductionDiceValue;
         ResourcesBonus advProdReward;
         Integer advancedHarvestDiceValue;
@@ -309,7 +312,7 @@ public final class Configurator {
     /**
      * @param jsonObject from which to load game path, council privileges rewards and other games related configs
      */
-    private static void setupGame(JSONObject jsonObject) {
+    private void setupGame(JSONObject jsonObject) {
 
         /****Rewards given by council Privileges*/
         JSONArray jsonPrivilegeArray = jsonObject.getJSONArray(COUNCIL_PRIVILEGE_JSONSTRING);
@@ -348,7 +351,7 @@ public final class Configurator {
     /**
      * @param jsonArray from which to load into objects the {@link ExcommunicationCard}s
      */
-    private static void setupExcommunicationTiles(JSONArray jsonArray) {
+    private void setupExcommunicationTiles(JSONArray jsonArray) {
         excommunicationTiles = new ArrayList<>();
         for(Integer index = 0; index < jsonArray.length(); index++)
             excommunicationTiles.add(getExcommunicationCardFromJson(jsonArray.optJSONObject(index)));
@@ -361,7 +364,7 @@ public final class Configurator {
     /**
      * @param jsonTowersSlots from which to load the towerslot bonuses for the game
      */
-    private static void setupTowers(JSONArray jsonTowersSlots) {
+    private void setupTowers(JSONArray jsonTowersSlots) {
         Integer index = 0;
         Integer iteration = 1;
         towers = new ArrayList<>();
@@ -381,7 +384,7 @@ public final class Configurator {
     /**
      * @param jsonObject from which to extra and fill the {@link TowerSlot}s
      */
-    private static TowerSlot getTowerSlotFromJson(JSONObject jsonObject) {
+    private TowerSlot getTowerSlotFromJson(JSONObject jsonObject) {
         Boolean singlePawnSlot = jsonObject.optBoolean("singlePawnSlot", true);
         Integer diceValue = jsonObject.optInt(DICE_VALUE_JSONSTRING, 0);
         Integer councilPrivilege = jsonObject.getInt(COUNCIL_PRIVILEGE_JSONSTRING);
@@ -394,7 +397,7 @@ public final class Configurator {
     /**
      * @param marketArray from which to extract the data about marketSlots
      */
-    private static void setupMarket(JSONArray marketArray) {
+    private void setupMarket(JSONArray marketArray) {
         market = new Market(new ArrayList<>());
         for (int i = 0; i < marketArray.length(); i++) {
             market.getActionSlots().add(getActionSlotFromJson(marketArray.optJSONObject(i)));
@@ -405,7 +408,7 @@ public final class Configurator {
      * Load the cards from the JSON file {@see resources/configurations/config.json}, shuffle and order them
      * @param decks
      */
-    private static void setupDevelopmentCards(JSONObject decks) {
+    private void setupDevelopmentCards(JSONObject decks) {
         characterCards = getCharacterCardsFromJson(decks.optJSONArray("characters"));
         buildingCards = getBuildingCardsFromJson(decks.optJSONArray("buildings"));
         territoryCards = getTerritoryCardsFromJson(decks.optJSONArray("territories"));
@@ -426,10 +429,10 @@ public final class Configurator {
      * Order the cards by period in the deck before the game starts
      * @param deck to order for period
      */
-    public static <T extends AbstractDevelopmentCard> List<T> orderDevelopmentCardByPeriod(List<T> deck) {
+    public <T extends AbstractDevelopmentCard> List<T> orderDevelopmentCardByPeriod(List<T> deck) {
         List<T> orderedDeck = new ArrayList<>();
 
-        for (Integer period = 1; period <= Configurator.TOTAL_PERIODS; period++)
+        for (Integer period = 1; period <= TOTAL_PERIODS; period++)
             for(T card : deck)
                 if (card.getPeriod() == period)
                     orderedDeck.add(card);
@@ -440,7 +443,7 @@ public final class Configurator {
     /**
      * @param jsonObject from which to extra and fill the {@link ActionSlot}s
      */
-    private static ActionSlot getActionSlotFromJson(JSONObject jsonObject) {
+    private ActionSlot getActionSlotFromJson(JSONObject jsonObject) {
         Boolean singlePawnSlot = jsonObject.optBoolean("singlePawnSlot", true);
         Integer diceValue = jsonObject.optInt(DICE_VALUE_JSONSTRING, 0);
         Integer councilPrivilege = jsonObject.getInt(COUNCIL_PRIVILEGE_JSONSTRING);
@@ -453,7 +456,7 @@ public final class Configurator {
     /**
      * @param jsonResourcesBonus from which to create and instantiate che {@link ResourcesBonus} effect
      */
-    private static ResourcesBonus getResourcesBonusFromJson(JSONObject jsonResourcesBonus) {
+    private ResourcesBonus getResourcesBonusFromJson(JSONObject jsonResourcesBonus) {
         Map<ResourceType, Integer> resourcesMap = new EnumMap<>(ResourceType.class);
         Integer councilPrivileges;
         JSONObject jsonResources;
@@ -476,7 +479,7 @@ public final class Configurator {
     /**
      * @param jsonArray from which to create and instantiate che {@link DevelopmentCardDeck} of {@link TerritoryCard}
      */
-    private static List<TerritoryCard> getTerritoryCardsFromJson(JSONArray jsonArray) {
+    private List<TerritoryCard> getTerritoryCardsFromJson(JSONArray jsonArray) {
         ArrayList<TerritoryCard> cards = new ArrayList<>();
         for(int i = 0; i < jsonArray.length(); i++) {
             cards.add(getTerritoryCardFromJson(jsonArray.optJSONObject(i)));
@@ -484,7 +487,7 @@ public final class Configurator {
         return cards;
     }
 
-    private static TerritoryCard getTerritoryCardFromJson(JSONObject jsonObject) {
+    private TerritoryCard getTerritoryCardFromJson(JSONObject jsonObject) {
         Integer period = jsonObject.optInt(PERIOD_JSONSTRING);
         String name = jsonObject.optString(NAME_JSONSTRING);
 
@@ -500,7 +503,7 @@ public final class Configurator {
     /**
      * @param jsonArray from which to create and instantiate che {@link DevelopmentCardDeck} of {@link BuildingCard}
      */
-    private static List<BuildingCard> getBuildingCardsFromJson(JSONArray jsonArray) {
+    private List<BuildingCard> getBuildingCardsFromJson(JSONArray jsonArray) {
         List<BuildingCard> cards = new ArrayList<>();
         for(int i = 0; i < jsonArray.length(); i++) {
             cards.add(getBuildingCardFromJson(jsonArray.optJSONObject(i)));
@@ -508,7 +511,7 @@ public final class Configurator {
         return cards;
     }
 
-    private static BuildingCard getBuildingCardFromJson(JSONObject jsonObject) {
+    private BuildingCard getBuildingCardFromJson(JSONObject jsonObject) {
         String name = jsonObject.optString(NAME_JSONSTRING);
         Integer period = jsonObject.optInt(PERIOD_JSONSTRING);
         Integer diceValueToProduct = jsonObject.optInt("diceValueToProduct");
@@ -566,7 +569,7 @@ public final class Configurator {
     /**
      * @param jsonArray from which to create and instantiate che {@link DevelopmentCardDeck} of {@link VentureCard}
      */
-    private static List<VentureCard> getVentureCardsFromJson(JSONArray jsonArray) {
+    private List<VentureCard> getVentureCardsFromJson(JSONArray jsonArray) {
         List<VentureCard> cards = new ArrayList<>();
         for(int i = 0; i < jsonArray.length(); i++) {
             cards.add(getVentureCardFromJson(jsonArray.optJSONObject(i)));
@@ -574,7 +577,7 @@ public final class Configurator {
         return cards;
     }
 
-    private static VentureCard getVentureCardFromJson(JSONObject jsonObject) {
+    private VentureCard getVentureCardFromJson(JSONObject jsonObject) {
         Integer period = jsonObject.optInt(PERIOD_JSONSTRING);
         String name = jsonObject.optString(NAME_JSONSTRING);
         List<AbstractEffect> instantBonus = new ArrayList<>();
@@ -635,7 +638,7 @@ public final class Configurator {
      * @param numPlayers that will play the game
      * @return the exact number of leaders the game needs (4 per player)
      */
-    public static List<LeaderCard> getLeaderCards(Integer numPlayers) {
+    public List<LeaderCard> getLeaderCards(Integer numPlayers) {
         //Collections.shuffle(leaderCards); TODO
         List<LeaderCard> leadersForPlaying = new ArrayList<>();
         for(Integer index = 0; index < MAX_LEADER_PER_PLAYER * numPlayers; index++)
@@ -644,17 +647,17 @@ public final class Configurator {
         return leadersForPlaying;
     }
 
-    public static List<ExcommunicationCard> getExcommunicationTiles() {
+    public List<ExcommunicationCard> getExcommunicationTiles() {
         return excommunicationTiles;
     }
 
     /**
      * Order the {@link ExcommunicationCard}s by period
      */
-    public static void orderExcommunicatioCardByPeriod() {
+    public void orderExcommunicatioCardByPeriod() {
         List<ExcommunicationCard> temp = new ArrayList();
         Collections.shuffle(excommunicationTiles);
-        for (Integer period = 1; period <= Configurator.TOTAL_PERIODS; period++) {
+        for (Integer period = 1; period <= TOTAL_PERIODS; period++) {
             excommlop:
             for (ExcommunicationCard e : excommunicationTiles)
                 if (e.getPeriod() == period) {
@@ -668,7 +671,7 @@ public final class Configurator {
     /**
      * @param productionSlotsJson from which to extra information about the Production Area ({@link WorkingArea})
      */
-    private static void setupProductionArea(JSONArray productionSlotsJson) {
+    private void setupProductionArea(JSONArray productionSlotsJson) {
         List<ActionSlot> productionSlots = new ArrayList<>();
         for( int i = 0; i < productionSlotsJson.length(); i++)
             productionSlots.add(getActionSlotFromJson(productionSlotsJson.optJSONObject(i)));
@@ -679,7 +682,7 @@ public final class Configurator {
     /**
      * @param harvestSlotsJson from which to extra information about the Harvest Area ({@link WorkingArea})
      */
-    private static void setupHarvestArea(JSONArray harvestSlotsJson) {
+    private void setupHarvestArea(JSONArray harvestSlotsJson) {
         List<ActionSlot> harvestSlots = new ArrayList<>();
         for( int i = 0; i < harvestSlotsJson.length(); i++)
             harvestSlots.add(getActionSlotFromJson(harvestSlotsJson.optJSONObject(i)));
@@ -687,11 +690,11 @@ public final class Configurator {
         harvestArea = new WorkingArea(harvestSlots);
     }
 
-    private static void setupCouncilPalace(JSONObject councilPalaceJson) {
+    private void setupCouncilPalace(JSONObject councilPalaceJson) {
         palace = new CouncilPalace(getActionSlotFromJson(councilPalaceJson));
     }
 
-    private static ExcommunicationCard getExcommunicationCardFromJson(JSONObject tile) {
+    private ExcommunicationCard getExcommunicationCardFromJson(JSONObject tile) {
         Integer number = tile.getInt("number");
         Integer period = tile.getInt(PERIOD_JSONSTRING);
         JSONObject jsonPenalty = tile.optJSONObject("penalty");
@@ -807,7 +810,7 @@ public final class Configurator {
     /**
      * @param jsonArray from which to create and instantiate che {@link DevelopmentCardDeck} of {@link CharacterCard}
      */
-    private static List<CharacterCard> getCharacterCardsFromJson(JSONArray jsonArray) {
+    private List<CharacterCard> getCharacterCardsFromJson(JSONArray jsonArray) {
         List<CharacterCard> cards = new ArrayList<>();
         for(int i = 0; i < jsonArray.length(); i++) {
             cards.add(getCharacterCardFromJson(jsonArray.optJSONObject(i)));
@@ -815,7 +818,7 @@ public final class Configurator {
         return cards;
     }
 
-    private static CharacterCard getCharacterCardFromJson(JSONObject jsonObject) {
+    private CharacterCard getCharacterCardFromJson(JSONObject jsonObject) {
         Integer period = jsonObject.optInt(PERIOD_JSONSTRING);
         String name = jsonObject.optString(NAME_JSONSTRING);
         List<AbstractEffect> instantBonus = new ArrayList<>();
@@ -940,83 +943,79 @@ public final class Configurator {
         return new CharacterCard(name, period, resourcesRequired, instantBonus, permanentBonus);
     }
 
-    public static DevelopmentCardDeck<TerritoryCard> getTerritoryCards() {
+    public DevelopmentCardDeck<TerritoryCard> getTerritoryCards() {
         return new DevelopmentCardDeck<>(territoryCards);
     }
-    public static DevelopmentCardDeck<BuildingCard> getBuildingCards() {
+    public DevelopmentCardDeck<BuildingCard> getBuildingCards() {
         return new DevelopmentCardDeck<>(buildingCards);
     }
 
-    public static List<BuildingCard> getBuildingCardsList() {
+    public List<BuildingCard> getBuildingCardsList() {
         return buildingCards;
     }
-    public static DevelopmentCardDeck<CharacterCard> getCharactersCards() {
+    public DevelopmentCardDeck<CharacterCard> getCharactersCards() {
         return new DevelopmentCardDeck<>(characterCards);
     }
-    public static DevelopmentCardDeck<VentureCard> getVentureCards() {
+    public DevelopmentCardDeck<VentureCard> getVentureCards() {
         return new DevelopmentCardDeck<>(ventureCards);
     }
-    public static Market getMarket() {
+    public Market getMarket() {
         return market;
     }
 
-    public static CouncilPalace getPalace() {
+    public CouncilPalace getPalace() {
         return palace;
     }
 
-    public static List<Tower> getTowers() {
+    public List<Tower> getTowers() {
         return towers;
     }
 
-    public static WorkingArea getHarvestArea() {
+    public WorkingArea getHarvestArea() {
         return harvestArea;
     }
 
-    public static WorkingArea getProductionArea() {
+    public WorkingArea getProductionArea() {
         return productionArea;
     }
 
-    public static List<Resources> getCouncilPrivilegeRewards() {
+    public List<Resources> getCouncilPrivilegeRewards() {
         return councilPrivilegeRewards;
     }
 
-    public static List<BonusTile> getBonusTiles() {
+    public List<BonusTile> getBonusTiles() {
         return advancedPersonalTiles;
     }
 
-    public static Map<Integer, Integer> getFaithPath() {
+    public Map<Integer, Integer> getFaithPath() {
         return faithPath;
     }
 
-    public static Map<Integer, Integer> getMapCharactersToVictoryPoints() {
+    public Map<Integer, Integer> getMapCharactersToVictoryPoints() {
         return endingGameCharactersVictoryPoints;
     }
 
-    public static Map<Integer, Integer> getMapTerritoriesToVictoryPoints() {
+    public Map<Integer, Integer> getMapTerritoriesToVictoryPoints() {
         return endingGameTerritoriesVictoryPoints;
     }
 
-    public static Integer getResourcesForVictoryPoints() {
+    public Integer getResourcesForVictoryPoints() {
         return resourcesForVictoryPoints;
     }
 
-    public static Map<Integer, Integer> getMilitaryPointsForTerritories() {
+    public Map<Integer, Integer> getMilitaryPointsForTerritories() {
         return militaryPointsForTerritories;
     }
 
-    public static Integer getWaitingRoomTimeout() {
+    public Integer getWaitingRoomTimeout() {
         return waitingRoomTimeout;
     }
 
-    public static Integer[] getMinFaithPoints() {
+    public Integer[] getMinFaithPoints() {
         return minFaithPoints;
     }
 
-    public static Integer getWaitingRoomPlayersThreshold() {
+    public Integer getWaitingRoomPlayersThreshold() {
         return WAITING_ROOM_PLAYERS_THRESHOLD;
-    }
-
-    public static void main (String[] args) {
-        Configurator.loadConfigs();
     }
 }

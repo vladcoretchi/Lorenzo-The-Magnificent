@@ -42,6 +42,10 @@ public class ServerNetworkController {
         this.gameRoom = Server.addPlayerToGameRoom(connection.getUsername(), this);
     }
 
+    public void removeConnection() {
+        this.serverConnection.remove();
+    }
+
 
     public void loadMapTerritoriesToVictoryPoints(Map<Integer, Integer> mapTerritoriesToVictoryPoints) throws NetworkConnectionException {
         this.serverConnection.loadMapTerritoriesToVictoryPoints(mapTerritoriesToVictoryPoints);

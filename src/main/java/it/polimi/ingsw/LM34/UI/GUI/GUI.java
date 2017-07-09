@@ -17,8 +17,8 @@ import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
-import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
-import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
+import it.polimi.ingsw.LM34.Network.RMI.RMIClient;
+import it.polimi.ingsw.LM34.Network.Socket.SocketClient;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.UI.GUI.GuiViews.*;
 import it.polimi.ingsw.LM34.UI.UIInterface;
@@ -134,10 +134,6 @@ public class GUI extends Application implements UIInterface {
     @Override
     public Integer bonusTileSelection(List<BonusTile> bonusTiles) {
         FutureTask<Integer> uiTask = new FutureTask<>(() -> {
-
-            this.loginStage.hide();
-            this.loginStage.close();
-            this.start(new Stage());
             return new BonusTileDialog().interactWithPlayer(bonusTiles);
         });
         return RunLaterTask(uiTask);
@@ -631,30 +627,16 @@ public class GUI extends Application implements UIInterface {
         this.loginDialog = new LoginDialog();
         this.loginDialog.show();
     }
-   //TODO: remove all the following FOUR methods below from UI Interface?
-    @Override
-    public void showMapCharactersToVictoryPoints() {
-
-    }
-
-    @Override
-    public void showMapTerritoriesToVictoryPoints() {
-       // new PathTypesVisualizationDialog().interactWithPlayer(PathType.ENDING_GAME_TERRITORIES_VICTORY_POINTS, mapTerritoriesToVictoryPoints);
-    }
-
-    @Override
-    public void showFaithPath() {
-        //new PathTypesVisualizationDialog().interactWithPlayer(PathType.FAITH_PATH, faithPath);
-    }
-
-    @Override
-    public void showMilitaryPointsForTerritories() {
-        //new PathTypesVisualizationDialog().interactWithPlayer(PathType.MILITARY_POINTS_FOR_TERRITORIES, mapMilitaryPointsForTerritories);
-    }
 
     @Override
     public void startGame() {
-
+        FutureTask<Void> uiTask = new FutureTask<>(() -> {
+            this.loginStage.hide();
+            this.loginStage.close();
+            this.start(new Stage());
+            return null;
+        });
+        RunLaterTask(uiTask);
     }
 
     /**
@@ -664,8 +646,8 @@ public class GUI extends Application implements UIInterface {
      */
     private void passTurnClickEvent(CountDownLatch latch, PlayerAction action) {
         /*Set the listener on the passTurn button*/
-        Button leaderButton = (Button) root.lookup("#leaderCardAction");
-        leaderButton.setOnMouseClicked(new LeaderButtonClickEvent(latch, action));
+        Button endTurn = (Button) root.lookup("#endTurn");
+        endTurn.setOnMouseClicked(new EndTurnClick(latch, action));
     }
 
     /**
@@ -675,8 +657,8 @@ public class GUI extends Application implements UIInterface {
      */
     private void leaderClickEvent(CountDownLatch latch, PlayerAction action) {
         /*Set the listener on the leader button*/
-        Button endTurn = (Button) root.lookup("#endTurn");
-        endTurn.setOnMouseClicked(new EndTurnClick(latch, action));
+        Button leaderButton = (Button) root.lookup("#leaderCardAction");
+        leaderButton.setOnMouseClicked(new LeaderButtonClickEvent(latch, action));
     }
 
     /**
@@ -800,11 +782,15 @@ public class GUI extends Application implements UIInterface {
             this.playerAction = new PlayerAction();
             this.actionLatch = new CountDownLatch(1);
 
-            /*Show the player a popup indicating that the last action he did was not valid
-            and what went wrong with it*/
-            lastActionValid.ifPresent( invalidAction ->
-                    new LastActionInvalid().interactWithPlayer(invalidAction.getMessage())
-            );
+            if(lastActionValid.isPresent())
+                /*Show the player a popup indicating that the last action he did was not valid
+                and what went wrong with it*/
+                new LastActionInvalid().interactWithPlayer(lastActionValid.get().getMessage());
+            else
+                /*Informs the player of the secondary action*/
+                new GenericPopup().show("Secondary Action",
+                        "You can perform a secondary action",
+                        "You can play or discard a leader card or end the turn");
 
             /*activate click listeners*/
             leaderClickEvent(this.actionLatch, this.playerAction);
@@ -824,13 +810,40 @@ public class GUI extends Application implements UIInterface {
                 this.playerAction = new PlayerAction();
                 this.actionLatch = new CountDownLatch(1);
 
-            /*Show the player a popup indicating that the last action he did was not valid
-            and what went wrong with it*/
-                lastActionValid.ifPresent(invalidAction ->
-                        new LastActionInvalid().interactWithPlayer(invalidAction.getMessage())
-                );
+                if(lastActionValid.isPresent())
+                /*Show the player a popup indicating that the last action he did was not valid
+                and what went wrong with it*/
+                    new LastActionInvalid().interactWithPlayer(lastActionValid.get().getMessage());
+                else {
+                    try {
+                        String actionExplanation;
+                        switch (action.getContext()) {
+                            case TOWERS_CONTEXT:
+                                Pair<?, ?> generic = (Pair<?, ?>) action.getAction();
+                                Pair<DevelopmentCardColor, Integer> actionValue = new ImmutablePair<>((DevelopmentCardColor) generic.getLeft(), (Integer) generic.getRight());
+                                actionExplanation = String.format("%1$s (card: %2$s; value: %3$d)", action.getContext().toString(), actionValue.getLeft().getDevType(), actionValue.getRight());
+                                break;
+                            case HARVEST_AREA_CONTEXT:
+                            case PRODUCTION_AREA_CONTEXT:
+                                actionExplanation = String.format("%1$s, (value %2$d)", action.getContext().toString(), (Integer) action.getAction());
+                                break;
+                            default:
+                                actionExplanation = null;
+                        }
 
-            /*activate click listeners*/
+                        if(actionExplanation != null)
+                            /*Informs the player of the free action*/
+                            new GenericPopup().show("Free Action",
+                                    "You can perform a free action",
+                                    String.format("%1$s%n%2$s",
+                                            "Based on the bonus of the card you bought, you can perform an action without using a family member",
+                                            actionExplanation));
+                    } catch (Exception ex) {
+                        LOGGER.log(Level.WARNING, ex.getMessage(), ex);
+                    }
+                }
+
+                /*activate click listeners*/
                 switch (action.getContext()) {
                     case HARVEST_AREA_CONTEXT:
                         harvestAreaClickEvent(this.actionLatch, this.playerAction);

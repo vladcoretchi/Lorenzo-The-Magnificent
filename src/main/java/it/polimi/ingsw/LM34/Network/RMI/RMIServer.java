@@ -1,6 +1,4 @@
-package it.polimi.ingsw.LM34.Network.Server.RMI;
-
-import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClientInterface;
+package it.polimi.ingsw.LM34.Network.RMI;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -43,12 +41,19 @@ public class RMIServer implements RMIServerInterface {
 
     @Override
     public boolean login(String username, String password, RMIClientInterface clientRMI) {
-        RMIConnection connection = new RMIConnection(clientRMI);
+        RMIConnection connection = new RMIConnection(clientRMI, this);
         if (connection.login(username, password)) {
             rmiConnections.add(connection);
             return true;
         } else
             return false;
+    }
+
+    public void removeClosedConnection(RMIConnection connection) {
+        //directly remove the object is seen as a smell as it might take too long for large collections
+        Integer index = rmiConnections.indexOf(connection);
+        if(index >= 0)
+            rmiConnections.remove(index.intValue());
     }
 
 }

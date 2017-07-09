@@ -1,9 +1,10 @@
 package it.polimi.ingsw.LM34.Network.Server;
 
 import it.polimi.ingsw.LM34.Network.GameRoom;
-import it.polimi.ingsw.LM34.Network.Server.RMI.RMIServer;
-import it.polimi.ingsw.LM34.Network.Server.Socket.SocketServer;
-import it.polimi.ingsw.LM34.Utils.Configurator;
+import it.polimi.ingsw.LM34.Network.RMI.RMIConnection;
+import it.polimi.ingsw.LM34.Network.RMI.RMIServer;
+import it.polimi.ingsw.LM34.Network.Socket.SocketConnection;
+import it.polimi.ingsw.LM34.Network.Socket.SocketServer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,8 +23,6 @@ public class Server {
     private static GameRoom waitingRoom;
 
     private Server() {
-        Configurator.loadConfigs();
-
         waitingRoom = new GameRoom();
         gameRooms = new ArrayList<>();
 
@@ -74,5 +73,19 @@ public class Server {
     public static void startWaitingGame() {
         gameRooms.add(waitingRoom);
         waitingRoom = new GameRoom();
+    }
+
+    public static void removeRMIConnection(RMIConnection connection) {
+        rmiServer.removeClosedConnection(connection);
+    }
+
+    public static void removeSocketConnection(SocketConnection connection) {
+        socketServer.removeClosedConnection(connection);
+    }
+
+    public static void removeGameRoom(GameRoom gameRoom) {
+        Integer index = gameRooms.indexOf(gameRoom);
+        if(index >= 0)
+            gameRooms.remove(index.intValue());
     }
 }

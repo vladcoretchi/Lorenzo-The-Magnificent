@@ -1,6 +1,6 @@
-package it.polimi.ingsw.LM34.Network.Server.RMI;
+package it.polimi.ingsw.LM34.Network.RMI;
 
-import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClientInterface;
+import it.polimi.ingsw.LM34.Network.RMI.RMIClientInterface;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

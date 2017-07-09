@@ -1,4 +1,4 @@
-package it.polimi.ingsw.LM34.Network.Server.Socket;
+package it.polimi.ingsw.LM34.Network.Socket;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -58,7 +58,7 @@ public final class SocketServer {
         //directly remove the object is seen as a smell as it might take too long for large collections
         Integer index = socketConnections.indexOf(connection);
         if(index >= 0)
-            socketConnections.remove(index);
+            socketConnections.remove(index.intValue());
     }
 
 }

@@ -21,8 +21,8 @@ import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
-import it.polimi.ingsw.LM34.Network.Client.RMI.RMIClient;
-import it.polimi.ingsw.LM34.Network.Client.Socket.SocketClient;
+import it.polimi.ingsw.LM34.Network.RMI.RMIClient;
+import it.polimi.ingsw.LM34.Network.Socket.SocketClient;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import it.polimi.ingsw.LM34.Utils.Utilities;
@@ -463,9 +463,7 @@ public class CLI implements UIInterface {
     }
 
     /**
-     * this method will be called when the user will choice which tower wants to make his action and in which tower's floor
-     * @param towerNumber how many towers contains a game board
-     * @param towerFloor how many floors contains a tower
+     * this method will be called when the user will have to choose in which tower wants to make his action and in which tower's floor
      */
     private Pair<DevelopmentCardColor, Integer> towerSlotSelection() {
         DevelopmentCardColor towerType;
@@ -881,39 +879,38 @@ public class CLI implements UIInterface {
     /**
      * Presents to the player the association between # of cards and victory points
      */
-    @Override
     public void showMapCharactersToVictoryPoints() {
         printToConsole.println("Here is the mapping between number of characters owned and victory points provided at endGame");
-        mapTerritoriesToVictoryPoints.forEach((pos, points) -> printToConsole.println(pos + ":" + points));
+        mapTerritoriesToVictoryPoints.forEach((pos, points) -> printFormat("%1$d: %2$d%n", pos, points));
     }
 
     /**
      * Presents to the player the association between # of cards and victory points
      */
-    @Override
     public void showMapTerritoriesToVictoryPoints() {
         printToConsole.println("Here is the mapping between number of territories owned and victory points provided at endGame");
-        mapCharactersToVictoryPoints.forEach((pos, points) -> printToConsole.println(pos + ":" + points));
+        mapCharactersToVictoryPoints.forEach((pos, points) -> printFormat("%1$d: %2$d%n", pos, points));
     }
 
     /**
      * Presents to the player the state of the FaithPath
      */
-    @Override
     public void showFaithPath() {
         printToConsole.println("Here is the mapping between the position on the faithPath and victory points provided at Church Support");
-        faithPath.forEach((pos, points) -> printToConsole.println(pos + ":" + points));
+        faithPath.forEach((pos, points) -> printFormat("%1$d: %2$d%n", pos, points));
     }
 
-    @Override
+    /**
+     * Presents to the player the # of military points needed for territories cards
+     */
     public void showMilitaryPointsForTerritories() {
         printToConsole.println("Here is the mapping between the number of territories and the military points required to get another territory card");
-        mapMilitaryPointsForTerritories.forEach((pos, points) -> printToConsole.println(pos + ":" + points));
+        mapMilitaryPointsForTerritories.forEach((pos, points) -> printFormat("%1$d: %2$d%n", pos, points));
     }
 
     @Override
     public void startGame() {
-
+        printLine("The game has started!\n");
     }
 
     /**

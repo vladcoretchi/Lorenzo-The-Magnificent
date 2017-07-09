@@ -52,11 +52,14 @@ public class TowersContext extends AbstractGameContext {
     public Void interactWithPlayer(Object... args)
             throws IncorrectInputException, OccupiedSlotException, NotEnoughResourcesException, NotEnoughMilitaryPoints, CardTypeNumLimitReachedException {
         Pair<DevelopmentCardColor, Integer> slotSelection;
+        DevelopmentCardColor freeActionCard = null;
         Integer freeActionValue = 0;
         try {
             Pair<?, ?> slotArg = (Pair<?, ?>) args[0];
-            if(args.length == 2)
-                freeActionValue = (Integer) args[1];
+            if(args.length == 3) {
+                freeActionCard = (DevelopmentCardColor) args[1];
+                freeActionValue = (Integer) args[2];
+            }
             slotSelection = new ImmutablePair<>((DevelopmentCardColor) slotArg.getLeft(), (Integer) slotArg.getRight());
             Validator.checkValidity(slotSelection.getRight(), 0, Configurator.MAX_TOWER_LEVELS-1);
         } catch (Exception ex) {
@@ -70,6 +73,9 @@ public class TowersContext extends AbstractGameContext {
                 selectedTower = t;
         }
         if(selectedTower == null)
+            throw new IncorrectInputException();
+
+        if(freeActionCard != null && freeActionCard != DevelopmentCardColor.MULTICOLOR && !freeActionCard.name().equals(selectedTower.getCardColor().name()))
             throw new IncorrectInputException();
 
         TowerSlot slot = selectedTower.getTowerSlots().get(slotSelection.getRight());
@@ -104,7 +110,7 @@ public class TowersContext extends AbstractGameContext {
 
         //Check if player has not passed the limit of territory cards he can have based on his MILITARY_POINTS
         if(this.towerColor == DevelopmentCardColor.GREEN && !this.ignoreMilitaryPointsRequirements && currentPlayerTerritoryCards.isPresent() &&
-                Configurator.getMilitaryPointsForTerritories().get(currentPlayerTerritoryCards.get().size()) > this.getCurrentPlayer().getResources().getResourceByType(MILITARY_POINTS))
+                this.gameManager.getConfigurator().getMilitaryPointsForTerritories().get(currentPlayerTerritoryCards.get().size()) > this.getCurrentPlayer().getResources().getResourceByType(MILITARY_POINTS))
             throw new NotEnoughMilitaryPoints();
 
         Resources ventureCardAlternative = null;

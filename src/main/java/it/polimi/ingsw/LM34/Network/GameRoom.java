@@ -21,12 +21,16 @@ public class GameRoom {
     private WaitingRoomTimeout timeoutRunnable;
     private Thread timeoutThread;
 
+    private Configurator configurator;
+
     public GameRoom() {
         this.gameManager = null;
         this.players = new HashMap<>();
 
         this.timeoutRunnable = null;
         this.timeoutThread = null;
+
+        this.configurator = new Configurator();
     }
 
     public String[] getPlayers() {
@@ -35,6 +39,10 @@ public class GameRoom {
 
     public GameManager getGameManager() {
         return this.gameManager;
+    }
+
+    public Configurator getConfigurator() {
+        return this.configurator;
     }
 
     public void addPlayer(String username, ServerNetworkController networkController) {
@@ -46,8 +54,8 @@ public class GameRoom {
 
         this.players.put(username, networkController);
 
-        if (this.players.size() >= Configurator.getWaitingRoomPlayersThreshold()) {
-            this.timeoutRunnable = new WaitingRoomTimeout(Configurator.getWaitingRoomTimeout());
+        if (this.players.size() >= this.configurator.getWaitingRoomPlayersThreshold()) {
+            this.timeoutRunnable = new WaitingRoomTimeout(this.configurator.getWaitingRoomTimeout());
             timeoutThread = new Thread(this.timeoutRunnable);
             timeoutThread.start();
         }
@@ -69,6 +77,11 @@ public class GameRoom {
 
         this.gameManager = new GameManager(this, playerNames);
         this.gameManager.startGame();
+    }
+
+    public void end() {
+        this.players.forEach((name, nc) -> nc.removeConnection());
+        Server.removeGameRoom(this);
     }
 
     private class WaitingRoomTimeout implements Runnable {

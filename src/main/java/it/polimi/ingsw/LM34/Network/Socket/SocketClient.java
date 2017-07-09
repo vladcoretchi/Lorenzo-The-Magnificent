@@ -1,8 +1,7 @@
-package it.polimi.ingsw.LM34.Network.Client.Socket;
+package it.polimi.ingsw.LM34.Network.Socket;
 
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
-import it.polimi.ingsw.LM34.Network.Server.Socket.RequestToServer;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 
 import java.io.*;

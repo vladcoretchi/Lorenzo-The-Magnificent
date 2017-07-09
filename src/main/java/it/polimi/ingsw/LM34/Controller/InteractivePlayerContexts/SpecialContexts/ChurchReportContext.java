@@ -39,8 +39,8 @@ public class ChurchReportContext extends AbstractGameContext {
             }
 
         if(applyPenalty) {
-            this.gameManager.getExcommunicationCards().get(gameManager.getPeriod()).getPenalty().applyEffect(this);
-            player.addExcommunicationCards(this.gameManager.getExcommunicationCards().get(gameManager.getPeriod()));
+            this.gameManager.getExcommunicationCards().get(this.gameManager.getPeriod()).getPenalty().applyEffect(this);
+            player.addExcommunicationCards(this.gameManager.getExcommunicationCards().get(this.gameManager.getPeriod()));
 
             this.gameManager.getPlayers().forEach(p -> {
                 if(player.isConnected())
@@ -54,7 +54,7 @@ public class ChurchReportContext extends AbstractGameContext {
             });
         }
         else {
-            player.addResources(new Resources(0, 0, Configurator.getFaithPath()
+            player.addResources(new Resources(0, 0, this.gameManager.getConfigurator().getFaithPath()
                     .get(player.getResources().getResourceByType(FAITH_POINTS))));
             setChanged();
             notifyObservers(this);
