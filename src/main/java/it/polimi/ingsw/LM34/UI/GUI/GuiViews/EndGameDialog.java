@@ -48,22 +48,12 @@ public class EndGameDialog {
         yAxis.setTickUnit(5);
         yAxis.setMinorTickVisible(false);
 
-        XYChart.Series period1 = new XYChart.Series();
-        period1.setName("Period 1");
-        for(Player player : players)
-            period1.getData().add(new XYChart.Data(player.getPlayerName(), player.getResources().getResourceByType(ResourceType.VICTORY_POINTS)));
-
-        XYChart.Series period2 = new XYChart.Series();
-        period2.setName("Period 2");
-        for(Player player : players)
-            period2.getData().add(new XYChart.Data(player.getPlayerName(), player.getResources().getResourceByType(ResourceType.VICTORY_POINTS)));
-
         XYChart.Series period3 = new XYChart.Series();
         period3.setName("Period 3");
         for(Player player : players)
             period3.getData().add(new XYChart.Data(player.getPlayerName(), player.getResources().getResourceByType(ResourceType.VICTORY_POINTS)));
 
-        pointsChart.getData().addAll(period1, period2, period3);
+        pointsChart.getData().addAll(period3);
 
         Stage stage = new Stage();
         stage.initModality(Modality.NONE);

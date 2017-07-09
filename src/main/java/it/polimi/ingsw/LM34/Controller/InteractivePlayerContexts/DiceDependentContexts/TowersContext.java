@@ -84,7 +84,7 @@ public class TowersContext extends AbstractGameContext {
             throw new OccupiedSlotException();
 
         AbstractDevelopmentCard card = slot.getCardStored();
-        if(this.getCurrentPlayer().hasEnoughCardsOfType(card.getColor(), Configurator.MAX_ACQUIRABLE_CARDS_PER_TYPE))
+        if(card != null && this.getCurrentPlayer().hasEnoughCardsOfType(card.getColor(), Configurator.MAX_ACQUIRABLE_CARDS_PER_TYPE))
             throw new CardTypeNumLimitReachedException();
 
         this.towerColor = selectedTower.getCardColor();

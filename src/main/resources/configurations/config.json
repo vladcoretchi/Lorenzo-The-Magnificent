@@ -3427,7 +3427,7 @@
       "excommunicationTiles": [
         {
           "number": 1,
-          "period": 1,
+          "period": 0,
           "penalty": {
             "resourcesIncomePenalty": {
               "resources": {
@@ -3438,7 +3438,7 @@
         },
         {
           "number": 2,
-          "period": 1,
+          "period": 0,
           "penalty": {
             "resourcesIncomePenalty": {
               "resources": {
@@ -3449,7 +3449,7 @@
         },
         {
           "number": 3,
-          "period": 1,
+          "period": 0,
           "penalty": {
             "resourcesIncomePenalty": {
               "resources": {
@@ -3460,7 +3460,7 @@
         },
         {
           "number": 4,
-          "period": 1,
+          "period": 0,
           "penalty": {
             "resourcesIncomePenalty": {
               "resources": {
@@ -3472,7 +3472,7 @@
         },
         {
           "number": 5,
-          "period": 1,
+          "period": 0,
           "penalty": {
             "workingAreaValueEffect": {
               "workingAreaType": "HARVEST",
@@ -3482,7 +3482,7 @@
         },
         {
           "number": 6,
-          "period": 1,
+          "period": 0,
           "penalty": {
             "workingAreaValueEffect": {
               "workingAreaType": "PRODUCTION",
@@ -3492,7 +3492,7 @@
         },
         {
           "number": 7,
-          "period": 1,
+          "period": 0,
           "penalty": {
             "familyMemberValueEffect": [
               {
@@ -3515,7 +3515,7 @@
         },
         {
           "number": 1,
-          "period": 2,
+          "period": 1,
           "penalty": {
             "developmentCardAcquireEffect": {
               "developmentCardColor": "GREEN",
@@ -3525,7 +3525,7 @@
         },
         {
           "number": 3,
-          "period": 2,
+          "period": 1,
           "penalty": {
             "developmentCardAcquireEffect": {
               "developmentCardColor": "BLUE",
@@ -3535,7 +3535,7 @@
         },
         {
           "number": 2,
-          "period": 2,
+          "period": 1,
           "penalty": {
             "developmentCardAcquireEffect": {
               "developmentCardColor": "YELLOW",
@@ -3545,7 +3545,7 @@
         },
         {
           "number": 4,
-          "period": 2,
+          "period": 1,
           "penalty": {
             "developmentCardAcquireEffect": {
               "developmentCardColor": "PURPLE",
@@ -3555,28 +3555,28 @@
         },
         {
           "number": 5,
-          "period": 2,
+          "period": 1,
           "penalty": {
             "marketBan": true
           }
         },
         {
           "number": 7,
-          "period": 2,
+          "period": 1,
           "penalty": {
             "skipFirstTurn": true
           }
         },
         {
           "number": 6,
-          "period": 2,
+          "period": 1,
           "penalty": {
             "halveServantsValue": true
           }
         },
         {
           "number": 5,
-          "period": 3,
+          "period": 2,
           "penalty": {
             "victoryPointsPenalty": {
               "VICTORY_POINTS": -1,
@@ -3588,7 +3588,7 @@
         },
         {
           "number": 4,
-          "period": 3,
+          "period": 2,
           "penalty": {
             "victoryPointsPenalty": {
               "VICTORY_POINTS": -1,
@@ -3600,7 +3600,7 @@
         },
         {
           "number": 1,
-          "period": 3,
+          "period": 2,
           "penalty": {
             "victoryPointsPenalty": {
               "VICTORY_POINTS": 0,
@@ -3610,7 +3610,7 @@
         },
         {
           "number": 2,
-          "period": 3,
+          "period": 2,
           "penalty": {
             "victoryPointsPenalty": {
               "VICTORY_POINTS": 0,
@@ -3620,7 +3620,7 @@
         },
         {
           "number": 3,
-          "period": 3,
+          "period": 2,
           "penalty": {
             "victoryPointsPenalty": {
               "VICTORY_POINTS": 0,
@@ -3630,7 +3630,7 @@
         },
         {
           "number": 7,
-          "period": 3,
+          "period": 2,
           "penalty": {
             "victoryPointsPenalty": {
               "VICTORY_POINTS": -1,
@@ -3645,7 +3645,7 @@
         },
         {
           "number": 6,
-          "period": 3,
+          "period": 2,
           "penalty": {
             "victoryPointsPenalty": {
               "VICTORY_POINTS": -1,

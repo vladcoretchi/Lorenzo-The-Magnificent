@@ -155,7 +155,7 @@ public class GameManager {
      */
     public void startGame() {
         bonusTileSelectionPhase();
-        //leaderSelectionPhase(); //TODO: uncomment
+        leaderSelectionPhase();
 
         players.forEach(player -> {
             try {
@@ -339,30 +339,17 @@ public class GameManager {
      * provide the players the initial amount of resources
      */
     private void setupPlayersResources() {
+       /* for (int i = 0; i < players.size(); i++) {
+            players.get(i).addResources(new Resources(
+                  40,40,40,40, 40,40,40));*/
+
         for (int i = 0; i < players.size(); i++) {
             players.get(i).addResources(new Resources(
-                  40,40,40,40, 40,40,40));
-
-           //TODO: remove the following
-            players.forEach(player -> {
-                try {
-                    List<ExcommunicationCard> excomm = new ArrayList<>();
-                    excommunicationCards.forEach(ex -> {
-                        if(ex.getPeriod() == 1 && ex.getNumber() == 2)
-                            excomm.add(ex);
-                    });
-                    this.getPlayerNetworkController(player).setExcommunicationCards(excomm);
-                } catch(NetworkConnectionException ex) {
-                    LOGGER.log(Level.INFO, ex.getMessage(), ex);
-                    player.setDisconnected();
-                }
-            });
-                //TODO: uncomment
-                /*Configurator.BASE_COINS + i * Configurator.COINS_INCREMENT_PLAYER_ORDER,
-                Configurator.BASE_WOODS + i * Configurator.WOODS_INCREMENT_PLAYER_ORDER,
-                Configurator.BASE_STONES + i * Configurator.STONES_INCREMENT_PLAYER_ORDER,
-                Configurator.BASE_SERVANTS + i * Configurator.SERVANTS_INCREMENT_PLAYER_ORDER*/
-           // ));
+                    Configurator.BASE_COINS + i * Configurator.COINS_INCREMENT_PLAYER_ORDER,
+                    Configurator.BASE_WOODS + i * Configurator.WOODS_INCREMENT_PLAYER_ORDER,
+                    Configurator.BASE_STONES + i * Configurator.STONES_INCREMENT_PLAYER_ORDER,
+                    Configurator.BASE_SERVANTS + i * Configurator.SERVANTS_INCREMENT_PLAYER_ORDER
+            ));
         }
     }
 

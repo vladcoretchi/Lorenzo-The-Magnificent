@@ -17,9 +17,9 @@ import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Model.Resources;
 import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
 import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
+import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.Network.RMI.RMIClient;
 import it.polimi.ingsw.LM34.Network.Socket.SocketClient;
-import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.UI.GUI.GuiViews.*;
 import it.polimi.ingsw.LM34.UI.UIInterface;
 import it.polimi.ingsw.LM34.Utils.Configurator;
@@ -202,13 +202,17 @@ public class GUI extends Application implements UIInterface {
         this.excommunicationCards = excommunicationCards;
 
         FutureTask<Void> uiTask = new FutureTask<>(() -> {
-            ImageView imageView;
-            for (ExcommunicationCard ex : excommunicationCards) {
-                imageView = (ImageView) root.lookup("#excommunicationCard" + ex.getPeriod());
-                imageView.setImage(new Image(Thread.currentThread()
-                        .getContextClassLoader().getResource("images/excommunicationTiles/excomm_" + ex.getPeriod() + "_" + ex.getNumber() + ".png")
-                        .toExternalForm()));
+            try {
+                ImageView imageView;
+                for (ExcommunicationCard ex : excommunicationCards) {
+                    imageView = (ImageView) root.lookup("#excommunicationCard" + ex.getPeriod());
+                    imageView.setImage(new Image(Thread.currentThread()
+                            .getContextClassLoader().getResource("images/excommunicationTiles/excomm_" + ex.getPeriod() + "_" + ex.getNumber() + ".png")
+                            .toExternalForm()));
+                }
             }
+            catch(Exception e) { e.printStackTrace(); return null; }
+
             return null;
         });
         Platform.runLater(uiTask);
@@ -794,6 +798,7 @@ public class GUI extends Application implements UIInterface {
 
             /*activate click listeners*/
             leaderClickEvent(this.actionLatch, this.playerAction);
+            passTurnClickEvent(this.actionLatch, this.playerAction);
 
             return this.actionLatch;
         });

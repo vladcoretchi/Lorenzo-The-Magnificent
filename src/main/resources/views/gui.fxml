@@ -55,11 +55,11 @@
             </ImageView>
 
             <!-- excommunication cards-->
-            <ImageView fx:id="excommunicationCard1" fitHeight="211.0" fitWidth="114.0" layoutX="219.0" layoutY="1154.0" style="-fx-background-color: transparent">
+            <ImageView fx:id="excommunicationCard0" fitHeight="211.0" fitWidth="114.0" layoutX="219.0" layoutY="1154.0" style="-fx-background-color: transparent">
             </ImageView>
-            <ImageView fx:id="excommunicationCard2" fitHeight="201.92" fitWidth="103.68" layoutX="355" layoutY="1178" style="-fx-background-color: transparent">
+            <ImageView fx:id="excommunicationCard1" fitHeight="201.92" fitWidth="103.68" layoutX="355" layoutY="1178" style="-fx-background-color: transparent">
             </ImageView>
-            <ImageView fx:id="excommunicationCard3" fitHeight="202.0" fitWidth="111.0" layoutX="477.0" layoutY="1159.0" style="-fx-background-color: transparent">
+            <ImageView fx:id="excommunicationCard2" fitHeight="202.0" fitWidth="111.0" layoutX="477.0" layoutY="1159.0" style="-fx-background-color: transparent">
             </ImageView>
 
             <!-- market area-->
@@ -170,59 +170,59 @@
                 <Image url="@../images/transparentSlot.png" />
             </ImageView>
 
-            <StackPane layoutX="38" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane layoutX="38" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPoint0" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="112" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane layoutX="112" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPoint1" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="186" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane layoutX="186" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPoint2" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="275" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane layoutX="275" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPoint3" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="399" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane layoutX="399" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPoint4" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="523" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane layoutX="523" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPoint5" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="615" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane layoutX="615" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPoint6" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="687" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane layoutX="687" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPoint7" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="755" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="16" prefWidth="16">
+            <StackPane layoutX="755" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="19" prefWidth="26">
                 <TextFlow fx:id="faithPoint8" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="830" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="19" prefWidth="19">
+            <StackPane layoutX="830" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="19" prefWidth="26">
                 <TextFlow fx:id="faithPoint9" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="900" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="19" prefWidth="19">
+            <StackPane layoutX="900" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="19" prefWidth="26">
                 <TextFlow fx:id="faithPoint10" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="975" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="19" prefWidth="19">
+            <StackPane layoutX="975" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="19" prefWidth="26">
                 <TextFlow fx:id="faithPoint11" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="1050" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="19" prefWidth="19">
+            <StackPane layoutX="1050" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="19" prefWidth="26">
                 <TextFlow fx:id="faithPoint12" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="1120" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="22" prefWidth="22">
+            <StackPane layoutX="1120" layoutY="1395" style="-fx-background-color: transparent;" prefHeight="22" prefWidth="26">
                 <TextFlow fx:id="faithPoint13" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
@@ -235,43 +235,43 @@
                 </TextFlow>
             </StackPane>
 
-            <StackPane layoutX="38" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane layoutX="38" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPosition0" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="113" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane layoutX="113" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPosition1" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="188" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane layoutX="188" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPosition2" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="278" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane layoutX="278" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPosition3" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane  layoutX="398" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane  layoutX="398" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPosition4" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="523" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane layoutX="523" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPosition5" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="613" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane layoutX="613" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPosition6" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="688" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane layoutX="688" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPosition7" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="758" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane layoutX="758" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPosition8" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>
-            <StackPane layoutX="833" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="13">
+            <StackPane layoutX="833" layoutY="1440" style="-fx-background-color: transparent;" prefHeight="13" prefWidth="26">
                 <TextFlow fx:id="faithPosition9" style="-fx-background-color: transparent; -fx-text-fill: rgba(118,93,29,0.96);" prefWidth="10" prefHeight="10" visible="false">
                 </TextFlow>
             </StackPane>

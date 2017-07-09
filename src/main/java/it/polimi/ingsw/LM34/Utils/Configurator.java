@@ -358,7 +358,7 @@ public class Configurator {
         /**
          * Now keep only the 3 excommunication cards that the {@link it.polimi.ingsw.LM34.Controller.GameManager} needs
          */
-       //TODO orderExcommunicatioCardByPeriod();
+       orderExcommunicatioCardByPeriod();
     }
 
     /**
@@ -639,7 +639,7 @@ public class Configurator {
      * @return the exact number of leaders the game needs (4 per player)
      */
     public List<LeaderCard> getLeaderCards(Integer numPlayers) {
-        //Collections.shuffle(leaderCards); TODO
+        Collections.shuffle(leaderCards);
         List<LeaderCard> leadersForPlaying = new ArrayList<>();
         for(Integer index = 0; index < MAX_LEADER_PER_PLAYER * numPlayers; index++)
             leadersForPlaying.add(leaderCards.get(index));
@@ -657,7 +657,7 @@ public class Configurator {
     public void orderExcommunicatioCardByPeriod() {
         List<ExcommunicationCard> temp = new ArrayList();
         Collections.shuffle(excommunicationTiles);
-        for (Integer period = 1; period <= TOTAL_PERIODS; period++) {
+        for (Integer period = 0; period <= TOTAL_PERIODS - 1; period++) {
             excommlop:
             for (ExcommunicationCard e : excommunicationTiles)
                 if (e.getPeriod() == period) {
