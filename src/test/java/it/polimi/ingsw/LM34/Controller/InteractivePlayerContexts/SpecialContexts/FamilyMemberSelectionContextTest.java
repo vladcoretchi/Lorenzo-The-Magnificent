@@ -1,13 +1,7 @@
 package it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts;
 
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
-import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
-import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
-import it.polimi.ingsw.LM34.Model.Player;
 import org.junit.Test;
-import sun.text.resources.cldr.te.FormatData_te;
-
-import static org.junit.Assert.*;
 
 public class FamilyMemberSelectionContextTest {
 
@@ -29,7 +23,7 @@ public class FamilyMemberSelectionContextTest {
     @Test(expected = NullPointerException.class)
     public void changeFamilyMemberValue() throws Exception {
         FamilyMemberSelectionContext familyMemberSelectionContext = new FamilyMemberSelectionContext();
-        familyMemberSelectionContext.changeFamilyMemberValue(1, true);
+        familyMemberSelectionContext.changeFamilyMemberValue(1, true, null);
 
     }
 

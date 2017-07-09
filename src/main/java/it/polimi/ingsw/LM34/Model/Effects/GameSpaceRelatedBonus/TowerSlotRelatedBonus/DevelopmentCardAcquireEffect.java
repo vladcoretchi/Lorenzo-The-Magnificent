@@ -1,7 +1,6 @@
 package it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus;
 
 import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
-import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.ProductionAreaContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts.TowersContext;
 import it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts.FamilyMemberSelectionContext;
 import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
@@ -15,8 +14,6 @@ import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
 import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
 import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
 import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
-import it.polimi.ingsw.LM34.Model.FamilyMember;
-import it.polimi.ingsw.LM34.Model.Player;
 import it.polimi.ingsw.LM34.Network.PlayerAction;
 import it.polimi.ingsw.LM34.Utils.Validator;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -27,7 +24,6 @@ import java.util.Optional;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.FAMILY_MEMBER_SELECTION_CONTEXT;
-import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.PRODUCTION_AREA_CONTEXT;
 import static it.polimi.ingsw.LM34.Enums.Controller.ContextType.TOWERS_CONTEXT;
 import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
 
@@ -81,7 +77,7 @@ public class DevelopmentCardAcquireEffect extends AbstractEffect implements Obse
             if(familyMemberContext.getCurrentActionContext().name().equals(TOWERS_CONTEXT.name())) {
                 TowersContext towerContext = (TowersContext) familyMemberContext.getContextByType(familyMemberContext.getCurrentActionContext());
                 if(this.color.name().equals(DevelopmentCardColor.MULTICOLOR.name()) || this.color.name().equals(towerContext.getTowerColor().name()))
-                    familyMemberContext.changeFamilyMemberValue(this.diceValue, this.isRelative);
+                    familyMemberContext.changeFamilyMemberValue(this.diceValue, this.isRelative, TOWERS_CONTEXT);
             }
         }
         else if(callerContext instanceof TowersContext) {

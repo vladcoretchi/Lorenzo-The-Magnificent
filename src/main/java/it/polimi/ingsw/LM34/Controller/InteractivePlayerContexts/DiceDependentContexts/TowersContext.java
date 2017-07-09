@@ -114,11 +114,11 @@ public class TowersContext extends AbstractGameContext {
             throw new NotEnoughMilitaryPoints();
 
         Resources ventureCardAlternative = null;
-        if(card.getColor() == DevelopmentCardColor.PURPLE && ((VentureCard) card).isThereAlternativeToMilitaryPointsPayment())
+        if(card != null && card.getColor() == DevelopmentCardColor.PURPLE && ((VentureCard) card).isThereAlternativeToMilitaryPointsPayment())
             ventureCardAlternative = new Resources(((VentureCard) card).getMilitaryPointsRequired(), 0, 0);
 
         Resources requirements = null;
-        if(!(card.getColor() == DevelopmentCardColor.PURPLE && card.getResourcesRequired().getResources().isEmpty()))
+        if(card != null && !(card.getColor() == DevelopmentCardColor.PURPLE && card.getResourcesRequired().getResources().isEmpty()))
             requirements = new Resources(
                     card.getResourcesRequired().getResourceByType(COINS),
                     card.getResourcesRequired().getResourceByType(WOODS),

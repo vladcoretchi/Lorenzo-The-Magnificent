@@ -76,7 +76,8 @@ public class FamilyMemberSelectionContext extends AbstractGameContext {
         return this.currentActionContext;
     }
 
-    public void changeFamilyMemberValue(Integer value, Boolean relative) {
-        this.familyMemberValue = relative ? this.familyMemberValue + value : value;
+    public void changeFamilyMemberValue(Integer value, Boolean relative, ContextType contextEffect) {
+        if(contextEffect == this.contextType || contextEffect == this.currentActionContext)
+            this.familyMemberValue = relative ? this.familyMemberValue + value : value;
     }
 }

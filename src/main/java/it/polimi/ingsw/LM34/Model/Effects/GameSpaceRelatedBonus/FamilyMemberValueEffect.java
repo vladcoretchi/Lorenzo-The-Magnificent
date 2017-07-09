@@ -59,7 +59,7 @@ public class FamilyMemberValueEffect extends AbstractEffect implements Observer 
 
         if((this.diceColors.size() == 1 && this.diceColors.get(0).name().equals(DiceColor.DEFAULT.name())) ||
                 this.diceColors.stream().anyMatch(dc -> dc.name().equals(callerContext.getAssociatedDiceColor().name())))
-            callerContext.changeFamilyMemberValue(this.value, this.relative);
+            callerContext.changeFamilyMemberValue(this.value, this.relative, FAMILY_MEMBER_SELECTION_CONTEXT);
     }
 
     @Override
