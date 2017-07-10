@@ -77,6 +77,10 @@ Waiting room for CLI and GUI |https://ibb.co/c9TZcv
 Gameboard | https://ibb.co/jzYpsv
 Turn | https://ibb.co/gnqpcv
 Personal Board | https://ibb.co/bF9MqF
+Invalid action example | http://ibb.co/gYCcEa
+Servants choice example | http://ibb.co/hP7AZa
+Leader selection phase | http://ibb.co/fKam7v
+Popup reward of a TowerSlot | http://ibb.co/m5QTnv
 
 ## License
 
