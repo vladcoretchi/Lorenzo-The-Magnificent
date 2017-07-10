@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractDevelopmentCard.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Model.Cards</a> &gt; <span class="el_source">AbstractDevelopmentCard.java</span></div><h1>AbstractDevelopmentCard.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Model.Cards;
+
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Model.Effects.AbstractEffect;
+import it.polimi.ingsw.LM34.Model.Resources;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * Abstract class for all the development cards
+ * {@link TerritoryCard}
+ * {@link BuildingCard}
+ * {@link CharacterCard}
+ * {@link VentureCard}
+ */
+<span class="fc" id="L17">public abstract class AbstractDevelopmentCard implements Serializable {</span>
+    private static final long serialVersionUID = 474897345172229849L;
+
+    protected String name;
+    protected Integer period;
+    protected DevelopmentCardColor color;
+    protected AbstractEffect permanentBonus;
+    protected List&lt;AbstractEffect&gt; instantBonus;
+    protected Resources resourceRequired;
+
+    public String getName() {
+<span class="nc" id="L28">        return this.name;</span>
+    }
+
+    public Integer getPeriod() {
+<span class="fc" id="L32">        return this.period;</span>
+    }
+
+<span class="fc" id="L35">    public DevelopmentCardColor getColor () { return this.color; }</span>
+
+    /**
+     * @return {@link Resources} required to buy this card
+     */
+<span class="nc" id="L40">    public Resources getResourcesRequired() { return this.resourceRequired; }</span>
+
+    /**
+     * @return {@link List&lt;AbstractEffect&gt;} of instant bonuses associated to the card
+     */
+<span class="nc" id="L45">    public List&lt;AbstractEffect&gt; getInstantBonus() { return this.instantBonus; }</span>
+
+    /**
+     * @return {@link AbstractEffect} permanent bonus associated to the card
+     */
+<span class="nc" id="L50">    public AbstractEffect getPermanentBonus() { return this.permanentBonus; }</span>
+
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

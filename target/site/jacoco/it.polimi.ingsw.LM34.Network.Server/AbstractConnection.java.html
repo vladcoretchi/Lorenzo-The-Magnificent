@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractConnection.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Network.Server</a> &gt; <span class="el_source">AbstractConnection.java</span></div><h1>AbstractConnection.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Network.Server;
+
+import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
+import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+import it.polimi.ingsw.LM34.Model.Dice;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
+import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Network.PlayerAction;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+<span class="fc" id="L27">public abstract class AbstractConnection {</span>
+    protected ServerNetworkController networkController;
+    protected String username;
+
+    public abstract void remove();
+
+    public final String getUsername() {
+<span class="fc" id="L34">        return this.username;</span>
+    }
+
+    public final ServerNetworkController getNetworkController() {
+<span class="nc" id="L38">        return this.networkController;</span>
+    }
+
+    public boolean login(String username, String password) {
+<span class="nc" id="L42">        boolean loginResult = Server.login(username, password);</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (loginResult) {</span>
+<span class="nc" id="L44">            this.username = username;</span>
+<span class="nc" id="L45">            this.networkController = new ServerNetworkController(this);</span>
+        }
+<span class="nc" id="L47">        return loginResult;</span>
+    }
+
+    public abstract void loadMapTerritoriesToVictoryPoints(Map&lt;Integer, Integer&gt; mapTerritoriesToVictoryPoints) throws NetworkConnectionException;
+    public abstract void loadMapMilitaryPointsForTerritories(Map&lt;Integer, Integer&gt; mapMilitaryPointsForTerritories) throws NetworkConnectionException;
+    public abstract void loadMapCharactersToVictoryPoints(Map&lt;Integer, Integer&gt; mapCharactersToVictoryPoints) throws NetworkConnectionException;
+    public abstract void loadFaithPath(Map&lt;Integer, Integer&gt; faithPath) throws NetworkConnectionException;
+    public abstract void setExcommunicationCards(List&lt;ExcommunicationCard&gt; excommunicationCards) throws NetworkConnectionException;
+    public abstract void updateTowers(List&lt;Tower&gt; towers) throws NetworkConnectionException;
+    public abstract void updateCouncilPalace(CouncilPalace councilPalace) throws NetworkConnectionException;
+    public abstract void updateMarket(Market market) throws NetworkConnectionException;
+    public abstract void updateProductionArea(WorkingArea productionArea) throws NetworkConnectionException;
+    public abstract void updateHarvestArea(WorkingArea harvestArea) throws NetworkConnectionException;
+    public abstract void updatePlayersData(List&lt;Player&gt; players) throws NetworkConnectionException;
+    public abstract void updateDiceValues(List&lt;Dice&gt; diceValues) throws NetworkConnectionException;
+
+    public abstract void startGame() throws NetworkConnectionException;
+
+    public abstract PlayerAction turnMainAction(Optional&lt;Exception&gt; lastActionValid) throws NetworkConnectionException;
+
+    public abstract PlayerAction turnSecondaryAction(Optional&lt;Exception&gt; lastActionValid) throws NetworkConnectionException;
+
+    public abstract Integer familyMemberSelection(List&lt;FamilyMember&gt; familyMembers) throws NetworkConnectionException;
+
+    public abstract Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) throws NetworkConnectionException;
+
+    public abstract Integer resourceExchangeSelection(List&lt;Pair&lt;Resources, ResourcesBonus&gt;&gt; choices) throws NetworkConnectionException;
+
+    public abstract Pair&lt;String, LeaderCardsAction&gt; leaderCardSelection(List&lt;LeaderCard&gt; leaderCards) throws NetworkConnectionException;
+
+    public abstract Boolean churchSupport() throws NetworkConnectionException;
+
+    public abstract Integer selectCouncilPrivilegeBonus(List&lt;Resources&gt; availableBonuses) throws NetworkConnectionException;
+
+    public abstract Integer bonusTileSelection(List&lt;BonusTile&gt; bonusTiles) throws NetworkConnectionException;
+
+    public abstract Integer leaderCardSelectionPhase(List&lt;LeaderCard&gt; leaderCards) throws NetworkConnectionException;
+
+    public abstract Boolean alternativeRequirementsPayment() throws NetworkConnectionException;
+
+    public abstract void endGame(List&lt;Player&gt; players) throws NetworkConnectionException;
+
+    public abstract void endTurn() throws NetworkConnectionException;
+
+    public abstract void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) throws NetworkConnectionException;
+
+    public abstract PlayerAction freeAction(PlayerAction availableAction, Optional&lt;Exception&gt; lastActionValid) throws NetworkConnectionException;
+
+    public abstract Integer leaderCardCopy(List&lt;LeaderCard&gt; leaderCards) throws NetworkConnectionException;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

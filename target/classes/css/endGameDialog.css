@@ -1,0 +1,30 @@
+.root {
+    -fx-background-color: lightgray;
+}
+
+/*.axis-tick-mark,
+.axis-minor-tick-mark,
+.chart-vertical-grid-lines,
+.chart-horizontal-grid-lines,
+.chart-v{
+    -fx-stroke: linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%);
+}*/
+
+.axis {
+    -fx-font-size: 1.4em;
+    -fx-tick-label-fill: #914800;
+    -fx-font-family: Tahoma;
+    -fx-tick-length: 20;
+    -fx-minor-tick-length: 10;
+    -fx-color-label-visible: true;
+}
+
+.axis-label {
+    -fx-text-fill: #462300;
+}
+
+.chart-legend {
+    -fx-background-color: transparent;
+}
+
+

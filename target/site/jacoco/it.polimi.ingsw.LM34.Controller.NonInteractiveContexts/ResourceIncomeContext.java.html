@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ResourceIncomeContext.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Controller.NonInteractiveContexts</a> &gt; <span class="el_source">ResourceIncomeContext.java</span></div><h1>ResourceIncomeContext.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Controller.NonInteractiveContexts;
+
+import it.polimi.ingsw.LM34.Controller.AbstractGameContext;
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.Resources;
+
+import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.*;
+
+/**
+ * This context does not provide an interaction with the player but it is important
+ * for the effects that are applied when a player receives resources
+ */
+public class ResourceIncomeContext extends AbstractGameContext {
+    private Resources income;
+    private Boolean duplicateGoods;
+
+<span class="fc" id="L19">    public ResourceIncomeContext() {</span>
+<span class="fc" id="L20">        this.contextType = ContextType.RESOURCE_INCOME_CONTEXT;</span>
+<span class="fc" id="L21">        this.income = new Resources();</span>
+<span class="fc" id="L22">    }</span>
+
+    @Override
+    public Void interactWithPlayer(Object... args) throws IncorrectInputException {
+<span class="fc" id="L26">        this.duplicateGoods = false;</span>
+
+<span class="fc" id="L28">        setChanged();</span>
+<span class="fc" id="L29">        notifyObservers(this);</span>
+
+<span class="nc" id="L31">        this.gameManager.getCurrentPlayer().getExcommunicationCards().</span>
+<span class="nc" id="L32">                            forEach(exCard -&gt; {</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">                                if (exCard.getPenalty() instanceof ResourcesBonus)</span>
+<span class="nc" id="L34">                                        exCard.getPenalty().applyEffect(this);</span>
+<span class="nc" id="L35">                            });</span>
+
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        Integer multiplier = (this.duplicateGoods ? 2 : 1);</span>
+
+<span class="nc" id="L39">        this.gameManager.getCurrentPlayer().addResources(new Resources(</span>
+<span class="nc" id="L40">                this.income.getResourceByType(COINS) * multiplier,</span>
+<span class="nc" id="L41">                this.income.getResourceByType(WOODS) * multiplier,</span>
+<span class="nc" id="L42">                this.income.getResourceByType(STONES) * multiplier,</span>
+<span class="nc" id="L43">                this.income.getResourceByType(SERVANTS) * multiplier,</span>
+<span class="nc" id="L44">                this.income.getResourceByType(MILITARY_POINTS) * multiplier,</span>
+<span class="nc" id="L45">                this.income.getResourceByType(FAITH_POINTS) * multiplier,</span>
+<span class="nc" id="L46">                this.income.getResourceByType(VICTORY_POINTS) * multiplier));</span>
+
+<span class="nc" id="L48">        return null;</span>
+    }
+
+    public void initIncome() {
+        /*Reset the temporary value*/
+<span class="fc" id="L53">        income = new Resources();</span>
+<span class="fc" id="L54">    }</span>
+
+    /**
+     * Called by the observers so that they add or subtract their effects from the final income bonus
+     */
+    public void setIncome(Resources res) {
+<span class="nc" id="L60">        this.income.sumResources(res);</span>
+<span class="nc" id="L61">    }</span>
+
+    public Resources getIncome() {
+<span class="nc" id="L64">        return this.income;</span>
+    }
+
+    public void duplicateGoods() {
+<span class="nc" id="L68">        this.duplicateGoods = true;</span>
+<span class="nc" id="L69">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
