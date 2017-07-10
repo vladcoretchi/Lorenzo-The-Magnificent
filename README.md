@@ -48,7 +48,7 @@ java -jar LM34Client.jar
 ```
 
 After at least 2 players are connected, the server waits for other players for 2 minutes before starting the game. This timeout is configurable in target/classes/configurations/config.json line: 4.
-If 4 player connect to the same game room, the game starts immidiately.
+If 4 player connect to the same game room, the game starts immediately.
 
 ## CLI
 Command line interface is available as user interface in order to play this game in a fashion way.
