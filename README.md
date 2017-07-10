@@ -27,6 +27,8 @@ git clone https://github.com/vladcore/LM34.git
 
 Inside `target` folder there will be `LM34Server.jar` and `LM34Client.jar` files.
 
+> **_Note: the `target` directory is of an old build and the GUI does not find some resources files due to incorrect folder naming so the game will freeze before the initial Leader Cards choice. For a correct resource files nemes you will need to rebuild at least `LM34Client.jar`._**
+
 ## Run 
 
 ### RMI and Socket
