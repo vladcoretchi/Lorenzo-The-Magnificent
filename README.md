@@ -12,16 +12,15 @@ Dorata Roberto	|828144		|roberto.dorata@mail.polimi.it
 
 Digital version of http://www.craniocreations.it/prodotto/lorenzo-il-magnifico/, a board game created by Cranio Creation and developed as Final Bachelor Software Engineering Project.
 
-# RMI and Socket
-RMI: port 20002
-Socket: port 20001
-
-## Getting Started
+# Getting Started
 
 These instruction will let you run Lorenzo il Magnifico on your local machine. 
 
 ### Prerequisites 
 
+### RMI and Socket
+RMI: port 20002
+Socket: port 20001
 clone 
 
 ```
