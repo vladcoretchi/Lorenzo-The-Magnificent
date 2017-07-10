@@ -1,0 +1,175 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+LM34,it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts,LeaderCardsContext.new Object() {...},19,0,0,0,1,0,1,0,1,0
+LM34,it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts,ResourcesExchangeContext,123,29,10,0,28,9,6,3,1,3
+LM34,it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts,UseCouncilPrivilegeContext,88,47,3,3,19,13,3,4,0,4
+LM34,it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts,FamilyMemberSelectionContext,154,18,10,2,31,5,8,3,2,3
+LM34,it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts,ChurchReportContext,173,6,12,0,36,3,10,1,4,1
+LM34,it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts,IncreasePawnsValueByServantsContext,96,6,4,0,21,3,4,1,2,1
+LM34,it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts,TurnContext,303,25,29,1,77,6,24,3,9,3
+LM34,it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.SpecialContexts,LeaderCardsContext,331,10,31,0,73,4,20,2,4,2
+LM34,it.polimi.ingsw.LM34.UI.GUI,GUI.PlacePawn,180,0,32,0,41,0,21,0,2,0
+LM34,it.polimi.ingsw.LM34.UI.GUI,GUI.SlotMouseEvent,29,0,0,0,8,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.UI.GUI,GUI.PlayerInfoClickEvent,43,0,0,0,9,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.UI.GUI,GUI.WaitingAnimation,34,0,0,0,7,0,1,0,1,0
+LM34,it.polimi.ingsw.LM34.UI.GUI,GUI.EndTurnClick,29,0,0,0,10,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.UI.GUI,GUI.LeaderButtonClickEvent,29,0,0,0,10,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.UI.GUI,GUI,2385,0,81,0,431,0,127,0,85,0
+LM34,it.polimi.ingsw.LM34.UI.GUI,GUI.new Object() {...},26,0,0,0,1,0,1,0,1,0
+LM34,it.polimi.ingsw.LM34.Network.Client,ClientNetworkController,186,6,0,0,49,3,31,1,31,1
+LM34,it.polimi.ingsw.LM34.Network.Client,AbstractClient,154,3,0,0,47,1,31,1,31,1
+LM34,it.polimi.ingsw.LM34.Exceptions.Controller,CardTypeNumLimitReachedException,4,0,0,0,2,0,1,0,1,0
+LM34,it.polimi.ingsw.LM34.Exceptions.Controller,NetworkConnectionException,4,0,0,0,2,0,1,0,1,0
+LM34,it.polimi.ingsw.LM34.Exceptions.Controller,NotAvailableSpace,4,0,0,0,2,0,1,0,1,0
+LM34,it.polimi.ingsw.LM34.Exceptions.Controller,InvalidLeaderCardAction,4,0,0,0,2,0,1,0,1,0
+LM34,it.polimi.ingsw.LM34.Exceptions.Controller,NotEnoughMilitaryPoints,4,0,0,0,2,0,1,0,1,0
+LM34,it.polimi.ingsw.LM34.Exceptions.Controller,MarketBanException,4,0,0,0,2,0,1,0,1,0
+LM34,it.polimi.ingsw.LM34.Exceptions.Controller,CannotPlacePawnException,4,0,0,0,2,0,1,0,1,0
+LM34,it.polimi.ingsw.LM34.Exceptions.Controller,NoSuchContextException,4,0,0,0,2,0,1,0,1,0
+LM34,it.polimi.ingsw.LM34.Exceptions.Controller,NotEnoughServantsException,4,0,0,0,2,0,1,0,1,0
+LM34,it.polimi.ingsw.LM34.Exceptions.Controller,NoMoreLeaderCardsAvailable,4,0,0,0,2,0,1,0,1,0
+LM34,it.polimi.ingsw.LM34.Exceptions.Controller,NotEnoughResourcesException,4,0,0,0,2,0,1,0,1,0
+LM34,it.polimi.ingsw.LM34.Exceptions.Model,OccupiedSlotException,0,4,0,0,0,2,0,1,0,1
+LM34,it.polimi.ingsw.LM34.Exceptions.Model,InvalidCardType,4,0,0,0,2,0,1,0,1,0
+LM34,it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus,HalveServantsValue,12,3,0,0,5,1,2,1,2,1
+LM34,it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus,MarketBan,12,3,0,0,5,1,2,1,2,1
+LM34,it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus,FamilyMemberValueEffect,55,12,6,0,10,5,9,1,6,1
+LM34,it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus,ActionSlotLimitBypass,32,3,6,0,9,1,5,1,2,1
+LM34,it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus,WorkingAreaValueEffect,172,12,16,0,37,5,14,1,6,1
+LM34,it.polimi.ingsw.LM34.Network,GameRoom.WaitingRoomTimeout,33,0,4,0,12,0,4,0,2,0
+LM34,it.polimi.ingsw.LM34.Network,GameRoom,113,63,7,3,22,15,11,5,6,5
+LM34,it.polimi.ingsw.LM34.Network,PlayerAction,25,0,0,0,10,0,5,0,5,0
+LM34,it.polimi.ingsw.LM34.Enums.UI,GameInformationType,12,78,0,0,1,10,3,2,3,2
+LM34,it.polimi.ingsw.LM34.Enums.UI,NetworkType,38,0,0,0,2,0,4,0,4,0
+LM34,it.polimi.ingsw.LM34.Enums.UI,UIType,38,0,0,0,2,0,4,0,4,0
+LM34,it.polimi.ingsw.LM34.Enums.Model,DiceColor,5,63,0,0,0,6,1,3,1,3
+LM34,it.polimi.ingsw.LM34.Enums.Model,ResourceType,5,83,0,0,0,8,1,3,1,3
+LM34,it.polimi.ingsw.LM34.Enums.Model,PathType,58,0,0,0,5,0,4,0,4,0
+LM34,it.polimi.ingsw.LM34.Enums.Model,WorkingAreaType,9,37,0,0,0,7,2,3,2,3
+LM34,it.polimi.ingsw.LM34.Enums.Model,DevelopmentCardColor,8,71,0,0,1,9,2,3,2,3
+LM34,it.polimi.ingsw.LM34.Enums.Model,PawnColor,5,53,0,0,0,5,1,3,1,3
+LM34,it.polimi.ingsw.LM34.Network.RMI,RMIClient,28,28,0,0,8,8,1,1,1,1
+LM34,it.polimi.ingsw.LM34.Network.RMI,RMIServer,62,27,5,1,17,10,5,1,2,1
+LM34,it.polimi.ingsw.LM34.Network.RMI,RMIConnection,604,9,0,0,178,4,30,1,30,1
+LM34,it.polimi.ingsw.LM34,GameClient,63,0,6,0,22,0,6,0,3,0
+LM34,it.polimi.ingsw.LM34,GameServer.ShutdownHook,0,7,0,0,0,3,0,2,0,2
+LM34,it.polimi.ingsw.LM34,GameServer,0,28,0,0,0,9,0,2,0,2
+LM34,it.polimi.ingsw.LM34.Exceptions.Validation,IncorrectInputException,0,4,0,0,0,2,0,1,0,1
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,ResourceExchangeDialog,191,0,8,0,28,0,8,0,4,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,EndGameDialog,122,0,2,0,28,0,3,0,2,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,UseCouncilPrivilegeDialog,159,0,6,0,29,0,7,0,4,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,EndGameDialog.new EventHandler() {...},17,0,2,0,4,0,3,0,2,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,LeaderCardsView,221,0,6,0,46,0,6,0,3,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,ChurchReportDialog,83,0,2,0,18,0,3,0,2,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,UseServantsDialog,101,0,2,0,18,0,3,0,2,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,AlternativeRequirementPaymentDialog,101,0,4,0,22,0,4,0,2,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,GameInformationDialog,66,0,0,0,12,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,PopupSlotBonus.new EventHandler() {...},13,0,0,0,3,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,EndTurnPopup,60,0,0,0,15,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,LastActionInvalid,38,0,0,0,10,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,BonusTileDialog,159,0,6,0,36,0,6,0,3,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,DisconnectionWarning,34,0,0,0,9,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,FamilyMemberSelectDialog,155,0,8,0,27,0,6,0,2,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,GenericPopup,60,0,0,0,15,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,PersonalBoardView,455,0,16,0,74,0,17,0,9,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,PopupSlotBonus,296,0,6,0,69,0,6,0,3,0
+LM34,it.polimi.ingsw.LM34.UI.GUI.GuiViews,LoginDialog,86,0,0,0,18,0,6,0,6,0
+LM34,it.polimi.ingsw.LM34.Model.Boards.GameBoard,TowerSlot,0,28,0,2,0,9,0,6,0,5
+LM34,it.polimi.ingsw.LM34.Model.Boards.GameBoard,Tower,9,80,2,8,4,20,4,10,2,7
+LM34,it.polimi.ingsw.LM34.Model.Boards.GameBoard,GameSpace,25,14,4,0,5,6,3,3,1,3
+LM34,it.polimi.ingsw.LM34.Model.Boards.GameBoard,Market,14,4,0,0,3,2,2,1,2,1
+LM34,it.polimi.ingsw.LM34.Model.Boards.GameBoard,ActionSlot,14,52,0,4,5,16,3,8,3,6
+LM34,it.polimi.ingsw.LM34.Model.Boards.GameBoard,CouncilPalace,30,18,2,0,8,7,4,3,3,3
+LM34,it.polimi.ingsw.LM34.Model.Boards.GameBoard,WorkingArea,32,4,2,0,2,2,4,1,3,1
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},33,0,0,0,9,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToServer.new RequestToServer() {...},42,0,0,0,11,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},38,0,0,0,10,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,SocketServer.ConnectionHandler,36,12,1,1,11,3,2,2,1,2
+LM34,it.polimi.ingsw.LM34.Network.Socket,SocketClient.ClientInputListener,40,0,2,0,13,0,4,0,3,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,SocketClient,88,0,0,0,25,0,5,0,5,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient,318,0,0,0,31,0,4,0,4,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},23,0,0,0,7,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},23,0,0,0,7,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},23,0,0,0,7,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},23,0,0,0,7,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},23,0,0,0,7,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},23,0,0,0,7,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},23,0,0,0,7,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},24,0,0,0,7,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},23,0,0,0,7,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,SocketConnection,919,0,4,0,295,0,42,0,40,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,SocketServer,24,31,2,0,7,10,2,2,1,2
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},9,0,0,0,3,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},32,0,0,0,9,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},32,0,0,0,9,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},33,0,0,0,9,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},23,0,0,0,7,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},23,0,0,0,7,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},23,0,0,0,7,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},23,0,0,0,7,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToServer,28,0,0,0,2,0,4,0,4,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},32,0,0,0,9,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},27,0,0,0,8,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},23,0,0,0,7,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},9,0,0,0,3,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},34,0,0,0,9,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},27,0,0,0,8,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},33,0,0,0,9,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},33,0,0,0,9,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},33,0,0,0,9,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},39,0,0,0,10,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Network.Socket,RequestToClient.new RequestToClient() {...},33,0,0,0,9,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Utils,Utilities,92,45,8,0,14,8,8,4,4,4
+LM34,it.polimi.ingsw.LM34.Utils,Configurator,63,2970,15,213,13,488,19,147,4,48
+LM34,it.polimi.ingsw.LM34.Utils,Validator,42,54,8,6,13,14,9,5,2,5
+LM34,it.polimi.ingsw.LM34.Controller,AbstractGameContext,11,16,0,0,3,5,3,4,3,4
+LM34,it.polimi.ingsw.LM34.Controller,ContextFactory.new Object() {...},15,95,0,0,0,1,0,1,0,1
+LM34,it.polimi.ingsw.LM34.Controller,ContextFactory,7,65,1,15,2,16,2,15,1,1
+LM34,it.polimi.ingsw.LM34.Controller,GameManager,796,473,47,25,165,91,62,27,37,16
+LM34,it.polimi.ingsw.LM34.Network.Server,Server,197,62,32,4,35,18,28,6,11,5
+LM34,it.polimi.ingsw.LM34.Network.Server,ServerNetworkController,149,12,0,0,47,4,30,1,30,1
+LM34,it.polimi.ingsw.LM34.Network.Server,AbstractConnection,20,6,2,0,6,2,3,2,2,2
+LM34,it.polimi.ingsw.LM34.Model,Player,57,154,7,9,19,38,13,18,8,15
+LM34,it.polimi.ingsw.LM34.Model,Dice,0,29,0,2,0,7,0,5,0,4
+LM34,it.polimi.ingsw.LM34.Model,Resources,71,247,23,39,19,58,19,25,3,10
+LM34,it.polimi.ingsw.LM34.Model,FamilyMember,3,57,1,1,1,20,1,9,0,9
+LM34,it.polimi.ingsw.LM34.UI,UIConnectionInfo,10,0,0,0,3,0,2,0,2,0
+LM34,it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus,TowerSlotPenalty,21,6,2,0,7,3,4,1,3,1
+LM34,it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus,NoOccupiedTowerTax,12,3,0,0,5,1,2,1,2,1
+LM34,it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus,NoMilitaryRequirementsForTerritory,12,3,0,0,5,1,2,1,2,1
+LM34,it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus,DevelopmentCardAcquireEffect,211,29,24,0,44,8,19,2,7,2
+LM34,it.polimi.ingsw.LM34.Enums.Controller,LeaderCardsAction,48,0,0,0,2,0,4,0,4,0
+LM34,it.polimi.ingsw.LM34.Enums.Controller,PlayerSelectableContexts,90,0,0,0,11,0,5,0,5,0
+LM34,it.polimi.ingsw.LM34.Enums.Controller,ContextType,5,163,0,0,0,16,1,3,1,3
+LM34,it.polimi.ingsw.LM34.Model.Effects,VictoryPointsPenalty,64,47,4,0,19,14,7,2,5,2
+LM34,it.polimi.ingsw.LM34.Model.Effects,SkipFirstTurn,24,7,2,0,9,3,4,1,3,1
+LM34,it.polimi.ingsw.LM34.Model.Effects,AbstractEffect,0,3,0,0,0,1,0,1,0,1
+LM34,it.polimi.ingsw.LM34.Model.Effects,CopyOtherLeader,12,3,0,0,5,1,2,1,2,1
+LM34,it.polimi.ingsw.LM34.Model.Effects,ChurchSupportBonus,47,6,2,0,11,3,4,1,3,1
+LM34,it.polimi.ingsw.LM34.Model.Boards.PlayerBoard,PersonalBoard,92,48,12,2,26,13,16,3,6,3
+LM34,it.polimi.ingsw.LM34.Model.Boards.PlayerBoard,PersonalBoard.new Object() {...},4,29,0,0,0,1,0,1,0,1
+LM34,it.polimi.ingsw.LM34.Model.Boards.PlayerBoard,BonusTile,12,15,0,0,4,6,4,1,4,1
+LM34,it.polimi.ingsw.LM34.Model.Cards,DevelopmentCardDeck,11,25,0,0,3,7,1,3,1,3
+LM34,it.polimi.ingsw.LM34.Model.Cards,TerritoryCard,5,26,0,0,2,9,2,1,2,1
+LM34,it.polimi.ingsw.LM34.Model.Cards,ExcommunicationCard,6,15,0,0,2,6,2,2,2,2
+LM34,it.polimi.ingsw.LM34.Model.Cards,AbstractDevelopmentCard,12,9,0,0,4,3,4,3,4,3
+LM34,it.polimi.ingsw.LM34.Model.Cards,LeaderRequirements,26,9,0,0,10,4,4,1,4,1
+LM34,it.polimi.ingsw.LM34.Model.Cards,CharacterCard,2,21,0,0,1,8,1,1,1,1
+LM34,it.polimi.ingsw.LM34.Model.Cards,VentureCard,13,50,3,5,4,14,7,2,4,1
+LM34,it.polimi.ingsw.LM34.Model.Cards,BuildingCard,5,24,0,0,2,9,2,1,2,1
+LM34,it.polimi.ingsw.LM34.Model.Cards,LeaderCard,24,26,0,0,9,9,7,2,7,2
+LM34,it.polimi.ingsw.LM34.UI.CLI,CLIStuff.new Object() {...},65,0,0,0,2,0,1,0,1,0
+LM34,it.polimi.ingsw.LM34.UI.CLI,CLIStuff,353,0,20,0,68,0,32,0,16,0
+LM34,it.polimi.ingsw.LM34.UI.CLI,CLI,2159,0,125,0,448,0,150,0,84,0
+LM34,it.polimi.ingsw.LM34.UI.CLI,CLI.new Object() {...},47,0,0,0,1,0,1,0,1,0
+LM34,it.polimi.ingsw.LM34.UI.CLI,IgnoreInput,32,0,2,0,11,0,4,0,3,0
+LM34,it.polimi.ingsw.LM34.Controller.NonInteractiveContexts,EndGameContext,204,32,16,0,43,9,14,3,6,3
+LM34,it.polimi.ingsw.LM34.Controller.NonInteractiveContexts,ResourceIncomeContext,110,26,4,0,20,9,6,3,4,3
+LM34,it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus,ResourcesExchangeBonus,55,6,6,0,12,3,4,1,1,1
+LM34,it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus,ResourcesBonus,57,39,8,2,14,13,8,4,3,4
+LM34,it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus,ResourcesPerItemBonus,59,27,7,1,12,11,5,3,1,3
+LM34,it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts,MarketAreaContext,131,38,8,2,20,13,5,3,0,3
+LM34,it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts,ProductionAreaContext,264,18,17,1,43,6,12,2,3,2
+LM34,it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts,HarvestAreaContext,299,18,19,1,47,6,13,2,3,2
+LM34,it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts,ActionSlotContext,24,47,4,2,5,13,5,3,2,3
+LM34,it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts,CouncilPalaceContext,70,6,0,0,12,3,1,1,1,1
+LM34,it.polimi.ingsw.LM34.Controller.InteractivePlayerContexts.DiceDependentContexts,TowersContext,770,54,102,2,140,15,60,4,8,4

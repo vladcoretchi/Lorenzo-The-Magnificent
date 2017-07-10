@@ -1,0 +1,1025 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Configurator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Utils</a> &gt; <span class="el_source">Configurator.java</span></div><h1>Configurator.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Utils;
+
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
+import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
+import it.polimi.ingsw.LM34.Enums.Model.WorkingAreaType;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
+import it.polimi.ingsw.LM34.Model.Cards.*;
+import it.polimi.ingsw.LM34.Model.Effects.*;
+import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.*;
+import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus.DevelopmentCardAcquireEffect;
+import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus.NoMilitaryRequirementsForTerritory;
+import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus.NoOccupiedTowerTax;
+import it.polimi.ingsw.LM34.Model.Effects.GameSpaceRelatedBonus.TowerSlotRelatedBonus.TowerSlotPenalty;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesExchangeBonus;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesPerItemBonus;
+import it.polimi.ingsw.LM34.Model.Resources;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.MULTICOLOR;
+import static it.polimi.ingsw.LM34.Enums.Model.ResourceType.MILITARY_POINTS;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
+
+/**
+ * The {@link Configurator} loads all parameters from file as variables that will be used by each game
+ */
+public class Configurator {
+    /*SERVER*/
+    private Integer waitingRoomTimeout;
+    private Integer TURN_TIMEOUT;
+<span class="fc" id="L45">    private final Integer WAITING_ROOM_PLAYERS_THRESHOLD = 2;</span>
+
+    /*CONVENTION GAME_CODES*/
+<span class="fc" id="L48">    public static final Integer MAX_TOWER_LEVELS = 4;</span>
+<span class="fc" id="L49">    public static final Integer MAX_LEADER_PER_PLAYER = 4;</span>
+<span class="fc" id="L50">    public static final Integer MAX_PLAYERS = 4;</span>
+<span class="fc" id="L51">    public static final Integer TOTAL_PERIODS = 3; //#total periods</span>
+<span class="fc" id="L52">    private static final Integer[] minFaithPoints = {3,4,5};</span>
+<span class="fc" id="L53">    public static final Integer CARD_PER_ROUND = 4;</span>
+<span class="fc" id="L54">    public static final Integer BASE_COINS = 5; //#coins given to first player at game start</span>
+<span class="fc" id="L55">    public static final Integer COINS_INCREMENT_PLAYER_ORDER = 1;</span>
+<span class="fc" id="L56">    public static final Integer BASE_WOODS = 2; //#woods given to first player at game start</span>
+<span class="fc" id="L57">    public static final Integer WOODS_INCREMENT_PLAYER_ORDER = 0;</span>
+<span class="fc" id="L58">    public static final Integer BASE_STONES = 2; //#stones given to first player at game start</span>
+<span class="fc" id="L59">    public static final Integer STONES_INCREMENT_PLAYER_ORDER = 0;</span>
+<span class="fc" id="L60">    public static final Integer BASE_SERVANTS = 3; //#servants given to first player at game start</span>
+<span class="fc" id="L61">    public static final Integer SERVANTS_INCREMENT_PLAYER_ORDER = 0;</span>
+<span class="fc" id="L62">    public static final Resources TOWER_OCCUPIED_COST = new Resources(3, 0, 0, 0);</span>
+<span class="fc" id="L63">    public static final Integer MAX_ACQUIRABLE_CARDS_PER_TYPE = 6;</span>
+<span class="fc" id="L64">    public static final Integer COUNCIL_PRIVILEGES_FOR_DISCARDED_LEADER_CARD = 1;</span>
+
+    private Market market;
+    private CouncilPalace palace;
+    private List&lt;Tower&gt; towers;
+    private WorkingArea harvestArea;
+    private WorkingArea productionArea;
+    private List&lt;TerritoryCard&gt; territoryCards;
+    private List&lt;BuildingCard&gt; buildingCards;
+    private List&lt;CharacterCard&gt; characterCards;
+    private List&lt;VentureCard&gt; ventureCards;
+    private List&lt;LeaderCard&gt; leaderCards;
+    private List&lt;ExcommunicationCard&gt; excommunicationTiles;
+    private List&lt;Resources&gt; councilPrivilegeRewards;
+    private Map&lt;Integer, Integer&gt; faithPath;
+    private Map&lt;Integer, Integer&gt; endingGameCharactersVictoryPoints;
+    private Map&lt;Integer, Integer&gt; endingGameTerritoriesVictoryPoints;
+    private Map&lt;Integer,Integer&gt; militaryPointsForTerritories;
+    private Integer resourcesForVictoryPoints;
+    private List&lt;BonusTile&gt; advancedPersonalTiles;
+
+    /**JSON frequently used constants strings**/
+<span class="fc" id="L86">    private final String WORKING_AREA_VALUE_EFFECT_JSONSTRING = &quot;workingAreaValueEffect&quot;;</span>
+<span class="fc" id="L87">    private final String ACTION_SLOTS_JSONSTRING = &quot;actionSlots&quot;;</span>
+<span class="fc" id="L88">    private final String DEVELOPMENT_CARD_COLOR_JSONSTRING = &quot;developmentCardColor&quot;;</span>
+<span class="fc" id="L89">    private final String FAMILY_MEMBER_VALUE_EFFECT_JSONSTRING = &quot;familyMemberValueEffect&quot;;</span>
+<span class="fc" id="L90">    private final String PERMANENT_BONUS_JSONSTRING= &quot;permanentBonus&quot;;</span>
+<span class="fc" id="L91">    private final String COUNCIL_PRIVILEGE_JSONSTRING = &quot;councilPrivilege&quot;;</span>
+<span class="fc" id="L92">    private final String PERIOD_JSONSTRING = &quot;period&quot;;</span>
+<span class="fc" id="L93">    private final String RESOURCES_JSONSTRING = &quot;resources&quot;;</span>
+<span class="fc" id="L94">    private final String RESOURCES_BONUS_JSONSTRING = &quot;resourcesBonus&quot;;</span>
+<span class="fc" id="L95">    private final String FINAL_VICTORY_POINTS_JSONSTRING = &quot;finalVictoryPoints&quot;;</span>
+<span class="fc" id="L96">    private final String DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING = &quot;developmentCardAcquireEffect&quot;;</span>
+<span class="fc" id="L97">    private final String CARDS_JSONSTRING = &quot;cards&quot;;</span>
+<span class="fc" id="L98">    private final String LEADER_REQUIREMENTS_JSONSTRING = &quot;leaderRequirements&quot;;</span>
+<span class="fc" id="L99">    private final String REQUIREMENTS_DISCOUNT_JSONSTRING = &quot;requirementsDiscount&quot;;</span>
+<span class="fc" id="L100">    private final String NAME_JSONSTRING = &quot;name&quot;;</span>
+<span class="fc" id="L101">    private final String DICE_VALUE_JSONSTRING = &quot;diceValue&quot;;</span>
+<span class="fc" id="L102">    private final String RESOURCES_PER_ITEM_BONUS_JSONSTRING = &quot;resourcesPerItemBonus&quot;;</span>
+<span class="fc" id="L103">    private final String RESOURCES_EXCHANGE_BONUS_JSONSTRING = &quot;resourcesExchangeBonus&quot;;</span>
+<span class="fc" id="L104">    private final String MILITARY_POINTS_JSONSTRING = &quot;MILITARY_POINTS&quot;;</span>
+<span class="fc" id="L105">    private final String REQUIREMENTS_JSONSTRING = &quot;requirements&quot;;</span>
+<span class="fc" id="L106">    private final String INSTANT_BONUS_JSONSTRING = &quot;instantBonus&quot;;</span>
+<span class="fc" id="L107">    private final String PRODUCTION_JSONSTRING = &quot;production&quot;;</span>
+<span class="fc" id="L108">    private final String HARVEST_JSONSTRING = &quot;harvest&quot;;</span>
+<span class="fc" id="L109">    private final String WORKING_AREA_TYPE_JSONSTRING = &quot;workingAreaType&quot;;</span>
+
+<span class="fc" id="L111">    public Configurator() {</span>
+<span class="fc" id="L112">        this.loadConfigs();</span>
+<span class="fc" id="L113">    }</span>
+
+    /**
+     * Loads all variable from the JSON data
+     */
+    private void loadConfigs() {
+<span class="fc" id="L119">        JSONObject jsonObject = null;</span>
+        try {
+<span class="fc" id="L121">            ClassLoader loader = Thread.currentThread().getContextClassLoader();</span>
+<span class="fc" id="L122">            InputStream inputStream = loader.getResourceAsStream(&quot;configurations/config.json&quot;);</span>
+<span class="fc" id="L123">            String jsonString  = IOUtils.toString(inputStream, StandardCharsets.UTF_8);</span>
+<span class="fc" id="L124">            jsonObject = new JSONObject(jsonString).optJSONObject(&quot;configuration&quot;);</span>
+<span class="fc" id="L125">        } catch (Exception e) {</span>
+<span class="fc" id="L126">            LOGGER.log(Level.SEVERE, &quot;Cannot load file from configs.json&quot;, e);</span>
+<span class="fc" id="L127">        }</span>
+
+        /****GameRoom Timeout****/
+<span class="fc bfc" id="L130" title="All 2 branches covered.">        if(jsonObject != null) {</span>
+<span class="fc" id="L131">            waitingRoomTimeout = jsonObject.getJSONObject(&quot;server&quot;).getInt(&quot;timeout&quot;);</span>
+<span class="fc" id="L132">            TURN_TIMEOUT = jsonObject.getJSONObject(&quot;server&quot;).getInt(&quot;timeoutTurn&quot;);</span>
+
+            /**
+             * Setups all game objects
+             */
+<span class="fc" id="L137">            setupLeaderCards(jsonObject.optJSONObject(CARDS_JSONSTRING).optJSONArray(&quot;leaderCards&quot;));</span>
+<span class="fc" id="L138">            setupGame(jsonObject.getJSONObject(&quot;game&quot;));</span>
+<span class="fc" id="L139">            setupPersonalTiles(jsonObject);</span>
+<span class="fc" id="L140">            setupMarket(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONArray(&quot;market&quot;));</span>
+<span class="fc" id="L141">            setupProductionArea(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONArray(&quot;productionArea&quot;));</span>
+<span class="fc" id="L142">            setupHarvestArea(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONArray(&quot;harvestArea&quot;));</span>
+<span class="fc" id="L143">            setupCouncilPalace(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONObject(&quot;councilPalace&quot;));</span>
+<span class="fc" id="L144">            setupTowers(jsonObject.optJSONObject(ACTION_SLOTS_JSONSTRING).optJSONArray(&quot;towers&quot;));</span>
+<span class="fc" id="L145">            setupDevelopmentCards(jsonObject.optJSONObject(CARDS_JSONSTRING));</span>
+<span class="fc" id="L146">            setupExcommunicationTiles(jsonObject.optJSONObject(CARDS_JSONSTRING).optJSONArray(&quot;excommunicationTiles&quot;));</span>
+        }
+<span class="fc" id="L148">    }</span>
+
+    /**
+     * @param jsonLeaderCards JSON from which to extract information about the {@link LeaderCard}s
+     */
+    private void setupLeaderCards(JSONArray jsonLeaderCards) {
+<span class="fc" id="L154">        leaderCards = new ArrayList&lt;&gt;();</span>
+        String name;
+<span class="fc" id="L156">        AbstractEffect bonus = null;</span>
+        Boolean oncePerRound;
+
+        /**Prepare each LeaderCard**/
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        for (Integer index = 0; index &lt; jsonLeaderCards.length(); index++) {</span>
+<span class="fc" id="L161">            Resources resRequirements = new Resources();</span>
+<span class="fc" id="L162">            Map&lt;DevelopmentCardColor, Integer&gt; cardRequirements = new HashMap&lt;DevelopmentCardColor, Integer&gt;();</span>
+<span class="fc" id="L163">            name = jsonLeaderCards.getJSONObject(index).getString(&quot;leaderName&quot;);</span>
+<span class="fc" id="L164">            oncePerRound = jsonLeaderCards.getJSONObject(index).getBoolean(&quot;oncePerRound&quot;);</span>
+<span class="fc" id="L165">            JSONArray cardsReq = new JSONArray();</span>
+
+            /**
+             * Load for each card its {@link LeaderRequirements}
+             */
+<span class="fc bfc" id="L170" title="All 2 branches covered.">            if (jsonLeaderCards.getJSONObject(index).getJSONObject(LEADER_REQUIREMENTS_JSONSTRING).optJSONArray(&quot;cardRequirements&quot;) != null) {</span>
+<span class="fc" id="L171">                cardsReq = jsonLeaderCards.getJSONObject(index).getJSONObject(LEADER_REQUIREMENTS_JSONSTRING).getJSONArray(&quot;cardRequirements&quot;);</span>
+
+
+                /**Retrieve the quantity of specific card colors the player needs to have for activate the {@link LeaderCard}**/
+<span class="fc bfc" id="L175" title="All 2 branches covered.">                for (Integer k = 0; k &lt; cardsReq.length(); k++) {</span>
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">                    if (!cardsReq.getJSONObject(k).getString(DEVELOPMENT_CARD_COLOR_JSONSTRING).isEmpty()) {</span>
+<span class="fc" id="L177">                        cardRequirements.put(getCardTypeFromJson(cardsReq.getJSONObject(k).getString(DEVELOPMENT_CARD_COLOR_JSONSTRING)),</span>
+<span class="fc" id="L178">                                cardsReq.getJSONObject(k).getInt(&quot;number&quot;));</span>
+                    }
+                }
+            }
+            /**Extract the Requirements for activating the {@link LeaderCard}**/
+<span class="fc bfc" id="L183" title="All 2 branches covered.">            if (jsonLeaderCards.getJSONObject(index).getJSONObject(LEADER_REQUIREMENTS_JSONSTRING).optJSONObject(&quot;resourcesRequirements&quot;) != null)</span>
+<span class="fc" id="L184">                resRequirements = getResourcesBonusFromJson(jsonLeaderCards.getJSONObject(index).getJSONObject(LEADER_REQUIREMENTS_JSONSTRING).optJSONObject(&quot;resourcesRequirements&quot;)).getResources();</span>
+
+
+            /**Store the {@link AbstractEffect} bonus in the {@link LeaderCard}
+             * Note: only one {@link AbstractEffect} is allowed for each {@link LeaderCard}
+             * based on The Rules
+             */
+            JSONObject jsonBonus;
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">            if (jsonLeaderCards.optJSONObject(index).optJSONObject(&quot;bonus&quot;) != null) {</span>
+<span class="fc" id="L193">                jsonBonus = jsonLeaderCards.getJSONObject(index).getJSONObject(&quot;bonus&quot;);</span>
+
+<span class="fc bfc" id="L195" title="All 2 branches covered.">                if (!jsonBonus.optString(&quot;actionSlotLimitBypass&quot;).isEmpty())</span>
+<span class="fc" id="L196">                    bonus = new ActionSlotLimitBypass();</span>
+
+<span class="fc bfc" id="L198" title="All 2 branches covered.">                if (jsonBonus.optJSONObject(&quot;churchSupportBonus&quot;) != null)</span>
+<span class="fc" id="L199">                    bonus = new ChurchSupportBonus(getResourcesBonusFromJson(jsonBonus.getJSONObject(&quot;churchSupportBonus&quot;)));</span>
+
+<span class="fc bfc" id="L201" title="All 2 branches covered.">                if (jsonBonus.optJSONObject(RESOURCES_BONUS_JSONSTRING) != null)</span>
+<span class="fc" id="L202">                    bonus = getResourcesBonusFromJson(jsonBonus.getJSONObject(RESOURCES_BONUS_JSONSTRING));</span>
+
+<span class="fc bfc" id="L204" title="All 2 branches covered.">                if (!jsonBonus.optString(&quot;doubleGoodsIncomeFromDevelopmentCardsImmediateEffect&quot;).isEmpty())</span>
+<span class="fc" id="L205">                    bonus = new ResourcesBonus(jsonBonus.getInt(&quot;doubleGoodsIncomeFromDevelopmentCardsImmediateEffect&quot;));</span>
+
+<span class="fc bfc" id="L207" title="All 2 branches covered.">                if (!jsonBonus.optString(&quot;noMilitaryPointsRequirementForTerritory&quot;).isEmpty())</span>
+<span class="fc" id="L208">                    bonus = new NoMilitaryRequirementsForTerritory();</span>
+
+<span class="fc bfc" id="L210" title="All 2 branches covered.">                if (!jsonBonus.optString(&quot;copyOtherLeader&quot;).isEmpty())</span>
+<span class="fc" id="L211">                    bonus = new CopyOtherLeader();</span>
+
+<span class="fc bfc" id="L213" title="All 2 branches covered.">                if (!jsonBonus.optString(&quot;noOccupiedTowerTax&quot;).isEmpty())</span>
+<span class="fc" id="L214">                    bonus = new NoOccupiedTowerTax();</span>
+
+<span class="fc" id="L216">                Integer diceValue = 0;</span>
+                String areaType;
+                ContextType workingAreaType;
+
+<span class="fc bfc" id="L220" title="All 2 branches covered.">                if (!jsonBonus.optString(WORKING_AREA_VALUE_EFFECT_JSONSTRING).isEmpty()) {</span>
+<span class="fc" id="L221">                    diceValue = jsonBonus.optJSONObject(WORKING_AREA_VALUE_EFFECT_JSONSTRING).optInt(DICE_VALUE_JSONSTRING);</span>
+<span class="fc" id="L222">                    areaType = jsonBonus.optJSONObject(WORKING_AREA_VALUE_EFFECT_JSONSTRING).optString(WORKING_AREA_TYPE_JSONSTRING);</span>
+<span class="fc bfc" id="L223" title="All 2 branches covered.">                    if (areaType.equalsIgnoreCase(PRODUCTION_JSONSTRING))</span>
+<span class="fc" id="L224">                        workingAreaType = ContextType.PRODUCTION_AREA_CONTEXT;</span>
+                    else
+<span class="fc" id="L226">                        workingAreaType = ContextType.HARVEST_AREA_CONTEXT;</span>
+
+<span class="fc" id="L228">                    bonus = new WorkingAreaValueEffect(workingAreaType, diceValue, false);</span>
+                }
+
+                /**Family Member Value Effect**/
+                JSONArray familyEffects;
+<span class="fc" id="L233">                List&lt;DiceColor&gt; diceColors = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L234">                Integer diceTempValue = 0;</span>
+<span class="fc" id="L235">                Boolean relative = false;</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">                if (jsonBonus.optJSONArray(FAMILY_MEMBER_VALUE_EFFECT_JSONSTRING) != null) {</span>
+<span class="fc" id="L237">                    familyEffects = jsonBonus.getJSONArray(FAMILY_MEMBER_VALUE_EFFECT_JSONSTRING);</span>
+<span class="fc bfc" id="L238" title="All 2 branches covered.">                    for (Integer j = 0; j &lt; jsonBonus.getJSONArray(FAMILY_MEMBER_VALUE_EFFECT_JSONSTRING).length(); j++) {</span>
+<span class="fc" id="L239">                        diceColors.add(getDiceColorFromJson(familyEffects.getJSONObject(j).getString(&quot;diceColor&quot;)));</span>
+<span class="fc" id="L240">                        diceTempValue = familyEffects.getJSONObject(j).getInt(DICE_VALUE_JSONSTRING);</span>
+<span class="fc" id="L241">                        relative = familyEffects.getJSONObject(j).optBoolean(&quot;relative&quot;);</span>
+                    }
+
+<span class="fc" id="L244">                    bonus = new FamilyMemberValueEffect(diceColors, diceTempValue, relative);</span>
+                }
+
+                /**Development Card Acquire Effect**/
+                JSONObject cardAcquire;
+<span class="pc bpc" id="L249" title="1 of 2 branches missed.">                if (jsonBonus.optJSONArray(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING) != null) {</span>
+<span class="nc" id="L250">                    cardAcquire = jsonBonus.getJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING);</span>
+<span class="nc" id="L251">                    DevelopmentCardColor cardColor = getCardTypeFromJson(cardAcquire.getString(DEVELOPMENT_CARD_COLOR_JSONSTRING));</span>
+<span class="nc" id="L252">                    Resources cardDiscount = getResourcesBonusFromJson(cardAcquire.getJSONObject(REQUIREMENTS_DISCOUNT_JSONSTRING)).getResources();</span>
+<span class="nc" id="L253">                    ResourcesBonus discount = new ResourcesBonus(cardDiscount, 0);</span>
+<span class="nc" id="L254">                    bonus = new DevelopmentCardAcquireEffect(cardColor, diceValue, false, discount);</span>
+                }
+            }
+            /**
+             * And now create the {@link LeaderCard}
+             */
+<span class="fc" id="L260">            leaderCards.add(new LeaderCard(name, new LeaderRequirements(resRequirements, cardRequirements), bonus, oncePerRound));</span>
+        }
+<span class="fc" id="L262">    }</span>
+
+    /**
+     *
+     * @param diceColor string from which to extract dice colors
+     * @return
+     */
+    private DiceColor getDiceColorFromJson(String diceColor) {
+<span class="pc bpc" id="L270" title="1 of 2 branches missed.">        for(DiceColor color : DiceColor.values())</span>
+<span class="fc bfc" id="L271" title="All 2 branches covered.">            if(color.toString().equalsIgnoreCase(diceColor))</span>
+<span class="fc" id="L272">                return color;</span>
+
+<span class="nc" id="L274">        return DiceColor.DEFAULT;</span>
+    }
+
+    /**
+     * @param developmentCardColor String from which to associate the corrisponding Enum type
+     * @return the development card type
+     */
+    private DevelopmentCardColor getCardTypeFromJson(String developmentCardColor) {
+<span class="pc bpc" id="L282" title="1 of 2 branches missed.">        for(DevelopmentCardColor cardType : DevelopmentCardColor.values())</span>
+<span class="fc bfc" id="L283" title="All 2 branches covered.">            if(cardType.toString().equalsIgnoreCase(developmentCardColor))</span>
+<span class="fc" id="L284">                return cardType;</span>
+
+<span class="nc" id="L286">        return MULTICOLOR;</span>
+    }
+
+    /**
+     * Sets up the standardTile and the advanced ones
+     * @param jsonObject from which to extract information on personalTile to create
+     */
+    private void setupPersonalTiles(JSONObject jsonObject) {
+        Integer  advancedProductionDiceValue;
+        ResourcesBonus advProdReward;
+        Integer advancedHarvestDiceValue;
+        ResourcesBonus advHarvReward;
+<span class="fc" id="L298">        JSONArray jsonAdvancedTiles = jsonObject.getJSONArray(&quot;personalTiles&quot;);</span>
+<span class="fc" id="L299">        advancedPersonalTiles = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L301" title="All 2 branches covered.">        for(Integer index = 0; index &lt; jsonAdvancedTiles.length(); index++) {</span>
+<span class="fc" id="L302">            advancedProductionDiceValue = jsonAdvancedTiles.getJSONObject(index).getJSONObject(PRODUCTION_JSONSTRING).getInt(DICE_VALUE_JSONSTRING);</span>
+<span class="fc" id="L303">            advProdReward = getResourcesBonusFromJson(jsonAdvancedTiles.getJSONObject(index).getJSONObject(PRODUCTION_JSONSTRING));</span>
+<span class="fc" id="L304">            advancedHarvestDiceValue = jsonAdvancedTiles.getJSONObject(index).getJSONObject(HARVEST_JSONSTRING).getInt(DICE_VALUE_JSONSTRING);</span>
+<span class="fc" id="L305">            advHarvReward = getResourcesBonusFromJson(jsonAdvancedTiles.getJSONObject(index).getJSONObject(HARVEST_JSONSTRING));</span>
+
+<span class="fc" id="L307">            advancedPersonalTiles.add(new BonusTile(advancedHarvestDiceValue, advancedProductionDiceValue, advProdReward, advHarvReward));</span>
+        }
+<span class="fc" id="L309">    }</span>
+
+    /**
+     * @param jsonObject from which to load game path, council privileges rewards and other games related configs
+     */
+    private void setupGame(JSONObject jsonObject) {
+
+        /****Rewards given by council Privileges*/
+<span class="fc" id="L317">        JSONArray jsonPrivilegeArray = jsonObject.getJSONArray(COUNCIL_PRIVILEGE_JSONSTRING);</span>
+<span class="fc" id="L318">        councilPrivilegeRewards = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L319" title="All 2 branches covered.">        for(Integer index = 0; index &lt; jsonPrivilegeArray.length(); index++)</span>
+<span class="fc" id="L320">            councilPrivilegeRewards.add(getResourcesBonusFromJson(jsonPrivilegeArray.getJSONObject(index)).getResources());</span>
+
+        /****Faith Path****/
+<span class="fc" id="L323">        faithPath = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L324">        JSONArray jsonPathArray = jsonObject.getJSONObject(FINAL_VICTORY_POINTS_JSONSTRING).getJSONArray(&quot;faithPath&quot;);</span>
+<span class="fc bfc" id="L325" title="All 2 branches covered.">        for(Integer index = 0; index &lt; jsonPathArray.length(); index++)</span>
+<span class="fc" id="L326">            faithPath.put(index, jsonPathArray.getJSONObject(index).getInt(index.toString()));</span>
+
+        /****Ending game victory points by number of Territories****/
+<span class="fc" id="L329">        endingGameTerritoriesVictoryPoints = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L330">        JSONArray jsonTerritoriesPointsArray = jsonObject.getJSONObject(FINAL_VICTORY_POINTS_JSONSTRING).getJSONArray(&quot;territories&quot;);</span>
+<span class="fc bfc" id="L331" title="All 2 branches covered.">        for(Integer index = 0; index &lt; jsonTerritoriesPointsArray.length(); index++)</span>
+<span class="fc" id="L332">            endingGameTerritoriesVictoryPoints.put(index, jsonTerritoriesPointsArray.getJSONObject(index).getInt(index.toString()));</span>
+
+        /****Ending game victory points by number of Characters****/
+<span class="fc" id="L335">        endingGameCharactersVictoryPoints = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L336">        JSONArray jsonCharactersPointsArray = jsonObject.getJSONObject(FINAL_VICTORY_POINTS_JSONSTRING).getJSONArray(&quot;characters&quot;);</span>
+<span class="fc bfc" id="L337" title="All 2 branches covered.">        for(Integer index = 0; index &lt; jsonCharactersPointsArray.length(); index++)</span>
+<span class="fc" id="L338">            endingGameCharactersVictoryPoints.put(index, jsonCharactersPointsArray.getJSONObject(index).getInt(index.toString()));</span>
+
+        /****Ending game victory points for the amount of resources specific****/
+<span class="fc" id="L341">        resourcesForVictoryPoints = jsonObject.getJSONObject(FINAL_VICTORY_POINTS_JSONSTRING).getInt(&quot;resourcesForVictoryPoint&quot;);</span>
+
+        /****Military Points for Territories****/
+<span class="fc" id="L344">        militaryPointsForTerritories = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L345">        JSONArray jsonMilitaryPointsForTerritoriesArray = jsonObject.getJSONArray(&quot;militaryPointsForTerritories&quot;);</span>
+<span class="fc bfc" id="L346" title="All 2 branches covered.">        for(Integer index = 0; index &lt; jsonMilitaryPointsForTerritoriesArray.length(); index++)</span>
+<span class="fc" id="L347">            militaryPointsForTerritories.put(index, jsonMilitaryPointsForTerritoriesArray.getJSONObject(index).getInt(index.toString()));</span>
+<span class="fc" id="L348">    }</span>
+
+    /**
+     * @param jsonArray from which to load into objects the {@link ExcommunicationCard}s
+     */
+    private void setupExcommunicationTiles(JSONArray jsonArray) {
+<span class="fc" id="L354">        excommunicationTiles = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L355" title="All 2 branches covered.">        for(Integer index = 0; index &lt; jsonArray.length(); index++)</span>
+<span class="fc" id="L356">            excommunicationTiles.add(getExcommunicationCardFromJson(jsonArray.optJSONObject(index)));</span>
+        /**
+         * Now keep only the 3 excommunication cards that the {@link it.polimi.ingsw.LM34.Controller.GameManager} needs
+         */
+<span class="fc" id="L360">       orderExcommunicatioCardByPeriod();</span>
+<span class="fc" id="L361">    }</span>
+
+    /**
+     * @param jsonTowersSlots from which to load the towerslot bonuses for the game
+     */
+    private void setupTowers(JSONArray jsonTowersSlots) {
+<span class="fc" id="L367">        Integer index = 0;</span>
+<span class="fc" id="L368">        Integer iteration = 1;</span>
+<span class="fc" id="L369">        towers = new ArrayList&lt;&gt;();</span>
+        List&lt;TowerSlot&gt; tempSlotsOfTower;
+<span class="fc bfc" id="L371" title="All 2 branches covered.">        for(DevelopmentCardColor type : DevelopmentCardColor.values()) {</span>
+<span class="fc bfc" id="L372" title="All 2 branches covered.">            if (type != MULTICOLOR) {</span>
+<span class="fc" id="L373">                tempSlotsOfTower = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L374" title="All 2 branches covered.">                for (; index &lt; MAX_TOWER_LEVELS * iteration; index++) {</span>
+<span class="fc" id="L375">                    tempSlotsOfTower.add(getTowerSlotFromJson(jsonTowersSlots.optJSONObject(index)));</span>
+                }
+<span class="fc" id="L377">                iteration++;</span>
+<span class="fc" id="L378">                towers.add(new Tower(type, tempSlotsOfTower));</span>
+            }
+        }
+<span class="fc" id="L381">    }</span>
+
+    /**
+     * @param jsonObject from which to extra and fill the {@link TowerSlot}s
+     */
+    private TowerSlot getTowerSlotFromJson(JSONObject jsonObject) {
+<span class="fc" id="L387">        Boolean singlePawnSlot = jsonObject.optBoolean(&quot;singlePawnSlot&quot;, true);</span>
+<span class="fc" id="L388">        Integer diceValue = jsonObject.optInt(DICE_VALUE_JSONSTRING, 0);</span>
+<span class="fc" id="L389">        Integer councilPrivilege = jsonObject.getInt(COUNCIL_PRIVILEGE_JSONSTRING);</span>
+<span class="fc" id="L390">        Resources resources = getResourcesBonusFromJson(jsonObject).getResources();</span>
+        //wrapper
+<span class="fc" id="L392">        ResourcesBonus resourcesBonus = new ResourcesBonus(resources, councilPrivilege);</span>
+<span class="fc" id="L393">        return new TowerSlot(singlePawnSlot, diceValue, resourcesBonus);</span>
+    }
+
+    /**
+     * @param marketArray from which to extract the data about marketSlots
+     */
+    private void setupMarket(JSONArray marketArray) {
+<span class="fc" id="L400">        market = new Market(new ArrayList&lt;&gt;());</span>
+<span class="fc bfc" id="L401" title="All 2 branches covered.">        for (int i = 0; i &lt; marketArray.length(); i++) {</span>
+<span class="fc" id="L402">            market.getActionSlots().add(getActionSlotFromJson(marketArray.optJSONObject(i)));</span>
+        }
+<span class="fc" id="L404">    }</span>
+
+    /**
+     * Load the cards from the JSON file {@see resources/configurations/config.json}, shuffle and order them
+     * @param decks
+     */
+    private void setupDevelopmentCards(JSONObject decks) {
+<span class="fc" id="L411">        characterCards = getCharacterCardsFromJson(decks.optJSONArray(&quot;characters&quot;));</span>
+<span class="fc" id="L412">        buildingCards = getBuildingCardsFromJson(decks.optJSONArray(&quot;buildings&quot;));</span>
+<span class="fc" id="L413">        territoryCards = getTerritoryCardsFromJson(decks.optJSONArray(&quot;territories&quot;));</span>
+<span class="fc" id="L414">        ventureCards = getVentureCardsFromJson(decks.optJSONArray(&quot;ventures&quot;));</span>
+
+
+<span class="fc" id="L417">        Collections.shuffle(territoryCards);</span>
+<span class="fc" id="L418">        Collections.shuffle(buildingCards);</span>
+<span class="fc" id="L419">        Collections.shuffle(ventureCards);</span>
+<span class="fc" id="L420">        Collections.shuffle(characterCards);</span>
+<span class="fc" id="L421">        territoryCards = orderDevelopmentCardByPeriod(territoryCards);</span>
+<span class="fc" id="L422">        buildingCards = orderDevelopmentCardByPeriod(buildingCards);</span>
+<span class="fc" id="L423">        characterCards = orderDevelopmentCardByPeriod(characterCards);</span>
+<span class="fc" id="L424">        ventureCards = orderDevelopmentCardByPeriod(ventureCards);</span>
+<span class="fc" id="L425">    }</span>
+
+    /**
+     * Order the cards by period in the deck before the game starts
+     * @param deck to order for period
+     */
+    public &lt;T extends AbstractDevelopmentCard&gt; List&lt;T&gt; orderDevelopmentCardByPeriod(List&lt;T&gt; deck) {
+<span class="fc" id="L432">        List&lt;T&gt; orderedDeck = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L434" title="All 2 branches covered.">        for (Integer period = 1; period &lt;= TOTAL_PERIODS; period++)</span>
+<span class="fc bfc" id="L435" title="All 2 branches covered.">            for(T card : deck)</span>
+<span class="fc bfc" id="L436" title="All 2 branches covered.">                if (card.getPeriod() == period)</span>
+<span class="fc" id="L437">                    orderedDeck.add(card);</span>
+
+<span class="fc" id="L439">        return orderedDeck;</span>
+    }
+
+    /**
+     * @param jsonObject from which to extra and fill the {@link ActionSlot}s
+     */
+    private ActionSlot getActionSlotFromJson(JSONObject jsonObject) {
+<span class="fc" id="L446">        Boolean singlePawnSlot = jsonObject.optBoolean(&quot;singlePawnSlot&quot;, true);</span>
+<span class="fc" id="L447">        Integer diceValue = jsonObject.optInt(DICE_VALUE_JSONSTRING, 0);</span>
+<span class="fc" id="L448">        Integer councilPrivilege = jsonObject.getInt(COUNCIL_PRIVILEGE_JSONSTRING);</span>
+<span class="fc" id="L449">        Resources resources = getResourcesBonusFromJson(jsonObject).getResources();</span>
+        //wrapper
+<span class="fc" id="L451">        ResourcesBonus resourcesBonus = new ResourcesBonus(resources, councilPrivilege);</span>
+<span class="fc" id="L452">        return new ActionSlot(singlePawnSlot, diceValue, resourcesBonus);</span>
+    }
+
+    /**
+     * @param jsonResourcesBonus from which to create and instantiate che {@link ResourcesBonus} effect
+     */
+    private ResourcesBonus getResourcesBonusFromJson(JSONObject jsonResourcesBonus) {
+<span class="fc" id="L459">        Map&lt;ResourceType, Integer&gt; resourcesMap = new EnumMap&lt;&gt;(ResourceType.class);</span>
+        Integer councilPrivileges;
+        JSONObject jsonResources;
+        Integer value;
+<span class="fc bfc" id="L463" title="All 2 branches covered.">        if(jsonResourcesBonus.optJSONObject(RESOURCES_JSONSTRING) != null) {</span>
+<span class="fc" id="L464">             jsonResources = jsonResourcesBonus.optJSONObject(RESOURCES_JSONSTRING);</span>
+<span class="fc bfc" id="L465" title="All 2 branches covered.">            for (ResourceType type : ResourceType.values()) {</span>
+<span class="fc" id="L466">                value = jsonResources.optInt(type.toString(), 0);</span>
+<span class="fc bfc" id="L467" title="All 2 branches covered.">                if (value != 0)</span>
+<span class="fc" id="L468">                    resourcesMap.put(type, value);</span>
+            }
+        }
+
+<span class="fc" id="L472">        councilPrivileges = jsonResourcesBonus.optInt(COUNCIL_PRIVILEGE_JSONSTRING, 0);</span>
+<span class="fc" id="L473">        Resources resources = new Resources(resourcesMap);</span>
+
+<span class="fc" id="L475">        return new ResourcesBonus(resources, councilPrivileges);</span>
+    }
+
+    /**
+     * @param jsonArray from which to create and instantiate che {@link DevelopmentCardDeck} of {@link TerritoryCard}
+     */
+    private List&lt;TerritoryCard&gt; getTerritoryCardsFromJson(JSONArray jsonArray) {
+<span class="fc" id="L482">        ArrayList&lt;TerritoryCard&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L483" title="All 2 branches covered.">        for(int i = 0; i &lt; jsonArray.length(); i++) {</span>
+<span class="fc" id="L484">            cards.add(getTerritoryCardFromJson(jsonArray.optJSONObject(i)));</span>
+        }
+<span class="fc" id="L486">        return cards;</span>
+    }
+
+    private TerritoryCard getTerritoryCardFromJson(JSONObject jsonObject) {
+<span class="fc" id="L490">        Integer period = jsonObject.optInt(PERIOD_JSONSTRING);</span>
+<span class="fc" id="L491">        String name = jsonObject.optString(NAME_JSONSTRING);</span>
+
+<span class="fc" id="L493">        Integer diceValueToHarvest = jsonObject.optInt(&quot;diceValueToHarvest&quot;);</span>
+
+<span class="fc" id="L495">        ResourcesBonus permanentResources = getResourcesBonusFromJson(jsonObject.optJSONObject(PERMANENT_BONUS_JSONSTRING).optJSONObject(RESOURCES_BONUS_JSONSTRING));</span>
+<span class="fc" id="L496">        List&lt;AbstractEffect&gt; instantResources = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L497">        instantResources.add(getResourcesBonusFromJson(jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING).optJSONObject(RESOURCES_BONUS_JSONSTRING)));</span>
+
+<span class="fc" id="L499">        return new TerritoryCard(name, diceValueToHarvest, period, instantResources, permanentResources);</span>
+    }
+
+    /**
+     * @param jsonArray from which to create and instantiate che {@link DevelopmentCardDeck} of {@link BuildingCard}
+     */
+    private List&lt;BuildingCard&gt; getBuildingCardsFromJson(JSONArray jsonArray) {
+<span class="fc" id="L506">        List&lt;BuildingCard&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L507" title="All 2 branches covered.">        for(int i = 0; i &lt; jsonArray.length(); i++) {</span>
+<span class="fc" id="L508">            cards.add(getBuildingCardFromJson(jsonArray.optJSONObject(i)));</span>
+        }
+<span class="fc" id="L510">        return cards;</span>
+    }
+
+    private BuildingCard getBuildingCardFromJson(JSONObject jsonObject) {
+<span class="fc" id="L514">        String name = jsonObject.optString(NAME_JSONSTRING);</span>
+<span class="fc" id="L515">        Integer period = jsonObject.optInt(PERIOD_JSONSTRING);</span>
+<span class="fc" id="L516">        Integer diceValueToProduct = jsonObject.optInt(&quot;diceValueToProduct&quot;);</span>
+<span class="fc" id="L517">        Resources resourcesRequired = getResourcesBonusFromJson(jsonObject.optJSONObject(REQUIREMENTS_JSONSTRING)).getResources();</span>
+<span class="fc" id="L518">        AbstractEffect permanentBonus = new ResourcesBonus(new Resources(0,0,0,0), 0);</span>
+<span class="fc" id="L519">        List&lt;AbstractEffect&gt; instantResources = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L520">        String color = &quot;&quot;;</span>
+        Resources bonusResources;
+
+<span class="pc bpc" id="L523" title="1 of 2 branches missed.">        if (jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING).optJSONObject(RESOURCES_BONUS_JSONSTRING) != null)</span>
+<span class="fc" id="L524">            instantResources.add(getResourcesBonusFromJson(jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING).optJSONObject(RESOURCES_BONUS_JSONSTRING)));</span>
+
+<span class="pc bpc" id="L526" title="1 of 2 branches missed.">        if(jsonObject.optJSONObject(PERMANENT_BONUS_JSONSTRING) != null) {</span>
+<span class="fc" id="L527">            JSONObject jsonPermanentBonus = jsonObject.optJSONObject(PERMANENT_BONUS_JSONSTRING);</span>
+
+<span class="fc bfc" id="L529" title="All 2 branches covered.">            if (jsonPermanentBonus.optJSONObject(RESOURCES_BONUS_JSONSTRING) != null)</span>
+<span class="fc" id="L530">                permanentBonus = getResourcesBonusFromJson(jsonObject.optJSONObject(PERMANENT_BONUS_JSONSTRING).optJSONObject(RESOURCES_BONUS_JSONSTRING));</span>
+
+           /*----ResourcePerItem----*/
+<span class="fc bfc" id="L533" title="All 2 branches covered.">            if (jsonPermanentBonus.optJSONObject(RESOURCES_PER_ITEM_BONUS_JSONSTRING) != null) {</span>
+<span class="fc" id="L534">                color = jsonPermanentBonus.optJSONObject(RESOURCES_PER_ITEM_BONUS_JSONSTRING).optString(DEVELOPMENT_CARD_COLOR_JSONSTRING);</span>
+
+<span class="fc" id="L536">                DevelopmentCardColor cardType = null;</span>
+<span class="pc bpc" id="L537" title="1 of 2 branches missed.">                if (!color.isEmpty()) {</span>
+<span class="fc" id="L538">                    bonusResources = getResourcesBonusFromJson(jsonPermanentBonus</span>
+<span class="fc" id="L539">                            .optJSONObject(RESOURCES_PER_ITEM_BONUS_JSONSTRING)).getResources();</span>
+<span class="fc bfc" id="L540" title="All 2 branches covered.">                    for (DevelopmentCardColor dc : DevelopmentCardColor.values())</span>
+<span class="fc bfc" id="L541" title="All 2 branches covered.">                        if (color.equalsIgnoreCase(dc.toString()))</span>
+<span class="fc" id="L542">                            cardType = dc;</span>
+
+<span class="fc" id="L544">                    permanentBonus = new ResourcesPerItemBonus(bonusResources, cardType);</span>
+                }
+            }
+           /*----ResourceExchangeBonus----*/
+<span class="fc" id="L548">            JSONArray resourcesExchangeBonus = null;</span>
+<span class="fc" id="L549">            Resources resToDiscard = new Resources(0,0,0,0);</span>
+<span class="fc" id="L550">            ResourcesBonus resToGain = new ResourcesBonus(new Resources(0,0,0,0), 0);</span>
+<span class="fc" id="L551">            List&lt;Pair&lt;Resources, ResourcesBonus&gt;&gt; resExchanges = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L553" title="All 2 branches covered.">            if (!jsonPermanentBonus.isNull(RESOURCES_EXCHANGE_BONUS_JSONSTRING)) {</span>
+<span class="fc" id="L554">                resourcesExchangeBonus = jsonPermanentBonus.optJSONArray(RESOURCES_EXCHANGE_BONUS_JSONSTRING);</span>
+<span class="fc bfc" id="L555" title="All 2 branches covered.">                for (int i = 0; i &lt; resourcesExchangeBonus.length(); i++) {</span>
+<span class="fc" id="L556">                    resToDiscard = getResourcesBonusFromJson(resourcesExchangeBonus.optJSONObject(i).optJSONObject(&quot;resourcesDiscard&quot;)).getResources();</span>
+<span class="fc" id="L557">                    resToGain = getResourcesBonusFromJson(resourcesExchangeBonus.optJSONObject(i).optJSONObject(&quot;resourcesGain&quot;));</span>
+
+<span class="fc" id="L559">                resExchanges.add(new ImmutablePair&lt;&gt;(resToDiscard, resToGain));</span>
+                }
+<span class="fc" id="L561">            permanentBonus = new ResourcesExchangeBonus(resExchanges);</span>
+
+            }
+        }
+<span class="fc" id="L565">        return new BuildingCard(name, diceValueToProduct, period, resourcesRequired, instantResources, permanentBonus);</span>
+    }
+
+    /**
+     * @param jsonArray from which to create and instantiate che {@link DevelopmentCardDeck} of {@link VentureCard}
+     */
+    private List&lt;VentureCard&gt; getVentureCardsFromJson(JSONArray jsonArray) {
+<span class="fc" id="L572">        List&lt;VentureCard&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L573" title="All 2 branches covered.">        for(int i = 0; i &lt; jsonArray.length(); i++) {</span>
+<span class="fc" id="L574">            cards.add(getVentureCardFromJson(jsonArray.optJSONObject(i)));</span>
+        }
+<span class="fc" id="L576">        return cards;</span>
+    }
+
+    private VentureCard getVentureCardFromJson(JSONObject jsonObject) {
+<span class="fc" id="L580">        Integer period = jsonObject.optInt(PERIOD_JSONSTRING);</span>
+<span class="fc" id="L581">        String name = jsonObject.optString(NAME_JSONSTRING);</span>
+<span class="fc" id="L582">        List&lt;AbstractEffect&gt; instantBonus = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L583">        Integer endingVictoryPointsReward = jsonObject.optJSONObject(PERMANENT_BONUS_JSONSTRING).optInt(&quot;endingVictoryPointsReward&quot;);</span>
+<span class="fc" id="L584">        Integer militaryPointsRequired = 0;</span>
+<span class="fc" id="L585">        Integer militaryPointsSubtraction = 0;</span>
+        Resources resourcesRequired;
+<span class="fc" id="L587">        resourcesRequired = getResourcesBonusFromJson(jsonObject.optJSONObject(REQUIREMENTS_JSONSTRING)).getResources();</span>
+
+<span class="fc bfc" id="L589" title="All 2 branches covered.">        if(jsonObject.optJSONObject(REQUIREMENTS_JSONSTRING).optJSONObject(MILITARY_POINTS_JSONSTRING) != null) {</span>
+<span class="fc" id="L590">            militaryPointsRequired = jsonObject.optJSONObject(REQUIREMENTS_JSONSTRING).optJSONObject(MILITARY_POINTS_JSONSTRING).optInt(&quot;militaryPointsRequired&quot;);</span>
+<span class="fc" id="L591">            militaryPointsSubtraction = jsonObject.optJSONObject(REQUIREMENTS_JSONSTRING).optJSONObject(MILITARY_POINTS_JSONSTRING).optInt(&quot;militaryPointsSubtraction&quot;);</span>
+        }
+        /***********RESOURCESBONUS********/
+<span class="pc bpc" id="L594" title="1 of 2 branches missed.">        if(jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING) != null) {</span>
+<span class="fc" id="L595">            JSONObject jsonInstantBonus = jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING);</span>
+
+<span class="pc bpc" id="L597" title="1 of 2 branches missed.">            if (jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING) != null) {</span>
+<span class="fc bfc" id="L598" title="All 2 branches covered.">                if (jsonInstantBonus.optJSONObject(RESOURCES_BONUS_JSONSTRING) != null) {</span>
+<span class="fc" id="L599">                    instantBonus.add(getResourcesBonusFromJson(jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING).optJSONObject(RESOURCES_BONUS_JSONSTRING)));</span>
+                }
+            }
+
+
+            /***********WORKING AREA VALUE EFFECT********/
+            Integer diceValue;
+            String areaType;
+            ContextType workingAreaType;
+
+<span class="fc bfc" id="L609" title="All 2 branches covered.">            if (jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING).optJSONObject(WORKING_AREA_VALUE_EFFECT_JSONSTRING) != null) {</span>
+<span class="fc" id="L610">                diceValue = jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING).optJSONObject(WORKING_AREA_VALUE_EFFECT_JSONSTRING).getInt(DICE_VALUE_JSONSTRING);</span>
+<span class="fc" id="L611">                areaType = jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING).optJSONObject(WORKING_AREA_VALUE_EFFECT_JSONSTRING).optString(WORKING_AREA_TYPE_JSONSTRING);</span>
+
+<span class="fc bfc" id="L613" title="All 2 branches covered.">                if (areaType.equalsIgnoreCase(WorkingAreaType.PRODUCTION.getWorkingAreaType()))</span>
+<span class="fc" id="L614">                    workingAreaType = ContextType.PRODUCTION_AREA_CONTEXT;</span>
+                else
+<span class="fc" id="L616">                    workingAreaType = ContextType.HARVEST_AREA_CONTEXT;</span>
+
+<span class="fc" id="L618">                instantBonus.add(new WorkingAreaValueEffect(workingAreaType, diceValue, false));</span>
+            }
+            /***********DEVELOPMENT CARD ACQUIRE EFFECT********/
+            String cardColor;
+<span class="fc" id="L622">            DevelopmentCardColor color = null;</span>
+<span class="fc bfc" id="L623" title="All 2 branches covered.">            if (jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING).optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING) != null) {</span>
+<span class="fc" id="L624">                diceValue = jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING).optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING).getInt(DICE_VALUE_JSONSTRING);</span>
+<span class="fc" id="L625">                cardColor = jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING).optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING).getString(DEVELOPMENT_CARD_COLOR_JSONSTRING);</span>
+<span class="fc bfc" id="L626" title="All 2 branches covered.">                for (DevelopmentCardColor c : DevelopmentCardColor.values())</span>
+<span class="fc bfc" id="L627" title="All 2 branches covered.">                    if ((c.toString()).equalsIgnoreCase(cardColor))</span>
+<span class="fc" id="L628">                        color = c;</span>
+
+<span class="fc" id="L630">                instantBonus.add(new DevelopmentCardAcquireEffect(color, diceValue, false));</span>
+            }
+        }
+<span class="fc" id="L633">        return new VentureCard(name, period, militaryPointsRequired, militaryPointsSubtraction, resourcesRequired,  instantBonus, endingVictoryPointsReward);</span>
+    }
+
+    /**
+     * @param numPlayers that will play the game
+     * @return the exact number of leaders the game needs (4 per player)
+     */
+    public List&lt;LeaderCard&gt; getLeaderCards(Integer numPlayers) {
+<span class="fc" id="L641">        Collections.shuffle(leaderCards);</span>
+<span class="fc" id="L642">        List&lt;LeaderCard&gt; leadersForPlaying = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L643" title="All 2 branches covered.">        for(Integer index = 0; index &lt; MAX_LEADER_PER_PLAYER * numPlayers; index++)</span>
+<span class="fc" id="L644">            leadersForPlaying.add(leaderCards.get(index));</span>
+
+<span class="fc" id="L646">        return leadersForPlaying;</span>
+    }
+
+    public List&lt;ExcommunicationCard&gt; getExcommunicationTiles() {
+<span class="fc" id="L650">        return excommunicationTiles;</span>
+    }
+
+    /**
+     * Order the {@link ExcommunicationCard}s by period
+     */
+    public void orderExcommunicatioCardByPeriod() {
+<span class="fc" id="L657">        List&lt;ExcommunicationCard&gt; temp = new ArrayList();</span>
+<span class="fc" id="L658">        Collections.shuffle(excommunicationTiles);</span>
+<span class="fc bfc" id="L659" title="All 2 branches covered.">        for (Integer period = 0; period &lt;= TOTAL_PERIODS - 1; period++) {</span>
+            excommlop:
+<span class="pc bpc" id="L661" title="1 of 2 branches missed.">            for (ExcommunicationCard e : excommunicationTiles)</span>
+<span class="fc bfc" id="L662" title="All 2 branches covered.">                if (e.getPeriod() == period) {</span>
+<span class="fc" id="L663">                    temp.add(e);</span>
+<span class="fc" id="L664">                    break excommlop;</span>
+                }
+        }
+<span class="fc" id="L667">        excommunicationTiles = temp;</span>
+<span class="fc" id="L668">    }</span>
+
+    /**
+     * @param productionSlotsJson from which to extra information about the Production Area ({@link WorkingArea})
+     */
+    private void setupProductionArea(JSONArray productionSlotsJson) {
+<span class="fc" id="L674">        List&lt;ActionSlot&gt; productionSlots = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L675" title="All 2 branches covered.">        for( int i = 0; i &lt; productionSlotsJson.length(); i++)</span>
+<span class="fc" id="L676">            productionSlots.add(getActionSlotFromJson(productionSlotsJson.optJSONObject(i)));</span>
+
+<span class="fc" id="L678">        productionArea = new WorkingArea(productionSlots);</span>
+<span class="fc" id="L679">    }</span>
+
+    /**
+     * @param harvestSlotsJson from which to extra information about the Harvest Area ({@link WorkingArea})
+     */
+    private void setupHarvestArea(JSONArray harvestSlotsJson) {
+<span class="fc" id="L685">        List&lt;ActionSlot&gt; harvestSlots = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L686" title="All 2 branches covered.">        for( int i = 0; i &lt; harvestSlotsJson.length(); i++)</span>
+<span class="fc" id="L687">            harvestSlots.add(getActionSlotFromJson(harvestSlotsJson.optJSONObject(i)));</span>
+
+<span class="fc" id="L689">        harvestArea = new WorkingArea(harvestSlots);</span>
+<span class="fc" id="L690">    }</span>
+
+    private void setupCouncilPalace(JSONObject councilPalaceJson) {
+<span class="fc" id="L693">        palace = new CouncilPalace(getActionSlotFromJson(councilPalaceJson));</span>
+<span class="fc" id="L694">    }</span>
+
+    private ExcommunicationCard getExcommunicationCardFromJson(JSONObject tile) {
+<span class="fc" id="L697">        Integer number = tile.getInt(&quot;number&quot;);</span>
+<span class="fc" id="L698">        Integer period = tile.getInt(PERIOD_JSONSTRING);</span>
+<span class="fc" id="L699">        JSONObject jsonPenalty = tile.optJSONObject(&quot;penalty&quot;);</span>
+<span class="fc" id="L700">        AbstractEffect penalty = new ResourcesBonus(new Resources(), 0);</span>
+
+        /******RESOURCE INCOME PENALTY******/
+<span class="fc bfc" id="L703" title="All 2 branches covered.">        if(jsonPenalty.optJSONObject(&quot;resourcesIncomePenalty&quot;) != null) {</span>
+<span class="fc" id="L704">            penalty = getResourcesBonusFromJson(jsonPenalty.optJSONObject(&quot;resourcesIncomePenalty&quot;));</span>
+        }
+
+<span class="fc bfc" id="L707" title="All 2 branches covered.">        if(jsonPenalty.optJSONObject(WORKING_AREA_VALUE_EFFECT_JSONSTRING) != null) {</span>
+            /********WORKING AREA VALUE EFFECT********/
+            Integer diceValue;
+            String areaType;
+<span class="fc" id="L711">            ContextType workingAreaType = null;</span>
+
+<span class="fc" id="L713">                diceValue = jsonPenalty.optJSONObject(WORKING_AREA_VALUE_EFFECT_JSONSTRING).getInt(DICE_VALUE_JSONSTRING);</span>
+<span class="fc" id="L714">                areaType = jsonPenalty.optJSONObject(WORKING_AREA_VALUE_EFFECT_JSONSTRING).optString(WORKING_AREA_TYPE_JSONSTRING);</span>
+
+<span class="fc bfc" id="L716" title="All 2 branches covered.">                if(areaType.equalsIgnoreCase(PRODUCTION_JSONSTRING))</span>
+<span class="fc" id="L717">                    workingAreaType = ContextType.PRODUCTION_AREA_CONTEXT;</span>
+<span class="pc bpc" id="L718" title="1 of 2 branches missed.">                else if (areaType.equalsIgnoreCase(HARVEST_JSONSTRING))</span>
+<span class="fc" id="L719">                    workingAreaType = ContextType.HARVEST_AREA_CONTEXT;</span>
+
+<span class="fc" id="L721">            penalty = new WorkingAreaValueEffect(workingAreaType, diceValue, true);</span>
+        }
+
+        /********Family Member Value Effect*******/
+        JSONArray familyMemberValueEffect;
+        JSONObject tempJson;
+        String tempStringColor;
+<span class="fc" id="L728">        List&lt;DiceColor&gt; diceColors = new ArrayList&lt;&gt;();</span>
+        Boolean isRelative;
+        Integer diceValue;
+<span class="fc bfc" id="L731" title="All 2 branches covered.">        if(jsonPenalty.optJSONArray(FAMILY_MEMBER_VALUE_EFFECT_JSONSTRING) != null) {</span>
+<span class="fc" id="L732">            familyMemberValueEffect = jsonPenalty.optJSONArray(FAMILY_MEMBER_VALUE_EFFECT_JSONSTRING);</span>
+<span class="fc bfc" id="L733" title="All 2 branches covered.">            for (Integer index = 0; index &lt; familyMemberValueEffect.length(); index++) {</span>
+<span class="fc" id="L734">                tempJson = familyMemberValueEffect.optJSONObject(index);</span>
+<span class="fc" id="L735">                tempStringColor = tempJson.getString(&quot;diceColor&quot;);</span>
+<span class="fc bfc" id="L736" title="All 2 branches covered.">                for (DiceColor c : DiceColor.values())</span>
+<span class="fc bfc" id="L737" title="All 2 branches covered.">                    if (c.toString().equalsIgnoreCase(tempStringColor))</span>
+<span class="fc" id="L738">                        diceColors.add(c);</span>
+            }
+<span class="fc" id="L740">            diceValue = familyMemberValueEffect.getJSONObject(0).optInt(DICE_VALUE_JSONSTRING, 0);</span>
+<span class="fc" id="L741">            isRelative = familyMemberValueEffect.getJSONObject(0).optBoolean(&quot;relative&quot;, false);</span>
+
+<span class="fc" id="L743">            penalty = new FamilyMemberValueEffect(diceColors, diceValue, isRelative);</span>
+        }
+
+        /**********Development Acquire Value Effect*******/
+<span class="fc" id="L747">        DevelopmentCardColor color = null;</span>
+
+<span class="fc bfc" id="L749" title="All 2 branches covered.">        if(jsonPenalty.optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING) != null) {</span>
+<span class="fc" id="L750">            diceValue = jsonPenalty.optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING).getInt(DICE_VALUE_JSONSTRING);</span>
+<span class="fc" id="L751">            tempStringColor = jsonPenalty.optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING).optString(DEVELOPMENT_CARD_COLOR_JSONSTRING);</span>
+<span class="fc bfc" id="L752" title="All 2 branches covered.">            for (DevelopmentCardColor c : DevelopmentCardColor.values())</span>
+<span class="fc bfc" id="L753" title="All 2 branches covered.">                if (c.toString().equalsIgnoreCase(tempStringColor))</span>
+<span class="fc" id="L754">                    color = c;</span>
+
+<span class="fc" id="L756">            penalty = new DevelopmentCardAcquireEffect(color, diceValue, true);</span>
+        }
+
+        /****MarketBan****/
+<span class="fc bfc" id="L760" title="All 2 branches covered.">        if(!jsonPenalty.optString(&quot;marketBan&quot;).isEmpty())</span>
+<span class="fc" id="L761">            penalty = new MarketBan();</span>
+
+        /****SkipFirstTurn****/
+<span class="fc bfc" id="L764" title="All 2 branches covered.">        if(!jsonPenalty.optString(&quot;skipFirstTurn&quot;).isEmpty())</span>
+<span class="fc" id="L765">            penalty = new SkipFirstTurn();</span>
+
+        /****HalveServantsValue****/
+<span class="fc bfc" id="L768" title="All 2 branches covered.">        if(!jsonPenalty.optString(&quot;halveServantsValue&quot;).isEmpty())</span>
+<span class="fc" id="L769">            penalty = new HalveServantsValue();</span>
+        /****VictoryPointsPenalty****/
+        JSONObject jsonVictoryPenalty;
+        Integer victoryPoints;
+        Resources resourcesReward;
+<span class="fc bfc" id="L774" title="All 2 branches covered.">        if(jsonPenalty.optJSONObject(&quot;victoryPointsPenalty&quot;) != null) {</span>
+
+<span class="fc" id="L776">            jsonVictoryPenalty = jsonPenalty.optJSONObject(&quot;victoryPointsPenalty&quot;);</span>
+
+<span class="fc" id="L778">            victoryPoints = jsonVictoryPenalty.optInt(&quot;VICTORY_POINTS&quot;, 0);</span>
+
+<span class="fc bfc" id="L780" title="All 2 branches covered.">            if(jsonVictoryPenalty.optJSONObject(RESOURCES_JSONSTRING) != null) {</span>
+<span class="fc" id="L781">                resourcesReward = getResourcesBonusFromJson(jsonVictoryPenalty).getResources();</span>
+<span class="fc" id="L782">                penalty = new VictoryPointsPenalty(victoryPoints, resourcesReward);</span>
+            }
+
+<span class="fc bfc" id="L785" title="All 2 branches covered.">            if(!jsonVictoryPenalty.optString(DEVELOPMENT_CARD_COLOR_JSONSTRING).isEmpty()) {</span>
+<span class="fc" id="L786">                tempStringColor = jsonVictoryPenalty.optString(DEVELOPMENT_CARD_COLOR_JSONSTRING);</span>
+<span class="fc bfc" id="L787" title="All 2 branches covered.">                for (DevelopmentCardColor c : DevelopmentCardColor.values())</span>
+<span class="fc bfc" id="L788" title="All 2 branches covered.">                    if (c.toString().equalsIgnoreCase(tempStringColor))</span>
+<span class="fc" id="L789">                        color = c;</span>
+
+<span class="fc" id="L791">                penalty = new VictoryPointsPenalty(color);</span>
+            }
+
+<span class="pc bpc" id="L794" title="1 of 2 branches missed.">            if(!jsonVictoryPenalty.optString(&quot;playerGoods&quot;).isEmpty()) {</span>
+<span class="nc" id="L795">                resourcesReward = new Resources(victoryPoints, victoryPoints, victoryPoints, victoryPoints);</span>
+
+<span class="nc" id="L797">                penalty = new VictoryPointsPenalty(victoryPoints, resourcesReward);</span>
+            }
+
+<span class="fc bfc" id="L800" title="All 2 branches covered.">            if(!jsonVictoryPenalty.optString(&quot;buildingCardsResources&quot;).isEmpty()) {</span>
+<span class="fc" id="L801">                resourcesReward = new Resources(0,1,1,0);</span>
+
+<span class="fc" id="L803">                penalty = new VictoryPointsPenalty(victoryPoints, resourcesReward);</span>
+             }
+        }
+<span class="fc" id="L806">        return new ExcommunicationCard(number, period, penalty);</span>
+    }
+
+    /**
+     * @param jsonArray from which to create and instantiate che {@link DevelopmentCardDeck} of {@link CharacterCard}
+     */
+    private List&lt;CharacterCard&gt; getCharacterCardsFromJson(JSONArray jsonArray) {
+<span class="fc" id="L813">        List&lt;CharacterCard&gt; cards = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L814" title="All 2 branches covered.">        for(int i = 0; i &lt; jsonArray.length(); i++) {</span>
+<span class="fc" id="L815">            cards.add(getCharacterCardFromJson(jsonArray.optJSONObject(i)));</span>
+        }
+<span class="fc" id="L817">        return cards;</span>
+    }
+
+    private CharacterCard getCharacterCardFromJson(JSONObject jsonObject) {
+<span class="fc" id="L821">        Integer period = jsonObject.optInt(PERIOD_JSONSTRING);</span>
+<span class="fc" id="L822">        String name = jsonObject.optString(NAME_JSONSTRING);</span>
+<span class="fc" id="L823">        List&lt;AbstractEffect&gt; instantBonus = new ArrayList&lt;&gt;();</span>
+        Resources resourcesRequired;
+<span class="fc" id="L825">        resourcesRequired = getResourcesBonusFromJson(jsonObject.optJSONObject(REQUIREMENTS_JSONSTRING)).getResources();</span>
+<span class="fc" id="L826">        AbstractEffect permanentBonus = new ResourcesBonus(new Resources(0,0,0,0), 0);</span>
+        JSONObject jsonInstantBonus;
+        Integer diceValue;
+        String areaType;
+        Boolean relative;
+<span class="fc" id="L831">        ContextType workingAreaType = null;</span>
+        String cardColor;
+<span class="fc" id="L833">        ResourcesBonus requirementsDiscounts = new ResourcesBonus(new Resources(), 0);</span>
+<span class="fc" id="L834">        DevelopmentCardColor color = null;</span>
+        /***********RESOURCESBONUS********/
+<span class="fc bfc" id="L836" title="All 2 branches covered.">        if (jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING) != null) {</span>
+<span class="fc" id="L837">            jsonInstantBonus = jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING);</span>
+<span class="fc bfc" id="L838" title="All 2 branches covered.">            if (jsonInstantBonus.optJSONObject(RESOURCES_BONUS_JSONSTRING) != null) {</span>
+<span class="fc" id="L839">                instantBonus.add(getResourcesBonusFromJson(jsonObject.optJSONObject(INSTANT_BONUS_JSONSTRING).optJSONObject(RESOURCES_BONUS_JSONSTRING)));</span>
+            }
+
+<span class="fc bfc" id="L842" title="All 2 branches covered.">            if (jsonInstantBonus.optJSONObject(WORKING_AREA_VALUE_EFFECT_JSONSTRING) != null) {</span>
+<span class="fc" id="L843">                relative = jsonInstantBonus.optJSONObject(WORKING_AREA_VALUE_EFFECT_JSONSTRING).getBoolean(&quot;relative&quot;);</span>
+<span class="fc" id="L844">                diceValue = jsonInstantBonus.optJSONObject(WORKING_AREA_VALUE_EFFECT_JSONSTRING).getInt(DICE_VALUE_JSONSTRING);</span>
+<span class="fc" id="L845">                areaType = jsonInstantBonus.optJSONObject(WORKING_AREA_VALUE_EFFECT_JSONSTRING).optString(WORKING_AREA_TYPE_JSONSTRING);</span>
+
+<span class="fc bfc" id="L847" title="All 2 branches covered.">                if (areaType.equalsIgnoreCase(PRODUCTION_JSONSTRING))</span>
+<span class="fc" id="L848">                    workingAreaType = ContextType.PRODUCTION_AREA_CONTEXT;</span>
+<span class="pc bpc" id="L849" title="1 of 2 branches missed.">                else if (areaType.equalsIgnoreCase(HARVEST_JSONSTRING))</span>
+<span class="fc" id="L850">                    workingAreaType = ContextType.HARVEST_AREA_CONTEXT;</span>
+
+<span class="fc" id="L852">                instantBonus.add(new WorkingAreaValueEffect(workingAreaType, diceValue, relative));</span>
+            }
+
+<span class="fc bfc" id="L855" title="All 2 branches covered.">            if (jsonInstantBonus.optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING) != null) {</span>
+<span class="fc" id="L856">                relative = jsonInstantBonus.optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING).getBoolean(&quot;relative&quot;);</span>
+<span class="fc" id="L857">                diceValue = jsonInstantBonus.optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING).getInt(DICE_VALUE_JSONSTRING);</span>
+<span class="fc" id="L858">                cardColor = jsonInstantBonus.optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING).getString(DEVELOPMENT_CARD_COLOR_JSONSTRING);</span>
+<span class="fc bfc" id="L859" title="All 2 branches covered.">                for (DevelopmentCardColor c : DevelopmentCardColor.values())</span>
+<span class="fc bfc" id="L860" title="All 2 branches covered.">                    if ((c.toString()).equalsIgnoreCase(cardColor))</span>
+<span class="fc" id="L861">                        color = c;</span>
+
+<span class="fc bfc" id="L863" title="All 2 branches covered.">                if (jsonInstantBonus.optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING).optJSONObject(REQUIREMENTS_DISCOUNT_JSONSTRING) != null)</span>
+<span class="fc" id="L864">                    requirementsDiscounts = getResourcesBonusFromJson(jsonInstantBonus.optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING).getJSONObject(REQUIREMENTS_DISCOUNT_JSONSTRING));</span>
+
+<span class="fc" id="L866">                instantBonus.add(new DevelopmentCardAcquireEffect(color, diceValue, relative, requirementsDiscounts));</span>
+            }
+
+<span class="fc" id="L869">            Resources resBon = new Resources();</span>
+            /*----ResourcePerItem----*/
+<span class="fc bfc" id="L871" title="All 2 branches covered.">            if (jsonInstantBonus.optJSONObject(RESOURCES_PER_ITEM_BONUS_JSONSTRING) != null) {</span>
+<span class="fc" id="L872">                String colorString = jsonInstantBonus.optJSONObject(RESOURCES_PER_ITEM_BONUS_JSONSTRING).optString(DEVELOPMENT_CARD_COLOR_JSONSTRING);</span>
+
+
+<span class="fc" id="L875">                DevelopmentCardColor cardType = null;</span>
+<span class="fc bfc" id="L876" title="All 2 branches covered.">                if (!colorString.isEmpty()) {</span>
+<span class="fc" id="L877">                    resBon = getResourcesBonusFromJson(jsonInstantBonus</span>
+<span class="fc" id="L878">                            .optJSONObject(RESOURCES_PER_ITEM_BONUS_JSONSTRING)).getResources();</span>
+<span class="fc bfc" id="L879" title="All 2 branches covered.">                    for (DevelopmentCardColor dc : DevelopmentCardColor.values())</span>
+<span class="fc bfc" id="L880" title="All 2 branches covered.">                        if (colorString.equalsIgnoreCase(dc.toString()))</span>
+<span class="fc" id="L881">                            cardType = dc;</span>
+<span class="fc" id="L882">                    instantBonus.add(new ResourcesPerItemBonus(resBon, cardType));</span>
+                }
+            }
+            /*----ResourcePerItemBonus----*/
+<span class="fc" id="L886">            Resources resReqForItemBonus = new Resources();</span>
+<span class="fc bfc" id="L887" title="All 2 branches covered.">            if (jsonInstantBonus.optJSONObject(RESOURCES_PER_ITEM_BONUS_JSONSTRING) != null</span>
+<span class="fc bfc" id="L888" title="All 2 branches covered.">                    &amp;&amp; jsonInstantBonus.optJSONObject(RESOURCES_PER_ITEM_BONUS_JSONSTRING).optJSONObject(&quot;requiredResources&quot;) != null) {</span>
+<span class="fc" id="L889">                resReqForItemBonus = getResourcesBonusFromJson(jsonInstantBonus.optJSONObject(RESOURCES_PER_ITEM_BONUS_JSONSTRING)</span>
+<span class="fc" id="L890">                        .optJSONObject(&quot;requiredResources&quot;)).getResources();</span>
+<span class="fc" id="L891">                resBon = getResourcesBonusFromJson(jsonInstantBonus</span>
+<span class="fc" id="L892">                        .optJSONObject(RESOURCES_PER_ITEM_BONUS_JSONSTRING)).getResources();</span>
+
+<span class="fc" id="L894">                instantBonus.add(new ResourcesPerItemBonus(resBon, resReqForItemBonus.getResourceByType(MILITARY_POINTS)));</span>
+            }
+        }
+
+<span class="fc bfc" id="L898" title="All 2 branches covered.">            if (jsonObject.optJSONObject(PERMANENT_BONUS_JSONSTRING) != null) {</span>
+<span class="fc" id="L899">                JSONObject jsonPermanentBonus = jsonObject.optJSONObject(PERMANENT_BONUS_JSONSTRING);</span>
+
+                /***********WORKING AREA VALUE EFFECT********/
+<span class="fc bfc" id="L902" title="All 2 branches covered.">                if (jsonPermanentBonus.optJSONObject(WORKING_AREA_VALUE_EFFECT_JSONSTRING) != null) {</span>
+<span class="fc" id="L903">                    diceValue = jsonPermanentBonus.optJSONObject(WORKING_AREA_VALUE_EFFECT_JSONSTRING).getInt(DICE_VALUE_JSONSTRING);</span>
+<span class="fc" id="L904">                    areaType = jsonPermanentBonus.optJSONObject(WORKING_AREA_VALUE_EFFECT_JSONSTRING).optString(WORKING_AREA_TYPE_JSONSTRING);</span>
+<span class="fc" id="L905">                    relative = jsonPermanentBonus.optJSONObject(WORKING_AREA_VALUE_EFFECT_JSONSTRING).getBoolean(&quot;relative&quot;);</span>
+<span class="fc bfc" id="L906" title="All 2 branches covered.">                    if (areaType.equalsIgnoreCase(PRODUCTION_JSONSTRING))</span>
+<span class="fc" id="L907">                        workingAreaType = ContextType.PRODUCTION_AREA_CONTEXT;</span>
+<span class="pc bpc" id="L908" title="1 of 2 branches missed.">                    else if (areaType.equalsIgnoreCase(HARVEST_JSONSTRING))</span>
+<span class="fc" id="L909">                        workingAreaType = ContextType.HARVEST_AREA_CONTEXT;</span>
+
+<span class="fc" id="L911">                    permanentBonus = new WorkingAreaValueEffect(workingAreaType, diceValue, relative);</span>
+                }
+                /***********DEVELOPMENT CARD ACQUIRE EFFECT********/
+<span class="fc bfc" id="L914" title="All 2 branches covered.">                if (jsonPermanentBonus.optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING) != null) {</span>
+<span class="fc" id="L915">                    relative = jsonPermanentBonus.optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING).getBoolean(&quot;relative&quot;);</span>
+<span class="fc" id="L916">                    diceValue = jsonPermanentBonus.optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING).getInt(DICE_VALUE_JSONSTRING);</span>
+<span class="fc" id="L917">                    cardColor = jsonPermanentBonus.optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING).getString(DEVELOPMENT_CARD_COLOR_JSONSTRING);</span>
+<span class="fc bfc" id="L918" title="All 2 branches covered.">                    for (DevelopmentCardColor c : DevelopmentCardColor.values())</span>
+<span class="fc bfc" id="L919" title="All 2 branches covered.">                        if ((c.toString()).equalsIgnoreCase(cardColor))</span>
+<span class="fc" id="L920">                            color = c;</span>
+
+<span class="fc bfc" id="L922" title="All 2 branches covered.">                    if (jsonPermanentBonus.optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING).optJSONObject(REQUIREMENTS_DISCOUNT_JSONSTRING) != null)</span>
+<span class="fc" id="L923">                        requirementsDiscounts = getResourcesBonusFromJson(jsonPermanentBonus.optJSONObject(DEVELOPMENT_CARD_ACQUIRE_EFFECT_JSONSTRING).getJSONObject(REQUIREMENTS_DISCOUNT_JSONSTRING));</span>
+
+<span class="fc" id="L925">                    permanentBonus = new DevelopmentCardAcquireEffect(color, diceValue, relative, requirementsDiscounts);</span>
+                }
+
+                /******Action Slot Penalty*****/
+<span class="fc" id="L929">                List&lt;Integer&gt; towersLevels = new ArrayList&lt;&gt;();</span>
+                JSONArray noResourcesFromTowerLevels;
+<span class="fc bfc" id="L931" title="All 2 branches covered.">                if (jsonObject.optJSONObject(PERMANENT_BONUS_JSONSTRING).optJSONObject(&quot;actionSlotPenalty&quot;) != null) {</span>
+<span class="fc" id="L932">                    noResourcesFromTowerLevels = jsonObject.optJSONObject(PERMANENT_BONUS_JSONSTRING).optJSONObject(&quot;actionSlotPenalty&quot;)</span>
+<span class="fc" id="L933">                            .optJSONArray(&quot;noResourcesFromTowerLevels&quot;);</span>
+<span class="fc bfc" id="L934" title="All 2 branches covered.">                    for (Integer index = 0; index &lt; noResourcesFromTowerLevels.length(); index++)</span>
+<span class="fc" id="L935">                        towersLevels.add(Integer.parseInt(((JSONObject)(noResourcesFromTowerLevels.get(index))).get(&quot;level&quot; + index).toString()));</span>
+
+<span class="fc" id="L937">                    permanentBonus = new TowerSlotPenalty(towersLevels);</span>
+                }
+            }
+
+
+<span class="fc" id="L942">        return new CharacterCard(name, period, resourcesRequired, instantBonus, permanentBonus);</span>
+    }
+
+    public DevelopmentCardDeck&lt;TerritoryCard&gt; getTerritoryCards() {
+<span class="fc" id="L946">        return new DevelopmentCardDeck&lt;&gt;(territoryCards);</span>
+    }
+    public DevelopmentCardDeck&lt;BuildingCard&gt; getBuildingCards() {
+<span class="fc" id="L949">        return new DevelopmentCardDeck&lt;&gt;(buildingCards);</span>
+    }
+
+    public List&lt;BuildingCard&gt; getBuildingCardsList() {
+<span class="nc" id="L953">        return buildingCards;</span>
+    }
+    public DevelopmentCardDeck&lt;CharacterCard&gt; getCharactersCards() {
+<span class="fc" id="L956">        return new DevelopmentCardDeck&lt;&gt;(characterCards);</span>
+    }
+    public DevelopmentCardDeck&lt;VentureCard&gt; getVentureCards() {
+<span class="fc" id="L959">        return new DevelopmentCardDeck&lt;&gt;(ventureCards);</span>
+    }
+    public Market getMarket() {
+<span class="fc" id="L962">        return market;</span>
+    }
+
+    public CouncilPalace getPalace() {
+<span class="fc" id="L966">        return palace;</span>
+    }
+
+    public List&lt;Tower&gt; getTowers() {
+<span class="fc" id="L970">        return towers;</span>
+    }
+
+    public WorkingArea getHarvestArea() {
+<span class="fc" id="L974">        return harvestArea;</span>
+    }
+
+    public WorkingArea getProductionArea() {
+<span class="fc" id="L978">        return productionArea;</span>
+    }
+
+    public List&lt;Resources&gt; getCouncilPrivilegeRewards() {
+<span class="fc" id="L982">        return councilPrivilegeRewards;</span>
+    }
+
+    public List&lt;BonusTile&gt; getBonusTiles() {
+<span class="nc" id="L986">        return advancedPersonalTiles;</span>
+    }
+
+    public Map&lt;Integer, Integer&gt; getFaithPath() {
+<span class="fc" id="L990">        return faithPath;</span>
+    }
+
+    public Map&lt;Integer, Integer&gt; getMapCharactersToVictoryPoints() {
+<span class="fc" id="L994">        return endingGameCharactersVictoryPoints;</span>
+    }
+
+    public Map&lt;Integer, Integer&gt; getMapTerritoriesToVictoryPoints() {
+<span class="fc" id="L998">        return endingGameTerritoriesVictoryPoints;</span>
+    }
+
+    public Integer getResourcesForVictoryPoints() {
+<span class="fc" id="L1002">        return resourcesForVictoryPoints;</span>
+    }
+
+    public Map&lt;Integer, Integer&gt; getMilitaryPointsForTerritories() {
+<span class="fc" id="L1006">        return militaryPointsForTerritories;</span>
+    }
+
+    public Integer getWaitingRoomTimeout() {
+<span class="nc" id="L1010">        return waitingRoomTimeout;</span>
+    }
+
+    public Integer[] getMinFaithPoints() {
+<span class="fc" id="L1014">        return minFaithPoints;</span>
+    }
+
+    public Integer getWaitingRoomPlayersThreshold() {
+<span class="fc" id="L1018">        return WAITING_ROOM_PLAYERS_THRESHOLD;</span>
+    }
+
+    public Integer getTurnTimeout() {
+<span class="nc" id="L1022">        return TURN_TIMEOUT;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

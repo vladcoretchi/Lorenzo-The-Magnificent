@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NotAvailableSpace.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Exceptions.Controller</a> &gt; <span class="el_source">NotAvailableSpace.java</span></div><h1>NotAvailableSpace.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Exceptions.Controller;
+
+/**
+ * Exception thrown in {@link it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market}
+ * or {@link it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea}s if the number of players
+ * is not sufficient to access the advanced action slot of those game spaces
+ */
+
+public class NotAvailableSpace extends Exception {
+    private static final long serialVersionUID = -2659068756481284550L;
+    /** Serial Version */
+
+    /** Invoke superclass constructor
+     *  with the custom message as parameter
+     */
+    public NotAvailableSpace() {
+<span class="nc" id="L17">        super(&quot;This slot is not available for this number of players in the game&quot;);</span>
+<span class="nc" id="L18">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

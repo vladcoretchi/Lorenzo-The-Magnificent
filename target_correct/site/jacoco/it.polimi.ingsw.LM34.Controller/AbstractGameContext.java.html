@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractGameContext.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Controller</a> &gt; <span class="el_source">AbstractGameContext.java</span></div><h1>AbstractGameContext.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Controller;
+
+import it.polimi.ingsw.LM34.Enums.Controller.ContextType;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
+import it.polimi.ingsw.LM34.Exceptions.Controller.*;
+import it.polimi.ingsw.LM34.Exceptions.Model.OccupiedSlotException;
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Model.Player;
+
+import java.util.Observable;
+
+<span class="fc" id="L12">public abstract class AbstractGameContext extends Observable  {</span>
+    /**
+     * The {@link ContextType} of the context that extend {@link AbstractGameContext}
+     */
+    protected ContextType contextType;
+
+    /**
+     * Reference to the {@link GameManager}
+     */
+    protected GameManager gameManager;
+
+    /**
+     * method used to send requests to the client, receive the selected actions and do stuff
+     */
+    public abstract Object interactWithPlayer(Object... args) throws
+            IncorrectInputException,
+            MarketBanException,
+            OccupiedSlotException,
+            NotEnoughResourcesException,
+            NotEnoughMilitaryPoints,
+            InvalidLeaderCardAction,
+            CardTypeNumLimitReachedException,
+            NotAvailableSpace,
+            CannotPlacePawnException,
+            NotEnoughServantsException,
+            NoMoreLeaderCardsAvailable;
+
+    /**
+     * @return Context's type
+     */
+    public final ContextType getType() {
+<span class="nc" id="L43">        return this.contextType;</span>
+    }
+
+    /**
+     * Kind of bridge between contexts and effects, still valid widely
+     * @param contextType
+     * @return the reference to the context for which effects are interested in
+     */
+    public  AbstractGameContext getContextByType(ContextType contextType) {
+<span class="fc" id="L52">        return this.gameManager.getContextByType(contextType);</span>
+    }
+
+    /**
+     *
+     * @param contextType {@link PlayerSelectableContexts} from which to retrieve the {@link ContextType}
+     * @return the {@link ContextType} that correspond to the {@link PlayerSelectableContexts}
+     */
+    public  AbstractGameContext getContextByType(PlayerSelectableContexts contextType) {
+<span class="nc" id="L61">        return this.gameManager.getContextByType(contextType);</span>
+    }
+
+    /**
+     * @return the player that is playing right now
+     */
+    public Player getCurrentPlayer() {
+<span class="fc" id="L68">        return this.gameManager.getCurrentPlayer();</span>
+    }
+
+    /**
+     * A connection between the game manager and its contexts
+     * @param gameManager of the game
+     */
+    public final void setGameManager(GameManager gameManager) {
+<span class="fc" id="L76">        this.gameManager = gameManager;</span>
+<span class="fc" id="L77">    }</span>
+
+    public GameManager getGameManager() {
+<span class="nc" id="L80">        return this.gameManager;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

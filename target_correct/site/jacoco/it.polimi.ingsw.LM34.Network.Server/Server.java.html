@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Server.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Network.Server</a> &gt; <span class="el_source">Server.java</span></div><h1>Server.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Network.Server;
+
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
+import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Network.GameRoom;
+import it.polimi.ingsw.LM34.Network.RMI.RMIConnection;
+import it.polimi.ingsw.LM34.Network.RMI.RMIServer;
+import it.polimi.ingsw.LM34.Network.Socket.SocketConnection;
+import it.polimi.ingsw.LM34.Network.Socket.SocketServer;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
+
+public class Server {
+<span class="fc" id="L20">    private static final Integer SOCKET_PORT = 20001;</span>
+<span class="fc" id="L21">    private static final Integer RMI_PORT = 20002;</span>
+
+    private static Server serverInstance;
+
+    private static SocketServer socketServer;
+    private static RMIServer rmiServer;
+
+    private static List&lt;GameRoom&gt; gameRooms;
+    private static GameRoom waitingRoom;
+
+<span class="fc" id="L31">    private Server() {</span>
+<span class="fc" id="L32">        waitingRoom = new GameRoom();</span>
+<span class="fc" id="L33">        gameRooms = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L35">        socketServer = new SocketServer(SOCKET_PORT);</span>
+<span class="fc" id="L36">        rmiServer = new RMIServer(RMI_PORT);</span>
+<span class="fc" id="L37">    }</span>
+
+    public static Server getInstance() {
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if(serverInstance == null)</span>
+<span class="fc" id="L41">            serverInstance = new Server();</span>
+
+<span class="fc" id="L43">        return serverInstance;</span>
+    }
+
+    public static void terminate() {
+<span class="fc" id="L47">        socketServer.terminate();</span>
+<span class="fc" id="L48">    }</span>
+
+    public static boolean login(String username, String password) {
+<span class="nc" id="L51">        Boolean found = false;</span>
+<span class="nc bnc" id="L52" title="All 4 branches missed.">        for (int i = 0; !found &amp;&amp; i &lt; gameRooms.size(); i++) {</span>
+<span class="nc" id="L53">            String[] gameRoomPlayers = gameRooms.get(i).getPlayers();</span>
+<span class="nc bnc" id="L54" title="All 4 branches missed.">            for (int j = 0; !found &amp;&amp; j &lt; gameRoomPlayers.length; j++) {</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">                if (username == gameRoomPlayers[j])</span>
+<span class="nc" id="L56">                    if(gameRooms.get(i).getGameManager().getPlayers().stream()</span>
+<span class="nc bnc" id="L57" title="All 6 branches missed.">                            .noneMatch(p -&gt; p.getPlayerName().equals(username) &amp;&amp; !p.isConnected()))</span>
+<span class="nc" id="L58">                        found = true;</span>
+            }
+        }
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (!found) {</span>
+<span class="nc" id="L62">            String[] gameRoomPlayers = waitingRoom.getPlayers();</span>
+<span class="nc bnc" id="L63" title="All 4 branches missed.">            for (int j = 0; !found &amp;&amp; j &lt; gameRoomPlayers.length; j++) {</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                if (gameRoomPlayers[j].equals(username))</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">                    if(Arrays.stream(waitingRoom.getPlayers()).noneMatch(p -&gt; p.equals(username)))</span>
+<span class="nc" id="L66">                        found = true;</span>
+            }
+        }
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        return !found;</span>
+    }
+
+    public static GameRoom addPlayerToGameRoom(String username, ServerNetworkController networkController) {
+<span class="pc" id="L73">       Optional&lt;GameRoom&gt; gameRoom = gameRooms.stream().filter(gr -&gt; Arrays.stream(gr.getPlayers()).anyMatch(p -&gt; p.equals(username))).findFirst();</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">       if(gameRoom.isPresent()) {</span>
+<span class="nc" id="L75">           gameRoom.get().substitutePlayer(username, networkController);</span>
+           try {
+<span class="nc" id="L77">               networkController.startGame();</span>
+<span class="nc" id="L78">           } catch (NetworkConnectionException ex) {</span>
+<span class="nc" id="L79">               LOGGER.log(Level.INFO, ex.getMessage(), ex);</span>
+<span class="nc" id="L80">           }</span>
+<span class="nc" id="L81">           Optional&lt;Player&gt; gameManagerPlayer = gameRoom.get().getGameManager().getPlayers().stream().filter(player -&gt; player.getPlayerName().equals(username)).findFirst();</span>
+<span class="nc" id="L82">           gameManagerPlayer.ifPresent(Player::setConncted);</span>
+<span class="nc" id="L83">           return gameRoom.get();</span>
+       }
+       else {
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">           if (Arrays.stream(waitingRoom.getPlayers()).anyMatch(p -&gt; p.equals(username)))</span>
+<span class="nc" id="L87">               waitingRoom.substitutePlayer(username, networkController);</span>
+           else
+<span class="fc" id="L89">               waitingRoom.addPlayer(username, networkController);</span>
+<span class="fc" id="L90">           return waitingRoom;</span>
+       }
+    }
+
+    public static void startWaitingGame() {
+<span class="nc" id="L95">        gameRooms.add(waitingRoom);</span>
+<span class="nc" id="L96">        waitingRoom = new GameRoom();</span>
+<span class="nc" id="L97">    }</span>
+
+    public static void removeRMIConnection(RMIConnection connection) {
+<span class="nc" id="L100">        rmiServer.removeClosedConnection(connection);</span>
+<span class="nc" id="L101">    }</span>
+
+    public static void removeSocketConnection(SocketConnection connection) {
+<span class="nc" id="L104">        socketServer.removeClosedConnection(connection);</span>
+<span class="nc" id="L105">    }</span>
+
+    public static void removeGameRoom(GameRoom gameRoom) {
+<span class="nc" id="L108">        Integer index = gameRooms.indexOf(gameRoom);</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        if(index &gt;= 0)</span>
+<span class="nc" id="L110">            gameRooms.remove(index.intValue());</span>
+<span class="nc" id="L111">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

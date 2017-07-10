@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Validator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Utils</a> &gt; <span class="el_source">Validator.java</span></div><h1>Validator.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Utils;
+
+
+import it.polimi.ingsw.LM34.Exceptions.Validation.IncorrectInputException;
+import it.polimi.ingsw.LM34.Network.PlayerAction;
+
+import java.util.List;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
+
+/**
+ * This static class is unbelievably useful for validate data inserted by player both client and server side
+ * Client side is used as a preliminary approach to avoid malicious input
+ *Server side is adopted broadly by all contexts that calls the overloaded methods they need
+ * Server side is needed to enforce and grant consistency of the game state
+ */
+public final class Validator {
+
+<span class="nc" id="L20">    private Validator() {}</span>
+
+    /**
+     * Validate input based on expected data types and ranges
+     */
+    public static final Integer checkValidity(String input, List&lt;?&gt; data) throws IncorrectInputException {
+        try {
+            /*Try to extract an Integer from input*/
+<span class="nc" id="L28">            Integer inputValue = Integer.parseInt(input);</span>
+<span class="nc" id="L29">            checkValidity(inputValue, data);</span>
+<span class="nc" id="L30">            return inputValue;</span>
+<span class="fc" id="L31">        } catch (Exception e) {</span>
+<span class="fc" id="L32">            LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="fc" id="L33">            throw new IncorrectInputException();</span>
+        }
+    }
+
+    /**
+     * Validate input based on expected data types and ranges
+     */
+    public static final void checkValidity(Integer input, List&lt;?&gt; data) throws IncorrectInputException {
+            /*Calculates range*/
+<span class="fc" id="L42">            Integer min = 0;</span>
+<span class="fc" id="L43">            Integer max = data.size();</span>
+
+            /*Check if input meets the requirements*/
+<span class="pc bpc" id="L46" title="2 of 4 branches missed.">            if(input &lt; min || input &gt;= max)</span>
+<span class="nc" id="L47">                throw new IncorrectInputException();</span>
+<span class="fc" id="L48">    }</span>
+
+    /**
+     * Validate Number type inputs
+     */
+    public static final void checkValidity(String input) throws IncorrectInputException {
+        try {
+<span class="fc" id="L55">            Integer.parseInt(input);</span>
+<span class="nc" id="L56">        } catch(NumberFormatException e) {</span>
+<span class="nc" id="L57">            LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L58">            throw new IncorrectInputException();</span>
+<span class="fc" id="L59">        }</span>
+<span class="fc" id="L60">    }</span>
+
+    /**
+     * Validate Number type inputs
+     */
+    public static final void checkValidity(Integer input, Integer max) throws IncorrectInputException {
+<span class="pc bpc" id="L66" title="2 of 4 branches missed.">        if(input &lt; 0 || input &gt; max)</span>
+<span class="nc" id="L67">            throw new IncorrectInputException();</span>
+<span class="fc" id="L68">    }</span>
+
+    /**
+     * Validate Number type inputs within range min-max
+     */
+    public static final void checkValidity(Integer input, Integer min, Integer max) throws IncorrectInputException {
+<span class="pc bpc" id="L74" title="2 of 4 branches missed.">        if(input &lt; min || input &gt; max)</span>
+<span class="nc" id="L75">            throw new IncorrectInputException();</span>
+<span class="fc" id="L76">    }</span>
+
+    /**
+     * Verify server-side that the action performed by the clients are valid
+     * @param action to be evaluated
+     * @throws IncorrectInputException if input from clients is not trusted
+     */
+    public static void checkPlayerActionValidity(PlayerAction action) throws IncorrectInputException {
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (action == null)</span>
+<span class="nc" id="L85">            throw new IncorrectInputException();</span>
+<span class="nc" id="L86">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

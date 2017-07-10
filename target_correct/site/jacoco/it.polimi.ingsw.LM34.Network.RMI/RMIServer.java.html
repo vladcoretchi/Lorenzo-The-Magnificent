@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RMIServer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Network.RMI</a> &gt; <span class="el_source">RMIServer.java</span></div><h1>RMIServer.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Network.RMI;
+
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
+
+public class RMIServer implements RMIServerInterface {
+    private static Registry registry;
+    private List&lt;RMIConnection&gt; rmiConnections;
+
+<span class="fc" id="L17">    public RMIServer(Integer port) {</span>
+<span class="fc" id="L18">        registry = null;</span>
+        try {
+<span class="fc" id="L20">            registry = LocateRegistry.createRegistry(port);</span>
+<span class="nc" id="L21">        } catch (RemoteException e) {</span>
+<span class="nc" id="L22">            LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+            try {
+<span class="nc" id="L24">                registry = LocateRegistry.getRegistry(port);</span>
+<span class="nc" id="L25">            } catch (RemoteException ex) {</span>
+<span class="nc" id="L26">                LOGGER.log(Level.WARNING, ex.getMessage(), ex);</span>
+<span class="nc" id="L27">            }</span>
+<span class="fc" id="L28">        }</span>
+
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        if (registry != null) {</span>
+            try {
+<span class="fc" id="L32">                registry.rebind(&quot;RMIServer&quot;, this);</span>
+<span class="fc" id="L33">                UnicastRemoteObject.exportObject(this, port);</span>
+
+<span class="fc" id="L35">                rmiConnections = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L36">            } catch (RemoteException e) {</span>
+<span class="nc" id="L37">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="fc" id="L38">            }</span>
+        }
+<span class="fc" id="L40">    }</span>
+
+    @Override
+    public boolean login(String username, String password, RMIClientInterface clientRMI) {
+<span class="nc" id="L44">        RMIConnection connection = new RMIConnection(clientRMI, this);</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        if (connection.login(username, password)) {</span>
+<span class="nc" id="L46">            rmiConnections.add(connection);</span>
+<span class="nc" id="L47">            return true;</span>
+        } else
+<span class="nc" id="L49">            return false;</span>
+    }
+
+    public void removeClosedConnection(RMIConnection connection) {
+        //directly remove the object is seen as a smell as it might take too long for large collections
+<span class="nc" id="L54">        Integer index = rmiConnections.indexOf(connection);</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if(index &gt;= 0)</span>
+<span class="nc" id="L56">            rmiConnections.remove(index.intValue());</span>
+<span class="nc" id="L57">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

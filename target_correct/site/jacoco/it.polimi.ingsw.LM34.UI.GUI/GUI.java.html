@@ -1,0 +1,1226 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GUI.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.UI.GUI</a> &gt; <span class="el_source">GUI.java</span></div><h1>GUI.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.UI.GUI;
+
+import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.Model.ResourceType;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.*;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
+import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+import it.polimi.ingsw.LM34.Model.Dice;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
+import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Network.Client.AbstractClient;
+import it.polimi.ingsw.LM34.Network.Client.ClientNetworkController;
+import it.polimi.ingsw.LM34.Network.PlayerAction;
+import it.polimi.ingsw.LM34.Network.RMI.RMIClient;
+import it.polimi.ingsw.LM34.Network.Socket.SocketClient;
+import it.polimi.ingsw.LM34.UI.GUI.GuiViews.*;
+import it.polimi.ingsw.LM34.UI.UIInterface;
+import it.polimi.ingsw.LM34.Utils.Configurator;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts.*;
+import static it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor.*;
+import static it.polimi.ingsw.LM34.UI.UIConnectionInfo.*;
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
+
+/**
+ * this class implements in graphic mode all method specified by {@link UIInterface}
+ */
+<span class="nc" id="L69">public class GUI extends Application implements UIInterface {</span>
+    private AbstractClient networkClient;
+    private ClientNetworkController networkController;
+    private PersonalBoardView personalBoardView;
+
+    /**
+     * Javafx Component Variables
+     */
+    private Parent root;
+    private Stage primaryStage;
+    private LoginDialog loginDialog;
+    private Stage loginStage;
+    @FXML private TextField username;
+    @FXML private TextField password;
+    @FXML private Label playerLoginError;
+    @FXML private RadioButton rmiChoice;
+    @FXML private RadioButton socketChoice;
+    @FXML private AnchorPane login;
+    @FXML private Group towers;
+    @FXML private Group slots;
+    @FXML private ToggleButton leaderCardActions;
+    @FXML private StackPane faithPosition;
+    @FXML private StackPane faithVictoryPoints;
+
+    /**
+     * Game Objects
+     **/
+    private List&lt;Player&gt; players;
+    private List&lt;ExcommunicationCard&gt; excommunicationCards;
+    private List&lt;Tower&gt; towersSpaces;
+    private WorkingArea productionArea;
+    private WorkingArea harvestArea;
+    private Market market;
+    private CouncilPalace palace;
+    private Map&lt;Integer, Integer&gt; faithPath;
+    private Map&lt;Integer, Integer&gt; mapMilitaryPointsForTerritories;
+    private Map&lt;Integer, Integer&gt; mapCharactersToVictoryPoints;
+    private Map&lt;Integer, Integer&gt; mapTerritoriesToVictoryPoints;
+
+    private PlayerAction playerAction;
+    private CountDownLatch actionLatch;
+
+    private static final String IMAGE_CARD_TRANSPARENT = &quot;images/transparent.png&quot;;
+    private static final String IMAGE_SLOT_TRANSPARENT = &quot;images/transparentSlot.png&quot;;
+    private static final String IMAGE_PAWNS_PATH = &quot;images/pawns/&quot;;
+
+    /**
+     * Start the application
+     *
+     * @param stage
+     * @throws Exception if the JavaFx application cannot be instantiated
+     */
+    @Override
+    public void start(Stage stage) throws Exception {
+<span class="nc" id="L123">        root = FXMLLoader.load(getClass().getClassLoader().getResource(&quot;views/gui.fxml&quot;));</span>
+<span class="nc" id="L124">        this.primaryStage = new Stage();</span>
+<span class="nc" id="L125">        prepareWindow();</span>
+
+<span class="nc" id="L127">        this.playerAction = null;</span>
+<span class="nc" id="L128">    }</span>
+
+    /**
+     * @param bonusTiles that the players has the opportunity to choose one from
+     * @return the bonus tile the player wants to have during the game
+     */
+    @Override
+    public Integer bonusTileSelection(List&lt;BonusTile&gt; bonusTiles) {
+<span class="nc" id="L136">        FutureTask&lt;Integer&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; new BonusTileDialog().interactWithPlayer(bonusTiles));</span>
+<span class="nc" id="L137">        return RunLaterTask(uiTask);</span>
+    }
+
+    /**
+     * @param leaderCards that the players has the opportunity to choose one from
+     * @return the leader the player wants to have as one of his 4 leaders
+     */
+    @Override
+    public Integer leaderCardSelectionPhase(List&lt;LeaderCard&gt; leaderCards) {
+<span class="nc" id="L146">        FutureTask&lt;String&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; new LeaderCardsView().leaderCardSelection(leaderCards));</span>
+<span class="nc" id="L147">        String leaderCardName = RunLaterTask(uiTask);</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        for (int i = 0; i &lt; leaderCards.size(); i++)</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">            if (leaderCards.get(i).getName() == leaderCardName)</span>
+<span class="nc" id="L150">                return i;</span>
+<span class="nc" id="L151">        return -1;</span>
+    }
+
+    /**
+     * Setups the application stage and scene before showing it
+     */
+    private void prepareWindow() {
+<span class="nc" id="L158">        this.primaryStage = new Stage();</span>
+<span class="nc" id="L159">        primaryStage.setWidth(800);</span>
+<span class="nc" id="L160">        primaryStage.setHeight(600);</span>
+<span class="nc" id="L161">        primaryStage.getIcons().add(new Image(Thread.currentThread().getContextClassLoader().getResource(&quot;images/icon.png&quot;).toExternalForm()));</span>
+<span class="nc" id="L162">        primaryStage.setTitle(&quot;Lorenzo il Magnifico - [LM34] - Player: &quot; + this.username.getText());</span>
+<span class="nc" id="L163">        primaryStage.setScene(new Scene(root, primaryStage.getWidth(), primaryStage.getHeight()));</span>
+<span class="nc" id="L164">        primaryStage.setFullScreen(false);</span>
+<span class="nc" id="L165">        primaryStage.setResizable(true);</span>
+<span class="nc" id="L166">        primaryStage.setOnCloseRequest(event -&gt; stop(event));</span>
+<span class="nc" id="L167">        primaryStage.show();</span>
+<span class="nc" id="L168">    }</span>
+
+    /**
+     * Receives the login operation result
+     *
+     * @param result login result
+     */
+    @Override
+    public void loginResult(Boolean result) {
+<span class="nc bnc" id="L177" title="All 2 branches missed.">        if (result) {</span>
+<span class="nc" id="L178">            FutureTask&lt;Void&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+<span class="nc" id="L179">                WaitingAnimation wa = new WaitingAnimation();</span>
+<span class="nc" id="L180">                Scene scene = new Scene(wa, 422, 368);</span>
+<span class="nc" id="L181">                this.loginStage = (Stage) this.username.getScene().getWindow();</span>
+<span class="nc" id="L182">                this.loginStage.setTitle(&quot;Waiting Room&quot;);</span>
+<span class="nc" id="L183">                this.loginStage.setScene(scene);</span>
+<span class="nc" id="L184">                return null;</span>
+            });
+<span class="nc" id="L186">            Platform.runLater(uiTask);</span>
+<span class="nc" id="L187">        } else {</span>
+<span class="nc" id="L188">            FutureTask&lt;Void&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+<span class="nc" id="L189">                playerLoginError.setText(&quot;invalid username or password&quot;);</span>
+<span class="nc" id="L190">                playerLoginError.setVisible(true);</span>
+<span class="nc" id="L191">                return null;</span>
+            });
+
+<span class="nc" id="L194">            Platform.runLater(uiTask);</span>
+        }
+<span class="nc" id="L196">    }</span>
+
+    @Override
+    public void loadExcommunicationCards(List&lt;ExcommunicationCard&gt; excommunicationCards) {
+<span class="nc" id="L200">        this.excommunicationCards = excommunicationCards;</span>
+
+<span class="nc" id="L202">        FutureTask&lt;Void&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+
+            ImageView imageView;
+<span class="nc bnc" id="L205" title="All 2 branches missed.">            for (ExcommunicationCard ex : excommunicationCards) {</span>
+<span class="nc" id="L206">                imageView = (ImageView) root.lookup(&quot;#excommunicationCard&quot; + ex.getPeriod());</span>
+<span class="nc" id="L207">                imageView.setImage(new Image(Thread.currentThread()</span>
+<span class="nc" id="L208">                        .getContextClassLoader().getResource(&quot;images/excommunicationTiles/excomm_&quot; + ex.getPeriod() + &quot;_&quot; + ex.getNumber() + &quot;.png&quot;)</span>
+<span class="nc" id="L209">                        .toExternalForm()));</span>
+<span class="nc" id="L210">            }</span>
+
+<span class="nc" id="L212">            return null;</span>
+        });
+<span class="nc" id="L214">        Platform.runLater(uiTask);</span>
+<span class="nc" id="L215">    }</span>
+
+    /**
+     * Show the {@link TowerSlot} rewards and cards stored
+     *
+     * @param towers updated from the server
+     */
+    @Override
+    public void updateTowers(List&lt;Tower&gt; towers) {
+<span class="nc" id="L224">        this.towersSpaces = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L225">        this.towersSpaces = towers;</span>
+
+<span class="nc" id="L227">        FutureTask&lt;Void&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+            ImageView cardView;
+            /**
+             * Register the slots to {@link MouseEvent} so that they will show the
+             * {@link Resources} provided in a {@link PopupSlotBonus}
+             */
+            List&lt;TowerSlot&gt; slotsInTower;
+            ImageView slotView;
+<span class="nc bnc" id="L235" title="All 2 branches missed.">            for (Tower towerSpace : this.towersSpaces) {</span>
+<span class="nc" id="L236">                String cardColor = towerSpace.getCardColor().toString();</span>
+<span class="nc bnc" id="L237" title="All 2 branches missed.">                for (Integer level = 0; level &lt; Configurator.MAX_TOWER_LEVELS; level++) {</span>
+<span class="nc" id="L238">                    TowerSlot towerSlot = towerSpace.getTowerSlots().get(level);</span>
+
+                    /***Load cards***/
+<span class="nc" id="L241">                    cardView = (ImageView) root.lookup(&quot;#tower&quot; + towerSpace.getCardColor().toString() + &quot;_level&quot; + level);</span>
+<span class="nc bnc" id="L242" title="All 2 branches missed.">                    if (towerSlot.getCardStored() != null) {</span>
+<span class="nc" id="L243">                        String devType = towerSlot.getCardStored().getColor().getDevType();</span>
+<span class="nc" id="L244">                        cardView.setImage(new Image(Thread.currentThread()</span>
+<span class="nc" id="L245">                                .getContextClassLoader().getResource(&quot;images/developmentCards/&quot; + devType + &quot;/&quot; + towerSlot.getCardStored().getName() + &quot;.png&quot;)</span>
+<span class="nc" id="L246">                                .toExternalForm()));</span>
+<span class="nc" id="L247">                    } else {</span>
+<span class="nc" id="L248">                        cardView.setImage(new Image(Thread.currentThread()</span>
+<span class="nc" id="L249">                                .getContextClassLoader().getResource(IMAGE_CARD_TRANSPARENT)</span>
+<span class="nc" id="L250">                                .toExternalForm()));</span>
+                    }
+
+                    /***Load bonuses***/
+<span class="nc" id="L254">                    slotView = (ImageView) root.lookup(&quot;#tower&quot; + cardColor + &quot;bonus&quot; + level);</span>
+<span class="nc" id="L255">                    slotView.setOnMouseEntered(new SlotMouseEvent(towerSpace.getTowerSlots().get(level).getResourcesReward()));</span>
+<span class="nc bnc" id="L256" title="All 2 branches missed.">                    if (!towerSlot.getFamilyMembers().isEmpty()) {</span>
+<span class="nc" id="L257">                        PawnColor pawnColor = towerSlot.getFamilyMembers().get(0).getFamilyMemberColor();</span>
+<span class="nc" id="L258">                        slotView.setImage(new Image(Thread.currentThread()</span>
+<span class="nc" id="L259">                                .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + pawnColor.toString() + &quot;.png&quot;).toExternalForm()));</span>
+<span class="nc" id="L260">                    } else</span>
+<span class="nc" id="L261">                        slotView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource(IMAGE_SLOT_TRANSPARENT).toExternalForm()));</span>
+                }
+<span class="nc" id="L263">            }</span>
+<span class="nc" id="L264">            return null;</span>
+        });
+<span class="nc" id="L266">        Platform.runLater(uiTask);</span>
+<span class="nc" id="L267">    }</span>
+
+    @Override
+    public void updateCouncilPalace(CouncilPalace councilPalace) {
+<span class="nc" id="L271">        this.palace = councilPalace;</span>
+
+<span class="nc" id="L273">        FutureTask&lt;Void&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+                /**
+                 * Fill the advanced {@link ActionSlot} with the pawns placed inside
+                 */
+<span class="nc" id="L277">                StackPane palacePane = (StackPane) root.lookup(&quot;#councilPalace&quot;);</span>
+<span class="nc" id="L278">                HBox hSlots = new HBox();</span>
+<span class="nc" id="L279">                hSlots.setSpacing(10);</span>
+                ImageView image;
+<span class="nc" id="L281">                List&lt;FamilyMember&gt; pawnsInPalace = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L282">                ActionSlot palaceSlot = palace.getActionSlot();</span>
+<span class="nc" id="L283">                palacePane.setOnMouseEntered(new SlotMouseEvent(palaceSlot.getResourcesReward()));</span>
+<span class="nc" id="L284">                pawnsInPalace = palaceSlot.getFamilyMembers();</span>
+
+<span class="nc bnc" id="L286" title="All 2 branches missed.">                if (pawnsInPalace.isEmpty())</span>
+<span class="nc" id="L287">                    palacePane.getChildren().removeAll(palacePane.getChildren());</span>
+                else {
+<span class="nc bnc" id="L289" title="All 2 branches missed.">                    for (Integer index = 0; index &lt; pawnsInPalace.size(); index++) {</span>
+<span class="nc" id="L290">                        image = new ImageView();</span>
+<span class="nc" id="L291">                        image = setImage(IMAGE_PAWNS_PATH + pawnsInPalace.get(index).getFamilyMemberColor().toString() + &quot;.png&quot;);</span>
+<span class="nc" id="L292">                        hSlots.getChildren().add(image);</span>
+<span class="nc" id="L293">                        hSlots.setHgrow(image, Priority.ALWAYS);</span>
+                    }
+<span class="nc" id="L295">                    palacePane.getChildren().add(hSlots);</span>
+                }
+<span class="nc" id="L297">            return null;</span>
+        });
+<span class="nc" id="L299">        Platform.runLater(uiTask);</span>
+<span class="nc" id="L300">    }</span>
+
+    /**
+     * Shows the rewards that each MarketSlots provides and the {@link FamilyMember} placed in them
+     *
+     * @param market updated from the server
+     */
+    @Override
+    public void updateMarket(Market market) {
+<span class="nc" id="L309">        this.market = market;</span>
+
+<span class="nc" id="L311">        FutureTask&lt;Void&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+            PawnColor pawnColor;
+
+<span class="nc" id="L314">            List&lt;ActionSlot&gt; marketSlots = this.market.getActionSlots();</span>
+<span class="nc bnc" id="L315" title="All 2 branches missed.">            for (Integer index = 0; index &lt; marketSlots.size(); index++) {</span>
+<span class="nc" id="L316">                ImageView slotView = (ImageView) root.lookup(&quot;#marketActionSlot&quot; + index);</span>
+<span class="nc" id="L317">                slotView.setOnMouseEntered(new SlotMouseEvent(marketSlots.get(index).getResourcesReward()));</span>
+
+<span class="nc bnc" id="L319" title="All 2 branches missed.">                if (!marketSlots.get(index).getFamilyMembers().isEmpty()) {</span>
+<span class="nc" id="L320">                    pawnColor = marketSlots.get(index).getFamilyMembers().get(0).getFamilyMemberColor();</span>
+<span class="nc" id="L321">                    slotView.setImage(new Image(Thread.currentThread()</span>
+<span class="nc" id="L322">                            .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + pawnColor.toString() + &quot;.png&quot;).toExternalForm()));</span>
+                } else
+<span class="nc" id="L324">                    slotView.setImage(new Image(Thread.currentThread().getContextClassLoader().getResource(IMAGE_SLOT_TRANSPARENT).toExternalForm()));</span>
+            }
+
+<span class="nc" id="L327">            return null;</span>
+        });
+<span class="nc" id="L329">        Platform.runLater(uiTask);</span>
+<span class="nc" id="L330">    }</span>
+
+    /**
+     * Shows the {@link FamilyMember} placed in it
+     *
+     * @param productionArea updated from the server
+     */
+    @Override
+    public void updateProductionArea(WorkingArea productionArea) {
+<span class="nc" id="L339">        this.productionArea = productionArea;</span>
+
+<span class="nc" id="L341">        FutureTask&lt;Void&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+            /**
+             * Fill the single {@link ActionSlot} with the pawn placed inside
+             */
+<span class="nc" id="L345">            FamilyMember pawnInSingleSlot = null;</span>
+<span class="nc bnc" id="L346" title="All 2 branches missed.">            if (!this.productionArea.getSingleSlot().getFamilyMembers().isEmpty())</span>
+<span class="nc" id="L347">                pawnInSingleSlot = this.productionArea.getSingleSlot().getFamilyMembers().get(0);</span>
+
+<span class="nc" id="L349">            ImageView imageSingle = (ImageView) root.lookup(&quot;#productionArea&quot; + 0);</span>
+
+<span class="nc bnc" id="L351" title="All 2 branches missed.">            if (pawnInSingleSlot != null) {</span>
+<span class="nc" id="L352">                imageSingle.setImage(new Image(Thread.currentThread()</span>
+<span class="nc" id="L353">                        .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + pawnInSingleSlot.getFamilyMemberColor().toString() + &quot;.png&quot;)</span>
+<span class="nc" id="L354">                        .toExternalForm()));</span>
+            } else
+<span class="nc" id="L356">                imageSingle.setImage(new Image(Thread.currentThread()</span>
+<span class="nc" id="L357">                        .getContextClassLoader().getResource(IMAGE_SLOT_TRANSPARENT)</span>
+<span class="nc" id="L358">                        .toExternalForm()));</span>
+            /**
+             * Fill the advanced {@link ActionSlot} with the pawns placed inside
+             */
+<span class="nc" id="L362">            StackPane advancedSlot = (StackPane) root.lookup(&quot;#productionArea&quot; + 1);</span>
+<span class="nc" id="L363">            HBox hSlots = new HBox();</span>
+<span class="nc" id="L364">            hSlots.setSpacing(10);</span>
+            ImageView image;
+<span class="nc" id="L366">            List&lt;FamilyMember&gt; pawnsInAdvancedSlot = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L367">            pawnsInAdvancedSlot = this.productionArea.getAdvancedSlot().getFamilyMembers();</span>
+
+<span class="nc bnc" id="L369" title="All 2 branches missed.">            if (pawnsInAdvancedSlot.isEmpty())</span>
+<span class="nc" id="L370">                advancedSlot.getChildren().removeAll(advancedSlot.getChildren());</span>
+            else {
+<span class="nc bnc" id="L372" title="All 2 branches missed.">                for (Integer index = 0; index &lt; pawnsInAdvancedSlot.size(); index++) {</span>
+<span class="nc" id="L373">                    image = new ImageView();</span>
+<span class="nc" id="L374">                    image = setImage(IMAGE_PAWNS_PATH + pawnsInAdvancedSlot.get(index).getFamilyMemberColor().toString() + &quot;.png&quot;);</span>
+<span class="nc" id="L375">                    hSlots.getChildren().add(image);</span>
+<span class="nc" id="L376">                    hSlots.setHgrow(image, Priority.ALWAYS);</span>
+                }
+<span class="nc" id="L378">                advancedSlot.getChildren().add(hSlots);</span>
+            }
+
+<span class="nc" id="L381">            return null;</span>
+        });
+<span class="nc" id="L383">        Platform.runLater(uiTask);</span>
+<span class="nc" id="L384">    }</span>
+
+    /**
+     * Shows the {@link FamilyMember} placed in it
+     *
+     * @param harvestArea updated from the server
+     */
+    @Override
+    public void updateHarvestArea(WorkingArea harvestArea) {
+<span class="nc" id="L393">        this.harvestArea = harvestArea;</span>
+
+<span class="nc" id="L395">        FutureTask&lt;Void&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+            /**
+             * Fill the single {@link ActionSlot} with the pawn placed inside
+             */
+<span class="nc" id="L399">            FamilyMember pawnInSingleSlot = null;</span>
+<span class="nc bnc" id="L400" title="All 2 branches missed.">            if (!this.harvestArea.getSingleSlot().getFamilyMembers().isEmpty())</span>
+<span class="nc" id="L401">                pawnInSingleSlot = this.harvestArea.getSingleSlot().getFamilyMembers().get(0);</span>
+<span class="nc" id="L402">            ImageView imageSingle = (ImageView) root.lookup(&quot;#harvestArea&quot; + 0);</span>
+<span class="nc bnc" id="L403" title="All 2 branches missed.">            if (pawnInSingleSlot != null) {</span>
+<span class="nc" id="L404">                imageSingle.setImage(new Image(Thread.currentThread()</span>
+<span class="nc" id="L405">                        .getContextClassLoader().getResource(IMAGE_PAWNS_PATH + pawnInSingleSlot.getFamilyMemberColor().toString() + &quot;.png&quot;)</span>
+<span class="nc" id="L406">                        .toExternalForm()));</span>
+            } else
+<span class="nc" id="L408">                imageSingle.setImage(new Image(Thread.currentThread()</span>
+<span class="nc" id="L409">                        .getContextClassLoader().getResource(IMAGE_SLOT_TRANSPARENT)</span>
+<span class="nc" id="L410">                        .toExternalForm()));</span>
+
+            /**
+             * Fill the advanced {@link ActionSlot} with the pawns placed inside
+             */
+<span class="nc" id="L415">            StackPane advancedSlot = (StackPane) root.lookup(&quot;#harvestArea&quot; + 1);</span>
+<span class="nc" id="L416">            HBox hSlots = new HBox();</span>
+<span class="nc" id="L417">            hSlots.setSpacing(10);</span>
+            ImageView image;
+<span class="nc" id="L419">            List&lt;FamilyMember&gt; pawnsInAdvancedSlot = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L420">            pawnsInAdvancedSlot = this.harvestArea.getAdvancedSlot().getFamilyMembers();</span>
+
+<span class="nc bnc" id="L422" title="All 2 branches missed.">            if (pawnsInAdvancedSlot.isEmpty())</span>
+<span class="nc" id="L423">                advancedSlot.getChildren().removeAll(advancedSlot.getChildren());</span>
+            else {
+<span class="nc bnc" id="L425" title="All 2 branches missed.">                for (Integer index = 0; index &lt; pawnsInAdvancedSlot.size(); index++) {</span>
+<span class="nc" id="L426">                    image = new ImageView();</span>
+<span class="nc" id="L427">                    image = setImage(IMAGE_PAWNS_PATH + pawnsInAdvancedSlot.get(index).getFamilyMemberColor().toString() + &quot;.png&quot;);</span>
+<span class="nc" id="L428">                    hSlots.getChildren().add(image);</span>
+<span class="nc" id="L429">                    hSlots.setHgrow(image, Priority.ALWAYS);</span>
+                }
+<span class="nc" id="L431">                advancedSlot.getChildren().add(hSlots);</span>
+            }
+<span class="nc" id="L433">            return null;</span>
+        });
+<span class="nc" id="L435">        Platform.runLater(uiTask);</span>
+<span class="nc" id="L436">    }</span>
+
+    /**
+     * Shows the info about each player in game including name, color, cards, resources
+     *
+     * @param players informations updated from the server
+     */
+    @Override
+    public void updatePlayersData(List&lt;Player&gt; players) {
+<span class="nc" id="L445">        this.players = players;</span>
+
+<span class="nc" id="L447">        FutureTask&lt;Void&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+            Pane playerInfo;
+            Label playerName;
+            Text value;
+            DropShadow borderGlow;
+<span class="nc" id="L452">            Integer numPlayer = 1;</span>
+
+<span class="nc bnc" id="L454" title="All 2 branches missed.">            for (Player player : this.players) {</span>
+<span class="nc" id="L455">                playerInfo = (Pane) root.lookup(&quot;#playerInfo&quot; + numPlayer);</span>
+<span class="nc" id="L456">                playerInfo.setBackground(new Background(new BackgroundFill(Color.valueOf(player.getPawnColor().toString()), CornerRadii.EMPTY, Insets.EMPTY)));</span>
+<span class="nc" id="L457">                playerInfo.setVisible(true);</span>
+<span class="nc" id="L458">                playerInfo.setManaged(true);</span>
+
+<span class="nc" id="L460">                playerInfo.setOnMouseClicked(new PlayerInfoClickEvent(player));</span>
+
+<span class="nc" id="L462">                playerName = (Label) root.lookup(&quot;#player&quot; + numPlayer);</span>
+<span class="nc" id="L463">                playerName.setText(player.getPlayerName());</span>
+<span class="nc bnc" id="L464" title="All 2 branches missed.">                for (ResourceType resType : ResourceType.values()) {</span>
+<span class="nc" id="L465">                    value = (Text) root.lookup(&quot;#&quot; + resType.toString() + &quot;_player&quot; + numPlayer + &quot;_value&quot;);</span>
+<span class="nc" id="L466">                    value.setText(player.getResources().getResourceByType(resType).toString());</span>
+
+<span class="nc" id="L468">                    borderGlow = new DropShadow();</span>
+<span class="nc" id="L469">                    borderGlow.setOffsetY(0f);</span>
+<span class="nc" id="L470">                    borderGlow.setOffsetX(0f);</span>
+<span class="nc" id="L471">                    borderGlow.setSpread(0.4);</span>
+<span class="nc" id="L472">                    borderGlow.setRadius(25.0);</span>
+<span class="nc" id="L473">                    borderGlow.setColor(Color.WHITE);</span>
+<span class="nc" id="L474">                    borderGlow.setWidth(35);</span>
+<span class="nc" id="L475">                    borderGlow.setHeight(35);</span>
+<span class="nc" id="L476">                    value.setEffect(borderGlow);</span>
+                }
+<span class="nc" id="L478">                numPlayer++;</span>
+<span class="nc" id="L479">            }</span>
+
+<span class="nc" id="L481">            return null;</span>
+        });
+<span class="nc" id="L483">        Platform.runLater(uiTask);</span>
+<span class="nc" id="L484">    }</span>
+
+    /**
+     * Show the values of the 3 dices in the current round
+     *
+     * @param dicesValues updated from the server
+     */
+    @Override
+    public void updateDiceValues(List&lt;Dice&gt; dicesValues) {
+<span class="nc" id="L493">        FutureTask&lt;Void&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+            Text diceSlot;
+<span class="nc bnc" id="L495" title="All 2 branches missed.">            for (Dice dice : dicesValues) {</span>
+<span class="nc" id="L496">                diceSlot = (Text) root.lookup(&quot;#diceSlot&quot; + dice.getColor());</span>
+<span class="nc" id="L497">                diceSlot.setText(dice.getValue().toString());</span>
+<span class="nc" id="L498">            }</span>
+<span class="nc" id="L499">            return null;</span>
+        });
+<span class="nc" id="L501">        Platform.runLater(uiTask);</span>
+<span class="nc" id="L502">    }</span>
+
+    /**
+     * @param familyMembers available to the player
+     * @return familyMember selected from the player
+     */
+    @Override
+    public Integer familyMemberSelection(List&lt;FamilyMember&gt; familyMembers) {
+<span class="nc" id="L510">        FutureTask&lt;Integer&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; new FamilyMemberSelectDialog().interactWithPlayer(primaryStage, familyMembers));</span>
+<span class="nc" id="L511">        return RunLaterTask(uiTask);</span>
+    }
+
+    /**
+     * Let the player choose a leader between the
+     * @param activatedLeadersByOtherPlayers that other players have activated during the game
+     * @return the selected index of the leader to copy
+     */
+    @Override
+    public Integer leaderCardCopy(List&lt;LeaderCard&gt; activatedLeadersByOtherPlayers) {
+<span class="nc" id="L521">        FutureTask&lt;String&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; new LeaderCardsView().leaderCardSelection(activatedLeadersByOtherPlayers));</span>
+<span class="nc" id="L522">        String leaderCardName = RunLaterTask(uiTask);</span>
+<span class="nc bnc" id="L523" title="All 2 branches missed.">        for (int i = 0; i &lt; activatedLeadersByOtherPlayers.size(); i++)</span>
+<span class="nc bnc" id="L524" title="All 2 branches missed.">            if (activatedLeadersByOtherPlayers.get(i).getName() == leaderCardName)</span>
+<span class="nc" id="L525">                return i;</span>
+<span class="nc" id="L526">        return -1;</span>
+    }
+    /**
+     * this method will be called when user need to use some servants to improve his pawn's value
+     * @param servantsAvailable user's available servants
+     * @param minimumServantsRequested minimum number of servants to complete action
+     * @return how many servants user has decided to use
+     */
+    @Override
+    public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
+<span class="nc" id="L536">        FutureTask&lt;Integer&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+            try {
+<span class="nc" id="L538">                return new UseServantsDialog().interactWithPlayer(servantsAvailable, minimumServantsRequested);</span>
+<span class="nc" id="L539">            } catch (Exception e) {</span>
+<span class="nc" id="L540">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L541">                return 1;</span>
+            }
+        });
+<span class="nc" id="L544">        return RunLaterTask(uiTask);</span>
+    }
+
+    /**
+     * @param choices available about resource exchange bonuses
+     * @return the reward opted by the player
+     */
+    @Override
+    public Integer resourceExchangeSelection(List&lt;Pair&lt;Resources, ResourcesBonus&gt;&gt; choices) {
+<span class="nc" id="L553">        FutureTask&lt;Integer&gt; uiTask = new FutureTask&lt;&gt;(</span>
+<span class="nc" id="L554">                () -&gt; new ResourceExchangeDialog().interactWithPlayer(choices));</span>
+<span class="nc" id="L555">        return RunLaterTask(uiTask);</span>
+    }
+
+    /**
+     * @param leaderCards that the game consider the player to have available
+     * @return the leader selected and the action to perform on him
+     */
+    @Override
+    public Pair&lt;String, LeaderCardsAction&gt; leaderCardSelection(List&lt;LeaderCard&gt; leaderCards) {
+<span class="nc" id="L564">        FutureTask&lt;Pair&lt;String, LeaderCardsAction&gt;&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; new LeaderCardsView().interactWithPlayer(leaderCards));</span>
+<span class="nc" id="L565">        return RunLaterTask(uiTask);</span>
+    }
+
+    /**
+     * The Curch Report decision asked from the game to the player
+     * @return the decision of the player
+     */
+    @Override
+    public Boolean churchSupport() {
+<span class="nc" id="L574">        FutureTask&lt;Boolean&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; new ChurchReportDialog().interactWithPlayer());</span>
+<span class="nc" id="L575">        return RunLaterTask(uiTask);</span>
+    }
+
+    /**
+     * @param availableBonuses, set from the game
+     * @return the choice made by the player among the options in input
+     */
+    @Override
+    public Integer selectCouncilPrivilegeBonus(List&lt;Resources&gt; availableBonuses) {
+<span class="nc" id="L584">        FutureTask&lt;Integer&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; new UseCouncilPrivilegeDialog().interactWithPlayer(availableBonuses));</span>
+<span class="nc" id="L585">        return RunLaterTask(uiTask);</span>
+    }
+
+    @Override
+    public void show() {
+<span class="nc" id="L590">        Platform.setImplicitExit(true);</span>
+<span class="nc" id="L591">        loginMenu();</span>
+
+<span class="nc" id="L593">    }</span>
+
+    /**
+     * Try to login to the server
+     * if things goes wrong show a message inside the {@link LoginDialog}
+     */
+    public void doLogin() {
+<span class="nc" id="L600">        playerLoginError.setVisible(false);</span>
+
+<span class="nc" id="L602">        String playerUsername = username.getText();</span>
+<span class="nc" id="L603">        String playerPassword = password.getText();</span>
+
+<span class="nc bnc" id="L605" title="All 4 branches missed.">        if(&quot;&quot;.equals(playerUsername) || &quot;&quot;.equals(playerPassword)) {</span>
+
+<span class="nc" id="L607">            playerLoginError.setText(&quot;username and password fields\ncannot be left blank&quot;);</span>
+
+<span class="nc" id="L609">            playerLoginError.setVisible(true);</span>
+        }
+
+        else {
+
+<span class="nc bnc" id="L614" title="All 2 branches missed.">            if (rmiChoice.isSelected())</span>
+<span class="nc" id="L615">                this.networkClient = new RMIClient(SERVER_IP, RMI_PORT, this);</span>
+            else
+<span class="nc" id="L617">                this.networkClient = new SocketClient(SERVER_IP, SOCKET_PORT, this);</span>
+
+<span class="nc" id="L619">            this.networkController = this.networkClient.getNetworkController();</span>
+
+<span class="nc" id="L621">            this.networkClient.login(playerUsername, playerPassword);</span>
+        }
+<span class="nc" id="L623">    }</span>
+
+    /**
+     * Login Menu shown before starting to visualize the gameboard
+     */
+    @Override
+    public void loginMenu() {
+<span class="nc" id="L630">        this.loginDialog = new LoginDialog();</span>
+<span class="nc" id="L631">        this.loginDialog.show();</span>
+<span class="nc" id="L632">    }</span>
+
+    @Override
+    public void startGame() {
+<span class="nc" id="L636">        FutureTask&lt;Void&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+<span class="nc" id="L637">            this.loginStage.hide();</span>
+<span class="nc" id="L638">            this.loginStage.close();</span>
+<span class="nc" id="L639">            this.start(new Stage());</span>
+<span class="nc" id="L640">            return null;</span>
+        });
+<span class="nc" id="L642">        RunLaterTask(uiTask);</span>
+<span class="nc" id="L643">    }</span>
+
+    /**
+     * Adds the click event on the Pass Turn button
+     * @param latch countdown latch for the action
+     * @param action return PlayerAction
+     */
+    private void passTurnClickEvent(CountDownLatch latch, PlayerAction action) {
+        /*Set the listener on the passTurn button*/
+<span class="nc" id="L652">        Button endTurn = (Button) root.lookup(&quot;#endTurn&quot;);</span>
+<span class="nc" id="L653">        endTurn.setOnMouseClicked(new EndTurnClick(latch, action));</span>
+<span class="nc" id="L654">    }</span>
+
+    /**
+     * Adds the click event on the Leader button
+     * @param latch countdown latch for the action
+     * @param action return PlayerAction
+     */
+    private void leaderClickEvent(CountDownLatch latch, PlayerAction action) {
+        /*Set the listener on the leader button*/
+<span class="nc" id="L663">        Button leaderButton = (Button) root.lookup(&quot;#leaderCardAction&quot;);</span>
+<span class="nc" id="L664">        leaderButton.setOnMouseClicked(new LeaderButtonClickEvent(latch, action));</span>
+<span class="nc" id="L665">    }</span>
+
+    /**
+     * Adds the click event on the towers' action slots
+     * @param latch countdown latch for the action
+     * @param action return PlayerAction
+     */
+    private void towersClickEvents(CountDownLatch latch, PlayerAction action) {
+        /*Set the listener on tower slots*/
+<span class="nc bnc" id="L674" title="All 2 branches missed.">        for (Tower towerSpace : this.towersSpaces) {</span>
+<span class="nc" id="L675">            String cardColor = towerSpace.getCardColor().toString();</span>
+<span class="nc bnc" id="L676" title="All 2 branches missed.">            for (Integer level = 0; level &lt; Configurator.MAX_TOWER_LEVELS; level++) {</span>
+<span class="nc" id="L677">                ImageView slotView = (ImageView) root.lookup(&quot;#tower&quot; + cardColor + &quot;bonus&quot; + level);</span>
+<span class="nc" id="L678">                slotView.setOnMouseClicked(new PlacePawn(towerSpace.getTowerSlots().get(level), latch, action));</span>
+            }
+<span class="nc" id="L680">        }</span>
+<span class="nc" id="L681">    }</span>
+
+    /**
+     * Adds the click event on the council palace
+     * @param latch countdown latch for the action
+     * @param action return PlayerAction
+     */
+    private void councilPalaceClickEvent(CountDownLatch latch, PlayerAction action) {
+        /*Set the listener on palace*/
+<span class="nc" id="L690">        StackPane palacePane = (StackPane) root.lookup(&quot;#councilPalace&quot;);</span>
+<span class="nc" id="L691">        palacePane.setOnMouseClicked(new PlacePawn(palace.getActionSlot(), latch, action));</span>
+<span class="nc" id="L692">    }</span>
+
+    /**
+     * Adds the click event on the market's slots
+     * @param latch countdown latch for the action
+     * @param action return PlayerAction
+     */
+    private void marketClickEvent(CountDownLatch latch, PlayerAction action) {
+        /*Set the listener on the market*/
+<span class="nc" id="L701">        List&lt;ActionSlot&gt; marketSlots = this.market.getActionSlots();</span>
+<span class="nc bnc" id="L702" title="All 2 branches missed.">        for (Integer index = 0; index &lt; marketSlots.size(); index++) {</span>
+<span class="nc" id="L703">            ImageView slotView = (ImageView) root.lookup(&quot;#marketActionSlot&quot; + index);</span>
+<span class="nc" id="L704">            slotView.setOnMouseClicked(new PlacePawn(marketSlots.get(index), latch, action));</span>
+        }
+<span class="nc" id="L706">    }</span>
+
+    /**
+     * Adds the click event on the harvest area's slots
+     * @param latch countdown latch for the action
+     * @param action return PlayerAction
+     */
+    private void harvestAreaClickEvent(CountDownLatch latch, PlayerAction action) {
+        /*Set the listener on harvest area*/
+<span class="nc" id="L715">        ImageView harvestSingle = (ImageView) root.lookup(&quot;#harvestArea&quot; + 0);</span>
+<span class="nc" id="L716">        harvestSingle.setOnMouseClicked(new PlacePawn(this.harvestArea.getSingleSlot(), latch, action));</span>
+
+<span class="nc" id="L718">        StackPane harvestAdvanced = (StackPane) root.lookup(&quot;#harvestArea&quot; + 1);</span>
+<span class="nc" id="L719">        harvestAdvanced.setOnMouseClicked(new PlacePawn(this.harvestArea.getAdvancedSlot(), latch, action));</span>
+<span class="nc" id="L720">    }</span>
+
+    /**
+     * Adds the click event on the production area's slots
+     * @param latch countdown latch for the action
+     * @param action return PlayerAction
+     */
+    private void productionAreaClickEvent(CountDownLatch latch, PlayerAction action) {
+        /*Set the listener on production area*/
+<span class="nc" id="L729">        ImageView productionSingle = (ImageView) root.lookup(&quot;#productionArea&quot; + 0);</span>
+<span class="nc" id="L730">        productionSingle.setOnMouseClicked(new PlacePawn(this.productionArea.getSingleSlot(), latch, action));</span>
+
+<span class="nc" id="L732">        StackPane productionAdvanced = (StackPane) root.lookup(&quot;#productionArea&quot; + 1);</span>
+<span class="nc" id="L733">        productionAdvanced.setOnMouseClicked(new PlacePawn(this.productionArea.getAdvancedSlot(), latch, action));</span>
+<span class="nc" id="L734">    }</span>
+
+    private void waitForPlayerAction(FutureTask&lt;CountDownLatch&gt; uiTaskAction) {
+        try {
+<span class="nc" id="L738">            CountDownLatch waitLatch = RunLaterTask(uiTaskAction);</span>
+<span class="nc bnc" id="L739" title="All 2 branches missed.">            if(waitLatch != null)</span>
+<span class="nc" id="L740">                waitLatch.await();</span>
+<span class="nc" id="L741">        } catch (InterruptedException e) {</span>
+<span class="nc" id="L742">            LOGGER.log(Level.INFO, e.getMessage(), e);</span>
+<span class="nc" id="L743">            Thread.currentThread().interrupt();</span>
+<span class="nc" id="L744">        }</span>
+<span class="nc" id="L745">    }</span>
+
+    /**
+     * Main action of a turn performed by the player
+     * @param lastActionValid if the server has invalidated the action of the player, this object
+     * contains the detailed information to display to the player in an informative popup
+     * @return the {@link PlayerAction} to send to the server
+     */
+    @Override
+    public PlayerAction turnMainAction(Optional&lt;Exception&gt; lastActionValid) {
+<span class="nc" id="L755">        FutureTask&lt;CountDownLatch&gt; uiTaskActionInit = new FutureTask&lt;&gt;(() -&gt; {</span>
+<span class="nc" id="L756">            this.playerAction = new PlayerAction();</span>
+<span class="nc" id="L757">            this.actionLatch = new CountDownLatch(1);</span>
+
+            /*Show the player a popup indicating that the last action he did was not valid
+            and what went wrong with it*/
+<span class="nc" id="L761">            lastActionValid.ifPresent( invalidAction -&gt;</span>
+<span class="nc" id="L762">                    new LastActionInvalid().interactWithPlayer(invalidAction.getMessage())</span>
+            );
+
+            /*activate click listeners*/
+<span class="nc" id="L766">            passTurnClickEvent(this.actionLatch, this.playerAction);</span>
+<span class="nc" id="L767">            leaderClickEvent(this.actionLatch, this.playerAction);</span>
+<span class="nc" id="L768">            towersClickEvents(this.actionLatch, this.playerAction);</span>
+<span class="nc" id="L769">            councilPalaceClickEvent(this.actionLatch, this.playerAction);</span>
+<span class="nc" id="L770">            marketClickEvent(this.actionLatch, this.playerAction);</span>
+<span class="nc" id="L771">            harvestAreaClickEvent(this.actionLatch, this.playerAction);</span>
+<span class="nc" id="L772">            productionAreaClickEvent(this.actionLatch, this.playerAction);</span>
+
+<span class="nc" id="L774">            return this.actionLatch;</span>
+        });
+
+<span class="nc" id="L777">        waitForPlayerAction(uiTaskActionInit);</span>
+<span class="nc" id="L778">        FutureTask&lt;PlayerAction&gt; uiTaskActionResult = new FutureTask&lt;&gt;(() -&gt; this.playerAction);</span>
+<span class="nc" id="L779">        return RunLaterTask(uiTaskActionResult);</span>
+    }
+
+    @Override
+    public PlayerAction turnSecondaryAction(Optional&lt;Exception&gt; lastActionValid) {
+<span class="nc" id="L784">        FutureTask&lt;CountDownLatch&gt; uiTaskActionInit = new FutureTask&lt;&gt;(() -&gt; {</span>
+<span class="nc" id="L785">            this.playerAction = new PlayerAction();</span>
+<span class="nc" id="L786">            this.actionLatch = new CountDownLatch(1);</span>
+
+<span class="nc bnc" id="L788" title="All 2 branches missed.">            if(lastActionValid.isPresent())</span>
+                /*Show the player a popup indicating that the last action he did was not valid
+                and what went wrong with it*/
+<span class="nc" id="L791">                new LastActionInvalid().interactWithPlayer(lastActionValid.get().getMessage());</span>
+            else
+                /*Informs the player of the secondary action*/
+<span class="nc" id="L794">                new GenericPopup().show(&quot;Secondary Action&quot;,</span>
+                        &quot;You can perform a secondary action&quot;,
+                        &quot;You can play or discard a leader card or end the turn&quot;);
+
+            /*activate click listeners*/
+<span class="nc" id="L799">            leaderClickEvent(this.actionLatch, this.playerAction);</span>
+<span class="nc" id="L800">            passTurnClickEvent(this.actionLatch, this.playerAction);</span>
+
+<span class="nc" id="L802">            return this.actionLatch;</span>
+        });
+
+<span class="nc" id="L805">        waitForPlayerAction(uiTaskActionInit);</span>
+<span class="nc" id="L806">        FutureTask&lt;PlayerAction&gt; uiTaskActionResult = new FutureTask&lt;&gt;(() -&gt; this.playerAction);</span>
+<span class="nc" id="L807">        return RunLaterTask(uiTaskActionResult);</span>
+    }
+
+    @Override
+    public PlayerAction freeAction(PlayerAction action, Optional&lt;Exception&gt; lastActionValid) {
+<span class="nc" id="L812">        FutureTask&lt;CountDownLatch&gt; uiTaskActionInit = new FutureTask&lt;&gt;(() -&gt; {</span>
+            try {
+<span class="nc" id="L814">                this.playerAction = new PlayerAction();</span>
+<span class="nc" id="L815">                this.actionLatch = new CountDownLatch(1);</span>
+
+<span class="nc bnc" id="L817" title="All 2 branches missed.">                if(lastActionValid.isPresent())</span>
+                /*Show the player a popup indicating that the last action he did was not valid
+                and what went wrong with it*/
+<span class="nc" id="L820">                    new LastActionInvalid().interactWithPlayer(lastActionValid.get().getMessage());</span>
+                else {
+                    try {
+                        String actionExplanation;
+<span class="nc bnc" id="L824" title="All 3 branches missed.">                        switch (action.getContext()) {</span>
+                            case TOWERS_CONTEXT:
+<span class="nc" id="L826">                                Pair&lt;?, ?&gt; generic = (Pair&lt;?, ?&gt;) action.getAction();</span>
+<span class="nc" id="L827">                                Pair&lt;DevelopmentCardColor, Integer&gt; actionValue = new ImmutablePair&lt;&gt;((DevelopmentCardColor) generic.getLeft(), (Integer) generic.getRight());</span>
+<span class="nc" id="L828">                                actionExplanation = String.format(&quot;%1$s (card: %2$s; value: %3$d)&quot;, action.getContext().toString(), actionValue.getLeft().getDevType(), actionValue.getRight());</span>
+<span class="nc" id="L829">                                break;</span>
+                            case HARVEST_AREA_CONTEXT:
+                            case PRODUCTION_AREA_CONTEXT:
+<span class="nc" id="L832">                                actionExplanation = String.format(&quot;%1$s, (value %2$d)&quot;, action.getContext().toString(), (Integer) action.getAction());</span>
+<span class="nc" id="L833">                                break;</span>
+                            default:
+<span class="nc" id="L835">                                actionExplanation = null;</span>
+                        }
+
+<span class="nc bnc" id="L838" title="All 2 branches missed.">                        if(actionExplanation != null)</span>
+                            /*Informs the player of the free action*/
+<span class="nc" id="L840">                            new GenericPopup().show(&quot;Free Action&quot;,</span>
+                                    &quot;You can perform a free action&quot;,
+<span class="nc" id="L842">                                    String.format(&quot;%1$s%n%2$s&quot;,</span>
+                                            &quot;Based on the bonus of the card you bought, you can perform an action without using a family member&quot;,
+                                            actionExplanation));
+<span class="nc" id="L845">                    } catch (Exception ex) {</span>
+<span class="nc" id="L846">                        LOGGER.log(Level.WARNING, ex.getMessage(), ex);</span>
+<span class="nc" id="L847">                    }</span>
+                }
+
+                /*activate click listeners*/
+<span class="nc" id="L851">                passTurnClickEvent(this.actionLatch, this.playerAction);</span>
+
+<span class="nc bnc" id="L853" title="All 4 branches missed.">                switch (action.getContext()) {</span>
+                    case HARVEST_AREA_CONTEXT:
+<span class="nc" id="L855">                        harvestAreaClickEvent(this.actionLatch, this.playerAction);</span>
+<span class="nc" id="L856">                        break;</span>
+                    case PRODUCTION_AREA_CONTEXT:
+<span class="nc" id="L858">                        productionAreaClickEvent(this.actionLatch, this.playerAction);</span>
+<span class="nc" id="L859">                        break;</span>
+                    case TOWERS_CONTEXT:
+<span class="nc" id="L861">                        towersClickEvents(this.actionLatch, this.playerAction);</span>
+<span class="nc" id="L862">                        break;</span>
+                    default:
+<span class="nc" id="L864">                        this.playerAction = new PlayerAction(null, null);</span>
+<span class="nc" id="L865">                        this.actionLatch = null;</span>
+                        break;
+                }
+
+<span class="nc" id="L869">                return this.actionLatch;</span>
+<span class="nc" id="L870">            }catch(Exception ex) {</span>
+<span class="nc" id="L871">                LOGGER.log(Level.FINEST, ex.getMessage(), ex);</span>
+<span class="nc" id="L872">                return null;</span>
+            }
+        });
+
+<span class="nc" id="L876">        waitForPlayerAction(uiTaskActionInit);</span>
+<span class="nc" id="L877">        FutureTask&lt;PlayerAction&gt; uiTaskActionResult = new FutureTask&lt;&gt;(() -&gt; this.playerAction);</span>
+<span class="nc" id="L878">        return RunLaterTask(uiTaskActionResult);</span>
+    }
+
+    private class EndTurnClick implements  EventHandler&lt;Event&gt; {
+        private CountDownLatch waitLatch;
+        private PlayerAction action;
+
+<span class="nc" id="L885">        public EndTurnClick(CountDownLatch latch, PlayerAction action) {</span>
+<span class="nc" id="L886">            this.waitLatch = latch;</span>
+<span class="nc" id="L887">            this.action = action;</span>
+<span class="nc" id="L888">        }</span>
+
+        @Override
+        public void handle(Event event) {
+            try {
+<span class="nc" id="L893">                this.action.setValues(null, null);</span>
+<span class="nc" id="L894">                this.waitLatch.countDown();</span>
+<span class="nc" id="L895">            } catch (Exception e) {</span>
+<span class="nc" id="L896">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L897">            }</span>
+<span class="nc" id="L898">        }</span>
+    }
+
+    /**
+     * This class is called for the {@link it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard}
+     * that have as an alternative requirement option the payment of MILITARY POINTS
+     */
+    @Override
+    public Boolean alternativeRequirementsPayment() {
+<span class="nc" id="L907">    FutureTask&lt;Boolean&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+<span class="nc" id="L908">            return new AlternativeRequirementPaymentDialog().interactWithPlayer();</span>
+    });
+<span class="nc" id="L910">    return RunLaterTask(uiTask);</span>
+
+    }
+
+    @Override
+    public void loadMapTerritoriesToVictoryPoints(Map&lt;Integer, Integer&gt; mapTerritoriesToVictoryPoints) {
+<span class="nc" id="L916">        this.mapTerritoriesToVictoryPoints = mapTerritoriesToVictoryPoints;</span>
+<span class="nc" id="L917">    }</span>
+
+    @Override
+    public void loadMapMilitaryPointsForTerritories(Map&lt;Integer, Integer&gt; mapVictoryPointsForTerritories) {
+<span class="nc" id="L921">        this.mapMilitaryPointsForTerritories = mapVictoryPointsForTerritories;</span>
+<span class="nc" id="L922">    }</span>
+
+    @Override
+    public void loadMapCharactersToVictoryPoints(Map&lt;Integer, Integer&gt; mapCharactersToVictoryPoints) {
+<span class="nc" id="L926">        this.mapCharactersToVictoryPoints = mapCharactersToVictoryPoints;</span>
+<span class="nc" id="L927">    }</span>
+
+    @Override
+    public void loadFaithPath(Map&lt;Integer, Integer&gt; faithPath) {
+<span class="nc" id="L931">        this.faithPath = faithPath;</span>
+<span class="nc" id="L932">        initializeFaithPath();</span>
+<span class="nc" id="L933">    }</span>
+
+    /**
+     * Receive the action performed by the player and send the infos about the move to the server
+     */
+    private class PlacePawn implements EventHandler&lt;Event&gt; {
+        private ActionSlot slotClicked;
+        private CountDownLatch waitLatch;
+        private PlayerAction action;
+
+<span class="nc" id="L943">        public PlacePawn(ActionSlot slotClicked, CountDownLatch latch, PlayerAction action) {</span>
+<span class="nc" id="L944">            this.slotClicked = slotClicked;</span>
+<span class="nc" id="L945">            this.action = action;</span>
+<span class="nc" id="L946">            this.waitLatch = latch;</span>
+<span class="nc" id="L947">        }</span>
+
+        /**
+         * Construct the {@link PlayerAction} in order to send it to the server
+         * @param event from which to extract the slot clicked
+         */
+        @Override
+        public void handle(Event event) {
+<span class="nc" id="L955">            PlayerAction playerAction = new PlayerAction();</span>
+            /**
+             * Identify the {@link ImageView} or {@link StackPane} that generated the {@link MouseEvent}
+             */
+<span class="nc" id="L959">            Node source = (Node) event.getSource();</span>
+<span class="nc" id="L960">            String slotId = source.getId();</span>
+
+            /**
+             * Extract info about the {@link ActionSlot} or {@link TowerSlot}'s level
+             */
+<span class="nc" id="L965">            Integer level = 0;</span>
+<span class="nc" id="L966">            Pattern patternLevel = Pattern.compile(&quot;\\d&quot;);</span>
+<span class="nc" id="L967">            Matcher matchedLevel = patternLevel.matcher(slotId);</span>
+<span class="nc bnc" id="L968" title="All 2 branches missed.">            while (matchedLevel.find()) {</span>
+<span class="nc" id="L969">                level = Integer.parseInt(matchedLevel.group());</span>
+            }
+<span class="nc bnc" id="L971" title="All 2 branches missed.">            if(slotId.contains(&quot;productionArea&quot;))</span>
+<span class="nc" id="L972">                playerAction = new PlayerAction(PRODUCTION_AREA_CONTEXT, level);</span>
+<span class="nc bnc" id="L973" title="All 2 branches missed.">            else if(slotId.contains(&quot;harvestArea&quot;))</span>
+<span class="nc" id="L974">                playerAction = new PlayerAction(HARVEST_AREA_CONTEXT, level);</span>
+<span class="nc bnc" id="L975" title="All 2 branches missed.">            else if(slotId.contains(&quot;councilPalace&quot;))</span>
+<span class="nc" id="L976">                playerAction = new PlayerAction(COUNCIL_PALACE_CONTEXT, null);</span>
+<span class="nc bnc" id="L977" title="All 2 branches missed.">            else if(slotId.contains(&quot;marketActionSlot&quot;))</span>
+<span class="nc" id="L978">                playerAction = new PlayerAction(MARKET_AREA_CONTEXT, level);</span>
+<span class="nc bnc" id="L979" title="All 2 branches missed.">            else if(slotId.contains(&quot;tower&quot;)) {</span>
+                /**
+                 *Extract info about the {@link it.polimi.ingsw.LM34.Model.Cards.DevelopmentCardDeck}
+                 */
+<span class="nc" id="L983">                Pattern patternColor = Pattern.compile(&quot;[A-Z]+&quot;);</span>
+<span class="nc" id="L984">                Matcher matchedColor = patternColor.matcher(slotId);</span>
+<span class="nc" id="L985">                String color =&quot;&quot;;</span>
+
+<span class="nc bnc" id="L987" title="All 2 branches missed.">                while (matchedColor.find()) {</span>
+<span class="nc" id="L988">                    color = matchedColor.group();</span>
+                }
+
+<span class="nc" id="L991">                DevelopmentCardColor towerType = null;</span>
+<span class="nc bnc" id="L992" title="All 18 branches missed.">                switch(color) {</span>
+<span class="nc" id="L993">                    case &quot;GREEN&quot;: towerType = GREEN;</span>
+<span class="nc" id="L994">                        break;</span>
+<span class="nc" id="L995">                    case &quot;BLUE&quot;: towerType = BLUE;</span>
+<span class="nc" id="L996">                        break;</span>
+<span class="nc" id="L997">                    case &quot;PURPLE&quot;: towerType = PURPLE;</span>
+<span class="nc" id="L998">                        break;</span>
+<span class="nc" id="L999">                    case &quot;YELLOW&quot;: towerType = YELLOW;</span>
+<span class="nc" id="L1000">                        break;</span>
+                    default:
+                        break;
+                }
+                /**
+                 * And now fill the {@link PlayerAction} with the info of the {@link TowerSlot} selected
+                 */
+<span class="nc" id="L1007">                playerAction = new PlayerAction(TOWERS_CONTEXT,</span>
+                                    new ImmutablePair&lt;DevelopmentCardColor, Integer&gt;(towerType, level));
+            }
+
+<span class="nc" id="L1011">            this.action.setValues(playerAction.getContext(), playerAction.getAction());</span>
+<span class="nc" id="L1012">            this.waitLatch.countDown();</span>
+<span class="nc" id="L1013">        }</span>
+    }
+
+    /**
+     * Show games results
+     * @param players in game
+     */
+    @Override
+    public void endGame(List&lt;Player&gt; players) {
+<span class="nc" id="L1022">        FutureTask&lt;Void&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+<span class="nc" id="L1023">            new EndGameDialog(players).start();</span>
+<span class="nc" id="L1024">            return null;</span>
+        });
+<span class="nc" id="L1026">        Platform.runLater(uiTask);</span>
+<span class="nc" id="L1027">    }</span>
+
+    /**
+     * Inform the player that is turn has ended
+     */
+    @Override
+    public void endTurn() {
+<span class="nc" id="L1034">        FutureTask&lt;Void&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+<span class="nc" id="L1035">            new EndTurnPopup().interactWithPlayer();</span>
+<span class="nc" id="L1036">            return null;</span>
+        });
+<span class="nc" id="L1038">        Platform.runLater(uiTask);</span>
+<span class="nc" id="L1039">    }</span>
+
+    /**
+     * Inform the player that he is no more connected to the game
+     */
+    @Override
+    public void disconnectionWarning() {
+<span class="nc" id="L1046">        FutureTask&lt;Void&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+<span class="nc" id="L1047">            new DisconnectionWarning().interactWithPlayer();</span>
+<span class="nc" id="L1048">            return null;</span>
+        });
+<span class="nc" id="L1050">        Platform.runLater(uiTask);</span>
+<span class="nc" id="L1051">    }</span>
+
+    /**
+     * Shows multiple kind of info about players
+     * @param infoType information about a player {@link GameInformationType}
+     * @param playerName the associated player
+     * @param playerColor the color associated to the player to whom the info concerns
+     */
+    @Override
+    public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) {
+<span class="nc" id="L1061">        FutureTask&lt;Void&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+<span class="nc" id="L1062">            new GameInformationDialog().interactWithPlayer(infoType, playerName, playerColor);</span>
+<span class="nc" id="L1063">            return null;</span>
+        });
+<span class="nc" id="L1065">        Platform.runLater(uiTask);</span>
+<span class="nc" id="L1066">    }</span>
+
+    /**
+     * WebView for showing to the user an animation while waiting for other players
+     */
+    private class WaitingAnimation extends Region {
+<span class="nc" id="L1072">        WebView webView = new WebView();</span>
+<span class="nc" id="L1073">        WebEngine webEngine = webView.getEngine();</span>
+
+        /**
+         * Constructor
+         */
+<span class="nc" id="L1078">        public WaitingAnimation(){</span>
+<span class="nc" id="L1079">            webEngine.load(Thread.currentThread().getContextClassLoader().getResource(&quot;LM34Rain.html&quot;).toExternalForm());</span>
+<span class="nc" id="L1080">            webView.setZoom(0.25);</span>
+<span class="nc" id="L1081">            getChildren().add(webView);</span>
+<span class="nc" id="L1082">        }</span>
+    }
+
+    /**
+     * Shows the {@link it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard}
+     * of the {@link Player} {@link Label} clicked
+     */
+    private class PlayerInfoClickEvent implements EventHandler&lt;Event&gt; {
+        private Player player;
+
+<span class="nc" id="L1092">        public PlayerInfoClickEvent(Player player) {</span>
+<span class="nc" id="L1093">            this.player = player;</span>
+<span class="nc" id="L1094">        }</span>
+
+        @Override
+        public void handle(Event event) {
+            try {
+<span class="nc" id="L1099">                personalBoardView = new PersonalBoardView(player, mapTerritoriesToVictoryPoints, mapMilitaryPointsForTerritories, mapCharactersToVictoryPoints);</span>
+<span class="nc" id="L1100">                personalBoardView.start(primaryStage);</span>
+<span class="nc" id="L1101">            } catch (Exception e) {</span>
+<span class="nc" id="L1102">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L1103">            }</span>
+<span class="nc" id="L1104">        }</span>
+    }
+
+    /**
+     * Each slot shows the reward it provides to the player when the MouseEvent is triggered
+     */
+    private class SlotMouseEvent implements EventHandler&lt;Event&gt; {
+        private ResourcesBonus reward;
+
+<span class="nc" id="L1113">        public SlotMouseEvent(ResourcesBonus reward) {</span>
+<span class="nc" id="L1114">            this.reward = reward;</span>
+<span class="nc" id="L1115">        }</span>
+
+        @Override
+        public void handle(Event event) {
+            try {
+<span class="nc" id="L1120">                new PopupSlotBonus((MouseEvent) event, reward).start(primaryStage);</span>
+<span class="nc" id="L1121">            } catch (Exception e) {</span>
+<span class="nc" id="L1122">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L1123">            }</span>
+<span class="nc" id="L1124">        }</span>
+    }
+
+    /**
+     * Notify the server that the player wants to access the leaders available and the action
+     */
+    private class LeaderButtonClickEvent implements EventHandler&lt;Event&gt; {
+        private CountDownLatch waitLatch;
+        private PlayerAction action;
+
+<span class="nc" id="L1134">        public LeaderButtonClickEvent(CountDownLatch latch, PlayerAction action) {</span>
+<span class="nc" id="L1135">            this.waitLatch = latch;</span>
+<span class="nc" id="L1136">            this.action = action;</span>
+<span class="nc" id="L1137">        }</span>
+
+        @Override
+        public void handle(Event event) {
+            try {
+<span class="nc" id="L1142">                this.action.setValues(PlayerSelectableContexts.LEADER_CARDS_CONTEXT, null);</span>
+<span class="nc" id="L1143">                this.waitLatch.countDown();</span>
+<span class="nc" id="L1144">            } catch (Exception e) {</span>
+<span class="nc" id="L1145">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L1146">            }</span>
+<span class="nc" id="L1147">        }</span>
+    }
+
+    /**
+     * @param uiTask to perform in a JavaFx thread
+     */
+        private &lt;T&gt; T RunLaterTask(FutureTask&lt;T&gt; uiTask) {
+<span class="nc" id="L1154">            Platform.runLater(uiTask);</span>
+            try {
+<span class="nc" id="L1156">                return uiTask.get();</span>
+<span class="nc" id="L1157">            } catch (ExecutionException | InterruptedException e) {</span>
+<span class="nc" id="L1158">                LOGGER.log(Level.FINEST, e.getMessage(), e);</span>
+<span class="nc" id="L1159">                return null;</span>
+            }
+        }
+
+    /**
+     * this function will interrupt all Threads and will close the application
+     * @param event this event will be managed when the exit button will be clicked
+     */
+    public void stop(WindowEvent event) {
+<span class="nc" id="L1168">        primaryStage.setOnCloseRequest(event1 -&gt; Platform.exit());</span>
+<span class="nc" id="L1169">        primaryStage.close();</span>
+<span class="nc" id="L1170">        System.exit(0);</span>
+<span class="nc" id="L1171">    }</span>
+
+    /**
+     * A useful method to save lines of code and increase readability and maintainability
+     * @param path to the image to load the rapresentation of the game compoment
+     * @return the {@link ImageView} that shows the image associated to the game component
+     */
+    private ImageView setImage(String path) {
+<span class="nc" id="L1179">        ImageView image = new ImageView();</span>
+<span class="nc" id="L1180">        image.setImage(new Image(Thread.currentThread()</span>
+<span class="nc" id="L1181">                .getContextClassLoader().getResource(path)</span>
+<span class="nc" id="L1182">                .toExternalForm()));</span>
+<span class="nc" id="L1183">        return image;</span>
+    }
+
+    private void initializeFaithPath() {
+<span class="nc" id="L1187">        FutureTask&lt;Void&gt; uiTask = new FutureTask&lt;&gt;(() -&gt; {</span>
+            TextFlow faithPositions;
+            Text faithPositionValue;
+<span class="nc" id="L1190">            Iterator&lt;Map.Entry&lt;Integer, Integer&gt;&gt; iterator = this.faithPath.entrySet().iterator();</span>
+<span class="nc" id="L1191">            Integer i = 0;</span>
+<span class="nc bnc" id="L1192" title="All 2 branches missed.">            while(iterator.hasNext()) {</span>
+<span class="nc" id="L1193">                faithPositions = (TextFlow) root.lookup(&quot;#faithPosition&quot;+ i.toString());</span>
+<span class="nc" id="L1194">                faithPositionValue = new Text(iterator.next().getKey().toString());</span>
+<span class="nc" id="L1195">                faithPositionValue.setStyle(&quot;-fx-background-color: rgba(118,93,29,0.96); -fx-text-fill: rgba(118,93,29,0.96); -fx-font-size: 17&quot;);</span>
+<span class="nc" id="L1196">                faithPositions.getChildren().add(faithPositionValue);</span>
+<span class="nc" id="L1197">                faithPositions.setVisible(true);</span>
+<span class="nc" id="L1198">                i++;</span>
+            }
+
+<span class="nc" id="L1201">            return null;</span>
+        });
+
+<span class="nc" id="L1204">        FutureTask&lt;Void&gt; uiTask1 = new FutureTask&lt;&gt;(() -&gt; {</span>
+            TextFlow faithVictoryPoints;
+            Text faithVictoryPointsValue;
+<span class="nc" id="L1207">            Iterator&lt;Map.Entry&lt;Integer, Integer&gt;&gt; iterator = this.faithPath.entrySet().iterator();</span>
+<span class="nc" id="L1208">            Integer i = 0;</span>
+
+<span class="nc bnc" id="L1210" title="All 2 branches missed.">            while(iterator.hasNext()) {</span>
+<span class="nc" id="L1211">                faithVictoryPoints = (TextFlow) root.lookup(&quot;#faithPoint&quot;+ i.toString());</span>
+<span class="nc" id="L1212">                faithVictoryPointsValue = new Text(iterator.next().getValue().toString());</span>
+<span class="nc" id="L1213">                faithVictoryPointsValue.setStyle(&quot;-fx-background-color: rgba(118,93,29,0.96); -fx-text-fill: rgba(118,93,29,0.96); -fx-font-size: 17&quot;);</span>
+<span class="nc" id="L1214">                faithVictoryPoints.getChildren().add(faithVictoryPointsValue);</span>
+<span class="nc" id="L1215">                faithVictoryPoints.setVisible(true);</span>
+<span class="nc" id="L1216">                i++;</span>
+            }
+
+<span class="nc" id="L1219">            return null;</span>
+        });
+
+<span class="nc" id="L1222">      Platform.runLater(uiTask);</span>
+<span class="nc" id="L1223">      Platform.runLater(uiTask1);</span>
+<span class="nc" id="L1224">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

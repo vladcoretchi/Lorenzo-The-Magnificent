@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Player.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Model</a> &gt; <span class="el_source">Player.java</span></div><h1>Player.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Model;
+
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Enums.Model.DiceColor;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.PersonalBoard;
+import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+public class Player implements Serializable {
+    private static final long serialVersionUID = -6531439439079355880L;
+    
+    private final String playerName;
+    private final PawnColor pawnColor; /*Color of the Pawn associated to the player*/
+    private Boolean connected;
+    private List&lt;FamilyMember&gt;  familyMembers;
+    private Resources resources;
+    private PersonalBoard personalBoard; /**{@link PersonalBoard} cointains the developments cards bought**/
+    private List&lt;LeaderCard&gt; leaderCards;
+    private List&lt;ExcommunicationCard&gt; excommunicationCards; /**Excommunication cards collected by the player during the game**/
+
+
+<span class="fc" id="L29">    public Player(String name, PawnColor pawnColor, PersonalBoard personalBoard) {</span>
+<span class="fc" id="L30">        this.playerName = name;</span>
+<span class="fc" id="L31">        this.pawnColor = pawnColor;</span>
+<span class="fc" id="L32">        this.personalBoard = personalBoard;</span>
+<span class="fc" id="L33">        this.resources = new Resources();</span>
+
+<span class="fc" id="L35">        this.familyMembers = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        for (DiceColor diceColor : DiceColor.values())</span>
+            /*Initialize each FamilyMember with the color of the player*/
+<span class="fc bfc" id="L38" title="All 2 branches covered.">            if(diceColor != DiceColor.DEFAULT)</span>
+<span class="fc" id="L39">                this.familyMembers.add(new FamilyMember(pawnColor, diceColor));</span>
+
+<span class="fc" id="L41">        this.leaderCards = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L42">        this.excommunicationCards = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L44">        this.connected = true;</span>
+<span class="fc" id="L45">    }</span>
+
+    public String getPlayerName() {
+<span class="fc" id="L48">        return this.playerName;</span>
+    }
+
+    public PersonalBoard getPersonalBoard() {
+<span class="fc" id="L52">        return this.personalBoard;</span>
+    }
+
+    public PawnColor getPawnColor() {
+<span class="nc" id="L56">        return this.pawnColor;</span>
+    }
+
+<span class="fc" id="L59">    public Resources getResources() { return this.resources; }</span>
+
+    public List&lt;FamilyMember&gt; getFamilyMembers() {
+<span class="fc" id="L62">        return this.familyMembers;</span>
+    }
+
+    public List&lt;ExcommunicationCard&gt; getExcommunicationCards() {
+<span class="fc" id="L66">        return this.excommunicationCards;</span>
+    }
+
+    /**
+     * @return the {@link LeaderCard s} activated by the player
+     */
+    public List&lt;LeaderCard&gt; getActivatedLeaderCards() {
+<span class="nc" id="L73">        List&lt;LeaderCard&gt; activatedLeaders = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L74">        this.leaderCards.forEach(card -&gt; {</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">            if(card.isActivatedByPlayer())</span>
+<span class="nc" id="L76">                activatedLeaders.add(card);</span>
+<span class="nc" id="L77">        });</span>
+
+<span class="nc" id="L79">        return activatedLeaders;</span>
+    }
+
+    /**
+     * @return the leaders still to be activated or discarded by the player
+     */
+    public List&lt;LeaderCard&gt; getPendingLeaderCards() {
+<span class="fc" id="L86">        List&lt;LeaderCard&gt; leaders = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L87">        this.leaderCards.forEach(card -&gt; {</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">            if(!card.isActivatedByPlayer())</span>
+<span class="fc" id="L89">                leaders.add(card);</span>
+<span class="fc" id="L90">        });</span>
+
+<span class="fc" id="L92">        return leaders;</span>
+    }
+
+    /**
+     * Removes a leader card from the list
+     * @param card card to remove
+     */
+    public void discardLeaderCard(LeaderCard card) {
+<span class="fc" id="L100">        this.leaderCards.remove(card);</span>
+<span class="fc" id="L101">    }</span>
+
+    /**
+     * Adds a card to the list (used when a user copies another user's leader card)
+     * @param card card to add
+     */
+    public void addLeaderCard(LeaderCard card) {
+<span class="fc" id="L108">        this.leaderCards.add(card);</span>
+<span class="fc" id="L109">    }</span>
+
+    /**
+     * Adds 2 {@link Resources}
+     * @param the {@link Resources} to add
+     */
+    public void addResources(Resources res)    {
+<span class="fc" id="L116">        this.resources.sumResources(res);</span>
+<span class="fc" id="L117">    }</span>
+
+    /**
+     * Adds 2 {@link Resources}
+     * @param the {@link Resources} to subtract
+     */
+    public void subResources(Resources res) {
+<span class="nc" id="L124">        this.resources.subResources(res);</span>
+<span class="nc" id="L125">    }</span>
+
+    /**
+     * @param excommunicationCard to add to the player if he gets excommunicated
+     */
+    public void addExcommunicationCards(ExcommunicationCard excommunicationCard) {
+<span class="fc" id="L131">        this.excommunicationCards.add(excommunicationCard);</span>
+<span class="fc" id="L132">    }</span>
+
+    /**
+     * @param resourcesRequired by the action the player wants to perform
+     * @return if the player could perform the action
+     */
+    public Boolean hasEnoughResources (Resources resourcesRequired) {
+<span class="fc" id="L139">        return this.resources.hasEnough(resourcesRequired);</span>
+    }
+
+    /**
+     *
+     * @param cardType type of the card to verify
+     * @param num number of cards that the user should have
+     * @return if the user has a defined number (or more) of cards of a type
+     */
+    public Boolean hasEnoughCardsOfType(DevelopmentCardColor cardType, Integer num) {
+<span class="fc" id="L149">        Optional&lt;List&lt;AbstractDevelopmentCard&gt;&gt; cards = Optional.empty();</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">        if(cardType != null)</span>
+<span class="fc" id="L151">            cards = this.getPersonalBoard().getDevelopmentCardsByType(cardType);</span>
+<span class="pc bpc" id="L152" title="1 of 4 branches missed.">        return (cards.isPresent() &amp;&amp; cards.get().size() &gt;= num);</span>
+    }
+
+    public List&lt;FamilyMember&gt; getAvailableFamilyMembers() {
+<span class="nc" id="L156">        List&lt;FamilyMember&gt; availablePawns = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L157">        this.familyMembers.forEach(pawn -&gt; {</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">            if(!pawn.isUsed())</span>
+<span class="nc" id="L159">                availablePawns.add(pawn);</span>
+<span class="nc" id="L160">        });</span>
+
+<span class="nc" id="L162">        return availablePawns;</span>
+    }
+
+    /**
+     * Indicates if the player is or not connected
+     * @return player's connection state
+     */
+    public Boolean isConnected() {
+<span class="fc" id="L170">        return this.connected;</span>
+    }
+
+    /**
+     * Set the player as disconnected
+     */
+    public void setDisconnected() {
+<span class="nc" id="L177">        this.connected = false;</span>
+
+<span class="nc" id="L179">    }</span>
+
+    /**
+     * Set the player as connected
+     */
+    public void setConncted() {
+<span class="nc" id="L185">        this.connected = true;</span>
+<span class="nc" id="L186">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

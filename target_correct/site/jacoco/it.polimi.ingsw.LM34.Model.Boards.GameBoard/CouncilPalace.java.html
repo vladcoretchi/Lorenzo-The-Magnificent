@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CouncilPalace.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Model.Boards.GameBoard</a> &gt; <span class="el_source">CouncilPalace.java</span></div><h1>CouncilPalace.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
+
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class CouncilPalace implements Serializable {
+    private static final long serialVersionUID = 8486870685805204261L;
+
+    ActionSlot palaceSlot;
+    /**
+     * Group of {@link FamilyMember} in the palace
+     */
+    private List&lt;FamilyMember&gt; occupyingPawns;
+
+<span class="fc" id="L19">    public CouncilPalace(ActionSlot palaceSlot) {</span>
+<span class="fc" id="L20">        occupyingPawns = new ArrayList&lt;FamilyMember&gt;();</span>
+<span class="fc" id="L21">        this.palaceSlot = palaceSlot;</span>
+<span class="fc" id="L22">    }</span>
+
+    public void sweepPalace() {
+<span class="fc" id="L25">        this.palaceSlot.sweep();</span>
+<span class="fc" id="L26">    }</span>
+
+    public ActionSlot getActionSlot() {
+<span class="fc" id="L29">        return palaceSlot;</span>
+    }
+
+    public void addFamilyMember(FamilyMember fm) {
+<span class="nc" id="L33">        this.palaceSlot.insertFamilyMemberIgnoringSlotLimit(fm);</span>
+<span class="nc" id="L34">    }</span>
+
+    public List&lt;PawnColor&gt; getPlayersOrder() {
+<span class="nc" id="L37">        List&lt;PawnColor&gt; returnList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L38">        this.palaceSlot.getFamilyMembers().forEach((fm) -&gt; {</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">            if(!returnList.contains(fm.getFamilyMemberColor()))</span>
+<span class="nc" id="L40">                returnList.add(PawnColor.valueOf(fm.getFamilyMemberColor().name()));</span>
+<span class="nc" id="L41">        });</span>
+<span class="nc" id="L42">        return  returnList;</span>
+    }
+}
+
+			
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

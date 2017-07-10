@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Tower.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Model.Boards.GameBoard</a> &gt; <span class="el_source">Tower.java</span></div><h1>Tower.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Model.Boards.GameBoard;
+
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+import it.polimi.ingsw.LM34.Model.Cards.AbstractDevelopmentCard;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Tower implements Serializable {
+    private static final long serialVersionUID = -513834504315922843L;
+
+    private DevelopmentCardColor cardColor;
+    private List&lt;TowerSlot&gt; slots;
+
+    /**
+     * @param cardColor of the tower
+     * @param slotsToLoad in the tower
+     */
+<span class="fc" id="L20">    public Tower (DevelopmentCardColor cardColor, List&lt;TowerSlot&gt; slotsToLoad) {</span>
+<span class="fc" id="L21">        this.cardColor = cardColor;</span>
+<span class="fc" id="L22">        this.slots = slotsToLoad;</span>
+<span class="fc" id="L23">    }</span>
+
+    /**
+     * @return the type of development cards that are stored in this tower
+     */
+<span class="nc" id="L28">    public DevelopmentCardColor getCardColor() {return cardColor;}</span>
+
+    /**
+     *
+     * @param card to be added to this tower based on the first available {@link TowerSlot}
+     */
+    public void addCard (AbstractDevelopmentCard card) {
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        for (int i = 0; i &lt; this.slots.size(); i++)</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">            if (!this.slots.get(i).hasCard()) {</span>
+<span class="fc" id="L37">                this.slots.get(i).setCardStored(card);</span>
+<span class="fc" id="L38">                return;</span>
+            }
+<span class="nc" id="L40">    }</span>
+
+    /**
+     * Call to check if a column has already a familyMember inside so that a 3 coins penalty is activated
+     */
+    public boolean isTowerEmpty() {
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        for (int i = 0; i &lt; this.slots.size(); i++)</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">            if(!this.slots.get(i).isEmpty())</span>
+<span class="nc" id="L48">                return false;</span>
+
+<span class="fc" id="L50">        return true;</span>
+    }
+
+    /**
+     * Sweep the tower at the end of a round
+     */
+    public void sweep() {
+<span class="fc" id="L57">        this.slots.forEach(TowerSlot::sweepTowerSlot);</span>
+<span class="fc" id="L58">    }</span>
+
+    public DevelopmentCardColor getDevelopmentTypeStored() {
+<span class="fc" id="L61">        return this.cardColor;</span>
+    }
+
+    /**
+     * @return all the card stored in the tower
+     */
+    public List&lt;AbstractDevelopmentCard&gt; getCardsStored() {
+<span class="fc" id="L68">        List&lt;AbstractDevelopmentCard&gt; cardsStoredInTower = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L69">        this.slots.forEach(slot -&gt; {</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            if(slot.getCardStored() != null)</span>
+<span class="fc" id="L71">                cardsStoredInTower.add(slot.getCardStored());</span>
+<span class="fc" id="L72">        });</span>
+<span class="fc" id="L73">        return cardsStoredInTower;</span>
+    }
+
+    public List&lt;TowerSlot&gt; getTowerSlots() {
+<span class="nc" id="L77">        return this.slots;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

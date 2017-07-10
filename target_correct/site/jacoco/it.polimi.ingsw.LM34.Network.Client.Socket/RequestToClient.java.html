@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RequestToClient.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Network.Client.Socket</a> &gt; <span class="el_source">RequestToClient.java</span></div><h1>RequestToClient.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Network.Client.Socket;
+
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
+import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+import it.polimi.ingsw.LM34.Model.Dice;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
+import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Network.PlayerAction;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
+
+/**
+ * Created by vladc on 5/28/2017.
+ * inspired by https://stackoverflow.com/questions/12935709/call-a-specific-method-based-on-enum-type
+ */
+<span class="nc" id="L32">public enum RequestToClient {</span>
+<span class="nc" id="L33">    LOGIN {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L37">                Boolean loginResult = socketConnection.getInputStream().readBoolean();</span>
+
+<span class="nc" id="L39">                socketConnection.getNetworkController().loginResult(loginResult);</span>
+<span class="nc" id="L40">            } catch (IOException e) {</span>
+<span class="nc" id="L41">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L42">            }</span>
+<span class="nc" id="L43">        }</span>
+    },
+<span class="nc" id="L45">    LOAD_MAP_TERRITORIES_TO_VICTORY_POINTS {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L49">                Map&lt;Integer, Integer&gt; mapTerritoriesToVictoryPoints = (Map&lt;Integer, Integer&gt;) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L51">                socketConnection.loadMapTerritoriesToVictoryPoints(mapTerritoriesToVictoryPoints);</span>
+<span class="nc" id="L52">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L53">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L54">            }</span>
+<span class="nc" id="L55">        }</span>
+    },
+<span class="nc" id="L57">    LOAD_MAP_MILITARY_POINTS_FOR_TERRITORIES {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L61">                Map&lt;Integer, Integer&gt; mapMilitaryPointsForTerritories = (Map&lt;Integer, Integer&gt;) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L63">                socketConnection.loadMapMilitaryPointsForTerritories(mapMilitaryPointsForTerritories);</span>
+<span class="nc" id="L64">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L65">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L66">            }</span>
+<span class="nc" id="L67">        }</span>
+    },
+<span class="nc" id="L69">    LOAD_MAP_CHARACTERS_TO_VICTORY_POINTS {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L73">                Map&lt;Integer, Integer&gt; mapCharactersToVictoryPoints = (Map&lt;Integer, Integer&gt;) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L75">                socketConnection.loadMapCharactersToVictoryPoints(mapCharactersToVictoryPoints);</span>
+<span class="nc" id="L76">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L77">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L78">            }</span>
+<span class="nc" id="L79">        }</span>
+    },
+<span class="nc" id="L81">    LOAD_FAITH_PATH {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L85">                Map&lt;Integer, Integer&gt; faithPath = (Map&lt;Integer, Integer&gt;) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L87">                socketConnection.loadFaithPath(faithPath);</span>
+<span class="nc" id="L88">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L89">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L90">            }</span>
+<span class="nc" id="L91">        }</span>
+    },
+<span class="nc" id="L93">    SET_EXCOMMUNICATION_CARDS {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L97">                List&lt;ExcommunicationCard&gt; excommunicationCards = (List&lt;ExcommunicationCard&gt;) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L99">                socketConnection.setExcommunicationCards(excommunicationCards);</span>
+<span class="nc" id="L100">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L101">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L102">            }</span>
+<span class="nc" id="L103">        }</span>
+    },
+<span class="nc" id="L105">    UPDATE_TOWERS {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L109">                List&lt;Tower&gt; towers = (List&lt;Tower&gt;) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L111">                socketConnection.updateTowers(towers);</span>
+<span class="nc" id="L112">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L113">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L114">            }</span>
+<span class="nc" id="L115">        }</span>
+    },
+<span class="nc" id="L117">    UPDATE_COUNCIL_PALACE {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L121">                CouncilPalace councilPalace = (CouncilPalace) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L123">                socketConnection.updateCouncilPalace(councilPalace);</span>
+<span class="nc" id="L124">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L125">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L126">            }</span>
+<span class="nc" id="L127">        }</span>
+    },
+<span class="nc" id="L129">    UPDATE_MARKET {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L133">                Market market = (Market) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L135">                socketConnection.updateMarket(market);</span>
+<span class="nc" id="L136">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L137">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L138">            }</span>
+<span class="nc" id="L139">        }</span>
+    },
+<span class="nc" id="L141">    UPDATE_PRODUCTION_AREA {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L145">                WorkingArea productionArea = (WorkingArea) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L147">                socketConnection.updateProductionArea(productionArea);</span>
+<span class="nc" id="L148">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L149">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L150">            }</span>
+<span class="nc" id="L151">        }</span>
+    },
+<span class="nc" id="L153">    UPDATE_HARVEST_AREA {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L157">                WorkingArea harvestArea = (WorkingArea) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L159">                socketConnection.updateHarvestArea(harvestArea);</span>
+<span class="nc" id="L160">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L161">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L162">            }</span>
+<span class="nc" id="L163">        }</span>
+    },
+<span class="nc" id="L165">    UPDATE_PLAYERS_DATA {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L169">                List&lt;Player&gt; players = (List&lt;Player&gt;) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L171">                socketConnection.updatePlayersData(players);</span>
+<span class="nc" id="L172">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L173">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L174">            }</span>
+<span class="nc" id="L175">        }</span>
+    },
+<span class="nc" id="L177">    UPDATE_DICE_VALUES {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L181">                List&lt;Dice&gt; diceValues = (List&lt;Dice&gt;) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L183">                socketConnection.updateDiceValues(diceValues);</span>
+<span class="nc" id="L184">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L185">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L186">            }</span>
+<span class="nc" id="L187">        }</span>
+    },
+<span class="nc" id="L189">    START_GAME {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+<span class="nc" id="L192">            socketConnection.startGame();</span>
+<span class="nc" id="L193">        }</span>
+    },
+<span class="nc" id="L195">    TURN_MAIN_ACTION {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L199">                Exception lastActionValid = (Exception) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L201">                socketConnection.getOutputStream().reset();</span>
+<span class="nc" id="L202">                socketConnection.getOutputStream().writeObject(socketConnection.turnMainAction(lastActionValid));</span>
+<span class="nc" id="L203">                socketConnection.getOutputStream().flush();</span>
+<span class="nc" id="L204">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L205">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L206">            }</span>
+<span class="nc" id="L207">        }</span>
+    },
+<span class="nc" id="L209">    TURN_SECONDARY_ACTION {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L213">                Exception lastActionValid = (Exception) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L215">                socketConnection.getOutputStream().reset();</span>
+<span class="nc" id="L216">                socketConnection.getOutputStream().writeObject(socketConnection.turnSecondaryAction(lastActionValid));</span>
+<span class="nc" id="L217">                socketConnection.getOutputStream().flush();</span>
+<span class="nc" id="L218">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L219">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L220">            }</span>
+<span class="nc" id="L221">        }</span>
+    },
+<span class="nc" id="L223">    FAMILY_MEMBER_SELECTION {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L227">                List&lt;FamilyMember&gt; familyMembers = (List&lt;FamilyMember&gt;) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L229">                socketConnection.getOutputStream().reset();</span>
+<span class="nc" id="L230">                socketConnection.getOutputStream().writeInt(socketConnection.familyMemberSelection(familyMembers));</span>
+<span class="nc" id="L231">                socketConnection.getOutputStream().flush();</span>
+<span class="nc" id="L232">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L233">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L234">            }</span>
+<span class="nc" id="L235">        }</span>
+    },
+<span class="nc" id="L237">    SERVANTS_SELECTION {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L241">                Integer servantsAvailable = socketConnection.getInputStream().readInt();</span>
+<span class="nc" id="L242">                Integer minimumServantsRequested = socketConnection.getInputStream().readInt();</span>
+
+<span class="nc" id="L244">                socketConnection.getOutputStream().reset();</span>
+<span class="nc" id="L245">                socketConnection.getOutputStream().writeInt(socketConnection.servantsSelection(servantsAvailable, minimumServantsRequested));</span>
+<span class="nc" id="L246">                socketConnection.getOutputStream().flush();</span>
+<span class="nc" id="L247">            } catch (IOException e) {</span>
+<span class="nc" id="L248">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L249">            }</span>
+<span class="nc" id="L250">        }</span>
+    },
+<span class="nc" id="L252">    RESOURCE_EXCHANGE_SELECTION {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L256">                List&lt;Pair&lt;Resources, ResourcesBonus&gt;&gt; choices = (List&lt;Pair&lt;Resources, ResourcesBonus&gt;&gt;) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L258">                socketConnection.getOutputStream().reset();</span>
+<span class="nc" id="L259">                socketConnection.getOutputStream().writeInt(socketConnection.resourceExchangeSelection(choices));</span>
+<span class="nc" id="L260">                socketConnection.getOutputStream().flush();</span>
+<span class="nc" id="L261">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L262">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L263">            }</span>
+<span class="nc" id="L264">        }</span>
+    },
+<span class="nc" id="L266">    LEADER_CARD_SELECTION {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L270">                List&lt;LeaderCard&gt; leaderCards = (List&lt;LeaderCard&gt;) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L272">                socketConnection.getOutputStream().reset();</span>
+<span class="nc" id="L273">                socketConnection.getOutputStream().writeObject(socketConnection.leaderCardSelection(leaderCards));</span>
+<span class="nc" id="L274">                socketConnection.getOutputStream().flush();</span>
+<span class="nc" id="L275">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L276">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L277">            }</span>
+<span class="nc" id="L278">        }</span>
+    },
+<span class="nc" id="L280">    CHURCH_SUPPORT {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L284">                socketConnection.getOutputStream().reset();</span>
+<span class="nc" id="L285">                socketConnection.getOutputStream().writeBoolean(socketConnection.churchSupport());</span>
+<span class="nc" id="L286">                socketConnection.getOutputStream().flush();</span>
+<span class="nc" id="L287">            } catch (IOException e) {</span>
+<span class="nc" id="L288">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L289">            }</span>
+<span class="nc" id="L290">        }</span>
+    },
+<span class="nc" id="L292">    BONUS_TILE_SELECTION {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L296">                List&lt;BonusTile&gt; availableBonusTiles = (List&lt;BonusTile&gt;) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L298">                socketConnection.getOutputStream().reset();</span>
+<span class="nc" id="L299">                socketConnection.getOutputStream().writeInt(socketConnection.bonusTileSelection(availableBonusTiles));</span>
+<span class="nc" id="L300">                socketConnection.getOutputStream().flush();</span>
+<span class="nc" id="L301">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L302">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L303">            }</span>
+<span class="nc" id="L304">        }</span>
+    },
+<span class="nc" id="L306">    LEADER_CARD_SELECTION_PHASE {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L310">                List&lt;LeaderCard&gt; availableLeaderCards = (List&lt;LeaderCard&gt;) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L312">                socketConnection.getOutputStream().reset();</span>
+<span class="nc" id="L313">                socketConnection.getOutputStream().writeInt(socketConnection.leaderCardSelectionPhase(availableLeaderCards));</span>
+<span class="nc" id="L314">                socketConnection.getOutputStream().flush();</span>
+<span class="nc" id="L315">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L316">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L317">            }</span>
+<span class="nc" id="L318">        }</span>
+    },
+<span class="nc" id="L320">    COUNCIL_PRIVILEGE_BONUS_SELECTION {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L324">                List&lt;Resources&gt; availableBonuses = (List&lt;Resources&gt;) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L326">                socketConnection.getOutputStream().reset();</span>
+<span class="nc" id="L327">                socketConnection.getOutputStream().writeInt(socketConnection.selectCouncilPrivilegeBonus(availableBonuses));</span>
+<span class="nc" id="L328">                socketConnection.getOutputStream().flush();</span>
+<span class="nc" id="L329">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L330">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L331">            }</span>
+<span class="nc" id="L332">        }</span>
+    },
+<span class="nc" id="L334">    ALTERNATIVE_REQUIREMENTS_PAYMENT {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L338">                socketConnection.getOutputStream().reset();</span>
+<span class="nc" id="L339">                socketConnection.getOutputStream().writeBoolean(socketConnection.alternativeRequirementsPayment());</span>
+<span class="nc" id="L340">                socketConnection.getOutputStream().flush();</span>
+<span class="nc" id="L341">            } catch (IOException e) {</span>
+<span class="nc" id="L342">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L343">            }</span>
+<span class="nc" id="L344">        }</span>
+    },
+<span class="nc" id="L346">    END_GAME {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L350">                List&lt;Player&gt; players = (List&lt;Player&gt;) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L352">                socketConnection.endGame(players);</span>
+<span class="nc" id="L353">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L354">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L355">            }</span>
+<span class="nc" id="L356">        }</span>
+    },
+<span class="nc" id="L358">    END_TURN {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+<span class="nc" id="L361">            socketConnection.endTurn();</span>
+<span class="nc" id="L362">        }</span>
+    },
+<span class="nc" id="L364">    INFORM_IN_GAME_PLAYERS {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L368">                GameInformationType infoType = (GameInformationType) socketConnection.getInputStream().readObject();</span>
+<span class="nc" id="L369">                String playerName = socketConnection.getInputStream().readUTF();</span>
+<span class="nc" id="L370">                PawnColor playerColor = (PawnColor) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L372">                socketConnection.informInGamePlayers(infoType, playerName, playerColor);</span>
+<span class="nc" id="L373">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L374">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L375">            }</span>
+<span class="nc" id="L376">        }</span>
+    },
+<span class="nc" id="L378">    FREE_ACTION {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L382">                PlayerAction availableAction = (PlayerAction) socketConnection.getInputStream().readObject();</span>
+<span class="nc" id="L383">                Exception lastActionValid = (Exception) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L385">                socketConnection.getOutputStream().reset();</span>
+<span class="nc" id="L386">                socketConnection.getOutputStream().writeObject(socketConnection.freeAction(availableAction, lastActionValid));</span>
+<span class="nc" id="L387">                socketConnection.getOutputStream().flush();</span>
+<span class="nc" id="L388">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L389">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L390">            }</span>
+<span class="nc" id="L391">        }</span>
+    },
+<span class="nc" id="L393">    LEADER_CARD_COPY {</span>
+        @Override
+        void readAndHandle(SocketClient socketConnection) {
+            try {
+<span class="nc" id="L397">                List&lt;LeaderCard&gt; leaderCards = (List&lt;LeaderCard&gt;) socketConnection.getInputStream().readObject();</span>
+
+<span class="nc" id="L399">                socketConnection.getOutputStream().reset();</span>
+<span class="nc" id="L400">                socketConnection.getOutputStream().writeInt(socketConnection.leaderCardCopy(leaderCards));</span>
+<span class="nc" id="L401">                socketConnection.getOutputStream().flush();</span>
+<span class="nc" id="L402">            } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L403">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L404">            }</span>
+<span class="nc" id="L405">        }</span>
+    };
+
+    abstract void readAndHandle(SocketClient socketConnection);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

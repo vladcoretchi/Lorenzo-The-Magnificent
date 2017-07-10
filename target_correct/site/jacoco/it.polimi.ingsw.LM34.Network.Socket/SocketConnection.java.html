@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SocketConnection.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Network.Socket</a> &gt; <span class="el_source">SocketConnection.java</span></div><h1>SocketConnection.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Network.Socket;
+
+import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
+import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+import it.polimi.ingsw.LM34.Model.Dice;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
+import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Network.PlayerAction;
+import it.polimi.ingsw.LM34.Network.Server.AbstractConnection;
+import it.polimi.ingsw.LM34.Network.Server.Server;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.io.*;
+import java.net.Socket;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.logging.Level;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
+
+public class SocketConnection extends AbstractConnection implements Runnable {
+    private boolean runListener;
+    private SocketServer socketServer;
+
+    private final Socket connectionSocket;
+    private ObjectInputStream inStream;
+    private ObjectOutputStream outStream;
+
+<span class="nc" id="L42">    public SocketConnection(Socket socket, SocketServer socketServer) throws IOException {</span>
+<span class="nc" id="L43">        this.connectionSocket = socket;</span>
+<span class="nc" id="L44">        this.outStream = new ObjectOutputStream(new BufferedOutputStream(connectionSocket.getOutputStream()));</span>
+<span class="nc" id="L45">        this.outStream.flush();</span>
+<span class="nc" id="L46">        this.inStream = new ObjectInputStream(new BufferedInputStream(connectionSocket.getInputStream()));</span>
+<span class="nc" id="L47">        this.runListener = true;</span>
+<span class="nc" id="L48">        this.socketServer = socketServer;</span>
+<span class="nc" id="L49">    }</span>
+
+    @Override
+    public void remove() {
+<span class="nc" id="L53">        Server.removeSocketConnection(this);</span>
+<span class="nc" id="L54">    }</span>
+
+    public Socket getSocket() {
+<span class="nc" id="L57">        return connectionSocket;</span>
+    }
+
+    public ObjectInputStream getInputStream() {
+<span class="nc" id="L61">        return inStream;</span>
+    }
+
+    public ObjectOutputStream getOutputStream() {
+<span class="nc" id="L65">        return outStream;</span>
+    }
+
+    @Override
+    public void run() {
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        while (runListener) {</span>
+            try {
+<span class="nc" id="L72">                String request = this.inStream.readUTF();</span>
+
+<span class="nc" id="L74">                RequestToServer.valueOf(request).readAndHandle(this);</span>
+<span class="nc" id="L75">            } catch (IOException e) {</span>
+<span class="nc" id="L76">                LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L77">                this.terminateListener();</span>
+<span class="nc" id="L78">            }</span>
+        }
+<span class="nc" id="L80">    }</span>
+
+    public void terminate() {
+<span class="nc" id="L83">        this.runListener = false;</span>
+<span class="nc" id="L84">        closeConnections();</span>
+<span class="nc" id="L85">    }</span>
+
+    private void terminateListener() {
+<span class="nc" id="L88">        this.runListener = false;</span>
+<span class="nc" id="L89">    }</span>
+
+    private void closeConnections() {
+        try {
+<span class="nc" id="L93">            this.inStream.close();</span>
+<span class="nc" id="L94">        } catch (IOException e) {</span>
+<span class="nc" id="L95">            LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L96">        }</span>
+        try {
+<span class="nc" id="L98">            this.outStream.close();</span>
+<span class="nc" id="L99">        } catch (IOException e) {</span>
+<span class="nc" id="L100">            LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L101">        }</span>
+        try {
+<span class="nc" id="L103">            this.connectionSocket.close();</span>
+<span class="nc" id="L104">        } catch (IOException e) {</span>
+<span class="nc" id="L105">            LOGGER.log(Level.WARNING, e.getMessage(), e);</span>
+<span class="nc" id="L106">        }</span>
+<span class="nc" id="L107">    }</span>
+
+    private void connectionExceptionHandler(Exception ex) {
+<span class="nc" id="L110">        LOGGER.log(Level.WARNING, ex.getMessage(), ex);</span>
+<span class="nc" id="L111">        this.terminate();</span>
+<span class="nc" id="L112">        this.socketServer.removeClosedConnection(this);</span>
+<span class="nc" id="L113">    }</span>
+
+    @Override
+    public boolean login(String username, String password) {
+<span class="nc" id="L117">        boolean result = super.login(username, password);</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        if (result)</span>
+<span class="nc" id="L119">            this.terminateListener();</span>
+<span class="nc" id="L120">        return result;</span>
+    }
+
+    @Override
+    public void loadMapTerritoriesToVictoryPoints(Map&lt;Integer, Integer&gt; mapTerritoriesToVictoryPoints) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L126">            this.outStream.reset();</span>
+
+<span class="nc" id="L128">            this.outStream.writeUTF(RequestToClient.LOAD_MAP_TERRITORIES_TO_VICTORY_POINTS.name());</span>
+<span class="nc" id="L129">            this.outStream.writeObject(mapTerritoriesToVictoryPoints);</span>
+<span class="nc" id="L130">            this.outStream.flush();</span>
+<span class="nc" id="L131">        } catch (IOException e) {</span>
+<span class="nc" id="L132">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L133">            throw new NetworkConnectionException();</span>
+<span class="nc" id="L134">        }</span>
+<span class="nc" id="L135">    }</span>
+
+    @Override
+    public void loadMapMilitaryPointsForTerritories(Map&lt;Integer, Integer&gt; mapMilitaryPointsForTerritories) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L140">            this.outStream.reset();</span>
+
+<span class="nc" id="L142">            this.outStream.writeUTF(RequestToClient.LOAD_MAP_MILITARY_POINTS_FOR_TERRITORIES.name());</span>
+<span class="nc" id="L143">            this.outStream.writeObject(mapMilitaryPointsForTerritories);</span>
+<span class="nc" id="L144">            this.outStream.flush();</span>
+<span class="nc" id="L145">        } catch (IOException e) {</span>
+<span class="nc" id="L146">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L147">            throw new NetworkConnectionException();</span>
+<span class="nc" id="L148">        }</span>
+<span class="nc" id="L149">    }</span>
+
+    @Override
+    public void loadMapCharactersToVictoryPoints(Map&lt;Integer, Integer&gt; mapCharactersToVictoryPoints) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L154">            this.outStream.reset();</span>
+
+<span class="nc" id="L156">            this.outStream.writeUTF(RequestToClient.LOAD_MAP_CHARACTERS_TO_VICTORY_POINTS.name());</span>
+<span class="nc" id="L157">            this.outStream.writeObject(mapCharactersToVictoryPoints);</span>
+<span class="nc" id="L158">            this.outStream.flush();</span>
+<span class="nc" id="L159">        } catch (IOException e) {</span>
+<span class="nc" id="L160">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L161">            throw new NetworkConnectionException();</span>
+<span class="nc" id="L162">        }</span>
+<span class="nc" id="L163">    }</span>
+
+    @Override
+    public void loadFaithPath(Map&lt;Integer, Integer&gt; faithPath) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L168">            this.outStream.reset();</span>
+
+<span class="nc" id="L170">            this.outStream.writeUTF(RequestToClient.LOAD_FAITH_PATH.name());</span>
+<span class="nc" id="L171">            this.outStream.writeObject(faithPath);</span>
+<span class="nc" id="L172">            this.outStream.flush();</span>
+<span class="nc" id="L173">        } catch (IOException e) {</span>
+<span class="nc" id="L174">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L175">            throw new NetworkConnectionException();</span>
+<span class="nc" id="L176">        }</span>
+<span class="nc" id="L177">    }</span>
+
+    @Override
+    public void setExcommunicationCards(List&lt;ExcommunicationCard&gt; excommunicationCards) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L182">            this.outStream.reset();</span>
+
+<span class="nc" id="L184">            this.outStream.writeUTF(RequestToClient.SET_EXCOMMUNICATION_CARDS.name());</span>
+<span class="nc" id="L185">            this.outStream.writeObject(excommunicationCards);</span>
+<span class="nc" id="L186">            this.outStream.flush();</span>
+<span class="nc" id="L187">        } catch (IOException e) {</span>
+<span class="nc" id="L188">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L189">            throw new NetworkConnectionException();</span>
+<span class="nc" id="L190">        }</span>
+<span class="nc" id="L191">    }</span>
+
+    @Override
+    public void updateTowers(List&lt;Tower&gt; towers) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L196">            this.outStream.reset();</span>
+
+<span class="nc" id="L198">            this.outStream.writeUTF(RequestToClient.UPDATE_TOWERS.name());</span>
+<span class="nc" id="L199">            this.outStream.writeObject(towers);</span>
+<span class="nc" id="L200">            this.outStream.flush();</span>
+<span class="nc" id="L201">        } catch (IOException e) {</span>
+<span class="nc" id="L202">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L203">            throw new NetworkConnectionException();</span>
+<span class="nc" id="L204">        }</span>
+<span class="nc" id="L205">    }</span>
+
+    @Override
+    public void updateCouncilPalace(CouncilPalace councilPalace) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L210">            this.outStream.reset();</span>
+
+<span class="nc" id="L212">            this.outStream.writeUTF(RequestToClient.UPDATE_COUNCIL_PALACE.name());</span>
+<span class="nc" id="L213">            this.outStream.writeObject(councilPalace);</span>
+<span class="nc" id="L214">            this.outStream.flush();</span>
+<span class="nc" id="L215">        } catch (IOException e) {</span>
+<span class="nc" id="L216">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L217">            throw new NetworkConnectionException();</span>
+<span class="nc" id="L218">        }</span>
+<span class="nc" id="L219">    }</span>
+
+    @Override
+    public void updateMarket(Market market) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L224">            this.outStream.reset();</span>
+
+<span class="nc" id="L226">            this.outStream.writeUTF(RequestToClient.UPDATE_MARKET.name());</span>
+<span class="nc" id="L227">            this.outStream.writeObject(market);</span>
+<span class="nc" id="L228">            this.outStream.flush();</span>
+<span class="nc" id="L229">        } catch (IOException e) {</span>
+<span class="nc" id="L230">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L231">            throw new NetworkConnectionException();</span>
+<span class="nc" id="L232">        }</span>
+<span class="nc" id="L233">    }</span>
+
+    @Override
+    public void updateProductionArea(WorkingArea productionArea) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L238">            this.outStream.reset();</span>
+
+<span class="nc" id="L240">            this.outStream.writeUTF(RequestToClient.UPDATE_PRODUCTION_AREA.name());</span>
+<span class="nc" id="L241">            this.outStream.writeObject(productionArea);</span>
+<span class="nc" id="L242">            this.outStream.flush();</span>
+<span class="nc" id="L243">        } catch (IOException e) {</span>
+<span class="nc" id="L244">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L245">            throw new NetworkConnectionException();</span>
+<span class="nc" id="L246">        }</span>
+<span class="nc" id="L247">    }</span>
+
+    @Override
+    public void updateHarvestArea(WorkingArea harvestArea) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L252">            this.outStream.reset();</span>
+
+<span class="nc" id="L254">            this.outStream.writeUTF(RequestToClient.UPDATE_HARVEST_AREA.name());</span>
+<span class="nc" id="L255">            this.outStream.writeObject(harvestArea);</span>
+<span class="nc" id="L256">            this.outStream.flush();</span>
+<span class="nc" id="L257">        } catch (IOException e) {</span>
+<span class="nc" id="L258">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L259">            throw new NetworkConnectionException();</span>
+<span class="nc" id="L260">        }</span>
+<span class="nc" id="L261">    }</span>
+
+    @Override
+    public void updatePlayersData(List&lt;Player&gt; players) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L266">            this.outStream.reset();</span>
+
+<span class="nc" id="L268">            this.outStream.writeUTF(RequestToClient.UPDATE_PLAYERS_DATA.name());</span>
+<span class="nc" id="L269">            this.outStream.writeObject(players);</span>
+<span class="nc" id="L270">            this.outStream.flush();</span>
+<span class="nc" id="L271">        } catch (IOException e) {</span>
+<span class="nc" id="L272">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L273">            throw new NetworkConnectionException();</span>
+<span class="nc" id="L274">        }</span>
+<span class="nc" id="L275">    }</span>
+
+    @Override
+    public void updateDiceValues(List&lt;Dice&gt; diceValues) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L280">            this.outStream.reset();</span>
+
+<span class="nc" id="L282">            this.outStream.writeUTF(RequestToClient.UPDATE_DICE_VALUES.name());</span>
+<span class="nc" id="L283">            this.outStream.writeObject(diceValues);</span>
+<span class="nc" id="L284">            this.outStream.flush();</span>
+<span class="nc" id="L285">        } catch (IOException e) {</span>
+<span class="nc" id="L286">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L287">            throw new NetworkConnectionException();</span>
+<span class="nc" id="L288">        }</span>
+<span class="nc" id="L289">    }</span>
+
+    @Override
+    public void startGame() throws NetworkConnectionException {
+        try {
+<span class="nc" id="L294">            this.outStream.reset();</span>
+
+<span class="nc" id="L296">            this.outStream.writeUTF(RequestToClient.START_GAME.name());</span>
+<span class="nc" id="L297">            this.outStream.flush();</span>
+<span class="nc" id="L298">        } catch (IOException e) {</span>
+<span class="nc" id="L299">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L300">            throw new NetworkConnectionException();</span>
+<span class="nc" id="L301">        }</span>
+<span class="nc" id="L302">    }</span>
+
+    @Override
+    public PlayerAction turnMainAction(Optional&lt;Exception&gt; lastActionValid) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L307">            this.outStream.reset();</span>
+
+<span class="nc" id="L309">            this.outStream.writeUTF(RequestToClient.TURN_MAIN_ACTION.name());</span>
+<span class="nc" id="L310">            this.outStream.writeObject(lastActionValid.orElse(null));</span>
+<span class="nc" id="L311">            this.outStream.flush();</span>
+<span class="nc" id="L312">            return (PlayerAction) this.inStream.readObject();</span>
+<span class="nc" id="L313">        } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L314">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L315">            throw new NetworkConnectionException();</span>
+        }
+    }
+
+    @Override
+    public PlayerAction turnSecondaryAction(Optional&lt;Exception&gt; lastActionValid) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L322">            this.outStream.reset();</span>
+
+<span class="nc" id="L324">            this.outStream.writeUTF(RequestToClient.TURN_SECONDARY_ACTION.name());</span>
+<span class="nc" id="L325">            this.outStream.writeObject(lastActionValid.orElse(null));</span>
+<span class="nc" id="L326">            this.outStream.flush();</span>
+<span class="nc" id="L327">            return (PlayerAction) this.inStream.readObject();</span>
+<span class="nc" id="L328">        } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L329">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L330">            throw new NetworkConnectionException();</span>
+        }
+    }
+
+    @Override
+    public Integer familyMemberSelection(List&lt;FamilyMember&gt; familyMembers) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L337">            this.outStream.reset();</span>
+
+<span class="nc" id="L339">            this.outStream.writeUTF(RequestToClient.FAMILY_MEMBER_SELECTION.name());</span>
+<span class="nc" id="L340">            this.outStream.writeObject(familyMembers);</span>
+<span class="nc" id="L341">            this.outStream.flush();</span>
+<span class="nc" id="L342">            return this.inStream.readInt();</span>
+<span class="nc" id="L343">        } catch (IOException e) {</span>
+<span class="nc" id="L344">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L345">            throw new NetworkConnectionException();</span>
+        }
+    }
+
+    @Override
+    public Integer bonusTileSelection(List&lt;BonusTile&gt; bonusTiles) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L352">            this.outStream.reset();</span>
+
+<span class="nc" id="L354">            this.outStream.writeUTF(RequestToClient.BONUS_TILE_SELECTION.name());</span>
+<span class="nc" id="L355">            this.outStream.writeObject(bonusTiles);</span>
+<span class="nc" id="L356">            this.outStream.flush();</span>
+<span class="nc" id="L357">            return this.inStream.readInt();</span>
+<span class="nc" id="L358">        } catch (IOException e) {</span>
+<span class="nc" id="L359">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L360">            throw new NetworkConnectionException();</span>
+        }
+    }
+
+    @Override
+    public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L367">            this.outStream.reset();</span>
+
+<span class="nc" id="L369">            this.outStream.writeUTF(RequestToClient.SERVANTS_SELECTION.name());</span>
+<span class="nc" id="L370">            this.outStream.writeInt(servantsAvailable);</span>
+<span class="nc" id="L371">            this.outStream.writeInt(minimumServantsRequested);</span>
+<span class="nc" id="L372">            this.outStream.flush();</span>
+<span class="nc" id="L373">            return this.inStream.readInt();</span>
+<span class="nc" id="L374">        } catch (IOException e) {</span>
+<span class="nc" id="L375">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L376">            throw new NetworkConnectionException();</span>
+        }
+    }
+
+    @Override
+    public Integer resourceExchangeSelection(List&lt;Pair&lt;Resources, ResourcesBonus&gt;&gt; choices) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L383">            this.outStream.writeUTF(RequestToClient.RESOURCE_EXCHANGE_SELECTION.name());</span>
+<span class="nc" id="L384">            this.outStream.writeObject(choices);</span>
+<span class="nc" id="L385">            this.outStream.flush();</span>
+<span class="nc" id="L386">            return this.inStream.readInt();</span>
+<span class="nc" id="L387">        } catch (IOException e) {</span>
+<span class="nc" id="L388">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L389">            throw new NetworkConnectionException();</span>
+        }
+    }
+
+    @Override
+    public Pair&lt;String, LeaderCardsAction&gt; leaderCardSelection(List&lt;LeaderCard&gt; leaderCards) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L396">            this.outStream.reset();</span>
+
+<span class="nc" id="L398">            this.outStream.writeUTF(RequestToClient.LEADER_CARD_SELECTION.name());</span>
+<span class="nc" id="L399">            this.outStream.writeObject(leaderCards);</span>
+<span class="nc" id="L400">            this.outStream.flush();</span>
+<span class="nc" id="L401">            Pair&lt;?, ?&gt; pairObject = (Pair&lt;?, ?&gt;) this.inStream.readObject();</span>
+<span class="nc" id="L402">            return new ImmutablePair&lt;&gt;((String) pairObject.getLeft(), (LeaderCardsAction) pairObject.getRight());</span>
+<span class="nc" id="L403">        } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L404">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L405">            throw new NetworkConnectionException();</span>
+        }
+    }
+
+    @Override
+    public Boolean churchSupport() throws NetworkConnectionException {
+        try {
+<span class="nc" id="L412">            this.outStream.reset();</span>
+
+<span class="nc" id="L414">            this.outStream.writeUTF(RequestToClient.CHURCH_SUPPORT.name());</span>
+<span class="nc" id="L415">            this.outStream.flush();</span>
+<span class="nc" id="L416">            return this.inStream.readBoolean();</span>
+<span class="nc" id="L417">        } catch (IOException e) {</span>
+<span class="nc" id="L418">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L419">            throw new NetworkConnectionException();</span>
+        }
+    }
+
+    @Override
+    public Integer selectCouncilPrivilegeBonus(List&lt;Resources&gt; availableBonuses) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L426">            this.outStream.reset();</span>
+
+<span class="nc" id="L428">            this.outStream.writeUTF(RequestToClient.COUNCIL_PRIVILEGE_BONUS_SELECTION.name());</span>
+<span class="nc" id="L429">            this.outStream.writeObject(availableBonuses);</span>
+<span class="nc" id="L430">            this.outStream.flush();</span>
+<span class="nc" id="L431">            return this.inStream.readInt();</span>
+<span class="nc" id="L432">        } catch (IOException e) {</span>
+<span class="nc" id="L433">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L434">            throw new NetworkConnectionException();</span>
+        }
+    }
+
+    @Override
+    public Integer leaderCardSelectionPhase(List&lt;LeaderCard&gt; leaderCards) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L441">            this.outStream.reset();</span>
+
+<span class="nc" id="L443">            this.outStream.writeUTF(RequestToClient.LEADER_CARD_SELECTION_PHASE.name());</span>
+<span class="nc" id="L444">            this.outStream.writeObject(leaderCards);</span>
+<span class="nc" id="L445">            this.outStream.flush();</span>
+<span class="nc" id="L446">            return this.inStream.readInt();</span>
+<span class="nc" id="L447">        } catch (IOException e) {</span>
+<span class="nc" id="L448">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L449">            throw new NetworkConnectionException();</span>
+        }
+    }
+
+    @Override
+    public Boolean alternativeRequirementsPayment() throws NetworkConnectionException {
+        try {
+<span class="nc" id="L456">            this.outStream.reset();</span>
+
+<span class="nc" id="L458">            this.outStream.writeUTF(RequestToClient.ALTERNATIVE_REQUIREMENTS_PAYMENT.name());</span>
+<span class="nc" id="L459">            this.outStream.flush();</span>
+<span class="nc" id="L460">            return this.inStream.readBoolean();</span>
+<span class="nc" id="L461">        } catch (IOException e) {</span>
+<span class="nc" id="L462">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L463">            throw new NetworkConnectionException();</span>
+        }
+    }
+
+    @Override
+    public void endGame(List&lt;Player&gt; players) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L470">            this.outStream.reset();</span>
+
+<span class="nc" id="L472">            this.outStream.writeUTF(RequestToClient.END_GAME.name());</span>
+<span class="nc" id="L473">            this.outStream.writeObject(players);</span>
+<span class="nc" id="L474">            this.outStream.flush();</span>
+<span class="nc" id="L475">        } catch (IOException e) {</span>
+<span class="nc" id="L476">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L477">            throw new NetworkConnectionException();</span>
+<span class="nc" id="L478">        }</span>
+<span class="nc" id="L479">    }</span>
+
+    @Override
+    public void endTurn() throws NetworkConnectionException {
+        try {
+<span class="nc" id="L484">            this.outStream.reset();</span>
+
+<span class="nc" id="L486">            this.outStream.writeUTF(RequestToClient.END_TURN.name());</span>
+<span class="nc" id="L487">            this.outStream.flush();</span>
+<span class="nc" id="L488">        } catch (IOException e) {</span>
+<span class="nc" id="L489">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L490">            throw new NetworkConnectionException();</span>
+<span class="nc" id="L491">        }</span>
+<span class="nc" id="L492">    }</span>
+
+    @Override
+    public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L497">            this.outStream.reset();</span>
+
+<span class="nc" id="L499">            this.outStream.writeUTF(RequestToClient.INFORM_IN_GAME_PLAYERS.name());</span>
+<span class="nc" id="L500">            this.outStream.writeObject(infoType);</span>
+<span class="nc" id="L501">            this.outStream.writeUTF(playerName);</span>
+<span class="nc" id="L502">            this.outStream.writeObject(playerColor);</span>
+<span class="nc" id="L503">            this.outStream.flush();</span>
+<span class="nc" id="L504">        } catch (IOException e) {</span>
+<span class="nc" id="L505">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L506">            throw new NetworkConnectionException();</span>
+<span class="nc" id="L507">        }</span>
+<span class="nc" id="L508">    }</span>
+
+    @Override
+    public PlayerAction freeAction(PlayerAction availableAction, Optional&lt;Exception&gt; lastActionValid) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L513">            this.outStream.reset();</span>
+
+<span class="nc" id="L515">            this.outStream.writeUTF(RequestToClient.FREE_ACTION.name());</span>
+<span class="nc" id="L516">            this.outStream.writeObject(availableAction);</span>
+<span class="nc" id="L517">            this.outStream.writeObject(lastActionValid.orElse(null));</span>
+<span class="nc" id="L518">            this.outStream.flush();</span>
+<span class="nc" id="L519">            return (PlayerAction) this.inStream.readObject();</span>
+<span class="nc" id="L520">        } catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L521">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L522">            throw new NetworkConnectionException();</span>
+        }
+    }
+
+    @Override
+    public Integer leaderCardCopy(List&lt;LeaderCard&gt; leaderCards) throws NetworkConnectionException {
+        try {
+<span class="nc" id="L529">            this.outStream.reset();</span>
+
+<span class="nc" id="L531">            this.outStream.writeUTF(RequestToClient.LEADER_CARD_COPY.name());</span>
+<span class="nc" id="L532">            this.outStream.writeObject(leaderCards);</span>
+<span class="nc" id="L533">            this.outStream.flush();</span>
+<span class="nc" id="L534">            return this.inStream.readInt();</span>
+<span class="nc" id="L535">        } catch (IOException e) {</span>
+<span class="nc" id="L536">            connectionExceptionHandler(e);</span>
+<span class="nc" id="L537">            throw new NetworkConnectionException();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

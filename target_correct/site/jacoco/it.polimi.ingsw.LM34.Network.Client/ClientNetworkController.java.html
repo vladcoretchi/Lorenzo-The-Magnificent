@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClientNetworkController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Network.Client</a> &gt; <span class="el_source">ClientNetworkController.java</span></div><h1>ClientNetworkController.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Network.Client;
+
+import it.polimi.ingsw.LM34.Enums.Controller.LeaderCardsAction;
+import it.polimi.ingsw.LM34.Enums.Controller.PlayerSelectableContexts;
+import it.polimi.ingsw.LM34.Enums.Model.PawnColor;
+import it.polimi.ingsw.LM34.Enums.UI.GameInformationType;
+import it.polimi.ingsw.LM34.Exceptions.Controller.NetworkConnectionException;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.CouncilPalace;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Market;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.Tower;
+import it.polimi.ingsw.LM34.Model.Boards.GameBoard.WorkingArea;
+import it.polimi.ingsw.LM34.Model.Boards.PlayerBoard.BonusTile;
+import it.polimi.ingsw.LM34.Model.Cards.ExcommunicationCard;
+import it.polimi.ingsw.LM34.Model.Cards.LeaderCard;
+import it.polimi.ingsw.LM34.Model.Dice;
+import it.polimi.ingsw.LM34.Model.Effects.ResourceRelatedBonus.ResourcesBonus;
+import it.polimi.ingsw.LM34.Model.FamilyMember;
+import it.polimi.ingsw.LM34.Model.Player;
+import it.polimi.ingsw.LM34.Model.Resources;
+import it.polimi.ingsw.LM34.Network.PlayerAction;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+public class ClientNetworkController {
+    private AbstractClient clientConnection;
+
+<span class="fc" id="L30">    public ClientNetworkController(AbstractClient clientConnection) {</span>
+<span class="fc" id="L31">        this.clientConnection = clientConnection;</span>
+<span class="fc" id="L32">    }</span>
+
+    public void login(String username, String password) {
+<span class="nc" id="L35">        this.clientConnection.login(username, password);</span>
+<span class="nc" id="L36">    }</span>
+
+    public void loginResult(Boolean result) {
+<span class="nc" id="L39">        this.clientConnection.getUI().loginResult(result);</span>
+<span class="nc" id="L40">    }</span>
+
+    public void loadMapTerritoriesToVictoryPoints(Map&lt;Integer, Integer&gt; mapTerritoriesToVictoryPoints) {
+<span class="nc" id="L43">        this.clientConnection.getUI().loadMapTerritoriesToVictoryPoints(mapTerritoriesToVictoryPoints);</span>
+<span class="nc" id="L44">    }</span>
+
+    public void loadMapMilitaryPointsForTerritories(Map&lt;Integer, Integer&gt; mapMilitaryPointsForTerritories) {
+<span class="nc" id="L47">        this.clientConnection.getUI().loadMapMilitaryPointsForTerritories(mapMilitaryPointsForTerritories);</span>
+<span class="nc" id="L48">    }</span>
+
+    public void loadMapCharactersToVictoryPoints(Map&lt;Integer, Integer&gt; mapCharactersToVictoryPoints) {
+<span class="nc" id="L51">        this.clientConnection.getUI().loadMapCharactersToVictoryPoints(mapCharactersToVictoryPoints);</span>
+<span class="nc" id="L52">    }</span>
+
+    public void loadFaithPath(Map&lt;Integer, Integer&gt; faithPath) {
+<span class="nc" id="L55">        this.clientConnection.getUI().loadFaithPath(faithPath);</span>
+<span class="nc" id="L56">    }</span>
+
+    public void setExcommunicationCards(List&lt;ExcommunicationCard&gt; excommunicationCards) {
+<span class="nc" id="L59">        this.clientConnection.getUI().loadExcommunicationCards(excommunicationCards);</span>
+<span class="nc" id="L60">    }</span>
+
+    public void updateTowers(List&lt;Tower&gt; towers) {
+<span class="nc" id="L63">        this.clientConnection.getUI().updateTowers(towers);</span>
+<span class="nc" id="L64">    }</span>
+
+    public void updateCouncilPalace(CouncilPalace councilPalace){
+<span class="nc" id="L67">        this.clientConnection.getUI().updateCouncilPalace(councilPalace);</span>
+<span class="nc" id="L68">    }</span>
+
+    public void updateMarket(Market market) {
+<span class="nc" id="L71">        this.clientConnection.getUI().updateMarket(market);</span>
+<span class="nc" id="L72">    }</span>
+
+    public void updateProductionArea(WorkingArea productionArea) {
+<span class="nc" id="L75">        this.clientConnection.getUI().updateProductionArea(productionArea);</span>
+<span class="nc" id="L76">    }</span>
+
+    public void updateHarvestArea(WorkingArea harvestArea) {
+<span class="nc" id="L79">        this.clientConnection.getUI().updateHarvestArea(harvestArea);</span>
+<span class="nc" id="L80">    }</span>
+
+    public void updatePlayersData(List&lt;Player&gt; players) {
+<span class="nc" id="L83">        this.clientConnection.getUI().updatePlayersData(players);</span>
+<span class="nc" id="L84">    }</span>
+
+    public void updateDiceValues(List&lt;Dice&gt; diceValues) {
+<span class="nc" id="L87">        this.clientConnection.getUI().updateDiceValues(diceValues);</span>
+<span class="nc" id="L88">    }</span>
+
+    public void startGame() {
+<span class="nc" id="L91">        this.clientConnection.getUI().startGame();</span>
+<span class="nc" id="L92">    }</span>
+
+    public PlayerAction turnMainAction(Optional&lt;Exception&gt; lastActionValid) {
+<span class="nc" id="L95">        return this.clientConnection.getUI().turnMainAction(lastActionValid);</span>
+    }
+
+    public PlayerAction turnSecondaryAction(Optional&lt;Exception&gt; lastActionValid) {
+<span class="nc" id="L99">        return this.clientConnection.getUI().turnSecondaryAction(lastActionValid);</span>
+    }
+
+    public Integer familyMemberSelection(List&lt;FamilyMember&gt; familyMembers) {
+<span class="nc" id="L103">        return this.clientConnection.getUI().familyMemberSelection(familyMembers);</span>
+    }
+
+    public Integer servantsSelection(Integer servantsAvailable, Integer minimumServantsRequested) {
+<span class="nc" id="L107">        return this.clientConnection.getUI().servantsSelection(servantsAvailable, minimumServantsRequested);</span>
+    }
+
+    public Integer resourceExchangeSelection(List&lt;Pair&lt;Resources, ResourcesBonus&gt;&gt; choices) {
+<span class="nc" id="L111">        return this.clientConnection.getUI().resourceExchangeSelection(choices);</span>
+    }
+
+    public Pair&lt;String, LeaderCardsAction&gt; leaderCardSelection(List&lt;LeaderCard&gt; leaderCards) {
+<span class="nc" id="L115">        return this.clientConnection.getUI().leaderCardSelection(leaderCards);</span>
+    }
+
+    public Boolean churchSupport() {
+<span class="nc" id="L119">        return this.clientConnection.getUI().churchSupport();</span>
+    }
+
+    public Integer selectCouncilPrivilegeBonus(List&lt;Resources&gt; availableBonuses) {
+<span class="nc" id="L123">        return this.clientConnection.getUI().selectCouncilPrivilegeBonus(availableBonuses);</span>
+    }
+
+    public Integer bonusTileSelection(List&lt;BonusTile&gt; availableBonusTiles) {
+<span class="nc" id="L127">        return this.clientConnection.getUI().bonusTileSelection(availableBonusTiles);</span>
+    }
+
+    public Integer leaderCardSelectionPhase(List&lt;LeaderCard&gt; availableLeaderCards) {
+<span class="nc" id="L131">        return this.clientConnection.getUI().leaderCardSelectionPhase(availableLeaderCards);</span>
+    }
+
+    public Boolean alternativeRequirementsPayment() {
+<span class="nc" id="L135">        return this.clientConnection.getUI().alternativeRequirementsPayment();</span>
+    }
+
+    public void endGame(List&lt;Player&gt; players) {
+<span class="nc" id="L139">        this.clientConnection.getUI().endGame(players);</span>
+<span class="nc" id="L140">    }</span>
+
+    public void endTurn() {
+<span class="nc" id="L143">        this.clientConnection.getUI().endTurn();</span>
+<span class="nc" id="L144">    }</span>
+
+    public void informInGamePlayers(GameInformationType infoType, String playerName, PawnColor playerColor) {
+<span class="nc" id="L147">        this.clientConnection.getUI().informInGamePlayers(infoType, playerName, playerColor);</span>
+<span class="nc" id="L148">    }</span>
+
+    public PlayerAction freeAction(PlayerAction availableAction, Optional&lt;Exception&gt; lastActionValid) {
+<span class="nc" id="L151">        return this.clientConnection.getUI().freeAction(availableAction, lastActionValid);</span>
+    }
+
+    public Integer leaderCardCopy(List&lt;LeaderCard&gt; leaderCards) {
+<span class="nc" id="L155">        return this.clientConnection.getUI().leaderCardCopy(leaderCards);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

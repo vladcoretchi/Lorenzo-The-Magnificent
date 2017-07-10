@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GenericPopup.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.UI.GUI.GuiViews</a> &gt; <span class="el_source">GenericPopup.java</span></div><h1>GenericPopup.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.UI.GUI.GuiViews;
+
+import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static it.polimi.ingsw.LM34.Utils.Utilities.LOGGER;
+
+<span class="nc" id="L12">public class GenericPopup {</span>
+
+    /**
+     * Shows a generic popup with information for the user
+     * @param title popup dialog title
+     * @param header popup dialog header text
+     * @param content popup dialog content text
+     */
+    public void show(String title, String header, String content) {
+<span class="nc" id="L21">        Alert alert = new Alert(Alert.AlertType.INFORMATION);</span>
+<span class="nc" id="L22">        alert.setTitle(title);</span>
+<span class="nc" id="L23">        alert.setHeaderText(header);</span>
+<span class="nc" id="L24">        alert.setContentText(content);</span>
+<span class="nc" id="L25">        alert.getDialogPane().getStylesheets().add(</span>
+<span class="nc" id="L26">                getClass().getResource(&quot;/css/dialogStyle.css&quot;).toExternalForm());</span>
+<span class="nc" id="L27">        alert.getDialogPane().getStyleClass().add(&quot;dialogClass&quot;);</span>
+<span class="nc" id="L28">        Image image = new Image(Thread.currentThread().getContextClassLoader().getResource(&quot;images/icon.png&quot;).toExternalForm());</span>
+<span class="nc" id="L29">        ImageView imageView = new ImageView(image);</span>
+<span class="nc" id="L30">        imageView.setFitWidth(85.2);</span>
+<span class="nc" id="L31">        imageView.setFitHeight(85.2);</span>
+<span class="nc" id="L32">        alert.setGraphic(imageView);</span>
+<span class="nc" id="L33">        alert.showAndWait();</span>
+<span class="nc" id="L34">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

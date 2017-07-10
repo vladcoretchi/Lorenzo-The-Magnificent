@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DevelopmentCardDeck.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LM34</a> &gt; <a href="index.source.html" class="el_package">it.polimi.ingsw.LM34.Model.Cards</a> &gt; <span class="el_source">DevelopmentCardDeck.java</span></div><h1>DevelopmentCardDeck.java</h1><pre class="source lang-java linenums">package it.polimi.ingsw.LM34.Model.Cards;
+
+import it.polimi.ingsw.LM34.Enums.Model.DevelopmentCardColor;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+/**
+ * A data structure to store in an organized way the cards of the same development type
+ * @param &lt;T&gt;, a {@link AbstractDevelopmentCard} type of card
+ */
+public class DevelopmentCardDeck&lt;T extends AbstractDevelopmentCard&gt; implements Iterable&lt;T&gt; {
+<span class="pc" id="L14">    private List&lt;T&gt; developmentDeck = new ArrayList&lt;&gt;();</span>
+    private DevelopmentCardColor cardColor;
+
+<span class="nc" id="L17">    public DevelopmentCardDeck(ArrayList&lt;T&gt; developmentCards) {</span>
+<span class="nc" id="L18">        this.developmentDeck = developmentCards;</span>
+<span class="nc" id="L19">    }</span>
+
+<span class="fc" id="L21">    public DevelopmentCardDeck(List&lt;T&gt; cardList) {</span>
+<span class="fc" id="L22">        this.developmentDeck = cardList;</span>
+        //get the development card color type by extracting this info from the first card of the deck
+<span class="fc" id="L24">        this.cardColor = cardList.get(0).getColor();</span>
+<span class="fc" id="L25">    }</span>
+
+    /**
+     * @return {@link Iterator} for the Deck
+     */
+    @Override
+    public Iterator&lt;T&gt; iterator() {
+<span class="fc" id="L32">        return developmentDeck.iterator();</span>
+    }
+
+    public DevelopmentCardColor getCardColor() {
+<span class="fc" id="L36">        return this.cardColor;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
