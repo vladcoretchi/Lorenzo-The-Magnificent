@@ -10,7 +10,7 @@ Comi Giulio		|827172		|giulio1.comi@mail.polimi.it
 Coretchi Vlad	|829603		|vlad.coretchi@mail.polimi.it
 Dorata Roberto	|828144		|roberto.dorata@mail.polimi.it
 
-Digital version of http://www.craniocreations.it/prodotto/lorenzo-il-magnifico/, a board game created by Cranio Creation and developed as Final Bachelor Software Engineering Project.
+Digital version of [Lorenzo il Magnifico](http://www.craniocreations.it/prodotto/lorenzo-il-magnifico/), a board game created by Cranio Creation and developed as Software Engineering Final Bachelor Project.
 
 
 # Getting Started
@@ -33,25 +33,23 @@ Inside `target` folder there will be `LM34Server.jar` and `LM34Client.jar` files
 RMI: port 20002
 Socket: port 20001
 
-move into `target` directory, then double click first on `server.jar`, and after on `client.jar`
-
-In case you prefer to run these using terminal or cmd:
+move into `target` directory and launch `LM34Server.jar` (one instance only) and `LM34Client.jar` by double clicking or using the terminal:
 
 ### Run Server
-
 ```
 cd target
-java -jar server.jar
+java -jar LM34Server.jar
 ```
 ### Run Client
-
 ```
 cd target
-java -jar client.jar
+java -jar LM34Client.jar
 
 ```
 
-The timeout of a game before it starts is configurable in target/classes/configurations/config.json line: 4
+After at least 2 players are connected, the server waits for other players for 2 minutes before starting the game. This timeout is configurable in target/classes/configurations/config.json line: 4.
+If 4 player connect to the same game room, the game starts immidiately.
+
 ## CLI
 Command line interface is available as user interface in order to play this game in a fashion way.
 
@@ -59,7 +57,7 @@ Command line interface is available as user interface in order to play this game
 
 GUI developed in JavaFx is also an option :-).
 
-Players will be ordered by Turn order (the highest will be the first player to move, and under him the second one, and under him the third one, ..) 
+Players will be ordered by Turn order (the highest will be the first player to move, and under him the second one, then the third and so on) 
 
 Player's name will be showed into GUI's title bar 
 
