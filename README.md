@@ -12,15 +12,13 @@ Dorata Roberto	|828144		|roberto.dorata@mail.polimi.it
 
 Digital version of http://www.craniocreations.it/prodotto/lorenzo-il-magnifico/, a board game created by Cranio Creation and developed as Final Bachelor Software Engineering Project.
 
+
 # Getting Started
 
 These instruction will let you run Lorenzo il Magnifico on your local machine. 
 
 ### Prerequisites 
 
-### RMI and Socket
-RMI: port 20002
-Socket: port 20001
 clone 
 
 ```
@@ -30,6 +28,10 @@ git clone https://github.com/vladcore/LM34.git
 Inside `target` folder there will be `LM34Server.jar` and `LM34Client.jar` files.
 
 ## Run 
+
+### RMI and Socket
+RMI: port 20002
+Socket: port 20001
 
 move into `target` directory, then double click first on `server.jar`, and after on `client.jar`
 
@@ -48,6 +50,8 @@ cd target
 java -jar client.jar
 
 ```
+
+The timeout of a game before it starts is configurable in target/classes/configurations/config.json line: 4
 ## CLI
 Command line interface is available as user interface in order to play this game in a fashion way.
 
@@ -71,9 +75,8 @@ Image           | Link
 Login for CLI and GUI | https://ibb.co/hPJNVF
 Waiting room for CLI and GUI |https://ibb.co/c9TZcv
 Gameboard | https://ibb.co/jzYpsv
-
-
-[personal board] 
+Turn | https://ibb.co/gnqpcv
+Personal Board | https://ibb.co/bF9MqF
 
 ## License
 
