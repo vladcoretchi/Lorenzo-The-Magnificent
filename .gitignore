@@ -7,10 +7,6 @@
 *.iml
 pom.xml
 
-# JavaDoc directory
-javaDoc/
-
-
 #############
 ## Windows detritus
 #############
