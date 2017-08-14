@@ -1,5 +1,5 @@
 # LorenzoTheMagnificent
-[Lorenzo il Magnifico](http://www.craniocreations.it/prodotto/lorenzo-il-magnifico/) board game developed in Java
+Digital version of [Lorenzo il Magnifico](http://www.craniocreations.it/prodotto/lorenzo-il-magnifico/), a board game created by Cranio Creation and developed as Software Engineering Final Bachelor Project.
 
 Powered by [LM34] developers
 
@@ -10,7 +10,6 @@ Comi Giulio		|827172		|giulio1.comi@mail.polimi.it
 Coretchi Vlad	|829603		|vlad.coretchi@mail.polimi.it
 Dorata Roberto	|828144		|roberto.dorata@mail.polimi.it
 
-Digital version of [Lorenzo il Magnifico](http://www.craniocreations.it/prodotto/lorenzo-il-magnifico/), a board game created by Cranio Creation and developed as Software Engineering Final Bachelor Project.
 
 
 # Getting Started
@@ -26,8 +25,6 @@ git clone https://github.com/vladcore/LM34.git
 ```
 
 Inside `target` folder there will be `LM34Server.jar` and `LM34Client.jar` files.
-
-> **_Note: the `target` directory is of an old build and the GUI does not find some resources files due to incorrect folder naming so the game will freeze before the initial Leader Cards choice. For correct resource files names you will need to rebuild at least `LM34Client.jar` or use the `target_correct` directory, committed after the deadline._**
 
 ## Run 
 
