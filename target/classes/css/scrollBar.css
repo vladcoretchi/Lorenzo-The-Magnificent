@@ -1,6 +1,0 @@
-.scroll-bar:horizontal .thumb {
-    -fx-background-color:derive(brown,98%);
-}
-.scroll-bar:vertical .thumb {
-    -fx-background-color:derive(brown,98%);
-}
